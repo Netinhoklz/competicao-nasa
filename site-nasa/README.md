@@ -32,11 +32,11 @@ Link direto para um lugar: `http://127.0.0.1:5000/?lugar=Quixadá, Ceará`.
 
 | Arquivo | Papel |
 |---|---|
-| `app.py` | rotas `/`, `/api/geocode?q=` (texto ou coordenadas) e `/api/reverse?lat=&lon=` |
+| `app.py` | rotas `/`, `/api/geocode?q=` (texto ou coordenadas; devolve também o código IBGE) e `/api/reverse?lat=&lon=` |
 | `templates/index.html` | página única |
 | `static/css/style.css` | visual (sóbrio: preto, branco e cinzas, Inter + IBM Plex Mono) |
 | `static/js/espaco.js` | cena 3D (Three.js): Terra dia/noite, nuvens, atmosfera, estrelas, mergulho e viagem |
-| `static/js/mapa.js` | mapa (MapLibre GL, projeção de globo): imagem Sentinel-2 + detalhe Maxar, rótulos vetoriais em português, relevo 3D, céu, marcador, altitude |
+| `static/js/mapa.js` | mapa (MapLibre GL, projeção de globo): imagem Sentinel-2 + detalhe Maxar, rótulos vetoriais em português, relevo 3D, céu, marcador, altitude, Nordeste aceso (contorno, divisas, capitais) e limite do município |
 | `static/js/principal.js` | liga tudo: busca, viagem globo → mapa e volta |
 | `static/textures/` | texturas da Terra |
 | `ferramentas/captura.py` | fotografa o site em tempo real (Chrome headless via DevTools) e mostra erros do console |
@@ -60,15 +60,19 @@ MapLibre. Fora do globo o mapa é transparente, então as estrelas continuam apa
 - Mapa, imagem base (até z14): [Sentinel-2 cloudless 2024](https://s2maps.eu) © EOX IT Services
   GmbH, com dados Copernicus Sentinel modificados. Licença **CC BY-NC-SA 4.0** (uso não comercial,
   serve para o desafio; a atribuição tem de ficar visível).
-- Mapa, detalhe ao aproximar (surge entre z13,5 e z14,5; só ladrilhos z12–z17): Esri World Imagery
-  (© Esri, Maxar, Earthstar Geographics), com atribuição.
+- Mapa, detalhe ao aproximar (surge entre z14 e z15; ladrilhos z14–z17): Esri World Imagery
+  **Wayback**, versão de 2025-07-31 (© Esri, Maxar), com atribuição. A versão atual do World Imagery
+  tem nuvem e sombra sobre Quixadá; esta é a mais recente sem nuvem nos lugares de demonstração.
+- Mapa, Nordeste e município: malhas do **IBGE** (API de malhas v3, dados abertos). O contorno da
+  região, as divisas e as capitais ficam em `static/data/nordeste.json` (o mesmo arquivo do globo 3D);
+  o limite do município é baixado na hora pelo código IBGE que o Nominatim devolve.
 - Mapa, rótulos e limites: [OpenFreeMap](https://openfreemap.org) (sem chave), esquema
   © OpenMapTiles, dados © colaboradores do OpenStreetMap (ODbL). Fonte das letras: Noto Sans,
   servida pelo próprio OpenFreeMap.
 - Relevo 3D e altitude do cartão: AWS Terrain Tiles (Mapzen/Tilezen). No Brasil e na maior parte
   do mundo vem do NASA SRTM; nos EUA, do USGS 3DEP.
-- Todos os créditos do mapa aparecem no botão de créditos (ⓘ) no canto inferior direito; o
-  MapLibre mostra só os das camadas visíveis naquele zoom.
+- Todos os créditos do mapa aparecem abertos na chegada e, depois de 10 s, ficam no botão de
+  créditos (ⓘ) no canto inferior direito; o MapLibre mostra só os das camadas visíveis naquele zoom.
 - Busca de lugares: Nominatim / © colaboradores do OpenStreetMap (uso leve, sem autocompletar).
 
 ## Ferramenta de captura

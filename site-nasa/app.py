@@ -50,6 +50,8 @@ def _lugar(item: dict) -> dict:
         "lon": float(item["lon"]),
         "bbox": bbox,
         "tipo": item.get("addresstype") or item.get("type") or "",
+        # codigo IBGE (municipio: 7 digitos; distrito: 9) para o mapa buscar o limite oficial
+        "ibge": (item.get("extratags") or {}).get("IBGE:GEOCODIGO"),
     }
 
 
@@ -57,7 +59,7 @@ def _lugar(item: dict) -> dict:
 def _buscar(texto: str) -> tuple:
     r = requests.get(
         f"{NOMINATIM}/search",
-        params={"q": texto, "format": "jsonv2", "limit": 6, "accept-language": "pt-BR,pt,en"},
+        params={"q": texto, "format": "jsonv2", "limit": 6, "accept-language": "pt-BR,pt,en", "extratags": 1},
         headers=CABECALHOS,
         timeout=TIMEOUT_S,
     )
@@ -80,7 +82,7 @@ def _reverso(lat: float, lon: float) -> dict | None:
 
 def _coordenada(lat: float, lon: float) -> dict:
     return {"nome": f"{lat:.4f}, {lon:.4f}", "detalhe": "Coordenada informada", "lat": lat, "lon": lon,
-            "bbox": None, "tipo": "coordenada"}
+            "bbox": None, "tipo": "coordenada", "ibge": None}
 
 
 @app.get("/")

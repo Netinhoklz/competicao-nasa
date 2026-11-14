@@ -1,12 +1,35 @@
 // mapa.js - mapa interativo (MapLibre GL, projecao de globo): imagem Sentinel-2 sem nuvens,
-// detalhe Maxar ao aproximar, relevo 3D, rotulos vetoriais em portugues e o marcador do lugar.
+// detalhe Maxar ao aproximar, relevo 3D, rotulos vetoriais em portugues, o Nordeste aceso em
+// dourado (contorno, divisas e capitais), o limite do municipio escolhido e o marcador do lugar.
 
 const S2 = 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpg';
-const ESRI_IMAGEM = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+// Detalhe de perto: Esri World Imagery Wayback, versao de 2025-07-31. A versao atual tem nuvem e sombra
+// sobre Quixada; esta e a mais recente limpa em Quixada, Petrolina, Araripe e Lencois (conferido)
+const WAYBACK = 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/49999/{z}/{y}/{x}';
 const TERRENO = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
+const IBGE_MALHA = 'https://servicodados.ibge.gov.br/api/v3/malhas/municipios';
 const EXAGERO = 1.5;
 const ZOOM_PONTO = 12.3;   // zoom de chegada quando o lugar e um ponto (clique ou coordenada)
 const ZOOM_AREA_MAX = 12.5; // teto do zoom de chegada para cidades e regioes (bbox)
+const OURO = '#ffcb7d';     // o mesmo dourado do fio do Nordeste no globo 3D
+
+/** Tipos do Nominatim que sao uma sede (cidade, vila, distrito...): a chegada centra no ponto, nao no bbox. */
+export const ASSENTAMENTO = new Set(['city', 'town', 'village', 'hamlet', 'suburb', 'neighbourhood', 'quarter', 'district']);
+
+// O contorno do Nordeste chega junto com o mapa (o mesmo arquivo que o globo 3D usa)
+const NORDESTE = fetch('/static/data/nordeste.json').then((r) => r.json()).catch(() => null);
+const MUNDO = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
+const area = (anel) => anel.reduce((s, p, i) => { const q = anel[(i + 1) % anel.length]; return s + p[0] * q[1] - q[0] * p[1]; }, 0);
+/** Poligono do mundo com os aneis como furos (sentido oposto ao do mundo): a mascara "fora daqui". */
+const mundoMenos = (aneis) => ({
+  type: 'Feature',
+  properties: {},
+  geometry: { type: 'Polygon', coordinates: [MUNDO, ...aneis.map((a) => (area(a) > 0 ? a.slice().reverse() : a))] },
+});
+const VAZIO = { type: 'FeatureCollection', features: [] };
+const z = (...p) => ['interpolate', ['linear'], ['zoom'], ...p];
+// limites nacionais e estaduais do OpenFreeMap, sem os maritimos
+const LIMITES = ['all', ['<=', ['coalesce', ['get', 'admin_level'], 99], 4], ['!=', ['coalesce', ['get', 'maritime'], 0], 1]];
 
 const CREDITO_S2 = '<a href="https://s2maps.eu" target="_blank">Sentinel-2 cloudless 2024</a> © EOX IT Services GmbH '
   + '(dados Copernicus Sentinel modificados, '
@@ -14,6 +37,7 @@ const CREDITO_S2 = '<a href="https://s2maps.eu" target="_blank">Sentinel-2 cloud
 const CREDITO_OFM = '<a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> '
   + '<a href="https://www.openmaptiles.org/" target="_blank">© OpenMapTiles</a> '
   + '<a href="https://www.openstreetmap.org/copyright" target="_blank">© colaboradores do OpenStreetMap</a>';
+const CREDITO_IBGE = 'Limites: <a href="https://servicodados.ibge.gov.br/api/docs/malhas" target="_blank">IBGE</a>';
 
 // textos dos controles do MapLibre em portugues
 const TEXTOS = {
@@ -91,19 +115,25 @@ function estilo() {
       // nem na volta abre buraco preto enquanto o Sentinel-2 ainda esta chegando
       base: { ...s2, maxzoom: 4 },
       s2: { ...s2, maxzoom: 14 },
-      // detalhe Maxar so de z12 em diante: abaixo disso o Esri usa outro mosaico (verde) e faz costura;
-      // z17 e o ultimo nivel com imagem no sertao (z18 devolve "Map data not yet available")
+      // detalhe so de z14 em diante (abaixo disso o S2 basta e o Esri faz costura entre mosaicos);
+      // z17 e o ultimo nivel servido (z18 da 404). Em mar aberto o Wayback responde 404 em qualquer zoom
       detalhe: {
         type: 'raster',
-        tiles: [ESRI_IMAGEM],
+        tiles: [WAYBACK],
         tileSize: 256,
-        minzoom: 12,
+        minzoom: 14,
         maxzoom: 17,
-        attribution: 'Detalhe: © Esri, Maxar, Earthstar Geographics',
+        attribution: 'Detalhe: © Esri, Maxar (World Imagery Wayback, 2025-07-31)',
       },
       ofm: { type: 'vector', url: 'https://tiles.openfreemap.org/planet', attribution: CREDITO_OFM },
       terreno: dem,
       sombra: { ...dem },
+      // Nordeste (IBGE) e municipio escolhido (IBGE): preenchidos quando os dados chegam
+      ne: { type: 'geojson', data: VAZIO, attribution: CREDITO_IBGE },
+      'ne-fora': { type: 'geojson', data: VAZIO },
+      'ne-capitais': { type: 'geojson', data: VAZIO },
+      mun: { type: 'geojson', data: VAZIO, attribution: CREDITO_IBGE },
+      'mun-fora': { type: 'geojson', data: VAZIO },
     },
     layers: [
       { id: 'base', type: 'raster', source: 'base', paint: tomS2 },
@@ -112,11 +142,8 @@ function estilo() {
         id: 'detalhe',
         type: 'raster',
         source: 'detalhe',
-        minzoom: 13.5,
-        paint: {
-          'raster-fade-duration': 250,
-          'raster-opacity': ['interpolate', ['linear'], ['zoom'], 13.5, 0, 14.5, 1],
-        },
+        minzoom: 14,
+        paint: { 'raster-fade-duration': 250, 'raster-opacity': z(14, 0, 15, 1) },
       },
       {
         id: 'relevo',
@@ -130,21 +157,83 @@ function estilo() {
           'hillshade-accent-color': 'rgba(0, 0, 0, 0)',
         },
       },
+      // o que fica fora da regiao (e, perto do chao, fora do municipio) escurece um pouco: a regiao
+      // "acende" sem brilho artificial. Zero no zoom da troca (o globo 3D nao escurece nada)
+      {
+        id: 'mun-fora',
+        type: 'fill',
+        source: 'mun-fora',
+        minzoom: 8.5,
+        paint: { 'fill-color': '#000', 'fill-antialias': false, 'fill-opacity': z(8.5, 0, 10, 0.22, 13, 0.15) },
+      },
+      {
+        id: 'ne-fora',
+        type: 'fill',
+        source: 'ne-fora',
+        minzoom: 4.6,
+        maxzoom: 9.5,
+        paint: { 'fill-color': '#000', 'fill-antialias': false, 'fill-opacity': z(4.6, 0, 5.8, 0.4, 8, 0.32, 9.5, 0) },
+      },
       {
         id: 'limites',
         type: 'line',
         source: 'ofm',
         'source-layer': 'boundary',
         minzoom: 4.6,
-        filter: ['all',
-          ['<=', ['coalesce', ['get', 'admin_level'], 99], 4],
-          ['!=', ['coalesce', ['get', 'maritime'], 0], 1]],
+        filter: LIMITES,   // dentro do Nordeste, abaixo de z10, valem as divisas douradas (ver _nordeste)
         paint: {
           'line-color': 'rgba(255, 255, 255, 0.45)',
           'line-width': ['interpolate', ['linear'], ['zoom'], 3, 0.6, 10, 1.1],
           'line-dasharray': [3, 2],
           'line-opacity': surgir,
         },
+      },
+      // Nordeste aceso, estatico: o mesmo fio dourado do globo (1 px na troca), afinando ao descer.
+      // O arquivo e simplificado a 0,02 grau (~2 km): bom de longe, impreciso perto do chao, entao
+      // contorno e divisas somem ate z10, onde o contorno do municipio (IBGE, mais fino) assume
+      {
+        id: 'ne-halo',
+        type: 'line',
+        source: 'ne',
+        filter: ['==', ['get', 'k'], 'contorno'],
+        maxzoom: 9,
+        layout: { 'line-join': 'round' },
+        paint: { 'line-color': OURO, 'line-width': z(3, 5, 6, 8, 9, 6), 'line-blur': z(3, 4, 6, 6, 9, 5), 'line-opacity': z(4.6, 0, 5.6, 0.2, 7, 0.16, 9, 0) },
+      },
+      {
+        id: 'ne-divisas',
+        type: 'line',
+        source: 'ne',
+        filter: ['==', ['get', 'k'], 'divisa'],
+        maxzoom: 10,
+        layout: { 'line-join': 'round' },
+        paint: { 'line-color': OURO, 'line-width': 1, 'line-opacity': z(4.6, 0.8, 6, 0.42, 8.5, 0.38, 10, 0) },
+      },
+      {
+        id: 'ne-contorno',
+        type: 'line',
+        source: 'ne',
+        filter: ['==', ['get', 'k'], 'contorno'],
+        maxzoom: 10,
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': OURO, 'line-width': z(4.6, 1, 6, 1.6, 10, 1.4), 'line-opacity': z(3, 1, 8.5, 0.85, 10, 0) },
+      },
+      // o mesmo gesto uma escala abaixo: o limite oficial do municipio da sede
+      {
+        id: 'mun-halo',
+        type: 'line',
+        source: 'mun',
+        minzoom: 8.5,
+        layout: { 'line-join': 'round' },
+        paint: { 'line-color': OURO, 'line-width': 6, 'line-blur': 4, 'line-opacity': z(8.5, 0, 10, 0.18, 13, 0.1) },
+      },
+      {
+        id: 'mun-linha',
+        type: 'line',
+        source: 'mun',
+        minzoom: 8.5,
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': OURO, 'line-width': z(9, 1.2, 13, 1.8), 'line-opacity': z(8.5, 0, 10, 0.9, 14, 0.7) },
       },
       // de baixo para cima: em caso de colisao, a camada de cima ganha
       rotulo('estados', 'place', 4.6,
@@ -181,7 +270,56 @@ function estilo() {
         },
         '#f2f4f7',
         { filter: ['in', ['get', 'class'], ['literal', ['city', 'town']]] }),
+      // as 9 capitais como pontos de luz com nome em tom quente (a mesma lista do globo). Ficam no topo
+      // para o nome ganhar a colisao do nome branco do OpenFreeMap; de z10,5 em diante viram so a cidade
+      {
+        id: 'ne-cap-halo',
+        type: 'circle',
+        source: 'ne-capitais',
+        maxzoom: 10.5,
+        paint: {
+          'circle-color': OURO,
+          'circle-radius': z(3, 7, 6, 11, 9, 14),
+          'circle-blur': 1,
+          'circle-opacity': z(4.6, 0.12, 6, 0.5, 9, 0.4, 10.5, 0),
+          'circle-pitch-alignment': 'map',
+        },
+      },
+      {
+        id: 'ne-cap',
+        type: 'circle',
+        source: 'ne-capitais',
+        maxzoom: 10.5,
+        paint: {
+          'circle-color': '#fff3dc',
+          'circle-radius': z(4.6, 2, 6, 3.4, 9, 4.2),
+          'circle-stroke-color': 'rgba(255, 203, 125, 0.85)',
+          'circle-stroke-width': z(4.6, 0, 6, 1),
+          'circle-opacity': z(9.5, 1, 10.5, 0),
+          'circle-stroke-opacity': z(9.5, 1, 10.5, 0),
+          'circle-pitch-alignment': 'map',
+        },
+      },
+      {
+        id: 'ne-cap-nome',
+        type: 'symbol',
+        source: 'ne-capitais',
+        minzoom: 4.6,
+        maxzoom: 10.5,
+        layout: {
+          'text-field': ['get', 'nome'],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': z(4.6, 12.5, 9, 15),
+          'text-anchor': 'top',
+          'text-offset': [0, 0.9],
+          'text-letter-spacing': 0.02,
+        },
+        paint: { 'text-color': '#ffd9a0', ...halo, 'text-halo-color': 'rgba(0, 0, 0, 0.78)', 'text-opacity': z(4.6, 0, 5.2, 1) },
+      },
     ],
+    // luz so da atmosfera do globo (nao ha fill-extrusion): presa a tela, do mesmo lado do sol da
+    // Terra 3D na troca, para a borda clara nao trocar de lado quando o mapa assume
+    light: { anchor: 'viewport', position: [1.5, 50, 48] },
     // ceu transparente (as estrelas da cena 3D continuam atras) com uma faixa fina de horizonte
     sky: {
       'sky-color': 'rgba(0, 0, 0, 0)',
@@ -218,8 +356,52 @@ export class Mapa {
     });
     this.mapa.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
     this.mapa.addControl(new maplibregl.TerrainControl({ source: 'terreno', exaggeration: EXAGERO }), 'bottom-right');
-    this.mapa.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
-    this.carregado = new Promise((ok) => this.mapa.once('load', ok));
+    const escala = new maplibregl.ScaleControl({ unit: 'metric' });
+    this.mapa.addControl(escala, 'bottom-left');
+    // com relevo, logo apos um salto de camera o unproject pode dar NaN e a escala fica "NaN m"
+    // ate o proximo movimento: quando o mapa assenta, recalcula
+    this.mapa.on('idle', () => {
+      if (this.container.querySelector('.maplibregl-ctrl-scale')?.textContent.includes('NaN')) escala.setUnit('metric');
+    });
+    // so conta como carregado com o Nordeste ja desenhado: a troca precisa do fio no mesmo lugar do globo
+    this.carregado = Promise.all([new Promise((ok) => this.mapa.once('load', ok)), NORDESTE])
+      .then(([, d]) => d && this._nordeste(d));
+  }
+
+  /** Contorno, divisas, mascara e capitais do Nordeste (static/data/nordeste.json, IBGE). */
+  _nordeste(d) {
+    const linha = (k) => (coordinates) => ({ type: 'Feature', properties: { k }, geometry: { type: 'LineString', coordinates } });
+    this.mapa.getSource('ne').setData({
+      type: 'FeatureCollection',
+      features: [...d.contorno.map(linha('contorno')), ...d.divisas.map(linha('divisa'))],
+    });
+    this.mapa.getSource('ne-fora').setData(mundoMenos(d.contorno));
+    this.mapa.getSource('ne-capitais').setData({
+      type: 'FeatureCollection',
+      features: (d.capitais || []).map(([nome, lat, lon]) => ({ type: 'Feature', properties: { nome }, geometry: { type: 'Point', coordinates: [lon, lat] } })),
+    });
+    // dentro da regiao, abaixo de z10, as divisas douradas substituem o tracejado branco
+    const regiao = { type: 'Polygon', coordinates: d.contorno };
+    this.mapa.setFilter('limites', ['step', ['zoom'], ['all', LIMITES, ['!', ['within', regiao]]], 10, LIMITES]);
+  }
+
+  /** Limite oficial do municipio (malha do IBGE), pelo codigo que o Nominatim devolve. */
+  async _municipio(lugar) {
+    const cod = String(lugar.ibge || '').slice(0, 7);   // distrito tem 9 digitos: os 7 primeiros sao o municipio
+    this._codMun = cod;
+    this.mapa.getSource('mun').setData(VAZIO);
+    this.mapa.getSource('mun-fora').setData(VAZIO);
+    if (!/^\d{7}$/.test(cod)) return;
+    try {
+      const r = await fetch(`${IBGE_MALHA}/${cod}?formato=application/vnd.geo%2Bjson&qualidade=intermediaria`);
+      const g = (await r.json()).features[0].geometry;
+      if (this._codMun !== cod) return;   // a pessoa ja foi para outro lugar
+      const aneis = g.type === 'Polygon' ? [g.coordinates[0]] : g.coordinates.map((p) => p[0]);
+      this.mapa.getSource('mun').setData({ type: 'Feature', properties: {}, geometry: { type: 'MultiLineString', coordinates: aneis } });
+      this.mapa.getSource('mun-fora').setData(mundoMenos(aneis));
+    } catch {
+      // sem a malha o mapa segue normal, so sem o contorno do municipio
+    }
   }
 
   /** Cria o mapa escondido enquanto a pessoa ainda esta no inicio, para a viagem nao esperar. */
@@ -243,6 +425,7 @@ export class Mapa {
     }
     await this.carregado;
     this._marcar(centro);
+    this._municipio(lugar);
     await this._ocioso(2000);
     this.alvo = continuar ? null : this._alvo(lugar);
     if (this.alvo && ate) {
@@ -257,13 +440,18 @@ export class Mapa {
     return Promise.race([new Promise((ok) => this.mapa.once('idle', ok)), esperar(limite)]);
   }
 
-  /** Camera final: o lugar inteiro em resolucao cheia, inclinada o bastante para mostrar o relevo. */
+  /**
+   * Camera final: o lugar inteiro em resolucao cheia, inclinada o bastante para mostrar o relevo.
+   * Numa sede (cidade, distrito...) o bbox costuma ser o do municipio inteiro e a sede pode ficar na
+   * ponta dele (Petrolina): centra no ponto da sede e usa o bbox so para o zoom.
+   */
   _alvo(lugar) {
     let alvo = { center: [lugar.lon, lugar.lat], zoom: ZOOM_PONTO };
     if (lugar.bbox) {
       const [w, s, e, n] = lugar.bbox;
       const cam = this.mapa.cameraForBounds([[w, s], [e, n]], { padding: 80 });
-      if (cam) alvo = { center: cam.center, zoom: limitar(cam.zoom + 0.5, 3, ZOOM_AREA_MAX) };
+      if (cam && ASSENTAMENTO.has(lugar.tipo)) alvo.zoom = limitar(cam.zoom + 0.5, 11, ZOOM_AREA_MAX);
+      else if (cam) alvo = { center: cam.center, zoom: limitar(cam.zoom + 0.5, 3, ZOOM_AREA_MAX) };
     }
     return { ...alvo, pitch: alvo.zoom > 8 ? 50 : 30, bearing: -15 };
   }
@@ -289,6 +477,12 @@ export class Mapa {
    * Com `continuar` (a pessoa entrou girando a rodinha) so segue um pouco o zoom dela.
    */
   chegar(lugar, { continuar = false } = {}) {
+    // creditos: abertos na primeira chegada (o MapLibre os abre sozinho uma vez) e recolhidos ao "i"
+    // depois de 10 s, junto com a dica de uso; continuam a um clique
+    clearTimeout(this._tCreditos);
+    this._tCreditos = setTimeout(() => {
+      this.container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+    }, 10000);
     if (continuar) {
       this.mapa.easeTo({ zoom: this.mapa.getZoom() + 2.2, pitch: 35, duration: 2000, essential: true });
       return;

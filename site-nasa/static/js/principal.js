@@ -1,6 +1,6 @@
 // principal.js - liga a interface: busca de lugar, viagem do globo 3D ate o mapa e volta.
 import { Espaco, DIST_TROCA } from './espaco.js';
-import { Mapa, zoomEquivalente, distEquivalente } from './mapa.js';
+import { Mapa, ASSENTAMENTO, zoomEquivalente, distEquivalente } from './mapa.js';
 
 const $ = (id) => document.getElementById(id);
 const esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
@@ -207,7 +207,7 @@ function mostrarLista(lista) {
     li.setAttribute('role', 'option');
     li.innerHTML = '<span class="sug-pino" aria-hidden="true"></span><span class="sug-texto"><b></b><small></small></span><span class="sug-coord"></span>';
     li.querySelector('b').textContent = l.nome;
-    li.querySelector('small').textContent = l.detalhe;
+    li.querySelector('small').textContent = semCep(l.detalhe);
     li.querySelector('.sug-coord').textContent = fmtCoord(l.lat, l.lon);
     li.addEventListener('pointerdown', (e) => { e.preventDefault(); viajar(l); });
     li.addEventListener('pointerenter', () => marcarAtivo(i));
@@ -217,9 +217,6 @@ function mostrarLista(lista) {
   marcarAtivo(0);
   mensagem(`${lista.length} lugares com esse nome. Escolha um.`);
 }
-
-/** Remove repetidos (o Nominatim devolve a cidade e o municipio no mesmo ponto). */
-const ASSENTAMENTO = new Set(['city', 'town', 'village', 'hamlet', 'suburb', 'neighbourhood', 'quarter', 'district']);
 
 /**
  * Junta repetidos (o Nominatim devolve o municipio e a cidade quase no mesmo ponto) e, entre eles,
@@ -232,7 +229,11 @@ function unicos(lista) {
     if (g) g.push(l);
     else grupos.push([l]);
   }
-  return grupos.map((g) => g.find((l) => ASSENTAMENTO.has(l.tipo)) || g[0]);
+  return grupos.map((g) => {
+    const l = g.find((x) => ASSENTAMENTO.has(x.tipo)) || g[0];
+    // a sede herda o codigo IBGE do municipio do mesmo grupo (o mapa desenha o limite oficial)
+    return { ...l, ibge: l.ibge || g.map((x) => x.ibge).find(Boolean) };
+  });
 }
 
 async function buscar(texto, { primeiro = false } = {}) {
@@ -291,9 +292,12 @@ document.querySelectorAll('[data-lugar]').forEach((b) => {
 
 function etapa(texto) { ui.etapa.textContent = texto; }
 
+// o Nominatim poe o CEP no meio do endereco ("..., 65195-000, Brasil"): no cartao ele so atrapalha
+const semCep = (texto) => texto.split(', ').filter((p) => !/^\d{5}(-?\d{3})?$/.test(p)).join(', ');
+
 function preencherCartao(lugar) {
   ui.nome.textContent = lugar.nome;
-  ui.detalhe.textContent = lugar.detalhe;
+  ui.detalhe.textContent = semCep(lugar.detalhe);
   ui.coords.textContent = fmtCoord(lugar.lat, lugar.lon);
 }
 

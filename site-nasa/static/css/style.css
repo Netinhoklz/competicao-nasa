@@ -744,7 +744,8 @@ body.no-mapa:not(.em-viagem) .dica-mapa.visivel {
   inset: 0;
   border-radius: 50%;
   border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  /* contorno escuro dos dois lados: o anel aparece tambem sobre areia, sal e telhado claro */
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 .marcador b {
   position: absolute;
