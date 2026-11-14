@@ -1,0 +1,53 @@
+# Agro-Stress Test - condado piloto
+# Saunders County, Nebraska (FIPS 31155): milho-soja com mistura de pivo irrigado (vale do Platte) e sequeiro (terracos),
+# torres de fluxo AmeriFlux US-Ne1/Ne2/Ne3 (Mead), 17 estacoes USGS ativas com serie diaria, 261 pocos e
+# 23 pluviometros CoCoRaHS ativos (consultas de 2026-11-14).
+
+[condado]
+nome = "Saunders County, NE"
+fips = "31155"
+ssurgo_areasymbol = "NE155"
+# Caixa em graus (lon_min, lat_min, lon_max, lat_max). So e usada se o limite do Census (TIGERweb) falhar.
+bbox_wgs84 = [-96.92, 40.99, -96.31, 41.40]
+
+[grade]
+# Grade mestre = grade do CDL (Albers CONUS, 30 m). Todo raster e reamostrado para ela.
+crs = "EPSG:5070"
+resolucao_m = 30
+
+[cdl]
+anos = [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+# Rotas, em ordem de tentativa: CropScape (recorte por FIPS no servidor) e Planetary Computer (so 2008-2021)
+rotas = ["cropscape", "planetary_computer"]
+downloads_paralelos = 6
+
+[terreno]
+colecao_stac = "nasadem"           # NASADEM = reprocessamento NASA do SRTM (1 arcseg)
+stac_url = "https://planetarycomputer.microsoft.com/api/stac/v1"
+# Folga em volta do condado para a area de contribuicao do TWI nao ser cortada na borda
+folga_m = 5000
+# Limite do comprimento de rampa no fator LS (m)
+ls_rampa_max_m = 300.0
+
+[solo]
+sda_url = "https://sdmdataaccess.sc.egov.usda.gov/Tabular/post.rest"
+# Camadas para medias ponderadas por espessura (cm)
+camadas_cm = [[0, 30], [0, 100]]
+poligonos_por_lote = 1500
+consultas_paralelas = 4
+
+[talhoes]
+# "csb" = USDA Crop Sequence Boundaries (poligonos oficiais de talhao); "grade" = quadriculas regulares (plano B)
+fonte = "csb"
+csb_url = "https://www.nass.usda.gov/sites/default/files/Research_and_Science/Crop-Sequence-Boundaries/datasets/NationalCSB_2018-2025_rev23.zip"
+# Se o zip nacional (3,7 GB) ja estiver baixado, aponte aqui para ler local em vez de por HTTP Range
+csb_zip_local = ""
+area_min_ha = 2.0
+# Plano B: lado da quadricula (402 m = quarter-quarter section do PLSS, ~16 ha) e fracao minima de lavoura
+grade_lado_m = 402
+grade_frac_lavoura_min = 0.5
+
+[caminhos]
+raw = "data/raw"
+interim = "data/interim"
+processed = "data/processed"

@@ -7,3 +7,10 @@ _netrc
 .netrc
 .cdsapirc
 *token*.txt
+
+# ambiente e dados do MVP (recriados pelo ETL)
+.venv/
+data/raw/*
+data/interim/*
+data/processed/*
+!data/*/.gitkeep

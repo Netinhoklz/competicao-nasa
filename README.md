@@ -16,6 +16,23 @@ culturas com dados da NASA. O produto é pensado para funcionar no mundo todo, c
 | `dados_resumo/derivados/` | Séries mensais tratadas (Ceará, Nordeste, AOIs) usadas para cruzar as bases |
 | `dados_resumo/manifestos/` | `MANIFESTO.json` de cada base: fonte, URL, recorte, período e arquivos |
 
+## MVP "Agro-Stress Test" (condado piloto nos EUA)
+
+Condado piloto: **Saunders County, Nebraska (FIPS 31155)**. Parâmetros em `config/pilot_county.toml`.
+
+| Pasta | Conteúdo |
+|---|---|
+| `config/` | Condado, grade mestre (EPSG:5070, 30 m), anos do CDL, camadas de solo, fonte dos talhões |
+| `src/ingestion/` | ETL offline. `stac_and_soil.py`: talhões (CSB) × SSURGO × CDL 2008–2025 × terreno NASADEM |
+| `src/features/`, `src/models/`, `src/api/` | Próximas etapas (estresse silencioso, LightGBM/SHAP, FastAPI) |
+| `data/raw`, `data/interim`, `data/processed` | Fora do git; recriados pelo ETL |
+
+```bash
+python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
+.venv/Scripts/python -m src.ingestion.stac_and_soil              # ~4 min com cache frio + 3,7 GB do CSB
+.venv/Scripts/python -m src.ingestion.stac_and_soil --talhoes grade   # sem o CSB (quadrículas de 402 m)
+```
+
 ## Dados
 
 Os dados brutos (~11 GB, mais 7 GB do CDL) **não estão no repositório** por causa do limite de tamanho do GitHub.
