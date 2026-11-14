@@ -1,0 +1,24 @@
+                      regra  semeadura mediana (dia)  P(perder tudo)  P(perder tudo) secas 2010,12-16  P(milho ISNA>=0,6)  milho rend. relativo esperado  CVaR10 milho  plantou depois de 31/mar
+       R1 >=20mm/3d (atual)                       14           0.078                            0.338               0.838                          0.980         0.345                     0.000
+               R2 >=30mm/3d                       20           0.062                            0.266               0.836                          0.981         0.343                     0.002
+              R3 >=50mm/10d                       23           0.047                            0.207               0.853                          1.000         0.363                     0.002
+      R4 solo >=30mm (SMAP)                       16           0.072                            0.319               0.843                          0.984         0.357                     0.000
+      R5 solo >=45mm (SMAP)                       20           0.051                            0.225               0.865                          1.003         0.400                     0.000
+           R6 R1 apos 1/fev                       42           0.030                            0.098               0.820                          0.990         0.338                     0.000
+          R7 R1 apos 15/fev                       48           0.053                            0.149               0.757                          0.936         0.293                     0.000
+R8 fev OU solo>=45mm em jan                       20           0.051                            0.226               0.865                          1.005         0.405                     0.000
+R9 fev OU >=50mm/10d em jan                       23           0.043                            0.187               0.867                          1.012         0.405                     0.000
+
+politica por municipio (LOYO): P(perder tudo)=0.061; secas=0.246; regras escolhidas: {'R1 >=20mm/3d (atual)': 431, 'R2 >=30mm/3d': 689, 'R3 >=50mm/10d': 1711, 'R4 solo >=30mm (SMAP)': 30, 'R5 solo >=45mm (SMAP)': 165, 'R6 R1 apos 1/fev': 1995, 'R8 fev OU solo>=45mm em jan': 25, 'R9 fev OU >=50mm/10d em jan': 106}
+
+fracao de municipios que perdem tudo por ano de seca:
+      R1 >=20mm/3d (atual)  R4 solo >=30mm (SMAP)  R5 solo >=45mm (SMAP)  R6 R1 apos 1/fev  R8 fev OU solo>=45mm em jan  politica LOYO
+2001                  0.01                   0.01                   0.00              0.00                         0.00           0.01
+2005                  0.00                   0.00                   0.00              0.00                         0.00           0.00
+2010                  0.89                   0.89                   0.62              0.11                         0.62           0.62
+2012                  0.16                   0.17                   0.20              0.21                         0.21           0.21
+2013                  0.39                   0.34                   0.14              0.04                         0.15           0.15
+2014                  0.03                   0.01                   0.01              0.01                         0.01           0.03
+2015                  0.00                   0.00                   0.00              0.00                         0.00           0.00
+2016                  0.56                   0.50                   0.38              0.22                         0.38           0.47
+2021                  0.00                   0.00                   0.00              0.00                         0.00           0.00

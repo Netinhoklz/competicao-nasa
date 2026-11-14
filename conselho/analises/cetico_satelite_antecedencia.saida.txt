@@ -1,0 +1,16 @@
+
+==== milho
+             janela MODIS  R2 deixa-ano-fora  rho dentro do ano  AUC quebra<=-50%  taxa base quebra
+ate fev (decisao ~10/mar)              0.012              0.101             0.659             0.208
+        ate mar (~10/abr)              0.090              0.166             0.731             0.208
+        ate abr (~10/mai)              0.142              0.227             0.772             0.208
+        ate mai (~10/jun)              0.222              0.281             0.811             0.208
+
+==== feijao
+             janela MODIS  R2 deixa-ano-fora  rho dentro do ano  AUC quebra<=-50%  taxa base quebra
+ate fev (decisao ~10/mar)             -0.050              0.045             0.542             0.132
+        ate mar (~10/abr)              0.000              0.089             0.635             0.132
+        ate abr (~10/mai)              0.036              0.144             0.682             0.132
+        ate mai (~10/jun)              0.088              0.191             0.720             0.132
+P(tercil seco | El Nino forte) com prior uniforme Beta(1,1): media 0.67, IC 90% [0.34, 0.92]
+P(tercil seco | El Nino forte) com prior climatologico Beta(0.67,1.33): media 0.61, IC 90% [0.29, 0.89]

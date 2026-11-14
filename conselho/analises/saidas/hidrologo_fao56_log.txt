@@ -1,0 +1,125 @@
+células POWER válidas: 84 | NaN restantes em ET0: 0
+[carregar] 5.4s
+dias: 10484 1998-01-01 -> 2026-09-14 | municípios: 184 | ET0 média anual (mm): 2226.0 | chuva média anual (mm): 867.0
+[simulação] 7.4s
+
+=== (a) O balanço FAO-56 explica a quebra municipal melhor que a chuva fev–mai? ===
+ cultura   preditor    n  rho_painel  rho_entre_mun_no_ano  rho_no_tempo_por_mun  AUC quebra>=50% (1-AUC se neg.)  freq_quebra50
+  feijao chuva_fmam 4759       0.315                 0.050                 0.363                            0.715          0.087
+  feijao       isna 4759       0.212                 0.089                 0.228                            0.655          0.087
+  feijao  isna_flor 4759       0.184                 0.066                 0.198                            0.648          0.087
+  feijao       yrel 4759       0.212                 0.089                 0.228                            0.655          0.087
+mandioca chuva_fmam 1441       0.184                 0.005                 0.209                            0.815          0.033
+mandioca       isna 1441       0.162                -0.001                 0.195                            0.760          0.033
+mandioca  isna_flor 1441       0.171                -0.014                 0.198                            0.785          0.033
+   milho chuva_fmam 4760       0.409                 0.077                 0.481                            0.775          0.138
+   milho       isna 4760       0.412                 0.136                 0.452                            0.810          0.138
+   milho  isna_flor 4760       0.370                 0.127                 0.395                            0.787          0.138
+   milho       yrel 4760       0.412                 0.136                 0.452                            0.810          0.138
+
+--- Estado (média ponderada pela área plantada), correlação de Spearman com o desvio de rendimento ---
+feijao {'chuva_fmam': np.float64(0.61), 'isna': np.float64(0.35), 'isna_flor': np.float64(0.3)} | anos 27
+mandioca {'chuva_fmam': np.float64(0.49), 'isna': np.float64(0.46), 'isna_flor': np.float64(0.51)} | anos 27
+milho {'chuva_fmam': np.float64(0.71), 'isna': np.float64(0.7), 'isna_flor': np.float64(0.66)} | anos 27
+
+=== (b) Semear pela água no solo (proxy SMAP L4) × pela primeira chuva ===
+                isna_med  isna_p10  p_isna_lt05  falsa_partida  nao_semeou  doy_semeio_med  yrel_med  yrel_p10
+cultura  regra                                                                                                
+feijao   chuva     0.873     0.541        0.072          0.002         0.0            14.0     0.854     0.472
+         solo      0.808     0.527        0.079          0.012         0.0             4.0     0.779     0.456
+mandioca chuva     0.694     0.498        0.102          0.000         0.0            14.0       NaN       NaN
+         solo      0.725     0.527        0.072          0.000         0.0             9.0       NaN       NaN
+milho    chuva     0.910     0.650        0.024          0.000         0.0            14.0     0.888     0.562
+         solo      0.913     0.667        0.017          0.000         0.0             9.0     0.892     0.583
+sorgo    chuva     0.977     0.749        0.010          0.000         0.0            14.0     0.979     0.774
+         solo      0.983     0.775        0.007          0.000         0.0            11.0     0.985     0.797
+chuva {'feijao': np.float64(0.212), 'mandioca': np.float64(0.162), 'milho': np.float64(0.412)}
+solo {'feijao': np.float64(0.158), 'mandioca': np.float64(0.199), 'milho': np.float64(0.394)}
+
+=== (c) Água por cultura (mediana municipal 1999–2025, regra 'chuva') ===
+          chuva_no_ciclo     ETc     ETa  escoamento  percolacao  sobra_na_colheita  p_sobra_ge_30mm  pegada_verde_m3_t  rend_PAM_kg_ha
+cultura                                                                                                                                
+feijao            421.94  268.58  225.74       16.15      160.15              58.62             0.88            8580.13           254.0
+mandioca          728.36  622.96  435.02       31.71      311.36               3.89             0.07             513.55          8700.0
+milho             651.19  435.42  383.30       29.38      222.93              64.15             0.75            6732.57           570.0
+sorgo             638.21  365.29  339.23       28.92      236.41              84.87             0.87                NaN             NaN
+Irrigação suplementar para manter Ks=1 na quadra (mm):
+          lamina_irrig_mm_med  lamina_irrig_mm_p90
+cultura                                          
+feijao                  86.9                204.9
+milho                   96.2                279.3
+Safra irrigada semeada em 1/ago (feijao): lâmina mediana 469 mm = 4693 m³/ha; ETc 467 mm
+Safra irrigada semeada em 1/ago (milho): lâmina mediana 820 mm = 8196 m³/ha; ETc 832 mm
+
+=== (d) Probabilidade de ISNA < 0,5 (quebra hídrica) por fase do ENSO (out–jan) ===
+anos El Niño (ONI out–jan >= +1,0): [2003, 2010, 2016, 2024]
+         p_isna_lt05                isna_med                   anos               
+fase         El Niño La Niña neutro  El Niño La Niña neutro El Niño La Niña neutro
+cultura                                                                           
+feijao         0.247   0.016  0.070    0.641   0.890  0.893       4      12     11
+mandioca       0.095   0.123  0.082    0.637   0.709  0.710       4      12     11
+milho          0.027   0.035  0.011    0.839   0.941  0.887       4      12     11
+sorgo          0.011   0.015  0.005    0.886   0.994  0.967       4      12     11
+PAM observado: P(quebra >= 50%) e desvio mediano por fase:
+          p_quebra50                desvio_med               
+fase        El Niño La Niña neutro    El Niño La Niña neutro
+cultura                                                     
+feijao        0.132   0.093  0.064     -0.033   0.012    0.0
+mandioca      0.044   0.035  0.026      0.000   0.000    0.0
+milho         0.247   0.112  0.127     -0.054   0.000    0.0
+
+=== (e) Calibração do balde (AWC, CN, início da janela) em anos ímpares, teste em anos pares ===
+feijao | melhor nos ímpares: {'awc': 140.0, 'cn': 88.0, 'ini': '01/01'} rho ímpares 0.245 -> pares 0.292 | padrão (100, 75, 01/01) ≈ ver tabela; P(ISNA<0,5) 0.075, percolação 82 mm, escoamento 75 mm
+    chuva fev–mai, mesmo teste: rho ímpares 0.209 pares 0.505
+milho | melhor nos ímpares: {'awc': 100.0, 'cn': 70.0, 'ini': '20/01'} rho ímpares 0.385 -> pares 0.423 | padrão (100, 75, 01/01) ≈ ver tabela; P(ISNA<0,5) 0.027, percolação 270 mm, escoamento 15 mm
+    chuva fev–mai, mesmo teste: rho ímpares nan pares nan
+cultura   awc   cn   ini  rho_impares  rho_pares  p_isna_lt05  percol_med  runoff_med
+ feijao 140.0 88.0 01/01        0.245      0.292        0.075      81.642      74.663
+ feijao 140.0 70.0 01/01        0.239      0.296        0.054     143.343       8.131
+ feijao 140.0 80.0 01/01        0.239      0.295        0.059     122.006      29.720
+ feijao  60.0 88.0 01/01        0.221      0.301        0.114     131.688      74.663
+  milho 100.0 70.0 20/01        0.385      0.423        0.027     269.927      15.010
+  milho 100.0 80.0 20/01        0.384      0.424        0.028     237.278      49.363
+  milho 140.0 70.0 20/01        0.384      0.412        0.015     248.716      15.010
+  milho 140.0 80.0 20/01        0.382      0.414        0.015     215.045      49.363
+
+=== (f) Água azul: salvamento na floração × irrigação plena na quadra × safra irrigada na seca ===
+  milho   salvamento na floração  : lâmina mediana    62 mm (p90   167) | ganho mediano   198 kg/ha | 0.44 kg de grão por m³ de água azul | P(ISNA<0,5) 0.000 vs sequeiro 0.024
+  milho   plena na quadra         : lâmina mediana    96 mm (p90   279) | ganho mediano   336 kg/ha | 0.39 kg de grão por m³ de água azul | P(ISNA<0,5) 0.000 vs sequeiro 0.024
+     2012: lâmina de salvamento mediana 198 mm; Yrel sequeiro 0.45 -> com salvamento 0.88
+     2016: lâmina de salvamento mediana 156 mm; Yrel sequeiro 0.63 -> com salvamento 0.87
+  feijao  salvamento na floração  : lâmina mediana    57 mm (p90   140) | ganho mediano   105 kg/ha | 0.27 kg de grão por m³ de água azul | P(ISNA<0,5) 0.000 vs sequeiro 0.072
+  feijao  plena na quadra         : lâmina mediana    87 mm (p90   205) | ganho mediano   175 kg/ha | 0.26 kg de grão por m³ de água azul | P(ISNA<0,5) 0.000 vs sequeiro 0.072
+     2012: lâmina de salvamento mediana 61 mm; Yrel sequeiro 0.78 -> com salvamento 0.95
+     2016: lâmina de salvamento mediana 136 mm; Yrel sequeiro 0.50 -> com salvamento 0.96
+
+ISNA mediano dos municípios por ano:
+ cultura  feijao  mandioca  milho  sorgo
+ano                                    
+1999       0.91      0.70   0.93   0.99
+2000       0.87      0.84   0.97   1.00
+2001       0.80      0.64   0.84   0.92
+2002       0.76      0.83   0.92   0.98
+2003       0.99      0.70   1.00   1.00
+2004       1.00      0.83   0.88   0.97
+2005       0.80      0.65   0.84   0.95
+2006       1.00      0.68   0.99   1.00
+2007       0.86      0.58   0.86   0.96
+2008       0.90      0.81   1.00   1.00
+2009       0.98      0.94   1.00   1.00
+2010       0.43      0.58   0.59   0.65
+2011       0.98      0.88   0.99   1.00
+2012       0.81      0.39   0.56   0.69
+2013       0.48      0.68   0.66   0.75
+2014       0.83      0.61   0.86   0.95
+2015       0.88      0.54   0.78   0.83
+2016       0.56      0.54   0.71   0.81
+2017       0.98      0.66   0.93   0.98
+2018       0.83      0.58   0.91   0.98
+2019       1.00      0.77   1.00   1.00
+2020       0.99      0.89   1.00   1.00
+2021       0.87      0.63   0.91   0.98
+2022       0.67      0.88   0.86   0.94
+2023       0.89      0.62   0.98   1.00
+2024       0.73      0.71   0.90   0.93
+2025       0.95      0.65   0.86   0.97

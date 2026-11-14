@@ -1,0 +1,5 @@
+serie,c0 (r a 0 km),L e-folding (km),"d onde r=0,5 (km)",r mediano 0-20 km,r mediano 20-50 km,r mediano 100-150 km,r mediano 300+ km
+chuva diaria (fev-mai),0.88,280.0,159.0,0.93,0.84,0.53,0.24
+chuva de 5 dias (fev-mai),0.93,549.0,339.0,0.97,0.91,0.73,0.48
+chuva da quadra (total anual fev-mai),1.04,933.0,680.0,1.0,0.99,0.92,0.69
+quebra do milho (log razao rend./tendencia),0.55,968.0,101.0,0.64,0.6,0.49,0.39

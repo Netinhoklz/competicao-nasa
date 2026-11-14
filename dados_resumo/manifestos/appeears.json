@@ -1,0 +1,28 @@
+{
+  "fonte": "NASA AppEEARS (LP DAAC/NSIDC) via Earthdata",
+  "tarefas": {
+    "smap_l4_ceara_2015_2020": "0775311d-2fbe-4108-b772-99ccdd400b2f",
+    "smap_l4_ceara_2021_2026": "be1799b9-63a9-44d5-8ebf-f5da20371540",
+    "viirs_vnp13a3_ceara": "b9ef93b5-0843-4be6-8c2b-96f49cc9a0d4",
+    "viirs_vnp13a1_aois": "a75988e2-c621-4f12-8c47-d348a8d7b6de",
+    "smap_global_pontos_2020": "52e0781b-3869-498a-bb8c-3581298707c1",
+    "smap_l3_ceara_2015_2018": "e696b899-6d5e-456d-90cf-5b11d02578ac",
+    "smap_l3_ceara_2019_2022": "b5e1f09a-b926-4244-bbc0-8926ced7f215",
+    "smap_l3_ceara_2023_2026": "1ccb1383-6dda-4202-b1ca-40add85d7c8c"
+  },
+  "recorte": {
+    "ceara_bbox": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "aois": [
+      "apodi_jaguaribe",
+      "cariri",
+      "sertao_central",
+      "ibiapaba"
+    ]
+  },
+  "atualizado_em": "2026-11-14T07:43:33"
+}

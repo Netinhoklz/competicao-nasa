@@ -1,0 +1,52 @@
+{
+  "fonte": "Microsoft Planetary Computer - sentinel-2-l2a (ESA Copernicus, Sen2Cor); HLS v2 (hls2-l30/hls2-s30). Earth Search C1 descartado por arquivo incompleto",
+  "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a",
+  "recortes": {
+    "ceara_meta": "cenas que intersectam o Ceara",
+    "aois": {
+      "apodi_jaguaribe": [
+        -38.0,
+        -5.25,
+        -37.900000000000006,
+        -5.15
+      ],
+      "cariri": [
+        -39.4,
+        -7.35,
+        -39.300000000000004,
+        -7.25
+      ],
+      "sertao_central": [
+        -39.07,
+        -5.02,
+        -38.970000000000006,
+        -4.92
+      ],
+      "ibiapaba": [
+        -41.04,
+        -3.78,
+        -40.940000000000005,
+        -3.68
+      ]
+    }
+  },
+  "periodos": {
+    "S2 cubos 20 m": "2017-01 a hoje (cenas com nuvem <= 90%)",
+    "HLS": "2020-01 a hoje (nuvem <= 80%)"
+  },
+  "grade": "EPSG:32724 20 m (B04/B08 media 10->20 m); offset -0.1 para baseline >= 04.00",
+  "arquivos": [
+    "MANIFESTO.json",
+    "hls_aoi_cenas.parquet",
+    "s2_aoi_apodi_jaguaribe.nc",
+    "s2_aoi_cariri.nc",
+    "s2_aoi_cenas.parquet",
+    "s2_aoi_ibiapaba.nc",
+    "s2_aoi_sertao_central.nc",
+    "s2_stac_ceara.parquet",
+    "s2_stac_global.parquet"
+  ],
+  "tamanho_bytes": 1740170696,
+  "duracao_s": 918,
+  "atualizado_em": "2026-11-13T23:19:46"
+}

@@ -1,0 +1,22 @@
+
+=== milho: 4724 município-anos, 27 anos ===
+Spearman simples com o desvio: {'chuva_fmam': np.float64(0.41), 'maior_veranico': np.float64(-0.295), 'n_veranicos': np.float64(-0.189), 'isna': np.float64(0.416), 'isna_flor': np.float64(0.376)}
+  A só chuva           rho OOF 0.247 | rho entre municípios no mesmo ano 0.115 | AUC quebra>=50% 0.727 | MAE 0.470
+  B só balde FAO-56    rho OOF 0.326 | rho entre municípios no mesmo ano 0.133 | AUC quebra>=50% 0.767 | MAE 0.434
+  A+B híbrido          rho OOF 0.290 | rho entre municípios no mesmo ano 0.105 | AUC quebra>=50% 0.762 | MAE 0.463
+
+=== feijao: 4752 município-anos, 27 anos ===
+Spearman simples com o desvio: {'chuva_fmam': np.float64(0.315), 'maior_veranico': np.float64(-0.218), 'n_veranicos': np.float64(-0.113), 'isna': np.float64(0.212), 'isna_flor': np.float64(0.185)}
+  A só chuva           rho OOF 0.224 | rho entre municípios no mesmo ano 0.100 | AUC quebra>=50% 0.712 | MAE 0.379
+  B só balde FAO-56    rho OOF 0.190 | rho entre municípios no mesmo ano 0.089 | AUC quebra>=50% 0.637 | MAE 0.372
+  A+B híbrido          rho OOF 0.258 | rho entre municípios no mesmo ano 0.124 | AUC quebra>=50% 0.739 | MAE 0.370
+
+=== Variante monotônica e de baixa capacidade (deixando 1 ano de fora) ===
+  milho   isotônica(ISNA)                               rho OOF 0.333 | dentro do ano 0.146 | AUC quebra>=50% 0.785 | MAE 0.403
+  milho   isotônica(chuva fmam)                         rho OOF 0.313 | dentro do ano 0.102 | AUC quebra>=50% 0.743 | MAE 0.406
+  milho   GBM monotônico ISNA+chuva+veranico            rho OOF 0.375 | dentro do ano 0.106 | AUC quebra>=50% 0.794 | MAE 0.401
+  milho   GBM monotônico ISNA+ISNAflor+chuva+veranico   rho OOF 0.375 | dentro do ano 0.105 | AUC quebra>=50% 0.796 | MAE 0.401
+  feijao  isotônica(ISNA)                               rho OOF 0.047 | dentro do ano 0.096 | AUC quebra>=50% 0.576 | MAE 0.346
+  feijao  isotônica(chuva fmam)                         rho OOF 0.210 | dentro do ano 0.087 | AUC quebra>=50% 0.689 | MAE 0.336
+  feijao  GBM monotônico ISNA+chuva+veranico            rho OOF 0.250 | dentro do ano 0.111 | AUC quebra>=50% 0.702 | MAE 0.339
+  feijao  GBM monotônico ISNA+ISNAflor+chuva+veranico   rho OOF 0.249 | dentro do ano 0.110 | AUC quebra>=50% 0.701 | MAE 0.339

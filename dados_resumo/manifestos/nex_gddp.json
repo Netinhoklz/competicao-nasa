@@ -1,0 +1,62 @@
+{
+  "base": "NASA NEX-GDDP-CMIP6 (NASA Ames), downscaling BCSD 0,25 grau diario",
+  "rota": "Microsoft Planetary Computer colecao nasa-nex-gddp-cmip6 (NetCDF por ano/variavel, chunk = 1 dia global)",
+  "amostra": {
+    "modelo": "MPI-ESM1-2-HR",
+    "janelas": [
+      [
+        "historical",
+        [
+          2010,
+          2011,
+          2012,
+          2013,
+          2014
+        ]
+      ],
+      [
+        "ssp245",
+        [
+          2046,
+          2047,
+          2048,
+          2049,
+          2050
+        ]
+      ],
+      [
+        "ssp585",
+        [
+          2046,
+          2047,
+          2048,
+          2049,
+          2050
+        ]
+      ],
+      [
+        "ssp585",
+        [
+          2086,
+          2087,
+          2088,
+          2089,
+          2090
+        ]
+      ]
+    ],
+    "variaveis": [
+      "tasmax",
+      "pr"
+    ]
+  },
+  "recorte": [
+    -48.8,
+    -18.4,
+    -34.7,
+    -1.0
+  ],
+  "limitacao": "1 modelo e janelas de 5 anos: sinal de temperatura robusto, chuva ruidosa",
+  "tamanho_total_MB": 106.5,
+  "atualizado_em": "2026-11-13T23:44:20"
+}

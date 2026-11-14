@@ -1,0 +1,52 @@
+{
+  "fonte": "Microsoft Planetary Computer - colecao landsat-c2-l2 (USGS Landsat Collection 2 Level-2)",
+  "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/landsat-c2-l2",
+  "recortes": {
+    "ceara_meta": "todas as cenas que intersectam o Ceara (STAC)",
+    "aois": {
+      "apodi_jaguaribe": [
+        -38.0,
+        -5.25,
+        -37.900000000000006,
+        -5.15
+      ],
+      "cariri": [
+        -39.4,
+        -7.35,
+        -39.300000000000004,
+        -7.25
+      ],
+      "sertao_central": [
+        -39.07,
+        -5.02,
+        -38.970000000000006,
+        -4.92
+      ],
+      "ibiapaba": [
+        -41.04,
+        -3.78,
+        -40.940000000000005,
+        -3.68
+      ]
+    }
+  },
+  "periodos": {
+    "L8/L9 cubos": "2013-03 a hoje",
+    "L4/5/7 estatisticas": "1984-2012"
+  },
+  "grade": "EPSG:32624 30.0 m alinhada",
+  "arquivos": [
+    "MANIFESTO.json",
+    "landsat_aoi_apodi_jaguaribe.nc",
+    "landsat_aoi_cariri.nc",
+    "landsat_aoi_cenas_hist.parquet",
+    "landsat_aoi_cenas_l89.parquet",
+    "landsat_aoi_ibiapaba.nc",
+    "landsat_aoi_sertao_central.nc",
+    "landsat_stac_ceara.parquet",
+    "landsat_stac_global.parquet"
+  ],
+  "tamanho_bytes": 711791105,
+  "duracao_s": 1409,
+  "atualizado_em": "2026-11-13T23:19:46"
+}

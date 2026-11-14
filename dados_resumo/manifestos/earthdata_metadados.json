@@ -1,0 +1,17 @@
+{
+  "fonte": "NASA CMR (aberto)",
+  "arquivo": "E:\\campeonato-nasa\\dados\\earthdata_metadados\\cmr_colecoes.json",
+  "colecoes": [
+    "SMAP L3 umidade 9 km diaria (SPL3SMP_E)",
+    "SMAP L4 umidade superficie+raiz 9 km 3h (SPL4SMGP)",
+    "GLDAS-2.1 Noah 0,25 mensal",
+    "GLDAS-2.2 CLSM 0,25 diario (com GRACE-DA, agua subterranea)",
+    "NLDAS-2 Noah 0,125 mensal",
+    "IMERG V07 Late diario",
+    "IMERG V07 Final diario",
+    "IMERG V07 Final mensal",
+    "VIIRS VNP13A1 NDVI 500 m 16 d",
+    "VIIRS VNP13C2 NDVI 0,05 mensal (CMG)"
+  ],
+  "atualizado_em": "2026-11-13T22:33:58"
+}

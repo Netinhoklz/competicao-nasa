@@ -1,0 +1,43 @@
+{
+  "firms_viirs-snpp": {
+    "fonte": "NASA FIRMS viirs-snpp - arquivos anuais por pais (Brasil), filtrados ao Nordeste por UF IBGE",
+    "url_padrao": "https://firms.modaps.eosdis.nasa.gov/data/country/{s}/{y}/{s}_{y}_{pais}.csv",
+    "anos": [
+      2012,
+      2025
+    ],
+    "linhas": 4983226,
+    "arquivos": [
+      "firms_viirs_snpp_nordeste.parquet",
+      "firms_viirs_snpp_nordeste_resumo_anual.csv"
+    ],
+    "nota": "ano corrente nao tem arquivo anual (so NRT via API com MAP_KEY)"
+  },
+  "atualizado_em": "2026-11-13T23:38:58",
+  "vnp13_ndvi": {
+    "status": "NAO BAIXADO - exige Earthdata Login (LP DAAC: VNP13A1/VNP13Q1/VJ113A1)",
+    "alternativa_aberta": "MODIS MOD13Q1 (mesmo algoritmo de VI) em dados/modis; VIIRS e a continuidade apos o fim do Terra/Aqua"
+  },
+  "resumo": {
+    "total_MB": 115.4,
+    "arquivos_MB": {
+      "firms_viirs_snpp_nordeste.parquet": 115.4,
+      "firms_viirs_snpp_nordeste_resumo_anual.csv": 0.0,
+      "MANIFESTO.json": 0.0,
+      "validacao_global_firms.json": 0.0
+    },
+    "secao_notebook": "c:\\Users\\netinhoklz\\Projetos pessoais\\campeonato-nasa\\notebooks\\secoes\\09_modis_viirs.py",
+    "scripts": [
+      "scripts/baixar_modis.py",
+      "scripts/baixar_viirs.py",
+      "scripts/derivar_modis.py"
+    ],
+    "derivados": [
+      "modis_ce_mensal.parquet",
+      "modis_ne_mensal.parquet",
+      "modis_aoi_mensal.parquet",
+      "viirs_ce_mensal.parquet",
+      "viirs_ne_mensal.parquet"
+    ]
+  }
+}

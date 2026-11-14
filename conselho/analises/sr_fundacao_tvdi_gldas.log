@@ -1,0 +1,39 @@
+MODIS meses comuns: 320 2000-02 a 2026-09
+
+Meses analisados: 314  (celulas GLDAS por mes: mediana 323)
+
+== Correlacao ESPACIAL (Spearman, celulas 0,25 grau) - mediana e fracao de meses com rho < -0,3 ==
+  rho_TVDI_sm0_10    mediana +0.11   IQR [-0.01, +0.19]   meses rho<-0,3: 2%   rho>+0,3: 7%
+  rho_TVDI_raiz      mediana +0.25   IQR [+0.12, +0.40]   meses rho<-0,3: 1%   rho>+0,3: 40%
+  rho_NDVI_sm0_10    mediana +0.02   IQR [-0.16, +0.16]   meses rho<-0,3: 10%   rho>+0,3: 6%
+  rho_LST_sm0_10     mediana +0.09   IQR [-0.05, +0.22]   meses rho<-0,3: 2%   rho>+0,3: 8%
+
+Por mes do ano (mediana):
+      rho_TVDI_sm0_10  rho_NDVI_sm0_10  rho_LST_sm0_10  frac_var_dentro_9km  frac_var_dentro_25km
+data                                                                                             
+1                0.11             0.04            0.06                 0.30                  0.48
+2               -0.00             0.07           -0.02                 0.30                  0.48
+3                0.04             0.10            0.02                 0.28                  0.45
+4                0.09             0.12            0.01                 0.28                  0.45
+5                0.02             0.19           -0.00                 0.20                  0.37
+6                0.06             0.16           -0.01                 0.17                  0.33
+7                0.10             0.09            0.06                 0.16                  0.32
+8                0.12            -0.14            0.15                 0.18                  0.37
+9                0.17            -0.25            0.23                 0.24                  0.45
+10               0.19            -0.31            0.27                 0.27                  0.48
+11               0.22            -0.21            0.26                 0.26                  0.47
+12               0.15            -0.07            0.12                 0.28                  0.47
+
+== Decomposicao da variancia do TVDI a 1 km ==
+  fracao da variancia DENTRO de blocos de ~9 km (pixel SMAP): mediana 25% (IQR 18%-29%)
+  fracao da variancia DENTRO de celulas de 25 km (GLDAS):    mediana 44%
+
+== Correlacao TEMPORAL das anomalias (media da caixa, 314 meses) ==
+  TVDI x gldas_sm0_10    r = -0.62 (p = 4.2e-35)
+  TVDI x gldas_raiz      r = -0.48 (p = 1.2e-19)
+  TVDI x power_gwettop   r = -0.56 (p = 2.8e-27)
+  TVDI x power_gwetroot  r = -0.39 (p = 6.7e-13)
+  TVDI x imerg_chuva     r = -0.34 (p = 5.5e-10)
+  TVDI x imerg_chuva_3m  r = -0.40 (p = 1.0e-13)
+
+TVDI medio: seca 2012-2017 = 0.636  vs  demais anos = 0.616

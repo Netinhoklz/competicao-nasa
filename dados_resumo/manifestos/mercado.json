@@ -1,0 +1,35 @@
+{
+  "fontes": {
+    "faostat_prices.zip": "https://bulks-faostat.fao.org/production/Prices_E_All_Data_(Normalized).zip",
+    "faostat_qcl.zip": "https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_All_Data_(Normalized).zip",
+    "wb_pink_sheet_mensal.xlsx": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+    "wb_pink_sheet_anual.xlsx": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Annual.xlsx",
+    "ams_gx_gr110_legado.txt": "https://www.ams.usda.gov/mnreports/gx_gr110.txt",
+    "ams_3192.pdf": "https://www.ams.usda.gov/mnreports/ams_3192.pdf"
+  },
+  "ams_status": "MARS API v1.2 (marsapi.ams.usda.gov) responde 403 sem chave; mymarketnews.ams.usda.gov deu timeout; datamart mpr responde 500; relatorios .txt legados param em jul/2020. AMS cobre so EUA.",
+  "conab_status": "portaldeinformacoes.conab.gov.br: certificado TLS com nome errado; http redireciona para 404.",
+  "cobertura": "FAOSTAT e Pink Sheet: globais. AMS: so EUA.",
+  "atualizado_em": "2026-11-13T22:39:57",
+  "derivados": [
+    "E:\\campeonato-nasa\\dados\\derivados\\faostat_precos_produtor.parquet",
+    "E:\\campeonato-nasa\\dados\\derivados\\faostat_producao_qcl.parquet",
+    "E:\\campeonato-nasa\\dados\\derivados\\faostat_brasil_anual.parquet",
+    "E:\\campeonato-nasa\\dados\\derivados\\mercado_precos_mensal.parquet"
+  ],
+  "faostat_periodo_precos": [
+    1991,
+    2025
+  ],
+  "faostat_periodo_producao": [
+    1961,
+    2024
+  ],
+  "faostat_n_paises_precos": 177,
+  "faostat_n_paises_producao": 242,
+  "pink_sheet_periodo": [
+    "1960-01-01",
+    "2026-10-01"
+  ],
+  "tamanho_bytes": 49690969
+}

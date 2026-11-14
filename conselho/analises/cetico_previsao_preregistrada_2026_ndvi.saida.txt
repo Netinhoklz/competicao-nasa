@@ -1,0 +1,11 @@
+atributos: ['ndvi_a']
+
+==== milho: estado, deixa-ano-fora: r(prev, obs) = 0.67 (n=26 anos); intervalo 80% = prev [-0.39, +0.47]; cobertura empirica in-sample dos residuos = 77%
+  ANO 2026 (MODIS fev-mai 2026): anomalia prevista do rendimento no estado = +33.7% (80%: -5.0% a +80.8%) | NDVI anom. medio +0.044, LST anom. -3.37 C
+  municipios com maior quebra prevista: Salitre - CE -9%, Pacoti - CE +2%, Itaitinga - CE +4%, Araripe - CE +5%, Palmácia - CE +8%, Meruoca - CE +8%, Mulungu - CE +9%, Guaiúba - CE +10%
+  obs x prev (deixa-ano-fora) 2019-2025: 2019: +25%/+24%, 2020: +71%/+34%, 2021: +7%/+1%, 2022: +32%/+25%, 2023: -11%/+29%, 2024: +5%/+23%, 2025: -29%/+25%
+
+==== feijao: estado, deixa-ano-fora: r(prev, obs) = 0.44 (n=26 anos); intervalo 80% = prev [-0.38, +0.38]; cobertura empirica in-sample dos residuos = 77%
+  ANO 2026 (MODIS fev-mai 2026): anomalia prevista do rendimento no estado = +20.3% (80%: -18.2% a +58.2%) | NDVI anom. medio +0.045, LST anom. -3.38 C
+  municipios com maior quebra prevista: Salitre - CE -5%, Itaitinga - CE +3%, Araripe - CE +4%, Meruoca - CE +5%, Mulungu - CE +5%, Guaiúba - CE +6%, Fortim - CE +6%, Redenção - CE +7%
+  obs x prev (deixa-ano-fora) 2019-2025: 2019: +16%/+15%, 2020: +34%/+21%, 2021: +22%/+0%, 2022: +11%/+15%, 2023: -22%/+19%, 2024: -5%/+15%, 2025: -27%/+16%

@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.part
+# credenciais nunca entram no repositorio
+_netrc
+.netrc
+.cdsapirc
+*token*.txt

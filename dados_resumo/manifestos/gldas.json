@@ -1,0 +1,97 @@
+{
+  "gldas_m": {
+    "fonte": "NASA GES DISC GLDAS_NOAH025_M v2.1 (OPeNDAP DAP4, Earthdata Cloud)",
+    "concept_id": "C1342986036-GES_DISC",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "variaveis": [
+      "SoilMoi0_10cm_inst",
+      "SoilMoi10_40cm_inst",
+      "SoilMoi40_100cm_inst",
+      "SoilMoi100_200cm_inst",
+      "RootMoist_inst",
+      "Evap_tavg",
+      "PotEvap_tavg",
+      "Rainf_f_tavg",
+      "Qs_acc",
+      "Qsb_acc",
+      "Tair_f_inst"
+    ],
+    "periodo": [
+      "2000-01-01",
+      "2026-07-01"
+    ],
+    "granulos": 319,
+    "status": {
+      "ok": 319
+    },
+    "bytes": 67319333,
+    "pasta": "E:\\campeonato-nasa\\dados\\gldas\\noah_mensal",
+    "baixado_em": "2026-11-14T07:48:11"
+  },
+  "atualizado_em": "2026-11-14T08:33:18",
+  "consolidado_gldas_m": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\gldas\\gldas_noah025_mensal_ne.nc",
+    "tempos": 319,
+    "inicio": "2000-01-01",
+    "fim": "2026-07-01",
+    "variaveis": [
+      "SoilMoi10_40cm_inst",
+      "Tair_f_inst",
+      "SoilMoi40_100cm_inst",
+      "Qs_acc",
+      "RootMoist_inst",
+      "SoilMoi0_10cm_inst",
+      "Evap_tavg",
+      "Rainf_f_tavg",
+      "SoilMoi100_200cm_inst",
+      "PotEvap_tavg",
+      "Qsb_acc"
+    ]
+  },
+  "gldas_clsm": {
+    "fonte": "NASA GES DISC GLDAS_CLSM025_DA1_D v2.2 (OPeNDAP DAP4, Earthdata Cloud)",
+    "concept_id": "C1700900796-GES_DISC",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "variaveis": [
+      "GWS_tavg",
+      "TWS_tavg",
+      "SoilMoist_RZ_tavg",
+      "SoilMoist_S_tavg",
+      "Evap_tavg"
+    ],
+    "periodo": [
+      "2003-02-01",
+      "2026-08-31"
+    ],
+    "granulos": 8613,
+    "status": {
+      "ok": 8613
+    },
+    "bytes": 961102830,
+    "pasta": "E:\\campeonato-nasa\\dados\\gldas\\clsm_diario",
+    "baixado_em": "2026-11-14T08:26:01"
+  },
+  "consolidado_gldas_clsm": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\gldas\\gldas_clsm025_diario_ne.nc",
+    "tempos": 8613,
+    "inicio": "2003-02-01",
+    "fim": "2026-08-31",
+    "variaveis": [
+      "SoilMoist_RZ_tavg",
+      "SoilMoist_S_tavg",
+      "Evap_tavg",
+      "TWS_tavg",
+      "GWS_tavg"
+    ]
+  }
+}

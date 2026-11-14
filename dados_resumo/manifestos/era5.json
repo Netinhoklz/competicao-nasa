@@ -1,0 +1,226 @@
+{
+  "base": "ERA5 (ECMWF/Copernicus)",
+  "rota": "Microsoft Planetary Computer, colecao era5-pds (Zarr mensal por variavel, horario, 0,25 grau), 1979-01 a 2020-12",
+  "rota_oficial_nao_usada": "Copernicus CDS (exige chave .cdsapirc) - necessaria para 2021+",
+  "chunking": "(time=372, lat=150, lon=150) ~5,5 MB; Nordeste cabe em 1 bloco espacial -> ~11 MB/mes/variavel",
+  "recorte": [
+    -48.8,
+    -18.4,
+    -34.7,
+    -1.0
+  ],
+  "dia": "horario local UTC-3 (soma/media com contagem de horas; dias incompletos descartados)",
+  "variaveis_diarias": [
+    "t2m",
+    "tmax",
+    "tmin",
+    "d2m",
+    "tp (mm)",
+    "ssrd (MJ m-2)",
+    "ws10",
+    "ws10_max"
+  ],
+  "derivadas": [
+    "et0 FAO-56 PM",
+    "vpd",
+    "ur",
+    "gdd10"
+  ],
+  "periodo": [
+    "1979",
+    "2020"
+  ],
+  "tamanho_total_MB": 2587.8,
+  "arquivos": [
+    {
+      "arquivo": "era5_ne_diario_1979.nc",
+      "MB": 22.42
+    },
+    {
+      "arquivo": "era5_ne_diario_1980.nc",
+      "MB": 22.51
+    },
+    {
+      "arquivo": "era5_ne_diario_1981.nc",
+      "MB": 22.39
+    },
+    {
+      "arquivo": "era5_ne_diario_1982.nc",
+      "MB": 22.39
+    },
+    {
+      "arquivo": "era5_ne_diario_1983.nc",
+      "MB": 22.33
+    },
+    {
+      "arquivo": "era5_ne_diario_1984.nc",
+      "MB": 22.53
+    },
+    {
+      "arquivo": "era5_ne_diario_1985.nc",
+      "MB": 22.58
+    },
+    {
+      "arquivo": "era5_ne_diario_1986.nc",
+      "MB": 22.45
+    },
+    {
+      "arquivo": "era5_ne_diario_1987.nc",
+      "MB": 22.31
+    },
+    {
+      "arquivo": "era5_ne_diario_1988.nc",
+      "MB": 22.52
+    },
+    {
+      "arquivo": "era5_ne_diario_1989.nc",
+      "MB": 22.56
+    },
+    {
+      "arquivo": "era5_ne_diario_1990.nc",
+      "MB": 22.29
+    },
+    {
+      "arquivo": "era5_ne_diario_1991.nc",
+      "MB": 22.37
+    },
+    {
+      "arquivo": "era5_ne_diario_1992.nc",
+      "MB": 22.37
+    },
+    {
+      "arquivo": "era5_ne_diario_1993.nc",
+      "MB": 22.32
+    },
+    {
+      "arquivo": "era5_ne_diario_1994.nc",
+      "MB": 22.38
+    },
+    {
+      "arquivo": "era5_ne_diario_1995.nc",
+      "MB": 22.4
+    },
+    {
+      "arquivo": "era5_ne_diario_1996.nc",
+      "MB": 22.51
+    },
+    {
+      "arquivo": "era5_ne_diario_1997.nc",
+      "MB": 22.28
+    },
+    {
+      "arquivo": "era5_ne_diario_1998.nc",
+      "MB": 22.4
+    },
+    {
+      "arquivo": "era5_ne_diario_1999.nc",
+      "MB": 22.52
+    },
+    {
+      "arquivo": "era5_ne_diario_2000.nc",
+      "MB": 23.24
+    },
+    {
+      "arquivo": "era5_ne_diario_2001.nc",
+      "MB": 22.42
+    },
+    {
+      "arquivo": "era5_ne_diario_2002.nc",
+      "MB": 22.36
+    },
+    {
+      "arquivo": "era5_ne_diario_2003.nc",
+      "MB": 22.4
+    },
+    {
+      "arquivo": "era5_ne_diario_2004.nc",
+      "MB": 22.47
+    },
+    {
+      "arquivo": "era5_ne_diario_2005.nc",
+      "MB": 22.37
+    },
+    {
+      "arquivo": "era5_ne_diario_2006.nc",
+      "MB": 22.44
+    },
+    {
+      "arquivo": "era5_ne_diario_2007.nc",
+      "MB": 22.3
+    },
+    {
+      "arquivo": "era5_ne_diario_2008.nc",
+      "MB": 22.45
+    },
+    {
+      "arquivo": "era5_ne_diario_2009.nc",
+      "MB": 22.43
+    },
+    {
+      "arquivo": "era5_ne_diario_2010.nc",
+      "MB": 22.43
+    },
+    {
+      "arquivo": "era5_ne_diario_2011.nc",
+      "MB": 22.45
+    },
+    {
+      "arquivo": "era5_ne_diario_2012.nc",
+      "MB": 22.37
+    },
+    {
+      "arquivo": "era5_ne_diario_2013.nc",
+      "MB": 22.46
+    },
+    {
+      "arquivo": "era5_ne_diario_2014.nc",
+      "MB": 22.36
+    },
+    {
+      "arquivo": "era5_ne_diario_2015.nc",
+      "MB": 22.27
+    },
+    {
+      "arquivo": "era5_ne_diario_2016.nc",
+      "MB": 22.38
+    },
+    {
+      "arquivo": "era5_ne_diario_2017.nc",
+      "MB": 22.4
+    },
+    {
+      "arquivo": "era5_ne_diario_2018.nc",
+      "MB": 22.36
+    },
+    {
+      "arquivo": "era5_ne_diario_2019.nc",
+      "MB": 22.74
+    },
+    {
+      "arquivo": "era5_ne_diario_2020.nc",
+      "MB": 22.44
+    },
+    {
+      "arquivo": "era5_global_202001.nc",
+      "MB": 4.35
+    },
+    {
+      "arquivo": "era5_ne_mensal_grade.nc",
+      "MB": 63.31
+    },
+    {
+      "arquivo": "era5_ne_derivados_diario.nc",
+      "MB": 589.34
+    }
+  ],
+  "scripts": [
+    "scripts/baixar_era5.py",
+    "scripts/derivar_era5.py"
+  ],
+  "derivados": [
+    "derivados/era5_ce_mensal.parquet",
+    "derivados/era5_ne_mensal.parquet",
+    "derivados/era5_aoi_mensal.parquet"
+  ],
+  "atualizado_em": "2026-11-14T00:03:48"
+}

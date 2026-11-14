@@ -1,0 +1,29 @@
+{
+  "fonte": "IBGE - Producao Agricola Municipal (PAM), API SIDRA",
+  "url": "https://apisidra.ibge.gov.br/values/t/{1612,1613}/...",
+  "recorte": "184 municipios do Ceara (n6 in n3 23) e 9 UFs do Nordeste (n3 in n2 2)",
+  "periodo": "1974-2025",
+  "variaveis": [
+    "Quantidade produzida",
+    "Rendimento médio da produção",
+    "Valor da produção",
+    "Área colhida",
+    "Área destinada à colheita",
+    "Área plantada"
+  ],
+  "n_produtos": 86,
+  "linhas": {
+    "municipios": 4162080,
+    "estados_ne": 203580
+  },
+  "arquivos": {
+    "pam_ce_municipios.parquet": 6182920,
+    "pam_ne_estados.parquet": 893988
+  },
+  "minutos": 0.6,
+  "atualizado_em": "2026-11-13T23:09:41",
+  "derivados": {
+    "derivados/ibge_pam_ce_anual.parquet": "Ceará por cultura e ano (formato longo), rendimento e perda de área recalculados",
+    "derivados/ibge_pam_mun_anual.parquet": "município × cultura × ano (formato largo)"
+  }
+}

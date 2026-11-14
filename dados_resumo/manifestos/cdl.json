@@ -1,0 +1,91 @@
+{
+  "recortes": {
+    "regioes": {
+      "iowa_story": [
+        -93.6,
+        42.0,
+        "Corn Belt: milho-soja"
+      ],
+      "kansas_ogallala": [
+        -100.9,
+        37.6,
+        "Ogallala: milho irrigado, trigo, sorgo (pivos)"
+      ],
+      "california_fresno": [
+        -119.8,
+        36.4,
+        "Vale Central: perenes (amendoa, uva), algodao, tomate"
+      ],
+      "mississippi_delta": [
+        -90.6,
+        33.6,
+        "Delta: soja, algodao, arroz"
+      ],
+      "north_dakota_cass": [
+        -97.2,
+        46.9,
+        "Planicies do norte: trigo, soja, milho, girassol"
+      ],
+      "texas_lubbock": [
+        -101.85,
+        33.6,
+        "Semiarido: algodao de sequeiro (analogo ao sertao)"
+      ]
+    },
+    "lado_px": 1333,
+    "arquivos": {
+      "iowa_story_2025.tif": {
+        "regiao": "iowa_story",
+        "seg": 1.1,
+        "unicos": 33
+      },
+      "kansas_ogallala_2025.tif": {
+        "regiao": "kansas_ogallala",
+        "seg": 0.2,
+        "unicos": 32
+      },
+      "california_fresno_2025.tif": {
+        "regiao": "california_fresno",
+        "seg": 0.1,
+        "unicos": 67
+      },
+      "mississippi_delta_2025.tif": {
+        "regiao": "mississippi_delta",
+        "seg": 0.2,
+        "unicos": 35
+      },
+      "north_dakota_cass_2025.tif": {
+        "regiao": "north_dakota_cass",
+        "seg": 0.1,
+        "unicos": 41
+      },
+      "texas_lubbock_2025.tif": {
+        "regiao": "texas_lubbock",
+        "seg": 0.1,
+        "unicos": 38
+      },
+      "nacional_2025_960m.tif": {
+        "regiao": "nacional",
+        "seg": 0.8
+      }
+    }
+  },
+  "atualizado_em": "2026-11-13T22:45:00",
+  "fonte": "USDA NASS Cropland Data Layer (nacional, 30 m)",
+  "cobertura": "Estados Unidos contiguos (CONUS) - NAO e global",
+  "pagina": "https://www.nass.usda.gov/research-and-science/cropland/release",
+  "arquivos_Crop_Frequency_2008-2025_2025_30m_cdls": {
+    "Crop_Frequency_2008-2025": {
+      "url": "https://www.nass.usda.gov/sites/default/files/Research_and_Science/Cropland/Release/datasets/Crop_Frequency_2008-2025.zip",
+      "bytes": 2109610693,
+      "esperado": 2109610693,
+      "ok": true
+    },
+    "2025_30m_cdls": {
+      "url": "https://www.nass.usda.gov/sites/default/files/Research_and_Science/Cropland/Release/datasets/2025_30m_cdls.zip",
+      "bytes": 1887184211,
+      "esperado": 1887184211,
+      "ok": true
+    }
+  }
+}

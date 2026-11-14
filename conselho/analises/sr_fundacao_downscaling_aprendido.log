@@ -1,0 +1,8 @@
+painel: 100303 celula-meses, 323 celulas, 2000-2026
+
+== R2 da anomalia de umidade 0-10 cm em ANOS DEIXADOS DE FORA (GroupKFold por ano) ==
+  TVDI (anomalia), linear                                 R2 = 0.077   (fev-mai 0.063 | demais 0.087)
+  LST dia (anomalia), linear                              R2 = 0.287   (fev-mai 0.402 | demais 0.201)
+  NDVI (anomalia), linear                                 R2 = 0.355   (fev-mai 0.393 | demais 0.327)
+  LST+NDVI+noite+amplitude, linear                        R2 = 0.439   (fev-mai 0.496 | demais 0.396)
+  Gradient boosting (anomalias + estado + mes + lat/lon)  R2 = 0.422   (fev-mai 0.528 | demais 0.342)

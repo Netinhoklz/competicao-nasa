@@ -1,0 +1,409 @@
+{
+  "base": "GPM IMERG (NASA/JAXA)",
+  "rotas": {
+    "diario_V07": "NASA POWER API, parametro IMERG_PRECTOT, time-standard=UTC, resolucao nativa 0,1 grau (https://power.larc.nasa.gov/api/temporal/daily/regional)",
+    "meia_hora_V06": "Microsoft Planetary Computer, colecao gpm-imerg-hhr (abfs://imerg/gpm-imerg-hhr.zarr), precipitationCal",
+    "oficial_nao_usada": "GES DISC GPM_3IMERGDF/DL/DE V07 - exige Earthdata Login (Final ate 2025-09; Early/Late ate D-1)"
+  },
+  "recortes": {
+    "CE": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "NE": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ]
+  },
+  "periodo_diario_CE": [
+    "1998-01-01",
+    "2026-09-14"
+  ],
+  "periodo_diario_NE": [
+    "1998-01-01",
+    "2026-09-14"
+  ],
+  "amostra_meia_hora": [
+    "imerg_v06_20090310.nc",
+    "imerg_v06_20090311.nc",
+    "imerg_v06_20090312.nc",
+    "imerg_v06_20090313.nc",
+    "imerg_v06_20090314.nc",
+    "imerg_v06_20090315.nc",
+    "imerg_v06_20090316.nc",
+    "imerg_v06_20090317.nc",
+    "imerg_v06_20090318.nc",
+    "imerg_v06_20090319.nc",
+    "imerg_v06_20090320.nc",
+    "imerg_v06_20090321.nc"
+  ],
+  "chunking_pc": "precipitationCal (time=12, lon=3600, lat=1800) ~52 MB/chunk lz4: chunk = globo inteiro 6 h -> so amostra",
+  "limites_power": "regional exige caixa >= 2x2 graus; limite de egresso por requisicao; 429 sob carga",
+  "tamanho_total_MB": 913.1,
+  "arquivos": [
+    {
+      "arquivo": "imerg_ce_diario_1998.nc",
+      "MB": 0.95
+    },
+    {
+      "arquivo": "imerg_ce_diario_1999.nc",
+      "MB": 1.09
+    },
+    {
+      "arquivo": "imerg_ce_diario_2000.nc",
+      "MB": 1.24
+    },
+    {
+      "arquivo": "imerg_ce_diario_2001.nc",
+      "MB": 1.08
+    },
+    {
+      "arquivo": "imerg_ce_diario_2002.nc",
+      "MB": 1.15
+    },
+    {
+      "arquivo": "imerg_ce_diario_2003.nc",
+      "MB": 1.08
+    },
+    {
+      "arquivo": "imerg_ce_diario_2004.nc",
+      "MB": 1.17
+    },
+    {
+      "arquivo": "imerg_ce_diario_2005.nc",
+      "MB": 1.1
+    },
+    {
+      "arquivo": "imerg_ce_diario_2006.nc",
+      "MB": 1.18
+    },
+    {
+      "arquivo": "imerg_ce_diario_2007.nc",
+      "MB": 1.07
+    },
+    {
+      "arquivo": "imerg_ce_diario_2008.nc",
+      "MB": 1.23
+    },
+    {
+      "arquivo": "imerg_ce_diario_2009.nc",
+      "MB": 1.33
+    },
+    {
+      "arquivo": "imerg_ce_diario_2010.nc",
+      "MB": 1.07
+    },
+    {
+      "arquivo": "imerg_ce_diario_2011.nc",
+      "MB": 1.23
+    },
+    {
+      "arquivo": "imerg_ce_diario_2012.nc",
+      "MB": 0.89
+    },
+    {
+      "arquivo": "imerg_ce_diario_2013.nc",
+      "MB": 1.04
+    },
+    {
+      "arquivo": "imerg_ce_diario_2014.nc",
+      "MB": 1.02
+    },
+    {
+      "arquivo": "imerg_ce_diario_2015.nc",
+      "MB": 0.83
+    },
+    {
+      "arquivo": "imerg_ce_diario_2016.nc",
+      "MB": 0.87
+    },
+    {
+      "arquivo": "imerg_ce_diario_2017.nc",
+      "MB": 0.96
+    },
+    {
+      "arquivo": "imerg_ce_diario_2018.nc",
+      "MB": 1.0
+    },
+    {
+      "arquivo": "imerg_ce_diario_2019.nc",
+      "MB": 1.01
+    },
+    {
+      "arquivo": "imerg_ce_diario_2020.nc",
+      "MB": 1.12
+    },
+    {
+      "arquivo": "imerg_ce_diario_2021.nc",
+      "MB": 0.97
+    },
+    {
+      "arquivo": "imerg_ce_diario_2022.nc",
+      "MB": 1.14
+    },
+    {
+      "arquivo": "imerg_ce_diario_2023.nc",
+      "MB": 0.97
+    },
+    {
+      "arquivo": "imerg_ce_diario_2024.nc",
+      "MB": 0.97
+    },
+    {
+      "arquivo": "imerg_ce_diario_2025.nc",
+      "MB": 0.93
+    },
+    {
+      "arquivo": "imerg_ce_diario_2026.nc",
+      "MB": 0.93
+    },
+    {
+      "arquivo": "imerg_ne_diario_1998.nc",
+      "MB": 11.06
+    },
+    {
+      "arquivo": "imerg_ne_diario_1999.nc",
+      "MB": 11.84
+    },
+    {
+      "arquivo": "imerg_ne_diario_2000.nc",
+      "MB": 12.82
+    },
+    {
+      "arquivo": "imerg_ne_diario_2001.nc",
+      "MB": 12.31
+    },
+    {
+      "arquivo": "imerg_ne_diario_2002.nc",
+      "MB": 12.05
+    },
+    {
+      "arquivo": "imerg_ne_diario_2003.nc",
+      "MB": 12.29
+    },
+    {
+      "arquivo": "imerg_ne_diario_2004.nc",
+      "MB": 12.7
+    },
+    {
+      "arquivo": "imerg_ne_diario_2005.nc",
+      "MB": 12.5
+    },
+    {
+      "arquivo": "imerg_ne_diario_2006.nc",
+      "MB": 12.96
+    },
+    {
+      "arquivo": "imerg_ne_diario_2007.nc",
+      "MB": 11.54
+    },
+    {
+      "arquivo": "imerg_ne_diario_2008.nc",
+      "MB": 12.44
+    },
+    {
+      "arquivo": "imerg_ne_diario_2009.nc",
+      "MB": 13.44
+    },
+    {
+      "arquivo": "imerg_ne_diario_2010.nc",
+      "MB": 12.02
+    },
+    {
+      "arquivo": "imerg_ne_diario_2011.nc",
+      "MB": 12.63
+    },
+    {
+      "arquivo": "imerg_ne_diario_2012.nc",
+      "MB": 10.81
+    },
+    {
+      "arquivo": "imerg_ne_diario_2013.nc",
+      "MB": 11.87
+    },
+    {
+      "arquivo": "imerg_ne_diario_2014.nc",
+      "MB": 11.5
+    },
+    {
+      "arquivo": "imerg_ne_diario_2015.nc",
+      "MB": 10.11
+    },
+    {
+      "arquivo": "imerg_ne_diario_2016.nc",
+      "MB": 10.49
+    },
+    {
+      "arquivo": "imerg_ne_diario_2017.nc",
+      "MB": 10.66
+    },
+    {
+      "arquivo": "imerg_ne_diario_2018.nc",
+      "MB": 11.13
+    },
+    {
+      "arquivo": "imerg_ne_diario_2019.nc",
+      "MB": 10.71
+    },
+    {
+      "arquivo": "imerg_ne_diario_2020.nc",
+      "MB": 11.71
+    },
+    {
+      "arquivo": "imerg_ne_diario_2021.nc",
+      "MB": 11.56
+    },
+    {
+      "arquivo": "imerg_ne_diario_2022.nc",
+      "MB": 11.6
+    },
+    {
+      "arquivo": "imerg_ne_diario_2023.nc",
+      "MB": 10.67
+    },
+    {
+      "arquivo": "imerg_ne_diario_2024.nc",
+      "MB": 10.7
+    },
+    {
+      "arquivo": "imerg_ne_diario_2025.nc",
+      "MB": 10.72
+    },
+    {
+      "arquivo": "imerg_ne_diario_2026.nc",
+      "MB": 9.03
+    },
+    {
+      "arquivo": "imerg_v06_20090310.nc",
+      "MB": 1.49
+    },
+    {
+      "arquivo": "imerg_v06_20090311.nc",
+      "MB": 1.46
+    },
+    {
+      "arquivo": "imerg_v06_20090312.nc",
+      "MB": 1.38
+    },
+    {
+      "arquivo": "imerg_v06_20090313.nc",
+      "MB": 1.26
+    },
+    {
+      "arquivo": "imerg_v06_20090314.nc",
+      "MB": 1.52
+    },
+    {
+      "arquivo": "imerg_v06_20090315.nc",
+      "MB": 1.82
+    },
+    {
+      "arquivo": "imerg_v06_20090316.nc",
+      "MB": 2.22
+    },
+    {
+      "arquivo": "imerg_v06_20090317.nc",
+      "MB": 2.5
+    },
+    {
+      "arquivo": "imerg_v06_20090318.nc",
+      "MB": 1.83
+    },
+    {
+      "arquivo": "imerg_v06_20090319.nc",
+      "MB": 1.49
+    },
+    {
+      "arquivo": "imerg_v06_20090320.nc",
+      "MB": 1.53
+    },
+    {
+      "arquivo": "imerg_v06_20090321.nc",
+      "MB": 1.47
+    },
+    {
+      "arquivo": "validacao_global_power_imerg.csv",
+      "MB": 0.01
+    }
+  ],
+  "scripts": [
+    "scripts/baixar_imerg.py",
+    "scripts/derivar_imerg.py"
+  ],
+  "derivados": [
+    "derivados/imerg_ce_mensal.parquet",
+    "derivados/imerg_ne_mensal.parquet",
+    "derivados/imerg_aoi_mensal.parquet"
+  ],
+  "atualizado_em": "2026-11-14T08:07:11",
+  "imerg_recente": {
+    "fonte": "NASA GES DISC GPM_3IMERGDL v07 (OPeNDAP DAP4, Earthdata Cloud)",
+    "concept_id": "C2723754859-GES_DISC",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "variaveis": [
+      "precipitation"
+    ],
+    "periodo": [
+      "2026-08-01",
+      "2026-11-12"
+    ],
+    "granulos": 104,
+    "status": {
+      "ok": 104
+    },
+    "bytes": 5192010,
+    "pasta": "E:\\campeonato-nasa\\dados\\imerg\\v07_late_recente",
+    "baixado_em": "2026-11-14T07:46:18"
+  },
+  "consolidado_imerg_recente": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\imerg\\imerg_v07_late_diario_ne_recente.nc",
+    "tempos": 104,
+    "inicio": "2026-08-01",
+    "fim": "2026-11-12",
+    "variaveis": [
+      "precipitation"
+    ]
+  },
+  "imerg_early": {
+    "fonte": "NASA GES DISC GPM_3IMERGDE v07 (OPeNDAP DAP4, Earthdata Cloud)",
+    "concept_id": "C2723754850-GES_DISC",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "variaveis": [
+      "precipitation"
+    ],
+    "periodo": [
+      "2026-11-01",
+      "2026-11-13"
+    ],
+    "granulos": 13,
+    "status": {
+      "ok": 13
+    },
+    "bytes": 784658,
+    "pasta": "E:\\campeonato-nasa\\dados\\imerg\\v07_early_recente",
+    "baixado_em": "2026-11-14T07:50:57"
+  },
+  "consolidado_imerg_early": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\imerg\\imerg_v07_early_diario_ne_recente.nc",
+    "tempos": 13,
+    "inicio": "2026-11-01",
+    "fim": "2026-11-13",
+    "variaveis": [
+      "precipitation"
+    ]
+  }
+}

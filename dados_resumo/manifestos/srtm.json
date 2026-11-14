@@ -1,0 +1,67 @@
+{
+  "fonte": "Microsoft Planetary Computer - colecao nasadem (NASADEM_HGT v001, reprocessamento NASA do SRTM 2000); comparacao com cop-dem-glo-30",
+  "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/nasadem",
+  "recortes": {
+    "ceara_30m": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "nordeste_1km": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "aois_30m": {
+      "apodi_jaguaribe": [
+        -38.0,
+        -5.25,
+        -37.900000000000006,
+        -5.15
+      ],
+      "cariri": [
+        -39.4,
+        -7.35,
+        -39.300000000000004,
+        -7.25
+      ],
+      "sertao_central": [
+        -39.07,
+        -5.02,
+        -38.970000000000006,
+        -4.92
+      ],
+      "ibiapaba": [
+        -41.04,
+        -3.78,
+        -40.940000000000005,
+        -3.68
+      ]
+    }
+  },
+  "derivados": "declividade, aspecto, TPI 1/5 km (90 m); TWI e LS-RUSLE (270 m estado; 30 m AOIs)",
+  "arquivos": [
+    "MANIFESTO.json",
+    "aspecto_ceara_90m.tif",
+    "ceara_270m_hidrologia.nc",
+    "declividade_ceara_90m.tif",
+    "declividade_nordeste_1km.tif",
+    "nasadem_ceara_30m.tif",
+    "nasadem_ceara_90m.tif",
+    "nasadem_nordeste_1km.tif",
+    "srtm_aoi_apodi_jaguaribe.nc",
+    "srtm_aoi_cariri.nc",
+    "srtm_aoi_estatico.parquet",
+    "srtm_aoi_ibiapaba.nc",
+    "srtm_aoi_sertao_central.nc",
+    "srtm_cobertura_global.parquet",
+    "srtm_municipios_ce.parquet",
+    "tpi1km_ceara_90m.tif",
+    "tpi5km_ceara_90m.tif"
+  ],
+  "tamanho_bytes": 621732739,
+  "duracao_s": 231,
+  "atualizado_em": "2026-11-13T23:19:46"
+}

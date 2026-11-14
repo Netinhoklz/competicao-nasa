@@ -1,0 +1,168 @@
+{
+  "mod16a3gf": {
+    "colecao": "modis-16A3GF-061",
+    "bbox": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "n_anos": 26,
+    "periodo": [
+      "2000-02-18",
+      "2025-01-01"
+    ],
+    "erros": [],
+    "arquivos": [
+      "mod16a3gf_et_ceara_0005deg.nc"
+    ]
+  },
+  "atualizado_em": "2026-11-13T23:38:58",
+  "mod13q1": {
+    "colecao": "modis-13Q1-061 (MOD13Q1, Terra)",
+    "url": "https://planetarycomputer.microsoft.com/api/stac/v1",
+    "bbox": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "n_datas": 602,
+    "periodo": [
+      "2000-02-18",
+      "2026-09-30"
+    ],
+    "datas_ok": 602,
+    "erros": [],
+    "arquivos": [
+      "mod13q1_ndvi_evi_ceara_001deg.nc",
+      "mod13q1_aoi_apodi_jaguaribe_250m.nc",
+      "mod13q1_aoi_cariri_250m.nc",
+      "mod13q1_aoi_sertao_central_250m.nc",
+      "mod13q1_aoi_ibiapaba_250m.nc"
+    ]
+  },
+  "mod11a2": {
+    "colecao": "modis-11A2-061 (MOD11A2, Terra)",
+    "bbox": [
+      -41.5,
+      -8.0,
+      -37.0,
+      -2.5
+    ],
+    "n_datas": 1203,
+    "periodo": [
+      "2000-02-18",
+      "2026-11-01"
+    ],
+    "datas_ok": 1203,
+    "erros": [],
+    "arquivos": [
+      "mod11a2_lst_ceara_001deg.nc"
+    ]
+  },
+  "mcd64a1": {
+    "colecao": "modis-64A1-061 (MCD64A1)",
+    "bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "n_meses": 314,
+    "periodo": [
+      "2000-02-01",
+      "2026-09-01"
+    ],
+    "erros": [],
+    "arquivos": [
+      "mcd64a1_frac_queimada_nordeste_005deg.nc",
+      "mcd64a1_queimado_anual_nordeste_0005deg.nc",
+      "mcd64a1_area_queimada_mensal_uf.parquet"
+    ]
+  },
+  "firms_modis": {
+    "fonte": "NASA FIRMS modis - arquivos anuais por pais (Brasil), filtrados ao Nordeste por UF IBGE",
+    "url_padrao": "https://firms.modaps.eosdis.nasa.gov/data/country/{s}/{y}/{s}_{y}_{pais}.csv",
+    "anos": [
+      2000,
+      2025
+    ],
+    "linhas": 2313744,
+    "arquivos": [
+      "firms_modis_nordeste.parquet",
+      "firms_modis_nordeste_resumo_anual.csv"
+    ],
+    "nota": "ano corrente nao tem arquivo anual (so NRT via API com MAP_KEY)"
+  },
+  "esa_cci_lc_auxiliar": {
+    "colecao": "esa-cci-lc 2020",
+    "bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "uso": "estratificar fogo e NDVI por classe",
+    "arquivos": [
+      "esa_cci_lc_2020_nordeste_300m.nc"
+    ]
+  },
+  "mod13a1_nordeste": {
+    "colecao": "modis-13A1-061 (MOD13A1, Terra)",
+    "bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "n_datas": 599,
+    "periodo": [
+      "2000-02-18",
+      "2026-10-16"
+    ],
+    "datas_ok": 599,
+    "erros": [],
+    "arquivos": [
+      "mod13a1_ndvi_nordeste_005deg.nc"
+    ]
+  },
+  "resumo": {
+    "total_MB": 2015.5,
+    "arquivos_MB": {
+      "esa_cci_lc_2020_nordeste_300m.nc": 6.0,
+      "firms_modis_nordeste.parquet": 33.8,
+      "firms_modis_nordeste_resumo_anual.csv": 0.0,
+      "MANIFESTO.json": 0.0,
+      "mcd64a1_area_queimada_mensal_uf.parquet": 0.0,
+      "mcd64a1_frac_queimada_nordeste_005deg.nc": 6.1,
+      "mcd64a1_queimado_anual_nordeste_0005deg.nc": 4.7,
+      "mod11a2_lst_ceara_001deg.nc": 511.3,
+      "mod11a2_lst_mensal_001deg.nc": 288.4,
+      "mod13a1_ndvi_nordeste_005deg.nc": 199.5,
+      "mod13q1_aoi_apodi_jaguaribe_250m.nc": 2.9,
+      "mod13q1_aoi_cariri_250m.nc": 3.0,
+      "mod13q1_aoi_ibiapaba_250m.nc": 3.0,
+      "mod13q1_aoi_sertao_central_250m.nc": 2.9,
+      "mod13q1_ndvi_anual_001deg.nc": 58.7,
+      "mod13q1_ndvi_climatologia_001deg.nc": 28.7,
+      "mod13q1_ndvi_evi_ceara_001deg.nc": 374.5,
+      "mod13q1_ndvi_mensal_001deg.nc": 378.3,
+      "mod16a3gf_et_ceara_0005deg.nc": 113.6,
+      "validacao_global.json": 0.1
+    },
+    "secao_notebook": "c:\\Users\\netinhoklz\\Projetos pessoais\\campeonato-nasa\\notebooks\\secoes\\09_modis_viirs.py",
+    "scripts": [
+      "scripts/baixar_modis.py",
+      "scripts/baixar_viirs.py",
+      "scripts/derivar_modis.py"
+    ],
+    "derivados": [
+      "modis_ce_mensal.parquet",
+      "modis_ne_mensal.parquet",
+      "modis_aoi_mensal.parquet",
+      "viirs_ce_mensal.parquet",
+      "viirs_ne_mensal.parquet"
+    ]
+  }
+}

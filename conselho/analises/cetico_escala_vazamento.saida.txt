@@ -1,0 +1,50 @@
+municipios: 184 | pixels 0,1 grau mapeados: 1210 | municipios sem centro de pixel: 8
+pixels por municipio: mediana 5, min 1
+
+==== milho: 4933 municipio-anos, 181 municipios, 1998-2025
+  2012: queda vs mediana 1998-2025 | sobre area plantada -68% | sobre area colhida (oficial) -66% | area perdida 7%
+  2016: queda vs mediana 1998-2025 | sobre area plantada -66% | sobre area colhida (oficial) -66% | area perdida 0%
+  2019: queda vs mediana 1998-2025 | sobre area plantada +13% | sobre area colhida (oficial) +13% | area perdida 1%
+  elasticidade estado (kg_ha_plant): +11.6% por +100 mm (r=0.50, p=0.006, n=28)
+  elasticidade estado (kg_ha_colh): +10.9% por +100 mm (r=0.49, p=0.008, n=28)
+  (a) R2 so do efeito-ano (choque comum): 0.45 | parte local (dentro do ano): 0.55
+                          modelo                 validacao     R2  rho_dentro_do_ano
+M1 chuva media do ESTADO (ridge) aleatorio 5-fold (linhas)  0.198             -0.043
+M1 chuva media do ESTADO (ridge)         deixa ANO de fora  0.057                NaN
+   M2 chuva do MUNICIPIO (ridge) aleatorio 5-fold (linhas)  0.126              0.052
+   M2 chuva do MUNICIPIO (ridge)         deixa ANO de fora  0.050              0.046
+   M3 municipio + estado (ridge) aleatorio 5-fold (linhas)  0.199              0.024
+   M3 municipio + estado (ridge)         deixa ANO de fora  0.053              0.002
+M4 municipio + estado (boosting) aleatorio 5-fold (linhas)  0.493              0.257
+M4 municipio + estado (boosting)         deixa ANO de fora -0.078              0.070
+  (b') desvio local da chuva fev-mai x desvio local do rendimento: rho=+0.071 (n=4933); veranicos: rho=+0.013
+  (e) com tendencia linear: R2 do efeito-ano = 0.53
+      M1 estado, aleatorio: R2=0.319
+      M1 estado, deixa ANO de fora: R2=0.148
+  (f) elasticidade estado sem 2012 e 2016: +14.1% por +100 mm (r=0.68, p=0.000, n=26)
+  (g) residuo local: r com a media dos 5 vizinhos = +0.49 (media dos anos) | autocorrelacao ano a ano no municipio = -0.12 (mediana) | fracao do residuo explicada por efeito fixo de municipio = 0.03
+
+==== feijao: 4935 municipio-anos, 182 municipios, 1998-2025
+  2012: queda vs mediana 1998-2025 | sobre area plantada -57% | sobre area colhida (oficial) -57% | area perdida 1%
+  2016: queda vs mediana 1998-2025 | sobre area plantada -45% | sobre area colhida (oficial) -45% | area perdida 0%
+  2019: queda vs mediana 1998-2025 | sobre area plantada +8% | sobre area colhida (oficial) +8% | area perdida 1%
+  elasticidade estado (kg_ha_plant): +9.8% por +100 mm (r=0.51, p=0.005, n=28)
+  elasticidade estado (kg_ha_colh): +9.5% por +100 mm (r=0.52, p=0.005, n=28)
+  (a) R2 so do efeito-ano (choque comum): 0.37 | parte local (dentro do ano): 0.63
+                          modelo                 validacao     R2  rho_dentro_do_ano
+M1 chuva media do ESTADO (ridge) aleatorio 5-fold (linhas)  0.140             -0.029
+M1 chuva media do ESTADO (ridge)         deixa ANO de fora  0.006                NaN
+   M2 chuva do MUNICIPIO (ridge) aleatorio 5-fold (linhas)  0.075              0.017
+   M2 chuva do MUNICIPIO (ridge)         deixa ANO de fora  0.000              0.011
+   M3 municipio + estado (ridge) aleatorio 5-fold (linhas)  0.141              0.024
+   M3 municipio + estado (ridge)         deixa ANO de fora  0.000             -0.023
+M4 municipio + estado (boosting) aleatorio 5-fold (linhas)  0.399              0.226
+M4 municipio + estado (boosting)         deixa ANO de fora -0.088              0.134
+  (b') desvio local da chuva fev-mai x desvio local do rendimento: rho=+0.027 (n=4935); veranicos: rho=+0.042
+  (e) com tendencia linear: R2 do efeito-ano = 0.45
+      M1 estado, aleatorio: R2=0.228
+      M1 estado, deixa ANO de fora: R2=0.058
+  (f) elasticidade estado sem 2012 e 2016: +10.3% por +100 mm (r=0.53, p=0.005, n=26)
+  (g) residuo local: r com a media dos 5 vizinhos = +0.46 (media dos anos) | autocorrelacao ano a ano no municipio = -0.13 (mediana) | fracao do residuo explicada por efeito fixo de municipio = 0.03
+
+Obs.: a tendencia (mediana movel centrada de 7 anos) usa anos vizinhos; serve para explicar o choque do ano, nao para prever. O rho_dentro_do_ano mede se o modelo ordena os municipios num mesmo ano.

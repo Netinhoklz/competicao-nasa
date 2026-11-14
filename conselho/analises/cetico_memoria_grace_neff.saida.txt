@@ -1,0 +1,16 @@
+ janela_meses     r  n_meses  n_efetivo  p_surrogate  r_nulo_p95  r_sem_2012_2017  n_sem
+           12 0.352      259       32.9        0.024       0.315            0.186    209
+           24 0.376      259       29.4        0.031       0.351            0.183    209
+           36 0.469      259       28.5        0.008       0.390            0.309    209
+           48 0.490      259       28.1        0.008       0.405            0.348    209
+
+POWER fev-mai 1981-2026: 46 anos; tercil seco <= 495 mm
+anos secos (16): [1981, 1982, 1983, 1990, 1992, 1993, 1998, 2001, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2025]
+episodios independentes (anos consecutivos = 1): 8 -> [[1981, 1982, 1983], [1990], [1992, 1993], [1998], [2001], [2010], [2012, 2013, 2014, 2015, 2016, 2017], [2025]]
+desde 1998 (periodo IMERG/PAM do painel): 10 anos secos em 5 episodios
+
+anos com ONI out-jan >= 1,5 (El Nino forte) 1982-2026: 4
+   (1983, np.float64(2.03), 321.0, 'seco')
+   (1998, np.float64(2.29), 260.0, 'seco')
+   (2016, np.float64(2.46), 342.0, 'seco')
+   (2024, np.float64(1.87), 552.0, 'normal')

@@ -1,0 +1,52 @@
+{
+  "nldas_m": {
+    "fonte": "NASA GES DISC NLDAS_NOAH0125_M v2.0 (OPeNDAP DAP4, Earthdata Cloud)",
+    "concept_id": "C1887990023-GES_DISC",
+    "recorte_bbox": [
+      -102.5,
+      32.5,
+      -92.5,
+      43.0
+    ],
+    "variaveis": [
+      "SoilM_0_10cm",
+      "SoilM_10_40cm",
+      "SoilM_40_100cm",
+      "SoilM_0_100cm",
+      "Evap",
+      "PotEvap",
+      "Rainf",
+      "Qs",
+      "Qsb"
+    ],
+    "periodo": [
+      "1979-01-01",
+      "2026-10-01"
+    ],
+    "granulos": 574,
+    "status": {
+      "ok": 574
+    },
+    "bytes": 167958208,
+    "pasta": "E:\\campeonato-nasa\\dados\\nldas\\noah_mensal",
+    "baixado_em": "2026-11-14T07:50:48"
+  },
+  "atualizado_em": "2026-11-14T08:07:10",
+  "consolidado_nldas_m": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\nldas\\nldas_noah0125_mensal_planicies_eua.nc",
+    "tempos": 574,
+    "inicio": "1979-01-02",
+    "fim": "2026-10-01",
+    "variaveis": [
+      "SoilM_0_10cm",
+      "Qsb",
+      "Qs",
+      "Rainf",
+      "SoilM_10_40cm",
+      "Evap",
+      "PotEvap",
+      "SoilM_0_100cm",
+      "SoilM_40_100cm"
+    ]
+  }
+}

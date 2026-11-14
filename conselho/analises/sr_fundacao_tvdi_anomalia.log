@@ -1,0 +1,13 @@
+314 meses x 396 celulas
+
+== Spearman ESPACIAL das ANOMALIAS (celula-mes), 0,25 grau ==
+  rho_aTVDI_aSM   mediana -0.21  IQR [-0.38, -0.03]  meses rho<-0,3: 37%  rho>+0,3: 2%
+  rho_aNDVI_aSM   mediana +0.25  IQR [+0.08, +0.39]  meses rho<-0,3: 3%  rho>+0,3: 39%
+  rho_aLST_aSM    mediana -0.26  IQR [-0.41, -0.04]  meses rho<-0,3: 42%  rho>+0,3: 2%
+Por estacao (mediana rho_aTVDI_aSM): chuvosa fev-mai = -0.29; transicao jun-jul = -0.27; seca ago-jan = -0.12
+
+== Correlacao TEMPORAL por celula (anomalias, 323 celulas) ==
+  TVDI: mediana r = -0.34;  celulas com r < -0,3: 60%;  r > +0,3: 1%
+  NDVI: mediana r = +0.61;  celulas com r < -0,3: 0%;  r > +0,3: 100%
+  LST: mediana r = -0.57;  celulas com r < -0,3: 100%;  r > +0,3: 0%
+  celulas onde |r_TVDI| > max(|r_NDVI|, |r_LST|): 0%

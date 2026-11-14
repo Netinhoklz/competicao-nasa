@@ -1,0 +1,23 @@
+{
+  "fonte": "CSR/UT Austin GRACE & GRACE-FO RL06.3 mascons (all corrections)",
+  "url": "https://download.csr.utexas.edu/outgoing/grace/RL0603_mascons/",
+  "doi_mascons": "10.15781/cgq9-nh24 (Save et al. 2016)",
+  "variavel": "lwe_thickness: anomalia de armazenamento total de agua (cm de agua equivalente)",
+  "grade": "0,25 grau (amostragem); mascons de ~1 grau; resolucao efetiva ~300 km",
+  "periodo": "2002-04-18 a 2026-09-16",
+  "n_meses": 261,
+  "recortes_derivados": {
+    "ce": "poligono IBGE",
+    "ne": "poligonos IBGE",
+    "oeste_bahia_urucuia": "(-46.6, -14.6, -44.0, -10.4)"
+  },
+  "arquivos": {
+    "CSR_GRACE_GRACE-FO_RL0603_Mascons_all-corrections.nc": 113954516,
+    "CSR_GRACE_GRACE-FO_RL06_Mascons_v02_LandMask.nc": 4174189,
+    "CSR_GRACE_GRACE-FO_RL06_Mascons_v02_OceanMask.nc": 4174193,
+    "grace_cobertura_mensal.parquet": 5216,
+    "grace_global_resumo.nc": 37347772,
+    "grace_ne_mensal.nc": 1738027
+  },
+  "atualizado_em": "2026-11-13T22:35:41"
+}

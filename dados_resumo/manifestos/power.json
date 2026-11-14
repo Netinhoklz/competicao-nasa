@@ -1,0 +1,50 @@
+{
+  "fonte": "NASA POWER (Prediction Of Worldwide Energy Resources), NASA LaRC",
+  "url": "https://power.larc.nasa.gov/api/temporal/{daily,monthly}/{regional,point}",
+  "comunidade": "AG",
+  "limites_api": "regional: 1 parametro/pedido, <=366 dias, <=10 graus; ponto: varios parametros",
+  "recortes": {
+    "ce_diario": "(-41.5, -8.0, -37.0, -2.5)",
+    "ne_mensal": "(-48.8, -18.4, -34.7, -1.0)",
+    "global": "107 pontos, 2020 diario"
+  },
+  "periodo_ce_diario": "1981-01-01 a 2026-11-13",
+  "parametros": [
+    "T2M",
+    "T2M_MAX",
+    "T2M_MIN",
+    "T2MDEW",
+    "RH2M",
+    "PRECTOTCORR",
+    "WS2M",
+    "ALLSKY_SFC_SW_DWN",
+    "EVPTRNS",
+    "GWETTOP",
+    "GWETROOT",
+    "GWETPROF",
+    "IMERG_PRECTOT"
+  ],
+  "imerg_prectot_utc_teste": {
+    "2001": 1.0,
+    "2015": 1.0,
+    "2020": 1.0
+  },
+  "arquivos": {
+    "MANIFESTO.json": 1148,
+    "power_ce_ALLSKY_SFC_SW_DWN_nativo.nc": 1152328,
+    "power_ce_diario.nc": 32026250,
+    "power_ce_IMERG_PRECTOT_nativo.nc": 30001183,
+    "power_global_amostra.parquet": 824783,
+    "power_ne_mensal.nc": 26444710
+  },
+  "minutos": 3.2,
+  "atualizado_em": "2026-11-13T23:07:30",
+  "derivados": {
+    "power_ce_diario_et0.nc": "ET0 FAO-56 PM e P-ET0 diarios",
+    "power_ce_indicadores_anuais.parquet": "indicadores agronomicos anuais por pixel",
+    "derivados/power_ce_mensal.parquet": "media do Ceara (mascara IBGE nos centros da grade)",
+    "derivados/power_ne_mensal.parquet": "media do Nordeste (API mensal)",
+    "derivados/power_aoi_mensal.parquet": "ponto de grade mais proximo de cada AOI"
+  },
+  "pontos_grade_no_ceara": 38
+}

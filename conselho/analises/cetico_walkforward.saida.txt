@@ -1,0 +1,12 @@
+
+==== milho (walk-forward, alvo e atributos sem futuro; n municipio-anos = 3491)
+        modelo  r estado 2010-2025 rho dentro do ano  MAE 2010-2019  MAE 2020-2025  vies 2020-2025 (prev-obs)        2023/2024/2025 prev vs obs
+so chuva IMERG                0.60      +0.02 (6/16)          0.559          0.415                      0.243 +19%/-28% | +19%/-26% | +18%/-47%
+ so NDVI MODIS                0.41     +0.23 (13/16)          0.539          0.638                      0.595 +66%/-28% | +51%/-26% | +45%/-47%
+  chuva + NDVI                0.56     +0.15 (12/16)          0.466          0.560                      0.520 +53%/-28% | +36%/-26% | +37%/-47%
+
+==== feijao (walk-forward, alvo e atributos sem futuro; n municipio-anos = 3495)
+        modelo  r estado 2010-2025 rho dentro do ano  MAE 2010-2019  MAE 2020-2025  vies 2020-2025 (prev-obs)        2023/2024/2025 prev vs obs
+so chuva IMERG                0.47      -0.02 (7/16)          0.417          0.327                      0.237 +15%/-33% | +12%/-25% | +16%/-37%
+ so NDVI MODIS                0.19     +0.15 (13/16)          0.471          0.443                      0.436 +41%/-33% | +31%/-25% | +27%/-37%
+  chuva + NDVI                0.42     +0.08 (11/16)          0.405          0.414                      0.414 +37%/-33% | +21%/-25% | +27%/-37%
