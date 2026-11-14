@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roça Certa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+/* Plano: app de celular (coluna única, abas embaixo) + painel lateral da equipe no desktop.
+   Cores: tinta verde-petróleo da caatinga, azul de chuva, ocre de sol/seca; semáforo separado do destaque. */
+:root{
+  --bg:#eef2ef; --surface:#ffffff; --surface2:#f5f8f6; --ink:#16231f; --muted:#56665f; --line:#d6dfda;
+  --accent:#0d5d63; --accent-ink:#ffffff; --rain:#2b6cb0; --sun:#c46a12;
+  --ok:#23803a; --warn:#a86f00; --bad:#bf3a26; --ok-bg:#e3f3e6; --warn-bg:#fbf0d6; --bad-bg:#fbe4df; --idle-bg:#e9eeeb;
+  --m1:#b8321f; --m2:#e07a3c; --m3:#efd9a3; --m4:#d5e2dc; --m5:#4a87c6; --mnull:#cfd6d2;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1514; --surface:#172020; --surface2:#1d2827; --ink:#e5ece9; --muted:#9db0a9; --line:#2b3836;
+    --accent:#4fb6b4; --accent-ink:#06201f; --rain:#73aef0; --sun:#f0a24f;
+    --ok:#5fca70; --warn:#e8b93f; --bad:#f07a63; --ok-bg:#16301c; --warn-bg:#33290f; --bad-bg:#3a1c16; --idle-bg:#222d2b;
+    --m1:#e0573f; --m2:#e8925a; --m3:#8a7a52; --m4:#38463f; --m5:#5d9ee0; --mnull:#2d3735;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1514; --surface:#172020; --surface2:#1d2827; --ink:#e5ece9; --muted:#9db0a9; --line:#2b3836;
+  --accent:#4fb6b4; --accent-ink:#06201f; --rain:#73aef0; --sun:#f0a24f;
+  --ok:#5fca70; --warn:#e8b93f; --bad:#f07a63; --ok-bg:#16301c; --warn-bg:#33290f; --bad-bg:#3a1c16; --idle-bg:#222d2b;
+  --m1:#e0573f; --m2:#e8925a; --m3:#8a7a52; --m4:#38463f; --m5:#5d9ee0; --mnull:#2d3735;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.45}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; line-height:1.15}
+.wrap{display:flex; flex-wrap:wrap; gap:24px; justify-content:center; align-items:flex-start; padding:20px 16px 40px}
+.phone{width:100%; max-width:440px; background:var(--surface); border:1px solid var(--line); border-radius:22px; overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.08); display:flex; flex-direction:column}
+.top{background:var(--accent); color:var(--accent-ink); padding:14px 16px 12px; display:flex; flex-direction:column; gap:10px}
+.brand{display:flex; justify-content:space-between; align-items:center; gap:8px}
+.brand h1{font-size:22px; font-weight:800; letter-spacing:-.01em}
+.brand small{opacity:.85; font-size:13px}
+.top label{font-size:13px; opacity:.9}
+.top select{font:inherit; font-size:16px; padding:8px 10px; border-radius:10px; border:0; background:var(--surface); color:var(--ink); width:100%}
+.tm{background:var(--surface2); border-bottom:1px solid var(--line); padding:10px 16px; display:flex; flex-direction:column; gap:8px}
+.tm[hidden]{display:none}
+.tm-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.tm-row .lbl{font-size:13px; color:var(--muted); font-weight:700}
+.tm select{font:inherit; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
+.tm input[type=range]{flex:1; min-width:140px; accent-color:var(--accent)}
+.datebig{font-family:var(--display); font-weight:800; font-size:18px; min-width:72px; font-variant-numeric:tabular-nums}
+.chip{font:inherit; font-size:13px; border:1px solid var(--line); background:var(--surface); color:var(--ink); padding:4px 10px; border-radius:999px; cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.btn{font:inherit; font-weight:700; border:0; background:var(--accent); color:var(--accent-ink); padding:9px 14px; border-radius:10px; cursor:pointer}
+.btn.ghost{background:transparent; color:var(--accent); border:1.5px solid var(--accent)}
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible{outline:3px solid var(--sun); outline-offset:2px}
+main{padding:14px 16px 18px; display:flex; flex-direction:column; gap:14px; min-height:520px}
+.card{border:1px solid var(--line); border-radius:14px; padding:14px; background:var(--surface); display:flex; flex-direction:column; gap:8px}
+.card h3{font-size:17px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.signal{border-radius:16px; padding:16px; display:grid; grid-template-columns:56px 1fr; gap:12px; align-items:center; border:2px solid transparent}
+.signal .ico{width:56px; height:56px; border-radius:50%; display:grid; place-items:center; font-family:var(--display); font-weight:800; font-size:26px; color:#fff}
+.signal h2{font-size:21px}
+.s-ok{background:var(--ok-bg); border-color:var(--ok)} .s-ok .ico{background:var(--ok)}
+.s-warn{background:var(--warn-bg); border-color:var(--warn)} .s-warn .ico{background:var(--warn)}
+.s-bad{background:var(--bad-bg); border-color:var(--bad)} .s-bad .ico{background:var(--bad)}
+.s-idle{background:var(--idle-bg); border-color:var(--line)} .s-idle .ico{background:var(--muted)}
+.actions{display:flex; gap:8px; flex-wrap:wrap}
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px}
+.kpi{background:var(--surface2); border-radius:10px; padding:10px}
+.kpi b{display:block; font-family:var(--display); font-size:22px; font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px; color:var(--muted)}
+svg text{fill:var(--muted); font-family:var(--body); font-size:11px}
+.chart{width:100%; height:auto; display:block}
+table{border-collapse:collapse; width:100%; font-size:13.5px; font-variant-numeric:tabular-nums}
+th,td{padding:5px 6px; border-bottom:1px solid var(--line); text-align:left}
+th{color:var(--muted); font-weight:700; font-size:12.5px}
+.tblwrap{overflow-x:auto; max-height:260px; overflow-y:auto}
+.pill{display:inline-block; padding:1px 8px; border-radius:999px; font-size:12px; font-weight:700}
+.p-bad{background:var(--bad-bg); color:var(--bad)} .p-ok{background:var(--ok-bg); color:var(--ok)} .p-warn{background:var(--warn-bg); color:var(--warn)} .p-idle{background:var(--idle-bg); color:var(--muted)}
+nav.tabs{display:grid; grid-template-columns:repeat(6,1fr); border-top:1px solid var(--line); background:var(--surface2); position:sticky; bottom:0}
+nav.tabs button{font:inherit; font-size:11.5px; background:none; border:0; color:var(--muted); padding:8px 2px 10px; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; line-height:1.1}
+nav.tabs button svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+nav.tabs button[aria-selected="true"]{color:var(--accent); font-weight:700}
+.bars{display:flex; flex-direction:column; gap:10px}
+.crop{display:grid; grid-template-columns:1fr; gap:4px}
+.crop-head{display:flex; justify-content:space-between; gap:8px; align-items:baseline; flex-wrap:wrap}
+.bar{height:12px; border-radius:6px; background:var(--surface2); position:relative; overflow:hidden}
+.bar i{position:absolute; left:0; top:0; bottom:0; border-radius:6px}
+.bar .n{background:var(--m4)} .bar .r{background:var(--accent)}
+.checks{display:flex; flex-wrap:wrap; gap:6px}
+.checks label{display:flex; gap:6px; align-items:center; border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:14px; cursor:pointer}
+.compare{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.compare .kpi b{font-size:19px}
+.legend{display:flex; flex-wrap:wrap; gap:8px; font-size:12.5px; color:var(--muted)}
+.legend span{display:flex; align-items:center; gap:4px}
+.legend i{width:14px; height:14px; border-radius:3px; display:inline-block}
+.map path{stroke:var(--surface); stroke-width:.6; cursor:pointer}
+.map path.quebra{stroke:var(--ink); stroke-width:1.8}
+.map path.sel{stroke:var(--sun); stroke-width:2.6}
+.gauge{position:relative; height:16px; border-radius:8px; background:linear-gradient(90deg,var(--m5) 0%,var(--m4) 30%,var(--m4) 50%,var(--m2) 70%,var(--m1) 100%)}
+.gauge b{position:absolute; top:-5px; width:6px; height:26px; background:var(--ink); border-radius:3px; transform:translateX(-3px)}
+.gauge-l{display:flex; justify-content:space-between; font-size:12px; color:var(--muted)}
+ul.do{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
+aside{max-width:380px; width:100%; display:flex; flex-direction:column; gap:12px}
+aside .card{background:var(--surface)}
+aside h2{font-size:20px}
+aside ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px; font-size:14px}
+.tag{font-size:11.5px; font-weight:700; padding:1px 7px; border-radius:6px; background:var(--surface2); color:var(--muted); margin-left:4px; white-space:nowrap}
+.copybox{width:100%; font:inherit; font-size:13px; border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--surface2); color:var(--ink)}
+input[type=number]{font:inherit; width:90px; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.seg button{font:inherit; font-size:14px; border:0; background:var(--surface); color:var(--ink); padding:6px 10px; cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); font-weight:700}
+@media (prefers-reduced-motion: reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone" role="application" aria-label="Protótipo do app Roça Certa">
+    <div class="top">
+      <div class="brand"><h1>Roça Certa</h1><small id="hoje-lbl">Hoje: 14 nov 2026</small></div>
+      <div>
+        <label for="mun">Meu município</label>
+        <select id="mun"></select>
+      </div>
+    </div>
+    <div class="tm" id="tm" hidden>
+      <div class="tm-row">
+        <span class="lbl">Máquina do tempo</span>
+        <select id="ano" aria-label="Ano"></select>
+        <span class="datebig" id="dlabel">20 jan</span>
+        <button class="btn ghost" id="play" type="button" style="padding:5px 10px">▶ Avançar</button>
+      </div>
+      <input type="range" id="dia" min="0" max="180" value="19" aria-label="Dia da estação">
+      <div class="tm-row small">
+        <span class="muted">Anos para testar:</span>
+        <button class="chip" data-y="2010" data-d="15">2010 · falso início</button>
+        <button class="chip" data-y="2012" data-d="40">2012 · seca</button>
+        <button class="chip" data-y="2016" data-d="20">2016</button>
+        <button class="chip" data-y="2009" data-d="40">2009 · ano bom</button>
+      </div>
+    </div>
+    <main id="view"></main>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-t="inverno"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 1 1 1-7.9A5.5 5.5 0 0 1 18.5 9 3.5 3.5 0 0 1 18 16z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></svg>Inverno 2027</button>
+      <button role="tab" data-t="plantar"><svg viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 15c0-3-2-5-6-5 0 3 2 5 6 5z"/></svg>Plantar</button>
+      <button role="tab" data-t="veranico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Veranico</button>
+      <button role="tab" data-t="rocado"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Roçado</button>
+      <button role="tab" data-t="alerta"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>Alerta</button>
+      <button role="tab" data-t="entressafra"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M6 20c0-5 2-8 6-9 4 1 6 4 6 9"/><path d="M12 11V5"/></svg>Entressafra</button>
+    </nav>
+  </div>
+
+  <aside>
+    <div class="card">
+      <h2>Protótipo para o hackathon</h2>
+      <p class="small muted" style="margin:0">Field Shift · NASA Space Apps 2026. Agricultura familiar de sequeiro no Ceará. Os números saem do estudo das bases; o app só traduz em decisão.</p>
+    </div>
+    <div class="card">
+      <h3>O que cada aba mostra</h3>
+      <ol>
+        <li><b>Inverno 2027</b>: o oceano (ONI) e os anos parecidos no seu município <span class="tag">dado real</span></li>
+        <li><b>Plantar</b>: plantar nesta chuva ou esperar fevereiro? <span class="tag">IMERG diário real</span> <span class="tag">balde simplificado</span></li>
+        <li><b>Veranico</b>: dias sem chuva desde o plantio e a fase da cultura <span class="tag">IMERG diário real</span></li>
+        <li><b>Roçado</b>: renda no ano normal e no ano ruim de cada combinação <span class="tag">IBGE PAM real</span></li>
+        <li><b>Alerta</b>: mapa dos 184 municípios, estilo Garantia-Safra <span class="tag">IMERG + IBGE real</span></li>
+        <li><b>Entressafra</b>: fogo, solo coberto, ponte verde de pragas, forragem <span class="tag">regras do estudo</span></li>
+        <li><b>Pluviômetro do vizinho</b>: dentro da aba Plantar <span class="tag">simulado</span></li>
+      </ol>
+    </div>
+    <div class="card small">
+      <h3>Limites honestos</h3>
+      <p class="muted" style="margin:0">Chuva diária a 0,1° (IMERG V07 via POWER) até 14/set/2026; só 10 municípios têm a série diária embutida. A água no solo usa um balde de 60 mm sem calibração por solo. Renda é bruta, com preço médio estadual de 2019–2025 e sem custos. Previsão de inverno fala em chance, nunca em certeza.</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+const D = __DATA__;
+const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const CN = {milho:'Milho', feijao:'Feijão (inclui caupi)', mandioca:'Mandioca', sorgo:'Sorgo', fava:'Fava', caju:'Castanha de caju', gergelim:'Gergelim', batata:'Batata-doce', amendoim:'Amendoim', algodao:'Algodão herbáceo'};
+const T0 = Date.UTC(1998,0,1);
+const RAIN = {};
+for (const c of D.sel) RAIN[c] = Float32Array.from(D.rain[c].split(','), v => +v/10);
+const S = {mun:'2311306', tab:'inverno', ano:2010, dia:19, plantio:'app', cultura:'milho', viz:{}, mapSel:null, port:null};
+const $ = s => document.querySelector(s);
+const fmt = (n, d=0) => n==null||!isFinite(n) ? '–' : n.toLocaleString('pt-BR',{maximumFractionDigits:d, minimumFractionDigits:d});
+const dlabel = (y,i) => { const d = new Date(Date.UTC(y,0,1+i)); return d.getUTCDate()+' '+MES[d.getUTCMonth()]; };
+const yi = y => D.anos.indexOf(y);
+
+function season(cod, y){
+  const r = RAIN[cod], o = Math.round((Date.UTC(y,0,1)-T0)/864e5), out = new Float32Array(181);
+  for (let i=0;i<181;i++){ const v = r[o+i]; out[i] = v===undefined ? NaN : v; }
+  const k = cod+'|'+y; if (S.viz[k]) for (const [i,v] of Object.entries(S.viz[k])) out[+i] = v;
+  return out;
+}
+const trig = (P,d) => d>=2 && (P[d]+P[d-1]+P[d-2]) >= 20;
+function firstTrig(P, from){ for (let d=Math.max(from,2); d<181; d++) if (trig(P,d)) return d; return -1; }
+function falsoInicio(P, p){ if (p<0) return null; let run=0; for (let i=p+1;i<=Math.min(p+30,180);i++){ run = P[i]<1 ? run+1 : 0; if (run>=10) return true; } return false; }
+function bucket(P){ const w=new Float32Array(181); let x=0; for (let i=0;i<181;i++){ const a=x+(isNaN(P[i])?0:P[i]); x=Math.min(60, Math.max(0, a-Math.min(a, 1+0.06*a))); w[i]=x; } return w; }
+const clim = {};
+function climatologia(cod){
+  if (clim[cod]) return clim[cod];
+  const cums = [];
+  for (let y=1998;y<=2025;y++){ const P=season(cod,y); let s=0; cums.push(Array.from(P, v => s+=v)); }
+  const q = (a,p) => { const b=[...a].sort((x,y)=>x-y); const k=(b.length-1)*p, f=Math.floor(k); return b[f]+(b[Math.min(f+1,b.length-1)]-b[f])*(k-f); };
+  const r = {p10:[],p50:[],p90:[]};
+  for (let i=0;i<181;i++){ const col=cums.map(c=>c[i]); r.p10.push(q(col,.1)); r.p50.push(q(col,.5)); r.p90.push(q(col,.9)); }
+  return clim[cod]=r;
+}
+function historico(cod){
+  const rows=[];
+  for (let y=1998;y<=2026;y++){
+    const P=season(cod,y), r1=firstTrig(P,0), r6=firstTrig(P,31);
+    rows.push({y, r1, r6, fi1:falsoInicio(P,r1), fi6:falsoInicio(P,r6), milho:D.anual[cod].milho[yi(y)]});
+  }
+  return rows;
+}
+function speak(t){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='pt-BR'; u.rate=.95; speechSynthesis.speak(u);}catch(e){} }
+async function copiar(t, el){ try{ await navigator.clipboard.writeText(t); el.textContent='Copiado ✓'; }catch(e){ const b=el.closest('.card').querySelector('.copybox'); if(b){b.hidden=false; b.value=t; b.select();} el.textContent='Copie o texto abaixo'; } }
+const nome = c => D.nomes[c] || c;
+
+/* ---------- gráficos ---------- */
+function chartAcum(cod, y, t, P, r1, r6){
+  const W=400,H=190,L=34,R=8,Tp=10,B=22, c=climatologia(cod);
+  let s=0; const cur=Array.from(P,v=>s+=(isNaN(v)?0:v));
+  const ymax=Math.max(c.p90[180], cur[180])*1.05||100;
+  const X=i=>L+(W-L-R)*i/180, Y=v=>Tp+(H-Tp-B)*(1-v/ymax);
+  const band='M'+c.p90.map((v,i)=>X(i)+','+Y(v)).join('L')+'L'+c.p10.map((v,i)=>[i,v]).reverse().map(([i,v])=>X(i)+','+Y(v)).join('L')+'Z';
+  const med='M'+c.p50.map((v,i)=>X(i)+','+Y(v)).join('L');
+  const past='M'+cur.slice(0,t+1).map((v,i)=>X(i)+','+Y(v)).join('L');
+  const ticks=[0,31,59,90,120,151].map((d,k)=>`<line x1="${X(d)}" x2="${X(d)}" y1="${Tp}" y2="${H-B}" stroke="var(--line)"/><text x="${X(d)+3}" y="${H-7}">${MES[k]}</text>`).join('');
+  const yt=[0,ymax/2,ymax].map(v=>`<text x="2" y="${Y(v)+4}">${fmt(v)}</text>`).join('');
+  const mk=(d,col,lbl)=> (d<0||d>t)?'':`<circle cx="${X(d)}" cy="${Y(cur[d])}" r="5" fill="${col}" stroke="var(--surface)" stroke-width="2"/><text x="${X(d)+7}" y="${Y(cur[d])-7}" style="fill:${col};font-weight:700">${lbl}</text>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Chuva acumulada desde 1º de janeiro de ${y} comparada aos anos de 1998 a 2025">
+    ${ticks}${yt}<path d="${band}" fill="var(--rain)" opacity=".14"/><path d="${med}" stroke="var(--rain)" stroke-dasharray="3 3" fill="none" opacity=".7"/>
+    <path d="${past}" stroke="var(--rain)" stroke-width="2.6" fill="none"/>
+    <line x1="${X(t)}" x2="${X(t)}" y1="${Tp}" y2="${H-B}" stroke="var(--ink)" stroke-width="1.2"/>
+    ${mk(r1,'var(--bad)','1ª chuva')}${mk(r6,'var(--ok)','regra do app')}
+    <circle cx="${X(t)}" cy="${Y(cur[t])}" r="4" fill="var(--ink)"/>
+  </svg>
+  <div class="legend"><span><i style="background:var(--rain);opacity:.25"></i>faixa normal (8 em 10 anos)</span><span><i style="background:var(--rain)"></i>${y} até hoje</span><span>mm acumulados desde 1º/jan</span></div>`;
+}
+
+/* ---------- abas ---------- */
+const V = {};
+V.inverno = () => {
+  const oni = D.oni_ultimo.valor, jas = D.oni_jas['2026'];
+  const pos = Math.max(0,Math.min(100,(oni+2)/5*100));
+  const an = Object.entries(D.oni_jas).filter(([a,v])=>v>=1.0 && +a+1<=2025).map(([a])=>+a+1);
+  const A = D.anual[S.mun];
+  const rows = an.map(y=>{ const fm=A.fm[yi(y)], m=A.milho[yi(y)]; return `<tr><td>${y}</td><td>${fmt(fm)}%</td><td>${m==null?'–':fmt(m*100)+'%'}</td><td>${m==null?'':m<.5?'<span class="pill p-bad">quebra</span>':m<.8?'<span class="pill p-warn">fraco</span>':'<span class="pill p-ok">normal</span>'}</td></tr>`; }).join('');
+  const txt = `Atenção: o oceano Pacífico está muito quente, El Niño forte. Em anos assim, o inverno do Ceará costuma ser fraco. Prepare um roçado que aguenta seca.`;
+  return `
+  <div class="signal s-bad"><div class="ico">!</div><div><h2>El Niño forte: chance maior de inverno fraco em 2027</h2><p class="small" style="margin:4px 0 0">Prepare o roçado para a seca. Não é certeza, é aviso.</p></div></div>
+  <div class="actions"><button class="btn ghost" id="ouvir">🔊 Ouvir</button><button class="btn ghost" id="zap">Copiar para o WhatsApp</button></div>
+  <textarea class="copybox" hidden rows="3" aria-label="Mensagem para copiar"></textarea>
+  <div class="card">
+    <h3>Temperatura do Pacífico (ONI)</h3>
+    <div class="gauge" aria-hidden="true"><b style="left:${pos}%"></b></div>
+    <div class="gauge-l"><span>La Niña (chove mais)</span><span>neutro</span><span>El Niño (chove menos)</span></div>
+    <p class="small" style="margin:0">Último valor: <b>+${fmt(oni,2)} °C</b> (${D.oni_ultimo.mes.slice(0,7)}). Média jul–set/2026: +${fmt(jas,2)} °C. Acima de +1,0 já é El Niño forte.</p>
+  </div>
+  <div class="card">
+    <h3>Anos parecidos em ${nome(S.mun)}</h3>
+    <p class="small muted" style="margin:0">Anos que vieram depois de El Niño forte (satélite desde 1998).</p>
+    <div class="tblwrap"><table><thead><tr><th>Ano</th><th>Chuva fev–mai</th><th>Milho vs. normal</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="small" style="margin:0">No Ceará inteiro, desde 1983: nas <b>7 quadras após El Niño forte</b> choveu em média <b>402 mm contra 593 mm</b> (−32%) e o milho rendeu de 43% a 64% abaixo do normal em 6 delas. 2024 foi a exceção.</p>
+  </div>
+  <div class="card">
+    <h3>O que fazer agora</h3>
+    <ul class="do">
+      <li>Separe semente de <b>ciclo curto</b>: feijão-caupi precoce, sorgo.</li>
+      <li>Veja na aba <b>Roçado</b> qual combinação perde menos no ano ruim.</li>
+      <li>Em janeiro, não plante na primeira chuva: veja a aba <b>Plantar</b>.</li>
+      <li>Garanta a <b>forragem</b> da criação (palma, sorgo forrageiro).</li>
+    </ul>
+    <p class="small muted" style="margin:0">Em novembro, o oceano acerta o tipo de inverno em ~4 de 10 vezes (no acaso seriam ~3). A FUNCEME divulga o prognóstico oficial no começo do ano.</p>
+  </div>`;
+};
+V.inverno.after = () => { const t=`Atenção: o Pacífico está muito quente, El Niño forte. Em anos assim, o inverno do Ceará costuma ser fraco. Prepare um roçado que aguenta seca.`;
+  $('#ouvir').onclick=()=>speak(t); $('#zap').onclick=e=>copiar(`🌧️ Roça Certa · ${nome(S.mun)}\n${t}\nAnos parecidos: 1998, 2016, 2024.`, e.target); };
+
+V.plantar = () => {
+  const P=season(S.mun,S.ano), t=S.dia, w=bucket(P);
+  const r1=firstTrig(P,0), r6=firstTrig(P,31);
+  const c3=(P[t]||0)+(P[t-1]||0)+(P[t-2]||0);
+  let cls,ico,tit,sub;
+  if (t<31){
+    if (r1>=0 && r1<=t){ cls='s-bad'; ico='✋'; tit='Choveu, mas ainda é janeiro: espere'; sub=`Veio chuva de plantar em ${dlabel(S.ano,r1)}. Em anos como 2010, quem plantou na chuva de janeiro pegou veranico logo depois.`; }
+    else { cls='s-idle'; ico='…'; tit='Esperando o inverno'; sub=`Chuva nos últimos 3 dias: ${fmt(c3)} mm. Ainda é cedo para plantar.`; }
+  } else if (r6>=0 && r6<=t){
+    cls='s-ok'; ico='✓';
+    tit = t-r6<=10 ? 'Pode plantar' : 'Janela de plantio aberta';
+    sub = `Veio chuva de plantar em ${dlabel(S.ano,r6)} e já é fevereiro.` + (w[t]<30 ? ' O solo está raso: se puder, espere mais uma chuva.' : ` Solo com cerca de ${fmt(w[t])} mm de água.`);
+  } else if (t>89){
+    cls='s-warn'; ico='!'; tit='Ainda não veio chuva de plantar'; sub='Já passou de março. Prefira ciclo curto (feijão-caupi precoce, 60–70 dias) ou forragem.';
+  } else { cls='s-warn'; ico='…'; tit='Já é fevereiro, falta a chuva de plantar'; sub=`Espere 20 mm em até 3 dias. Últimos 3 dias: ${fmt(c3)} mm.`; }
+  const H=historico(S.mun);
+  const jan=H.filter(h=>h.r1>=0&&h.r1<31), fi1=H.filter(h=>h.fi1).length, fi6=H.filter(h=>h.fi6).length, n=H.filter(h=>h.r6>=0).length;
+  const rows=H.slice().reverse().map(h=>`<tr${h.y===S.ano?' style="background:var(--surface2)"':''}><td>${h.y}</td><td>${h.r1<0?'–':dlabel(h.y,h.r1)} ${h.fi1?'<span class="pill p-bad">falso início</span>':''}</td><td>${h.r6<0?'–':dlabel(h.y,h.r6)} ${h.fi6?'<span class="pill p-bad">falso início</span>':''}</td><td>${h.milho==null?'–':h.milho>2?'+200%':fmt(h.milho*100)+'%'}</td></tr>`).join('');
+  const k=S.mun+'|'+S.ano;
+  const vizVal = S.viz[k] && S.viz[k][t]!=null ? S.viz[k][t] : '';
+  return `
+  <div class="signal ${cls}"><div class="ico">${ico}</div><div><h2>${tit}</h2><p class="small" style="margin:4px 0 0">${sub}</p></div></div>
+  <div class="actions"><button class="btn ghost" id="ouvir">🔊 Ouvir</button><button class="btn ghost" id="zap">Copiar para o WhatsApp</button></div>
+  <textarea class="copybox" hidden rows="3" aria-label="Mensagem para copiar"></textarea>
+  <div class="card">
+    <h3>Chuva de ${S.ano} em ${nome(S.mun)}</h3>
+    ${chartAcum(S.mun,S.ano,t,P,r1,r6)}
+    <div class="kpis"><div class="kpi"><b>${fmt(c3)} mm</b><span>últimos 3 dias</span></div><div class="kpi"><b>${fmt(w[t])} mm</b><span>água no solo (estimada, até 60)</span></div></div>
+  </div>
+  <div class="card">
+    <h3>Pluviômetro do vizinho</h3>
+    <p class="small muted" style="margin:0">Mediu a chuva de hoje? O número entra no cálculo. Até ~50 km, a chuva de 5 dias do vizinho acompanha a sua (r ≈ 0,9).</p>
+    <div class="actions" style="align-items:center"><label for="vizmm" class="small">Choveu hoje (${dlabel(S.ano,t)}):</label><input type="number" id="vizmm" min="0" max="300" step="1" value="${vizVal}" placeholder="${fmt(P[t])}"> <span class="small">mm</span><button class="btn" id="vizok">Usar</button></div>
+  </div>
+  <div class="card">
+    <h3>Por que esperar fevereiro?</h3>
+    <p class="small" style="margin:0">Teste com 28 anos de satélite nos 184 municípios: plantar na primeira chuva forte, mas <b>só a partir de 1º de fevereiro</b>, reduziu a chance de perder tudo de <b>7,8% para 3,0%</b> (nos anos de seca, de 34% para 10%). Em 2010, os municípios que perderam tudo caíram de <b>89% para 11%</b>.</p>
+    <p class="small" style="margin:0">Em ${nome(S.mun)}: a primeira chuva de plantar veio em janeiro em ${jan.length} de ${H.length} anos. Plantando nela, houve falso início (10 dias secos no 1º mês) em <b>${fi1}</b> anos; seguindo a regra do app, em <b>${fi6}</b> de ${n}.</p>
+    <div class="tblwrap"><table><thead><tr><th>Ano</th><th>1ª chuva de plantar</th><th>Regra do app</th><th>Milho vs. normal</th></tr></thead><tbody>${rows}</tbody></table></div>
+  </div>`;
+};
+V.plantar.after = () => {
+  const s=$('.signal h2').textContent+'. '+$('.signal p').textContent;
+  $('#ouvir').onclick=()=>speak(s); $('#zap').onclick=e=>copiar(`🌱 Roça Certa · ${nome(S.mun)} · ${dlabel(S.ano,S.dia)}/${S.ano}\n${s}`, e.target);
+  $('#vizok').onclick=()=>{ const v=parseFloat($('#vizmm').value); const k=S.mun+'|'+S.ano; S.viz[k]=S.viz[k]||{}; if(isFinite(v)) S.viz[k][S.dia]=v; else delete S.viz[k][S.dia]; render(); };
+};
+
+const FASES = {milho:[[0,'germinação'],[15,'crescimento'],[45,'floração (fase crítica)'],[65,'enchimento do grão (crítica)'],[100,'pronto para colher']],
+               caupi:[[0,'germinação'],[10,'crescimento'],[35,'floração (fase crítica)'],[50,'enchimento da vagem (crítica)'],[70,'pronto para colher']]};
+V.veranico = () => {
+  const P=season(S.mun,S.ano), t=S.dia;
+  const pd = S.plantio==='app' ? firstTrig(P,31) : firstTrig(P,0);
+  const seg = `<div class="actions" style="align-items:center"><span class="small muted">Plantei:</span><div class="seg"><button data-p="app" aria-pressed="${S.plantio==='app'}">pela regra do app</button><button data-p="jan" aria-pressed="${S.plantio==='jan'}">na 1ª chuva</button></div>
+    <div class="seg"><button data-c="milho" aria-pressed="${S.cultura==='milho'}">Milho</button><button data-c="caupi" aria-pressed="${S.cultura==='caupi'}">Caupi</button></div></div>`;
+  if (pd<0 || pd>t) return `${seg}<div class="signal s-idle"><div class="ico">…</div><div><h2>Ainda não plantou</h2><p class="small" style="margin:4px 0 0">${pd<0?'Neste ano a chuva de plantar não veio pela regra escolhida.':'O plantio pela regra escolhida seria em '+dlabel(S.ano,pd)+'.'}</p>${pd>=0?`<button class="btn" style="margin-top:8px" id="pular" data-d="${Math.min(180,pd+50)}">Ver 50 dias depois do plantio</button>`:''}</div></div>`;
+  const das=t-pd; let spell=0; for(let i=t;i>pd && P[i]<=2;i--) spell++;
+  let mx=0,run=0; for(let i=pd+1;i<=t;i++){ run=P[i]<=2?run+1:0; mx=Math.max(mx,run); }
+  const F=FASES[S.cultura]; const fase=[...F].reverse().find(f=>das>=f[0])[1]; const critica=/crítica/.test(fase);
+  let cls='s-ok',ico='✓',tit='Roçado com água';
+  if (spell>=10 && critica){cls='s-bad';ico='!';tit=`${spell} dias sem chuva na ${fase.split(' (')[0]}`;}
+  else if (spell>=10){cls='s-warn';ico='!';tit=`${spell} dias sem chuva`;}
+  else if (spell>=7){cls='s-warn';ico='…';tit=`Veranico começando: ${spell} dias secos`;}
+  const pct=Math.min(spell,20)/20, C=2*Math.PI*52;
+  const ring=`<svg viewBox="0 0 140 140" width="140" height="140" role="img" aria-label="${spell} dias sem chuva"><circle cx="70" cy="70" r="52" stroke="var(--surface2)" stroke-width="14" fill="none"/><circle cx="70" cy="70" r="52" stroke="${spell>=10?'var(--bad)':spell>=7?'var(--warn)':'var(--ok)'}" stroke-width="14" fill="none" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 70 70)" stroke-linecap="round"/><text x="70" y="72" text-anchor="middle" style="font-family:var(--display);font-size:34px;font-weight:800;fill:var(--ink)">${spell}</text><text x="70" y="94" text-anchor="middle">dias sem chuva</text></svg>`;
+  const a=Math.max(pd,t-59), n=t-a+1, W=400,Hh=110,bw=(W-10)/60;
+  let bars=''; for(let i=a;i<=t;i++){ const x=5+(i-a)*bw, v=Math.min(P[i],60), h=v/60*(Hh-26); bars+= P[i]<=2 ? `<rect x="${x}" y="${Hh-20}" width="${bw-1}" height="4" fill="var(--sun)"/>` : `<rect x="${x}" y="${Hh-22-h}" width="${bw-1}" height="${h}" fill="var(--rain)"/>`; }
+  bars+=`<text x="5" y="${Hh-4}">${dlabel(S.ano,a)}</text><text x="${5+(n-1)*bw}" y="${Hh-4}" text-anchor="end">${dlabel(S.ano,t)}</text>`;
+  return `${seg}
+  <div class="signal ${cls}"><div class="ico">${ico}</div><div><h2>${tit}</h2><p class="small" style="margin:4px 0 0">${S.cultura==='milho'?'Milho':'Feijão-caupi'} plantado em ${dlabel(S.ano,pd)}: ${das} dias, fase de <b>${fase}</b>.</p></div></div>
+  <div class="card" style="align-items:center">${ring}
+    <div class="kpis" style="width:100%"><div class="kpi"><b>${mx}</b><span>maior veranico desde o plantio</span></div><div class="kpi"><b>${das}</b><span>dias desde o plantio</span></div></div>
+  </div>
+  <div class="card"><h3>Chuva por dia</h3><svg class="chart" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Chuva diária dos últimos ${n} dias">${bars}</svg>
+    <div class="legend"><span><i style="background:var(--rain)"></i>dia com chuva</span><span><i style="background:var(--sun)"></i>dia seco (até 2 mm)</span></div></div>
+  <div class="card small"><h3>Como ler</h3><p style="margin:0">Veranico de 10 dias ou mais na floração ou no enchimento é o que mais derruba milho e feijão no Ceará. Em 2012, o maior veranico do inverno foi de 22 dias em média; em 2009, de 7.</p>
+  ${spell>=10&&critica?'<p style="margin:0"><b>O que fazer:</b> se o feijão ainda não floriu, pense em replantar caupi precoce na próxima chuva; garanta a forragem para não perder a criação.</p>':''}</div>`;
+};
+V.veranico.after = () => {
+  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{S.plantio=b.dataset.p; render();});
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{S.cultura=b.dataset.c; render();});
+  const pj=$('#pular'); if(pj) pj.onclick=()=>{S.dia=+pj.dataset.d; render();};
+};
+
+V.rocado = () => {
+  const cod=D.sel.includes(S.mun)?S.mun:null, C=D.culturas[cod]||{};
+  const ks=Object.keys(C).sort((a,b)=>C[b].area-C[a].area);
+  if(!ks.length) return `<div class="card">Sem dados do IBGE para este município.</div>`;
+  const renda=k=>C[k].rend*D.preco[k];
+  const mx=Math.max(...ks.map(renda));
+  const lista=ks.map(k=>{const r=renda(k), rr=r*C[k].ruim; return `<div class="crop"><div class="crop-head"><b>${CN[k]}</b><span class="small muted">perdeu mais da metade em ${fmt(C[k].p50*C[k].anos)} de ${C[k].anos} anos</span></div>
+    <div class="bar" title="ano normal"><i class="n" style="width:${r/mx*100}%"></i><i class="r" style="width:${rr/mx*100}%"></i></div>
+    <div class="small">Ano normal: <b>R$ ${fmt(r)}/ha</b> · ano ruim: <b>R$ ${fmt(rr)}/ha</b> (${fmt(C[k].ruim*100)}%)</div></div>`;}).join('');
+  if(!S.port || S.port.cod!==cod){ S.port={cod, sel:ks.filter(k=>k!=='milho'&&k!=='feijao').slice(0,2).concat(ks.filter(k=>k==='feijao'))}; }
+  const anos=[]; for(let y=2001;y<=2025;y++) anos.push(y);
+  function carteira(pesos){ const ser=[]; for(const y of anos){ let s=0,ok=true; for(const [k,w] of Object.entries(pesos)){ const v=C[k].serie[y]; if(v==null){ok=false;break;} s+=w*renda(k)*v; } if(ok) ser.push([y,s]); }
+    if(!ser.length) return null; const v=ser.map(x=>x[1]).sort((a,b)=>a-b); const media=v.reduce((a,b)=>a+b,0)/v.length; const ruim=v.slice(0,3).reduce((a,b)=>a+b,0)/3;
+    const en=ser.filter(x=>x[0]===2016||x[0]===2024).map(x=>x[1]); return {media,ruim,en:en.length?en.reduce((a,b)=>a+b,0)/en.length:null,n:ser.length}; }
+  const am=C.milho?.area||0, af=C.feijao?.area||0, at=am+af;
+  const atual = at? carteira(Object.fromEntries([['milho',am/at],['feijao',af/at]].filter(x=>C[x[0]]&&x[1]>0))) : null;
+  const sel=S.port.sel.filter(k=>C[k]); const nova= sel.length? carteira(Object.fromEntries(sel.map(k=>[k,1/sel.length]))):null;
+  const box=(t,c)=> c?`<div class="kpi"><span>${t}</span><b>R$ ${fmt(c.media)}</b><span>média por ha</span><b style="color:var(--accent)">R$ ${fmt(c.ruim)}</b><span>nos 3 piores anos</span>${c.en!=null?`<b style="font-size:16px">R$ ${fmt(c.en)}</b><span>após El Niño (2016, 2024)</span>`:''}</div>`:`<div class="kpi"><span>${t}</span><b>–</b></div>`;
+  return `
+  <div class="card"><h3>Hoje x roçado que aguenta seca</h3>
+    <p class="small muted" style="margin:0">Renda bruta por hectare em ${nome(cod)}, simulada com o rendimento real de cada ano (IBGE, 2001–2025) e o preço médio do Ceará.</p>
+    <div class="compare">${box('Hoje: milho + feijão',atual)}${box('Sua escolha',nova)}</div>
+    <p class="small" style="margin:0">Monte a sua combinação (área dividida igualmente):</p>
+    <div class="checks">${ks.map(k=>`<label><input type="checkbox" value="${k}" ${sel.includes(k)?'checked':''}> ${CN[k]}</label>`).join('')}</div>
+  </div>
+  <div class="card"><h3>Cada cultura aqui</h3>
+    <div class="legend"><span><i style="background:var(--m4)"></i>ano normal</span><span><i style="background:var(--accent)"></i>ano ruim (média dos 3 piores)</span></div>
+    <div class="bars">${lista}</div></div>
+  <div class="card small"><h3>Indicadas para o semiárido, sem histórico no IBGE daqui</h3>
+    <p style="margin:0"><b>Sorgo</b>, <b>feijão-caupi precoce</b>, <b>guandu</b>, <b>palma forrageira</b> e <b>gergelim</b> aparecem no topo da aptidão da FAO (GAEZ) para quem usa pouco insumo. Leguminosa antes do milho rende ~20% a mais no ano seguinte e economiza adubo: hoje a ureia custa 4 vezes o milho (a média histórica era 1,5).</p></div>`;
+};
+V.rocado.after = () => document.querySelectorAll('.checks input').forEach(i=>i.onchange=()=>{ S.port.sel=[...document.querySelectorAll('.checks input:checked')].map(x=>x.value); render(); });
+
+let MAP=null;
+function buildMap(){
+  if (MAP) return MAP;
+  let x0=180,x1=-180,y0=90,y1=-90; const each=(g,f)=>{const P=g.type==='Polygon'?[g.coordinates]:g.coordinates; P.forEach(p=>p.forEach(r=>r.forEach(f)));};
+  D.geo.forEach(f=>each(f.g,([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);}));
+  const k=Math.cos((y0+y1)/2*Math.PI/180), W=400, sc=W/((x1-x0)*k), H=(y1-y0)*sc;
+  const pr=([x,y])=>((x-x0)*k*sc).toFixed(1)+','+((y1-y)*sc).toFixed(1);
+  const paths=D.geo.map(f=>{const P=f.g.type==='Polygon'?[f.g.coordinates]:f.g.coordinates; return {c:f.c, d:P.map(p=>p.map(r=>'M'+r.map(pr).join('L')+'Z').join('')).join('')};});
+  return MAP={W,H,paths};
+}
+const corPct=p=>p==null?'var(--mnull)':p<50?'var(--m1)':p<70?'var(--m2)':p<90?'var(--m3)':p<110?'var(--m4)':'var(--m5)';
+V.alerta = () => {
+  const t=S.dia, cut=t<89?'fev':t<119?'mar':'abr', cutL={fev:'28 de fevereiro',mar:'31 de março',abr:'30 de abril'}[cut];
+  const M=buildMap(), i=yi(S.ano);
+  let nA=0,nQ=0,hit=0,temIBGE=false;
+  const svg=M.paths.map(p=>{const A=D.anual[p.c]; const v=A?A[cut][i]:null, m=A?A.milho[i]:null; if(m!=null) temIBGE=true; const al=v!=null&&v<60, q=m!=null&&m<.5; if(al)nA++; if(q)nQ++; if(al&&q)hit++;
+    return `<path d="${p.d}" fill="${corPct(v)}" class="${q?'quebra':''} ${S.mapSel===p.c?'sel':''}" data-c="${p.c}"><title>${nome(p.c)}: ${v==null?'sem dado':v+'% do normal'}</title></path>`;}).join('');
+  let info='Toque num município para ver o detalhe.';
+  if(S.mapSel){const A=D.anual[S.mapSel]; info=`<b>${nome(S.mapSel)}</b>: chuva até ${cutL} = ${A?A[cut][i]+'% do normal':'–'}; milho em ${S.ano} = ${A&&A.milho[i]!=null?fmt(A.milho[i]*100)+'% do normal':'sem dado do IBGE'}.`;}
+  const sev = nA>=60?'s-bad':nA>=20?'s-warn':'s-ok';
+  return `
+  <div class="signal ${sev}"><div class="ico">${nA>=20?'!':'✓'}</div><div><h2>${nA} municípios com chuva abaixo de 60% do normal</h2><p class="small" style="margin:4px 0 0">Chuva acumulada de 1º de janeiro até ${cutL} de ${S.ano}.${t<58?' O primeiro aviso sai em 28/fev; isto é uma prévia.':''}</p></div></div>
+  <div class="card">
+    <svg class="chart map" viewBox="0 0 ${M.W} ${M.H.toFixed(0)}" role="img" aria-label="Mapa do Ceará por município">${svg}</svg>
+    <div class="legend"><span><i style="background:var(--m1)"></i>&lt;50%</span><span><i style="background:var(--m2)"></i>50–70%</span><span><i style="background:var(--m3)"></i>70–90%</span><span><i style="background:var(--m4)"></i>90–110%</span><span><i style="background:var(--m5)"></i>&gt;110%</span><span><i style="background:transparent;border:2px solid var(--ink)"></i>milho perdeu mais da metade (IBGE)</span></div>
+    <p class="small" style="margin:0" id="mapinfo">${info}</p>
+  </div>
+  <div class="card small"><h3>Conferindo com o que aconteceu</h3>
+    <p style="margin:0">${temIBGE?`Em ${S.ano}, o milho perdeu mais da metade em <b>${nQ}</b> municípios (IBGE). Dos ${nA} em alerta, <b>${hit}</b> tiveram essa quebra.`:`O IBGE ainda não publicou a safra de ${S.ano}.`}</p></div>
+  <div class="card small"><h3>Se o seu município está vermelho</h3>
+    <ul class="do"><li>Confira se você está inscrito no <b>Garantia-Safra</b>.</li><li>Guarde fotos e anotações do roçado.</li><li>Procure a EMATERCE, o sindicato ou a secretaria de agricultura.</li></ul>
+    <p class="muted" style="margin:0">Este aviso só chega mais cedo. Quem decide o pagamento é o programa, com o laudo oficial.</p></div>`;
+};
+V.alerta.after = () => document.querySelectorAll('.map path').forEach(p=>p.onclick=()=>{S.mapSel=p.dataset.c; if(D.sel.includes(p.dataset.c)){S.mun=p.dataset.c; $('#mun').value=S.mun;} render();});
+
+V.entressafra = () => {
+  const R=D.relevo[S.mun]||[0,0,0], alto=R[2]>.25||R[1]>5;
+  return `
+  <div class="signal s-warn"><div class="ico">!</div><div><h2>Novembro é mês de queimada. Não queime o roçado.</h2><p class="small" style="margin:4px 0 0">72% dos focos de fogo do Ceará caem entre outubro e dezembro, antes do plantio.</p></div></div>
+  <div class="actions"><button class="btn ghost" id="ouvir">🔊 Ouvir</button></div>
+  <div class="card"><h3>Lista da entressafra</h3>
+    <ul class="do">
+      <li><b>Deixe a palhada no chão.</b> Roçar e queimar sem descanso levou embora metade do carbono do solo em 10 anos, em estudo de Sobral.</li>
+      <li><b>Solo coberto antes da primeira chuva.</b> A chuva do inverno é forte (até 80 mm/h em 30 min) e leva a terra descoberta.</li>
+      <li><b>Acabe com o milho tiguera e os restos verdes.</b> No Ceará faz calor o ano todo e a lagarta-do-cartucho não para; mancha verde na seca é ponte para a praga.</li>
+      <li><b>Reserva de comida para a criação:</b> palma, sorgo forrageiro, feno ou silagem para o fim da seca.</li>
+    </ul></div>
+  <div class="card"><h3>O terreno de ${nome(S.mun)}</h3>
+    <div class="kpis"><div class="kpi"><b>${fmt(R[0])} m</b><span>altitude média</span></div><div class="kpi"><b>${fmt(R[1],1)}°</b><span>declividade média</span></div><div class="kpi"><b>${fmt(R[2]*100)}%</b><span>área ondulada ou mais</span></div></div>
+    <p class="small" style="margin:0">${alto?'<span class="pill p-bad">prioridade alta</span> Terreno com ladeira: cobertura permanente (palhada, guandu, consórcio) e plantio em nível rendem mais aqui.':'<span class="pill p-ok">terreno plano</span> Risco de erosão menor, mas palhada ainda guarda água no solo.'}</p>
+    <p class="small muted" style="margin:0">Relevo do satélite SRTM/NASADEM (30 m), média do município.</p></div>`;
+};
+V.entressafra.after = () => { $('#ouvir').onclick=()=>speak('Novembro é mês de queimada. Não queime o roçado. Deixe a palhada no chão, cubra o solo antes da primeira chuva, acabe com o milho tiguera e garanta a comida da criação.'); };
+
+/* ---------- controle ---------- */
+function render(){
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.t===S.tab));
+  const usaTempo = ['plantar','veranico','alerta'].includes(S.tab);
+  $('#tm').hidden=!usaTempo;
+  $('#hoje-lbl').textContent = usaTempo ? `Simulando: ${dlabel(S.ano,S.dia)} de ${S.ano}` : 'Hoje: 14 nov 2026';
+  $('#dlabel').textContent=dlabel(S.ano,S.dia); $('#ano').value=S.ano; $('#dia').value=S.dia;
+  if (usaTempo && S.tab!=='alerta' && !D.sel.includes(S.mun)) S.mun=D.sel[0];
+  $('#view').innerHTML=V[S.tab](); V[S.tab].after && V[S.tab].after();
+}
+const selMun=$('#mun'); D.sel.forEach(c=>selMun.add(new Option(nome(c),c))); selMun.value=S.mun;
+selMun.onchange=()=>{S.mun=selMun.value; S.mapSel=null; render();};
+const selAno=$('#ano'); for(let y=1998;y<=2026;y++) selAno.add(new Option(y,y));
+selAno.onchange=()=>{S.ano=+selAno.value; render();};
+$('#dia').oninput=e=>{S.dia=+e.target.value; render();};
+document.querySelectorAll('.tm .chip').forEach(b=>b.onclick=()=>{S.ano=+b.dataset.y; S.dia=+b.dataset.d; render();});
+let timer=null;
+$('#play').onclick=()=>{ if(timer){clearInterval(timer);timer=null;$('#play').textContent='▶ Avançar';return;}
+  $('#play').textContent='❚❚ Pausar'; timer=setInterval(()=>{ if(S.dia>=180){clearInterval(timer);timer=null;$('#play').textContent='▶ Avançar';return;} S.dia=Math.min(180,S.dia+2); render(); },140); };
+const TABS=['inverno','plantar','veranico','rocado','alerta','entressafra'];
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{ S.tab=b.dataset.t; try{history.replaceState(null,'','#'+S.tab);}catch(e){} render(); });
+function fromHash(){ const h=location.hash.slice(1); if(TABS.includes(h)) S.tab=h; }
+window.addEventListener('hashchange',()=>{fromHash();render();});
+fromHash(); render();
+</script>
+</body>
+</html>
