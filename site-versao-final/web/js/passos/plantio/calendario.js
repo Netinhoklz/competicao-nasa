@@ -1,11 +1,17 @@
-// QUADRA, passo "Como plantar": calendário de plantio e colheita (hoje até dez/2027).
-// Porte do cartaoCalendario do protótipo do José (protótipo/static/app.js, branch estudo-jose, e7a23b5) para os tokens de quadra.css,
-// com "O que fazer agora" como lista de marcar e o passo a passo num <details>.
+// QUADRA, passo "Como plantar": o que fazer e quando (hoje até dez/2027).
+// Na frente: uma linha do tempo de até 6 cartões, tirada de agenda.linhas (janelas de plantio e de colheita) e agenda.agora.
+// No "ver mais": o Gantt do protótipo do José (cartaoCalendario em protótipo/static/app.js, branch estudo-jose, e7a23b5), a lista
+// de marcar, a nota dos portões, os marcos e o passo a passo, com os tokens de quadra.css.
 
 const FASES = {
   preparo: "preparo sem fogo", risco: "dá para plantar, com mais risco (até 40%)", plantio: "plantar (janela do ZARC)",
   estimado: "plantar (janela estimada, sem ZARC)", roca: "na roça, crescendo", colheita: "colher", pousio: "pousio pastejado",
 };
+const NOME = { "Feijão-caupi": "caupi", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão",
+  "Palma + gliricídia": "palma", "Feijão-caupi no milho em pé": "caupi" }; // o "onde" do cartão diz o lugar (bordas, baixio)
+const nome = (c) => NOME[c] || String(c || "").toLowerCase();
+const LUGAR = (p) => (p === "Baixio" ? "baixio" : p === "Bordas" ? "bordas" : p);
+const lista = (v) => (v.length <= 1 ? v.join("") : v.slice(0, -1).join(", ") + " e " + v[v.length - 1]);
 
 const chave = (cod) => `quadra-agora-${cod}`;
 function lerFeitos(cod) { try { return new Set(JSON.parse(localStorage.getItem(chave(cod)) || "[]")); } catch (_) { return new Set(); } }
@@ -15,9 +21,70 @@ function gravarFeitos(cod, s) { try { localStorage.setItem(chave(cod), JSON.stri
 export const seloPlantar = (U, fonte) => (/^ZARC/.test(fonte || "")
   ? U.selo("medido", fonte) : U.selo("suposicao", fonte || "janela estimada"));
 
-export function cartaoCalendario(ctx) {
+/** Eventos da agenda: começo da janela de plantar, começo da colheita e o primeiro preparo da terra. */
+function eventos(a) {
+  const hoje = a.hoje, ev = [];
+  let preparo = null;
+  for (const l of a.linhas) {
+    const pl = l.barras.find((b) => b.tipo === "plantio" || b.tipo === "estimado");
+    if (pl && pl.ate >= hoje) ev.push({ tipo: "plantar", de: pl.de, ate: pl.ate, nome: nome(l.cultura), onde: LUGAR(l.parte), suposto: !/^ZARC/.test(l.fonte || "") });
+    const co = l.barras.find((b) => b.tipo === "colheita");
+    if (co && co.ate >= hoje) ev.push({ tipo: "colher", de: co.de, ate: co.ate, nome: nome(l.cultura), onde: LUGAR(l.parte), suposto: true });
+    const pr = l.barras.find((b) => b.tipo === "preparo");
+    if (pr && l.parte !== "Bordas" && pr.de > hoje && (!preparo || pr.de < preparo.de)) preparo = { tipo: "preparo", de: pr.de, ate: pr.ate, nome: "", onde: "", suposto: true };
+  }
+  if (preparo) ev.push(preparo);
+  return ev.sort((x, y) => (x.de < y.de ? -1 : x.de > y.de ? 1 : 0));
+}
+
+/** A linha do tempo "o que fazer e quando": Agora + os 5 próximos meses com tarefa (com pelo menos uma colheita). */
+export function linhaDoTempo(ctx) {
   const U = ctx.util, esc = U.esc, a = ctx.r.agenda;
-  if (!a) return `<div class="cartao"><h2>Quando plantar e quando colher</h2><p class="sub">Sem calendário para este lugar.</p></div>`;
+  if (!a) return "";
+  const ev = eventos(a);
+  const abertos = ev.filter((e) => e.tipo === "plantar" && e.de <= a.hoje);
+  const cartoes = [];
+  if (abertos.length) {
+    cartoes.push({ quando: "Agora", data: `até ${U.dataBR(abertos.map((e) => e.ate).sort()[0], true)}`, icone: "semente", cor: "verde",
+      frase: `Já dá para plantar ${lista([...new Set(abertos.map((e) => e.nome))])}`, onde: [...new Set(abertos.map((e) => e.onde))], suposto: abertos.some((e) => e.suposto) });
+  } else {
+    const junta = [["semente", "semente"], ["maniva", "maniva"], ["mudas", "mudas"]].filter(([k]) => a.agora.some((t) => t.toLowerCase().includes(k))).map(([, v]) => v);
+    cartoes.push({ quando: "Agora", data: U.dataBR(a.hoje, true), icone: "semente", cor: "verde",
+      frase: junta.length ? `Junte ${lista(junta)}` : "Prepare a semente", onde: ["e nada de fogo"], suposto: false });
+  }
+  // o resto, agrupado por mês e por tipo de tarefa
+  const grupos = new Map();
+  for (const e of ev) {
+    if (abertos.includes(e) || (e.tipo !== "preparo" && e.de <= a.hoje)) continue;
+    const k = `${e.de.slice(0, 7)}|${e.tipo}`;
+    if (!grupos.has(k)) grupos.set(k, { tipo: e.tipo, de: e.de, nomes: [], onde: [], suposto: false });
+    const g = grupos.get(k);
+    if (e.nome && !g.nomes.includes(e.nome)) g.nomes.push(e.nome);
+    if (e.onde && !g.onde.includes(e.onde)) g.onde.push(e.onde);
+    g.suposto = g.suposto || e.suposto;
+  }
+  const todos = [...grupos.values()]; // já em ordem de data
+  let escolha = todos.slice(0, 5);
+  if (!escolha.some((g) => g.tipo === "colher")) { const c = todos.find((g) => g.tipo === "colher"); if (c) escolha = [...escolha.slice(0, 4), c]; }
+  const COR = { plantar: ["semente", "verde"], colher: ["celeiro", "ambar"], preparo: ["enxada", ""] };
+  for (const g of escolha) {
+    const [icone, cor] = COR[g.tipo];
+    const frase = g.tipo === "preparo" ? "Prepare a terra, sem fogo" : `${g.tipo === "plantar" ? "Plante" : "Colha"} ${lista(g.nomes)}`;
+    cartoes.push({ quando: U.MESES[+g.de.slice(5, 7) - 1], data: U.dataBR(g.de, true), icone, cor, frase,
+      onde: g.tipo === "preparo" ? ["palhada no chão"] : g.onde, suposto: g.suposto, colheita: g.tipo === "colher" });
+  }
+  const fonteSelo = "datas de plantar da tábua oficial do Ministério da Agricultura (ZARC 2026/27); as marcadas como suposição são estimadas " +
+    "(início da chuva, ciclo da cultura até a colheita, preparo um mês antes)";
+  return `<ol class="tempo" style="--n:${cartoes.length}">${cartoes.map((c) => `<li class="tempo-c${c.colheita ? " colhe" : ""}">
+      <span class="bola ${c.cor}">${U.ic(c.icone)}</span>
+      <div class="tempo-q">${esc(c.quando)} <span>${esc(c.data)}</span>${c.suposto ? " " + U.selo("suposicao", fonteSelo) : ""}</div>
+      <b>${esc(c.frase)}</b><small>${esc(c.onde.join(" · "))}</small></li>`).join("")}</ol>`;
+}
+
+/** O calendário completo (vai dentro do "ver mais"). */
+export function calendarioCompleto(ctx) {
+  const U = ctx.util, esc = U.esc, a = ctx.r.agenda;
+  if (!a) return `<p>Sem calendário para este lugar.</p>`;
   const t0 = Date.parse(a.inicio), T = Date.parse(a.fim) + 864e5 - t0;
   const x = (d) => ((Date.parse(d) - t0) / T) * 100;
   const w = (de, ate) => ((Date.parse(ate) + 864e5 - Date.parse(de)) / T) * 100;
@@ -41,15 +108,14 @@ export function cartaoCalendario(ctx) {
     ${(l.marcos || []).map((m) => `<span class="g-decide" style="left:${x(m.data)}%" title="${esc(m.rotulo)}"></span>`).join("")}</div></div>`;
 
   const feitos = lerFeitos(ctx.cod);
-  let h = `<div class="cartao cal" id="plantio-calendario"><h2>Quando plantar e quando colher (hoje até dez/2027)</h2>
-    <div class="agora"><h3>O que fazer agora (${esc(a.hoje_txt)})</h3>
-      <ul class="agora-lista">${a.agora.map((t, i) => `<li><label><input type="checkbox" data-agora="${i}"${feitos.has(t) ? " checked" : ""}>
-        <span>${esc(t)}</span></label></li>`).join("")}</ul>
-      <p class="sub pequeno">As datas de plantar vêm do ZARC ${U.selo("medido", "ZARC 2026/27 e portarias plurianuais do MAPA; fonte de cada linha no passo a passo")}.
-      Marque o que já fez: fica guardado só neste aparelho.</p></div>
-    <p class="sub">Cada linha é uma parte do roçado. Barra de cima: <b>quando plantar</b> ${U.selo("medido", "janela do ZARC (ou estimada pelo início da chuva, onde não há ZARC)")}.
-    Barra de baixo: a cultura <b>na roça</b> e a <b>colheita</b> ${U.selo("suposicao", "colheita = janela de plantio + ciclo da cultura; os ciclos sem fonte estão marcados no passo a passo")}.
-    Linha vermelha: hoje. Círculos: os marcos do ano (toque ou passe o mouse). Solo: ${esc(a.solo)}.</p>
+  let h = `<h4>O que fazer agora (${esc(a.hoje_txt)})</h4>
+    <ul class="agora-lista">${a.agora.map((t, i) => `<li><label><input type="checkbox" data-agora="${i}"${feitos.has(t) ? " checked" : ""}>
+      <span>${esc(t)}</span></label></li>`).join("")}</ul>
+    <p class="pequeno">Marque o que já fez: fica guardado só neste aparelho.</p>
+    <h4>Calendário, parte por parte</h4>
+    <p>Barra de cima: quando plantar ${U.selo("medido", "janela do ZARC 2026/27 (ou estimada pelo início da chuva no IMERG, onde não há ZARC)")}.
+    Barra de baixo: a cultura na roça e a colheita ${U.selo("suposicao", "colheita = janela de plantio + ciclo da cultura; os ciclos sem fonte estão no passo a passo")}.
+    Linha vermelha: hoje. Círculos: os marcos. Solo: ${esc(a.solo)}.</p>
     <div class="g-legenda">${Object.entries(FASES).map(([k, v]) => `<span><i class="b-${k}"></i>${v}</span>`).join("")}
       <span><i class="g-decide-chave"></i>decisão</span></div>
     <div class="gantt-caixa"><div class="gantt">
@@ -58,16 +124,15 @@ export function cartaoCalendario(ctx) {
       ${a.linhas.map(linha).join("")}
     </div></div>`;
   if (a.nota_portoes) h += `<p class="aviso">${esc(a.nota_portoes)}</p>`;
-  h += `<h3>Marcos do ano ${U.selo("suposicao", "portões da proposta QUADRA (calibrados no sertão do CE); as datas de plantar dentro deles vêm do ZARC")}</h3>
-    <ol class="marcos">${a.marcos.map((m) => `<li><b>${esc(m.dia)} · ${esc(m.rotulo)}.</b> ${esc(m.texto)}</li>`).join("")}</ol>`;
-  h += `<details><summary>Passo a passo, parte por parte (plantar, colher e de onde vem cada data)</summary>
-    <ul class="passo-a-passo">${a.linhas.map((l) => `<li class="${U.tipoCss(l.tipo)}"><b>${esc(l.parte)} · ${esc(l.cultura)}</b>${l.estacao > 2027 ? ` <span class="sub">(estação ${l.estacao})</span>` : ""}
+  h += `<h4>Marcos do ano ${U.selo("suposicao", "portões da proposta QUADRA (calibrados no sertão do CE); as datas de plantar dentro deles vêm do ZARC")}</h4>
+    <ol class="marcos">${a.marcos.map((m) => `<li><b>${esc(m.dia)} · ${esc(m.rotulo)}.</b> ${esc(m.texto)}</li>`).join("")}</ol>
+    <h4>Passo a passo (plantar, colher e de onde vem cada data)</h4>
+    <ul class="passo-a-passo">${a.linhas.map((l) => `<li class="${U.tipoCss(l.tipo)}"><b>${esc(l.parte)} · ${esc(l.cultura)}</b>${l.estacao > 2027 ? ` (estação ${l.estacao})` : ""}
       <div><span class="pp-rot">Plantar</span> ${esc(l.plantar)} ${seloPlantar(U, l.fonte)}</div>
       <div><span class="pp-rot">Colher</span> ${esc(l.colher)} ${U.selo("suposicao", "janela de plantio + ciclo da cultura")}</div>
-      <div class="sub pequeno">Fonte: ${esc(l.fonte)}</div></li>`).join("")}</ul>
-    <p class="sub pequeno">A colheita vem da janela de plantio mais o ciclo da cultura (dias do plantio à colheita). Plantou num dia da
-    janela? Some o ciclo àquele dia.</p></details>`;
-  return h + `</div>`;
+      <div class="pequeno">Fonte: ${esc(l.fonte)}</div></li>`).join("")}</ul>
+    <p class="pequeno">A colheita vem da janela de plantio mais o ciclo da cultura. Plantou num dia da janela? Some o ciclo àquele dia.</p>`;
+  return h;
 }
 
 /** Liga a lista de marcar (guarda o texto de cada item feito, por município). */

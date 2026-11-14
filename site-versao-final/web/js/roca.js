@@ -2,13 +2,15 @@
 // Cada passo é um módulo em js/passos/ com: export default { id, titulo, curto, render(el, ctx) }.
 // Contrato do ctx: ver web/js/passos/LEIA-ME.md.
 import * as U from "./comum.js";
-import lugar from "./passos/lugar.js";
-import perguntas from "./passos/perguntas.js";
-import plantio from "./passos/plantio.js";
-import dinheiro from "./passos/dinheiro.js";
-import seguranca from "./passos/seguranca.js";
 
-const PASSOS = [lugar, perguntas, plantio, dinheiro, seguranca];
+// Os passos são carregados só quando abertos: um erro num deles não derruba a jornada inteira.
+const PASSOS = [
+  { id: "lugar", titulo: "O lugar" }, { id: "perguntas", titulo: "Sua roça" }, { id: "plantio", titulo: "Como plantar" },
+  { id: "dinheiro", titulo: "Quanto rende" }, { id: "seguranca", titulo: "Segurança" },
+];
+const modulos = {};
+const carregarPasso = (id) => (modulos[id] ||= import(`./passos/${id}.js`).then((m) => m.default)
+  .catch((e) => { delete modulos[id]; throw e; }));
 
 // Respostas do agricultor. "" = não sei / não respondeu (vale o padrão). Só o que difere do padrão vai para a URL.
 export const PADRAO = { terra: "", ha: "", baixio: "", agua: "", vol: "", maniva: "", criacao: "", prioridade: "", gs: "", raiz: "", custo: "" };
@@ -98,15 +100,15 @@ const ROT = {
 
 function desenharCasca(r, ef) {
   const l = r.local;
-  document.getElementById("topo-lugar").innerHTML = `<b>${U.esc(l.municipio)}</b> <span>· ${U.esc(l.mesorregiao)} · ${U.esc(l.uf)}</span>`;
+  document.getElementById("topo-lugar").innerHTML = `${U.ic("pino")} <b>${U.esc(l.municipio)}</b> · ${U.esc(l.uf)}`;
   document.title = `QUADRA · ${l.municipio} (${l.uf})`;
   document.getElementById("passos-nav").innerHTML = PASSOS.map((p, i) =>
     `<button class="passo-pilula ${i + 1 === estado.passo ? "atual" : i + 1 < estado.passo ? "feito" : ""}" data-ir="${i + 1}" type="button">
       <i>${i + 1 < estado.passo ? "✓" : i + 1}</i><span>${U.esc(p.titulo)}</span></button>`).join("");
   const ficha = document.getElementById("ficha");
-  ficha.innerHTML = estado.passo >= 3 ? `<span>Sua roça:</span>` + [
-    ROT.terra[ef.terra], U.ha(ef.ha) + (ef.ha_origem === "resposta" ? "" : " (padrão)"), ROT.baixio[ef.baixio], ROT.agua[ef.agua], ROT.maniva[ef.maniva],
-  ].map((t) => `<button type="button" data-ir="2" title="Mudar a resposta">${U.esc(t)} ✎</button>`).join("") : "";
+  ficha.innerHTML = estado.passo >= 3 ? [
+    ROT.terra[ef.terra], U.ha(ef.ha), ROT.baixio[ef.baixio], ROT.agua[ef.agua], ROT.maniva[ef.maniva],
+  ].map((t) => `<button type="button" data-ir="2" title="Mudar a resposta">${U.esc(t)}</button>`).join("") : "";
   const v = document.getElementById("voltar"), a = document.getElementById("avancar");
   v.disabled = estado.passo === 1;
   a.textContent = estado.passo < 5 ? `${PASSOS[estado.passo].titulo} →` : "Outro lugar →";
@@ -118,7 +120,7 @@ async function desenhar() {
   estado = e;
   const el = document.getElementById("jornada");
   if (!e.cod) return escolherLugar(el);
-  if (!el.querySelector(".passo-conteudo")) el.innerHTML = `<div class="carregando">Juntando os dados da NASA, do ZARC e do IBGE para este lugar…</div>`;
+  if (!el.querySelector(".passo-conteudo")) el.innerHTML = `<div class="carregando">Olhando o seu lugar lá de cima</div>`;
   let r;
   try {
     r = await buscar(e.cod, e.resp);
@@ -129,8 +131,9 @@ async function desenhar() {
   if (meu !== pedido) return;
   const ef = efetivas(e.resp, r);
   desenharCasca(r, ef);
+  const entrou = el.dataset.passo !== String(e.passo) || el.dataset.cod !== e.cod; // chegou agora a este passo (não é só uma resposta nova)
   const ctx = {
-    r, cod: e.cod, passo: e.passo, resp: e.resp, ef, padroes: r.padroes || null, util: U,
+    r, cod: e.cod, passo: e.passo, resp: e.resp, ef, padroes: r.padroes || null, util: U, entrou,
     set: (patch) => { const n = { ...estado, resp: { ...estado.resp, ...patch } }; location.replace(escreverHash(n)); },
     ir: (n) => { location.hash = escreverHash({ ...estado, passo: n }); },
     link: (n, patch = {}) => escreverHash({ ...estado, passo: n, resp: { ...estado.resp, ...patch } }),
@@ -139,15 +142,18 @@ async function desenhar() {
   const caixa = document.createElement("div");
   caixa.className = `passo-conteudo passo-${passo.id}`;
   try {
-    await passo.render(caixa, ctx);
+    const mod = await carregarPasso(passo.id);
+    if (meu !== pedido) return;
+    await mod.render(caixa, ctx);
   } catch (err) {
     console.error(err);
     caixa.innerHTML = `<div class="erro">Erro ao desenhar o passo "${U.esc(passo.titulo)}": ${U.esc(err.message)}</div>`;
   }
   if (meu !== pedido) return;
-  const mudouPasso = el.dataset.passo !== String(e.passo);
+  const mudouPasso = entrou;
   el.replaceChildren(caixa);
   el.dataset.passo = String(e.passo);
+  el.dataset.cod = e.cod;
   if (mudouPasso) window.scrollTo({ top: 0, behavior: "instant" });
 }
 
@@ -156,11 +162,11 @@ async function escolherLugar(el) {
   document.getElementById("ficha").innerHTML = "";
   document.getElementById("topo-lugar").innerHTML = "";
   const ex = [["2311306", "Quixadá (CE)"], ["2208007", "Picos (PI)"], ["2611101", "Petrolina (PE)"], ["2700300", "Arapiraca (AL)"], ["2903201", "Barreiras (BA)"]];
-  el.innerHTML = `<div class="titulo-passo"><h1>Escolha o seu município</h1><p>O QUADRA cobre os 1.794 municípios do Nordeste. Pelo globo
-    (<a href="index.html">voltar ao globo</a>) ou pela busca:</p></div>
-    <div class="cartao"><input id="busca-mun" list="lista-mun" placeholder="Digite o município…" style="width:100%;max-width:420px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px;background:var(--surface);color:var(--ink)">
+  el.innerHTML = `<div class="titulo-passo"><p class="kicker">Nordeste do Brasil · da órbita pro campo</p>
+    <h1>Qual é o seu município?<span class="eco">A gente olha lá de cima.</span></h1></div>
+    <div class="cartao"><input id="busca-mun" list="lista-mun" placeholder="Digite o município…" style="width:100%;max-width:460px;padding:14px 16px;border:1px solid var(--border-2);border-radius:14px;font-size:17px;background:rgba(255,255,255,.04);color:var(--ink)">
     <datalist id="lista-mun"></datalist>
-    <p class="sub">Exemplos: ${ex.map(([c, n]) => `<a href="#/${c}/1">${n}</a>`).join(" · ")}</p></div>`;
+    <p class="sub">Ou toque num exemplo: ${ex.map(([c, n]) => `<a href="#/${c}/1">${n}</a>`).join(" · ")} · <a href="index.html">ver no globo</a></p></div>`;
   let lista = [];
   try {
     const r = await fetch("dados/busca_municipios.json");
@@ -188,11 +194,5 @@ document.getElementById("avancar").addEventListener("click", () => {
   if (estado.passo < 5) location.hash = escreverHash({ ...estado, passo: estado.passo + 1 });
   else location.href = "index.html";
 });
-document.getElementById("tema").addEventListener("click", () => {
-  const h = document.documentElement, escuro = h.dataset.theme ? h.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  h.dataset.theme = escuro ? "light" : "dark";
-  try { localStorage.setItem("quadra-tema", h.dataset.theme); } catch (_) { /* sem armazenamento: só nesta visita */ }
-});
-try { const t = localStorage.getItem("quadra-tema"); if (t) document.documentElement.dataset.theme = t; } catch (_) { /* idem */ }
 window.addEventListener("hashchange", desenhar);
 desenhar();

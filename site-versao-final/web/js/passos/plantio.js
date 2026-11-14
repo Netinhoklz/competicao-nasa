@@ -1,9 +1,9 @@
-// QUADRA, site final: passo 3 "Como plantar" (roca.html#/<cod>/3).
+// QUADRA, site final: passo 3 "Como plantar" (roca.html#/<cod>/3). Versão 2: pouco texto, no visual da tela inicial.
 // Junta a rotação do José (Partes A/B/C, baixio, bordas, calendário: protótipo/, branch estudo-jose, e7a23b5) com a distribuição
 // em faixas do Vicente Lima (PercolaCampo, branch estudo-vicente, 18fd0e3). Desenho e algoritmo: analise/distribuicao.md;
-// o que do PercolaCampo é defensável: analise/vicente.md. Contrato do ctx: js/passos/LEIA-ME.md.
+// o que do PercolaCampo é defensável: analise/vicente.md. Contrato do ctx e regras de texto: js/passos/LEIA-ME.md.
 import { montar, grade, espalhar, ehGram, LIMIAR_SITIO } from "./plantio/desenho.js";
-import { cartaoCalendario, ligarCalendario, seloPlantar } from "./plantio/calendario.js";
+import { linhaDoTempo, calendarioCompleto, ligarCalendario } from "./plantio/calendario.js";
 
 // estado de tela (não é resposta): ano escolhido, vista por ano ou mês a mês, mês, relógios das animações
 const est = { cod: null, ano: 0, modo: "ano", mes: null, relogio: null, foco: null, compacto: false };
@@ -54,21 +54,18 @@ function estadoMes(a, parte, mes, revez = false) {
 }
 
 const haTxt = (U, v) => (v >= 10 ? U.num(v, 0) : v >= 1 ? U.num(v, 1).replace(/,0$/, "") : U.num(v, 2)) + " ha";
+const botoesAno = (p) => `<div class="anos" role="group" aria-label="Ano do plano">${p.anos.map((ano, k) =>
+  `<button type="button" class="ano-b" data-ano="${k}">${ano}</button>`).join("")}</div>`;
 
-// ------------------------------------------------------------------ cabeçalho
-function cabecalho(ctx) {
+// ------------------------------------------------------------------ abertura
+function abertura(ctx) {
   const U = ctx.util, ef = ctx.ef;
-  const tam = ef.ha_origem === "resposta" ? `<b>${haTxt(U, ef.ha)}</b>`
-    : `<b>${haTxt(U, ef.ha)}</b> (${U.esc(ef.ha_origem.replace(/[()]/g, ""))}; <a href="${ctx.link(2)}">diga o tamanho</a>)`;
-  const BX = { pouco: "pequeno (1/5)", terco: "de ⅓", metade: "de metade do roçado" };
-  const bx = ef.tem_baixio === false ? "<b>sem baixio</b>"
-    : ef.tem_baixio === null ? `<b>baixio: não sei</b> (desenhamos ⅓ tracejado)` : `<b>baixio ${BX[ef.baixio] || ""}</b> (${haTxt(U, ef.baixio_ha)})`;
-  const TERRA = { nao_sei: "terra: não sei", arenosa: "terra arenosa", mista: "terra misturada", barro: "terra de barro" };
-  const efBx = ef.tem_baixio === false ? "sem baixio, o milho sai do roçado" : "o baixio fica embaixo, com o milho";
-  const efTerra = ef.terra === "nao_sei" ? "sem saber a terra, valem as datas do ZARC que servem em todos os solos" : "a terra muda as datas de plantar do ZARC";
-  return `<div class="titulo-passo"><h1>Como plantar e distribuir o seu roçado</h1>
-    <p>Com as suas respostas, ${tam}, ${bx} e <b>${TERRA[ef.terra] || U.esc(ef.terra)}</b>: o tamanho dá a área de cada faixa; ${efBx};
-    ${efTerra}. <a href="${ctx.link(2)}">Mudar as respostas</a>.</p></div>`;
+  const BX = { pouco: "pequeno", terco: "de ⅓", metade: "de metade" };
+  const tam = haTxt(U, ef.ha) + (ef.ha_origem === "resposta" ? "" : " (padrão daqui)");
+  const bx = ef.tem_baixio === false ? "sem baixio" : ef.tem_baixio === null ? "baixio de ⅓, se tiver" : `baixio ${BX[ef.baixio] || ""} embaixo`;
+  return `<div class="titulo-passo"><p class="kicker">Passo 3 · como plantar</p>
+    <h1>Plante em faixas.<span class="eco">Cada ano, cada cultura muda de lugar.</span></h1>
+    <p>Seu roçado de ${tam}, ${bx}, desenhado em escala. <a href="${ctx.link(2)}">Mudar</a></p></div>`;
 }
 
 // ------------------------------------------------------------------ o roçado visto de cima (SVG em escala)
@@ -80,21 +77,22 @@ function linhasFaixa(x, y, w, h) {
 }
 
 function svgRocado(U, lay, W) {
-  const pad = 24, topo = 16, S = W - 2 * pad, s = S / lay.lado, x0 = pad, y0 = pad + topo;
-  const H = y0 + S + pad + 14, fs = W < 420 ? 11 : 13;
+  const pad = 24, topo = 18, S = W - 2 * pad, s = S / lay.lado, x0 = pad, y0 = pad + topo;
+  const H = y0 + S + pad + 16, fs = W < 420 ? 12 : 14, tx = x0 + 12 + fs + 8;
   const rotulos = (y, hh, i) => {
-    const dois = hh >= 34;
-    const yr = dois ? y + hh / 2 - 2 : y + hh / 2 + fs * 0.36, yf = yr - fs * 0.92 - 2;
-    return `<rect class="rot-fundo" x="${x0 + 5}" y="${yf.toFixed(1)}" width="0" height="${(fs * 1.3 + 4).toFixed(1)}" rx="5"
-        data-h1="${(fs * 1.3 + 4).toFixed(1)}" data-h2="${(y + hh / 2 + fs - 1 + 5 - yf).toFixed(1)}"/>
-      <text class="rot" x="${x0 + 10}" y="${yr.toFixed(1)}" style="font-size:${fs}px"></text>
-      <text class="rot2" x="${x0 + 10}" y="${(y + hh / 2 + fs - 1).toFixed(1)}" style="font-size:${fs - 2}px"${dois ? "" : ' display="none"'}></text>
-      <text class="tag" x="${x0 + S - 8}" y="${yr.toFixed(1)}" text-anchor="end" style="font-size:${fs - 2}px" data-tag="${i}"></text>`;
+    const dois = hh >= fs * 2.6;
+    const yr = dois ? y + hh / 2 - 2 : y + hh / 2 + fs * 0.36, yf = yr - fs * 0.95 - 3;
+    return `<rect class="rot-fundo" x="${x0 + 6}" y="${yf.toFixed(1)}" width="0" height="${(fs * 1.35 + 6).toFixed(1)}" rx="7"
+        data-h1="${(fs * 1.35 + 6).toFixed(1)}" data-h2="${(y + hh / 2 + fs - 1 + 6 - yf).toFixed(1)}" data-x="${tx - x0 - 6}"/>
+      <g class="rot-ic" transform="translate(${x0 + 12},${(yr - fs * 0.95).toFixed(1)}) scale(${((fs + 2) / 24).toFixed(3)})"></g>
+      <text class="rot" x="${tx}" y="${yr.toFixed(1)}" style="font-size:${fs}px"></text>
+      <text class="rot2" x="${tx}" y="${(y + hh / 2 + fs - 1).toFixed(1)}" style="font-size:${fs - 2}px"${dois ? "" : ' display="none"'}></text>
+      <text class="tag" x="${x0 + S - 10}" y="${yr.toFixed(1)}" text-anchor="end" style="font-size:${fs - 2}px" data-tag="${i}"></text>`;
   };
   let h = `<svg class="rocado-svg" viewBox="0 0 ${W} ${H.toFixed(0)}" role="img" aria-label="O roçado visto de cima, em escala">
     <g class="bordas t-perene" data-bordas>
-      <rect class="b-fora" x="${x0 - 15}" y="${y0 - 15}" width="${S + 30}" height="${S + 30}" rx="6"/>
-      <rect class="b-dentro" x="${x0 - 7}" y="${y0 - 7}" width="${S + 14}" height="${S + 14}" rx="3"/></g>`;
+      <rect class="b-fora" x="${x0 - 15}" y="${y0 - 15}" width="${S + 30}" height="${S + 30}" rx="8"/>
+      <rect class="b-dentro" x="${x0 - 7}" y="${y0 - 7}" width="${S + 14}" height="${S + 14}" rx="4"/></g>`;
   lay.faixas.forEach((f, i) => {
     const y = y0 + f.y0 * s, hh = (f.y1 - f.y0) * s;
     h += `<g class="fx" data-fx="${i}"><rect class="chao" x="${x0}" y="${y.toFixed(1)}" width="${S}" height="${hh.toFixed(1)}"/>
@@ -106,76 +104,15 @@ function svgRocado(U, lay, W) {
       <rect class="chao" x="${x0}" y="${y.toFixed(1)}" width="${S}" height="${hh.toFixed(1)}"/>
       <g class="lin" data-milho></g><g class="lin caupi t-leguminosa" data-caupi></g>${rotulos(y, hh, "bx")}</g>`;
   }
-  // escala: barra de 5/10/20/25/50/100/200 m com 50–130 unidades
+  // escala: barra de 5/10/20/25/50/100/200 m com pelo menos 50 unidades
   const L = [5, 10, 20, 25, 50, 100, 200, 500].find((m) => m * s >= 50) || 500;
-  const yb = y0 + S + 30;
-  h += `<text class="eixo" x="${x0}" y="${y0 - 21}">alto do terreno</text>
-    <text class="eixo" x="${x0 + S}" y="${y0 - 21}" text-anchor="end">a água corre ↓${lay.temBaixio ? " para o baixio" : ""}</text>
+  const yb = y0 + S + 32;
+  h += `<text class="eixo" x="${x0 - 15}" y="${y0 - 24}">alto</text>
+    <text class="eixo" x="${x0 + S + 15}" y="${y0 - 24}" text-anchor="end">a água desce ↓</text>
     <line class="escala" x1="${x0}" y1="${yb}" x2="${x0 + L * s}" y2="${yb}"/>
-    <text class="eixo" x="${x0 + L * s + 6}" y="${yb + 4}">${L} m</text>
-    <text class="eixo" x="${x0 + S}" y="${yb + 4}" text-anchor="end">cada lado ≈ ${U.num(lay.lado, 0)} m</text></svg>`;
+    <text class="eixo" x="${x0 + L * s + 8}" y="${yb + 4}">${L} m</text>
+    <text class="eixo" x="${x0 + S}" y="${yb + 4}" text-anchor="end">lado ≈ ${U.num(lay.lado, 0)} m</text></svg>`;
   return h;
-}
-
-function cartaoRocado(ctx, lay, meses, W) {
-  const U = ctx.util, esc = U.esc, p = ctx.r.plano, a = ctx.r.agenda;
-  const marcosMes = (mes) => (a ? a.marcos.map((m, i) => ({ ...m, n: i + 1 })).filter((m) => m.data >= mes.ini && m.data <= mes.fim) : []);
-  const botoesMes = meses.map((mes, i) => `<button type="button" class="mes-b" data-mes="${i}" title="${U.MESES[mes.m - 1]}/${mes.y}">
-      <span>${U.MESES[mes.m - 1]}</span><small>${mes.m === 1 || i === 0 ? mes.y : "&nbsp;"}</small>
-      <i class="mes-marcos">${marcosMes(mes).map((m) => `<b class="${m.rotulo === "Hoje" ? "hoje" : ""}" style="left:${((+m.data.slice(8, 10) - 0.5) / mes.dias) * 100}%"
-        title="${esc(m.dia)} · ${esc(m.rotulo)}">${m.n}</b>`).join("")}</i></button>`).join("");
-  const tipos = [...new Set(p.faixas.filter((f) => f.parte !== "Bordas" && (f.parte !== "Baixio" || lay.temBaixio)).flatMap((f) => f.anos.map((c) => c.tipo)))];
-  const NOME_TIPO = { leguminosa: "leguminosa (caupi, feijão)", cereal: "cereal (milho)", "tampão": "mandioca (reserva)", forragem: "forragem (sorgo, milheto)",
-    perene: "perene (palma, gliricídia)", renda: "renda", pousio: "descanso" };
-  const amostra = (e) => `<svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="fx t-leguminosa e-${e}"><rect class="chao" x="1" y="1" width="28" height="14"/>
-    <g class="lin e-${e}"><line x1="4" y1="5.5" x2="26" y2="5.5"/><line x1="4" y1="10.5" x2="26" y2="10.5"/></g></g></svg>`;
-  return `<div class="cartao rocado-cartao" id="plantio-rocado">
-    <div class="rocado-topo"><h2>O roçado visto de cima</h2>
-      <div class="anos" role="group" aria-label="Ano do plano">${p.anos.map((ano, k) => `<button type="button" class="ano-b" data-ano="${k}">${ano}</button>`).join("")}</div>
-      <span class="ano-selo" data-ano-selo></span></div>
-    ${a ? `<div class="mes-controle">
-      <button type="button" class="play" data-play aria-label="Passar os meses de ${U.mesAno(a.inicio)} a ${U.mesAno(a.fim)}">▶</button>
-      <div class="mes-trilho" role="group" aria-label="Mês a mês">${botoesMes}</div>
-      <button type="button" class="botao-leve" data-ano-todo>Ano inteiro</button></div>
-    <p class="mes-info" data-mes-info></p>` : ""}
-    <div class="rocado-grade">
-      <figure class="rocado-fig">${svgRocado(U, lay, W)}
-        <figcaption class="sub pequeno">Em escala: quadrado de ${haTxt(U, lay.ha)} (lado ≈ ${U.num(lay.lado, 0)} m), ${lay.nFaixas} faixas em nível de
-        ≈ ${U.num(lay.larguraFaixa, 0)} m e ${haTxt(U, lay.faixas[0].ha)} cada${lay.temBaixio ? `, baixio de ${haTxt(U, lay.haBaixio)}` : ""}
-        ${U.selo("suposicao", SUPOE_LAYOUT + (ctx.ef.ha_origem === "resposta" ? "" : "; tamanho: " + ctx.ef.ha_origem))}.
-        O tamanho de cada faixa e o solo do baixio se confirmam com o técnico. As linhas são ilustrativas: o espaçamento é com o técnico.</figcaption></figure>
-      <div class="rocado-lado">
-        <p class="ordem-frase">${fraseOrdem(U, lay)}</p>
-        <ul class="rocado-lista" data-lista></ul>
-        <div class="legenda" data-legenda-ano>${tipos.map((t) => `<span class="tipo-chave ${U.tipoCss(t)}">${esc(NOME_TIPO[t] || t)}</span>`).join("")}
-          <span class="leg-borda"><svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="bordas t-perene"><line class="b-fora" x1="2" y1="4" x2="28" y2="4"/>
-            <line class="b-dentro" x1="2" y1="12" x2="28" y2="12"/></g></svg><span>borda: gliricídia por fora, palma por dentro. As bordas não tiram área ${U.selo("suposicao", "como no estudo financeiro (10_familia.py): as bordas ficam no perímetro e não entram na área das faixas")}</span></span>
-          ${lay.incerto ? `<span class="leg-incerto">tracejado: o baixio, se você tiver (você respondeu "não sei")</span>` : ""}</div>
-        <div class="legenda" data-legenda-mes hidden>${Object.keys(ESTADO).map((e) => `<span>${amostra(e)}${ESTADO[e]}</span>`).join("")}
-          <span class="sub">a cor é a da cultura do mês</span></div>
-        <p class="sub pequeno" data-reserva-nota hidden><span class="tag-reserva">reserva</span> = mandioca do ano anterior ainda no chão: colhe conforme a
-        necessidade e segura a família se o ano vier ruim.</p>
-      </div>
-    </div></div>`;
-}
-
-function fraseOrdem(U, lay) {
-  const seq = lay.faixas.map((f) => f.letra).join(" ");
-  const sel = U.selo("suposicao", "contado sobre o desenho (faixas iguais em nível): faixas vizinhas e a faixa que encosta no baixio, nos 3 anos do plano");
-  let s = `De cima para baixo: <b>${seq}</b>${lay.temBaixio ? " e, embaixo, o baixio" : ""}. `;
-  if (lay.contatos === 0) {
-    s += `Das 6 ordens possíveis, escolhemos uma em que nenhuma gramínea (milho, sorgo, milheto) encosta em outra gramínea nos 3 anos ${sel}`;
-    const ult = lay.encostaBaixio;
-    if (lay.temBaixio) s += ult.anos.every((c) => !ehGram(c.cultura))
-      ? `: a ${U.esc(ult.parte)}, que aqui nunca tem gramínea, fica encostada no milho do baixio.` : ", nem no milho do baixio.";
-    else s += ".";
-  } else if (lay.todasIguais) {
-    s += `Aqui nenhuma ordem evita que gramínea encoste em gramínea: em qualquer uma das 6 ordens são ${lay.contatos} encontros em 3 anos ${sel}
-      (veja o aviso em "Por que faixas e não blocos").`;
-  } else {
-    s += `Das 6 ordens possíveis, esta tem menos encontros de gramínea com gramínea nos 3 anos: ${lay.contatos}, contra ${lay.piorContatos} na pior ${sel}.`;
-  }
-  return s;
 }
 
 /** Fundo atrás dos rótulos de cada faixa (as linhas de plantio não cortam o texto). Mede o texto quando a página já está na tela. */
@@ -189,9 +126,9 @@ function fundosRotulos(raiz) {
     for (const t of usa2 ? [r1, r2] : [r1]) {
       let l = 0;
       try { l = t.getComputedTextLength(); } catch (_) { /* fora da tela: estima */ }
-      w = Math.max(w, l || t.textContent.length * parseFloat(t.style.fontSize) * 0.58);
+      w = Math.max(w, l || t.textContent.length * parseFloat(t.style.fontSize) * 0.56);
     }
-    f.setAttribute("width", r1.textContent ? (w + 12).toFixed(1) : "0");
+    f.setAttribute("width", r1.textContent ? (w + +f.dataset.x + 12).toFixed(1) : "0");
     f.setAttribute("height", usa2 ? f.dataset.h2 : f.dataset.h1);
   });
 }
@@ -208,37 +145,87 @@ function linhasBaixio(g, k, mostrarCaupi) {
   g.querySelector("[data-caupi]").innerHTML = mostrarCaupi ? caupi : "";
 }
 
+function heroi(ctx, lay, meses, W) {
+  const U = ctx.util, p = ctx.r.plano, a = ctx.r.agenda;
+  const chips = meses.map((mes, i) => `<button type="button" class="mes-b" data-mes="${i}" title="${U.MESES[mes.m - 1]}/${mes.y}">
+      ${U.MESES[mes.m - 1]}${mes.m === 1 || i === 0 ? `<small>${String(mes.y).slice(2)}</small>` : ""}</button>`).join("");
+  const amostra = (e) => `<svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="fx t-leguminosa e-${e}"><rect class="chao" x="1" y="1" width="28" height="14"/>
+    <g class="lin e-${e}"><line x1="4" y1="5.5" x2="26" y2="5.5"/><line x1="4" y1="10.5" x2="26" y2="10.5"/></g></g></svg>`;
+  const ordem = `<p>${fraseOrdem(U, lay)}</p>
+    <p>O desenho é uma suposição ${U.selo("suposicao", SUPOE_LAYOUT)}: roçado quadrado de ${haTxt(U, lay.ha)} (lado ≈ ${U.num(lay.lado, 0)} m),
+    ${lay.nFaixas} faixas em nível de ≈ ${U.num(lay.larguraFaixa, 0)} m e ${haTxt(U, lay.faixas[0].ha)} cada (Partes A, B e C do mesmo tamanho;
+    faixa de pelo menos 10 m, senão 3 faixas)${lay.temBaixio ? `, baixio de ${haTxt(U, lay.haBaixio)}${lay.incerto ? ` (você respondeu "não sei": desenhamos ⅓)` : ""}` : ""}.
+    As bordas ficam no perímetro e não tiram área, como no estudo financeiro. As linhas de plantio são ilustrativas: o espaçamento, o tamanho
+    de cada faixa e o solo do baixio se confirmam com o técnico.</p>
+    <p>No mês a mês, cada faixa mostra o que o calendário manda fazer: plantar e "pode plantar, com mais risco" vêm das janelas do ZARC
+    ${U.selo("medido", "ZARC 2026/27 e portarias plurianuais do MAPA")}; crescendo e colher vêm da janela mais o ciclo da cultura
+    ${U.selo("suposicao", "ciclos da cultura; alguns sem fonte")}. O calendário só vai até dez/2027: 2028 e 2029 aparecem só por ano
+    ${U.selo("projecao", "a rotação segue; as datas repetem o ZARC 2026/27")}.</p>`;
+  return `<section class="painel heroi" id="plantio-rocado">
+    <div class="bloco-topo"><h3>Seu roçado visto de cima <span data-selo-heroi></span></h3>${botoesAno(p)}</div>
+    <div class="heroi-grade">
+      <figure class="rocado-fig">${svgRocado(U, lay, W)}</figure>
+      <div class="heroi-lado">
+        <p class="vista" data-vista></p>
+        <ul class="leg-partes" data-lista></ul>
+        <p class="leg-extra"><svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="bordas t-perene"><line class="b-fora" x1="2" y1="4" x2="28" y2="4"/>
+          <line class="b-dentro" x1="2" y1="12" x2="28" y2="12"/></g></svg>Cerca viva: palma por dentro, gliricídia por fora</p>
+        ${lay.incerto ? `<p class="leg-extra"><span class="amostra-tracejo"></span>Tracejado: o baixio, se você tiver</p>` : ""}
+        <div class="leg-estados" data-legenda-mes hidden>${Object.keys(ESTADO).map((e) => `<span>${amostra(e)}${ESTADO[e]}</span>`).join("")}</div>
+      </div>
+    </div>
+    ${a ? `<div class="mes-controle">
+      <button type="button" class="play" data-play aria-label="Passar os meses">${U.ic("seta")}</button>
+      <div class="mes-trilho" role="group" aria-label="Mês a mês em 2027">${chips}</div>
+      <button type="button" class="botao-leve" data-ano-todo>Ano todo</button></div>` : ""}
+    ${U.verMais(ordem, "Por que esta ordem das faixas")}
+    ${U.verMais(rotacao(ctx, lay), `Ver a rotação ${p.anos[0]}–${p.anos[p.anos.length - 1]}, parte por parte`)}
+  </section>`;
+}
+
+function fraseOrdem(U, lay) {
+  const seq = lay.faixas.map((f) => f.letra).join(" ");
+  const sel = U.selo("suposicao", "contado sobre o desenho (faixas iguais em nível): faixas vizinhas e a faixa que encosta no baixio, nos 3 anos do plano");
+  let s = `De cima para baixo: <b>${seq}</b>${lay.temBaixio ? " e, embaixo, o baixio" : ""}. `;
+  if (lay.contatos === 0) {
+    s += `Das 6 ordens possíveis, escolhemos uma em que nenhuma gramínea (milho, sorgo, milheto) encosta em outra gramínea nos 3 anos ${sel}`;
+    const ult = lay.encostaBaixio;
+    if (lay.temBaixio) s += ult.anos.every((c) => !ehGram(c.cultura))
+      ? `: a ${U.esc(ult.parte)}, que aqui nunca tem gramínea, fica encostada no milho do baixio.` : ", nem no milho do baixio.";
+    else s += ".";
+  } else if (lay.todasIguais) {
+    s += `Aqui nenhuma ordem evita que gramínea encoste em gramínea: em qualquer uma das 6 ordens são ${lay.contatos} encontros em 3 anos ${sel}.`;
+  } else {
+    s += `Das 6 ordens possíveis, esta tem menos encontros de gramínea com gramínea nos 3 anos: ${lay.contatos}, contra ${lay.piorContatos} na pior ${sel}.`;
+  }
+  return s;
+}
+
 function pintarRocado(el, ctx, lay, meses) {
   const U = ctx.util, esc = U.esc, a = ctx.r.agenda, p = ctx.r.plano;
   const mes = est.modo === "mes" ? meses[est.mes] : null, k = mes ? 0 : est.ano;
-  el.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(!mes && +b.dataset.ano === k)));
-  el.querySelectorAll("[data-mes]").forEach((b) => { b.classList.toggle("atual", !!mes && +b.dataset.mes === est.mes); b.classList.toggle("fora", est.ano !== 0 && !mes); });
-  const seloAno = el.querySelector("[data-ano-selo]");
-  seloAno.innerHTML = k === 0 ? U.selo("medido", "culturas do plano para 2027 com as janelas do ZARC 2026/27")
-    : U.selo("projecao", `${p.anos[k]}: o plano segue a rotação; as datas repetem o ZARC 2026/27 (o calendário só vai até dez/2027)`);
-  const info = el.querySelector("[data-mes-info]");
-  if (info) {
-    if (mes) {
-      const ms = a.marcos.map((m, i) => ({ ...m, n: i + 1 })).filter((m) => m.data >= mes.ini && m.data <= mes.fim);
-      info.innerHTML = `<b>${U.MESES[mes.m - 1]}/${mes.y}</b>: cada faixa pintada pelo que o calendário manda fazer no mês.
-        ${ms.map((m) => `<span class="marco-n">${m.n}</span> <b>${esc(m.rotulo)}</b> (${esc(m.dia)}): ${esc(m.texto)}`).join(" ")}`;
-    } else if (est.ano === 0) info.innerHTML = `Toque num mês (ou em ▶) para ver o roçado mês a mês, de ${U.mesAno(a.inicio)} a ${U.mesAno(a.fim)}.`;
-    else info.innerHTML = `O mês a mês só existe para 2027: o calendário do ZARC vai até dez/2027. ${p.anos[k]} aparece só por ano ${U.selo("projecao", "rotação projetada; sem calendário próprio")}.`;
-  }
-  el.querySelector("[data-legenda-ano]").hidden = !!mes;
-  el.querySelector("[data-legenda-mes]").hidden = !mes;
-  const itens = [];
+  const caixa = el.querySelector("#plantio-rocado");
+  caixa.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(!mes && +b.dataset.ano === k)));
+  caixa.querySelectorAll("[data-mes]").forEach((b) => { b.classList.toggle("atual", !!mes && +b.dataset.mes === est.mes); b.classList.toggle("fora", est.ano !== 0 && !mes); });
+  caixa.querySelector("[data-selo-heroi]").innerHTML = mes
+    ? U.selo("medido", "datas de plantar do ZARC 2026/27; crescendo e colher = janela + ciclo da cultura (suposição); desenho = suposição")
+    : k === 0 ? U.selo("suposicao", SUPOE_LAYOUT + "; culturas do plano para 2027")
+      : U.selo("projecao", `${p.anos[k]}: a rotação segue o plano; desenho = suposição`);
+  caixa.querySelector("[data-vista]").textContent = mes ? `${U.MESES[mes.m - 1]}/${mes.y} · mês a mês` : `${p.anos[k]} · o ano todo`;
+  caixa.querySelector("[data-legenda-mes]").hidden = !mes;
   let temReserva = false;
   lay.faixas.forEach((f, i) => {
-    const g = el.querySelector(`[data-fx="${i}"]`);
-    let tipo, estado = "ano", rot, rot2 = "", tag = "";
+    const g = caixa.querySelector(`[data-fx="${i}"]`);
+    let tipo, estado = "ano", rot, rot2 = "", tag = "", icone;
     if (mes) {
       const e = estadoMes(a, f.parte, mes);
       tipo = e.tipo; estado = e.estado;
+      icone = e.estado === "preparo" ? "enxada" : e.estado === "descanso" ? "" : U.icCultura(e.cultura);
       rot = `${f.letra} · ${e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : `${curto(e.cultura)} · ${(est.compacto ? ESTADO_CURTO : ESTADO)[e.estado]}`}`;
     } else {
       const c = f.plano.anos[k];
       tipo = c.tipo;
+      icone = U.icCultura(c.cultura);
       rot = `${f.letra} · ${curto(c.cultura)} · ${haTxt(U, f.ha)}`;
       if (k > 0) {
         const antes = f.plano.anos[k - 1].cultura;
@@ -249,108 +236,118 @@ function pintarRocado(el, ctx, lay, meses) {
     }
     g.setAttribute("class", `fx ${U.tipoCss(tipo)} e-${estado}`);
     g.querySelector(".lin").setAttribute("class", `lin e-${estado}`);
+    g.querySelector(".rot-ic").innerHTML = icone ? U.IC[icone] : "";
     g.querySelector(".rot").textContent = rot;
     g.querySelector(".rot2").textContent = rot2;
     g.querySelector(".tag").textContent = tag;
   });
-  // lista ao lado: uma linha por parte (não por faixa)
+  // legenda compacta: uma linha por parte (ícone, nome, área ou o que fazer no mês)
+  const itens = [];
   for (const q of p.faixas) {
     if (q.parte === "Baixio" && !lay.temBaixio) continue;
+    const L = /^Parte/.test(q.parte) ? q.parte.replace("Parte ", "") : "";
+    let cultura, tipo, direita, extra = q.parte === "Baixio" ? `<span class="leg-sub">no baixio</span>` : "";
     if (mes) {
-      const e = estadoMes(a, q.parte, mes), rz = q.parte === "Baixio" ? estadoMes(a, "Baixio", mes, true) : null;
-      const quando = e.barra ? `${esc(e.barra.rotulo)} ${e.barra.tipo === "colheita" || e.barra.tipo === "roca" ? U.selo("suposicao", "janela de plantio + ciclo da cultura")
-        : e.barra.tipo === "preparo" ? U.selo("suposicao", "preparo: o mês antes da janela") : seloPlantar(U, e.linha.fonte)}` : (e.palhada ? `a palhada do ${curto(e.cultura)} fica no chão, sem fogo` : "nada a fazer nesta parte");
-      itens.push(`<li class="${U.tipoCss(e.tipo)}"><b>${esc(q.parte)}${e.linha && e.linha.estacao > 2027 ? ` <small>(estação ${e.linha.estacao})</small>` : ""}</b>
-        · ${e.cultura && e.estado !== "descanso" ? esc(e.cultura) + ": " : ""}${quando}${rz ? `<br><span class="sub">Caupi no milho em pé: ${ESTADO[rz.estado]}${rz.barra ? ` (${esc(rz.barra.rotulo)})` : ""}</span>` : ""}</li>`);
+      const e = estadoMes(a, q.parte, mes);
+      cultura = e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : e.cultura;
+      tipo = e.tipo;
+      direita = "";
+      if (e.estado !== "descanso") extra += `<span class="leg-sub leg-faz">${ESTADO[e.estado]}${e.barra && e.estado !== "crescendo" ? ` · ${U.dataBR(e.barra.de, true)} a ${U.dataBR(e.barra.ate, true)}` : ""}</span>`;
+      if (q.parte === "Baixio") { const rz = estadoMes(a, "Baixio", mes, true); if (rz) extra += `<span class="leg-sub">caupi no meio do milho: ${ESTADO[rz.estado]}</span>`; }
+      if (q.parte === "Bordas") extra += `<span class="leg-sub">na cerca</span>`;
+      if (e.linha && e.linha.estacao > 2027) extra += `<span class="leg-sub">já é a safra ${e.linha.estacao}</span>`;
     } else {
       const c = q.anos[k];
-      let txt;
-      if (k === 0) txt = `${esc(c.cultura)} <span class="sub">· ${esc(c.texto)}</span>`;
-      else {
-        const antes = q.anos[k - 1].cultura;
-        const de = antes === c.cultura || !/^Parte/.test(q.parte) ? null : lay.partes.find((o) => o.anos[k - 1].cultura === c.cultura);
-        txt = antes === c.cultura ? `${esc(c.cultura)} de novo${c.cultura === "Mandioca" ? ` <span class="tag-reserva">reserva</span>` : ""}`
-          : `${esc(curto(antes))} → <b>${esc(c.cultura)}</b>${de ? ` <span class="sub">(em ${p.anos[k - 1]} estava na ${esc(de.parte)})</span>` : ""}`;
-      }
-      const area = /^Parte/.test(q.parte) ? haTxt(U, lay.haParte) + (lay.nFaixas > lay.partes.length ? ` em ${lay.nFaixas / lay.partes.length} faixas` : "") : q.parte === "Baixio" ? haTxt(U, lay.haBaixio) + (lay.incerto ? ", se tiver" : "") : "perímetro";
-      itens.push(`<li class="${U.tipoCss(c.tipo)}"><b>${esc(q.parte)}</b> <span class="sub">(${area})</span> · ${txt}</li>`);
+      cultura = q.parte === "Baixio" ? `${c.cultura} + caupi` : c.cultura;
+      tipo = c.tipo;
+      direita = /^Parte/.test(q.parte) ? haTxt(U, lay.haParte) : q.parte === "Baixio" ? haTxt(U, lay.haBaixio) + (lay.incerto ? "?" : "") : "na cerca";
+      if (k > 0 && q.anos[k - 1].cultura === c.cultura && c.cultura === "Mandioca") extra += `<span class="chip terra mini-chip">reserva</span>`;
     }
+    itens.push(`<li class="${U.tipoCss(tipo)}"><span class="leg-ic">${U.ic(U.icCultura(cultura))}</span><span class="leg-l">${esc(L)}</span>
+      <span class="leg-t"><b>${esc(cultura)}</b>${extra}</span><span class="leg-a">${esc(direita)}</span></li>`);
   }
-  el.querySelector("[data-lista]").innerHTML = itens.join("") + (mes ? "" : `<li class="sem-cor sub pequeno">Área das partes ${U.selo("suposicao", SUPOE_LAYOUT)}</li>`);
-  el.querySelector("[data-reserva-nota]").hidden = !temReserva;
+  caixa.querySelector("[data-lista]").innerHTML = itens.join("") + (temReserva && !mes
+    ? `<li class="leg-nota">Reserva: a mandioca do ano anterior ainda está no chão.</li>` : "");
   // baixio
-  const gb = el.querySelector("[data-bx]");
+  const gb = caixa.querySelector("[data-bx]");
   if (gb) {
     let tipo = lay.bx.anos[k].tipo, estado = "ano", rot, rot2, caupi = true;
-    const ha = haTxt(U, lay.haBaixio);
     if (mes) {
       const e = estadoMes(a, "Baixio", mes), rz = estadoMes(a, "Baixio", mes, true);
       tipo = e.tipo; estado = e.estado; caupi = !!rz;
       rot = `Baixio · ${e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : `${curto(e.cultura)} · ${ESTADO[e.estado]}`}`;
-      rot2 = rz ? `caupi no milho em pé: ${ESTADO[rz.estado]}` : "";
+      rot2 = rz ? `caupi no meio do milho: ${ESTADO[rz.estado]}` : "";
       gb.querySelector("[data-milho]").setAttribute("class", `lin e-${estado}`);
       gb.querySelector("[data-caupi]").setAttribute("class", `lin caupi t-leguminosa e-${rz ? rz.estado : "ano"}`);
+      gb.querySelector(".rot-ic").innerHTML = e.estado === "descanso" ? "" : U.IC[e.estado === "preparo" ? "enxada" : U.icCultura(e.cultura)];
     } else {
-      rot = `Baixio${lay.incerto ? "?" : ""} · ${curto(lay.bx.anos[k].cultura)} + caupi no milho em pé · ${ha}`;
-      rot2 = lay.incerto ? "se você tiver baixio: confirme com o técnico" : (k > 0 ? "as linhas de milho e de caupi trocam de lugar" : "linhas de milho e de caupi alternadas");
+      rot = `Baixio${lay.incerto ? "?" : ""} · ${curto(lay.bx.anos[k].cultura)} + caupi · ${haTxt(U, lay.haBaixio)}`;
+      rot2 = lay.incerto ? "se você tiver baixio" : "linhas de milho e de caupi alternadas";
       gb.querySelector("[data-milho]").setAttribute("class", "lin e-ano");
       gb.querySelector("[data-caupi]").setAttribute("class", "lin caupi t-leguminosa e-ano");
+      gb.querySelector(".rot-ic").innerHTML = U.IC[U.icCultura(lay.bx.anos[k].cultura)];
     }
     gb.setAttribute("class", `fx bx ${U.tipoCss(tipo)} e-${estado}${lay.incerto ? " incerto" : ""}`);
     linhasBaixio(gb, k, caupi);
     gb.querySelector(".rot").textContent = rot;
     gb.querySelector(".rot2").textContent = rot2;
   }
-  fundosRotulos(el);
-  const gbord = el.querySelector("[data-bordas]");
+  fundosRotulos(caixa);
+  const gbord = caixa.querySelector("[data-bordas]");
   if (gbord) {
     const e = mes ? estadoMes(a, "Bordas", mes) : null;
     gbord.setAttribute("class", `bordas t-perene e-${e ? e.estado : "ano"}`);
   }
 }
 
-// ------------------------------------------------------------------ por que faixas e não blocos (Vicente)
-function cartaoFaixas(ctx, lay) {
+// ------------------------------------------------------------------ o que fazer e quando
+function blocoTempo(ctx) {
+  const U = ctx.util;
+  if (!ctx.r.agenda) return "";
+  return `<section class="painel" id="plantio-tempo">
+    <h3>O que fazer e quando ${U.selo("medido", "datas de plantar da tábua oficial (ZARC 2026/27); os cartões marcados como suposição são estimados")}</h3>
+    ${linhaDoTempo(ctx)}
+    ${U.verMais(calendarioCompleto(ctx), "Ver o calendário completo")}
+  </section>`;
+}
+
+// ------------------------------------------------------------------ por que faixas e não blocos (ideia do Vicente)
+function blocoFaixas(ctx, lay) {
   const U = ctx.util, p = ctx.r.plano;
-  const fig = (modo, titulo) => `<figure class="mini" data-mini="${modo}"><figcaption><b>${titulo}</b></figcaption>
-    <div class="mini-svg" data-mini-svg="${modo}"></div><div class="mini-num" data-mini-num="${modo}"></div></figure>`;
-  return `<div class="cartao faixas-cartao" id="plantio-faixas">
-    <h2>Por que faixas e não blocos</h2>
-    <p class="credito">Ideia de distribuição: <b>Vicente Lima</b> (PercolaCampo)</p>
-    <p>Quando a mesma família de planta fica toda junta, o que anda pelo chão ou pela água passa de planta em planta pelo bloco inteiro.
-    Em faixas, encontra outra família no caminho e para. Aqui contamos isso no desenho do seu roçado, para a <b>gramínea</b>
-    (milho, sorgo, milheto), que é a família que o plano mais repete.</p>
-    <div class="anos" role="group" aria-label="Ano">${p.anos.map((ano, k) => `<button type="button" class="ano-b" data-ano="${k}">${ano}</button>`).join("")}</div>
-    <div class="mini-par">${fig("blocos", "Em blocos lado a lado (como se faz hoje)")}${fig("faixas", "Em faixas (este plano)")}</div>
-    <div class="mini-leg"><span><i class="q g1"></i>gramínea</span><span><i class="q g0"></i>outra família (caupi, mandioca, palma)</span>
-      <span><i class="q g2"></i>onde o foco chegou</span></div>
-    <p class="mini-conclusao" data-mini-conclusao></p>
-    <div class="foco-linha"><button type="button" class="botao secundario" data-foco>▶ Ver um foco se espalhar</button>
-      <span class="sub pequeno">Ilustra o mecanismo; não prevê perda. O foco começa no alto e passa só para a vizinha da mesma família.</span></div>
-    <p class="sub" data-regua></p>
+  const fig = (modo, titulo, sub) => `<figure class="mini"><figcaption><b>${titulo}</b> <span>${sub}</span></figcaption>
+    <div class="mini-svg" data-mini-svg="${modo}"></div><div class="veredito" data-veredito="${modo}"></div></figure>`;
+  const detalhe = `<div data-regua></div>
+    <p><b>O limite.</b> As faixas ajudam contra o que anda pelo chão e pela água: fungo e nematoide de raiz, a <i>Phytophthora</i>. Não seguram
+    praga que voa longe: a mariposa da lagarta-do-cartucho e o bicudo voam quilômetros. Contra essas, vale a troca de cultura de um ano para o
+    outro e o calendário combinado com os vizinhos.</p>
+    <div data-tabela-conect></div>
+    <ul class="tec">
+      <li>O roçado vira uma grade de células de cerca de 5 m (as linhas seguem as divisas das faixas e do baixio; as colunas, os terços). Cada
+      célula recebe a cultura do ano. Duas células de gramínea (milho, sorgo, milheto) estão no mesmo bloco se encostam de lado (4 vizinhos;
+      union-find). "Desce até o baixio" = algum bloco liga a linha do alto à linha mais baixa. São as definições do estudo de percolação da
+      paisagem do José (p, S, "atravessa"), aplicadas dentro do roçado.</li>
+      <li>"Em blocos" = as Partes A, B e C lado a lado, cada uma do alto até o baixio. "Em faixas" = a ordem do desenho. As bordas ficam fora da conta.</li>
+      <li>A praga que anda no desenho é uma ilustração determinística: começa na primeira célula de gramínea do alto e passa só para a vizinha de
+      gramínea. Não prevê perda.</li>
+      <li>Referências: Alonso-Tlali et al. 2025, <i>Entropy</i> 27(4):386 (limiar 0,5927; faixas alternadas e xadrez); Ramírez et al. 2018,
+      <i>Phys. Rev. E</i> 98:062409 (linhas alternadas); Ramírez et al. 2020, <i>Phys. Rev. E</i> 101:032301 (zoósporos de <i>Phytophthora</i> na
+      água do solo).</li>
+      <li>O simulador do Vicente calcula outros números (R<sub>eff</sub>, plantas protegidas) com constantes que ainda não têm fonte nos artigos
+      da pasta dele (grau D). Eles ficam no simulador, fora do plano, até a calibração.</li>
+    </ul>`;
+  return `<section class="painel faixas-bloco" id="plantio-faixas">
+    <div class="bloco-topo"><h3>Por que em faixas ${U.selo("suposicao", "calculado no navegador sobre o desenho (" + SUPOE_LAYOUT + "); grade de ~5 m, 4 vizinhos")}</h3>
+      ${botoesAno(p)}</div>
+    <p class="faixas-frase">Doença de chão e de água passa de planta em planta da mesma família.</p>
+    <div class="mini-par">${fig("blocos", "Em blocos", "como se faz hoje")}${fig("faixas", "Em faixas", "este plano")}</div>
+    <div class="mini-leg"><span><i class="q g1"></i>milho e sorgo</span><span><i class="q g0"></i>outras plantas</span><span><i class="q g2"></i>onde a praga chegou</span></div>
+    <div class="foco-linha"><button type="button" class="botao secundario" data-foco>${U.ic("seta")} Ver a praga andar</button>
+      <span class="pequeno sub">desenho do mecanismo, não previsão</span></div>
     <div data-aviso-gram></div>
-    <p class="limite"><b>O limite:</b> as faixas ajudam contra o que anda pelo chão e pela água (fungo e nematoide de raiz, a
-    <i>Phytophthora</i>). Não seguram praga que voa longe: a mariposa da lagarta-do-cartucho e o bicudo voam quilômetros. Contra essas, vale
-    a troca de cultura de um ano para o outro e o calendário combinado com os vizinhos.</p>
-    <p><a href="modulos/percolacampo/index.html" target="_blank" rel="noopener">Abrir o simulador do Vicente (modelo teórico)</a>
-    <span class="sub pequeno">· os números do simulador ainda não têm calibração no semiárido e não entram no plano.</span></p>
-    <details><summary>Como a conta é feita (detalhe técnico)</summary>
-      <div data-tabela-conect></div>
-      <ul class="tec">
-        <li>O roçado vira uma grade de células de cerca de 5 m (as linhas seguem as divisas das faixas e do baixio; as colunas, os terços).
-        Cada célula recebe a cultura do ano. Duas células de gramínea estão no mesmo bloco se encostam de lado (4 vizinhos; union-find).</li>
-        <li><b>p</b> = parte do roçado com gramínea; <b>blocos</b> = pedaços separados; <b>maior bloco</b> = o maior pedaço, em parte do roçado;
-        <b>desce até o baixio</b> = algum pedaço liga a linha do alto à linha mais baixa. São as definições do estudo de percolação da paisagem
-        do José (p, S, "atravessa"), aplicadas dentro do roçado.</li>
-        <li>"Em blocos" = as Partes A, B e C lado a lado, cada uma do alto até o baixio. "Em faixas" = a ordem escolhida acima. As bordas ficam fora da conta.</li>
-        <li>Régua: limiar de percolação de sítio 0,5927 na malha quadrada com 4 vizinhos (Alonso-Tlali et al. 2025, <i>Entropy</i> 27(4):386,
-        que também compara faixas alternadas e xadrez). Vale para mistura ao acaso; por isso aqui ele é só referência e contamos os blocos de verdade.</li>
-        <li>Linhas alternadas contra patógeno: Ramírez et al. 2018 (<i>Phys. Rev. E</i> 98:062409). Zoósporos de <i>Phytophthora</i> que andam
-        pela água do solo: Ramírez et al. 2020 (<i>Phys. Rev. E</i> 101:032301).</li>
-        <li>O simulador do Vicente calcula outros números (R<sub>eff</sub>, plantas protegidas) com constantes que ainda não têm fonte
-        nos artigos da pasta dele. Eles ficam no simulador, fora do plano, até a calibração.</li>
-      </ul></details>
-  </div>`;
+    <p class="rodape-faixas">Não segura praga que voa longe, como a lagarta-do-cartucho. Ideia de Vicente Lima (PercolaCampo) ·
+      <a href="modulos/percolacampo/index.html" target="_blank" rel="noopener">simulador do Vicente (modelo teórico)</a></p>
+    ${U.verMais(detalhe)}
+  </section>`;
 }
 
 function svgMini(U, lay, gr, alcance) {
@@ -368,11 +365,20 @@ function svgMini(U, lay, gr, alcance) {
       c0 = c1;
     }
   });
-  const sw = t(lay.lado / 120);
+  const sw = t(lay.lado / 110);
   if (gr.modo === "faixas") lay.faixas.slice(1).forEach((f) => { h += `<line class="divisa" x1="0" y1="${t(f.y0)}" x2="${t(lay.lado)}" y2="${t(f.y0)}" stroke-width="${sw}"/>`; });
   else for (let j = 1; j < lay.partes.length; j++) { const x = t(lay.lado * j / lay.partes.length); h += `<line class="divisa" x1="${x}" y1="0" x2="${x}" y2="${t(lay.profAlto)}" stroke-width="${sw}"/>`; }
   if (lay.temBaixio) h += `<line class="divisa bx" x1="0" y1="${t(lay.profAlto)}" x2="${t(lay.lado)}" y2="${t(lay.profAlto)}" stroke-width="${t(lay.lado / 70)}"/>`;
   return h + "</svg>";
+}
+
+/** O veredito grande de cada desenho: quantos pedaços de milho e sorgo e se a praga atravessa do alto ao baixo. */
+function veredito(U, lay, g) {
+  if (g.p === 0) return `<span class="chip">${U.ic("ok")} sem milho nem sorgo</span>`;
+  if (g.desce) return `<span class="chip terra">${U.ic("alerta")} ${g.blocos === 1 ? "1 bloco só: a praga atravessa" : "a praga desce até embaixo"}</span>`;
+  if (g.blocos > 1) return `<span class="chip verde">${U.ic("escudo")} ${g.blocos} pedaços: a praga para</span>`;
+  if (lay.temBaixio && Math.abs(g.maior - lay.frac) < 1e-6) return `<span class="chip">${U.ic("ok")} só o milho do baixio</span>`;
+  return `<span class="chip ambar">${U.ic("alerta")} 1 bloco grande: não desce, mas é grande</span>`;
 }
 
 function pintarFaixas(el, ctx, lay, conect) {
@@ -381,37 +387,28 @@ function pintarFaixas(el, ctx, lay, conect) {
   clearInterval(est.foco); est.foco = null;
   const caixa = el.querySelector("#plantio-faixas");
   caixa.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.ano === k)));
-  const sel = U.selo("suposicao", "calculado no navegador sobre o desenho (suposição: " + SUPOE_LAYOUT + "); grade de ~5 m, 4 vizinhos");
   const baixo = lay.temBaixio ? "até o baixio" : "até a parte mais baixa";
   for (const modo of ["blocos", "faixas"]) {
     const g = conect[k][modo];
     caixa.querySelector(`[data-mini-svg="${modo}"]`).innerHTML = svgMini(U, lay, g, null);
-    caixa.querySelector(`[data-mini-num="${modo}"]`).innerHTML = g.p === 0 ? `<p>Neste ano não há gramínea no roçado.</p>`
-      : `<p>A gramínea ocupa <b>${U.pct(g.p)}</b> do roçado em <b>${g.blocos} ${g.blocos === 1 ? "bloco" : "blocos separados"}</b> ${sel}.</p>
-        <p>Maior bloco: ${U.pct(g.maior)} do roçado. ${g.desce ? `<b class="ruim">Desce do alto ${baixo}.</b>` : `<b class="bom">Não desce do alto ${baixo}.</b>`}</p>`;
+    caixa.querySelector(`[data-veredito="${modo}"]`).innerHTML = veredito(U, lay, g);
   }
-  const b = conect[k].blocos, f = conect[k].faixas;
-  caixa.querySelector("[data-mini-conclusao]").innerHTML = b.p === 0 ? ""
-    : b.desce && !f.desce && f.blocos > 1 ? `Em ${p.anos[k]}: em blocos, a gramínea forma um caminho só do alto ${baixo}. Em faixas, ela fica em ${f.blocos} pedaços e esse caminho morro abaixo se corta.`
-      : b.desce && !f.desce ? `Em ${p.anos[k]}: em faixas, a gramínea ainda fica num bloco só (${U.pct(f.maior)} do roçado); só a faixa de cima, de outra família, fica fora dele. Aqui a ordem das faixas não basta.`
-      : !b.desce && !f.desce ? `Em ${p.anos[k]}, a gramínea não desce do alto ${baixo} em nenhum dos dois desenhos${lay.temBaixio ? " (a gramínea do ano é quase só o milho do baixio)" : ""}.`
-        : f.desce ? `Em ${p.anos[k]}, a gramínea desce do alto ${baixo} nos dois desenhos.` : "";
-  caixa.querySelector("[data-foco]").disabled = b.p === 0;
-  const pf = f.p;
-  caixa.querySelector("[data-regua]").innerHTML = pf === 0 ? "" : `Régua da teoria: numa mistura ao acaso em malha quadrada, acima de
-    ${U.num(LIMIAR_SITIO * 100, 1)}% de plantas da mesma família os pedaços tendem a se ligar de ponta a ponta (limiar 0,593
+  const f = conect[k].faixas;
+  caixa.querySelector("[data-foco]").disabled = conect[k].blocos.p === 0;
+  caixa.querySelector("[data-regua]").innerHTML = f.p === 0 ? "" : `<p><b>Régua.</b> Numa mistura ao acaso em malha quadrada, acima de
+    ${U.num(LIMIAR_SITIO * 100, 1)}% de plantas da mesma família os pedaços tendem a se ligar de ponta a ponta (limiar de percolação 0,593
     ${U.selo("medido", "valor publicado: limiar de percolação de sítio, malha quadrada, 4 vizinhos (Alonso-Tlali et al. 2025, Entropy 27:386)")}).
-    Aqui, em ${p.anos[k]}, a gramínea ocupa ${U.pct(pf)}: ${pf > LIMIAR_SITIO ? "<b>acima da régua</b>" : "abaixo da régua"}. É só referência: o roçado
-    não é mistura ao acaso, por isso contamos os blocos de verdade no desenho.`;
-  // tabela dos 3 anos (detalhe técnico)
+    Em ${p.anos[k]}, a gramínea ocupa ${U.pct(f.p)} do roçado: ${f.p > LIMIAR_SITIO ? "acima da régua" : "abaixo da régua"}. É só referência: o roçado
+    não é mistura ao acaso, por isso contamos os blocos no desenho.</p>`;
   caixa.querySelector("[data-tabela-conect]").innerHTML = `<table class="tab-conect"><tr><th>Ano</th><th>Desenho</th><th>p (gramínea)</th><th>Blocos</th>
     <th>Maior bloco</th><th>Desce ${baixo}?</th></tr>${p.anos.map((ano, j) => ["blocos", "faixas"].map((m) => {
     const g = conect[j][m];
     return `<tr><td>${ano}</td><td>${m === "blocos" ? "em blocos" : "em faixas"}</td><td>${U.num(g.p, 3)}</td><td>${g.blocos}</td><td>${U.num(g.maior, 3)}
       (S = ${U.num(g.S, 2)})</td><td>${g.p === 0 ? "—" : g.desce ? "sim" : "não"}</td></tr>`;
-  }).join("")).join("")}</table><p class="sub pequeno">S = parte da gramínea que está no maior bloco. Todos os números ${sel}.</p>`;
+  }).join("")).join("")}</table><p class="pequeno">S = parte da gramínea que está no maior bloco. Números calculados sobre o desenho (suposição).</p>`;
 }
 
+/** Aviso quando a gramínea passa da régua ou repete no mesmo lugar (ex.: Arapiraca, sem mandioca apta). Frente curta; detalhe no ver mais. */
 function avisoGramineas(ctx, lay, conect) {
   const U = ctx.util, p = ctx.r.plano;
   const acima = p.anos.filter((_, j) => conect[j].faixas.p > LIMIAR_SITIO);
@@ -420,11 +417,10 @@ function avisoGramineas(ctx, lay, conect) {
     if (ehGram(q.anos[j].cultura) && ehGram(q.anos[j + 1].cultura)) pontes.push(`${q.parte} (${p.anos[j]}→${p.anos[j + 1]})`);
   if (!acima.length && !pontes.length) return "";
   const pMax = Math.max(...p.anos.map((_, j) => conect[j].faixas.p));
-  const semMandioca = !lay.partes.some((q) => q.anos.some((c) => c.cultura === "Mandioca"));
-  return `<p class="aviso vermelho"><b>Atenção neste lugar:</b> ${semMandioca ? "sem mandioca apta aqui, " : ""}a gramínea fica com até ${U.pct(pMax)}
-    do roçado${acima.length ? ` (acima da régua em ${acima.join(", ")})` : ""}${pontes.length ? ` e repete no mesmo lugar em anos seguidos: ${pontes.join("; ")}` : ""}
-    ${U.selo("suposicao", "calculado sobre o desenho")}. Nenhuma ordem de faixas resolve isso sozinha. Converse com o técnico sobre trocar um sorgo forrageiro
-    por leguminosa, palma ou pousio pastejado.</p>`;
+  const frase = acima.length ? `Aqui milho e sorgo ficam com ${U.emDez(pMax)} partes do roçado.` : "Aqui o sorgo repete no mesmo lugar dois anos seguidos.";
+  return `<div class="aviso-gram">${U.faixa("alerta", "terra", frase)}
+    <p class="pequeno">Fale com o técnico: trocar um sorgo por feijão, palma ou descanso.${pontes.length ? ` Repete em: ${pontes.join("; ")}.` : ""}
+    ${U.selo("suposicao", "calculado sobre o desenho")}</p></div>`;
 }
 
 function animarFoco(el, ctx, lay, conect) {
@@ -446,32 +442,31 @@ function animarFoco(el, ctx, lay, conect) {
   est.foco = setInterval(quadro, 90);
 }
 
-// ------------------------------------------------------------------ a rotação 2027–2029 (tabela)
-function cartaoRotacao(ctx, lay) {
+// ------------------------------------------------------------------ a rotação 2027–2029 (vai no "ver mais" do roçado)
+function rotacao(ctx, lay) {
   const U = ctx.util, esc = U.esc, p = ctx.r.plano;
   const area = (f) => (/^Parte/.test(f.parte) ? `${haTxt(U, lay.haParte)} ${U.selo("suposicao", SUPOE_LAYOUT)}`
-    : f.parte === "Baixio" ? (lay.temBaixio ? `${haTxt(U, lay.haBaixio)}${lay.incerto ? " (se tiver)" : ""} ${U.selo("suposicao", "fração do baixio da sua resposta; \"não sei\" = 1/3")}` : "")
+    : f.parte === "Baixio" ? `${haTxt(U, lay.haBaixio)}${lay.incerto ? " (se tiver)" : ""} ${U.selo("suposicao", "fração do baixio da sua resposta; \"não sei\" = 1/3")}`
       : f.parte === "Bordas" ? "no perímetro: palma por dentro, gliricídia por fora" : "");
   const seloAno = (a, k) => `${a} ${k === 0 ? U.selo("medido", "janelas do ZARC 2026/27 nos textos de cada cultura")
     : U.selo("projecao", "a rotação segue; as datas repetem o ZARC 2026/27")}`;
   const cel = (c) => `<div class="rot-cel ${U.tipoCss(c.tipo)}"><b>${esc(c.cultura)}</b><span>${esc(c.texto)}${/estimad/.test(c.texto)
     ? " " + U.selo("suposicao", "janela estimada pelo início típico da chuva (IMERG); sem ZARC aqui") : ""}</span></div>`;
-  let h = `<div class="cartao" id="plantio-rotacao"><h2>A rotação ${p.anos[0]}–${p.anos[p.anos.length - 1]}, parte por parte</h2>
-    <p class="sub">Cada parte recebe uma cultura por ano e, no ano seguinte, a cultura muda de parte. A leguminosa deixa nitrogênio para o cereal
-    que vem depois, e sempre fica mandioca no chão como reserva para um ano ruim (onde a mandioca cabe).</p>
+  let h = `<p>Cada parte recebe uma cultura por ano e, no ano seguinte, a cultura muda de parte. A leguminosa deixa nitrogênio para o cereal que
+    vem depois, e fica mandioca no chão como reserva para um ano ruim (onde a mandioca cabe).</p>
     ${p.modelo_ne ? `<p class="aviso">Fora do Nordeste usamos o modelo do sertão: as culturas são do lugar, mas as datas, as bordas e o alerta do ano foram calibrados no NE.</p>` : ""}
     <div class="tab-rot-caixa"><table class="tab-rot"><tr><th>Parte do roçado</th>${p.anos.map((a, k) => `<th>${seloAno(a, k)}</th>`).join("")}</tr>`;
   for (const f of p.faixas) {
     if (f.parte === "Baixio" && !lay.temBaixio) continue;
-    h += `<tr><td><b>${esc(f.parte)}</b><br><span class="sub pequeno">${area(f)}</span></td>${f.anos.map((c, k) => `<td><span class="ano-rot">${seloAno(p.anos[k], k)}</span>${cel(c)}</td>`).join("")}</tr>
+    h += `<tr><td><b>${esc(f.parte)}</b><br><span class="pequeno">${area(f)}</span></td>${f.anos.map((c, k) => `<td><span class="ano-rot">${seloAno(p.anos[k], k)}</span>${cel(c)}</td>`).join("")}</tr>
       <tr class="porque"><td colspan="${p.anos.length + 1}">Por quê: ${esc(f.por_que)}</td></tr>`;
   }
   h += `</table></div>`;
   if (p.interruptor) h += `<p class="aviso"><b>Interruptor do ano:</b> ${esc(p.interruptor)}</p>`;
-  h += `<details><summary>As regras da rotação, a evidência de cada uma e as notas</summary>
-    ${(p.principios || []).map((c) => `<div class="ev"><div class="ev-regra">${esc(c.regra || c.configuracao)}${c.irrigado ? " <span class=\"sub\">(irrigado)</span>" : ""}</div>
-      <div class="sub pequeno">${c.efeito ? `<b>${esc(c.efeito)}</b> · ` : ""}grau ${esc(c.grau)}·${esc(c.transferencia)} ${esc(c.rotulo_transferencia)} · ${esc(c.referencia)}${c.lugar ? " · " + esc(c.lugar) : ""}${c.doi ? ` · <a href="https://doi.org/${esc(c.doi)}" target="_blank" rel="noopener">doi</a>` : ""}</div></div>`).join("")}
-    <ul class="notas">${(p.notas || []).map((n) => `<li>${esc(n)}</li>`).join("")}</ul></details></div>`;
+  h += `<h4>As regras da rotação e a evidência de cada uma</h4>
+    ${(p.principios || []).map((c) => `<div class="ev"><div class="ev-regra">${esc(c.regra || c.configuracao)}${c.irrigado ? " (irrigado)" : ""}</div>
+      <div class="pequeno">${c.efeito ? `<b>${esc(c.efeito)}</b> · ` : ""}grau ${esc(c.grau)}·${esc(c.transferencia)} ${esc(c.rotulo_transferencia)} · ${esc(c.referencia)}${c.lugar ? " · " + esc(c.lugar) : ""}${c.doi ? ` · <a href="https://doi.org/${esc(c.doi)}" target="_blank" rel="noopener">doi</a>` : ""}</div></div>`).join("")}
+    <h4>Notas</h4><ul class="notas">${(p.notas || []).map((n) => `<li>${esc(n)}</li>`).join("")}</ul>`;
   return h;
 }
 
@@ -484,8 +479,7 @@ export default {
     const U = ctx.util, r = ctx.r;
     if (est.cod !== ctx.cod) Object.assign(est, { cod: ctx.cod, ano: 0, modo: "ano", mes: null });
     if (!r.plano) {
-      el.innerHTML = `<div class="titulo-passo"><h1>Como plantar e distribuir o seu roçado</h1></div>
-        <div class="cartao"><p>Sem plano para este ponto (sem dado de terra no GAEZ).</p></div>`;
+      el.innerHTML = abertura(ctx) + `<section class="painel"><p>Sem plano para este ponto (sem dado de terra).</p></section>`;
       return;
     }
     const lay = montar(r.plano, ctx.ef);
@@ -496,24 +490,26 @@ export default {
     }
     if (!r.agenda) est.modo = "ano";
     const conect = r.plano.anos.map((_, k) => ({ blocos: { ...grade(lay, k, "blocos"), modo: "blocos" }, faixas: { ...grade(lay, k, "faixas"), modo: "faixas" } }));
-    const W = Math.round(Math.min(600, Math.max(300, (window.innerWidth || 800) - 70)));
+    const W = Math.round(Math.min(640, Math.max(300, (window.innerWidth || 800) - 66)));
     est.compacto = W < 420;
-    el.innerHTML = cabecalho(ctx) + cartaoRocado(ctx, lay, meses, W) + cartaoFaixas(ctx, lay) + cartaoCalendario(ctx) + cartaoRotacao(ctx, lay);
+    el.innerHTML = abertura(ctx) + heroi(ctx, lay, meses, W) + blocoTempo(ctx) + blocoFaixas(ctx, lay)
+      + `<a class="botao primario cta" href="${ctx.link(4)}"><span>Ver quanto rende</span>${U.ic("seta")}</a>`;
     el.querySelector("[data-aviso-gram]").innerHTML = avisoGramineas(ctx, lay, conect);
 
     const pintar = () => { pintarRocado(el, ctx, lay, meses); pintarFaixas(el, ctx, lay, conect); };
-    const parar = () => { clearInterval(est.relogio); est.relogio = null; const b = el.querySelector("[data-play]"); if (b) { b.textContent = "▶"; b.classList.remove("tocando"); } };
+    const play = el.querySelector("[data-play]");
+    const parar = () => { clearInterval(est.relogio); est.relogio = null; if (play) { play.innerHTML = U.ic("seta"); play.classList.remove("tocando"); } };
     el.querySelectorAll("[data-ano]").forEach((b) => b.addEventListener("click", () => { parar(); est.ano = +b.dataset.ano; est.modo = "ano"; pintar(); }));
     el.querySelectorAll("[data-mes]").forEach((b) => b.addEventListener("click", () => { parar(); est.ano = 0; est.modo = "mes"; est.mes = +b.dataset.mes; pintar(); }));
     el.querySelector("[data-ano-todo]")?.addEventListener("click", () => { parar(); est.modo = "ano"; pintar(); });
-    el.querySelector("[data-play]")?.addEventListener("click", (ev) => {
+    play?.addEventListener("click", () => {
       if (est.relogio) return parar();
       est.ano = 0;
       if (est.modo !== "mes" || est.mes >= meses.length - 1) est.mes = 0;
       est.modo = "mes";
       pintar();
-      ev.currentTarget.textContent = "❚❚";
-      ev.currentTarget.classList.add("tocando");
+      play.innerHTML = `<span class="pausa" aria-hidden="true"></span>`;
+      play.classList.add("tocando");
       est.relogio = setInterval(() => {
         if (est.mes >= meses.length - 1) return parar();
         est.mes++;

@@ -1,5 +1,6 @@
 // QUADRA, passo 4 "Quanto rende": gráficos em SVG à mão (um eixo por gráfico; plano em azul, o jeito de hoje em cinza).
 import { NMESES, mesDoIdx, rotMes } from "./calculo.js";
+import { IC } from "../../comum.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const n0 = (v, c = 0) => Number(v).toLocaleString("pt-BR", { maximumFractionDigits: c, minimumFractionDigits: c });
@@ -85,7 +86,7 @@ export function barrasAno(porAno, W = 640) {
  * com as saídas (▼) e entradas (▲) do plano nos meses da agenda. Devolve o SVG e a geometria para o cursor.
  */
 export function caixa(t, W = 760) {
-  const H = 310, x0 = 64, x1 = W - 14, yT = 34, yB = H - 62;
+  const H = 322, x0 = 64, x1 = W - 14, yT = 34, yB = H - 74;
   const todos = [...t.caixaPlano, ...t.caixaS0].flatMap((q) => [q.p10, q.p90]);
   const E = escala(Math.min(...todos), Math.max(...todos), yT, yB);
   const x = (i) => x0 + ((x1 - x0) * i) / (NMESES - 1);
@@ -105,10 +106,11 @@ export function caixa(t, W = 760) {
   // saídas e entradas do plano por mês
   const saida = new Map(), entra = new Map();
   for (const mk of t.marcas) (mk.v < 0 ? saida : entra).set(mk.i, ((mk.v < 0 ? saida : entra).get(mk.i) || 0) + mk.v);
-  const ys = yB + 32, ye = yB + 46;
+  const ys = yB + 32, ye = yB + 56;
   for (const [i] of saida) s += `<path class="m-saida" d="M${x(i) - 5},${ys - 5} h10 l-5,8 z"/>`;
   for (const [i] of entra) s += `<path class="m-entra" d="M${x(i) - 5},${ye + 4} h10 l-5,-8 z"/>`;
-  s += `<text class="tick" x="${x0 - 6}" y="${ys + 3}" text-anchor="end">sai</text><text class="tick" x="${x0 - 6}" y="${ye + 3}" text-anchor="end">entra</text>`;
+  const icone = (nome, y, cls) => `<g class="ic-svg ${cls}" transform="translate(${x0 - 26},${y - 9}) scale(0.75)">${IC[nome]}</g>`;
+  s += icone("semente", ys, "saida") + icone("dinheiro", ye, "entra");
   s += `<line class="hoje" x1="${x(0)}" x2="${x(0)}" y1="${yT}" y2="${yB}"/><text class="tick" x="${x(0) + 4}" y="${yT + 10}">hoje</text>`;
   const fim = t.caixaPlano[NMESES - 1].p50, fimS = t.caixaS0[NMESES - 1].p50;
   s += `<line class="cursor" x1="0" x2="0" y1="${yT}" y2="${yB}" style="display:none"/>` +
@@ -145,4 +147,23 @@ export function mini(plano, s0, lo, hi) {
   const bar = (v, y, cls) => { const p = X(Math.min(0, v)), q = X(Math.max(0, v)); return `<rect class="${cls}" x="${p}" y="${y}" width="${Math.max(1, q - p)}" height="12" rx="3"/>`; };
   return `<svg class="graf-mini" viewBox="0 0 ${W} ${H}" aria-hidden="true">${bar(plano, 6, "m-plano")}${bar(s0, 26, "m-s0")}` +
     `<line class="zero" x1="${X(0)}" x2="${X(0)}" y1="2" y2="${H - 2}"/></svg>`;
+}
+
+/** Herói: barras horizontais do plano e do jeito de hoje (coluna = típico; traço = do caso ruim ao bom), mesmo eixo. */
+export function barrasH(linhas, W = 600) {
+  const H = 26 * linhas.length + 10, x0 = 6, x1 = W - 6;
+  const vals = linhas.flatMap((l) => [l.f.p10, l.f.p90, 0]);
+  const a = Math.min(...vals), b = Math.max(...vals);
+  const X = (v) => x0 + ((v - a) / (b - a || 1)) * (x1 - x0);
+  let s = "";
+  linhas.forEach((l, k) => {
+    const y = 6 + k * 26, p = X(Math.min(0, l.f.p50)), q = X(Math.max(0, l.f.p50));
+    s += `<g><title>${esc(l.rot)}: típico ${rs(l.f.p50)}; caso ruim ${rs(l.f.p10)}; caso bom ${rs(l.f.p90)}</title>` +
+      `<rect class="m-${l.cls}" x="${p}" y="${y}" width="${Math.max(2, q - p)}" height="14" rx="4"/>` +
+      `<line class="bigode" x1="${X(l.f.p10)}" x2="${X(l.f.p90)}" y1="${y + 7}" y2="${y + 7}"/>` +
+      `<line class="bigode" x1="${X(l.f.p10)}" x2="${X(l.f.p10)}" y1="${y + 2}" y2="${y + 12}"/>` +
+      `<line class="bigode" x1="${X(l.f.p90)}" x2="${X(l.f.p90)}" y1="${y + 2}" y2="${y + 12}"/></g>`;
+  });
+  s += `<line class="zero" x1="${X(0)}" x2="${X(0)}" y1="0" y2="${H}"/>`;
+  return `<svg class="graf graf-h" viewBox="0 0 ${W} ${H}" role="img" aria-label="Plano e jeito de hoje, típico e faixa">${s}</svg>`;
 }

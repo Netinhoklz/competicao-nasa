@@ -1,54 +1,38 @@
-/* passo 3 "Como plantar": roçado em faixas (SVG), mês a mês, faixas × blocos (Vicente), calendário (Gantt do protótipo do José)
-   e a rotação. Só tokens de quadra.css; as classes .t-<tipo> dão --cor (traço) e --fundo (preenchimento). */
+/* passo 3 "Como plantar" (versão 2: pouco texto, no visual da tela inicial). Só tokens de quadra.css; as classes .t-<tipo> dão
+   --cor (traço vivo) e --fundo (fundo escuro) de cada cultura. */
+.passo-plantio [hidden] { display: none !important; }
 
-/* ---------- botões de ano e mês */
-.passo-plantio .rocado-topo { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; margin-bottom: 8px; }
-.passo-plantio .rocado-topo h2 { margin: 0; }
-.passo-plantio .anos { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--surface-2); }
-.passo-plantio .ano-b { border: 0; background: transparent; padding: 7px 16px; cursor: pointer; font-weight: 600; font-size: 15px; min-height: 40px; }
-.passo-plantio .ano-b[aria-pressed="true"] { background: var(--green); color: #fff; }
-.passo-plantio .ano-b:not([aria-pressed="true"]):hover { background: var(--green-soft); }
-.passo-plantio .mes-controle { display: flex; align-items: center; gap: 8px; margin: 4px 0 2px; }
-.passo-plantio .play { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--green); color: #fff;
-  cursor: pointer; font-size: 15px; display: grid; place-items: center; }
-.passo-plantio .play.tocando { background: var(--amber); }
-.passo-plantio .mes-trilho { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 2px; }
-.passo-plantio .mes-b { position: relative; border: 1px solid var(--border); background: var(--surface); border-radius: 6px; padding: 3px 0 15px;
-  cursor: pointer; font-size: 12px; line-height: 1.1; min-width: 0; color: var(--ink); }
-.passo-plantio .mes-b small { display: block; font-size: 9px; color: var(--muted); }
-.passo-plantio .mes-b.atual { border-color: var(--green); background: var(--green-soft); font-weight: 700; box-shadow: 0 0 0 1px var(--green); }
-.passo-plantio .mes-b.fora { opacity: .55; }
-.passo-plantio .mes-marcos { position: absolute; left: 1px; right: 1px; bottom: 2px; height: 12px; }
-.passo-plantio .mes-marcos b { position: absolute; transform: translateX(-50%); width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--amber);
-  background: var(--surface); font-size: 8px; line-height: 9px; font-style: normal; text-align: center; color: var(--ink); }
-.passo-plantio .mes-marcos b.hoje { border-color: var(--terra); }
-.passo-plantio .mes-info { margin: 6px 0 8px; font-size: 14px; min-height: 2.6em; }
-.passo-plantio .marco-n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--amber);
-  font-size: 10px; font-weight: 700; margin-left: 6px; }
+/* ---------- cabeça de cada bloco: rótulo mono + botões de ano */
+.passo-plantio .bloco-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px 18px; flex-wrap: wrap; margin-bottom: 16px; }
+.passo-plantio .bloco-topo h3 { margin: 0; }
+.passo-plantio .anos { display: inline-flex; border: 1px solid var(--border-2); border-radius: 999px; padding: 3px; background: rgba(255, 255, 255, .03); }
+.passo-plantio .ano-b { border: 0; background: transparent; min-height: 48px; padding: 0 22px; border-radius: 999px; cursor: pointer; font-size: 17px;
+  font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; transition: background .2s, color .2s; }
+.passo-plantio .ano-b[aria-pressed="true"] { background: var(--green); color: var(--bg); }
+.passo-plantio .ano-b:not([aria-pressed="true"]):hover { background: var(--green-soft); color: var(--ink); }
 
-/* ---------- o roçado em SVG */
-.passo-plantio .rocado-grade { display: grid; grid-template-columns: minmax(0, 600px) minmax(0, 1fr); gap: 18px; align-items: start; }
+/* ---------- o herói: roçado visto de cima */
+.passo-plantio .heroi-grade { display: grid; grid-template-columns: minmax(0, 640px) minmax(240px, 1fr); gap: 28px; align-items: start; }
 .passo-plantio .rocado-fig { margin: 0; }
 .passo-plantio .rocado-svg { width: 100%; height: auto; display: block; }
-.passo-plantio .rocado-svg text { fill: var(--ink); font-family: var(--body); paint-order: stroke; stroke: var(--surface); stroke-width: 3px;
-  stroke-linejoin: round; }
-.passo-plantio .rocado-svg .rot { font-weight: 700; }
-.passo-plantio .rocado-svg .rot-fundo { fill: var(--surface); opacity: .88; }
-.passo-plantio [hidden] { display: none !important; }
+.passo-plantio .rocado-svg text { fill: var(--ink); font-family: var(--font); }
+.passo-plantio .rocado-svg .rot { font-weight: 600; }
 .passo-plantio .rocado-svg .rot2 { fill: var(--muted); }
-.passo-plantio .rocado-svg .tag { font-weight: 700; fill: var(--terra); }
-.passo-plantio .rocado-svg .eixo { font-size: 11px; fill: var(--muted); }
-.passo-plantio .rocado-svg .escala { stroke: var(--ink); stroke-width: 2; }
+.passo-plantio .rocado-svg .tag { font-weight: 700; fill: var(--terra); font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.passo-plantio .rocado-svg .rot-fundo { fill: var(--bg); opacity: .72; }
+.passo-plantio .rocado-svg .rot-ic { fill: none; stroke: var(--cor, var(--ink)); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.passo-plantio .rocado-svg .eixo { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); }
+.passo-plantio .rocado-svg .escala { stroke: var(--ink-2); stroke-width: 2; }
 .passo-plantio .fx > .chao { fill: var(--fundo, var(--f-pousio)); stroke: var(--cor, var(--t-pousio)); stroke-width: 1.5;
   transition: fill .6s ease, stroke .6s ease, stroke-width .3s; }
 .passo-plantio .lin line { stroke: var(--cor, var(--t-pousio)); stroke-width: 1.8; stroke-linecap: round; transition: stroke .6s ease, opacity .4s; }
-.passo-plantio .fx.bx.incerto > .chao { stroke-dasharray: 6 4; stroke-width: 2; }
+.passo-plantio .fx.bx.incerto > .chao { stroke-dasharray: 7 5; stroke-width: 2; }
 /* estado do mês: preparo (terra nua), pode plantar com risco, plantar (sementes), crescendo, colher, descanso/palhada */
-.passo-plantio .lin.e-ano line { opacity: .5; stroke-width: 1.4; }
+.passo-plantio .lin.e-ano line { opacity: .45; stroke-width: 1.5; }
 .passo-plantio .fx.e-preparo > .chao, .passo-plantio .fx.e-descanso > .chao { fill: var(--f-pousio); stroke: var(--t-pousio); }
 .passo-plantio .lin.e-preparo line { stroke: var(--t-pousio); stroke-dasharray: 7 5; }
-.passo-plantio .fx.e-risco > .chao { fill: var(--surface); }
-.passo-plantio .lin.e-risco line { stroke-dasharray: 1 9; stroke-width: 2.6; opacity: .75; }
+.passo-plantio .fx.e-risco > .chao { fill: var(--surface-2); }
+.passo-plantio .lin.e-risco line { stroke-dasharray: 1 9; stroke-width: 2.6; opacity: .8; }
 .passo-plantio .lin.e-plantar line { stroke-dasharray: 1 6; stroke-width: 3.4; }
 .passo-plantio .lin.e-crescendo line { stroke-width: 2.6; }
 .passo-plantio .fx.e-colher > .chao { stroke: var(--amber); stroke-width: 3.5; }
@@ -60,73 +44,114 @@
 .passo-plantio .bordas .b-dentro { stroke-width: 5; stroke-dasharray: 8 4; opacity: .75; }
 .passo-plantio .bordas.e-preparo rect, .passo-plantio .bordas.e-descanso rect { stroke: var(--t-pousio); }
 .passo-plantio .bordas.e-plantar .b-dentro, .passo-plantio .bordas.e-risco .b-dentro { stroke-dasharray: 2 6; }
-.passo-plantio .amostra { width: 30px; height: 16px; vertical-align: middle; margin-right: 5px; flex: 0 0 auto; }
+.passo-plantio .amostra { width: 30px; height: 16px; vertical-align: middle; flex: none; }
 .passo-plantio .amostra .chao { stroke-width: 1; }
+.passo-plantio .amostra-tracejo { width: 26px; height: 12px; border: 2px dashed var(--t-cereal); border-radius: 3px; flex: none; }
 
-.passo-plantio .ordem-frase { margin: 0 0 10px; }
-.passo-plantio .rocado-lista { list-style: none; margin: 0 0 10px; padding: 0; }
-.passo-plantio .rocado-lista li { border-left: 5px solid var(--cor, var(--t-pousio)); background: var(--surface-2); border-radius: 6px; padding: 5px 9px;
-  margin: 0 0 5px; font-size: 14px; }
-.passo-plantio .rocado-lista li.sem-cor { border-left-color: transparent; background: none; padding-left: 0; }
-.passo-plantio .legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin: 6px 0; }
-.passo-plantio .legenda > span { display: inline-flex; align-items: center; gap: 4px; }
-.passo-plantio .legenda .leg-borda, .passo-plantio .legenda .leg-incerto { flex-basis: 100%; }
-.passo-plantio .tag-reserva { display: inline-block; font-size: 11px; font-weight: 700; color: var(--terra); border: 1px solid var(--terra); border-radius: 999px;
-  padding: 0 7px; }
-.passo-plantio .ano-selo { margin-left: auto; }
+/* legenda compacta ao lado do desenho */
+.passo-plantio .vista { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 4px 0 12px; }
+.passo-plantio .leg-partes { list-style: none; margin: 0 0 12px; padding: 0; }
+.passo-plantio .leg-partes li { display: grid; grid-template-columns: 40px 18px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 9px 12px 9px 9px;
+  margin: 0 0 8px; background: var(--surface-2); border: 1px solid var(--border); border-left: 4px solid var(--cor, var(--t-pousio)); border-radius: 12px; }
+.passo-plantio .leg-ic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--fundo, var(--surface-3)); color: var(--cor, var(--ink)); }
+.passo-plantio .leg-l { font-family: var(--mono); font-weight: 600; font-size: 15px; color: var(--ink-2); }
+.passo-plantio .leg-t { min-width: 0; }
+.passo-plantio .leg-t b { font-size: 16px; font-weight: 600; }
+.passo-plantio .leg-sub { display: block; font-size: 13px; color: var(--muted); }
+.passo-plantio .leg-faz { color: var(--ink-2); font-family: var(--mono); font-size: 12.5px; }
+.passo-plantio .leg-a { font-family: var(--mono); font-size: 13px; color: var(--ink-2); text-align: right; }
+.passo-plantio .mini-chip { padding: 1px 8px; font-size: 11px; margin-left: 6px; vertical-align: 2px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.passo-plantio .leg-partes .leg-nota { display: block; background: none; border: 0; padding: 2px 4px; font-size: 13px; color: var(--muted); }
+.passo-plantio .leg-extra { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 14px; color: var(--ink-2); }
+.passo-plantio .leg-estados { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; font-size: 13px; color: var(--ink-2); }
+.passo-plantio .leg-estados span { display: inline-flex; align-items: center; gap: 6px; }
 
-/* ---------- por que faixas e não blocos */
-.passo-plantio .faixas-cartao { border-left: 5px solid var(--green); }
-.passo-plantio .credito { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
-.passo-plantio .faixas-cartao .anos { margin: 4px 0 10px; }
-.passo-plantio .mini-par { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.passo-plantio .mini { margin: 0; }
-.passo-plantio .mini figcaption { font-size: 14px; margin-bottom: 6px; }
-.passo-plantio .mini-svg { max-width: 300px; }
-.passo-plantio .mini-grade { width: 100%; height: auto; display: block; border: 1px solid var(--border); border-radius: 4px; shape-rendering: crispEdges; }
-.passo-plantio .mini-grade .g0 { fill: var(--f-leguminosa); }
+/* mês a mês */
+.passo-plantio .mes-controle { display: flex; align-items: center; gap: 10px; margin: 18px 0 4px; }
+.passo-plantio .play { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--green); color: var(--bg); cursor: pointer;
+  display: grid; place-items: center; }
+.passo-plantio .play .ic { width: 24px; height: 24px; stroke-width: 2.4; }
+.passo-plantio .play.tocando { background: var(--amber); }
+.passo-plantio .pausa { width: 14px; height: 16px; border-left: 4px solid currentColor; border-right: 4px solid currentColor; }
+.passo-plantio .mes-trilho { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 4px; }
+.passo-plantio .mes-b { min-height: 48px; border: 1px solid var(--border); background: rgba(255, 255, 255, .03); border-radius: 10px; cursor: pointer;
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); padding: 2px 0; line-height: 1.1; min-width: 0; }
+.passo-plantio .mes-b small { display: block; font-size: 9.5px; color: var(--muted); }
+.passo-plantio .mes-b:hover { border-color: var(--green); }
+.passo-plantio .mes-b.atual { border-color: var(--green); background: var(--green-soft); color: var(--ink); font-weight: 600; }
+.passo-plantio .mes-b.fora { opacity: .45; }
+.passo-plantio .mes-controle .botao-leve { min-height: 48px; }
+
+/* ---------- o que fazer e quando: linha do tempo */
+.passo-plantio .tempo { list-style: none; margin: 6px 0 4px; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr));
+  gap: 14px; position: relative; }
+.passo-plantio .tempo::before { content: ""; position: absolute; left: 23px; right: 23px; top: 23px; height: 2px;
+  background: linear-gradient(90deg, var(--green), var(--border-2)); }
+.passo-plantio .tempo-c { position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.passo-plantio .tempo-c .bola { position: relative; z-index: 1; margin-bottom: 6px; box-shadow: 0 0 0 6px var(--surface); }
+.passo-plantio .tempo-c .bola:not(.verde):not(.ambar) { background: var(--surface-3); color: var(--ink); }
+.passo-plantio .tempo-q { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.passo-plantio .tempo-q span { color: var(--ink); letter-spacing: .04em; margin-left: 4px; }
+.passo-plantio .tempo-c b { font-size: 16px; font-weight: 600; line-height: 1.28; }
+.passo-plantio .tempo-c small { font-size: 13px; color: var(--muted); }
+.passo-plantio .tempo-c:first-child .tempo-q { color: var(--green-forte); }
+
+/* ---------- por que em faixas */
+.passo-plantio .faixas-frase { margin: 0 0 16px; font-size: 18px; color: var(--ink-2); }
+.passo-plantio .mini-par { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.passo-plantio .mini { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.passo-plantio .mini figcaption b { font-size: 18px; font-weight: 600; }
+.passo-plantio .mini figcaption span { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-left: 6px; }
+.passo-plantio .mini-svg { max-width: 360px; }
+.passo-plantio .mini-grade { width: 100%; height: auto; display: block; border-radius: 10px; shape-rendering: crispEdges; border: 1px solid var(--border-2); }
+.passo-plantio .mini-grade .g0 { fill: var(--surface-3); }
 .passo-plantio .mini-grade .g1 { fill: var(--t-cereal); }
 .passo-plantio .mini-grade .g2 { fill: var(--terra); }
-.passo-plantio .mini-grade .divisa { stroke: var(--surface); }
-.passo-plantio .mini-grade .divisa.bx { stroke: var(--ink); stroke-dasharray: 2 2; opacity: .6; }
-.passo-plantio .mini-num p { margin: 6px 0 0; font-size: 14px; }
-.passo-plantio .mini-num .ruim { color: var(--terra); }
-.passo-plantio .mini-num .bom { color: var(--green); }
-.passo-plantio .mini-leg { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin: 10px 0 4px; }
-.passo-plantio .mini-leg .q { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
-.passo-plantio .mini-leg .q.g0 { background: var(--f-leguminosa); border: 1px solid var(--border); }
+.passo-plantio .mini-grade .divisa { stroke: var(--bg); }
+.passo-plantio .mini-grade .divisa.bx { stroke: var(--ink-2); stroke-dasharray: 2 2; opacity: .7; }
+.passo-plantio .veredito .chip { font-size: 15px; padding: 8px 14px; font-weight: 600; }
+.passo-plantio .veredito .chip .ic { width: 18px; height: 18px; }
+.passo-plantio .mini-leg { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); margin: 16px 0 6px; }
+.passo-plantio .mini-leg .q { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+.passo-plantio .mini-leg .q.g0 { background: var(--surface-3); border: 1px solid var(--border-2); }
 .passo-plantio .mini-leg .q.g1 { background: var(--t-cereal); }
 .passo-plantio .mini-leg .q.g2 { background: var(--terra); }
-.passo-plantio .mini-conclusao { font-weight: 600; margin: 8px 0; }
-.passo-plantio .foco-linha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 10px; }
-.passo-plantio .limite { background: var(--surface-2); border-radius: 10px; padding: 9px 12px; }
-.passo-plantio .tec { padding-left: 18px; font-size: 14px; }
-.passo-plantio .tec li { margin: 4px 0; }
-.passo-plantio .tab-conect td, .passo-plantio .tab-conect th { white-space: nowrap; }
+.passo-plantio .foco-linha { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.passo-plantio .foco-linha .botao { min-height: 48px; }
+.passo-plantio .aviso-gram { margin: 14px 0; padding: 14px 16px; border-radius: 14px; background: var(--terra-soft); border: 1px solid rgba(236, 122, 99, .4); }
+.passo-plantio .aviso-gram .faixa p { font-size: 19px; }
+.passo-plantio .aviso-gram > p { margin: 10px 0 0 62px; color: var(--ink-2); }
+.passo-plantio .rodape-faixas { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
 
-/* ---------- calendário (Gantt): pista 1 = plantar; pista 2 = na roça e colheita */
-.passo-plantio .agora { background: var(--green-soft); border-radius: 12px; padding: 8px 14px 10px; margin: 6px 0 10px; }
-.passo-plantio .agora h3 { margin: 4px 0 6px; color: var(--green); }
+.passo-plantio .cta { margin-top: 6px; }
+
+/* ---------- o que fica no "ver mais" */
+.passo-plantio details.ver-mais h4 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  margin: 18px 0 8px; }
+.passo-plantio .tec { padding-left: 18px; }
+.passo-plantio .tec li { margin: 6px 0; }
+.passo-plantio .tab-conect td, .passo-plantio .tab-conect th { white-space: nowrap; }
 .passo-plantio .agora-lista { list-style: none; margin: 0; padding: 0; }
-.passo-plantio .agora-lista li { margin: 2px 0; }
-.passo-plantio .agora-lista label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; padding: 5px 0; }
-.passo-plantio .agora-lista input { width: 20px; height: 20px; margin: 0; flex: 0 0 auto; accent-color: var(--green); }
+.passo-plantio .agora-lista label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; padding: 6px 0; }
+.passo-plantio .agora-lista input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--green); }
 .passo-plantio .agora-lista input:checked + span { text-decoration: line-through; color: var(--muted); }
+
+/* calendário (Gantt): pista 1 = plantar; pista 2 = na roça e colheita */
 .passo-plantio .g-legenda { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); margin: 6px 0; }
 .passo-plantio .g-legenda i { display: inline-block; position: relative; width: 20px; height: 11px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
-.passo-plantio .gantt-caixa { overflow-x: auto; margin: 6px 0 10px; border: 1px solid var(--border); border-radius: 10px; }
+.passo-plantio .gantt-caixa { overflow-x: auto; margin: 6px 0 10px; border: 1px solid var(--border); border-radius: 12px; }
 .passo-plantio .gantt { min-width: 660px; font-size: 12px; }
 .passo-plantio .g-linha { display: grid; grid-template-columns: 150px minmax(0, 1fr); border-bottom: 1px solid var(--border); }
 .passo-plantio .g-linha:last-child { border-bottom: 0; }
 .passo-plantio .g-rot { padding: 3px 6px; border-left: 5px solid var(--cor, transparent); background: var(--surface-2); line-height: 1.2; }
-.passo-plantio .g-rot b { display: block; font-size: 12px; }
+.passo-plantio .g-rot b { display: block; font-size: 12px; color: var(--ink); }
 .passo-plantio .g-rot small { font-weight: 400; color: var(--muted); }
 .passo-plantio .g-rot span { display: block; color: var(--muted); font-size: 11px; }
 .passo-plantio .g-trilho { position: relative; height: 38px; }
 .passo-plantio .g-cab .g-trilho { height: 30px; }
 .passo-plantio .g-marcos .g-trilho { height: 42px; }
 .passo-plantio .g-mes { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--border); }
-.passo-plantio .g-mes-rot { position: absolute; top: 3px; text-align: center; color: var(--muted); font-size: 11px; line-height: 1.1; }
+.passo-plantio .g-mes-rot { position: absolute; top: 3px; text-align: center; color: var(--muted); font-size: 11px; line-height: 1.1; font-family: var(--mono); }
 .passo-plantio .g-mes-rot small { display: block; font-size: 10px; font-weight: 600; }
 .passo-plantio .g-hoje { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--terra); z-index: 3; }
 .passo-plantio .g-barra { position: absolute; height: 13px; border-radius: 3px; z-index: 2; overflow: hidden; white-space: nowrap; font-size: 10px;
@@ -137,8 +162,8 @@
 .passo-plantio .g-barra.segue::after { content: "▸"; position: absolute; right: 1px; top: 0; }
 .passo-plantio .b-preparo { background: repeating-linear-gradient(90deg, var(--t-pousio) 0 5px, transparent 5px 9px); }
 .passo-plantio .g-barra.b-preparo { height: 4px; margin-top: 5px; }
-.passo-plantio .b-risco { background: repeating-linear-gradient(135deg, var(--green) 0 2px, var(--green-soft) 2px 6px); opacity: .75; }
-.passo-plantio .b-plantio { background: var(--green); color: #fff; }
+.passo-plantio .b-risco { background: repeating-linear-gradient(135deg, var(--green) 0 2px, var(--green-soft) 2px 6px); opacity: .8; }
+.passo-plantio .b-plantio { background: var(--green); color: var(--bg); }
 .passo-plantio .b-estimado { background: var(--surface); border: 2px dashed var(--green); }
 .passo-plantio .g-barra.b-estimado { line-height: 9px; }
 .passo-plantio .b-roca { background: var(--green-soft); outline: 1px solid var(--green); outline-offset: -1px; }
@@ -149,45 +174,55 @@
 .passo-plantio .g-decide-chave { position: relative; display: inline-block; top: 0; width: 9px; height: 9px; transform: rotate(45deg); margin-right: 6px;
   vertical-align: middle; }
 .passo-plantio .g-marco { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--amber);
-  font-size: 10px; font-weight: 700; text-align: center; line-height: 14px; transform: translateX(-9px); z-index: 4; cursor: help; }
+  font-size: 10px; font-weight: 700; text-align: center; line-height: 14px; transform: translateX(-9px); z-index: 4; cursor: help; color: var(--ink); }
 .passo-plantio .g-marco.alto { top: 2px; }
 .passo-plantio .g-marco.baixo { top: 21px; }
 .passo-plantio .g-marco.hoje { border-color: var(--terra); }
 .passo-plantio .marcos { margin: 4px 0 8px; padding-left: 22px; }
-.passo-plantio .marcos li { margin: 3px 0; }
+.passo-plantio .marcos li { margin: 4px 0; }
 .passo-plantio .passo-a-passo { list-style: none; padding: 0; margin: 6px 0; }
-.passo-plantio .passo-a-passo li { border-left: 5px solid var(--cor, var(--t-pousio)); background: var(--surface-2); border-radius: 6px; padding: 7px 10px; margin: 0 0 6px; }
+.passo-plantio .passo-a-passo li { border-left: 4px solid var(--cor, var(--t-pousio)); background: var(--surface-2); border-radius: 10px; padding: 8px 12px; margin: 0 0 8px; }
 .passo-plantio .passo-a-passo div { margin-top: 3px; }
-.passo-plantio .pp-rot { display: inline-block; min-width: 54px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); }
+.passo-plantio .pp-rot { display: inline-block; min-width: 58px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
 
-/* ---------- a rotação */
+/* a rotação (tabela) */
 .passo-plantio .tab-rot-caixa { overflow-x: auto; }
 .passo-plantio .tab-rot { min-width: 560px; }
 .passo-plantio .tab-rot td:first-child { white-space: nowrap; }
 .passo-plantio .tab-rot tr:not(.porque) td { border-bottom: 0; }
 .passo-plantio .tab-rot .porque td { color: var(--muted); font-size: 13px; padding-top: 0; }
 .passo-plantio .ano-rot { display: none; }
-.passo-plantio .rot-cel { border-left: 5px solid var(--cor, var(--t-pousio)); background: var(--fundo, var(--surface-2)); border-radius: 6px; padding: 5px 8px; }
-.passo-plantio .rot-cel b { display: block; font-size: 14px; }
-.passo-plantio .rot-cel > span { display: block; color: var(--muted); font-size: 12px; }
-.passo-plantio .ev { border-top: 1px solid var(--border); padding: 7px 0; }
+.passo-plantio .rot-cel { border-left: 4px solid var(--cor, var(--t-pousio)); background: var(--fundo, var(--surface-2)); border-radius: 8px; padding: 6px 9px; }
+.passo-plantio .rot-cel b { display: block; font-size: 14px; color: var(--ink); }
+.passo-plantio .rot-cel > span { display: block; color: var(--ink-2); font-size: 12px; }
+.passo-plantio .ev { border-top: 1px solid var(--border); padding: 8px 0; }
 .passo-plantio .ev:first-of-type { border-top: 0; }
-.passo-plantio .ev-regra { font-weight: 600; }
-.passo-plantio .notas { padding-left: 18px; color: var(--muted); }
-.passo-plantio .notas li { margin: 3px 0; }
+.passo-plantio .ev-regra { font-weight: 600; color: var(--ink); }
+.passo-plantio .notas { padding-left: 18px; }
+.passo-plantio .notas li { margin: 4px 0; }
 
-@media (max-width: 900px) {
-  .passo-plantio .rocado-grade { grid-template-columns: 1fr; }
+@media (max-width: 1000px) {
+  .passo-plantio .heroi-grade { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
+  .passo-plantio .bloco-topo { flex-direction: column; align-items: stretch; }
+  .passo-plantio .anos { display: flex; }
+  .passo-plantio .ano-b { flex: 1; padding: 0 8px; }
   .passo-plantio .mes-controle { flex-wrap: wrap; }
-  .passo-plantio .mes-trilho { order: 3; flex-basis: 100%; }
-  .passo-plantio .mes-trilho { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-  .passo-plantio .mes-b { font-size: 12px; padding: 4px 0 15px; }
-  .passo-plantio .mes-b small { font-size: 9px; }
-  .passo-plantio .mini-par { gap: 10px; }
-  .passo-plantio .mini figcaption, .passo-plantio .mini-num p { font-size: 13px; }
-  .passo-plantio .ano-selo { margin-left: 0; }
+  .passo-plantio .mes-trilho { order: 3; flex-basis: 100%; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .passo-plantio .mes-controle .botao-leve { margin-left: auto; }
+  /* a linha do tempo fica em pé */
+  .passo-plantio .tempo { grid-template-columns: 1fr; gap: 16px; }
+  .passo-plantio .tempo::before { left: 22px; right: auto; top: 23px; bottom: 23px; width: 2px; height: auto;
+    background: linear-gradient(180deg, var(--green), var(--border-2)); }
+  .passo-plantio .tempo-c { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 14px; row-gap: 2px; }
+  .passo-plantio .tempo-c .bola { grid-row: 1 / span 3; margin: 0; }
+  .passo-plantio .mini-par { gap: 12px; }
+  .passo-plantio .mini figcaption b { font-size: 16px; }
+  .passo-plantio .mini figcaption span { display: block; margin: 2px 0 0; }
+  .passo-plantio .veredito .chip { font-size: 13px; padding: 6px 10px; }
+  .passo-plantio .aviso-gram > p { margin-left: 0; }
+  .passo-plantio .faixas-frase { font-size: 16px; }
   /* a rotação vira cartões: a parte em cima, os 3 anos lado a lado, o porquê embaixo */
   .passo-plantio .tab-rot, .passo-plantio .tab-rot tbody { display: block; min-width: 0; }
   .passo-plantio .tab-rot tr:first-child { display: none; }

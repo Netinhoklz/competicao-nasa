@@ -29,9 +29,44 @@ mês do controle deslizante, aba) fica numa variável do módulo.
 | `ctx.r.padroes` | padrões do Censo 2017 (`rocado_ha`, `pct_irrig`, …). Pode ser `null` |
 | `ctx.r.el_nino_uf` | manchete do estado: `{definicao, anos, acaso_pct, uf, pct_terco_seco: {ano: %}, media, n_mun}`. Pode ser `null` |
 | `ctx.ef` | respostas com os padrões aplicados: `terra` (nao_sei/arenosa/mista/barro), `ha`, `ha_origem`, `baixio` (nao_sei/nao/pouco/terco/metade), `tem_baixio` (true/false/null), `baixio_frac`, `baixio_ha`, `agua` (chuva/cisterna/barreiro/irriga), `vol_m3`, `maniva` (tem/nao/plantada), `criacao`, `prioridade` (garantir/equilibrar/vender), `prioridade_origem`, `gs`, `raiz` (municipio/uf_mediana/uf_p25), `custo` (semente/desembolso) |
+| `ctx.entrou` | true quando a pessoa acabou de chegar a este passo (ou mudou de município); false quando só mudou uma resposta |
 | `ctx.set(patch)` | muda respostas (chaves de `PADRAO` em roca.js; valores em texto) e redesenha; se a resposta muda o núcleo, busca de novo |
 | `ctx.ir(n)` / `ctx.link(n, patch)` | vai ao passo n / devolve o href do passo n |
 | `ctx.util` | `js/comum.js`: `esc, num, brl, brlMil, pct, emDez, selo(tipo, fonte), dataBR, mesAno, MESES, tipoCss, ha` |
+
+## Visual e texto (versão 2: para o agricultor, no estilo da tela inicial)
+
+Quem vai usar é o agricultor. O visual segue a tela inicial (o globo do João Pedro): fundo de espaço escuro, manchete fina em dois tons,
+rótulos em mono espaçado, painéis escuros com ícone e número grande, e o verde do botão "Montar o plano". Só existe tema escuro.
+
+**Pouco texto:**
+1. Cada passo abre com `titulo-passo`: um `kicker` (2–5 palavras, mono) e um `h1` de 1 linha com o `.eco` cinza na 2ª linha
+   (ex.: `<h1>Plante em faixas.<span class="eco">A praga anda menos.</span></h1>`). No máximo 1 frase de apoio.
+2. Cada bloco tem: rótulo curto + 1 número grande ou 1 desenho + no máximo 1 frase de até ~15 palavras.
+3. Fonte, método, tabela, nota e ressalva longa vão para `ctx.util.verMais(html)` ("Ver como calculamos"), fechado.
+4. O sentido vem de ícone, cor e forma, não de parágrafo: semáforo (verde/âmbar/terra), grade de 10 roças (`dezRocas`), barras.
+5. Frequência natural ("6 em 10"), nunca "0,6" nem "60% de probabilidade". Datas curtas ("11/03 a 20/03").
+6. Um selo por bloco (no rótulo), não um por número. Os selos são pequenos e não podem roubar a cena.
+7. Nada de jargão na frente: ZARC, GAEZ, IMERG, SMAP, P10/P90, percentil, conforme e R_eff ficam no `verMais`. Na frente, palavras da roça.
+8. Ações em botões grandes (≥ 48 px de altura), com ícone.
+
+**Componentes prontos** (`css/quadra.css` + `js/comum.js`):
+
+| Classe ou função | Para quê |
+|---|---|
+| `.titulo-passo` com `.kicker` e `h1 .eco` | abertura do passo, igual à tela inicial |
+| `.painel`, `.painel.destaque` (âmbar), `.painel.verde`, `.painel.alerta` | painéis; os coloridos são para a manchete do bloco |
+| `ind({icone, rot, val, un, sub, selo})` e `.grade-2/3/4` | cartão indicador com número grande (igual ao painel do JP) |
+| `faixa(icone, "verde" \| "ambar" \| "terra" \| "azul", frase)` | bola colorida + frase forte (manchete) |
+| `ic(nome, "" \| "g" \| "gg")`, `icCultura(cultura)` | ícones de traço: milho, feijao, mandioca, palma, vaca, gota, chuva, sol, onda, termo, dinheiro, calendario, escudo, pino, enxada, poco, cisterna, semente, broto, faixas, areia, barro, alerta, ok, relogio, seta… |
+| `dezRocas(p, cor)` | grade de 10 quadradinhos pintados |
+| `verMais(html, titulo)` | o detalhe técnico escondido |
+| `.chip`, `.chip.verde/.ambar/.terra` | pílulas curtas |
+| `.botao.primario` (verde), `.botao.secundario`, `.cta` | botões; `.cta` = botão largo de chamada |
+| `.numero-grande` | número solto em destaque (Fraunces) |
+
+Tokens: `--bg --surface --surface-2 --surface-3 --ink --ink-2 --muted --ink-4 --border --border-2 --green --green-forte --amber --terra
+--blue` (e os `-soft`), `--font` (Inter, manchetes), `--mono` (rótulos), `--display` (Fraunces, números), `--t-<tipo>` e `--f-<tipo>`.
 
 ## Regras
 

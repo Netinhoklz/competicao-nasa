@@ -57,7 +57,7 @@ try:
     cmd("Emulation.setDeviceMetricsOverride", width=larg, height=min(sh, 16000), deviceScaleFactor=1, mobile=larg < 600)
     time.sleep(1)
     img = cmd("Page.captureScreenshot", format="png", captureBeyondViewport=True)
-    open(f"{D}/{saida}", "wb").write(base64.b64decode(img["data"]))
+    open(saida, "wb").write(base64.b64decode(img["data"]))
     print("ok", saida)
 finally:
     edge.terminate()
