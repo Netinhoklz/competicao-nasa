@@ -3,7 +3,8 @@
 Uso: E:/campeonato-nasa/venv/Scripts/python.exe -X utf8 app.py [porta]   ->  http://localhost:8765
 Rotas:
   /                      página (static/index.html)
-  /api/local?lat=&lon=   o que o lugar permite: cardápio, datas, este ano, plano de rotação e evidência
+  /api/local?lat=&lon=[&textura=1-3&ad=11-16]   o que o lugar permite: cardápio, datas, este ano, calendário até
+                         dez/2027, plano de rotação e evidência (o solo muda as janelas do calendário)
   /api/municipios        malha dos 1.794 municípios do Nordeste (GeoJSON; a mesma que o motor usa)
 """
 import json
@@ -60,8 +61,11 @@ class Rotas(SimpleHTTPRequestHandler):
                 return self._erro(400, "Informe lat e lon numéricos, por exemplo ?lat=-4.97&lon=-39.02.")
             if not (math.isfinite(lat) and math.isfinite(lon) and -90 <= lat <= 90):
                 return self._erro(400, "Latitude entre −90 e 90 e longitude finita.")
+            textura, ad = q.get("textura", [""])[0] or None, q.get("ad", [""])[0] or None
+            if textura not in (None, "1", "2", "3") or ad not in (None, "11", "12", "13", "14", "15", "16"):
+                return self._erro(400, "Solo: textura 1–3 e ad 11–16 (ou vazio).")
             try:
-                corpo = json.dumps(_limpa(motor.consultar(lat, lon)), ensure_ascii=False, allow_nan=False)
+                corpo = json.dumps(_limpa(motor.consultar(lat, lon, textura, ad)), ensure_ascii=False, allow_nan=False)
                 self._responder(corpo.encode("utf-8"))
             except Exception as e:  # o protótipo mostra o erro na tela em vez de cair
                 self._erro(500, f"{type(e).__name__}: {e}")

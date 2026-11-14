@@ -17,9 +17,20 @@ Clique num ponto do mapa (ou digite um dos 1.794 municípios do Nordeste). A fer
    GAEZ v4 e a janela e o risco do ZARC 2026/27.
    - Regra: se a cultura tem ZARC no município, o ZARC decide e o GAEZ vira rótulo; senão, o GAEZ decide (aptidão > 40,
      pouco insumo).
-4. **Rotação 2027–2029:** faixas que giram (mandioca → leguminosa → cereal/forragem → mandioca), baixio e bordas, com as
-   culturas que existem no lugar, e o interruptor do ano.
-5. **De onde vem cada regra:**
+4. **Calendário (de hoje até dez/2027):** para cada parte do roçado, quando preparar, plantar e colher.
+   - "O que fazer agora": janelas abertas, as que abrem nos próximos 75 dias e as ações sem arrependimento.
+   - Gantt por parte: na pista de cima, o plantio (janela do ZARC no melhor risco que houver, e o trecho de até 40%); na de
+     baixo, a cultura na roça e a colheita (janela + ciclo da cultura, tabela `CICLO` do motor, igual à do notebook
+     financeiro).
+   - Sem ZARC, a janela é estimada pelo início típico da chuva (IMERG) até 40 dias depois (suposição).
+   - Marcos do ano: os portões da proposta v3 (P1 a P5; 19/mar e 30/abr) só onde a estação é de quadra e alguma janela do
+     ZARC do plano abre até 19/mar. Nos outros lugares, os marcos vêm do ZARC e do IMERG.
+   - A estação de 2028 (plantios até dez/2027, como no Cerrado) repete as datas do ZARC 2026/27.
+   - O solo escolhido no cardápio muda as janelas (`/api/local?...&textura=1–3&ad=11–16`).
+5. **Rotação 2027–2029:** o roçado dividido em 3 partes de tamanho parecido (A, B e C) que trocam de cultura a cada ano
+   (mandioca → leguminosa → cereal/forragem → mandioca), mais o baixio (parte mais úmida, cereal) e as bordas (perenes em
+   curva de nível). Desenho do roçado visto de cima, ano a ano, com as culturas que existem no lugar, e o interruptor do ano.
+6. **De onde vem cada regra:**
    - cartões do catálogo de rotações; o número só aparece para cartões T0 ou T1;
    - os estudos de clima parecido com o lugar;
    - fontes e datas de cada base.
@@ -60,7 +71,7 @@ as bordas e o alerta do ano foram calibrados no NE.
 
 - `motor.py`: junta as camadas e devolve um JSON por ponto. Usa caches com trava e gravação atômica em
   `E:/campeonato-nasa/dados/prototipo/`.
-- `app.py`: servidor só com a biblioteca padrão. Rotas: `/`, `/api/local?lat=&lon=` (valida a entrada) e
+- `app.py`: servidor só com a biblioteca padrão. Rotas: `/`, `/api/local?lat=&lon=[&textura=&ad=]` (valida a entrada) e
   `/api/municipios` (a mesma malha do motor).
 - `static/`: a página (`index.html`, `app.js`, `estilo.css`).
 - `REVISAO_10_AGENTES.md`: revisão por 10 agentes (14/11/2026) e o que já foi corrigido.

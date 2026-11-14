@@ -71,6 +71,71 @@ th { color: var(--suave); font-weight: 600; font-size: 12px; }
 .seletores-solo select { padding: 4px 6px; border: 1px solid var(--linha); border-radius: 5px; font-size: 13px; color: var(--tinta); background: var(--papel); }
 .legenda-rot { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 8px; }
 .rot-chave { border-left-width: 5px; border-left-style: solid; padding: 1px 8px; font-size: 12px; background: var(--fundo); border-radius: 3px; }
+/* fundo claro por tipo de cultura (desenho do roçado); o texto fica na tinta normal */
+.f-leguminosa { background: #d5f1e6; } .f-cereal { background: #fcebbf; } .f-tampao { background: #fbdccd; }
+.f-forragem { background: #d9e7f8; } .f-perene { background: #d2ead2; } .f-renda { background: #e2def8; } .f-pousio { background: #ecebe5; }
+.rocado { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 8px 0 10px; }
+.rocado-ano { margin: 0; flex: 1 1 150px; min-width: 140px; }
+.rocado-ano figcaption { font-weight: 700; text-align: center; margin-bottom: 3px; }
+.rocado-terreno { border: 6px solid #6fb36f; border-radius: 6px; background: var(--papel); overflow: hidden; }
+.rocado-partes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 84px; }
+.rp { padding: 4px 5px; border-right: 1px dashed #9d9b8f; display: flex; flex-direction: column; gap: 2px; font-size: 11px; line-height: 1.2; }
+.rp:last-child { border-right: 0; }
+.rp-letra { font-weight: 700; font-size: 15px; }
+.rocado-baixio { border-top: 1px dashed #9d9b8f; padding: 3px 6px; font-size: 11px; }
+.rocado-borda { font-size: 11px; color: var(--suave); text-align: center; margin-top: 2px; }
+.rocado-seta { font-size: 18px; color: var(--suave); }
+/* calendário (Gantt): pista 1 = plantar; pista 2 = na roça e colheita */
+.agora { background: var(--verde-claro); border-radius: 8px; padding: 6px 12px 8px; margin: 4px 0 8px; }
+.agora h3 { margin: 4px 0 2px; color: var(--verde); }
+.agora ul { margin: 2px 0 0; padding-left: 18px; }
+.agora li { margin: 2px 0; }
+.g-legenda { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--suave); margin: 6px 0; }
+.g-legenda i { display: inline-block; position: relative; width: 20px; height: 11px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+.gantt-caixa { overflow-x: auto; margin: 6px 0 10px; border: 1px solid var(--linha); border-radius: 8px; }
+.gantt { min-width: 660px; font-size: 12px; }
+.g-linha { display: grid; grid-template-columns: 150px minmax(0, 1fr); border-bottom: 1px solid var(--linha); }
+.g-linha:last-child { border-bottom: 0; }
+.g-rot { padding: 3px 6px; border-left-width: 5px; border-left-style: solid; background: var(--fundo); line-height: 1.2; }
+.g-cab .g-rot, .g-marcos .g-rot { border-left-color: transparent; }
+.g-rot b { display: block; font-size: 12px; }
+.g-rot small { font-weight: 400; color: var(--suave); }
+.g-rot span { display: block; color: var(--suave); font-size: 11px; }
+.g-trilho { position: relative; height: 38px; }
+.g-cab .g-trilho { height: 30px; }
+.g-marcos .g-trilho { height: 42px; }
+.g-mes { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--linha); }
+.g-mes-rot { position: absolute; top: 3px; text-align: center; color: var(--suave); font-size: 11px; line-height: 1.1; }
+.g-mes-rot small { display: block; font-size: 10px; font-weight: 600; }
+.g-hoje { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--vermelho); z-index: 3; }
+.g-barra { position: absolute; height: 13px; border-radius: 3px; z-index: 2; overflow: hidden; white-space: nowrap; font-size: 10px;
+  line-height: 13px; padding-left: 3px; color: var(--tinta); box-sizing: border-box; }
+.g-barra.p1 { top: 4px; }
+.g-barra.p2 { top: 21px; }
+.g-barra.segue { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.g-barra.segue::after { content: "▸"; position: absolute; right: 1px; top: 0; }
+.b-preparo { background: repeating-linear-gradient(90deg, #9d9b8f 0 5px, transparent 5px 9px); }
+.g-barra.b-preparo { height: 4px; margin-top: 5px; }
+.b-risco { background: repeating-linear-gradient(135deg, #7fbf93 0 3px, #e3f0e6 3px 6px); }
+.b-plantio { background: var(--verde); color: #ffffff; }
+.b-estimado { background: #ffffff; border: 2px dashed var(--verde); }
+.g-barra.b-estimado { line-height: 9px; }
+.b-roca { background: #cfe5d5; }
+.b-colheita { background: #eda100; }
+.b-pousio { background: #dedbd0; }
+.g-decide, .g-decide-chave { position: absolute; top: 1px; width: 10px; height: 10px; background: var(--vermelho); transform: translateX(-5px) rotate(45deg); z-index: 4; }
+.g-decide-chave { position: relative; display: inline-block; top: 0; width: 9px; height: 9px; transform: rotate(45deg); margin-right: 6px; vertical-align: middle; }
+.g-marco { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--papel); border: 2px solid var(--ambar); font-size: 10px;
+  font-weight: 700; text-align: center; line-height: 14px; transform: translateX(-9px); z-index: 4; cursor: help; }
+.g-marco.alto { top: 2px; }
+.g-marco.baixo { top: 21px; }
+.g-marco.hoje { border-color: var(--vermelho); }
+.marcos { margin: 4px 0 8px; padding-left: 22px; }
+.marcos li { margin: 3px 0; }
+.passos td:first-child { white-space: nowrap; }
+details { margin: 8px 0; }
+summary { cursor: pointer; color: var(--verde); font-weight: 600; }
+@media (max-width: 600px) { .rocado-seta { display: none; } }
 @media (max-width: 900px) {
   .plano th:last-child, .plano td:last-child { display: none; }
   table { display: block; overflow-x: auto; }  /* a tabela rola dentro do cartão em vez de estourar a tela (revisão M32) */

@@ -6,12 +6,22 @@ const mapa = L.map("mapa", { worldCopyJump: true, preferCanvas: true }).setView(
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · malha municipal IBGE', maxZoom: 18,
 }).addTo(mapa);
-let camadaMun = null, marcador = null, pedido = 0, ultimo = null;
+let camadaMun = null, marcador = null, pedido = 0, ultimo = null, ponto = null;
 const solo = { textura: "", ad: "" }; // seletor de solo (revisão A7): "" = não sei (melhor caso entre os solos)
-document.addEventListener("change", (e) => {
+const urlLocal = (lat, lon) => `/api/local?lat=${lat}&lon=${lon}&textura=${solo.textura}&ad=${solo.ad}`;
+document.addEventListener("change", async (e) => {
   if (!e.target.matches(".sel-solo") || !ultimo) return;
   solo[e.target.dataset.esquema] = e.target.value;
   document.getElementById("c-plantar").outerHTML = cartaoCardapio(ultimo);
+  // o solo muda as janelas do calendário e a data da maniva no plano: pede de novo só isso
+  const meu = ++pedido;
+  try {
+    const r = await (await fetch(urlLocal(ponto.lat, ponto.lon))).json();
+    if (meu !== pedido || r.erro || !document.getElementById("c-calendario")) return;
+    ultimo = r;
+    document.getElementById("c-calendario").outerHTML = cartaoCalendario(r);
+    document.getElementById("c-rotacao").outerHTML = cartaoPlano(r);
+  } catch (_) { /* o cardápio já foi redesenhado; o calendário fica como estava */ }
 });
 const municipios = {};
 const ESTILO = { color: "#1f6b3a", weight: 0.4, fillOpacity: 0.02 };
@@ -47,15 +57,16 @@ async function consultar(lat, lon) {
   document.getElementById("carregando").classList.remove("oculto");
   document.getElementById("resultado").innerHTML = "";
   try {
-    const resp = await fetch(`/api/local?lat=${lat}&lon=${lon}`);
+    ponto = { lat, lon };
+    const resp = await fetch(urlLocal(lat, lon));
     const r = await resp.json();
     if (meu !== pedido) return;
     if (r.erro) throw new Error(r.erro);
     ultimo = r;
     destacar(r.local.cod);
     const nav = `<nav class="nav-painel"><a href="#c-local">Lugar</a><a href="#c-ano">Este ano</a><a href="#c-plantar">O que plantar</a>
-      <a href="#c-rotacao" class="destaque">Rotação</a><a href="#c-evidencia">Evidência</a></nav>`;
-    document.getElementById("resultado").innerHTML = nav + [cartaoLocal(r), cartaoAno(r), cartaoCardapio(r), cartaoPlano(r), cartaoEvidencia(r), cartaoFontes(r)].join("");
+      <a href="#c-calendario" class="destaque">Calendário</a><a href="#c-rotacao" class="destaque">Rotação</a><a href="#c-evidencia">Evidência</a></nav>`;
+    document.getElementById("resultado").innerHTML = nav + [cartaoLocal(r), cartaoAno(r), cartaoCardapio(r), cartaoCalendario(r), cartaoPlano(r), cartaoEvidencia(r), cartaoFontes(r)].join("");
   } catch (e) {
     if (meu === pedido) document.getElementById("resultado").innerHTML = `<div class="cartao alerta">Erro na consulta: ${esc(e.message)}</div>`;
   } finally {
@@ -187,9 +198,77 @@ function cartaoCardapio(r) {
     tábua aberta. Nos outros estados, essas culturas ainda usam o GAEZ.</p></div>`;
 }
 
+// ------------------------------------------------------------------ calendário: de hoje até dez/2027
+const tipoCss = (t) => esc(t || "pousio").replace("ã", "a");
+const FASES = {
+  preparo: "preparo sem fogo", risco: "dá para plantar, com mais risco (até 40%)", plantio: "plantar (janela do ZARC)",
+  estimado: "plantar (janela estimada, sem ZARC)", roca: "na roça, crescendo", colheita: "colher", pousio: "pousio pastejado",
+};
+const MES_ABR = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+function cartaoCalendario(r) {
+  const a = r.agenda;
+  if (!a) return `<div class="cartao" id="c-calendario"><h2>Calendário: quando plantar e quando colher</h2><p class="local-sub">Sem
+    calendário aqui: fora do Nordeste o protótipo não tem o ZARC nem o início da chuva do IMERG por município.</p></div>`;
+  const t0 = Date.parse(a.inicio), T = Date.parse(a.fim) + 864e5 - t0;
+  const x = (d) => ((Date.parse(d) - t0) / T) * 100;
+  const w = (de, ate) => ((Date.parse(ate) + 864e5 - Date.parse(de)) / T) * 100;
+  const meses = [];
+  for (let y = +a.inicio.slice(0, 4), m = +a.inicio.slice(5, 7); `${y}-${String(m).padStart(2, "0")}` <= a.fim.slice(0, 7); m = m % 12 + 1, y += m === 1 ? 1 : 0)
+    meses.push(`${y}-${String(m).padStart(2, "0")}-01`);
+  const grade = meses.map((d) => `<span class="g-mes" style="left:${x(d)}%"></span>`).join("") + `<span class="g-hoje" style="left:${x(a.hoje)}%"></span>`;
+  const cab = meses.map((d, i) => {
+    const fim = i + 1 < meses.length ? x(meses[i + 1]) : 100, m = +d.slice(5, 7);
+    return `<span class="g-mes-rot" style="left:${x(d)}%;width:${fim - x(d)}%">${MES_ABR[m - 1]}${m === 1 || i === 0 ? `<small>${d.slice(0, 4)}</small>` : ""}</span>`;
+  }).join("");
+  const marcos = a.marcos.map((m, i) => `<span class="g-marco ${i % 2 ? "baixo" : "alto"}${m.rotulo === "Hoje" ? " hoje" : ""}" style="left:${x(m.data)}%"
+    title="${esc(m.dia)} · ${esc(m.rotulo)}: ${esc(m.texto)}">${i + 1}</span>`).join("");
+  const barra = (b) => {
+    const larg = w(b.de, b.ate), txt = { plantio: "plantar", estimado: "plantar", colheita: "colher", pousio: "pousio" }[b.tipo];
+    return `<span class="g-barra b-${b.tipo} p${b.pista}${b.segue ? " segue" : ""}" style="left:${x(b.de)}%;width:${larg}%"
+      title="${esc(b.rotulo)}">${txt && larg > 7 ? txt : ""}</span>`;
+  };
+  const linha = (l) => `<div class="g-linha"><div class="g-rot t-${tipoCss(l.tipo)}"><b>${esc(l.parte)}${l.estacao > 2027 ? ` <small>· estação ${l.estacao}</small>` : ""}</b>
+    <span>${esc(l.cultura)}</span></div><div class="g-trilho">${grade}${l.barras.map(barra).join("")}
+    ${l.marcos.map((m) => `<span class="g-decide" style="left:${x(m.data)}%" title="${esc(m.rotulo)}"></span>`).join("")}</div></div>`;
+  let h = `<div class="cartao" id="c-calendario"><h2>Calendário: quando plantar e quando colher (hoje até dez/2027)</h2>
+    <div class="agora"><h3>O que fazer agora (${esc(a.hoje_txt)})</h3><ul>${a.agora.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div>
+    <p class="local-sub">Cada linha é uma parte do roçado (veja o desenho na Rotação). Barra de cima: <b>quando plantar</b>. Barra de baixo:
+    a cultura <b>na roça</b> e a <b>colheita</b>. Linha vermelha: hoje. Círculos: os marcos do ano (passe o mouse). Solo: ${esc(a.solo)};
+    escolha o solo no cardápio para ver as janelas dele.</p>
+    <div class="g-legenda">${Object.entries(FASES).map(([k, v]) => `<span><i class="b-${k}"></i>${v}</span>`).join("")}
+      <span><i class="g-decide-chave"></i>decisão</span></div>
+    <div class="gantt-caixa"><div class="gantt">
+      <div class="g-linha g-cab"><div class="g-rot"></div><div class="g-trilho">${cab}</div></div>
+      <div class="g-linha g-marcos"><div class="g-rot"><b>Marcos</b></div><div class="g-trilho">${grade}${marcos}</div></div>
+      ${a.linhas.map(linha).join("")}
+    </div></div>`;
+  if (a.nota_portoes) h += `<p class="aviso">${esc(a.nota_portoes)}</p>`;
+  h += `<h3>Marcos do ano</h3><ol class="marcos">${a.marcos.map((m) => `<li><b>${esc(m.dia)} · ${esc(m.rotulo)}.</b> ${esc(m.texto)}</li>`).join("")}</ol>`;
+  h += `<h3>Passo a passo, parte por parte</h3><table class="passos"><tr><th>Parte</th><th>Cultura</th><th>Plantar</th><th>Colher</th><th>De onde vem a data</th></tr>
+    ${a.linhas.map((l) => `<tr><td><b>${esc(l.parte)}</b>${l.estacao > 2027 ? `<br><span class="local-sub">estação ${l.estacao}</span>` : ""}</td>
+      <td>${esc(l.cultura)}</td><td>${esc(l.plantar)}</td><td>${esc(l.colher)}</td><td class="local-sub">${esc(l.fonte)}</td></tr>`).join("")}</table>`;
+  h += `<details><summary>Janela e colheita de cada cultura disponível aqui (também as que ficam fora do giro)</summary>
+    <table class="passos"><tr><th>Cultura</th><th>Plantar (estação 2027)</th><th>Colher</th><th>De onde vem a data</th></tr>
+    ${a.culturas.map((c) => `<tr><td><b>${esc(c.cultura)}</b></td><td>${esc(c.plantar)}</td><td>${esc(c.colher)}</td><td class="local-sub">${esc(c.fonte)}</td></tr>`).join("")}
+    </table></details>`;
+  return h + `<p class="local-sub">A colheita vem da janela de plantio mais o ciclo da cultura (dias do plantio à colheita; os ciclos
+    sem fonte estão marcados como suposição). Plantou num dia da janela? Some o ciclo àquele dia.</p></div>`;
+}
+
 const TIPOS = { leguminosa: "leguminosa", cereal: "cereal", "tampão": "tampão (mandioca)", forragem: "forragem", perene: "perene", pousio: "pousio" };
 function celulaRot(c) {
-  return `<div class="rot t-${esc(c.tipo).replace("ã", "a")}"><b>${esc(c.cultura)}</b><span>${esc(c.texto)}</span></div>`;
+  return `<div class="rot t-${tipoCss(c.tipo)}"><b>${esc(c.cultura)}</b><span>${esc(c.texto)}</span></div>`;
+}
+function rocado(p) {
+  const pt = p.faixas.filter((f) => f.parte.startsWith("Parte")), bx = p.faixas.find((f) => f.parte === "Baixio"),
+    bd = p.faixas.find((f) => f.parte === "Bordas");
+  const anos = p.anos.map((a, k) => `<figure class="rocado-ano"><figcaption>${a}</figcaption>
+    <div class="rocado-terreno">
+      <div class="rocado-partes">${pt.map((f) => `<div class="rp f-${tipoCss(f.anos[k].tipo)}"><span class="rp-letra">${esc(f.parte.slice(-1))}</span>
+        <span>${esc(f.anos[k].cultura)}</span></div>`).join("")}</div>
+      ${bx ? `<div class="rocado-baixio f-${tipoCss(bx.anos[k].tipo)}"><b>Baixio:</b> ${esc(bx.anos[k].cultura)}</div>` : ""}
+    </div>${bd ? `<div class="rocado-borda">borda verde = ${esc(bd.anos[k].cultura)}</div>` : ""}</figure>`);
+  return `<div class="rocado" role="img" aria-label="O roçado visto de cima, ano a ano">${anos.join('<span class="rocado-seta" aria-hidden="true">→</span>')}</div>`;
 }
 function linhaEv(c) {
   const doi = c.doi ? ` · <a href="https://doi.org/${esc(c.doi)}" target="_blank" rel="noopener">doi</a>` : "";
@@ -204,14 +283,22 @@ function cartaoPlano(r) {
   const p = r.plano;
   if (!p) return `<div class="cartao" id="c-rotacao"><h2>Rotação</h2><p>Sem dado de terra neste ponto (mar ou fora da grade do GAEZ): sem plano.</p></div>`;
   let h = `<div class="cartao" id="c-rotacao"><h2>Rotação: como girar as culturas aqui (${p.anos[0]}–${p.anos[2]})</h2>
-    <p>Com uma só estação de chuva, a rotação acontece <b>entre os anos</b> (as faixas trocam de cultura) e <b>dentro da estação</b>
-    (a leguminosa entra no milho em pé). O plano usa só as culturas disponíveis neste lugar.</p>`;
+    <p><b>O que são as partes A, B e C?</b> Divida o roçado em 3 pedaços de tamanho parecido. Cada pedaço recebe uma cultura por
+    ano e, no ano seguinte, a cultura muda de pedaço. Assim a leguminosa deixa nitrogênio para o cereal que vem depois, e sempre fica
+    mandioca no chão como reserva para um ano ruim. O <b>baixio</b> (a parte mais baixa, que guarda mais água) fica com o cereal todo
+    ano. As <b>bordas</b>, plantadas em curva de nível, ficam com palma e gliricídia, que são perenes. Siga a cor de cada cultura de
+    um ano para o outro:</p>
+    ${rocado(p)}
+    <p class="local-sub">Com uma só estação de chuva, a rotação acontece <b>entre os anos</b> (as partes trocam de cultura) e
+    <b>dentro da estação</b> (a leguminosa entra no milho em pé). O plano usa só as culturas disponíveis neste lugar. As datas de
+    cada parte estão no Calendário.</p>`;
   if (p.modelo_ne) h += `<p class="aviso">Fora do Nordeste o protótipo usa o modelo do sertão: as culturas são do lugar (GAEZ, pouco insumo),
     mas as datas, as bordas e o alerta do ano foram calibrados no NE.</p>`;
   h += `<p class="aviso"><b>Interruptor do ano:</b> ${esc(p.interruptor)}</p>`;
   h += `<div class="legenda-rot">${Object.entries(TIPOS).map(([k, v]) => `<span class="rot-chave t-${k.replace("ã", "a")}">${v}</span>`).join("")}</div>`;
-  h += `<table class="plano"><tr><th></th>${p.anos.map((a) => `<th>${a}</th>`).join("")}<th>Por que gira assim</th></tr>`;
-  for (const f of p.faixas) h += `<tr><td>${esc(f.faixa)}</td>${f.anos.map((c) => `<td>${celulaRot(c)}</td>`).join("")}<td class="local-sub">${esc(f.por_que)}</td></tr>`;
+  const SUB = { "Parte A": "1/3 do roçado", "Parte B": "1/3 do roçado", "Parte C": "1/3 do roçado", "Baixio": "parte mais úmida", "Bordas": "em curva de nível" };
+  h += `<table class="plano"><tr><th>Parte do roçado</th>${p.anos.map((a) => `<th>${a}</th>`).join("")}<th>Por que gira assim</th></tr>`;
+  for (const f of p.faixas) h += `<tr><td>${esc(f.parte)}<br><span class="local-sub">${esc(SUB[f.parte] || "")}</span></td>${f.anos.map((c) => `<td>${celulaRot(c)}</td>`).join("")}<td class="local-sub">${esc(f.por_que)}</td></tr>`;
   h += `</table><h3>As regras da rotação e a evidência de cada uma</h3>${p.principios.map(linhaEv).join("")}`;
   h += `<ul class="notas">${p.notas.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`;
   return h;
