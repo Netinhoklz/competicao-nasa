@@ -1,0 +1,436 @@
+Backtest da projeção por ciclo (método C + D + conforme), gerado por site-versao-final/ferramentas/preparar_projecao.py em 2026-11-14 18:28.
+PAM municipal 1998–2025, rendimento por ha plantado; municípios com ≥ 20 anos; milho, feijão e mandioca.
+LOYO = deixa o ano de fora (28 anos); WF = walk-forward, só o passado, alvo 2008–2025.
+C = quantis do município encolhidos para a mesorregião (peso n/(n+10)); D = o mesmo, só com os anos da mesma classe de El Niño;
+F_conf = D alargado ano a ano pelo quantil 80% dos escores dos anos anteriores (P10, P90 e P20 pelo fator bilateral, como backtest.py);
+F_final = idem, mas P20/P80 pelo fator de um lado só (é o que vai no JSON, com o fator fixo calibrado em todos os anos do WF);
+D + alargamento fixo = D com os fatores fixos do JSON (calibrados no WF) aplicados também no LOYO (otimista: mesmos dados).
+
+ANTES  = ONI ago–out ≥ 1,0: [1998, 2016, 2024] (definição do analista da projeção)
+DEPOIS = ONI out–dez/nov–jan ≥ 1,5: [1998, 2010, 2016, 2024] (definição única do motor, eventos.csv: ONI_OND_NDJ ≥ 1,5)
+Nota: a classe do DEPOIS usa o ONI de out–dez/nov–jan, que só fecha em janeiro; em nov/2026 o ago–out já está em +2,46, então a classe de 2027 é certa. 'El Niño forte' em cada coluna = os anos da própria definição.
+
+== Fatores do alargamento conforme (quantil 80% dos escores do WF 2008–2025, × mediana do município) ==
+                                                              ANTES   DEPOIS
+D (2027): P10/P90, bilateral                                  0.155    0.156
+D (2027): P20/P80, só o piso                                  0.079    0.070
+C (2028–29): P10/P90, bilateral                               0.104    0.104
+C (2028–29): P20/P80, só o piso                               0.056    0.056
+(o analista registrou 0,155/0,079 para o D e 0,104/0,056 para o C, em analise/projecao.md)
+
+== Resumo: antes × depois ==
+                                                              ANTES   DEPOIS
+LOYO, cobertura 80%, média dos anos: C                        0.775    0.775
+LOYO, cobertura 80%, média dos anos: D                        0.748    0.750
+LOYO, cobertura 80%, média dos anos: D + alargamento fixo     0.875    0.877
+LOYO, El Niño forte: cobertura 80% do D                       0.555    0.634
+LOYO, El Niño forte: cobertura 80% do D + alargamento fixo    0.712    0.779
+LOYO, El Niño forte: piso P20 do C (meta 0,80)                0.637    0.664
+LOYO, El Niño forte: piso P20 do D                            0.701    0.734
+LOYO, El Niño forte: piso P20 do D + alargamento fixo         0.759    0.787
+LOYO, El Niño forte: quebra prevista D / observada         0.30/0.30 0.28/0.28
+LOYO, El Niño forte: quebra prevista C / observada         0.16/0.30 0.16/0.28
+WF, cobertura 80%, média dos anos: C                          0.688    0.688
+WF, cobertura 80%, média dos anos: D                          0.645    0.644
+WF, cobertura 80%, média dos anos: F_conf (como backtest.py)    0.783    0.793
+WF, cobertura 80%, média dos anos: F_final (como o JSON)      0.783    0.793
+WF, pior ano: F_conf                                          0.565    0.622
+WF, anos com cobertura < 0,6: F_conf                              1        0
+WF, cobertura 80% do milho: F_conf                            0.772    0.784
+WF, El Niño forte: cobertura 80% do F_conf                    0.607    0.675
+WF, El Niño forte: piso P20 do D                              0.818    0.815
+WF, El Niño forte: piso P20 do F_conf                         0.883    0.885
+WF, El Niño forte: piso P20 do F_final                        0.885    0.843
+WF, El Niño forte: quebra prevista D / observada           0.39/0.26 0.34/0.25
+
+######## ANTES: ONI ago–out ≥ 1,0 [1998, 2016, 2024]
+
+--- LOYO: cobertura 80% (todas as linhas / média dos anos / pior ano / anos < 0,6 / milho)
+        geral  media_anos   pior  anos_lt60  milho
+metodo                                            
+A_mun   0.772       0.771  0.566          2  0.764
+C_hier  0.776       0.775  0.565          2  0.777
+D+fixo  0.875       0.875  0.579          1  0.856
+D_enso  0.749       0.748  0.454          3  0.742
+
+--- LOYO: por grupo de anos (3 culturas)
+                          n  cov80  piso80  brier  p_prev  f_obs
+grupo         metodo                                            
+El Niño forte A_mun   13967  0.678   0.639  0.202   0.162  0.303
+              C_hier  13967  0.687   0.637  0.202   0.162  0.303
+              D+fixo  13967  0.712   0.759  0.235   0.298  0.303
+              D_enso  13967  0.555   0.701  0.235   0.298  0.303
+demais        A_mun   99085  0.798   0.833  0.106   0.166  0.129
+              C_hier  99085  0.801   0.831  0.106   0.166  0.129
+              D+fixo  99085  0.902   0.876  0.105   0.150  0.129
+              D_enso  99085  0.789   0.813  0.105   0.150  0.129
+seca 2012–15  A_mun   18208  0.706   0.646  0.200   0.160  0.304
+              C_hier  18208  0.712   0.646  0.199   0.160  0.304
+              D+fixo  18208  0.857   0.680  0.207   0.144  0.304
+              D_enso  18208  0.679   0.622  0.207   0.144  0.304
+
+--- LOYO: cada El Niño forte da definição única (3 culturas)
+             cov80  piso80  p_prev  f_obs
+ano  metodo                              
+1998 A_mun    0.58    0.47    0.16   0.40
+     C_hier   0.59    0.47    0.16   0.40
+     D+fixo   0.73    0.61    0.25   0.40
+     D_enso   0.55    0.53    0.25   0.40
+2010 A_mun    0.80    0.75    0.16   0.22
+     C_hier   0.80    0.75    0.16   0.22
+     D+fixo   0.90    0.78    0.15   0.22
+     D_enso   0.77    0.72    0.15   0.22
+2016 A_mun    0.66    0.57    0.16   0.40
+     C_hier   0.66    0.57    0.16   0.40
+     D+fixo   0.83    0.75    0.25   0.40
+     D_enso   0.66    0.67    0.25   0.40
+2024 A_mun    0.79    0.88    0.17   0.12
+     C_hier   0.80    0.87    0.17   0.12
+     D+fixo   0.58    0.92    0.39   0.12
+     D_enso   0.45    0.90    0.39   0.12
+
+--- LOYO: milho, quebra prevista × observada nos El Niños fortes
+             p_prev  f_obs  piso80
+ano  metodo                       
+1998 A_mun     0.21   0.60    0.38
+     C_hier    0.21   0.60    0.38
+     D+fixo    0.30   0.60    0.49
+     D_enso    0.30   0.60    0.40
+2010 A_mun     0.22   0.35    0.68
+     C_hier    0.22   0.35    0.67
+     D+fixo    0.20   0.35    0.71
+     D_enso    0.20   0.35    0.64
+2016 A_mun     0.22   0.53    0.53
+     C_hier    0.22   0.53    0.54
+     D+fixo    0.35   0.53    0.75
+     D_enso    0.35   0.53    0.65
+2024 A_mun     0.23   0.11    0.94
+     C_hier    0.23   0.11    0.93
+     D+fixo    0.55   0.11    0.98
+     D_enso    0.55   0.11    0.97
+
+--- LOYO: cobertura 80% por ano
+metodo  A_mun  C_hier  D+fixo  D_enso
+ano                                  
+1998     0.58    0.59    0.73    0.55
+1999     0.76    0.76    0.89    0.73
+2000     0.76    0.76    0.87    0.75
+2001     0.75    0.75    0.89    0.71
+2002     0.81    0.82    0.92    0.80
+2003     0.83    0.83    0.93    0.82
+2004     0.89    0.88    0.95    0.87
+2005     0.87    0.87    0.94    0.87
+2006     0.78    0.77    0.87    0.78
+2007     0.88    0.87    0.94    0.87
+2008     0.82    0.82    0.90    0.82
+2009     0.84    0.84    0.92    0.83
+2010     0.80    0.80    0.90    0.77
+2011     0.81    0.82    0.91    0.82
+2012     0.57    0.57    0.76    0.52
+2013     0.69    0.70    0.84    0.67
+2014     0.81    0.81    0.92    0.80
+2015     0.75    0.76    0.90    0.72
+2016     0.66    0.66    0.83    0.66
+2017     0.74    0.76    0.89    0.74
+2018     0.75    0.77    0.90    0.76
+2019     0.77    0.78    0.90    0.77
+2020     0.74    0.74    0.85    0.74
+2021     0.81    0.81    0.91    0.80
+2022     0.82    0.83    0.91    0.82
+2023     0.79    0.79    0.89    0.78
+2024     0.79    0.80    0.58    0.45
+2025     0.74    0.74    0.87    0.71
+
+--- WF: cobertura 80% (todas as linhas / média dos anos / pior ano / anos < 0,6 / milho)
+         geral  media_anos   pior  anos_lt60  milho
+metodo                                             
+A_mun    0.666       0.665  0.420          2  0.641
+C_hier   0.689       0.688  0.449          1  0.674
+D+fixo   0.800       0.800  0.580          1  0.751
+D_enso   0.646       0.645  0.394          4  0.623
+F_conf   0.784       0.783  0.565          1  0.772
+F_final  0.784       0.783  0.565          1  0.772
+
+--- WF: por grupo de anos (3 culturas)
+                           n  cov80  piso80  brier  p_prev  f_obs
+grupo         metodo                                             
+El Niño forte A_mun     9334  0.689   0.723  0.171   0.162  0.256
+              C_hier    9334  0.699   0.715  0.172   0.162  0.256
+              D+fixo    9334  0.622   0.857  0.239   0.388  0.256
+              D_enso    9334  0.459   0.818  0.239   0.388  0.256
+              F_conf    9334  0.607   0.883  0.239   0.388  0.256
+              F_final   9334  0.607   0.885  0.239   0.388  0.256
+demais        A_mun    56378  0.687   0.809  0.119   0.155  0.149
+              C_hier   56378  0.710   0.809  0.118   0.155  0.149
+              D+fixo   56378  0.835   0.840  0.117   0.132  0.149
+              D_enso   56378  0.696   0.782  0.117   0.132  0.149
+              F_conf   56378  0.815   0.871  0.117   0.132  0.149
+              F_final  56378  0.815   0.835  0.117   0.132  0.149
+seca 2012–15  A_mun    18194  0.587   0.616  0.210   0.142  0.314
+              C_hier   18194  0.616   0.609  0.210   0.143  0.314
+              D+fixo   18194  0.785   0.648  0.218   0.126  0.314
+              D_enso   18194  0.585   0.579  0.218   0.126  0.314
+              F_conf   18194  0.779   0.708  0.218   0.126  0.314
+              F_final  18194  0.779   0.686  0.218   0.126  0.314
+
+--- WF: cada El Niño forte da definição única (3 culturas)
+              cov80  piso80  p_prev  f_obs
+ano  metodo                               
+2010 A_mun     0.64    0.68    0.13   0.24
+     C_hier    0.68    0.68    0.13   0.24
+     D+fixo    0.80    0.70    0.10   0.24
+     D_enso    0.63    0.63    0.10   0.24
+     F_conf    0.76    0.71    0.10   0.24
+     F_final   0.76    0.60    0.10   0.24
+2016 A_mun     0.60    0.57    0.16   0.39
+     C_hier    0.61    0.57    0.16   0.39
+     D+fixo    0.66    0.79    0.38   0.39
+     D_enso    0.46    0.74    0.38   0.39
+     F_conf    0.65    0.84    0.38   0.39
+     F_final   0.65    0.84    0.38   0.39
+2024 A_mun     0.77    0.87    0.17   0.12
+     C_hier    0.78    0.86    0.17   0.12
+     D+fixo    0.58    0.92    0.39   0.12
+     D_enso    0.45    0.89    0.39   0.12
+     F_conf    0.57    0.93    0.39   0.12
+     F_final   0.57    0.93    0.39   0.12
+
+--- WF: milho, quebra prevista × observada nos El Niños fortes
+              p_prev  f_obs  piso80
+ano  metodo                        
+2010 A_mun      0.19   0.38    0.63
+     C_hier     0.19   0.38    0.63
+     D+fixo     0.15   0.38    0.63
+     D_enso     0.15   0.38    0.57
+     F_conf     0.15   0.38    0.68
+     F_final    0.15   0.38    0.48
+2016 A_mun      0.22   0.49    0.60
+     C_hier     0.22   0.49    0.59
+     D+fixo     0.55   0.49    0.84
+     D_enso     0.55   0.49    0.78
+     F_conf     0.55   0.49    0.90
+     F_final    0.55   0.49    0.90
+2024 A_mun      0.23   0.11    0.93
+     C_hier     0.23   0.11    0.93
+     D+fixo     0.55   0.11    0.98
+     D_enso     0.55   0.11    0.97
+     F_conf     0.55   0.11    0.99
+     F_final    0.55   0.11    0.98
+
+--- WF: cobertura 80% por ano
+metodo  A_mun  C_hier  D+fixo  D_enso  F_conf  F_final
+ano                                                   
+2008     0.68    0.72    0.85    0.71    0.71     0.71
+2009     0.70    0.73    0.84    0.71    0.79     0.79
+2010     0.64    0.68    0.80    0.63    0.76     0.76
+2011     0.65    0.69    0.83    0.69    0.81     0.81
+2012     0.42    0.45    0.64    0.39    0.60     0.60
+2013     0.58    0.62    0.79    0.59    0.80     0.80
+2014     0.68    0.71    0.86    0.70    0.86     0.86
+2015     0.67    0.69    0.85    0.65    0.85     0.85
+2016     0.60    0.61    0.66    0.46    0.65     0.65
+2017     0.63    0.65    0.78    0.63    0.78     0.78
+2018     0.65    0.65    0.79    0.65    0.80     0.80
+2019     0.67    0.69    0.82    0.68    0.83     0.83
+2020     0.64    0.66    0.80    0.67    0.80     0.80
+2021     0.73    0.75    0.87    0.74    0.88     0.88
+2022     0.76    0.78    0.88    0.78    0.88     0.88
+2023     0.75    0.76    0.88    0.76    0.88     0.88
+2024     0.77    0.78    0.58    0.45    0.57     0.57
+2025     0.74    0.74    0.87    0.71    0.87     0.87
+
+######## DEPOIS: ONI out–dez/nov–jan ≥ 1,5 [1998, 2010, 2016, 2024]
+
+--- LOYO: cobertura 80% (todas as linhas / média dos anos / pior ano / anos < 0,6 / milho)
+        geral  media_anos   pior  anos_lt60  milho
+metodo                                            
+A_mun   0.772       0.771  0.566          2  0.764
+C_hier  0.776       0.775  0.565          2  0.777
+D+fixo  0.878       0.877  0.634          0  0.861
+D_enso  0.751       0.750  0.521          3  0.746
+
+--- LOYO: por grupo de anos (3 culturas)
+                          n  cov80  piso80  brier  p_prev  f_obs
+grupo         metodo                                            
+El Niño forte A_mun   18618  0.708   0.667  0.191   0.162  0.282
+              C_hier  18618  0.715   0.664  0.191   0.162  0.282
+              D+fixo  18618  0.779   0.787  0.202   0.275  0.282
+              D_enso  18618  0.634   0.734  0.202   0.275  0.282
+demais        A_mun   94434  0.798   0.837  0.104   0.166  0.125
+              C_hier  94434  0.801   0.835  0.103   0.166  0.125
+              D+fixo  94434  0.903   0.872  0.102   0.148  0.125
+              D_enso  94434  0.789   0.815  0.102   0.148  0.125
+seca 2012–15  A_mun   18208  0.706   0.646  0.200   0.160  0.304
+              C_hier  18208  0.712   0.646  0.199   0.160  0.304
+              D+fixo  18208  0.847   0.665  0.211   0.141  0.304
+              D_enso  18208  0.672   0.616  0.211   0.141  0.304
+
+--- LOYO: cada El Niño forte da definição única (3 culturas)
+             cov80  piso80  p_prev  f_obs
+ano  metodo                              
+1998 A_mun    0.58    0.47    0.16   0.40
+     C_hier   0.59    0.47    0.16   0.40
+     D+fixo   0.80    0.61    0.24   0.40
+     D_enso   0.59    0.54    0.24   0.40
+2010 A_mun    0.80    0.75    0.16   0.22
+     C_hier   0.80    0.75    0.16   0.22
+     D+fixo   0.87    0.90    0.29   0.22
+     D_enso   0.76    0.85    0.29   0.22
+2016 A_mun    0.66    0.57    0.16   0.40
+     C_hier   0.66    0.57    0.16   0.40
+     D+fixo   0.82    0.73    0.24   0.40
+     D_enso   0.67    0.67    0.24   0.40
+2024 A_mun    0.79    0.88    0.17   0.12
+     C_hier   0.80    0.87    0.17   0.12
+     D+fixo   0.63    0.90    0.33   0.12
+     D_enso   0.52    0.88    0.33   0.12
+
+--- LOYO: milho, quebra prevista × observada nos El Niños fortes
+             p_prev  f_obs  piso80
+ano  metodo                       
+1998 A_mun     0.21   0.60    0.38
+     C_hier    0.21   0.60    0.38
+     D+fixo    0.32   0.60    0.52
+     D_enso    0.32   0.60    0.44
+2010 A_mun     0.22   0.35    0.68
+     C_hier    0.22   0.35    0.67
+     D+fixo    0.39   0.35    0.85
+     D_enso    0.39   0.35    0.79
+2016 A_mun     0.22   0.53    0.53
+     C_hier    0.22   0.53    0.54
+     D+fixo    0.35   0.53    0.75
+     D_enso    0.35   0.53    0.67
+2024 A_mun     0.23   0.11    0.94
+     C_hier    0.23   0.11    0.93
+     D+fixo    0.48   0.11    0.98
+     D_enso    0.48   0.11    0.97
+
+--- LOYO: cobertura 80% por ano
+metodo  A_mun  C_hier  D+fixo  D_enso
+ano                                  
+1998     0.58    0.59    0.80    0.59
+1999     0.76    0.76    0.89    0.72
+2000     0.76    0.76    0.86    0.75
+2001     0.75    0.75    0.89    0.70
+2002     0.81    0.82    0.93    0.80
+2003     0.83    0.83    0.93    0.83
+2004     0.89    0.88    0.95    0.87
+2005     0.87    0.87    0.94    0.86
+2006     0.78    0.77    0.87    0.78
+2007     0.88    0.87    0.94    0.86
+2008     0.82    0.82    0.90    0.82
+2009     0.84    0.84    0.91    0.82
+2010     0.80    0.80    0.87    0.76
+2011     0.81    0.82    0.91    0.82
+2012     0.57    0.57    0.75    0.52
+2013     0.69    0.70    0.83    0.66
+2014     0.81    0.81    0.92    0.80
+2015     0.75    0.76    0.89    0.71
+2016     0.66    0.66    0.82    0.67
+2017     0.74    0.76    0.89    0.74
+2018     0.75    0.77    0.90    0.76
+2019     0.77    0.78    0.90    0.77
+2020     0.74    0.74    0.86    0.75
+2021     0.81    0.81    0.91    0.80
+2022     0.82    0.83    0.91    0.82
+2023     0.79    0.79    0.89    0.78
+2024     0.79    0.80    0.63    0.52
+2025     0.74    0.74    0.87    0.71
+
+--- WF: cobertura 80% (todas as linhas / média dos anos / pior ano / anos < 0,6 / milho)
+         geral  media_anos   pior  anos_lt60  milho
+metodo                                             
+A_mun    0.666       0.665  0.420          2  0.641
+C_hier   0.689       0.688  0.449          1  0.674
+D+fixo   0.800       0.799  0.599          1  0.753
+D_enso   0.645       0.644  0.374          5  0.623
+F_conf   0.793       0.793  0.622          0  0.784
+F_final  0.793       0.793  0.622          0  0.784
+
+--- WF: por grupo de anos (3 culturas)
+                           n  cov80  piso80  brier  p_prev  f_obs
+grupo         metodo                                             
+El Niño forte A_mun    13954  0.673   0.707  0.171   0.150  0.252
+              C_hier   13954  0.694   0.705  0.172   0.150  0.252
+              D+fixo   13954  0.694   0.855  0.209   0.340  0.252
+              D_enso   13954  0.524   0.815  0.209   0.340  0.252
+              F_conf   13954  0.675   0.885  0.209   0.340  0.252
+              F_final  13954  0.675   0.843  0.209   0.340  0.252
+demais        A_mun    51758  0.691   0.821  0.114   0.157  0.141
+              C_hier   51758  0.713   0.820  0.113   0.157  0.141
+              D+fixo   51758  0.840   0.846  0.110   0.132  0.141
+              D_enso   51758  0.704   0.794  0.110   0.132  0.141
+              F_conf   51758  0.826   0.888  0.110   0.132  0.141
+              F_final  51758  0.826   0.844  0.110   0.132  0.141
+seca 2012–15  A_mun    18194  0.587   0.616  0.210   0.142  0.314
+              C_hier   18194  0.616   0.609  0.210   0.143  0.314
+              D+fixo   18194  0.767   0.628  0.225   0.119  0.314
+              D_enso   18194  0.572   0.567  0.225   0.119  0.314
+              F_conf   18194  0.791   0.715  0.225   0.119  0.314
+              F_final  18194  0.791   0.630  0.225   0.119  0.314
+
+--- WF: cada El Niño forte da definição única (3 culturas)
+              cov80  piso80  p_prev  f_obs
+ano  metodo                               
+2010 A_mun     0.64    0.68    0.13   0.24
+     C_hier    0.68    0.68    0.13   0.24
+     D+fixo    0.72    0.92    0.40   0.24
+     D_enso    0.50    0.88    0.40   0.24
+     F_conf    0.66    0.93    0.40   0.24
+     F_final   0.66    0.84    0.40   0.24
+2016 A_mun     0.60    0.57    0.16   0.39
+     C_hier    0.61    0.57    0.16   0.39
+     D+fixo    0.73    0.74    0.29   0.39
+     D_enso    0.55    0.69    0.29   0.39
+     F_conf    0.75    0.80    0.29   0.39
+     F_final   0.75    0.79    0.29   0.39
+2024 A_mun     0.77    0.87    0.17   0.12
+     C_hier    0.78    0.86    0.17   0.12
+     D+fixo    0.63    0.90    0.33   0.12
+     D_enso    0.52    0.88    0.33   0.12
+     F_conf    0.62    0.92    0.33   0.12
+     F_final   0.62    0.90    0.33   0.12
+
+--- WF: milho, quebra prevista × observada nos El Niños fortes
+              p_prev  f_obs  piso80
+ano  metodo                        
+2010 A_mun      0.19   0.38    0.63
+     C_hier     0.19   0.38    0.63
+     D+fixo     0.57   0.38    0.92
+     D_enso     0.57   0.38    0.88
+     F_conf     0.57   0.38    0.96
+     F_final    0.57   0.38    0.76
+2016 A_mun      0.22   0.49    0.60
+     C_hier     0.22   0.49    0.59
+     D+fixo     0.42   0.49    0.78
+     D_enso     0.42   0.49    0.72
+     F_conf     0.42   0.49    0.85
+     F_final    0.42   0.49    0.82
+2024 A_mun      0.23   0.11    0.93
+     C_hier     0.23   0.11    0.93
+     D+fixo     0.48   0.11    0.98
+     D_enso     0.48   0.11    0.96
+     F_conf     0.48   0.11    0.99
+     F_final    0.48   0.11    0.97
+
+--- WF: cobertura 80% por ano
+metodo  A_mun  C_hier  D+fixo  D_enso  F_conf  F_final
+ano                                                   
+2008     0.68    0.72    0.85    0.71    0.71     0.71
+2009     0.70    0.73    0.84    0.71    0.79     0.79
+2010     0.64    0.68    0.72    0.50    0.66     0.66
+2011     0.65    0.69    0.82    0.68    0.82     0.82
+2012     0.42    0.45    0.60    0.37    0.62     0.62
+2013     0.58    0.62    0.76    0.57    0.81     0.81
+2014     0.68    0.71    0.85    0.69    0.87     0.87
+2015     0.67    0.69    0.85    0.65    0.86     0.86
+2016     0.60    0.61    0.73    0.55    0.75     0.75
+2017     0.63    0.65    0.78    0.63    0.79     0.79
+2018     0.65    0.65    0.80    0.65    0.81     0.81
+2019     0.67    0.69    0.83    0.68    0.84     0.84
+2020     0.64    0.66    0.81    0.68    0.81     0.81
+2021     0.73    0.75    0.88    0.75    0.88     0.88
+2022     0.76    0.78    0.88    0.78    0.89     0.89
+2023     0.75    0.76    0.88    0.76    0.88     0.88
+2024     0.77    0.78    0.63    0.52    0.62     0.62
+2025     0.74    0.74    0.87    0.71    0.87     0.87

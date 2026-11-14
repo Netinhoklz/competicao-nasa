@@ -1,0 +1,15 @@
+/* passo 2, "Sua roça" */
+.pergunta { border: 0; margin: 0 0 12px; padding: 0; }
+.pergunta legend { font-family: var(--display); font-size: 19px; font-weight: 700; margin-bottom: 8px; padding: 0; }
+.opcoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.opcao { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 52px; min-width: 150px; padding: 9px 14px;
+  border: 2px solid var(--border); background: var(--surface); border-radius: 14px; cursor: pointer; text-align: left; }
+.opcao span { font-size: 12px; color: var(--muted); }
+.opcao:hover { border-color: var(--green); }
+.opcao.marcada { border-color: var(--green); background: var(--green-soft); box-shadow: 0 0 0 2px var(--green-soft); }
+.opcao.curta { min-width: 70px; align-items: center; }
+.muda { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.campo { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+.campo input { width: 90px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--surface); color: var(--ink); }
+.mudou { position: sticky; top: 64px; z-index: 5; }
+@media (max-width: 760px) { .opcao { min-width: calc(50% - 4px); } .opcao.curta { min-width: 60px; } }

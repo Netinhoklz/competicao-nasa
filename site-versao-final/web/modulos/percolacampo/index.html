@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<!--
+  Origem: PercolaCampo v3, de Vicente Lima (branch estudo-vicente, commit 18fd0e3),
+  colegas/vicente/pesquisa_vicente/prototipo/percolacampo_v3_motor_calibrado_por_metan_lise_cient_fica.html.
+  Cópia para o site final do QUADRA (14/11/2026), aberta a partir do passo "Como plantar" (roca.html, passo 3).
+  O motor e a tela não mudaram. Mudanças: (1) a faixa fixa de aviso no topo; (2) o subtítulo "Dados NASA" virou
+  "Modelo teórico", porque o simulador não lê dado da NASA (sítios e constantes digitados; ver site-versao-final/analise/vicente.md).
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PercolaCampo — Seu Guia na Roça</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            forest: {
+              950: '#0f291e',
+              900: '#1b4332',
+              800: '#245842',
+              700: '#2d6a4f',
+              600: '#40916c',
+              100: '#d8f3dc',
+              50: '#f2faf4',
+            },
+            amberwarm: {
+              700: '#b45309',
+              600: '#d97706',
+              500: '#f59e0b',
+              100: '#fef3c7',
+              50: '#fffbeb',
+            },
+            terracotta: {
+              700: '#c2410c',
+              600: '#ea580c',
+              100: '#ffedd5',
+              50: '#fff7ed',
+            },
+            earth: {
+              bg: '#faf8f4',
+              card: '#ffffff',
+              sand: '#f3efe6',
+              border: '#e5dfd3'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #faf8f4;
+      color: #1f2937;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Sliders táteis e fáceis de usar no celular */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 9px;
+      border-radius: 999px;
+      background: #dfd8ca;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1b4332;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(27, 67, 50, 0.35);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      background: #2d6a4f;
+    }
+
+    /* Animações suaves para o mapa SVG interativo */
+    @keyframes pulseHotspot {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.45); opacity: 0.15; }
+    }
+
+    @keyframes windFlow {
+      0% { stroke-dashoffset: 36; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    @keyframes streamRipple {
+      0% { stroke-dashoffset: 48; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    .hotspot-pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulseHotspot 1.7s infinite ease-in-out;
+    }
+
+    .wind-stream {
+      stroke-dasharray: 9 9;
+      animation: windFlow 1.6s linear infinite;
+    }
+
+    .river-ripple {
+      stroke-dasharray: 12 12;
+      animation: streamRipple 2.4s linear infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-forest-900 selection:text-white">
+
+  <!-- QUADRA: faixa fixa de aviso (site final). A página e o cabeçalho grudado do simulador descem a altura da faixa. -->
+  <div id="quadra-aviso-teorico" role="note" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#7a4a00;color:#fff;font:600 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif;padding:8px 14px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.25)">Modelo teórico ilustrativo do Vicente. Os números deste simulador ainda não têm calibração no semiárido (grau D) e não entram no plano.</div>
+  <script>
+    (function () {
+      var f = document.getElementById("quadra-aviso-teorico");
+      function ajustar() {
+        var h = f.offsetHeight, c = document.querySelector("body > header");
+        document.body.style.paddingTop = h + "px";
+        if (c) c.style.top = h + "px";
+      }
+      ajustar();
+      document.addEventListener("DOMContentLoaded", ajustar); // o cabeçalho ainda não existe quando este script roda
+      window.addEventListener("resize", ajustar);
+    })();
+  </script>
+
+  <!-- ==================== CABEÇALHO LIMPO E ACOLHEDOR ==================== -->
+  <header class="bg-forest-900 text-white shadow-md sticky top-0 z-40 border-b border-forest-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Marca & Subtítulo Simples -->
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-forest-700 flex items-center justify-center border border-emerald-200/30 shadow-inner shrink-0">
+          <!-- Ícone de Broto + Escudo -->
+          <svg class="w-6 h-6 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V11m0 0C12 7 8.5 4 4 4c0 4.5 3 7 8 7zm0 0c0-3.5 3-6 8-6 0 4-2.5 6-8 6z"/>
+            <path stroke-linecap="round" d="M7 21h10"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-black tracking-tight leading-none">PercolaCampo</h1>
+          <p class="text-xs text-emerald-100/90 mt-1 font-medium">Seu Guia na Roça &bull; Modelo teórico</p>
+        </div>
+      </div>
+
+      <!-- Ações do Cabeçalho: Botão Configurar + Abas -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <button id="openSetupModalBtn" type="button" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-forest-700 hover:bg-forest-600 active:scale-95 text-white text-xs sm:text-sm font-extrabold border border-emerald-200/25 shadow-sm transition cursor-pointer">
+          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span>Configurar Minha Roça</span>
+        </button>
+
+        <!-- Navegação Principal (2 Abas) -->
+        <nav class="flex items-center bg-forest-950/90 p-1 rounded-xl border border-forest-700/70" role="tablist">
+          <button id="tabFarmerBtn" type="button" role="tab" aria-selected="true" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-amberwarm-600 text-white shadow-sm transition cursor-pointer">
+            Minha Lavoura
+          </button>
+          <button id="tabScienceBtn" type="button" role="tab" aria-selected="false" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-emerald-100 hover:text-white transition cursor-pointer">
+            Base Científica (Metanálise)
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- ABA 1 (PADRÃO): MINHA LAVOURA (100% LINGUAGEM DO AGRICULTOR, ZERO JARGÃO) -->
+  <!-- ========================================================================= -->
+  <main id="farmerMainView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 space-y-5">
+
+    <!-- FAIXA SUPERIOR: TEMPO & CONDIÇÕES DO TERRENO HOJE (3 PÍLULAS VISUAIS) -->
+    <section aria-label="Condições de hoje na roça" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <!-- Pílula 1: Vento -->
+      <div class="bg-white rounded-2xl p-3.5 px-4 border border-earth-border shadow-sm flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wide text-slate-400 block">Vento Hoje (Satélite)</span>
+          <strong id="pillWindText" class="text-sm font-extrabold text-slate-800">Vento vindo do Nordeste (18 km/h)</strong>
+        </div>
+      </div>
+
+      <!-- Pílula 2: Chuva e Umidade da Terra -->
+      <div class="bg-white rounded-2xl p-3.5 px-4 border border-earth-border shadow-sm flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wide text-slate-400 block">Chuva &amp; Terra</span>
+          <strong id="pillRainText" class="text-sm font-extrabold text-slate-800">Terra úmida &bull; Chuva leve prevista</strong>
+        </div>
+      </div>
+
+      <!-- Pílula 3: Abrigo de Joaninhas & Abelhas -->
+      <div id="pillAlliesCard" class="bg-white rounded-2xl p-3.5 px-4 border border-earth-border shadow-sm flex items-center gap-3.5">
+        <div id="pillAlliesIconBox" class="w-11 h-11 rounded-xl bg-forest-50 text-forest-900 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+        </div>
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wide text-slate-400 block">Aliados Naturais</span>
+          <strong id="pillAlliesText" class="text-sm font-extrabold text-forest-900">Abrigo de Joaninhas: Bom (45%)</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRADE PRINCIPAL: MAPA INTERATIVO DA PROPRIEDADE (ESQUERDA) + CARTÃO DE AÇÃO (DIREITA) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+      <!-- COLUNA ESQUERDA (7 COLUNAS): MAPA INTERATIVO DA ROÇA -->
+      <div class="lg:col-span-7 bg-white rounded-3xl shadow-sm border border-earth-border overflow-hidden flex flex-col">
+
+        <!-- Cabeçalho do Mapa com Nome do Sítio e Cultura -->
+        <div class="px-4 sm:px-6 pt-4 pb-3 border-b border-earth-border flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="farmMapTitle" class="text-base sm:text-lg font-black text-slate-900">Sítio Boa Esperança</h2>
+              <span id="farmMapCropBadge" class="px-2.5 py-0.5 rounded-full bg-forest-100 text-forest-900 text-xs font-extrabold">
+                Milho Crioulo &bull; 70 cm
+              </span>
+            </div>
+            <p id="toolInstructionBanner" class="text-xs sm:text-sm text-slate-600 mt-1">
+              Toque em qualquer planta no mapa para apontar um foco de praga e ver para onde ela vai.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3 FERRAMENTAS SIMPLES DO MAPA (BOTÕES GRANDES E TÁTEIS) -->
+        <div class="px-4 sm:px-6 py-3 bg-earth-sand/60 border-b border-earth-border grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <button type="button" data-map-tool="pest" class="farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-terracotta-700 text-white shadow-sm flex items-center justify-center gap-2 transition cursor-pointer">
+            <span>🔍</span>
+            <span>Apontar Foco de Praga</span>
+          </button>
+
+          <button type="button" data-map-tool="barrier" class="farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-bold bg-white text-slate-800 border border-earth-border hover:bg-amberwarm-50 flex items-center justify-center gap-2 transition cursor-pointer">
+            <span>🌻</span>
+            <span>Desenhar Faixa Protetora</span>
+          </button>
+
+          <button type="button" data-map-tool="corridor" class="farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-bold bg-white text-slate-800 border border-earth-border hover:bg-forest-50 flex items-center justify-center gap-2 transition cursor-pointer">
+            <span>🌿</span>
+            <span>Conectar Mata Nativa</span>
+          </button>
+        </div>
+
+        <!-- MAPA SVG INTERATIVO DO TERRENO IRREGULAR -->
+        <div class="p-3 sm:p-5 bg-[#ece7dc]">
+          <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden shadow-inner border-2 border-forest-900/20 bg-[#e3decb]">
+            <svg id="farmSvgMap" viewBox="0 0 800 550" class="w-full h-full block select-none touch-none cursor-pointer" role="img" aria-label="Mapa interativo da sua lavoura">
+              <!-- Camadas dinâmicas renderizadas via JavaScript -->
+            </svg>
+
+            <!-- Aviso Flutuante Amigável após Simulação -->
+            <div id="mapFeedbackToast" class="hidden absolute top-3 left-3 right-3 sm:left-auto sm:right-3 sm:max-w-xs rounded-2xl p-3.5 shadow-lg border backdrop-blur-md transition-all">
+              <div class="flex items-start gap-2.5">
+                <span id="toastEmoji" class="text-xl leading-none mt-0.5">🛡️</span>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <h4 id="toastHeading" class="text-xs font-black uppercase"></h4>
+                    <button id="closeToastBtn" type="button" class="text-sm font-bold opacity-60 hover:opacity-100 px-1 cursor-pointer">&times;</button>
+                  </div>
+                  <p id="toastMessage" class="text-xs mt-1 leading-snug"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legenda Visual Clara -->
+          <div class="mt-3 bg-white rounded-2xl px-4 py-2.5 border border-earth-border flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-700">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+              <span class="inline-flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-full bg-forest-700 inline-block"></span>
+                <span id="legendMainCrop">Sua Lavoura</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-md bg-amberwarm-600 inline-block"></span>
+                <span id="legendCompanionCrop">Faixa Protetora (Consórcio)</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-full bg-terracotta-700 inline-block"></span>
+                <span>Planta com Praga</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded bg-forest-900 inline-block"></span>
+                <span>Mata / Abrigo de Joaninhas</span>
+              </span>
+            </div>
+            <button id="resetHotspotBtn" type="button" class="text-xs font-extrabold text-forest-900 hover:underline cursor-pointer">
+              Limpar Foco
+            </button>
+          </div>
+        </div>
+
+        <!-- LINHA DO TEMPO DE 15 DIAS (HOJE -> DAQUI A 15 DIAS) -->
+        <div class="px-4 sm:px-6 py-4 bg-white border-t border-earth-border space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wide text-slate-500 block">Linha do Tempo do Avanço</span>
+              <strong id="timelineDayTitle" class="text-sm sm:text-base font-black text-forest-900">Hoje (Dia 1)</strong>
+            </div>
+
+            <button id="playTimelineBtn" type="button" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-forest-900 hover:bg-forest-800 active:scale-95 text-white text-xs sm:text-sm font-extrabold shadow-sm transition cursor-pointer">
+              <svg id="playTimelineIcon" class="w-4 h-4 text-amber-300" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+              </svg>
+              <span id="playTimelineLabel">Ver avanço nos próximos dias</span>
+            </button>
+          </div>
+
+          <div class="space-y-1">
+            <input id="farmerDaySlider" type="range" min="1" max="15" step="1" value="1" class="w-full" />
+            <div class="flex justify-between text-[11px] font-bold text-slate-500">
+              <span>Hoje (Dia 1)</span>
+              <span>Semana que vem (Dia 7)</span>
+              <span>Daqui a 15 dias (Dia 15)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUNA DIREITA (5 COLUNAS): COMO ESTÁ SUA ROÇA + O QUE FAZER NA PRÁTICA -->
+      <div class="lg:col-span-5 space-y-4">
+
+        <!-- 1. CARTÃO SEMÁFORO: COMO ESTÁ SUA ROÇA HOJE -->
+        <section class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-earth-border space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base sm:text-lg font-black text-slate-900">Como está sua roça hoje</h3>
+            <span class="text-xs font-bold text-slate-400">Diagnóstico Atual</span>
+          </div>
+
+          <!-- Banner Semáforo (Verde / Âmbar / Terracota) -->
+          <div id="trafficLightBanner" class="rounded-2xl p-4 border-2 bg-forest-50 border-forest-600/40 flex items-start gap-3.5 transition-all">
+            <div id="trafficLightCircle" class="w-11 h-11 rounded-2xl bg-forest-900 text-white flex items-center justify-center text-xl shrink-0 shadow-sm">
+              ✅
+            </div>
+            <div>
+              <h4 id="trafficLightTitle" class="text-base font-black text-forest-950">Lavoura Protegida</h4>
+              <p id="trafficLightSubtitle" class="text-xs sm:text-sm text-forest-900/90 mt-1 leading-snug">
+                As faixas de consórcio seguram a praga logo no começo antes dela cruzar o terreno.
+              </p>
+            </div>
+          </div>
+
+          <!-- Botão Destaque de 1 Toque: Aplicar Melhor Desenho -->
+          <button id="autoOptimizeFarmBtn" type="button" class="w-full py-3.5 px-4 rounded-2xl bg-amberwarm-600 hover:bg-amberwarm-700 active:scale-[0.99] text-white text-sm sm:text-base font-black shadow-md flex items-center justify-center gap-2 transition cursor-pointer">
+            <span>✨ Aplicar Melhor Desenho para Minha Roça</span>
+          </button>
+
+          <!-- Banner de Celebração Antes vs. Depois (aparece ao clicar no botão mágico) -->
+          <div id="celebrationBox" class="hidden rounded-2xl p-3.5 bg-forest-900 text-white space-y-1.5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-amber-300">🎉 Desenho Otimizado Aplicado!</span>
+              <button id="closeCelebrationBtn" type="button" class="text-xs text-emerald-200 hover:text-white font-bold cursor-pointer">Fechar</button>
+            </div>
+            <p id="celebrationText" class="text-xs sm:text-sm text-emerald-50 leading-snug">
+              Aumentamos sua proteção de <strong>61% para 94%</strong> intercalando faixas protetoras e reforçando a borda contra o vento!
+            </p>
+          </div>
+
+          <!-- Medidor Simples de Colheita Salva & Economia -->
+          <div class="bg-earth-sand/70 rounded-2xl p-4 border border-earth-border space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs sm:text-sm font-extrabold text-slate-800">Plantas Protegidas</span>
+              <strong id="harvestSavedPctText" class="text-sm sm:text-base font-black text-forest-900">92% da lavoura salva</strong>
+            </div>
+
+            <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden">
+              <div id="harvestSavedBar" class="h-full rounded-full bg-forest-700 transition-all duration-500" style="width: 92%;"></div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1 text-xs font-bold text-forest-900">
+              <span>💰</span>
+              <span id="savingsSummaryText">Economia: Menos gasto com veneno e ~8% a mais de área útil</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. CARTÃO: O QUE FAZER NA PRÁTICA (3 PASSOS SIMPLES NA ROÇA) -->
+        <section class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-earth-border space-y-4">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wide text-amberwarm-700 block">Passo a passo na roça</span>
+            <h3 class="text-base sm:text-lg font-black text-slate-900">O que fazer na prática</h3>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Passo 1: Espaçamento -->
+            <div class="p-3.5 rounded-2xl bg-earth-bg border border-earth-border flex items-start gap-3">
+              <span class="w-7 h-7 rounded-xl bg-forest-900 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">1</span>
+              <div>
+                <h4 class="text-xs sm:text-sm font-extrabold text-slate-900">Distância entre as covas</h4>
+                <p id="step1PracticalText" class="text-xs sm:text-sm text-slate-700 mt-0.5 leading-snug">
+                  Deixe 70 cm entre as covas para o ar circular e o fungo não pular de uma planta para outra.
+                </p>
+              </div>
+            </div>
+
+            <!-- Passo 2: Faixa Protetora / Consórcio -->
+            <div class="p-3.5 rounded-2xl bg-earth-bg border border-earth-border flex items-start gap-3">
+              <span class="w-7 h-7 rounded-xl bg-amberwarm-600 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">2</span>
+              <div>
+                <h4 class="text-xs sm:text-sm font-extrabold text-slate-900">Barreira natural contra o vento</h4>
+                <p id="step2PracticalText" class="text-xs sm:text-sm text-slate-700 mt-0.5 leading-snug">
+                  Plante linhas de Feijão-guandu na borda onde o vento bate primeiro e em faixas no meio da roça.
+                </p>
+              </div>
+            </div>
+
+            <!-- Passo 3: Inimigos Naturais -->
+            <div class="p-3.5 rounded-2xl bg-earth-bg border border-earth-border flex items-start gap-3">
+              <span class="w-7 h-7 rounded-xl bg-forest-700 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">3</span>
+              <div>
+                <h4 class="text-xs sm:text-sm font-extrabold text-slate-900">Casa das joaninhas e abelhas</h4>
+                <p id="step3PracticalText" class="text-xs sm:text-sm text-slate-700 mt-0.5 leading-snug">
+                  Mantenha a faixa de mata e flores na beira do terreno ligada para atrair joaninhas que comem os pulgões.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL / GAVETA: CONFIGURAR MINHA ROÇA (4 PASSOS SIMPLES E VISUAIS)        -->
+  <!-- ========================================================================= -->
+  <div id="farmerSetupModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-earth-bg w-full max-w-3xl rounded-3xl shadow-2xl border border-earth-border overflow-hidden my-auto">
+
+      <!-- Cabeçalho do Assistente -->
+      <div class="bg-forest-900 text-white px-5 py-4 flex items-center justify-between">
+        <div>
+          <span id="wizardStepTag" class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Passo 1 de 4</span>
+          <h2 id="wizardHeading" class="text-lg sm:text-xl font-black mt-0.5">Qual terreno parece mais com o seu?</h2>
+        </div>
+        <button id="closeSetupModalBtn" type="button" class="w-9 h-9 rounded-xl bg-forest-800 hover:bg-forest-700 text-white font-bold flex items-center justify-center cursor-pointer" aria-label="Fechar">
+          &times;
+        </button>
+      </div>
+
+      <!-- Barra de Progresso dos 4 Passos -->
+      <div class="w-full h-2 bg-forest-950 flex">
+        <div id="wizardProgressFill" class="h-full bg-amberwarm-500 transition-all duration-300" style="width: 25%;"></div>
+      </div>
+
+      <!-- Conteúdo Dinâmico dos 4 Passos -->
+      <div class="p-5 sm:p-6 space-y-5">
+
+        <!-- PASSO 1: ESCOLHA DO TERRENO -->
+        <div id="wizardStep1" class="space-y-3">
+          <p class="text-sm text-slate-600">Escolha o desenho que mais lembra o formato e o relevo da sua propriedade:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Terreno 1 -->
+            <button type="button" data-setup-terrain="boa_esperanca" class="setup-terrain-card p-4 rounded-2xl border-2 border-forest-900 bg-white text-left space-y-2.5 shadow-sm transition cursor-pointer">
+              <svg viewBox="0 0 120 80" class="w-full h-20 rounded-xl bg-[#e3decb] border border-earth-border">
+                <polygon points="22,15 95,18 102,55 75,66 18,62" fill="#f2faf4" stroke="#1b4332" stroke-width="2.5"/>
+                <path d="M8,72 Q60,65 112,72" stroke="#0284c7" stroke-width="5" fill="none" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <h3 class="text-sm font-black text-slate-900">Sítio Boa Esperança</h3>
+                <p class="text-xs text-slate-600 mt-0.5">Terreno quase plano com riacho no fundo e vento moderado.</p>
+              </div>
+            </button>
+
+            <!-- Terreno 2 -->
+            <button type="button" data-setup-terrain="aguas_claras" class="setup-terrain-card p-4 rounded-2xl border-2 border-earth-border bg-white text-left space-y-2.5 hover:border-forest-700 transition cursor-pointer">
+              <svg viewBox="0 0 120 80" class="w-full h-20 rounded-xl bg-[#e3decb] border border-earth-border">
+                <polygon points="26,12 98,16 100,48 70,68 18,60 15,30" fill="#f2faf4" stroke="#1b4332" stroke-width="2.5"/>
+                <path d="M25,28 Q60,22 92,30 M22,44 Q60,38 94,46" stroke="#94a3b8" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+              </svg>
+              <div>
+                <h3 class="text-sm font-black text-slate-900">Chácara Águas Claras</h3>
+                <p class="text-xs text-slate-600 mt-0.5">Encosta inclinada com vento forte batendo de lado.</p>
+              </div>
+            </button>
+
+            <!-- Terreno 3 -->
+            <button type="button" data-setup-terrain="serra_verde" class="setup-terrain-card p-4 rounded-2xl border-2 border-earth-border bg-white text-left space-y-2.5 hover:border-forest-700 transition cursor-pointer">
+              <svg viewBox="0 0 120 80" class="w-full h-20 rounded-xl bg-[#e3decb] border border-earth-border">
+                <polygon points="20,16 88,14 92,62 58,68 20,58" fill="#f2faf4" stroke="#1b4332" stroke-width="2.5"/>
+                <rect x="96" y="14" width="16" height="50" rx="3" fill="#ffedd5" stroke="#ea580c" stroke-dasharray="2 2"/>
+              </svg>
+              <div>
+                <h3 class="text-sm font-black text-slate-900">Sítio Serra Verde</h3>
+                <p class="text-xs text-slate-600 mt-0.5">Terreno misto com vizinho plantando a mesma cultura ao lado.</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASSO 2: CULTURA, SEMENTE E ESPAÇAMENTO COM RÉGUA VISUAL -->
+        <div id="wizardStep2" class="hidden space-y-4">
+          <div>
+            <label class="text-xs font-extrabold uppercase tracking-wide text-slate-500 block mb-2">Escolha o plantio principal:</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button type="button" data-setup-crop="milho" class="setup-crop-card p-3 rounded-2xl border-2 border-forest-900 bg-forest-50 text-center cursor-pointer">
+                <span class="text-2xl block">🌽</span>
+                <strong class="text-sm font-black text-slate-900 block mt-1">Milho</strong>
+              </button>
+              <button type="button" data-setup-crop="feijao" class="setup-crop-card p-3 rounded-2xl border-2 border-earth-border bg-white text-center cursor-pointer">
+                <span class="text-2xl block">🫘</span>
+                <strong class="text-sm font-black text-slate-900 block mt-1">Feijão</strong>
+              </button>
+              <button type="button" data-setup-crop="hortalicas" class="setup-crop-card p-3 rounded-2xl border-2 border-earth-border bg-white text-center cursor-pointer">
+                <span class="text-2xl block">🥬</span>
+                <strong class="text-sm font-black text-slate-900 block mt-1">Hortaliças</strong>
+              </button>
+              <button type="button" data-setup-crop="mandioca" class="setup-crop-card p-3 rounded-2xl border-2 border-earth-border bg-white text-center cursor-pointer">
+                <span class="text-2xl block">🌿</span>
+                <strong class="text-sm font-black text-slate-900 block mt-1">Mandioca</strong>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button type="button" data-setup-seed="crioula" class="setup-seed-card p-3.5 rounded-2xl border-2 border-forest-900 bg-white text-left cursor-pointer">
+              <strong class="text-sm font-black text-forest-900 block">🌱 Semente Crioula / Rústica</strong>
+              <span class="text-xs text-slate-600">Mais resistente a pragas e doenças da região</span>
+            </button>
+            <button type="button" data-setup-seed="comercial" class="setup-seed-card p-3.5 rounded-2xl border-2 border-earth-border bg-white text-left cursor-pointer">
+              <strong class="text-sm font-black text-slate-800 block">📦 Semente Comercial / Híbrida</strong>
+              <span class="text-xs text-slate-600">Alta produção, mas pede mais proteção</span>
+            </button>
+          </div>
+
+          <!-- Régua Visual Planta-a-Planta -->
+          <div class="bg-white p-4 rounded-2xl border border-earth-border space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-extrabold text-slate-900">Distância entre plantas:</span>
+              <span id="setupSpacingLabel" class="px-3 py-1 rounded-full bg-forest-900 text-white text-sm font-black">70 cm</span>
+            </div>
+
+            <!-- Ilustração SVG das duas plantas se afastando -->
+            <svg id="plantRulerSvg" viewBox="0 0 320 72" class="w-full h-16 bg-earth-bg rounded-xl border border-earth-border">
+              <!-- Atualizado via JS -->
+            </svg>
+
+            <input id="setupSpacingSlider" type="range" min="40" max="100" step="5" value="70" class="w-full" />
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>40 cm (Bem juntinho)</span>
+              <span>70 cm (Médio)</span>
+              <span>100 cm (Bem aberto)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 3: TERRA NA CHUVA & VIZINHANÇA -->
+        <div id="wizardStep3" class="hidden space-y-4">
+          <div>
+            <label class="text-xs font-extrabold uppercase tracking-wide text-slate-500 block mb-2">Como fica a terra quando chove?</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <button type="button" data-setup-soil="mista" class="setup-soil-card p-3.5 rounded-2xl border-2 border-forest-900 bg-forest-50 text-left cursor-pointer">
+                <strong class="text-sm font-black text-slate-900 block">🌤️ Absorve bem</strong>
+                <span class="text-xs text-slate-600">Terra boa, segura umidade sem empoçar</span>
+              </button>
+              <button type="button" data-setup-soil="argilosa" class="setup-soil-card p-3.5 rounded-2xl border-2 border-earth-border bg-white text-left cursor-pointer">
+                <strong class="text-sm font-black text-slate-900 block">💧 Encharca fácil</strong>
+                <span class="text-xs text-slate-600">Barro pesado, junta água nas baixadas</span>
+              </button>
+              <button type="button" data-setup-soil="arenosa" class="setup-soil-card p-3.5 rounded-2xl border-2 border-earth-border bg-white text-left cursor-pointer">
+                <span class="text-sm font-black text-slate-900 block">🏜️ Seca rápido</span>
+                <span class="text-xs text-slate-600">Terra arenosa, água desce depressa</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl border border-earth-border space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-extrabold text-slate-900">Mata nativa ou cerca viva em volta:</span>
+              <span id="setupForestLabel" class="px-3 py-1 rounded-full bg-forest-100 text-forest-900 text-xs font-black">Boa cobertura (45%)</span>
+            </div>
+            <input id="setupForestSlider" type="range" min="15" max="75" step="5" value="45" class="w-full" />
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>Pouca mata (15%)</span>
+              <span>Ideal p/ joaninhas (45%+)</span>
+              <span>Muita mata (75%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASSO 4: MAIOR PREOCUPAÇÃO HOJE -->
+        <div id="wizardStep4" class="hidden space-y-3">
+          <p class="text-sm text-slate-600">O que você mais quer evitar nesta safra?</p>
+          <div class="space-y-2.5">
+            <button type="button" data-setup-goal="spread" class="setup-goal-card w-full p-4 rounded-2xl border-2 border-forest-900 bg-forest-50 text-left flex items-center gap-3.5 cursor-pointer">
+              <span class="text-2xl">🐛</span>
+              <div>
+                <strong class="text-sm font-black text-slate-900 block">Praga que anda ou voa pelo vento</strong>
+                <span class="text-xs text-slate-600">Lagartas, pulgões, percevejos e moscas-brancas cruzando a lavoura</span>
+              </div>
+            </button>
+
+            <button type="button" data-setup-goal="rain_disease" class="setup-goal-card w-full p-4 rounded-2xl border-2 border-earth-border bg-white text-left flex items-center gap-3.5 cursor-pointer">
+              <span class="text-2xl">🍄</span>
+              <div>
+                <strong class="text-sm font-black text-slate-900 block">Doença de raiz ou folha na época das águas</strong>
+                <span class="text-xs text-slate-600">Fungos e podridões que espalham rápido quando o solo fica molhado</span>
+              </div>
+            </button>
+
+            <button type="button" data-setup-goal="allies" class="setup-goal-card w-full p-4 rounded-2xl border-2 border-earth-border bg-white text-left flex items-center gap-3.5 cursor-pointer">
+              <span class="text-2xl">🐞</span>
+              <div>
+                <strong class="text-sm font-black text-slate-900 block">Atrair mais joaninhas, vespas e abelhas</strong>
+                <span class="text-xs text-slate-600">Fortalecer o controle natural sem precisar gastar com veneno</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Rodapé de Navegação do Assistente -->
+      <div class="px-5 py-4 bg-white border-t border-earth-border flex items-center justify-between">
+        <button id="wizardPrevBtn" type="button" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-extrabold disabled:opacity-40 transition cursor-pointer" disabled>
+          &larr; Voltar
+        </button>
+        <button id="wizardNextBtn" type="button" class="px-5 py-2.5 rounded-xl bg-forest-900 hover:bg-forest-800 text-white text-sm font-extrabold shadow-sm transition cursor-pointer">
+          Próximo Passo &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ABA 2 (SECUNDÁRIA): BASE CIENTÍFICA (METANÁLISE) — PARA AVALIADORES/PESQ. -->
+  <!-- ========================================================================= -->
+  <section id="scienceMetaView" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- Cabeçalho Técnico & Controles de Sensibilidade -->
+    <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-amberwarm-700">Calibração Quantitativa • 9 Referências (1995–2026)</span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">Motor Matemático de Percolação &amp; Cruzamento de Estudos</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl">
+            Este painel expõe as equações espectrais, limiares críticos (&chi;<sub>c</sub>), curvas <em>q</em>-exponenciais (E<sub>q</sub>) e as 5 fases de fragmentação que operam sob o capô da tela <strong>Minha Lavoura</strong>.
+          </p>
+        </div>
+
+        <div class="bg-earth-bg p-3.5 rounded-2xl border border-earth-border grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-[290px]">
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Fração de Barreira (p<sub>b</sub>):</span>
+              <span id="sciPbLabel" class="font-mono text-forest-900">25%</span>
+            </div>
+            <input id="sciPbSlider" type="range" min="0" max="50" step="5" value="25" class="w-full" />
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+              <span>Espaçamento (d):</span>
+              <span id="sciDistLabel" class="font-mono text-forest-900">70 cm</span>
+            </div>
+            <input id="sciDistSlider" type="range" min="40" max="100" step="5" value="70" class="w-full" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline Vivo das 5 Etapas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
+        <div class="bg-forest-50 rounded-2xl p-3.5 border border-forest-200">
+          <span class="text-[10px] font-black uppercase text-forest-700 block">1. Kernel Ligação</span>
+          <div id="sciStep1" class="font-mono text-base font-black text-forest-900 mt-1">T_bond = 0.24</div>
+          <p class="font-mono text-[10px] text-slate-600 mt-1">T₀·exp(-d/d₀)·f_SMAP·f_v</p>
+          <span class="text-[10px] text-slate-500 block mt-1">Poggi 2013; Cunniffe 2014</span>
+        </div>
+
+        <div class="bg-forest-50 rounded-2xl p-3.5 border border-forest-200">
+          <span class="text-[10px] font-black uppercase text-forest-700 block">2. Limiar Crítico &chi;<sub>c</sub></span>
+          <div id="sciStep2" class="font-mono text-base font-black text-forest-900 mt-1">&chi;_c = 0.733</div>
+          <p class="font-mono text-[10px] text-slate-600 mt-1">0.5927 + k_geom · p_b</p>
+          <span class="text-[10px] text-slate-500 block mt-1">Ramírez 2018; Tlali 2025</span>
+        </div>
+
+        <div class="bg-amberwarm-50 rounded-2xl p-3.5 border border-amberwarm-100">
+          <span class="text-[10px] font-black uppercase text-amberwarm-700 block">3. Curva q-Exponencial</span>
+          <div id="sciStep3" class="font-mono text-base font-black text-amberwarm-700 mt-1">E_q = 0.41</div>
+          <p class="font-mono text-[10px] text-slate-600 mt-1">[1-(1-q)&alpha;f_b]^(1/(1-q))</p>
+          <span class="text-[10px] text-slate-500 block mt-1">González-Martínez 2026</span>
+        </div>
+
+        <div class="bg-sky-50 rounded-2xl p-3.5 border border-sky-200">
+          <span class="text-[10px] font-black uppercase text-sky-700 block">4. Site-Bond R<sub>eff</sub></span>
+          <div id="sciStep4" class="font-mono text-base font-black text-sky-800 mt-1">R_eff = 0.62</div>
+          <p class="font-mono text-[10px] text-slate-600 mt-1">(p_site · T_bond) / &chi;_c</p>
+          <span class="text-[10px] text-slate-500 block mt-1">Ramírez et al. 2020</span>
+        </div>
+
+        <div class="bg-emerald-50 rounded-2xl p-3.5 border border-emerald-200">
+          <span class="text-[10px] font-black uppercase text-emerald-800 block">5. Fases de Kun</span>
+          <div id="sciStep5" class="font-mono text-base font-black text-emerald-900 mt-1">Fase 3 (45%)</div>
+          <p class="font-mono text-[10px] text-slate-600 mt-1">Regra &ge;40% habitat</p>
+          <span class="text-[10px] text-slate-500 block mt-1">With 2002; Kun et al. 2019</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos SVG Interativos da Metanálise -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200 space-y-3">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-forest-700">Cruzamento 1 • Geometria vs. Inimigos Naturais</span>
+          <h3 class="text-base font-black text-slate-900">Deslocamento do Limiar &chi;<sub>c</sub>(p<sub>b</sub>) e Regra dos 40%</h3>
+          <p class="text-xs text-slate-600 mt-0.5">
+            Compara Monocultivo (&chi;<sub>c</sub>=0.5927), Policultivo Aleatório, Faixas e Xadrez frente à zona de colapso de predadores (&lt;40%).
+          </p>
+        </div>
+        <div class="bg-earth-bg rounded-2xl p-3 border border-earth-border">
+          <svg id="sciChartThresholds" viewBox="0 0 520 270" class="w-full h-auto"></svg>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200 space-y-3">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-amberwarm-700">Cruzamento 2 • Alocação Estratégica de Barreiras</span>
+          <h3 class="text-base font-black text-slate-900">Atenuação <em>q</em>-Exponencial: Borda vs. Interna (q = 1.35)</h3>
+          <p class="text-xs text-slate-600 mt-0.5">
+            Demonstra a economia de ~8,2% de área produtiva ao alocar barreiras na borda contra o vento (González-Martínez et al., 2026).
+          </p>
+        </div>
+        <div class="bg-earth-bg rounded-2xl p-3 border border-earth-border">
+          <svg id="sciChartQExp" viewBox="0 0 520 270" class="w-full h-auto"></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela Paramétrica dos 9 Artigos -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="p-5 border-b border-slate-200">
+        <h3 class="text-base font-black text-slate-900">Parâmetros Extraídos dos 9 Artigos Científicos</h3>
+        <p class="text-xs text-slate-500">Todos os indicadores visuais da aba "Minha Lavoura" são calculados em tempo real por estes parâmetros.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-earth-bg text-slate-700 border-b border-slate-200 font-extrabold uppercase text-[11px]">
+              <th class="py-3 px-4">Artigo</th>
+              <th class="py-3 px-4">Modelo / Sistema</th>
+              <th class="py-3 px-4">Parâmetro Calibrado</th>
+              <th class="py-3 px-4">Tradução na Tela "Minha Lavoura"</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-3 px-4 font-bold">Poggi et al. (2013)</td>
+              <td class="py-3 px-4">Percolação de solo (<em>Rhizoctonia</em>)</td>
+              <td class="py-3 px-4 font-mono">d₀ = 32 cm (26 &rarr; 44 mm)</td>
+              <td class="py-3 px-4">Define a distância ideal entre mudas e canteiros de hortaliças.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">Cunniffe et al. (2014)</td>
+              <td class="py-3 px-4">Dispersão em pomares (Embrapa)</td>
+              <td class="py-3 px-4 font-mono">d₀ = 65 cm (raio 2a &approx; 5 m)</td>
+              <td class="py-3 px-4">Calibra o avanço entre covas maiores (mandioca/perenes) e poda focal.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">Ramírez et al. (2018)</td>
+              <td class="py-3 px-4">Culturas suscetíveis em faixas</td>
+              <td class="py-3 px-4 font-mono">&chi;<sub>c</sub> = 0.5927 &rarr; 0.88</td>
+              <td class="py-3 px-4">Sustenta a recomendação de intercalar faixas de consórcio no talhão.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">Ramírez et al. (2020)</td>
+              <td class="py-3 px-4">Site-Bond (<em>Phytophthora</em>)</td>
+              <td class="py-3 px-4 font-mono">R<sub>eff</sub> = (p<sub>site</sub>·T<sub>bond</sub>)/&chi;<sub>c</sub></td>
+              <td class="py-3 px-4">Aciona o semáforo (Lavoura Protegida / Atenção / Alerta) e % salva.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">Alonso-Tlali et al. (2025)</td>
+              <td class="py-3 px-4">Geometrias de plantio</td>
+              <td class="py-3 px-4 font-mono">k<sub>faixas</sub> = 0.56; k<sub>xadrez</sub> = 0.72</td>
+              <td class="py-3 px-4">Otimiza o desenho automático ao clicar em "Aplicar Melhor Desenho".</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">González-Martínez et al. (2026)</td>
+              <td class="py-3 px-4">Barreiras <em>q</em>-exponenciais</td>
+              <td class="py-3 px-4 font-mono">q = 1.35; ~8,2% área salva</td>
+              <td class="py-3 px-4">Posiciona 2 linhas protetoras na borda contra o vento poupando área útil.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">With &amp; Crist (1995)</td>
+              <td class="py-3 px-4">Limiares críticos na paisagem</td>
+              <td class="py-3 px-4 font-mono">p<sub>c,paisagem</sub> &approx; 0.40–0.59</td>
+              <td class="py-3 px-4">Define os pontos de conexão da mata nativa ao redor da propriedade.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">With et al. (2002)</td>
+              <td class="py-3 px-4">Joaninhas e controle biológico</td>
+              <td class="py-3 px-4 font-mono">Limiar &ge; 40% cobertura</td>
+              <td class="py-3 px-4">Controla a pílula "Aliados Naturais" e o trânsito das joaninhas no mapa.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-bold">Kun et al. (2019)</td>
+              <td class="py-3 px-4">5 fases de fragmentação</td>
+              <td class="py-3 px-4 font-mono">&gt;60 | 50–60 | 40–50 | 25–40 | &lt;25%</td>
+              <td class="py-3 px-4">Orienta o Passo 3 ("Casa das joaninhas e abelhas") na tela do agricultor.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MOTOR CALIBRADO + INTERAÇÃO DO AGRICULTOR ==================== -->
+  <script>
+    // 1. DADOS DOS TERRENOS SIMULADOS (LINGUAGEM ACESSÍVEL + DADOS NASA)
+    const FARM_TERRAINS = {
+      boa_esperanca: {
+        id: "boa_esperanca",
+        name: "Sítio Boa Esperança",
+        windPlain: "Vento vindo do Nordeste (18 km/h)",
+        windSpeed: 18,
+        slopePct: 4,
+        windVec: { x: -0.78, y: 0.62 },
+        slopeVec: { x: -0.15, y: 0.98 },
+        rainFactor: 1.05,
+        polygon: [
+          { x: 150, y: 95 },
+          { x: 460, y: 80 },
+          { x: 675, y: 135 },
+          { x: 695, y: 345 },
+          { x: 565, y: 455 },
+          { x: 195, y: 445 },
+          { x: 115, y: 275 }
+        ],
+        hasStream: true,
+        hasNeighbor: false
+      },
+      aguas_claras: {
+        id: "aguas_claras",
+        name: "Chácara Águas Claras",
+        windPlain: "Vento forte do Leste (24 km/h)",
+        windSpeed: 24,
+        slopePct: 13,
+        windVec: { x: -0.95, y: 0.25 },
+        slopeVec: { x: -0.45, y: 0.89 },
+        rainFactor: 1.15,
+        polygon: [
+          { x: 165, y: 90 },
+          { x: 650, y: 105 },
+          { x: 685, y: 330 },
+          { x: 470, y: 460 },
+          { x: 145, y: 415 },
+          { x: 120, y: 215 }
+        ],
+        hasStream: false,
+        hasNeighbor: false
+      },
+      serra_verde: {
+        id: "serra_verde",
+        name: "Sítio Serra Verde",
+        windPlain: "Vento Nordeste (16 km/h)",
+        windSpeed: 16,
+        slopePct: 7,
+        windVec: { x: -0.75, y: 0.66 },
+        slopeVec: { x: 0.1, y: 0.99 },
+        rainFactor: 1.24,
+        polygon: [
+          { x: 145, y: 100 },
+          { x: 595, y: 95 },
+          { x: 615, y: 425 },
+          { x: 385, y: 465 },
+          { x: 135, y: 395 }
+        ],
+        hasStream: true,
+        hasNeighbor: true
+      }
+    };
+
+    // Culturas familiares e suas plantas companheiras / barreiras naturais
+    const FARM_CROPS = {
+      milho: { name: "Milho", companion: "Feijão-guandu", d0: 52, T0: 0.82 },
+      feijao: { name: "Feijão", companion: "Crotalária ou Milho", d0: 44, T0: 0.85 },
+      hortalicas: { name: "Hortaliças", companion: "Cravo-de-defunto", d0: 32, T0: 0.92 },
+      mandioca: { name: "Mandioca", companion: "Amendoim ou Feijão-de-porco", d0: 65, T0: 0.76 }
+    };
+
+    const SOIL_TYPES = {
+      mista: { plain: "Terra úmida • Chuva leve prevista", smapFactor: 1.00 },
+      argilosa: { plain: "Terra encharcada • Risco de poça", smapFactor: 1.24 },
+      arenosa: { plain: "Terra seca rápido • Boa drenagem", smapFactor: 0.88 }
+    };
+
+    // 2. ESTADO CENTRAL DO APLICATIVO
+    const appState = {
+      activeTab: "farmer",       // 'farmer' | 'science'
+      terrainId: "boa_esperanca",
+      cropId: "milho",
+      seedType: "crioula",       // 'crioula' | 'comercial'
+      spacingCm: 70,
+      soilId: "mista",
+      forestPct: 45,
+      goal: "spread",            // 'spread' | 'rain_disease' | 'allies'
+      pattern: "strips",         // 'monoculture' | 'strips' | 'chess'
+      windBorderOn: true,
+
+      // Interação no Mapa SVG
+      mapTool: "pest",           // 'pest' | 'barrier' | 'corridor'
+      plants: [],
+      forestSegments: [],
+      currentDay: 1,
+      isPlaying: false,
+      timerId: null,
+      isDraggingBarrier: false,
+      wizardStep: 1
+    };
+
+    // 3. MOTOR CIENTÍFICO CALIBRADO (ALIMENTA TANTO O AGRICULTOR QUANTO A METANÁLISE)
+    function computeCalibratedMetrics(custom = {}) {
+      const terrain = FARM_TERRAINS[custom.terrainId || appState.terrainId];
+      const crop = FARM_CROPS[custom.cropId || appState.cropId];
+      const soil = SOIL_TYPES[custom.soilId || appState.soilId];
+      const d = custom.spacingCm !== undefined ? custom.spacingCm : appState.spacingCm;
+      const seedType = custom.seedType || appState.seedType;
+      const pattern = custom.pattern || appState.pattern;
+      const windBorder = custom.windBorderOn !== undefined ? custom.windBorderOn : appState.windBorderOn;
+      const forestPct = custom.forestPct !== undefined ? custom.forestPct : appState.forestPct;
+
+      // Etapa 1: Kernel de ligação T_bond(d, chuva, vento) [Poggi 2013; Cunniffe 2014]
+      const fRain = terrain.rainFactor * soil.smapFactor;
+      const fWind = 1 + (terrain.windSpeed - 14) * 0.015 + (terrain.slopePct * 0.008);
+      const T_bond = Math.max(0.06, Math.min(0.95, crop.T0 * Math.exp(-d / crop.d0) * fRain * fWind));
+
+      // Fração real de plantas protetoras no mapa
+      let pb = 0.25;
+      if (custom.pb !== undefined) {
+        pb = custom.pb;
+      } else if (appState.plants.length > 0) {
+        const barriers = appState.plants.filter(p => p.isBarrier).length;
+        pb = barriers / appState.plants.length;
+      }
+
+      // Etapa 2: Limiar crítico xc por geometria [Ramírez 2018; Alonso-Tlali 2025]
+      let xc = 0.5927;
+      if (pattern === "strips") xc = 0.5927 + 0.56 * pb;
+      else if (pattern === "chess") xc = 0.5927 + 0.72 * pb;
+      xc = Math.min(0.98, xc);
+
+      // Etapa 3: Curva q-Exponencial (q = 1.35) [González-Martínez et al. 2026]
+      const q = 1.35;
+      const fb = windBorder ? Math.max(0.12, pb * 0.65) : pb * 0.35;
+      const alpha = windBorder ? 4.8 : 2.6;
+      const E_q = Math.pow(Math.max(0.05, 1 - (1 - q) * alpha * fb), 1 / (1 - q));
+
+      // Etapa 4: Diagrama Sítio-Ligação R_eff [Ramírez et al. 2020]
+      const seedFactor = seedType === "crioula" ? 0.76 : 1.05;
+      const allyFactor = forestPct >= 40 ? 0.85 : 1.08;
+      const p_site = Math.max(0.20, (1 - pb) * seedFactor * allyFactor);
+      const T_eff = T_bond * (0.45 + 0.55 * E_q) * 2.35;
+      const R_eff = (p_site * T_eff) / xc;
+
+      // Porcentagem estimada da lavoura protegida (0..98%)
+      const protectedPct = Math.max(28, Math.min(98, Math.round(108 - R_eff * 34)));
+
+      // Etapa 5: Fases ecológicas de Kun et al. (2019) & With et al. (2002)
+      let kunPhase = 3;
+      if (forestPct > 60) kunPhase = 1;
+      else if (forestPct >= 50) kunPhase = 2;
+      else if (forestPct >= 40) kunPhase = 3;
+      else if (forestPct >= 25) kunPhase = 4;
+      else kunPhase = 5;
+
+      return {
+        terrain,
+        crop,
+        soil,
+        d,
+        pb,
+        T_bond,
+        xc,
+        fb,
+        E_q,
+        R_eff,
+        protectedPct,
+        forestPct,
+        kunPhase,
+        alliesHealthy: forestPct >= 40
+      };
+    }
+
+    // 4. CONSTRUÇÃO DO POLÍGONO E DAS PLANTAS DO TERRENO
+    function isInsidePoly(x, y, poly) {
+      let inside = false;
+      for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+        const xi = poly[i].x, yi = poly[i].y;
+        const xj = poly[j].x, yj = poly[j].y;
+        const hit = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / ((yj - yi) || 1e-9) + xi);
+        if (hit) inside = !inside;
+      }
+      return inside;
+    }
+
+    function generateFarmPlants() {
+      const terrain = FARM_TERRAINS[appState.terrainId];
+      const plants = [];
+
+      // O espaçamento d (40..100 cm) define a distância visual real entre covas no mapa
+      const stepX = 27 + ((appState.spacingCm - 40) / 60) * 14;
+      const stepY = 27 + ((appState.spacingCm - 40) / 60) * 14;
+
+      let r = 0;
+      for (let y = 105; y <= 445; y += stepY) {
+        let c = 0;
+        for (let x = 135; x <= 680; x += stepX) {
+          const px = x + (r % 2 === 0 ? 3 : -3);
+          const py = y;
+
+          if (isInsidePoly(px, py, terrain.polygon)) {
+            let isBarrier = false;
+
+            if (appState.pattern === "strips") {
+              // Faixas transversais ao vento Nordeste -> Sudoeste
+              isBarrier = ((c + Math.floor(r * 0.5)) % 4 === 1);
+            } else if (appState.pattern === "chess") {
+              isBarrier = ((r + c) % 2 === 1);
+            }
+
+            // 2 linhas protetoras na borda contra o vento (Nordeste / Leste)
+            if (appState.windBorderOn && (px > 575 || py < 142)) {
+              isBarrier = true;
+            }
+
+            plants.push({
+              id: plants.length,
+              x: px,
+              y: py,
+              isBarrier,
+              infectedDay: null,
+              isOrigin: false
+            });
+          }
+          c++;
+        }
+        r++;
+      }
+
+      appState.plants = plants;
+      buildForestRing();
+      clearPestOutbreak();
+    }
+
+    function buildForestRing() {
+      const total = 20;
+      const activeCount = Math.round((appState.forestPct / 100) * total);
+      const segs = [];
+      for (let i = 0; i < total; i++) {
+        const ang = (i / total) * Math.PI * 2 - Math.PI / 2;
+        segs.push({
+          id: i,
+          x: 400 + Math.cos(ang) * 342,
+          y: 275 + Math.sin(ang) * 222,
+          active: i < activeCount
+        });
+      }
+      appState.forestSegments = segs;
+    }
+
+    // 5. SIMULAÇÃO DA ONDA DE PRAGA (DIA 1 A DIA 15)
+    function clearPestOutbreak() {
+      stopTimelinePlayback();
+      appState.currentDay = 1;
+      document.getElementById("farmerDaySlider").value = 1;
+      document.getElementById("timelineDayTitle").textContent = "Hoje (Dia 1)";
+      document.getElementById("mapFeedbackToast").classList.add("hidden");
+
+      for (const p of appState.plants) {
+        p.infectedDay = null;
+        p.isOrigin = false;
+      }
+      renderFarmSvg();
+    }
+
+    function startOutbreakAt(originPlant) {
+      clearPestOutbreak();
+      originPlant.infectedDay = 1;
+      originPlant.isOrigin = true;
+
+      const metrics = computeCalibratedMetrics();
+      const terrain = metrics.terrain;
+      const reachPx = 48 + ((100 - appState.spacingCm) / 60) * 14;
+
+      for (let day = 2; day <= 15; day++) {
+        const newlyInfected = [];
+        const sources = appState.plants.filter(p => p.infectedDay !== null && p.infectedDay < day && (day - p.infectedDay) <= 4);
+
+        for (const src of sources) {
+          for (const dst of appState.plants) {
+            if (dst.infectedDay !== null) continue;
+            const dx = dst.x - src.x;
+            const dy = dst.y - src.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist === 0 || dist > reachPx) continue;
+
+            // Vento empurra a praga na direção predominante
+            const ux = dx / dist;
+            const uy = dy / dist;
+            const windAlign = ux * terrain.windVec.x + uy * terrain.windVec.y;
+            const dirBoost = 1 + Math.max(-0.25, windAlign * 0.45);
+
+            // Faixas protetoras bloqueiam a passagem
+            const barrierBlock = dst.isBarrier ? (0.07 * metrics.E_q) : 1.0;
+            const chance = Math.min(0.92, metrics.T_bond * 1.45 * dirBoost * barrierBlock);
+
+            if (Math.random() < chance) {
+              newlyInfected.push(dst);
+            }
+          }
+        }
+
+        for (const p of newlyInfected) {
+          if (p.infectedDay === null) p.infectedDay = day;
+        }
+      }
+
+      setTimelineDay(2);
+      startTimelinePlayback();
+    }
+
+    function setTimelineDay(day) {
+      appState.currentDay = Math.max(1, Math.min(15, day));
+      document.getElementById("farmerDaySlider").value = appState.currentDay;
+
+      const labelMap = {
+        1: "Hoje (Dia 1)",
+        7: "Semana que vem (Dia 7)",
+        15: "Daqui a 15 dias (Dia 15)"
+      };
+      document.getElementById("timelineDayTitle").textContent = labelMap[appState.currentDay] || `Daqui a ${appState.currentDay} dias (Dia ${appState.currentDay})`;
+
+      const infected = appState.plants.filter(p => p.infectedDay !== null && p.infectedDay <= appState.currentDay);
+      if (infected.length > 0 && appState.currentDay >= 9) {
+        const mainPlants = appState.plants.filter(p => !p.isBarrier).length || 1;
+        const pctHit = Math.round((infected.length / mainPlants) * 100);
+        const toast = document.getElementById("mapFeedbackToast");
+        const emoji = document.getElementById("toastEmoji");
+        const heading = document.getElementById("toastHeading");
+        const msg = document.getElementById("toastMessage");
+
+        toast.classList.remove("hidden");
+        if (pctHit >= 35) {
+          toast.className = "absolute top-3 left-3 right-3 sm:left-auto sm:right-3 sm:max-w-xs rounded-2xl p-3.5 shadow-lg border bg-terracotta-50/95 border-terracotta-600/40 text-terracotta-950 backdrop-blur-md";
+          emoji.textContent = "⚠️";
+          heading.textContent = `A praga avançou (${pctHit}% da lavoura)`;
+          msg.textContent = "O vento levou a praga entre as covas. Toque em 'Aplicar Melhor Desenho' para criar barreiras protetoras!";
+        } else {
+          toast.className = "absolute top-3 left-3 right-3 sm:left-auto sm:right-3 sm:max-w-xs rounded-2xl p-3.5 shadow-lg border bg-forest-50/95 border-forest-600/40 text-forest-950 backdrop-blur-md";
+          emoji.textContent = "🛡️";
+          heading.textContent = `Barreira segurou a praga (${100 - pctHit}% salva)`;
+          msg.textContent = "As faixas de consórcio e o espaçamento cortaram o caminho da praga logo no início!";
+        }
+      }
+
+      renderFarmSvg();
+    }
+
+    function startTimelinePlayback() {
+      // Se ainda não há foco marcado, inicia automaticamente na borda onde o vento entra
+      if (appState.plants.every(p => p.infectedDay === null)) {
+        const windEntry = [...appState.plants].sort((a, b) => (b.x - b.y) - (a.x - a.y));
+        if (windEntry.length > 0) {
+          startOutbreakAt(windEntry[Math.floor(windEntry.length * 0.08)]);
+          return;
+        }
+      }
+
+      stopTimelinePlayback();
+      appState.isPlaying = true;
+      document.getElementById("playTimelineLabel").textContent = "Pausar avanço";
+      appState.timerId = setInterval(() => {
+        if (appState.currentDay >= 15) {
+          stopTimelinePlayback();
+          return;
+        }
+        setTimelineDay(appState.currentDay + 1);
+      }, 420);
+    }
+
+    function stopTimelinePlayback() {
+      appState.isPlaying = false;
+      if (appState.timerId) {
+        clearInterval(appState.timerId);
+        appState.timerId = null;
+      }
+      document.getElementById("playTimelineLabel").textContent = "Ver avanço nos próximos dias";
+    }
+
+    // 6. RENDERIZAÇÃO DO MAPA SVG INTERATIVO DO TERRENO
+    function renderFarmSvg() {
+      const svg = document.getElementById("farmSvgMap");
+      const terrain = FARM_TERRAINS[appState.terrainId];
+      const polyPoints = terrain.polygon.map(pt => `${pt.x},${pt.y}`).join(" ");
+
+      let markup = `
+        <defs>
+          <clipPath id="terrainClip">
+            <polygon points="${polyPoints}" />
+          </clipPath>
+        </defs>
+
+        <!-- Fundo natural ao redor -->
+        <rect x="0" y="0" width="800" height="550" fill="#e3decb" />
+      `;
+
+      // Vizinho com monocultivo (se houver)
+      if (terrain.hasNeighbor) {
+        markup += `
+          <rect x="645" y="85" width="120" height="360" rx="14" fill="#ffedd5" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 5" />
+          <text x="705" y="265" font-size="12" font-weight="800" fill="#9a3412" text-anchor="middle" transform="rotate(-90 705 265)">VIZINHO PLANTANDO IGUAL</text>
+        `;
+      }
+
+      // Riacho ao sul (se houver)
+      if (terrain.hasStream) {
+        markup += `
+          <path d="M 30,505 Q 280,475 520,515 T 775,495" stroke="#0284c7" stroke-width="22" fill="none" stroke-linecap="round" opacity="0.85" />
+          <path d="M 40,505 Q 280,475 520,515 T 765,495" stroke="#e0f2fe" stroke-width="2.5" fill="none" class="river-ripple" />
+          <text x="155" y="509" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">RIACHO</text>
+        `;
+      }
+
+      // Anel de Mata Nativa & Corredores Ecológicos (Abrigo de Joaninhas)
+      for (const seg of appState.forestSegments) {
+        if (seg.active) {
+          markup += `
+            <g data-forest-id="${seg.id}" class="cursor-pointer">
+              <circle cx="${seg.x.toFixed(1)}" cy="${seg.y.toFixed(1)}" r="21" fill="#1b4332" opacity="0.92" />
+              <circle cx="${(seg.x - 5).toFixed(1)}" cy="${(seg.y - 4).toFixed(1)}" r="12" fill="#2d6a4f" />
+              <circle cx="${(seg.x + 6).toFixed(1)}" cy="${(seg.y + 3).toFixed(1)}" r="10" fill="#40916c" />
+            </g>
+          `;
+        } else {
+          markup += `
+            <g data-forest-id="${seg.id}" class="cursor-pointer">
+              <circle cx="${seg.x.toFixed(1)}" cy="${seg.y.toFixed(1)}" r="17" fill="#faf8f4" fill-opacity="0.55" stroke="#1b4332" stroke-width="2" stroke-dasharray="4 4" />
+              <text x="${seg.x.toFixed(1)}" y="${(seg.y + 4).toFixed(1)}" font-size="13" font-weight="900" fill="#1b4332" text-anchor="middle">+</text>
+            </g>
+          `;
+        }
+      }
+
+      // Polígono Principal do Terreno Cultivado
+      markup += `
+        <polygon points="${polyPoints}" fill="#faf8f4" stroke="#1b4332" stroke-width="4" stroke-linejoin="round" />
+        <g clip-path="url(#terrainClip)">
+          <!-- Curvas suaves de relevo -->
+          <path d="M 100,175 Q 400,145 720,185" stroke="#d6cfc2" stroke-width="1.5" fill="none" />
+          <path d="M 100,265 Q 400,235 720,275" stroke="#d6cfc2" stroke-width="1.5" fill="none" />
+          <path d="M 100,355 Q 400,325 720,365" stroke="#d6cfc2" stroke-width="1.5" fill="none" />
+      `;
+
+      // Renderiza cada planta da lavoura
+      for (const p of appState.plants) {
+        const isInfected = p.infectedDay !== null && p.infectedDay <= appState.currentDay;
+
+        if (isInfected) {
+          // Planta atingida pela praga
+          markup += `
+            <g data-plant-id="${p.id}">
+              ${p.isOrigin ? `<circle cx="${p.x}" cy="${p.y}" r="14" fill="#ea580c" class="hotspot-pulse" />` : ""}
+              <circle cx="${p.x}" cy="${p.y}" r="7.5" fill="#c2410c" stroke="#ffffff" stroke-width="1.8" />
+            </g>
+          `;
+        } else if (p.isBarrier) {
+          // Planta da Faixa Protetora (Consórcio)
+          markup += `
+            <g data-plant-id="${p.id}">
+              <rect x="${p.x - 6.5}" y="${p.y - 6.5}" width="13" height="13" rx="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.3" />
+              <circle cx="${p.x}" cy="${p.y}" r="2.3" fill="#fef3c7" />
+            </g>
+          `;
+        } else {
+          // Planta da Cultura Principal (Saudável)
+          markup += `
+            <g data-plant-id="${p.id}">
+              <circle cx="${p.x}" cy="${p.y}" r="6.5" fill="#2d6a4f" stroke="#ffffff" stroke-width="1.2" />
+            </g>
+          `;
+        }
+      }
+
+      // Setas animadas mostrando a direção do vento sobre o terreno
+      const vx = terrain.windVec.x * 130;
+      const vy = terrain.windVec.y * 130;
+      [
+        { x: 540, y: 155 },
+        { x: 420, y: 215 },
+        { x: 560, y: 275 }
+      ].forEach(wStart => {
+        markup += `
+          <line x1="${wStart.x}" y1="${wStart.y}" x2="${wStart.x + vx}" y2="${wStart.y + vy}"
+                stroke="#0284c7" stroke-width="2.4" stroke-linecap="round" opacity="0.55" class="wind-stream" pointer-events="none" />
+        `;
+      });
+
+      markup += `</g>`;
+
+      // Joaninhas / Aliados Naturais voando (entram na lavoura se cobertura >= 40%)
+      const alliesInside = appState.forestPct >= 40;
+      const ladybugSpots = alliesInside
+        ? [{ x: 250, y: 185 }, { x: 460, y: 220 }, { x: 340, y: 340 }, { x: 520, y: 330 }, { x: 220, y: 290 }]
+        : [{ x: 110, y: 145 }, { x: 690, y: 150 }, { x: 115, y: 390 }];
+
+      for (const bug of ladybugSpots) {
+        markup += `
+          <g transform="translate(${bug.x}, ${bug.y})" pointer-events="none">
+            <circle cx="0" cy="0" r="6" fill="#dc2626" stroke="#1f2937" stroke-width="1.3" />
+            <circle cx="-2" cy="-1.5" r="1.1" fill="#1f2937" />
+            <circle cx="2" cy="-1.5" r="1.1" fill="#1f2937" />
+            <circle cx="0" cy="2" r="1.1" fill="#1f2937" />
+          </g>
+        `;
+      }
+
+      svg.innerHTML = markup;
+    }
+
+    // 7. ATUALIZAÇÃO DE TODA A INTERFACE (MINHA LAVOURA + BASE CIENTÍFICA)
+    function updateAllViews() {
+      const m = computeCalibratedMetrics();
+
+      // A) Pílulas de Tempo e Campo (Linguagem 100% simples)
+      document.getElementById("pillWindText").textContent = m.terrain.windPlain;
+      document.getElementById("pillRainText").textContent = m.soil.plain;
+
+      const alliesText = document.getElementById("pillAlliesText");
+      const alliesIconBox = document.getElementById("pillAlliesIconBox");
+      if (m.alliesHealthy) {
+        alliesText.textContent = `Abrigo de Joaninhas: Bom (${m.forestPct}%)`;
+        alliesText.className = "text-sm font-extrabold text-forest-900";
+        alliesIconBox.className = "w-11 h-11 rounded-xl bg-forest-50 text-forest-900 flex items-center justify-center shrink-0";
+      } else {
+        alliesText.textContent = `Pouca mata perto (${m.forestPct}%) — Risco p/ joaninhas`;
+        alliesText.className = "text-sm font-extrabold text-terracotta-700";
+        alliesIconBox.className = "w-11 h-11 rounded-xl bg-terracotta-50 text-terracotta-700 flex items-center justify-center shrink-0";
+      }
+
+      // Cabeçalho e legenda do Mapa
+      const seedName = appState.seedType === "crioula" ? "Crioulo" : "Comercial";
+      document.getElementById("farmMapTitle").textContent = m.terrain.name;
+      document.getElementById("farmMapCropBadge").textContent = `${m.crop.name} ${seedName} • ${m.d} cm`;
+      document.getElementById("legendMainCrop").textContent = `${m.crop.name} (Sua Lavoura)`;
+      document.getElementById("legendCompanionCrop").textContent = `${m.crop.companion} (Faixa Protetora)`;
+
+      // B) Cartão Semáforo: Como está sua roça hoje
+      const banner = document.getElementById("trafficLightBanner");
+      const circle = document.getElementById("trafficLightCircle");
+      const title = document.getElementById("trafficLightTitle");
+      const subtitle = document.getElementById("trafficLightSubtitle");
+
+      if (m.R_eff > 1.05) {
+        banner.className = "rounded-2xl p-4 border-2 bg-terracotta-50 border-terracotta-600/40 flex items-start gap-3.5 transition-all";
+        circle.className = "w-11 h-11 rounded-2xl bg-terracotta-700 text-white flex items-center justify-center text-xl shrink-0 shadow-sm";
+        circle.textContent = "🚨";
+        title.className = "text-base font-black text-terracotta-950";
+        title.textContent = "Alerta: Risco Alto de Perda";
+        subtitle.className = "text-xs sm:text-sm text-terracotta-900/90 mt-1 leading-snug";
+        subtitle.textContent = "Plantio muito junto e sem barreira facilita a praga tomar conta da lavoura.";
+      } else if (m.R_eff >= 0.85) {
+        banner.className = "rounded-2xl p-4 border-2 bg-amberwarm-50 border-amberwarm-600/40 flex items-start gap-3.5 transition-all";
+        circle.className = "w-11 h-11 rounded-2xl bg-amberwarm-600 text-white flex items-center justify-center text-xl shrink-0 shadow-sm";
+        circle.textContent = "⚠️";
+        title.className = "text-base font-black text-amberwarm-950";
+        title.textContent = "Atenção: Risco de Espalhar";
+        subtitle.className = "text-xs sm:text-sm text-amberwarm-900/90 mt-1 leading-snug";
+        subtitle.textContent = "Com esse vento e umidade, a praga pode cruzar o terreno se não houver mais barreiras.";
+      } else {
+        banner.className = "rounded-2xl p-4 border-2 bg-forest-50 border-forest-600/40 flex items-start gap-3.5 transition-all";
+        circle.className = "w-11 h-11 rounded-2xl bg-forest-900 text-white flex items-center justify-center text-xl shrink-0 shadow-sm";
+        circle.textContent = "✅";
+        title.className = "text-base font-black text-forest-950";
+        title.textContent = "Lavoura Protegida";
+        subtitle.className = "text-xs sm:text-sm text-forest-900/90 mt-1 leading-snug";
+        subtitle.textContent = "As faixas de consórcio seguram a praga logo no começo antes dela espalhar.";
+      }
+
+      // Medidor Simples de Colheita Salva
+      document.getElementById("harvestSavedPctText").textContent = `${m.protectedPct}% da lavoura salva`;
+      const bar = document.getElementById("harvestSavedBar");
+      bar.style.width = `${m.protectedPct}%`;
+      bar.className = m.R_eff > 1.05
+        ? "h-full rounded-full bg-terracotta-600 transition-all duration-500"
+        : m.R_eff >= 0.85
+          ? "h-full rounded-full bg-amberwarm-500 transition-all duration-500"
+          : "h-full rounded-full bg-forest-700 transition-all duration-500";
+
+      document.getElementById("savingsSummaryText").textContent = appState.windBorderOn
+        ? "Economia: Menos gasto com veneno e ~8% a mais de área útil"
+        : "Dica: Colocar barreira na borda do vento economiza ~8% de espaço";
+
+      // C) 3 Passos Práticos na Roça (100% linguagem cotidiana)
+      const recSpacing = Math.max(m.d, m.crop.d0 + 15);
+      document.getElementById("step1PracticalText").textContent = m.d >= m.crop.d0 + 10
+        ? `Ótimo! Os ${m.d} cm entre as covas deixam o ar circular e evitam que a doença pule de uma planta para outra.`
+        : `Aumente a distância de ${m.d} cm para ${recSpacing} cm entre as covas para o ar circular e frear o avanço entre plantas.`;
+
+      document.getElementById("step2PracticalText").textContent =
+        `Plante 2 linhas de ${m.crop.companion} na borda onde o vento bate primeiro e intercale faixas no meio da roça para barrar a praga.`;
+
+      document.getElementById("step3PracticalText").textContent = m.alliesHealthy
+        ? `Sua faixa de mata (${m.forestPct}%) está bem conectada! Ela serve de casa para joaninhas e abelhas patrulharem toda a lavoura.`
+        : `Sua mata nativa está em ${m.forestPct}%. Use o botão "Conectar Mata Nativa" na borda do mapa até passar de 40% para atrair joaninhas.`;
+
+      // D) Sincroniza Aba 2 (Base Científica / Metanálise)
+      document.getElementById("sciStep1").textContent = `T_bond = ${m.T_bond.toFixed(2)}`;
+      document.getElementById("sciStep2").textContent = `χ_c = ${m.xc.toFixed(3)}`;
+      document.getElementById("sciStep3").textContent = `E_q = ${m.E_q.toFixed(2)}`;
+      document.getElementById("sciStep4").textContent = `R_eff = ${m.R_eff.toFixed(2)}`;
+      document.getElementById("sciStep5").textContent = `Fase ${m.kunPhase} (${m.forestPct}%)`;
+
+      document.getElementById("sciPbSlider").value = Math.round(m.pb * 100);
+      document.getElementById("sciPbLabel").textContent = `${Math.round(m.pb * 100)}%`;
+      document.getElementById("sciDistSlider").value = m.d;
+      document.getElementById("sciDistLabel").textContent = `${m.d} cm`;
+
+      renderScientificCharts(m);
+      renderFarmSvg();
+    }
+
+    // 8. GRÁFICOS SVG DA ABA 2 (BASE CIENTÍFICA / METANÁLISE)
+    function renderScientificCharts(metrics) {
+      const svg1 = document.getElementById("sciChartThresholds");
+      const W = 520, H = 270;
+      const pad = { l: 48, r: 20, t: 20, b: 38 };
+      const pw = W - pad.l - pad.r;
+      const ph = H - pad.t - pad.b;
+
+      const xScale = pb => pad.l + (pb / 0.5) * pw;
+      const yScale = val => pad.t + ph - ((val - 0.3) / 0.7) * ph;
+
+      const curvePath = (slope) => {
+        let d = "";
+        for (let i = 0; i <= 20; i++) {
+          const pb = (i / 20) * 0.5;
+          const xc = Math.min(0.98, 0.5927 + slope * pb);
+          d += (i === 0 ? "M" : "L") + `${xScale(pb).toFixed(1)},${yScale(xc).toFixed(1)} `;
+        }
+        return d;
+      };
+
+      const curPb = Math.min(0.5, metrics.pb);
+      const cx = xScale(curPb);
+      const cy = yScale(metrics.xc);
+      const y40 = yScale(0.40);
+
+      svg1.innerHTML = `
+        <rect x="${pad.l}" y="${y40}" width="${pw}" height="${pad.t + ph - y40}" fill="#fee2e2" opacity="0.65"/>
+        <text x="${pad.l + 8}" y="${y40 + 14}" font-size="10" font-weight="700" fill="#991b1b">Colapso de Inimigos Naturais (&lt;40% Habitat — With et al. 2002)</text>
+
+        ${[0.4, 0.6, 0.8, 1.0].map(v => `
+          <line x1="${pad.l}" y1="${yScale(v)}" x2="${W - pad.r}" y2="${yScale(v)}" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <text x="${pad.l - 6}" y="${yScale(v) + 3}" font-size="10" font-family="JetBrains Mono" fill="#475569" text-anchor="end">${v.toFixed(1)}</text>
+        `).join("")}
+
+        ${[0, 10, 20, 30, 40, 50].map(pct => `
+          <text x="${xScale(pct / 100)}" y="${H - 14}" font-size="10" font-family="JetBrains Mono" fill="#475569" text-anchor="middle">${pct}%</text>
+        `).join("")}
+        <text x="${pad.l + pw / 2}" y="${H - 2}" font-size="10" font-weight="700" fill="#1e293b" text-anchor="middle">Proporção de Plantas-Barreira (p_b)</text>
+
+        <path d="${curvePath(0)}" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-dasharray="5 4"/>
+        <path d="${curvePath(0.42)}" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+        <path d="${curvePath(0.56)}" fill="none" stroke="#1b4332" stroke-width="3"/>
+        <path d="${curvePath(0.72)}" fill="none" stroke="#0284c7" stroke-width="3"/>
+
+        <circle cx="${cx}" cy="${cy}" r="6.5" fill="#c2410c" stroke="#ffffff" stroke-width="2"/>
+        <rect x="${Math.min(W - 115, cx + 8)}" y="${Math.max(pad.t + 4, cy - 14)}" width="102" height="20" rx="5" fill="#1e293b"/>
+        <text x="${Math.min(W - 64, cx + 59)}" y="${Math.max(pad.t + 17, cy - 1)}" font-size="10" font-family="JetBrains Mono" font-weight="700" fill="#ffffff" text-anchor="middle">Atual: χ_c=${metrics.xc.toFixed(2)}</text>
+      `;
+
+      const svg2 = document.getElementById("sciChartQExp");
+      const xScale2 = fb => pad.l + (fb / 0.35) * pw;
+      const yScale2 = eq => pad.t + ph - (eq * ph);
+
+      const qCurvePath = (alpha) => {
+        const q = 1.35;
+        let d = "";
+        for (let i = 0; i <= 25; i++) {
+          const fb = (i / 25) * 0.35;
+          const eq = Math.pow(Math.max(0.05, 1 - (1 - q) * alpha * fb), 1 / (1 - q));
+          d += (i === 0 ? "M" : "L") + `${xScale2(fb).toFixed(1)},${yScale2(eq).toFixed(1)} `;
+        }
+        return d;
+      };
+
+      const curFb = Math.min(0.35, metrics.fb);
+      const cx2 = xScale2(curFb);
+      const cy2 = yScale2(metrics.E_q);
+
+      svg2.innerHTML = `
+        ${[0.2, 0.4, 0.6, 0.8, 1.0].map(v => `
+          <line x1="${pad.l}" y1="${yScale2(v)}" x2="${W - pad.r}" y2="${yScale2(v)}" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+          <text x="${pad.l - 6}" y="${yScale2(v) + 3}" font-size="10" font-family="JetBrains Mono" fill="#475569" text-anchor="end">${v.toFixed(1)}</text>
+        `).join("")}
+
+        ${[0, 7, 14, 21, 28, 35].map(pct => `
+          <text x="${xScale2(pct / 100)}" y="${H - 14}" font-size="10" font-family="JetBrains Mono" fill="#475569" text-anchor="middle">${pct}%</text>
+        `).join("")}
+        <text x="${pad.l + pw / 2}" y="${H - 2}" font-size="10" font-weight="700" fill="#1e293b" text-anchor="middle">Fração de Área Alocada em Barreiras (f_b)</text>
+
+        <rect x="${xScale2(0.14)}" y="${yScale2(0.46)}" width="${xScale2(0.22) - xScale2(0.14)}" height="24" rx="4" fill="#fef3c7" stroke="#d97706"/>
+        <text x="${(xScale2(0.14) + xScale2(0.22)) / 2}" y="${yScale2(0.46) + 15}" font-size="9.5" font-weight="800" fill="#92400e" text-anchor="middle">~8,2% Área Salva</text>
+
+        <path d="${qCurvePath(2.6)}" fill="none" stroke="#64748b" stroke-width="2.2" stroke-dasharray="5 4"/>
+        <path d="${qCurvePath(4.8)}" fill="none" stroke="#d97706" stroke-width="3.2"/>
+
+        <circle cx="${cx2}" cy="${cy2}" r="6.5" fill="#1b4332" stroke="#ffffff" stroke-width="2"/>
+        <rect x="${Math.min(W - 115, cx2 + 8)}" y="${Math.max(pad.t + 4, cy2 - 14)}" width="102" height="20" rx="5" fill="#1b4332"/>
+        <text x="${Math.min(W - 64, cx2 + 59)}" y="${Math.max(pad.t + 17, cy2 - 1)}" font-size="10" font-family="JetBrains Mono" font-weight="700" fill="#ffffff" text-anchor="middle">E_q = ${metrics.E_q.toFixed(2)}</text>
+      `;
+    }
+
+    // 9. RÉGUA VISUAL DO ESPAÇAMENTO NO PASSO 2 DO ASSISTENTE
+    function renderPlantRuler(cm) {
+      const svg = document.getElementById("plantRulerSvg");
+      const gap = 50 + ((cm - 40) / 60) * 140;
+      const x1 = 160 - gap / 2;
+      const x2 = 160 + gap / 2;
+
+      svg.innerHTML = `
+        <line x1="20" y1="54" x2="300" y2="54" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+        <!-- Planta 1 -->
+        <circle cx="${x1}" cy="34" r="13" fill="#2d6a4f"/>
+        <path d="M${x1} 54 V34" stroke="#1b4332" stroke-width="3"/>
+        <!-- Planta 2 -->
+        <circle cx="${x2}" cy="34" r="13" fill="#2d6a4f"/>
+        <path d="M${x2} 54 V34" stroke="#1b4332" stroke-width="3"/>
+        <!-- Cota da distância -->
+        <line x1="${x1}" y1="62" x2="${x2}" y2="62" stroke="#d97706" stroke-width="2.5"/>
+        <text x="160" y="16" font-size="12" font-weight="800" fill="#1b4332" text-anchor="middle">${cm} cm de respiro entre plantas</text>
+      `;
+    }
+
+    // 10. NAVEGAÇÃO DO ASSISTENTE DE 4 PASSOS ("CONFIGURAR MINHA ROÇA")
+    function setWizardStep(step) {
+      appState.wizardStep = Math.max(1, Math.min(4, step));
+      const titles = {
+        1: "Qual terreno parece mais com o seu?",
+        2: "O que você vai plantar e qual o espaçamento?",
+        3: "Como fica a terra quando chove e o que tem em volta?",
+        4: "Qual sua maior preocupação hoje?"
+      };
+
+      document.getElementById("wizardStepTag").textContent = `Passo ${appState.wizardStep} de 4`;
+      document.getElementById("wizardHeading").textContent = titles[appState.wizardStep];
+      document.getElementById("wizardProgressFill").style.width = `${appState.wizardStep * 25}%`;
+
+      for (let s = 1; s <= 4; s++) {
+        document.getElementById(`wizardStep${s}`).classList.toggle("hidden", s !== appState.wizardStep);
+      }
+
+      document.getElementById("wizardPrevBtn").disabled = appState.wizardStep === 1;
+      document.getElementById("wizardNextBtn").textContent = appState.wizardStep === 4
+        ? "Ver Minha Lavoura ✓"
+        : "Próximo Passo →";
+    }
+
+    // 11. CONEXÃO DE TODOS OS EVENTOS DE INTERFACE
+    function wireUpEvents() {
+      // Troca entre Aba 1 (Minha Lavoura) e Aba 2 (Base Científica)
+      const tabFarmer = document.getElementById("tabFarmerBtn");
+      const tabScience = document.getElementById("tabScienceBtn");
+      const viewFarmer = document.getElementById("farmerMainView");
+      const viewScience = document.getElementById("scienceMetaView");
+
+      tabFarmer.addEventListener("click", () => {
+        appState.activeTab = "farmer";
+        viewFarmer.classList.remove("hidden");
+        viewScience.classList.add("hidden");
+        tabFarmer.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-amberwarm-600 text-white shadow-sm transition cursor-pointer";
+        tabScience.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-emerald-100 hover:text-white transition cursor-pointer";
+        updateAllViews();
+      });
+
+      tabScience.addEventListener("click", () => {
+        appState.activeTab = "science";
+        viewScience.classList.remove("hidden");
+        viewFarmer.classList.add("hidden");
+        tabScience.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-amberwarm-600 text-white shadow-sm transition cursor-pointer";
+        tabFarmer.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-emerald-100 hover:text-white transition cursor-pointer";
+        updateAllViews();
+      });
+
+      // Ferramentas do Mapa (Apontar Foco, Desenhar Faixa, Conectar Mata)
+      document.querySelectorAll(".farmer-tool-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          appState.mapTool = btn.dataset.mapTool;
+          document.querySelectorAll(".farmer-tool-btn").forEach(b => {
+            b.className = "farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-bold bg-white text-slate-800 border border-earth-border hover:bg-earth-sand flex items-center justify-center gap-2 transition cursor-pointer";
+          });
+
+          const banner = document.getElementById("toolInstructionBanner");
+          if (appState.mapTool === "pest") {
+            btn.className = "farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-terracotta-700 text-white shadow-sm flex items-center justify-center gap-2 transition cursor-pointer";
+            banner.textContent = "Toque em qualquer planta no mapa para apontar um foco de praga e ver para onde ela vai.";
+          } else if (appState.mapTool === "barrier") {
+            btn.className = "farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-amberwarm-600 text-white shadow-sm flex items-center justify-center gap-2 transition cursor-pointer";
+            banner.textContent = "Toque ou arraste sobre as linhas da lavoura para plantar faixas protetoras de consórcio.";
+          } else {
+            btn.className = "farmer-tool-btn py-2.5 px-3 rounded-2xl text-xs sm:text-sm font-extrabold bg-forest-900 text-white shadow-sm flex items-center justify-center gap-2 transition cursor-pointer";
+            banner.textContent = "Toque nos círculos pontilhados na borda para ligar a mata nativa e atrair joaninhas.";
+          }
+        });
+      });
+
+      // Interação de Toque / Clique / Arrasto no Mapa SVG
+      const svgEl = document.getElementById("farmSvgMap");
+
+      function processSvgInteraction(clientX, clientY, isDrag) {
+        const rect = svgEl.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * 800;
+        const y = ((clientY - rect.top) / rect.height) * 550;
+
+        if (appState.mapTool === "pest" && !isDrag) {
+          let nearest = null;
+          let bestDist = 34;
+          for (const p of appState.plants) {
+            const d = Math.hypot(p.x - x, p.y - y);
+            if (d < bestDist) {
+              bestDist = d;
+              nearest = p;
+            }
+          }
+          if (nearest) startOutbreakAt(nearest);
+        } else if (appState.mapTool === "barrier") {
+          let changed = false;
+          for (const p of appState.plants) {
+            if (Math.hypot(p.x - x, p.y - y) < 28 && !p.isBarrier) {
+              p.isBarrier = true;
+              p.infectedDay = null;
+              changed = true;
+            }
+          }
+          if (changed) updateAllViews();
+        } else if (appState.mapTool === "corridor" && !isDrag) {
+          let nearestSeg = null;
+          let bestDist = 36;
+          for (const seg of appState.forestSegments) {
+            const d = Math.hypot(seg.x - x, seg.y - y);
+            if (d < bestDist) {
+              bestDist = d;
+              nearestSeg = seg;
+            }
+          }
+          if (nearestSeg) {
+            nearestSeg.active = !nearestSeg.active;
+            const activeCount = appState.forestSegments.filter(s => s.active).length;
+            appState.forestPct = Math.round((activeCount / appState.forestSegments.length) * 100);
+            updateAllViews();
+          }
+        }
+      }
+
+      svgEl.addEventListener("pointerdown", (e) => {
+        appState.isDraggingBarrier = true;
+        processSvgInteraction(e.clientX, e.clientY, false);
+      });
+      svgEl.addEventListener("pointermove", (e) => {
+        if (!appState.isDraggingBarrier) return;
+        processSvgInteraction(e.clientX, e.clientY, true);
+      });
+      window.addEventListener("pointerup", () => {
+        appState.isDraggingBarrier = false;
+      });
+
+      // Linha do tempo de 15 dias
+      document.getElementById("playTimelineBtn").addEventListener("click", () => {
+        if (appState.isPlaying) stopTimelinePlayback();
+        else startTimelinePlayback();
+      });
+      document.getElementById("farmerDaySlider").addEventListener("input", (e) => {
+        stopTimelinePlayback();
+        setTimelineDay(parseInt(e.target.value, 10));
+      });
+      document.getElementById("resetHotspotBtn").addEventListener("click", clearPestOutbreak);
+      document.getElementById("closeToastBtn").addEventListener("click", () => {
+        document.getElementById("mapFeedbackToast").classList.add("hidden");
+      });
+
+      // Botão 1-Toque: ✨ Aplicar Melhor Desenho para Minha Roça
+      document.getElementById("autoOptimizeFarmBtn").addEventListener("click", () => {
+        const beforeMetrics = computeCalibratedMetrics();
+        const crop = FARM_CROPS[appState.cropId];
+
+        // Aplica configuração ótima calculada pelo motor científico
+        appState.pattern = "strips";
+        appState.windBorderOn = true;
+        appState.spacingCm = Math.max(appState.spacingCm, crop.d0 + 18);
+        appState.forestPct = Math.max(appState.forestPct, 50);
+
+        generateFarmPlants();
+        const afterMetrics = computeCalibratedMetrics();
+
+        const box = document.getElementById("celebrationBox");
+        const text = document.getElementById("celebrationText");
+        box.classList.remove("hidden");
+        text.innerHTML = `Proteção elevada de <strong>${beforeMetrics.protectedPct}% para ${afterMetrics.protectedPct}%</strong> com espaçamento de <strong>${afterMetrics.d} cm</strong>, faixas de <strong>${crop.companion}</strong> e abrigo de joaninhas em <strong>${afterMetrics.forestPct}%</strong>!`;
+
+        updateAllViews();
+      });
+
+      document.getElementById("closeCelebrationBtn").addEventListener("click", () => {
+        document.getElementById("celebrationBox").classList.add("hidden");
+      });
+
+      // Modal "Configurar Minha Roça" (4 Passos)
+      const modal = document.getElementById("farmerSetupModal");
+      document.getElementById("openSetupModalBtn").addEventListener("click", () => {
+        setWizardStep(1);
+        renderPlantRuler(appState.spacingCm);
+        modal.classList.remove("hidden");
+      });
+      document.getElementById("closeSetupModalBtn").addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
+
+      document.getElementById("wizardPrevBtn").addEventListener("click", () => {
+        setWizardStep(appState.wizardStep - 1);
+      });
+      document.getElementById("wizardNextBtn").addEventListener("click", () => {
+        if (appState.wizardStep < 4) {
+          setWizardStep(appState.wizardStep + 1);
+        } else {
+          modal.classList.add("hidden");
+          generateFarmPlants();
+          updateAllViews();
+        }
+      });
+
+      // Escolhas dentro do Wizard
+      document.querySelectorAll(".setup-terrain-card").forEach(card => {
+        card.addEventListener("click", () => {
+          appState.terrainId = card.dataset.setupTerrain;
+          document.querySelectorAll(".setup-terrain-card").forEach(c => {
+            c.className = "setup-terrain-card p-4 rounded-2xl border-2 border-earth-border bg-white text-left space-y-2.5 hover:border-forest-700 transition cursor-pointer";
+          });
+          card.className = "setup-terrain-card p-4 rounded-2xl border-2 border-forest-900 bg-white text-left space-y-2.5 shadow-sm transition cursor-pointer";
+        });
+      });
+
+      document.querySelectorAll(".setup-crop-card").forEach(card => {
+        card.addEventListener("click", () => {
+          appState.cropId = card.dataset.setupCrop;
+          document.querySelectorAll(".setup-crop-card").forEach(c => {
+            c.className = "setup-crop-card p-3 rounded-2xl border-2 border-earth-border bg-white text-center cursor-pointer";
+          });
+          card.className = "setup-crop-card p-3 rounded-2xl border-2 border-forest-900 bg-forest-50 text-center cursor-pointer";
+        });
+      });
+
+      document.querySelectorAll(".setup-seed-card").forEach(card => {
+        card.addEventListener("click", () => {
+          appState.seedType = card.dataset.setupSeed;
+          document.querySelectorAll(".setup-seed-card").forEach(c => {
+            c.className = "setup-seed-card p-3.5 rounded-2xl border-2 border-earth-border bg-white text-left cursor-pointer";
+          });
+          card.className = "setup-seed-card p-3.5 rounded-2xl border-2 border-forest-900 bg-white text-left cursor-pointer";
+        });
+      });
+
+      document.getElementById("setupSpacingSlider").addEventListener("input", (e) => {
+        appState.spacingCm = parseInt(e.target.value, 10);
+        document.getElementById("setupSpacingLabel").textContent = `${appState.spacingCm} cm`;
+        renderPlantRuler(appState.spacingCm);
+      });
+
+      document.querySelectorAll(".setup-soil-card").forEach(card => {
+        card.addEventListener("click", () => {
+          appState.soilId = card.dataset.setupSoil;
+          document.querySelectorAll(".setup-soil-card").forEach(c => {
+            c.className = "setup-soil-card p-3.5 rounded-2xl border-2 border-earth-border bg-white text-left cursor-pointer";
+          });
+          card.className = "setup-soil-card p-3.5 rounded-2xl border-2 border-forest-900 bg-forest-50 text-left cursor-pointer";
+        });
+      });
+
+      document.getElementById("setupForestSlider").addEventListener("input", (e) => {
+        appState.forestPct = parseInt(e.target.value, 10);
+        const label = appState.forestPct >= 40
+          ? `Boa cobertura (${appState.forestPct}%)`
+          : `Pouca mata (${appState.forestPct}%)`;
+        document.getElementById("setupForestLabel").textContent = label;
+      });
+
+      document.querySelectorAll(".setup-goal-card").forEach(card => {
+        card.addEventListener("click", () => {
+          appState.goal = card.dataset.setupGoal;
+          document.querySelectorAll(".setup-goal-card").forEach(c => {
+            c.className = "setup-goal-card w-full p-4 rounded-2xl border-2 border-earth-border bg-white text-left flex items-center gap-3.5 cursor-pointer";
+          });
+          card.className = "setup-goal-card w-full p-4 rounded-2xl border-2 border-forest-900 bg-forest-50 text-left flex items-center gap-3.5 cursor-pointer";
+
+          // Ajusta padrão inicial conforme a preocupação escolhida
+          if (appState.goal === "allies") {
+            appState.forestPct = Math.max(appState.forestPct, 50);
+          } else if (appState.goal === "rain_disease") {
+            appState.pattern = "chess";
+          } else {
+            appState.pattern = "strips";
+          }
+        });
+      });
+
+      // Controles de Sensibilidade na Aba 2 (Base Científica / Metanálise)
+      document.getElementById("sciPbSlider").addEventListener("input", (e) => {
+        const pbVal = parseInt(e.target.value, 10) / 100;
+        const m = computeCalibratedMetrics({ pb: pbVal });
+        document.getElementById("sciPbLabel").textContent = `${Math.round(pbVal * 100)}%`;
+        document.getElementById("sciStep2").textContent = `χ_c = ${m.xc.toFixed(3)}`;
+        document.getElementById("sciStep3").textContent = `E_q = ${m.E_q.toFixed(2)}`;
+        document.getElementById("sciStep4").textContent = `R_eff = ${m.R_eff.toFixed(2)}`;
+        renderScientificCharts(m);
+      });
+
+      document.getElementById("sciDistSlider").addEventListener("input", (e) => {
+        appState.spacingCm = parseInt(e.target.value, 10);
+        document.getElementById("setupSpacingSlider").value = appState.spacingCm;
+        generateFarmPlants();
+        updateAllViews();
+      });
+    }
+
+    // 12. INICIALIZAÇÃO
+    window.addEventListener("DOMContentLoaded", () => {
+      wireUpEvents();
+      renderPlantRuler(appState.spacingCm);
+      generateFarmPlants();
+      updateAllViews();
+    });
+  </script>
+</body>
+</html>

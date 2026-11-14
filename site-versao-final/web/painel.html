@@ -1,0 +1,69 @@
+<!doctype html>
+<!-- Origem: João Pedro (branch estudo-jp, 29f81f6), site-nasa/templates/painel.html; adaptado para o site final:
+     HTML estático (sem Jinja/url_for; o município vem de ?cod=<IBGE>, e ?embutido=1 é o modo do painel lateral do globo),
+     caminhos relativos, fontes locais (vendor/fontes/painel.css), botão "Montar o plano do meu roçado →" (roca.html),
+     fonte sem o SMAP (a aba Alerta saiu) e com a definição de El Niño forte. -->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roça Certa · painel do município</title>
+  <meta name="description" content="Roça Certa: chuva e El Niño do seu município, com dados de satélite da NASA e do IBGE.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23226B45'/%3E%3Ctext x='16' y='21' font-size='13' font-family='Georgia' font-weight='700' fill='%23fff' text-anchor='middle'%3ERC%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="vendor/fontes/painel.css">
+  <link rel="preload" href="dados/municipios_ne.json" as="fetch" crossorigin>
+  <link rel="stylesheet" href="css/globo/rocacerta.css">
+  <script type="module" src="js/globo/rocacerta.js"></script>
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-linha">
+      <a class="marca" href="index.html" aria-label="Roça Certa, voltar ao globo">
+        <span class="marca-selo" aria-hidden="true">RC</span>
+        <span class="marca-nome">Roça Certa</span>
+      </a>
+      <div class="ferramentas">
+        <label class="busca">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <span class="so-leitor">Município</span>
+          <input id="busca" list="lista" type="text" placeholder="Município" autocomplete="off" spellcheck="false">
+        </label>
+        <datalist id="lista"></datalist>
+        <a class="botao-icone" id="noGlobo" href="index.html" aria-label="Ver no globo" title="Ver no globo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5s1.3-6.1 3.9-8.5z"/></svg>
+        </a>
+        <button class="botao-icone" id="tema" type="button" aria-label="Trocar claro e escuro" title="Claro / escuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="abas" id="abas" aria-label="Assuntos"></nav>
+  </header>
+
+  <main class="conteudo" aria-live="polite">
+    <section class="faixa" id="faixa"></section>
+    <a class="plano" id="plano" href="roca.html" target="_top">Montar o plano do meu roçado <span aria-hidden="true">→</span></a>
+    <section class="indicadores" id="indicadores" aria-label="Indicadores"></section>
+    <div class="dupla">
+      <section class="cartao" aria-labelledby="mapaTitulo">
+        <div class="cartao-topo">
+          <h2 id="mapaTitulo"></h2>
+          <div class="alternar" role="group" aria-label="Enquadramento do mapa">
+            <button type="button" data-zoom="ne" aria-pressed="true">Nordeste</button>
+            <button type="button" data-zoom="uf" aria-pressed="false" id="zoomUf">Estado</button>
+          </div>
+        </div>
+        <svg id="mapa" class="mapa" role="img" aria-label="Mapa dos municípios do Nordeste"><g class="mun"></g><g class="ufs"></g></svg>
+        <div class="legenda" id="legenda"></div>
+      </section>
+      <section class="cartao" aria-labelledby="graficoTitulo">
+        <div class="cartao-topo"><h2 id="graficoTitulo"></h2></div>
+        <div id="grafico" class="grafico"></div>
+        <div class="legenda" id="graficoLegenda"></div>
+      </section>
+    </div>
+    <p class="fonte">Chuva: NASA GPM IMERG V07, 1998–2026 · El Niño: NOAA ONI<span id="fonteNino"></span> · Produção: IBGE PAM · Malha: IBGE</p>
+  </main>
+  <div class="dica" id="dica" role="tooltip" hidden></div>
+</body>
+</html>

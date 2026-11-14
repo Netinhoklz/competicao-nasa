@@ -1,0 +1,853 @@
+/* Origem: João Pedro (branch estudo-jp, 29f81f6), site-nasa/static/css/style.css; adaptado para o site final: nenhuma mudança (só este cabeçalho); as fontes Inter, IBM Plex Mono e Instrument Serif vêm de vendor/fontes/globo.css. */
+/* QUADRA - site (NASA Space Apps 2026, Field Shift)
+   Visual sobrio: preto, branco e cinzas; uma so cor de destaque; a imagem da Terra e a protagonista. */
+
+:root {
+  --bg: #000;
+  --ink: #f2f4f7;
+  --ink-2: rgba(242, 244, 247, 0.74);
+  --ink-3: rgba(242, 244, 247, 0.5);
+  --ink-4: rgba(242, 244, 247, 0.32);
+  --line: rgba(255, 255, 255, 0.12);
+  --line-2: rgba(255, 255, 255, 0.24);
+  --panel: rgba(0, 0, 0, 0.55);
+  --panel-2: rgba(8, 9, 12, 0.78);
+  --accent: #9cc2ff;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
+  --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input { font: inherit; color: inherit; }
+
+kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--line-2);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------ camadas */
+
+#espaco, #mapa {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#espaco { display: block; z-index: 0; touch-action: none; }
+#espaco.sobre-terra { cursor: grab; }
+#espaco.arrastando { cursor: grabbing; }
+
+#mapa {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background: transparent;
+  transition: opacity 0.9s ease;
+}
+body.no-mapa #mapa { opacity: 1; pointer-events: auto; }
+
+/* ------------------------------------------------------------ topo */
+
+.topo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  pointer-events: none;
+}
+/* degrade escuro atras da marca e do selo: legiveis sobre nuvens e imagem clara (inicio e mapa) */
+.topo::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -40px;
+  z-index: -1;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+.topo > * { pointer-events: auto; }
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.marca-icone {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+}
+.marca-icone::after {
+  content: '';
+  position: absolute;
+  inset: 3.5px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.marca-nome {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+}
+
+.selo {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------ hero */
+
+.hero {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 20px;
+  padding: 90px 16px 70px;
+  pointer-events: none;
+  transition: opacity 0.7s var(--ease), transform 0.9s var(--ease), filter 0.7s ease, visibility 0s linear 0s;
+}
+.hero-cartao, .dica { pointer-events: auto; }
+
+body.em-viagem .hero,
+body.no-mapa .hero {
+  opacity: 0;
+  transform: scale(0.97);
+  filter: blur(6px);
+  visibility: hidden;
+  transition: opacity 0.6s var(--ease), transform 0.8s var(--ease), filter 0.6s ease, visibility 0s linear 0.8s;
+}
+
+/* veu escuro sutil atras do texto: garante leitura sobre o planeta sem desenhar uma caixa */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse 34% 42% at 50% 50%, rgba(0, 0, 0, 0.42), transparent 72%);
+  pointer-events: none;
+}
+
+.hero-cartao {
+  width: min(840px, 100%);
+  text-align: center;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.7);
+}
+.hero-cartao .lead,
+.hero-cartao .busca { margin-left: auto; margin-right: auto; }
+.hero-cartao .atalhos { justify-content: center; }
+.sugestoes { text-align: left; }
+
+.sobretitulo {
+  margin: 0 0 22px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.hero h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: clamp(2.3rem, 4.2vw, 4.3rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+.hero h1 .linha { display: block; }
+.hero h1 .suave { color: var(--ink-3); }
+
+.lead {
+  max-width: 30em;
+  margin: 22px 0 30px;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------ busca */
+
+.busca {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 58px;
+  max-width: 580px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-shadow: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.busca:focus-within {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.busca-icone {
+  position: absolute;
+  left: 18px;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.busca input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px 0 46px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+}
+.busca input::placeholder { color: var(--ink-4); }
+
+.busca-atalho { margin-right: 10px; color: var(--ink-3); }
+.busca:focus-within .busca-atalho { display: none; }
+
+.busca-botao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 42px;
+  margin-right: 6px;
+  padding: 0 16px 0 18px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--ink);
+  color: #000;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.busca-botao svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.busca-botao:hover { background: #d9dee6; }
+.busca-botao:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.busca.ocupado .busca-botao { color: transparent; pointer-events: none; }
+.busca.ocupado .busca-botao::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #000;
+  animation: girar 0.8s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.busca.balanca { animation: balanca 0.4s ease; }
+@keyframes balanca {
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+.sugestoes {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 10px;
+  background: #0b0c0f;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.9);
+}
+.sugestoes li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.sugestoes li[aria-selected='true'] { background: rgba(255, 255, 255, 0.07); }
+.sug-pino {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-2);
+}
+.sug-texto { flex: 1; min-width: 0; display: grid; }
+.sug-texto b { font-weight: 500; }
+.sug-texto small {
+  color: var(--ink-3);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sug-coord { flex: none; font-family: var(--mono); font-size: 11.5px; color: var(--ink-4); }
+
+.busca-msg {
+  min-height: 1.4em;
+  margin: 10px 2px 0;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+.busca-msg.erro { color: #ffb4a8; }
+
+.atalhos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin-top: 6px;
+}
+.atalhos span {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.atalhos button {
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.atalhos button:hover,
+.atalhos button:focus-visible {
+  outline: none;
+  color: var(--ink);
+  text-decoration-color: var(--ink-3);
+}
+
+.dica {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 22px;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-shadow: 0 1px 6px #000;
+}
+.dica kbd { margin-right: 4px; background: rgba(0, 0, 0, 0.5); }
+
+/* entrada em sequencia, enquanto a abertura (camera recuando e o sol nascendo) termina */
+body:not(.carregando) .sobretitulo,
+body:not(.carregando) .hero h1 .linha,
+body:not(.carregando) .lead,
+body:not(.carregando) .busca,
+body:not(.carregando) .atalhos,
+body:not(.carregando) .dica {
+  animation: surgir 1.5s var(--ease) backwards;
+}
+body:not(.carregando) .sobretitulo { animation-delay: 1.9s; }
+body:not(.carregando) .hero h1 .linha { animation-delay: 2.1s; }
+body:not(.carregando) .hero h1 .suave { animation-delay: 2.35s; }
+body:not(.carregando) .lead { animation-delay: 2.7s; }
+body:not(.carregando) .busca { animation-delay: 2.9s; }
+body:not(.carregando) .atalhos { animation-delay: 3.1s; }
+body:not(.carregando) .dica { animation-delay: 3.8s; }
+@keyframes surgir { from { opacity: 0; transform: translateY(18px); } }
+
+body:not(.carregando) .topo,
+body:not(.carregando) .telemetria,
+body:not(.carregando) .creditos {
+  animation: aparecer 1.8s ease backwards;
+  animation-delay: 3.2s;
+}
+body:not(.carregando) .pensamento {
+  animation: aparecer 2.6s ease backwards;
+  animation-delay: 4.4s;
+}
+@keyframes aparecer { from { opacity: 0; } }
+
+/* vinheta de cinema nas bordas (some no mapa) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(130% 100% at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+}
+body.no-mapa::after { opacity: 0; }
+
+/* ------------------------------------------------------------ mergulho com a rodinha */
+
+.mergulho {
+  --a: 0;
+  position: fixed;
+  left: 50%;
+  bottom: 9vh;
+  z-index: 6;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 12px 20px 14px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.4s var(--ease);
+}
+body.mergulhando:not(.em-viagem) .mergulho { opacity: 1; transform: translate(-50%, 0); }
+.mergulho p { margin: 0; font-size: 13px; color: var(--ink-2); }
+.mergulho-barra {
+  width: 200px;
+  height: 2px;
+  background: var(--line);
+}
+.mergulho-barra i {
+  display: block;
+  height: 100%;
+  width: calc(var(--a) * 100%);
+  background: var(--ink);
+}
+body.mergulhando .hero { transition: none; }
+body.mergulhando .telemetria { opacity: 0; }
+
+/* ------------------------------------------------------------ leitura do cursor */
+
+.mira {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 7;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  will-change: transform;
+}
+.mira.visivel { opacity: 1; }
+
+.telemetria {
+  position: fixed;
+  right: 32px;
+  bottom: 24px;
+  z-index: 5;
+  display: grid;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  transition: opacity 0.5s ease;
+}
+.telemetria div { display: flex; gap: 12px; justify-content: flex-end; }
+.telemetria span { color: var(--ink-4); letter-spacing: 0.12em; }
+.telemetria b { font-weight: 400; min-width: 9ch; text-align: right; }
+
+.creditos {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 5;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--ink-3);
+  text-shadow: 0 1px 8px #000, 0 0 2px #000;
+  transition: opacity 0.5s ease;
+}
+
+/* pensamento no canto inferior esquerdo: serifa italica, um fio fino acima, troca devagar */
+.pensamento {
+  position: fixed;
+  left: 40px;
+  bottom: 40px;
+  z-index: 5;
+  max-width: min(400px, 30vw);
+  margin: 0;
+  text-shadow: 0 1px 14px #000, 0 0 2px #000;
+  transition: opacity 1.4s ease;
+}
+.pensamento::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin-bottom: 16px;
+  background: var(--ink-3);
+}
+.pensamento blockquote { margin: 0; }
+.pensamento p {
+  margin: 0;
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(19px, 1.75vw, 27px);
+  line-height: 1.22;
+  color: rgba(242, 244, 247, 0.9);
+}
+.pensamento figcaption {
+  margin-top: 12px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.pensamento cite { font-style: normal; }
+.pensamento.trocando { opacity: 0; }
+
+body.em-viagem .telemetria,
+body.no-mapa .telemetria,
+body.no-mapa .creditos,
+body.em-viagem .pensamento,
+body.no-mapa .pensamento,
+body.mergulhando .pensamento { opacity: 0; pointer-events: none; }
+
+/* ------------------------------------------------------------ viagem */
+
+.viagem {
+  position: fixed;
+  left: 50%;
+  bottom: 9vh;
+  z-index: 6;
+  min-width: 240px;
+  padding: 12px 20px 0;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.6s var(--ease);
+}
+body.em-viagem .viagem { opacity: 1; transform: translate(-50%, 0); }
+.viagem p { margin: 0; }
+.viagem-etapa {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.viagem-destino { margin-top: 3px !important; font-size: 17px; font-weight: 400; }
+.viagem-destino:empty { display: none; }
+/* linha de progresso indeterminada */
+.viagem-linha {
+  position: relative;
+  display: block;
+  height: 1px;
+  margin: 12px -20px 0;
+  background: var(--line);
+  overflow: hidden;
+}
+.viagem-linha::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 35%;
+  background: var(--ink);
+  animation: percorrer 1.6s var(--ease) infinite;
+}
+@keyframes percorrer {
+  from { left: -35%; }
+  to { left: 100%; }
+}
+
+/* ------------------------------------------------------------ hud do mapa */
+
+.hud-mapa {
+  position: fixed;
+  top: 76px;
+  left: 24px;
+  z-index: 5;
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  opacity: 0;
+  transform: translateX(-10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.5s var(--ease);
+}
+body.no-mapa:not(.em-viagem) .hud-mapa {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.5s;
+}
+
+.botao-contorno {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px 9px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--line-2);
+  background: var(--panel-2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.botao-contorno svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.botao-contorno:hover { border-color: rgba(255, 255, 255, 0.55); }
+.botao-contorno:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.cartao-local {
+  width: min(320px, calc(100vw - 48px));
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.cartao-local p { margin: 0; }
+.cartao-rotulo {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cartao-local h2 {
+  margin: 6px 0 4px;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.cartao-detalhe { font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+.cartao-detalhe:empty { display: none; }
+.cartao-coords { margin-top: 10px !important; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+.cartao-alt { margin-top: 3px !important; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+
+/* dica de uso do mapa: no lugar do aviso da viagem, some no primeiro gesto */
+.dica-mapa {
+  position: fixed;
+  left: 50%;
+  bottom: 9vh;
+  z-index: 5;
+  display: flex;
+  gap: 22px;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 12.5px;
+  white-space: nowrap;
+  color: var(--ink-2);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s var(--ease);
+}
+body.no-mapa:not(.em-viagem) .dica-mapa.visivel {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0.8s;
+}
+.dica-mapa kbd { margin-right: 5px; }
+@media (hover: none), (max-width: 640px) { .dica-mapa { display: none; } }
+
+/* marcador no mapa: anel deitado no chao (vira elipse com a camera inclinada) e ponto central */
+.marcador { position: relative; width: 40px; height: 40px; }
+.marcador i, .marcador b { transform: scaleY(var(--achatar, 1)); }
+.marcador i {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  /* contorno escuro dos dois lados: o anel aparece tambem sobre areia, sal e telhado claro */
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+.marcador b {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+}
+
+/* controles do MapLibre no mesmo tema */
+.maplibregl-ctrl-group {
+  background: var(--panel-2) !important;
+  border: 1px solid var(--line);
+  border-radius: 8px !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button + button { border-top: 1px solid var(--line) !important; }
+.maplibregl-ctrl-group button:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1); }
+.maplibregl-ctrl-group button.maplibregl-ctrl-terrain-enabled .maplibregl-ctrl-icon {
+  filter: invert(76%) sepia(18%) saturate(900%) hue-rotate(185deg);
+}
+.maplibregl-ctrl-scale {
+  background: rgba(0, 0, 0, 0.55) !important;
+  border-color: var(--ink-2) !important;
+  color: var(--ink) !important;
+  font-family: var(--mono);
+}
+.maplibregl-ctrl-attrib {
+  /* os creditos abertos quebram a linha em vez de cobrir a escala no canto esquerdo */
+  max-width: calc(100vw - 170px);
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: var(--ink-3) !important;
+}
+.maplibregl-ctrl-attrib a { color: var(--ink-2) !important; }
+.maplibregl-ctrl-attrib-button { filter: invert(1); }
+.maplibregl-ctrl-bottom-right { right: 12px; bottom: 12px; }
+.maplibregl-ctrl-bottom-left { left: 12px; bottom: 12px; }
+
+/* ------------------------------------------------------------ carregamento */
+
+.tela-carga {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 16px;
+  background: var(--bg);
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+body:not(.carregando) .tela-carga { opacity: 0; visibility: hidden; }
+.tela-carga p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--ink-2);
+}
+.tela-carga-linha {
+  width: 140px;
+  height: 1px;
+  background: var(--line);
+}
+.tela-carga-linha i {
+  --p: 0;
+  display: block;
+  height: 100%;
+  width: calc(var(--p) * 100%);
+  background: var(--ink);
+  transition: width 0.3s ease;
+}
+
+/* ------------------------------------------------------------ telas estreitas */
+
+@media (max-width: 860px), (max-aspect-ratio: 19/20) {
+  .topo { padding: 16px; }
+  .selo { display: none; }
+  .hero { align-content: end; padding: 80px 12px 20px; }
+  .hero-cartao { padding: 24px 20px 20px; }
+  .lead { font-size: 14.5px; margin-bottom: 18px; }
+  .busca { height: 52px; }
+  .busca-atalho { display: none; }
+  .busca-botao { height: 40px; }
+  .dica, .telemetria, .creditos, .sug-coord, .pensamento { display: none; }
+  .hud-mapa { top: 60px; left: 12px; right: 12px; }
+  .viagem, .mergulho { bottom: 5vh; }
+}
+
+@media (hover: none) {
+  .dica, .busca-atalho { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:not(.carregando) * { animation-delay: 0s !important; animation-duration: 0.4s !important; }
+  .viagem-linha::after { animation-duration: 4s; }
+}
+
+/* sem o paragrafo de apoio, a busca vem logo depois do titulo */
+.hero h1 + .busca { margin-top: 34px; }

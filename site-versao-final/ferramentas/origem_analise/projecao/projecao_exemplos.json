@@ -1,0 +1,1397 @@
+{
+ "2311306": {
+  "municipio": "Quixadá",
+  "uf": "CE",
+  "mesorregiao": "Sertões Cearenses",
+  "Milho": {
+   "mediana_1998_2025_kg_ha": 492,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 1.32,
+   "custo_r2025_ha": {
+    "semente": 284,
+    "desembolso": 1136
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 0,
+      "p50": 151,
+      "p80": 450,
+      "p90": 608
+     },
+     "chance_quebra": 0.68,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 0,
+      "p50": 200,
+      "p80": 596,
+      "p90": 804
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.0,
+      "p50": 2.5,
+      "p80": 7.5,
+      "p90": 10.1
+     },
+     "chance_nao_paga_semente": 0.56,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 66,
+      "p20": 182,
+      "p50": 492,
+      "p80": 992,
+      "p90": 1388
+     },
+     "chance_quebra": 0.28,
+     "receita_r2025_ha": {
+      "p10": 88,
+      "p20": 240,
+      "p50": 651,
+      "p80": 1312,
+      "p90": 1837
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 1.1,
+      "p20": 3.0,
+      "p50": 8.2,
+      "p80": 16.5,
+      "p90": 23.1
+     },
+     "chance_nao_paga_semente": 0.23,
+     "chance_nao_paga_desembolso": 0.72
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 66,
+      "p20": 182,
+      "p50": 492,
+      "p80": 992,
+      "p90": 1388
+     },
+     "chance_quebra": 0.28,
+     "receita_r2025_ha": {
+      "p10": 88,
+      "p20": 240,
+      "p50": 651,
+      "p80": 1312,
+      "p90": 1837
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 1.1,
+      "p20": 3.0,
+      "p50": 8.2,
+      "p80": 16.5,
+      "p90": 23.1
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 0,
+    "2016": 60,
+    "2024": 228
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.83
+  },
+  "Feijão": {
+   "mediana_1998_2025_kg_ha": 297,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 5.07,
+   "custo_r2025_ha": {
+    "semente": 142,
+    "desembolso": 1992
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 9,
+      "p20": 58,
+      "p50": 149,
+      "p80": 289,
+      "p90": 346
+     },
+     "chance_quebra": 0.51,
+     "receita_r2025_ha": {
+      "p10": 46,
+      "p20": 293,
+      "p50": 755,
+      "p80": 1462,
+      "p90": 1753
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.1,
+      "p20": 1.0,
+      "p50": 2.5,
+      "p80": 4.8,
+      "p90": 5.8
+     },
+     "chance_nao_paga_semente": 0.14,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 80,
+      "p20": 152,
+      "p50": 297,
+      "p80": 559,
+      "p90": 660
+     },
+     "chance_quebra": 0.15,
+     "receita_r2025_ha": {
+      "p10": 405,
+      "p20": 768,
+      "p50": 1506,
+      "p80": 2833,
+      "p90": 3345
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 1.3,
+      "p20": 2.5,
+      "p50": 5.0,
+      "p80": 9.3,
+      "p90": 11.0
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.61
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 80,
+      "p20": 152,
+      "p50": 297,
+      "p80": 559,
+      "p90": 660
+     },
+     "chance_quebra": 0.15,
+     "receita_r2025_ha": {
+      "p10": 405,
+      "p20": 768,
+      "p50": 1506,
+      "p80": 2833,
+      "p90": 3345
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 1.3,
+      "p20": 2.5,
+      "p50": 5.0,
+      "p80": 9.3,
+      "p90": 11.0
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 51,
+    "2016": 120,
+    "2024": 212
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.65
+  },
+  "Mandioca": {
+   "mediana_1998_2025_kg_ha": 8895,
+   "n_anos": 26,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.72,
+   "preco_r2025_kg": 1.33,
+   "custo_r2025_ha": {
+    "semente": 0,
+    "desembolso": 4387
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 1931,
+      "p20": 2988,
+      "p50": 6036,
+      "p80": 9776,
+      "p90": 11591
+     },
+     "chance_quebra": 0.25,
+     "receita_r2025_ha": {
+      "p10": 2576,
+      "p20": 3986,
+      "p50": 8052,
+      "p80": 13042,
+      "p90": 15462
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "chance_nao_paga_desembolso": 0.23
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 3656,
+      "p20": 4827,
+      "p50": 8895,
+      "p80": 10809,
+      "p90": 12837
+     },
+     "chance_quebra": 0.1,
+     "receita_r2025_ha": {
+      "p10": 4877,
+      "p20": 6440,
+      "p50": 11866,
+      "p80": 14419,
+      "p90": 17125
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 3656,
+      "p20": 4827,
+      "p50": 8895,
+      "p80": 10809,
+      "p90": 12837
+     },
+     "chance_quebra": 0.1,
+     "receita_r2025_ha": {
+      "p10": 4877,
+      "p20": 6440,
+      "p50": 11866,
+      "p80": 14419,
+      "p90": 17125
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)"
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 5000,
+    "2016": 5400,
+    "2024": 9333
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.39
+  }
+ },
+ "2313302": {
+  "municipio": "Tauá",
+  "uf": "CE",
+  "mesorregiao": "Sertões Cearenses",
+  "Milho": {
+   "mediana_1998_2025_kg_ha": 483,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 1.13,
+   "custo_r2025_ha": {
+    "semente": 284,
+    "desembolso": 1136
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 11,
+      "p50": 177,
+      "p80": 563,
+      "p90": 750
+     },
+     "chance_quebra": 0.6,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 12,
+      "p50": 199,
+      "p80": 636,
+      "p90": 846
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.2,
+      "p50": 3.0,
+      "p80": 9.4,
+      "p90": 12.5
+     },
+     "chance_nao_paga_semente": 0.56,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 44,
+      "p20": 174,
+      "p50": 483,
+      "p80": 794,
+      "p90": 1102
+     },
+     "chance_quebra": 0.25,
+     "receita_r2025_ha": {
+      "p10": 50,
+      "p20": 196,
+      "p50": 545,
+      "p80": 896,
+      "p90": 1243
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.7,
+      "p20": 2.9,
+      "p50": 8.1,
+      "p80": 13.2,
+      "p90": 18.4
+     },
+     "chance_nao_paga_semente": 0.28,
+     "chance_nao_paga_desembolso": 0.87
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 44,
+      "p20": 174,
+      "p50": 483,
+      "p80": 794,
+      "p90": 1102
+     },
+     "chance_quebra": 0.25,
+     "receita_r2025_ha": {
+      "p10": 50,
+      "p20": 196,
+      "p50": 545,
+      "p80": 896,
+      "p90": 1243
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.7,
+      "p20": 2.9,
+      "p50": 8.1,
+      "p80": 13.2,
+      "p90": 18.4
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 44,
+    "2016": 180,
+    "2024": 1020
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.77
+  },
+  "Feijão": {
+   "mediana_1998_2025_kg_ha": 166,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 3.82,
+   "custo_r2025_ha": {
+    "semente": 142,
+    "desembolso": 1992
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 14,
+      "p20": 40,
+      "p50": 86,
+      "p80": 173,
+      "p90": 208
+     },
+     "chance_quebra": 0.51,
+     "receita_r2025_ha": {
+      "p10": 54,
+      "p20": 153,
+      "p50": 330,
+      "p80": 661,
+      "p90": 795
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.2,
+      "p20": 0.7,
+      "p50": 1.4,
+      "p80": 2.9,
+      "p90": 3.5
+     },
+     "chance_nao_paga_semente": 0.19,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 47,
+      "p20": 79,
+      "p50": 166,
+      "p80": 262,
+      "p90": 323
+     },
+     "chance_quebra": 0.21,
+     "receita_r2025_ha": {
+      "p10": 179,
+      "p20": 303,
+      "p50": 637,
+      "p80": 1001,
+      "p90": 1237
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.8,
+      "p20": 1.3,
+      "p50": 2.8,
+      "p80": 4.4,
+      "p90": 5.4
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 47,
+      "p20": 79,
+      "p50": 166,
+      "p80": 262,
+      "p90": 323
+     },
+     "chance_quebra": 0.21,
+     "receita_r2025_ha": {
+      "p10": 179,
+      "p20": 303,
+      "p50": 637,
+      "p80": 1001,
+      "p90": 1237
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.8,
+      "p20": 1.3,
+      "p50": 2.8,
+      "p80": 4.4,
+      "p90": 5.4
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 75,
+    "2016": 80,
+    "2024": 192
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.69
+  },
+  "Mandioca": {
+   "mediana_1998_2025_kg_ha": 7750,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 0.62,
+   "custo_r2025_ha": {
+    "semente": 0,
+    "desembolso": 4387
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 1561,
+      "p20": 2558,
+      "p50": 5442,
+      "p80": 9403,
+      "p90": 11219
+     },
+     "chance_quebra": 0.33,
+     "receita_r2025_ha": {
+      "p10": 973,
+      "p20": 1595,
+      "p50": 3393,
+      "p80": 5863,
+      "p90": 6995
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "chance_nao_paga_desembolso": 0.62
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 2463,
+      "p20": 4078,
+      "p50": 7750,
+      "p80": 11825,
+      "p90": 12617
+     },
+     "chance_quebra": 0.15,
+     "receita_r2025_ha": {
+      "p10": 1536,
+      "p20": 2543,
+      "p50": 4832,
+      "p80": 7373,
+      "p90": 7867
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "chance_nao_paga_desembolso": 0.44
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 2463,
+      "p20": 4078,
+      "p50": 7750,
+      "p80": 11825,
+      "p90": 12617
+     },
+     "chance_quebra": 0.15,
+     "receita_r2025_ha": {
+      "p10": 1536,
+      "p20": 2543,
+      "p50": 4832,
+      "p80": 7373,
+      "p90": 7867
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)"
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 3500,
+    "2016": 5500,
+    "2024": 14000
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.52
+  }
+ },
+ "2903201": {
+  "municipio": "Barreiras",
+  "uf": "BA",
+  "mesorregiao": "Extremo Oeste Baiano",
+  "Milho": {
+   "mediana_1998_2025_kg_ha": 7453,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 1.01,
+   "custo_r2025_ha": {
+    "semente": 284,
+    "desembolso": 1136
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 2406,
+      "p20": 5416,
+      "p50": 8191,
+      "p80": 14071,
+      "p90": 24499
+     },
+     "chance_quebra": 0.11,
+     "receita_r2025_ha": {
+      "p10": 2437,
+      "p20": 5486,
+      "p50": 8298,
+      "p80": 14254,
+      "p90": 24818
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 40.1,
+      "p20": 90.3,
+      "p50": 136.5,
+      "p80": 234.5,
+      "p90": 408.3
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 3953,
+      "p20": 5007,
+      "p50": 7453,
+      "p80": 10279,
+      "p90": 11540
+     },
+     "chance_quebra": 0.04,
+     "receita_r2025_ha": {
+      "p10": 4005,
+      "p20": 5073,
+      "p50": 7550,
+      "p80": 10412,
+      "p90": 11690
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 65.9,
+      "p20": 83.5,
+      "p50": 124.2,
+      "p80": 171.3,
+      "p90": 192.3
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 3953,
+      "p20": 5007,
+      "p50": 7453,
+      "p80": 10279,
+      "p90": 11540
+     },
+     "chance_quebra": 0.04,
+     "receita_r2025_ha": {
+      "p10": 4005,
+      "p20": 5073,
+      "p50": 7550,
+      "p80": 10412,
+      "p90": 11690
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 65.9,
+      "p20": 83.5,
+      "p50": 124.2,
+      "p80": 171.3,
+      "p90": 192.3
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 6105,
+    "2016": 7186,
+    "2024": 11290
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.18
+  },
+  "Feijão": {
+   "mediana_1998_2025_kg_ha": 1719,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 4.23,
+   "custo_r2025_ha": {
+    "semente": 142,
+    "desembolso": 1992
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 843,
+      "p20": 1160,
+      "p50": 1708,
+      "p80": 2224,
+      "p90": 2923
+     },
+     "chance_quebra": 0.05,
+     "receita_r2025_ha": {
+      "p10": 3568,
+      "p20": 4908,
+      "p50": 7226,
+      "p80": 9411,
+      "p90": 12368
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 14.1,
+      "p20": 19.3,
+      "p50": 28.5,
+      "p80": 37.1,
+      "p90": 48.7
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 1195,
+      "p20": 1387,
+      "p50": 1719,
+      "p80": 2156,
+      "p90": 2503
+     },
+     "chance_quebra": 0.03,
+     "receita_r2025_ha": {
+      "p10": 5058,
+      "p20": 5868,
+      "p50": 7276,
+      "p80": 9125,
+      "p90": 10593
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 19.9,
+      "p20": 23.1,
+      "p50": 28.6,
+      "p80": 35.9,
+      "p90": 41.7
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 1195,
+      "p20": 1387,
+      "p50": 1719,
+      "p80": 2156,
+      "p90": 2503
+     },
+     "chance_quebra": 0.03,
+     "receita_r2025_ha": {
+      "p10": 5058,
+      "p20": 5868,
+      "p50": 7276,
+      "p80": 9125,
+      "p90": 10593
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 19.9,
+      "p20": 23.1,
+      "p50": 28.6,
+      "p80": 35.9,
+      "p90": 41.7
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 1894,
+    "2016": 1670,
+    "2024": 1680
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.11
+  },
+  "Mandioca": {
+   "mediana_1998_2025_kg_ha": 11125,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 0.91,
+   "custo_r2025_ha": {
+    "semente": 0,
+    "desembolso": 4387
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 3910,
+      "p20": 5585,
+      "p50": 11096,
+      "p80": 14383,
+      "p90": 16357
+     },
+     "chance_quebra": 0.14,
+     "receita_r2025_ha": {
+      "p10": 3541,
+      "p20": 5058,
+      "p50": 10049,
+      "p80": 13025,
+      "p90": 14813
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "chance_nao_paga_desembolso": 0.16
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 4501,
+      "p20": 5988,
+      "p50": 11125,
+      "p80": 12812,
+      "p90": 14069
+     },
+     "chance_quebra": 0.08,
+     "receita_r2025_ha": {
+      "p10": 4076,
+      "p20": 5423,
+      "p50": 10075,
+      "p80": 11603,
+      "p90": 12741
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "chance_nao_paga_desembolso": 0.12
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 4501,
+      "p20": 5988,
+      "p50": 11125,
+      "p80": 12812,
+      "p90": 14069
+     },
+     "chance_quebra": 0.08,
+     "receita_r2025_ha": {
+      "p10": 4076,
+      "p20": 5423,
+      "p50": 10075,
+      "p80": 11603,
+      "p90": 12741
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)"
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 12500,
+    "2016": 11000,
+    "2024": 5961
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.27
+  }
+ },
+ "2700300": {
+  "municipio": "Arapiraca",
+  "uf": "AL",
+  "mesorregiao": "Agreste Alagoano",
+  "Milho": {
+   "mediana_1998_2025_kg_ha": 1389,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 1.33,
+   "custo_r2025_ha": {
+    "semente": 284,
+    "desembolso": 1136
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 349,
+      "p50": 1109,
+      "p80": 2794,
+      "p90": 4407
+     },
+     "chance_quebra": 0.37,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 466,
+      "p50": 1480,
+      "p80": 3729,
+      "p90": 5882
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 5.8,
+      "p50": 18.5,
+      "p80": 46.6,
+      "p90": 73.5
+     },
+     "chance_nao_paga_semente": 0.16,
+     "chance_nao_paga_desembolso": 0.4
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 200,
+      "p20": 519,
+      "p50": 1389,
+      "p80": 2491,
+      "p90": 4179
+     },
+     "chance_quebra": 0.25,
+     "receita_r2025_ha": {
+      "p10": 267,
+      "p20": 693,
+      "p50": 1854,
+      "p80": 3325,
+      "p90": 5578
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 3.3,
+      "p20": 8.7,
+      "p50": 23.1,
+      "p80": 41.5,
+      "p90": 69.7
+     },
+     "chance_nao_paga_semente": 0.1,
+     "chance_nao_paga_desembolso": 0.31
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 200,
+      "p20": 519,
+      "p50": 1389,
+      "p80": 2491,
+      "p90": 4179
+     },
+     "chance_quebra": 0.25,
+     "receita_r2025_ha": {
+      "p10": 267,
+      "p20": 693,
+      "p50": 1854,
+      "p80": 3325,
+      "p90": 5578
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 3.3,
+      "p20": 8.7,
+      "p50": 23.1,
+      "p80": 41.5,
+      "p90": 69.7
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 500,
+    "2016": 180,
+    "2024": 2240
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.65
+  },
+  "Feijão": {
+   "mediana_1998_2025_kg_ha": 578,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 3.86,
+   "custo_r2025_ha": {
+    "semente": 142,
+    "desembolso": 1992
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 38,
+      "p20": 198,
+      "p50": 590,
+      "p80": 914,
+      "p90": 1057
+     },
+     "chance_quebra": 0.24,
+     "receita_r2025_ha": {
+      "p10": 146,
+      "p20": 763,
+      "p50": 2273,
+      "p80": 3525,
+      "p90": 4074
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.6,
+      "p20": 3.3,
+      "p50": 9.8,
+      "p80": 15.2,
+      "p90": 17.6
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.44
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 201,
+      "p20": 381,
+      "p50": 578,
+      "p80": 691,
+      "p90": 832
+     },
+     "chance_quebra": 0.1,
+     "receita_r2025_ha": {
+      "p10": 776,
+      "p20": 1468,
+      "p50": 2229,
+      "p80": 2665,
+      "p90": 3207
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 3.4,
+      "p20": 6.3,
+      "p50": 9.6,
+      "p80": 11.5,
+      "p90": 13.9
+     },
+     "chance_nao_paga_semente": 0.05,
+     "chance_nao_paga_desembolso": 0.41
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 201,
+      "p20": 381,
+      "p50": 578,
+      "p80": 691,
+      "p90": 832
+     },
+     "chance_quebra": 0.1,
+     "receita_r2025_ha": {
+      "p10": 776,
+      "p20": 1468,
+      "p50": 2229,
+      "p80": 2665,
+      "p90": 3207
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 3.4,
+      "p20": 6.3,
+      "p50": 9.6,
+      "p80": 11.5,
+      "p90": 13.9
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 600,
+    "2016": 152,
+    "2024": 698
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.38
+  },
+  "Mandioca": {
+   "mediana_1998_2025_kg_ha": 15973,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 0.67,
+   "custo_r2025_ha": {
+    "semente": 0,
+    "desembolso": 4387
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 8131,
+      "p20": 10772,
+      "p50": 15353,
+      "p80": 19632,
+      "p90": 22685
+     },
+     "chance_quebra": 0.02,
+     "receita_r2025_ha": {
+      "p10": 5440,
+      "p20": 7207,
+      "p50": 10272,
+      "p80": 13134,
+      "p90": 15176
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 8941,
+      "p20": 11397,
+      "p50": 15973,
+      "p80": 19171,
+      "p90": 21602
+     },
+     "chance_quebra": 0.01,
+     "receita_r2025_ha": {
+      "p10": 5981,
+      "p20": 7624,
+      "p50": 10686,
+      "p80": 12826,
+      "p90": 14452
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 8941,
+      "p20": 11397,
+      "p50": 15973,
+      "p80": 19171,
+      "p90": 21602
+     },
+     "chance_quebra": 0.01,
+     "receita_r2025_ha": {
+      "p10": 5981,
+      "p20": 7624,
+      "p50": 10686,
+      "p80": 12826,
+      "p90": 14452
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)"
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 16000,
+    "2016": 11001,
+    "2024": 15900
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.04
+  }
+ },
+ "2611101": {
+  "municipio": "Petrolina",
+  "uf": "PE",
+  "mesorregiao": "São Francisco Pernambucano",
+  "Milho": {
+   "mediana_1998_2025_kg_ha": 80,
+   "n_anos": 26,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.72,
+   "preco_r2025_kg": 1.4,
+   "custo_r2025_ha": {
+    "semente": 284,
+    "desembolso": 1136
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 11,
+      "p50": 40,
+      "p80": 306,
+      "p90": 582
+     },
+     "chance_quebra": 0.48,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 16,
+      "p50": 56,
+      "p80": 428,
+      "p90": 814
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.2,
+      "p50": 0.7,
+      "p80": 5.1,
+      "p90": 9.7
+     },
+     "chance_nao_paga_semente": 0.68,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 4,
+      "p50": 80,
+      "p80": 319,
+      "p90": 578
+     },
+     "chance_quebra": 0.39,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 5,
+      "p50": 112,
+      "p80": 446,
+      "p90": 809
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.1,
+      "p50": 1.3,
+      "p80": 5.3,
+      "p90": 9.6
+     },
+     "chance_nao_paga_semente": 0.65,
+     "chance_nao_paga_desembolso": 0.95
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 4,
+      "p50": 80,
+      "p80": 319,
+      "p90": 578
+     },
+     "chance_quebra": 0.39,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 5,
+      "p50": 112,
+      "p80": 446,
+      "p90": 809
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.1,
+      "p50": 1.3,
+      "p80": 5.3,
+      "p90": 9.6
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 1250,
+    "2016": 18,
+    "2024": 55
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.81
+  },
+  "Feijão": {
+   "mediana_1998_2025_kg_ha": 119,
+   "n_anos": 27,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.73,
+   "preco_r2025_kg": 4.48,
+   "custo_r2025_ha": {
+    "semente": 142,
+    "desembolso": 1992
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 4,
+      "p50": 53,
+      "p80": 396,
+      "p90": 514
+     },
+     "chance_quebra": 0.5,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 17,
+      "p50": 239,
+      "p80": 1775,
+      "p90": 2304
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.1,
+      "p50": 0.9,
+      "p80": 6.6,
+      "p90": 8.6
+     },
+     "chance_nao_paga_semente": 0.37,
+     "chance_nao_paga_desembolso": 0.84
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 10,
+      "p50": 119,
+      "p80": 370,
+      "p90": 480
+     },
+     "chance_quebra": 0.37,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 43,
+      "p50": 534,
+      "p80": 1660,
+      "p90": 2154
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.2,
+      "p50": 2.0,
+      "p80": 6.2,
+      "p90": 8.0
+     },
+     "chance_nao_paga_semente": 0.26,
+     "chance_nao_paga_desembolso": 0.87
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 0,
+      "p20": 10,
+      "p50": 119,
+      "p80": 370,
+      "p90": 480
+     },
+     "chance_quebra": 0.37,
+     "receita_r2025_ha": {
+      "p10": 0,
+      "p20": 43,
+      "p50": 534,
+      "p80": 1660,
+      "p90": 2154
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "sacos60_ha": {
+      "p10": 0.0,
+      "p20": 0.2,
+      "p50": 2.0,
+      "p80": 6.2,
+      "p90": 8.0
+     }
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 517,
+    "2016": 4,
+    "2024": 69
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.8
+  },
+  "Mandioca": {
+   "mediana_1998_2025_kg_ha": 8000,
+   "n_anos": 28,
+   "n_anos_el_nino_forte": 3,
+   "peso_municipio_2027": 0.23,
+   "peso_municipio_clima": 0.74,
+   "preco_r2025_kg": 1.69,
+   "custo_r2025_ha": {
+    "semente": 0,
+    "desembolso": 4387
+   },
+   "anos": {
+    "2027": {
+     "kg_ha": {
+      "p10": 2190,
+      "p20": 4539,
+      "p50": 8462,
+      "p80": 10663,
+      "p90": 13148
+     },
+     "chance_quebra": 0.15,
+     "receita_r2025_ha": {
+      "p10": 3699,
+      "p20": 7666,
+      "p50": 14292,
+      "p80": 18010,
+      "p90": 22208
+     },
+     "base": "ONI ago–out ≥ 1,0 (safras 1998, 2016, 2024); ONI 2026 = 2,46 fora da série (extrapolação)",
+     "chance_nao_paga_desembolso": 0.12
+    },
+    "2028": {
+     "kg_ha": {
+      "p10": 3251,
+      "p20": 6331,
+      "p50": 8000,
+      "p80": 11816,
+      "p90": 13056
+     },
+     "chance_quebra": 0.08,
+     "receita_r2025_ha": {
+      "p10": 5492,
+      "p20": 10693,
+      "p50": 13513,
+      "p80": 19959,
+      "p90": 22052
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)",
+     "chance_nao_paga_desembolso": 0.05
+    },
+    "2029": {
+     "kg_ha": {
+      "p10": 3251,
+      "p20": 6331,
+      "p50": 8000,
+      "p80": 11816,
+      "p90": 13056
+     },
+     "chance_quebra": 0.08,
+     "receita_r2025_ha": {
+      "p10": 5492,
+      "p20": 10693,
+      "p50": 13513,
+      "p80": 19959,
+      "p90": 22052
+     },
+     "base": "só clima: todos os anos 1998–2025 (sem previsão do oceano)"
+    }
+   },
+   "medido_anos_parecidos_kg_ha": {
+    "1998": 10000,
+    "2016": 12000,
+    "2024": 8000
+   },
+   "chance_ao_menos_1_quebra_2027_2029": 0.28
+  }
+ }
+}

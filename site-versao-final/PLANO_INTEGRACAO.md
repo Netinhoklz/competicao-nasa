@@ -1,0 +1,93 @@
+# QUADRA, versão final: plano de integração
+
+14/11/2026, 18h. Base: análise de 10 agentes (pasta `analise/`, um relatório por ângulo e `00_resumos_e_recomendacoes.md`).
+Entrega: 15/11/2026, 23:59.
+
+## O que entra de cada um
+
+| Parte | Origem | O que entra no site final |
+|---|---|---|
+| José | `protótipo/` (branch `estudo-jose`, commit e7a23b5) e `notebooks/estudo_financeiro` | O núcleo: motor (GAEZ + ZARC + POWER + catálogo + El Niño + SMAP), cardápio, plano A/B/C + baixio + bordas, calendário até dez/2027, base do financeiro |
+| João Pedro | `colegas/joao-pedro/site-nasa` (branch `estudo-jp`, 29f81f6) | A casca: globo 3D, mergulho até o Nordeste, mapa dos 1.794 municípios, painel "Roça Certa" ao lado do mapa (aba Inverno 2027) |
+| Vicente | `colegas/vicente/pesquisa_vicente` e `interface-inicial-vicente` (branch `estudo-vicente`, 18fd0e3) | A distribuição no roçado: faixas intercaladas no lugar de blocos (limiar de percolação), a pergunta do solo com as palavras dele ("seca rápido / segura / encharca") e o simulador PercolaCampo como modelo teórico ilustrativo |
+
+## Decisões (resolvem as divergências entre os agentes)
+
+1. **Uma pilha só.** Um servidor Python só com a biblioteca padrão (`servidor.py`, porta 8090) serve o site estático (`web/`) e a
+   API (`/api/local`, `/api/municipios`). O núcleo é uma cópia do motor do protótipo (`nucleo/motor.py`, com a origem no cabeçalho),
+   porque o site final muda o motor (solo "não sei", maniva, financeiro, projeção) e o protótipo fica como registro da versão
+   revisada. Nada de Flask nem de Node no produto.
+2. **Um globo só: o do João Pedro**, convertido para estático (sem Flask), com a busca local dos 1.794 municípios. O `site-nasa-v2/`
+   (JS puro, autor não confirmado) fica de fora; só as bibliotecas de terceiros da pasta `vendor/` podem ser reaproveitadas.
+3. **Uma definição de El Niño:** a do motor. ONI de out–dez/nov–jan ≥ 1,5 → quadras de 1998, 2010, 2016 e 2024. O painel do João
+   Pedro (que usava ONI ≥ 0,5, 6 anos) e a projeção (que usava 3 anos) passam a usar essa. O estado é a manchete, em frequência
+   ("em X de 10 municípios do CE..."); o município é o detalhe ("o que aconteceu aqui, não é previsão").
+4. **As perguntas entram depois das opções e antes do plano.** O lugar sozinho já dá o cardápio, as janelas e o El Niño, e os padrões
+   saem do Censo Agro 2017. Bloco 1 ("Sua roça", antes da distribuição): terra, tamanho e baixio, água, mandioca/maniva, criação.
+   Bloco 2 ("Seu bolso", na entrada do dinheiro): prioridade, preço da raiz e nível de custo. Toda pergunta tem "não sei".
+5. **Do PercolaCampo entram a ideia e a geometria, não os números.** O R_eff, o "% de plantas protegidas" e as constantes do motor do
+   Vicente não estão nos artigos da pasta dele (grau D; ver `analise/vicente.md`). O que tem fonte: o limiar de percolação
+   (0,593 em malha quadrada) e a ideia de que faixas intercaladas separam o hospedeiro em pedaços. O site calcula a conectividade
+   de verdade sobre o desenho do roçado (blocos de gramínea, se descem até o baixio) e diz o limite: não segura praga que voa
+   (lagarta-do-cartucho, bicudo).
+6. **Solo "não sei" = a janela que vale em todos os solos** (interseção), com o trecho que depende da terra à parte. Hoje o motor usa
+   o melhor caso, o que contraria a regra 3.5 da proposta.
+7. **Financeiro = refazer o plano nos anos que já aconteceram no município** (PAM 1998–2025, R$ de 2025): 2027 entre os 4 El Niños
+   fortes, 2028 e 2029 entre os 28 anos, o mesmo ano para todas as culturas (3.136 sequências). Plano contra o jeito de hoje
+   (milho + feijão). Só milho, feijão e mandioca têm série; forragem e perenes ficam sem R$.
+8. **Projeção por ciclo = quantis do município encolhidos para a mesorregião, com 2027 condicionado ao El Niño e alargamento
+   conforme** (backtest em 1.783 municípios: cobertura de 80% em 0,78; ver `analise/projecao.md`). Na tela: "em 8 de 10 anos
+   parecidos você colhe pelo menos X", a grade de 10 roças e o que o município colheu de fato nos anos de El Niño forte.
+   Não dá para projetar: seca de vários anos, a roça de uma família, o efeito da rotação, preço futuro.
+9. **Todo número leva um selo:** MEDIDO, SUPOSIÇÃO ou PROJEÇÃO, com a fonte ao passar o mouse.
+
+## A jornada
+
+```
+index.html (globo do João Pedro) ─ escolhe o município ─ mergulho ─ mapa + painel Roça Certa
+        └─ botão "Montar o plano do meu roçado" ─► roca.html#/<cod>/<passo>
+              1 O lugar        o que os dados permitem, sem perguntar nada (hoje medido, El Niño, cardápio, janela aberta agora)
+              2 Sua roça       5 perguntas, todas com "não sei" (padrão do Censo)
+              3 Como plantar   roçado visto de cima em escala, faixas A-B-C-A-B-C (Vicente), ano 2027/28/29, mês a mês,
+                               calendário de plantio e colheita, o que fazer agora
+              4 Quanto rende   plano × jeito de hoje, caixa mês a mês, "se 2027 for como 1998/2010/2016/2024"
+              5 Segurança      leque por colheita (2027, 2028, 2029), grade de 10 roças, o que já aconteceu aqui
+```
+
+## Pastas
+
+```
+site-versao-final/
+  servidor.py                 servidor stdlib: web/ + /api
+  nucleo/motor.py             cópia do motor do protótipo, com as mudanças do site final
+  dados/                      JSON gerados (financeiro, projeção, padrões do Censo) que a API serve por município
+  ferramentas/                scripts que geram dados/ (e origem_analise/: os scripts dos agentes)
+  web/index.html              globo, mergulho, mapa e painel (João Pedro)
+  web/roca.html               a jornada em 5 passos
+  web/js/passos/*.js          um arquivo por passo
+  web/dados/                  dados estáticos lidos pelo navegador (malha, El Niño por estado)
+  web/modulos/percolacampo/   simulador do Vicente (modelo teórico, ilustrativo)
+  analise/                    os 10 relatórios
+  CREDITOS.md                 arquivo → autor → branch@commit → o que mudou
+```
+
+## Contrato da API (`GET /api/local?lat=&lon=` ou `?cod=`)
+
+O JSON do protótipo (local, clima, analogos, confianca, cardapio, este_ano, plano, agenda, evidencia, fontes) mais:
+- parâmetros novos: `textura` (1–3), `ad` (11–16), `ad_baixio` (11–16), `maniva` (tem | nao | plantada), `hoje` (AAAA-MM-DD);
+- `financeiro`: série e faixas por cultura do município (contrato em `analise/financeiro.md`, seção 3);
+- `projecao`: quantis por cultura e ano 2027–2029 (contrato em `analise/projecao.md`, seção 7);
+- `padroes`: padrões do Censo 2017 para as perguntas (`rocado_ha`, `pct_irrig`, `pct_cisterna`, `pct_semente_milho`, ...);
+- `el_nino_uf`: a manchete do estado com a definição única.
+
+## O que fica para depois da entrega
+
+Publicação estática para o júri (repositório público: decisão do José), modo sem internet completo, versão em inglês dos rótulos,
+vento e declive no desenho do roçado, perguntas da temporada (data de plantio, pluviômetro), portarias plurianuais fora do CE.
+
+## Pedidos aos colegas
+
+- João Pedro: subir `conselho/analises/jp_analogos_atlantico.py` e `pesquisa/embasamento_painel_nordeste.md`, citados no README dele
+  e ausentes do branch. Até lá, o "AUC ≈ 0,5" não aparece no site.
+- Vicente: dizer de onde vêm as constantes do PercolaCampo (k das faixas e do xadrez, χc 0,88–0,92, q, α, d0) e conferir o DOI do
+  González-Martínez 2026. Até lá, esses números não aparecem.

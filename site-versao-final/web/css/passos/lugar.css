@@ -1,0 +1,39 @@
+/* passo 1, "O lugar" */
+.hoje-cartao ul { margin: 0; padding-left: 18px; }
+.hoje-cartao li { margin: 4px 0; font-size: 14px; }
+.hoje-grade > div { background: var(--surface-2); border-radius: 12px; padding: 4px 12px 10px; }
+.alerta-cartao { border-left: 6px solid var(--terra); }
+.enso { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: center; }
+.enso-num p { margin: 6px 0 0; }
+.enso-barras { width: 100%; max-width: 320px; }
+.enso-barra { fill: var(--terra); }
+.enso-acaso { stroke: var(--muted); stroke-dasharray: 4 3; stroke-width: 1; }
+.enso-val { font-size: 11px; fill: var(--ink); font-weight: 700; }
+.enso-ano { font-size: 10px; fill: var(--muted); }
+.regua { position: relative; height: 54px; background: var(--surface-2); border-radius: 10px; margin: 6px 0 4px; overflow: hidden; }
+.regua-chuva { position: absolute; top: 0; height: 30px; background: var(--blue-soft); border-bottom: 3px solid var(--blue); }
+.regua-inicio { position: absolute; top: 10px; height: 10px; background: var(--green); opacity: .35; border-radius: 5px; }
+.regua-mediana { position: absolute; top: 4px; width: 3px; height: 22px; background: var(--green); transform: translateX(-1px); }
+.regua-meses span { position: absolute; top: 34px; font-size: 11px; color: var(--muted); padding-left: 3px; border-left: 1px solid var(--border); height: 20px; }
+.regua-legenda { font-size: 13px; margin: 4px 0; }
+.ch-chuva, .ch-inicio { display: inline-block; width: 14px; height: 10px; border-radius: 3px; vertical-align: middle; margin: 0 4px 0 8px; }
+.ch-chuva { background: var(--blue-soft); border-bottom: 3px solid var(--blue); }
+.ch-inicio { background: var(--green); opacity: .5; }
+.cardapio-grupo h3 { display: flex; align-items: center; gap: 8px; }
+.bolinha { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.bolinha.b-ok { background: var(--green); } .bolinha.b-apto { background: var(--blue); } .bolinha.b-risco { background: var(--amber); }
+.bolinha.b-lit { background: #7a5ba6; }
+.cardapio-blocos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.bloco-cultura { border-radius: 12px; padding: 10px 12px; border: 1px solid var(--border); border-top: 5px solid var(--muted); background: var(--surface); }
+.bloco-cultura.b-ok { border-top-color: var(--green); background: var(--green-soft); }
+.bloco-cultura.b-apto { border-top-color: var(--blue); background: var(--blue-soft); }
+.bloco-cultura.b-risco { border-top-color: var(--amber); background: var(--amber-soft); }
+.bloco-cultura.b-lit { border-top-color: #7a5ba6; }
+.bc-topo { display: flex; justify-content: space-between; gap: 6px; align-items: baseline; }
+.bc-topo b { font-size: 15px; }
+.bc-selo { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.bc-papel { font-size: 12px; color: var(--muted); margin: 2px 0 6px; }
+.bc-jan { font-size: 13px; }
+.cta-lugar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 18px 0; }
+.cta-lugar .botao { text-decoration: none; }
+@media (max-width: 760px) { .enso { grid-template-columns: 1fr; } }

@@ -1,0 +1,157 @@
+/* passo seguranca: leque por colheita, grade de 10 roças, quadro dos 28 anos, portões. Só tokens de quadra.css. */
+.passo-seguranca .seg-n { flex: 0 0 auto; font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1; white-space: nowrap; color: var(--ink); }
+.passo-seguranca .seg-ico { width: 26px; height: 26px; flex: 0 0 26px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2);
+  font-weight: 700; color: var(--muted); font-size: 14px; }
+
+/* 1. hoje */
+.seg-hoje { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 18px; }
+.seg-hoje ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.seg-hoje li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+.seg-hoje h3 { margin-top: 0; }
+.seg-sabe { border-left: 4px solid var(--s-medido); padding-left: 14px; }
+.seg-naosabe { border-left: 4px dashed var(--border); padding-left: 14px; }
+.seg-hoje-oni .seg-n, .seg-hoje-uf .seg-n { min-width: 74px; color: var(--terra); }
+.seg-hoje-uf .seg-n { min-width: 0; }
+.seg-uf-anos { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 4px 0; font-size: 13px; }
+
+/* legenda */
+.seg-legenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink); margin: 8px 0 12px; }
+.seg-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.seg-legenda .sw { width: 22px; height: 12px; border-radius: 3px; display: inline-block; flex: 0 0 auto; }
+.sw-90 { background: var(--blue); opacity: .22; }
+.sw-80 { background: var(--blue); opacity: .6; }
+.sw-50 { width: 4px !important; background: var(--ink); }
+.sw-normal { width: 0 !important; height: 14px !important; border-left: 2px dashed var(--muted); border-radius: 0 !important; }
+
+/* 2. ciclos */
+.seg-ano { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+.seg-ano-cab { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 6px; }
+.seg-ano-n { font-family: var(--display); font-size: 30px; font-weight: 700; line-height: 1; }
+.seg-ano-cab p { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: 760px; }
+.seg-aviso-ano { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--terra-soft); color: var(--ink);
+  border: 1px solid var(--terra); }
+.seg-aviso-ano.clima { background: var(--surface-2); border-color: var(--border); }
+.seg-ciclo { display: grid; grid-template-columns: minmax(180px, 1.15fr) minmax(0, 2.3fr) minmax(170px, 1.1fr); gap: 14px; align-items: center;
+  padding: 6px 0; border-bottom: 1px dashed var(--border); }
+.seg-ciclo:last-child { border-bottom: 0; }
+.seg-ciclo-cab { display: flex; gap: 10px; align-items: flex-start; border-left: 5px solid var(--cor); padding-left: 10px; }
+.seg-parte { flex: 0 0 auto; min-width: 30px; height: 26px; padding: 0 6px; border-radius: 7px; background: var(--fundo); color: var(--ink); display: grid;
+  place-items: center; font-weight: 700; font-size: 12px; }
+.seg-cult { display: block; font-size: 15px; }
+.seg-mes { display: block; font-size: 13px; color: var(--muted); }
+.seg-mes b { color: var(--ink); font-weight: 600; }
+.seg-ciclo-sem { grid-column: span 2; font-size: 13px; color: var(--muted); font-style: italic; }
+.seg-ciclo.sem { padding: 6px 0; }
+.seg-ciclo-un { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.seg-ciclo-num { font-size: 13px; display: grid; gap: 2px; }
+.seg-ciclo-num b { font-size: 14px; }
+.seg-ciclo-rs { color: var(--muted); }
+.seg-ciclo-rs b { color: var(--ink); }
+
+/* leque */
+.seg-leque { position: relative; padding-top: 16px; }
+.seg-leque-svg { display: block; width: 100%; height: 26px; }
+.seg-leque-svg .lq-fundo { fill: var(--surface-2); }
+.seg-leque-svg .lq-90 { fill: var(--blue); fill-opacity: .22; }
+.seg-leque-svg .lq-80 { fill: var(--blue); fill-opacity: .6; }
+.seg-leque-svg .lq-p50 { stroke: var(--ink); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.seg-leque-svg .lq-normal { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+.seg-leque-normal { position: absolute; top: 0; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
+.seg-leque-corta { position: absolute; right: 0; top: 0; font-size: 11px; color: var(--ink); font-weight: 600; }
+.seg-leque-eixo { position: relative; height: 15px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); }
+.seg-leque-eixo span { position: absolute; top: 1px; transform: translateX(-50%); }
+.seg-leque-eixo span:first-child { transform: none; }
+.seg-leque-eixo span:last-child { transform: translateX(-100%); }
+
+/* 3. cartões por cultura */
+.seg-cult-cab { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.seg-cult-grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.seg-cult-grade > div { min-width: 0; }
+.seg-cult-grade p { font-size: 14px; margin: 4px 0 8px; }
+.seg-grades { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.seg-grades figure { margin: 0; }
+.seg-grades figcaption { font-size: 12px; margin-top: 4px; }
+.seg-grade { width: 100%; max-width: 150px; display: block; }
+.seg-grade .rc-ok { fill: var(--green-soft); stroke: var(--green); stroke-width: 1.2; }
+.seg-grade .rc-quebra { fill: var(--terra); stroke: var(--terra); stroke-width: 1.2; }
+.seg-grade .rc-linha { stroke: var(--green); stroke-width: 1.4; stroke-linecap: round; opacity: .7; }
+.seg-grade .rc-linha-q { stroke: var(--surface); stroke-width: 1.4; stroke-linecap: round; opacity: .55; }
+.seg-piso { border-left: 4px solid var(--green); padding-left: 8px; }
+.seg-piso.sem { border-left-color: var(--terra); }
+.seg-frase-rs { font-weight: 600; }
+.seg-tab-rs { font-size: 13px; }
+.seg-tab-rs td, .seg-tab-rs th { padding: 4px 6px; }
+.seg-tab-rs tr.atual td { background: var(--amber-soft); }
+
+/* barras dos anos parecidos */
+.seg-anos { margin-top: 6px; }
+.seg-anos-area { position: relative; height: 92px; display: flex; gap: 8px; align-items: flex-end; border-bottom: 1px solid var(--border); padding-top: 14px; }
+.seg-anos-col { position: relative; flex: 1 1 0; height: 100%; display: flex; align-items: flex-end; }
+.seg-anos-barra { width: 100%; background: var(--s-medido); border-radius: 4px 4px 0 0; opacity: .85; }
+.seg-anos-col b { position: absolute; left: 50%; transform: translate(-50%, -2px); font-size: 12px; color: var(--ink); background: var(--surface);
+  padding: 0 3px; border-radius: 3px; z-index: 2; line-height: 1.2; }
+.seg-anos-normal { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--muted); z-index: 1; pointer-events: none; }
+.seg-anos-leg { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.seg-anos-leg i { width: 18px; border-top: 2px dashed var(--muted); }
+.seg-anos-rot { display: flex; gap: 8px; font-size: 11px; color: var(--muted); }
+.seg-anos-rot span { flex: 1 1 0; text-align: center; }
+
+/* 5. quadro dos 28 anos */
+.seg-quadro-linha { margin: 10px 0 14px; }
+.seg-quadro-rot { display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; font-size: 14px; margin-bottom: 4px; }
+.seg-quadro { display: grid; grid-template-columns: repeat(28, minmax(0, 1fr)); gap: 3px; }
+.q-cel { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.q-cel i { display: block; width: 100%; aspect-ratio: 1; border-radius: 4px; background: var(--idle-soft); }
+.q-cel span { font-size: 10px; color: var(--muted); }
+.q-verde i, .sw.q-verde { background: var(--green); }
+.q-ambar i, .sw.q-ambar { background: var(--amber); }
+.q-vermelho i, .sw.q-vermelho { background: var(--terra); }
+.q-viz i { opacity: .5; }
+.q-forte i { outline: 2px solid var(--ink); outline-offset: 1px; }
+.q-forte span { color: var(--ink); font-weight: 700; }
+.sw.q-forte-sw { background: transparent; outline: 2px solid var(--ink); outline-offset: -2px; width: 14px !important; height: 14px !important; }
+
+/* 6. portões */
+.seg-linha-tempo { list-style: none; margin: 10px 0 14px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.seg-linha-tempo li { border-top: 4px solid var(--blue); padding-top: 6px; font-size: 13px; display: grid; gap: 2px; }
+.seg-linha-tempo li b { font-family: var(--display); font-size: 18px; }
+.seg-cen { position: relative; margin: 6px 0 8px; }
+.seg-cen-linha { display: grid; grid-template-columns: minmax(150px, 1.3fr) minmax(0, 2fr) minmax(110px, .8fr); gap: 10px; align-items: center; padding: 4px 0; font-size: 13px; }
+.seg-cen-barra { position: relative; height: 16px; background: var(--surface-2); border-radius: 4px; }
+.seg-cen-barra i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: var(--blue); opacity: .65; }
+.c-seco .seg-cen-barra i { background: var(--terra); }
+.c-bom .seg-cen-barra i { background: var(--green); }
+.c-hoje .seg-cen-barra i { background: var(--blue); opacity: .35; }
+.seg-cen-normal { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--muted); }
+.seg-cen-eixo { position: relative; height: 16px; font-size: 11px; color: var(--muted); }
+.seg-cen-eixo-l { padding-top: 0; }
+.seg-cen-eixo span { position: absolute; transform: translateX(-50%); }
+.seg-cen-eixo span:first-child { transform: none; }
+.seg-cen-eixo span:last-child { transform: translateX(-100%); }
+.seg-tab-portao { margin-top: 8px; font-size: 13px; }
+.seg-tab-portao tr.c-seco td:first-child { border-left: 4px solid var(--terra); }
+.seg-tab-portao tr.c-meio td:first-child { border-left: 4px solid var(--blue); }
+.seg-tab-portao tr.c-bom td:first-child { border-left: 4px solid var(--green); }
+
+/* 7. limites e calibrador */
+.seg-nao { margin: 6px 0 0; padding-left: 18px; font-size: 14px; display: grid; gap: 5px; }
+.seg-calib { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 8px; }
+.seg-calib li { display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.seg-calib .seg-n { min-width: 120px; color: var(--blue); }
+
+@media (max-width: 1100px) {
+  .seg-cult-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .seg-hoje { grid-template-columns: 1fr; }
+  .seg-ciclo { grid-template-columns: 1fr; gap: 6px; }
+  .seg-ciclo-sem { grid-column: auto; }
+  .seg-ciclo.sem > div:last-child { display: none; }
+  .seg-cult-grade { grid-template-columns: 1fr; }
+  .seg-quadro { grid-template-columns: repeat(14, minmax(0, 1fr)); }
+  .seg-linha-tempo { grid-template-columns: 1fr; }
+  .seg-cen-linha { grid-template-columns: 1fr; gap: 3px; }
+  .seg-cen-eixo-l > div:empty { display: none; }
+  .passo-seguranca .seg-n { font-size: 22px; }
+  .seg-ano-n { font-size: 24px; }
+}
