@@ -1,0 +1,41 @@
+linhas 11768; sitios 417; paises 54
+
+===== S1. MAT e AI com e sem efeito fixo de geografia (toda a base) =====
+
+[sem EF] n=11768 sitios=417 R2=0.153
+   MAT5   b=+0.0202 lnRR (IC95 +0.0058 a +0.0346) p=0.006  ~ +2.0%
+   AI01   b=-0.0012 lnRR (IC95 -0.0102 a +0.0077) p=0.787  ~ -0.1%
+   N50    b=-0.0643 lnRR (IC95 -0.0776 a -0.0510) p=0.000  ~ -6.2%
+   CD2    b=-0.0243 lnRR (IC95 -0.0355 a -0.0131) p=0.000  ~ -2.4%
+
+[EF continente] n=11768 sitios=417 R2=0.170
+   MAT5   b=+0.0167 lnRR (IC95 -0.0025 a +0.0360) p=0.089  ~ +1.7%
+   AI01   b=-0.0008 lnRR (IC95 -0.0088 a +0.0071) p=0.837  ~ -0.1%
+   N50    b=-0.0642 lnRR (IC95 -0.0784 a -0.0501) p=0.000  ~ -6.2%
+   CD2    b=-0.0270 lnRR (IC95 -0.0380 a -0.0160) p=0.000  ~ -2.7%
+
+[EF pais] n=11768 sitios=417 R2=0.241
+   MAT5   b=+0.0190 lnRR (IC95 -0.0042 a +0.0422) p=0.109  ~ +1.9%
+   AI01   b=+0.0041 lnRR (IC95 -0.0035 a +0.0116) p=0.294  ~ +0.4%
+   N50    b=-0.0621 lnRR (IC95 -0.0766 a -0.0475) p=0.000  ~ -6.0%
+   CD2    b=-0.0214 lnRR (IC95 -0.0313 a -0.0114) p=0.000  ~ -2.1%
+
+===== S2. So sitios de sequeiro com N <= 50 (o caso do sertao) =====
+
+[sequeiro, N<=50, sem EF] n=1584 sitios=109 R2=0.111
+   MAT5   b=+0.0266 lnRR (IC95 -0.0167 a +0.0700) p=0.228  ~ +2.7%
+   AI01   b=+0.0104 lnRR (IC95 -0.0152 a +0.0360) p=0.426  ~ +1.0%
+   N50    b=-0.2113 lnRR (IC95 -0.3519 a -0.0707) p=0.003  ~ -19.0%
+   CD2    b=-0.0738 lnRR (IC95 -0.1070 a -0.0406) p=0.000  ~ -7.1%
+
+[sequeiro, N<=50, EF pais] n=1584 sitios=109 R2=0.308
+   MAT5   b=-0.0018 lnRR (IC95 -0.0395 a +0.0358) p=0.923  ~ -0.2%
+   AI01   b=+0.0229 lnRR (IC95 -0.0074 a +0.0532) p=0.139  ~ +2.3%
+   N50    b=-0.1862 lnRR (IC95 -0.2726 a -0.0999) p=0.000  ~ -17.0%
+   CD2    b=-0.0698 lnRR (IC95 -0.0926 a -0.0469) p=0.000  ~ -6.7%
+
+===== S3. Quanto do 'quente' e Africa? efeito medio por MAT dentro e fora da Africa =====
+   Africa          MAT < 20  n=  377 sitios=  18 media ponderada +44.3%  N mediano 20
+   Africa          MAT >= 20 n=  463 sitios=  40 media ponderada +44.0%  N mediano 15
+   fora da Africa  MAT < 20  n=10327 sitios= 309 media ponderada +16.3%  N mediano 78
+   fora da Africa  MAT >= 20 n=  601 sitios=  51 media ponderada +17.7%  N mediano 70

@@ -88,3 +88,47 @@ Climatologia 1998-2025: chuva nos 30 d apos 22/nov (decomposicao) e total nov-ab
      sm_rootzone_pctl presente em 28% dos dias 2015-2026
   Quixada-CE                   mediana raiz 15/mar 0.163 15/abr 0.204 15/mai 0.207 | queda mar->mai -0.040 | pctl disponivel 15/mai em 10/10 anos
      por ano (15/abr raiz, pctl): 2016:0.179/41  2017:0.223/86  2018:0.219/80  2019:0.217/74  2020:0.184/45  2021:0.165/25  2022:0.193/52  2023:0.216/72  2024:0.217/75  2025:0.180/42
+     sm_rootzone_pctl presente em 67% dos dias 2015-2026
+
+SMAP L4 superficie (0-5 cm): data de secagem = 1o dia apos 1/mar em que a media movel de 7 d cai abaixo de (media de mar + media de set)/2 da propria celula (regra pre-declarada); x chuva IMERG 16/abr-15/mai
+  Bom Jesus-PI                 limiar 0.149 | data mediana 07/05 (min 02/03, max 04/07) | Spearman com chuva 16/abr-15/mai = +0.07 (n=10)
+     2016:02/03  2017:29/04  2018:31/05  2019:19/06  2020:04/07  2021:25/05  2022:15/05  2023:06/03  2024:14/03  2025:07/03
+  Urucui-PI                    limiar 0.095 | data mediana 07/04 (min 01/03, max 10/05) | Spearman com chuva 16/abr-15/mai = +0.32 (n=10)
+     2016:02/03  2017:06/05  2018:04/04  2019:10/05  2020:05/04  2021:10/04  2022:01/03  2023:22/04  2024:04/05  2025:05/03
+  Balsas-MA                    limiar 0.175 | data mediana 05/06 (min 05/03, max 27/06) | Spearman com chuva 16/abr-15/mai = +0.60 (n=10)
+     2016:05/03  2017:19/06  2018:18/05  2019:13/06  2020:27/06  2021:07/06  2022:03/06  2023:09/06  2024:14/03  2025:24/05
+  Luis Eduardo Magalhaes-BA    limiar 0.107 | data mediana 11/04 (min 02/03, max 10/05) | Spearman com chuva 16/abr-15/mai = +0.07 (n=10)
+     2016:02/03  2017:14/04  2018:05/05  2019:10/05  2020:06/04  2021:29/03  2022:09/04  2023:29/04  2024:05/05  2025:06/03
+  Quixada-CE                   limiar 0.133 | data mediana 23/07 (min 01/03, max 08/08) | Spearman com chuva 16/abr-15/mai = -0.28 (n=10)
+     2016:02/03  2017:07/08  2018:11/03  2019:04/08  2020:30/07  2021:01/03  2022:01/03  2023:26/07  2024:08/08  2025:21/07
+
+== E. Lagoa Seca-PB: IMERG x chuva de campo (Embrapa Documentos 266: 389 mm em 2015, 184 mm em 2016) ==
+  semeadura 2015-06-05 (campo 389 mm): 90d:45  100d:45  110d:45  120d:45  130d:45  150d:45
+  semeadura 2016-04-19 (campo 184 mm): 90d:114  100d:114  110d:114  120d:114  130d:114  150d:114
+  IMERG anual Lagoa Seca 2014-2017: {2014: 361, 2015: 253, 2016: 531, 2017: 414} | mediana 1998-2025: 439
+  IMERG mensal (mm) 2015 abr-out: {'Apr': 34, 'May': 22, 'Jun': 20, 'Jul': 30, 'Aug': 0, 'Sep': 0, 'Oct': 0} | 2016 mar-set: {'Mar': 69, 'Apr': 121, 'May': 101, 'Jun': 11, 'Jul': 2, 'Aug': 0, 'Sep': 6}
+  ERA5 0,25 grau, semeadura 2015-06-05 (campo 389 mm): 90d:165  120d:187  150d:206
+  ERA5 0,25 grau, semeadura 2016-04-19 (campo 184 mm): 90d:129  120d:145  150d:177
+  GLDAS Noah forcante (mm/mes) 2015 jun-set: {'Jun': 38, 'Jul': 45, 'Aug': 3, 'Sep': 0} | 2016 abr-ago: {'Apr': 164, 'May': 146, 'Jun': 71, 'Jul': 23, 'Aug': 5}
+  Anual (mm), 2001-2020, mediana: IMERG / ERA5 / GLDAS forcante
+  Lagoa Seca-PB       439 /    594 /    706   razao IMERG/ERA5 0.74
+  Bom Jesus-PI        926 /    937 /   1048   razao IMERG/ERA5 0.99
+  Balsas-MA          1304 /   1325 /   1563   razao IMERG/ERA5 0.98
+  Juazeiro-BA         424 /    339 /    465   razao IMERG/ERA5 1.25
+  Quixada-CE          783 /    696 /    924   razao IMERG/ERA5 1.12
+
+== F. Juazeiro-BA (Pimentel 2011: 'chuva entre 250 e 500 mm de novembro a marco') ==
+  IMERG mensal ago/2006-ago/2007: Aug06:1  Sep06:1  Oct06:41  Nov06:79  Dec06:38  Jan07:7  Feb07:260  Mar07:8  Apr07:47  May07:3  Jun07:4  Jul07:0  Aug07:0
+  nov-mar 1998/99-2024/25: mediana 338, p10 199, p90 468, fora de 250-500 em 26% dos anos | 2006/07 = 393 mm
+  anual mediana 445 mm; nov-mar / ano (mediana) 76%
+
+== G. Veranico IMERG (maior sequencia de dias < 2 mm em 1/jan-31/mar) x rendimento IBGE por UF ==
+  Regras pre-declaradas: rendimento sem tendencia = razao para a reta OLS 1999-2025; Spearman; ano IBGE t = safra (t-1)/t
+  PI soja  n=27  rho(veranico) linear=-0.40 log=-0.45  rho(chuva nov-abr) linear=+0.31  min razao linear=0.40 | 3 piores (log): 2016 (0.41; veranico 10 d), 2002 (0.48; veranico 19 d), 2013 (0.65; veranico 10 d)
+  PI milho n=27  rho(veranico) linear=-0.05 log=-0.38  rho(chuva nov-abr) linear=+0.12  min razao linear=-8.69 | 3 piores (log): 2002 (0.46; veranico 19 d), 2007 (0.56; veranico 12 d), 2016 (0.59; veranico 10 d)
+  MA soja  n=27  rho(veranico) linear=-0.11 log=-0.13  rho(chuva nov-abr) linear=+0.22  min razao linear=0.55 | 3 piores (log): 2016 (0.55; veranico 12 d), 2001 (0.93; veranico 7 d), 2006 (0.94; veranico 7 d)
+  MA milho n=27  rho(veranico) linear=+0.05 log=-0.25  rho(chuva nov-abr) linear=-0.09  min razao linear=0.64 | 3 piores (log): 2016 (0.73; veranico 12 d), 2010 (0.80; veranico 5 d), 2012 (0.85; veranico 7 d)
+  BA soja  n=27  rho(veranico) linear=-0.52 log=-0.53  rho(chuva nov-abr) linear=+0.22  min razao linear=0.65 | 3 piores (log): 2016 (0.66; veranico 11 d), 2013 (0.77; veranico 12 d), 2003 (0.81; veranico 7 d)
+  BA milho n=27  rho(veranico) linear=-0.10 log=-0.19  rho(chuva nov-abr) linear=+0.24  min razao linear=0.64 | 3 piores (log): 2006 (0.67; veranico 15 d), 2019 (0.83; veranico 7 d), 2002 (0.85; veranico 15 d)
+
+Cobertura do recorte NE (-48,8 a -34,7 lon): Tocantins (MATOPIBA, regiao Norte) fica em boa parte a oeste de -48,8; o recorte atual cobre MA, PI e BA do MATOPIBA, nao o TO inteiro.

@@ -73,7 +73,7 @@ G = {c: dia.pivot(index="data", columns="estacao", values=c).reindex(columns=ids
 
 def anom(x):
     clim = x.groupby(x.index.dayofyear).mean()
-    clim = pd.concat([clim.iloc[-15:], clim, clim.iloc[:15]]).rolling(31, center=True).mean().iloc[15:-15]
+    clim = pd.concat([clim.iloc[-15:], clim, clim.iloc[:15]]).rolling(31, center=True, min_periods=5).mean().iloc[15:-15]
     return x - clim.reindex(x.index.dayofyear).values
 
 

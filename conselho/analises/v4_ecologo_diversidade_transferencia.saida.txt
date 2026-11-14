@@ -1,0 +1,49 @@
+=== A. Onde o semiarido cai no gradiente de chuva dos 11 experimentos de Bowles 2020 ===
+Bowles: CO 406 mm sem ganho; SD 582 mm ganho so em seca; 664-1.074 mm ganho na maioria dos sitios
+
+Semiarido 2022: n=1254 municipios; mediana 715 mm (p10 448, p90 1016)
+   < 406 (abaixo do sitio mais seco)               3.4%
+   406-582 (CO-SD: sem ganho / so na seca)        25.9%
+   582-664                                        12.6%
+   664-1.074 (faixa com ganho)                    49.9%
+   > 1.074 (acima do mais umido)                   8.1%
+
+Fora do semiarido (NE): n=540 municipios; mediana 973 mm (p10 569, p90 1948)
+   < 406 (abaixo do sitio mais seco)               0.0%
+   406-582 (CO-SD: sem ganho / so na seca)        11.5%
+   582-664                                         8.0%
+   664-1.074 (faixa com ganho)                    37.0%
+   > 1.074 (acima do mais umido)                  43.5%
+
+Ceara (todos): n=184 municipios; mediana 852 mm (p10 700, p90 1039)
+   < 406 (abaixo do sitio mais seco)               0.0%
+   406-582 (CO-SD: sem ganho / so na seca)         0.0%
+   582-664                                         7.6%
+   664-1.074 (faixa com ganho)                    86.4%
+   > 1.074 (acima do mais umido)                   6.0%
+
+=== B. Linha de base: diversidade da carteira de lavouras temporarias (PAM NE, media 2015-2024) ===
+Semiarido 2022: n=921; Simpson inverso mediana 2.04 (p10 1.59, p90 2.79); % com Simpson < 1,5 = 8%
+   riqueza funcional (grupos com >= 5% da area): {1: 2.2, 2: 55.2, 3: 42.7}
+   fracao de area do feijao (leguminosa): mediana 41%; do milho: mediana 50%
+Fora do semiarido: n=266; Simpson inverso mediana 1.83 (p10 1.20, p90 2.66); % com Simpson < 1,5 = 31%
+   riqueza funcional (grupos com >= 5% da area): {1: 9.8, 2: 30.5, 3: 59.8}
+   fracao de area do feijao (leguminosa): mediana 11%; do milho: mediana 40%
+Semiarido, municipio-ano 1990-2024 (n=38451): Spearman log(area milho) x log(area feijao) = +0.78; variacao anual dentro do municipio = +0.63; razao feijao/milho mediana 1.00 (p25 0.67, p75 1.25)
+
+=== C. Contexto de N: uso de adubo e rotacao declarada (Censo Agro 2017) ===
+Semiarido 2022: n=1254 mun.; % estab. que adubam (media ponderada) 28.6%; so organica 17.1%; % com rotacao 12.3%; % rotacao nas lav. temporarias 6.7% (mediana mun.)
+Fora do semiarido: n=539 mun.; % estab. que adubam (media ponderada) 37.0%; so organica 9.4%; % com rotacao 15.1%; % rotacao nas lav. temporarias 11.1% (mediana mun.)
+Ceara: n=184 mun.; % estab. que adubam (media ponderada) 16.8%; so organica 12.0%; % com rotacao 7.9%; % rotacao nas lav. temporarias 0.9% (mediana mun.)
+
+=== D. Rotacao declarada (Censo 2017) x perda na seca 2012-2016, por faixa de chuva media anual ===
+-- Milho
+   < 600 mm       n= 362  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.09 (p=0.1); razao mediana tercil alto 0.62 x baixo 0.42
+   600-800 mm     n= 328  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.09 (p=0.12); razao mediana tercil alto 0.32 x baixo 0.30
+   800-1.074 mm   n= 337  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = -0.01 (p=0.85); razao mediana tercil alto 0.42 x baixo 0.47
+   > 1.074 mm     n= 280  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.09 (p=0.12); razao mediana tercil alto 1.02 x baixo 0.91
+-- Feijão
+   < 600 mm       n= 366  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.07 (p=0.16); razao mediana tercil alto 0.62 x baixo 0.49
+   600-800 mm     n= 342  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.03 (p=0.56); razao mediana tercil alto 0.49 x baixo 0.45
+   800-1.074 mm   n= 323  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = -0.03 (p=0.53); razao mediana tercil alto 0.57 x baixo 0.57
+   > 1.074 mm     n= 191  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.10 (p=0.18); razao mediana tercil alto 0.96 x baixo 0.92

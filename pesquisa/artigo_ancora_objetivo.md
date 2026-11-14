@@ -73,12 +73,22 @@ Script: `pesquisa/analise_diversidade_resiliencia.py`. Saídas: `.saida.txt` e `
 de rotação no talhão. Ela mostra que o padrão dos artigos aparece também no semiárido cearense. A ferramenta usa a
 mesma lógica e mostra a incerteza.
 
+> **⚠️ Atualização (rodada 2 do conselho, 14/11): o +6,6 p.p. NÃO deve ir para o pitch.**
+> O cético refez o teste separando a **composição** do portfólio, que tem menos milho e feijão e mais culturas tolerantes
+> ou irrigadas (`conselho/analises/v2_cetico_diversidade_composicao.py`). **Só com lavouras de sequeiro, o efeito cai
+> para +1,4 p.p., não significativo.**
+> - **Leitura correta:** os municípios diversos perderam menos porque plantam mais culturas que aguentam a seca ou que
+>   são irrigadas, não por um efeito da diversidade em si.
+> - Isso conversa com Kluger et al. 2025, que também acha pouco ganho em diversificar além de uma rotação simples. O
+>   valor da rotação está em **qual** cultura entra, não no número de culturas.
+
 ## 4. Frases prontas para o pitch
 
 - **PT:** "Stanford mostrou, com satélite e IA causal, que o benefício da rotação depende do clima de cada lugar, mas
-  estudou só celeiros temperados. Nós levamos esse método ao semiárido, com os dados de água da NASA no centro. No
-  Ceará, os municípios com lavouras mais diversas preservaram 6,6 pontos a mais de rendimento na seca de 2012–2016."
+  estudou só celeiros temperados (Kluger et al., ERL 2025). Nós levamos esse método ao semiárido, com os dados de água
+  da NASA no centro."
 - **EN:** "Stanford researchers showed, with satellites and causal AI, that crop-rotation benefits depend on local climate,
   but only in temperate breadbaskets (Kluger et al., ERL 2025). We bring that method to the semi-arid tropics, with NASA
-  water data at its core. In Ceará, municipalities with more diverse crops kept 6.6 points more yield through the
-  2012–2016 drought."
+  water data at its core."
+- **Número do Ceará:** não usar o +6,6 p.p. (ver a atualização acima). Os números de vitrine que se reproduzem estão
+  na `proposta/PROPOSTA_FINAL_v2.md` (tabela de números canônicos) e no El Niño (`pesquisa/el_nino_2026_nordeste.md`).

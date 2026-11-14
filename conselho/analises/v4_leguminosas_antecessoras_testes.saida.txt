@@ -1,0 +1,75 @@
+==========================================================================================
+A) Municipios do semiarido NE (delimitacao 2022) por faixa de chuva media IMERG 1998-2024
+   n municipios = 1254; chuva media: mediana 719 mm, P10 451, P90 1022
+faixa_franke
+<700 (sudano-saheliana)       589
+700-1200 (savana da Guine)    588
+>1200 (umida)                  77
+faixa_mudare
+<500        244
+500-1000    873
+>1000       137
+   so Ceara (semiarido): n=175
+faixa_franke
+<700 (sudano-saheliana)        18
+700-1200 (savana da Guine)    157
+>1200 (umida)                   0
+
+B) produtos usados: ['Milho'] ['Feijão']
+
+   MILHO - semiarido NE 2000-2024 (perda = colhida/plantada < 0,5 ou producao 0)
+                     faixa  mun_anos  pct_safra_perdida  rend_mediano_colhido_kg_ha  rend_P75
+   <700 (sudano-saheliana)     14206               22.1                       500.0     800.0
+700-1200 (savana da Guine)     14422               10.0                       600.0     960.0
+             >1200 (umida)      1915                1.1                       698.0     900.0
+   total: 30543 municipio-anos; 15.1% com safra perdida; rendimento mediano dos anos colhidos 590 kg/ha
+
+   FEIJAO (inclui caupi) - semiarido NE 2000-2024 (perda = colhida/plantada < 0,5 ou producao 0)
+                     faixa  mun_anos  pct_safra_perdida  rend_mediano_colhido_kg_ha  rend_P75
+   <700 (sudano-saheliana)     14291               19.1                       360.0     527.0
+700-1200 (savana da Guine)     14485                7.5                       313.0     476.0
+             >1200 (umida)      1915                1.0                       320.0     403.0
+   total: 30691 municipio-anos; 12.5% com safra perdida; rendimento mediano dos anos colhidos 333 kg/ha
+   Referencias do Franke 2017, Tabela 3 (cereal continuo): media geral 1,20 t/ha; milho 1,96; sudano-saheliana 1,16; milheto 1,11; sorgo 1,06.
+
+==========================================================================================
+C) Mudare 2025 Source Data: 3663 observacoes; abas S2 e Fig.1 alinhadas linha a linha = True
+   media NAO ponderada de lnR, IC por bootstrap de estudos (2000 reamostras); NAO e o modelo misto do artigo
+                                                 grupo  obs  estudos  efeito_%  IC95_lo_%  IC95_hi_%
+   Leguminosa -> milho/sorgo/milheto, tropico, N <= 60  101        7      36.2       30.3       49.9
+    Leguminosa -> milho/sorgo/milheto, tropico, N > 60   30        5      12.7      -13.2       25.8
+    Leguminosa -> milho/sorgo/milheto, fora do tropico  880       48      17.4       12.6       21.2
+        Nao leguminosa -> milho/sorgo/milheto, tropico   39        5      27.8       25.7       34.5
+Nao leguminosa -> milho/sorgo/milheto, fora do tropico  205       21       4.3       -1.7       14.4
+   categorias de 'Category': {'Legume': 1726, ' -': 984, 'Non-legume': 953}
+   paises/faixas tropicais: lat-lon distintos no grupo 1: [[16.4, 8.6], [17.0, 6.0], [11.4, -1.0], [17.0, 5.3], [0.1, 34.3], [13.6, -6.0], [0.8, 34.1]]
+
+==========================================================================================
+D) Censo 2017, semiarido NE: % dos estabelecimentos com lavoura temporaria que declaram rotacao
+                            count  25%  50%   75%
+faixa_franke                                     
+<700 (sudano-saheliana)     587.0  0.6  7.3  23.5
+700-1200 (savana da Guine)  588.0  0.4  6.7  23.7
+>1200 (umida)                77.0  0.3  2.6  11.2
+   ponderado por estabelecimentos: 13.6% declaram rotacao
+   so Ceara: 7.9%  (mediana municipal 0.9%)
+   correlacao de Spearman (ecologica, NAO causal) rotacao declarada x rendimento do milho 2015-2019:
+     <700 (sudano-saheliana): rho = +0.15 (n = 561)
+     700-1200 (savana da Guine): rho = +0.08 (n = 585)
+     >1200 (umida): rho = +0.05 (n = 77)
+
+==========================================================================================
+E) GAEZ, media espacial do Ceara, 1960-2010 (criterio de dias de crescimento do Franke)
+   LGP: mediana 157 dias (P10 121, P90 195); anos com LGP < 150: 19 de 51
+   chuva: media 862 mm; anos < 700 mm: 18; anos com 700-1200 mm mas LGP < 150: 5
+
+==========================================================================================
+F) Sequencia inteira (2 anos), semiarido NE 2010-2024, por municipio-ano com milho e feijao plantados
+   municipio-anos: 16888; preco implicito mediano feijao/milho (R$/kg): 3.61x
+   bonus sem bonus                                 : massa da sequencia/milho-milho mediana 0.80; receita mediana 1.55; receita > milho-milho em 82% dos municipio-anos
+   bonus +14,7% (Mudare 2025, caupi->milho)        : massa da sequencia/milho-milho mediana 0.87; receita mediana 1.62; receita > milho-milho em 87% dos municipio-anos
+   bonus +24% (Franke 2017, sudano-saheliana, ns)  : massa da sequencia/milho-milho mediana 0.92; receita mediana 1.67; receita > milho-milho em 89% dos municipio-anos
+   bonus +28,7% (Zhao 2022, caupi)                 : massa da sequencia/milho-milho mediana 0.94; receita mediana 1.69; receita > milho-milho em 90% dos municipio-anos
+     faixa <700 (sudano-saheliana): receita mediana (bonus 14,7%) 1.76 (n = 7617)
+     faixa 700-1200 (savana da Guine): receita mediana (bonus 14,7%) 1.56 (n = 8119)
+     faixa >1200 (umida): receita mediana (bonus 14,7%) 1.43 (n = 1152)

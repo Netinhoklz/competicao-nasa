@@ -1,0 +1,77 @@
+====================================================================================================
+T1. Tabela S9 de Kluger et al. 2025 (arXiv v2, p. 64), digitada do PDF local
+====================================================================================================
+linhas: 36 (o artigo fala em 36 pares rotacao-pais)
+mediana do efeito do antecessor (2 anos): 4.25%  (texto, p. 33: 4,5%)
+media do efeito do antecessor: 4.52%  | media do efeito de diversificar: 1.23% (n=34)  | razao = 3.67x  (texto, p. 13: ~3,7x)
+  razao restrita as 34 linhas com diversificacao: 3.79x
+efeito do antecessor positivo e significativo: 29/36; negativo e significativo: 5/36
+diversificar: positivo sig 15, negativo sig 4, n.s. 15 (de 34)
+
+Por cultura seguinte (mediana do efeito do antecessor, %):
+         count  median   min   max
+cultura                           
+C           10    0.30  -2.4   3.9
+S            8    4.25  -2.1   8.5
+SW          10    8.85   2.1  14.4
+WW           8    6.85 -12.4  10.1
+
+Heterogeneidade com chuva (bP, % por P25->P75 local) e temperatura (bT) por categoria de antecessor:
+              n  bP_med  bP_pos_sig  bP_neg_sig  bT_med  bT_pos_sig  bT_neg_sig
+categoria                                                                      
+cereal       16    0.75           7           2    0.80           7           4
+folha_larga   7    1.70           5           1    1.70           5           2
+leguminosa    9    1.60           8           0   -1.10           0           6
+pastagem      2    0.85           1           0    0.00           0           1
+pousio        2   -1.90           0           1   -3.65           0           2
+
+Temperatura quando a cultura seguinte e soja (bT): [1.4, 0.2, 4.0, 2.1, 2.4, 1.4, 1.4, -0.6]
+Leguminosa antecessora -> bT: [('S->C(US)', -1.0, True), ('S->C(Canada)', -0.3, False), ('S->C(China)', -1.5, True), ('S->SW(US)', -2.0, True), ('DB->SW(US)', -0.7, False), ('Le->SW(Canada)', 0.4, False), ('Pe->SW(Canada)', -1.1, True), ('S->SW(Canada)', -1.7, True), ('S->WW(US)', -4.6, True)]
+
+chuva: 21/36 positivos sig, 4/36 negativos sig
+razao |bP| mediana / efeito mediano: 1.40 / 4.25 = 0.33
+correlacao entre o efeito medio e bP entre as 36 linhas: r = -0.21
+efeito em t/ha (Tabela S9 x S10), milho como cultura seguinte: [{'pais': 'US', 'antecessor': 'S', 'ef2': 2.5, 'ef2_t_ha': 0.259}, {'pais': 'US', 'antecessor': 'WW', 'ef2': 0.9, 'ef2_t_ha': 0.093}, {'pais': 'Canada', 'antecessor': 'S', 'ef2': 1.7, 'ef2_t_ha': 0.159}, {'pais': 'Canada', 'antecessor': 'P', 'ef2': -2.0, 'ef2_t_ha': -0.187}, {'pais': 'Canada', 'antecessor': 'WW', 'ef2': 3.7, 'ef2_t_ha': 0.346}, {'pais': 'Canada', 'antecessor': 'UW', 'ef2': 3.9, 'ef2_t_ha': 0.365}, {'pais': 'Canada', 'antecessor': 'SW', 'ef2': -0.3, 'ef2_t_ha': -0.028}, {'pais': 'China', 'antecessor': 'S', 'ef2': -2.4, 'ef2_t_ha': -0.163}, {'pais': 'France', 'antecessor': 'WW', 'ef2': -0.9, 'ef2_t_ha': -0.081}, {'pais': 'France', 'antecessor': 'WB', 'ef2': -0.9, 'ef2_t_ha': -0.081}]
+
+====================================================================================================
+T2. Suporte climatico: Planicies/Corn Belt (NLDAS-2 Noah, celulas de milho+soja do CDL 2023) x Ceara
+====================================================================================================
+celulas NLDAS 0,125 grau com >=25% de milho+soja no CDL 2023: 1831 de 6720
+Planicies, chuva mai-set (mm), celula-ano 2008-2021: {'P5': 264.017, 'P25': 395.745, 'P50': 499.121, 'P75': 616.356, 'P95': 811.991} | CV interanual medio = 0.28
+Planicies, P/PET Noah mai-set: {'P5': 0.177, 'P25': 0.316, 'P50': 0.422, 'P75': 0.579, 'P95': 0.83}
+Ceara, chuva fev-mai IMERG (mm), municipio-ano 1998-2025: {'P5': 314.274, 'P25': 464.45, 'P50': 595.846, 'P75': 763.269, 'P95': 1029.512} | CV interanual medio = 0.32
+Ceara, chuva jan-jun IMERG (mm): {'P5': 432.193, 'P25': 585.425, 'P50': 723.296, 'P75': 953.982, 'P95': 1284.755}
+Ceara, P/PET Noah fev-mai (chuva municipal / PET estadual GLDAS): {'P5': 0.294, 'P25': 0.457, 'P50': 0.629, 'P75': 0.85, 'P95': 1.205}
+fracao dos municipio-anos do CE (fev-mai) dentro de P5-P95 da chuva das Planicies [264, 812] mm: 78.07%
+  ... dentro de P25-P75 [396, 616] mm: 39.32%
+fracao dentro de P5-P95 da ARIDEZ P/PET das Planicies [0.18, 0.83]: 72.70%
+  ... abaixo de P5 da aridez das Planicies (mais seco que o mais seco de la): 0.15%
+IQR da chuva da estacao: Planicies 221 mm; Ceara 299 mm -> razao 1.35
+POWER 2020, media de Tmax e Tmin abr-set (definicao de Kluger, p. 29): {'Iowa': 18.8, 'Kansas': 21.8}
+POWER Ceara (media estadual), media de Tmax e Tmin fev-mai 1981-2025: {'P5': 25.298, 'P25': 25.735, 'P50': 26.206, 'P75': 26.901, 'P95': 27.965}
+
+====================================================================================================
+T3. Memoria de agua no solo 0-100 cm entre safras (Noah nos dois lados)
+====================================================================================================
+Planicies (n=46 anos): corr(chuva mai-set_t, SM abr_t+1) = 0.40; corr(SM set_t, SM abr_t+1) = 0.61; corr(chuva out-mar, SM abr) = 0.59
+  inclinacao da anomalia SM abr_t+1 sobre SM set_t = 0.35 (fracao da anomalia que sobrevive ao inverno)
+Ceara (n=26 anos): corr(chuva fev-mai_t, SM dez_t) = 0.38; corr(SM jun_t, SM dez_t) = 0.55; corr(chuva fev-mai_t, SM jan_t+1) = 0.19
+  inclinacao da anomalia SM dez sobre SM jun = 0.28
+  desvio-padrao interanual de SM: jun 39.0 mm, dez 19.6 mm; Planicies set 37.6, abr 21.2
+  checagem SMAP L4 raiz (CE, n=11): corr(jun, dez) = 0.39; dp jun 0.0134, dez 0.0099 m3/m3
+
+====================================================================================================
+T4. Espaco por tempo no PAM Ceara: inclinacao rendimento-chuva ENTRE x DENTRO do municipio
+====================================================================================================
+milho: n=5086 municipio-anos, 182 municipios, rendimento medio 672 kg/ha plantado
+   DENTRO (FE municipio + tendencia): +13.7% da media por +100 mm fev-mai  IC95 [12.4; 14.9]
+   ENTRE municipios (medias 1998-2025): -15.5% por +100 mm                IC95 [-20.4; -10.5]
+   diferenca entre - dentro: -29.2 pp  IC95 [-34.1; -24.4]
+   robustez (rendimento IBGE por area colhida, n=5035): dentro +13.0%  entre -16.1% por +100 mm
+feijao: n=5101 municipio-anos, 183 municipios, rendimento medio 279 kg/ha plantado
+   DENTRO (FE municipio + tendencia): +8.5% da media por +100 mm fev-mai  IC95 [7.5; 9.9]
+   ENTRE municipios (medias 1998-2025): -2.7% por +100 mm                IC95 [-6.0; 0.3]
+   diferenca entre - dentro: -11.2 pp  IC95 [-14.2; -8.7]
+   robustez (rendimento IBGE por area colhida, n=5097): dentro +7.7%  entre -3.0% por +100 mm
+
+fim

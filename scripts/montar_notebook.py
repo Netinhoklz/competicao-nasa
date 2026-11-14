@@ -52,9 +52,11 @@ def main():
     ap.add_argument("--executar", action="store_true")
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--kernel", default="campeonato-nasa")
+    ap.add_argument("--pasta", default=str(SECOES), help="pasta das seções (padrão: notebooks/secoes)")
     a = ap.parse_args()
 
-    arquivos = sorted(SECOES.glob("*.py"))
+    pasta_secoes = Path(a.pasta) if Path(a.pasta).is_absolute() else PROJ / a.pasta
+    arquivos = sorted(pasta_secoes.glob("*.py"))
     if a.secoes:
         arquivos = [f for f in arquivos if any(f.name.startswith(s) for s in a.secoes)]
     nb = nbformat.v4.new_notebook()

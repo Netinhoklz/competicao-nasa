@@ -1,0 +1,6 @@
+configuracoes: 147
+por tipo: {'rotacao': 64, 'sucessao': 1, 'cobertura': 22, 'consorcio': 16, 'agrofloresta': 10, 'ilp': 4, 'quebra_de_praga': 17, 'modulador': 13}
+por grau: {'D': 18, 'B': 45, 'A': 10, 'C': 74}
+por transferencia: {'T3': 31, 'T1': 16, 'T2': 64, 'T0': 36}
+transfere_ne: {'nao': 32, 'parcial': 76, 'sim': 39}
+MD bytes: 127470 | JSON bytes: 210852

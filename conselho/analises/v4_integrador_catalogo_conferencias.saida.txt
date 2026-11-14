@@ -1,0 +1,373 @@
+=== A. Source Data Mudare 2025 ===
+abas: ['Figure 1a-d', 'Figure 1e', 'Figure 2a', 'Figure 2b', 'Figure 3a', 'Figure 3e', 'Supplementary Figure S1', 'Supplementary Figure S2', 'Supplementary Figure S3', 'Supplementary Figure S4', 'Supplementary Figure S5-S6']
+
+--- aba 'Figure 1e': (24, 10) ---
+  cab 0 ['Figure 1e', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 1 ['nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 2 ['Group', 'Category', 'Effect size', 'lower.CL', 'upper.CL', '.group', 'df', 'SE', 'n', 'Asterisk']
+  cab 3 ['Global', 'Overall', '0.1809655', '0.1459112', '0.2160197', 'nan', '2925', '0.01788018', '(n =3663)', 'nan']
+  cab 4 ['Global', 'Non-legume', '0.148', '0.107', '0.19', 'a', '147', '0.0209', '(n = 953)', '***']
+  cab 5 ['Global', 'Legume', '0.209', '0.17', '0.248', 'b', '147', '0.0198', '(n = 1726)', 'nan']
+  r4: Global | Non-legume | 0.148 | 0.107 | 0.19 | a | 147 | 0.0209 | (n = 953) | ***
+  r5: Global | Legume | 0.209 | 0.17 | 0.248 | b | 147 | 0.0198 | (n = 1726) | nan
+  r7: Asia | Non-legume | 0.222 | 0.0501 | 0.394 | a | 18 | 0.0818 | (n = 76) | ns
+  r8: Asia | Legume | 0.227 | 0.0617 | 0.393 | a | 18 | 0.0788 | (n = 131) | nan
+  r9: Africa | Overall | 0.209 | 0.1136 | 0.305 | nan | 161 | 0.0485 | (n = 372) | nan
+  r10: Africa | Non-legume | 0.0223 | -0.183 | 0.228 | a | 20 | 0.0985 | (n = 36) | **
+  r11: Africa | Legume | 0.2542 | 0.126 | 0.382 | b | 20 | 0.0612 | (n = 303) | nan
+  r13: Oceania | Legume | 0.239 | 0.0611 | 0.417 | a | 5 | 0.0693 | (n = 40) | ns
+  r14: Oceania | Non-legume | 0.272 | 0.0449 | 0.498 | a | 5 | 0.0882 | (n = 16) | nan
+  r15: North America | Overall | 0.144 | 0.0945 | 0.194 | nan | 157 | 0.0252 | (n = 2438) | nan
+  r16: North America | Non-legume | 0.0973 | 0.0437 | 0.151 | a | 60 | 0.0268 | (n = 677) | **
+  r17: North America | Legume | 0.1492 | 0.0971 | 0.201 | b | 60 | 0.026 | (n = 1057) | nan
+  r19: Europe | Non-legume | 0.181 | 0.08 | 0.282 | a | 20 | 0.0485 | (n = 110) | ns
+  r20: Europe | Legume | 0.218 | 0.12 | 0.316 | a | 20 | 0.0469 | (n = 140) | nan
+  r21: South America | Overall | 0.199 | 0.0849 | 0.313 | nan | 161 | 0.0577 | (n = 220) | nan
+  r22: South America | Legume | 0.322 | 0.0254 | 0.618 | a | 12 | 0.136 | (n = 55) | ns
+  r23: South America | Non-legume | 0.274 | -0.0293 | 0.577 | a | 12 | 0.139 | (n = 38) | nan
+
+--- aba 'Figure 2a': (25, 10) ---
+  cab 0 ['Figure 2a', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 1 ['nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 2 ['Precrop', 'Main crop', 'Effect size', 'se', 'df', 'lower.CL', 'upper.CL', 'n', 'nan', 'P value']
+  cab 3 ['Cereal', 'Cereal', '14.76', '0.03', '159', '0.08', '0.2', '213', 'nan', '<.0001']
+  cab 4 ['Cereal', 'Fiber', '27.09', '0.07', '159', '0.1', '0.38', '23', 'nan', 'nan']
+  cab 5 ['Cereal', 'Grain legume', '8.9', '0.03', '159', '0.03', '0.14', '302', 'nan', 'nan']
+  r5: Cereal | Grain legume | 8.9 | 0.03 | 159 | 0.03 | 0.14 | 302 | nan | nan
+  r8: Grain legume | Cereal | 20.1 | 0.02 | 159 | 0.14 | 0.22 | 1237 | nan | nan
+  r11: Legume fodder | Cereal | 25.82 | 0.03 | 159 | 0.18 | 0.28 | 393 | nan | nan
+  r14: Mixture | Cereal | 60.29 | 0.06 | 159 | 0.36 | 0.58 | 79 | nan | nan
+  r19: Grain legume | Tuber | 14.92 | 0.1 | 159 | -0.05 | 0.33 | 41 | nan | nan
+  r20: Legume fodder | Tuber | 24.34 | 0.14 | 159 | -0.06 | 0.5 | 19 | nan | nan
+  r21: Legume fodder | Vegetable | 44.33 | 0.19 | 159 | 0 | 0.73 | 13 | nan | nan
+  r22: Grass fodder | Grain legume | 8.28 | 0.09 | 159 | -0.11 | 0.26 | 10 | nan | nan
+  r23: Mixture | Tuber | 2.58 | 0.16 | 159 | -0.29 | 0.34 | 10 | nan | nan
+  r24: Multispecies | Grain legume | -2.77 | 0.05 | 159 | -0.12 | 0.06 | 130 | nan | nan
+
+--- aba 'Figure 2b': (65, 10) ---
+  cab 0 ['Figure 2b', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 1 ['nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 2 ['Precrop', 'Main crop', 'Effect size', 'se', 'df', 'lower.CL', 'upper.CL', 'n', 'nan', 'P value']
+  cab 3 ['Barley', 'Potato', '10.51', '11.3', '139', '-10.57', '36.56', '37', 'nan', '<.0001']
+  cab 4 ['Barley', 'Wheat', '26.41', '10.78', '139', '3.24', '54.78', '13', 'nan', 'nan']
+  cab 5 ['Barley', 'Barley', '30.89', '13.25', '139', '2.35', '67.39', '12', 'nan', 'nan']
+  r6: Maize | Sorghum | -7.36 | 7.62 | 139 | -19.88 | 7.11 | 16 | nan | nan
+  r7: Maize | Soybean | 7.27 | 3.22 | 139 | 0.76 | 14.2 | 237 | nan | nan
+  r13: Sorghum | Soybean | 7.34 | 5.87 | 139 | -4.11 | 20.17 | 30 | nan | nan
+  r14: Sorghum | Cotton | 21.6 | 10.38 | 139 | 0.03 | 47.83 | 10 | nan | nan
+  r15: Sorghum | Maize | 27.92 | 9.16 | 139 | 7.58 | 52.12 | 10 | nan | nan
+  r16: Wheat | Soybean | 3.73 | 7.43 | 139 | -9.97 | 19.51 | 21 | nan | nan
+  r20: Wheat | Sorghum | 21.24 | 13.55 | 139 | -5.7 | 55.88 | 10 | nan | nan
+  r21: Cotton | Sorghum | 17.43 | 9.63 | 139 | -2.08 | 40.83 | 12 | nan | nan
+  r24: Cowpea | Maize | 14.68 | 5.19 | 139 | 3.76 | 26.74 | 81 | nan | nan
+  r25: Cowpea | Millet | 29.84 | 12.27 | 139 | 3.27 | 63.24 | 27 | nan | nan
+  r29: Peanut | Maize | 8.14 | 6.92 | 139 | -5.26 | 23.44 | 34 | nan | nan
+  r30: Peanut | Millet | 17.25 | 14.88 | 139 | -10.87 | 54.24 | 12 | nan | nan
+  r31: Soybean | Potato | 9.35 | 11.09 | 139 | -11.18 | 34.63 | 40 | nan | nan
+  r32: Soybean | Wheat | 14.76 | 6.14 | 139 | 2 | 29.11 | 42 | nan | nan
+  r33: Soybean | Sorghum | 18.48 | 3.96 | 139 | 9.72 | 27.95 | 106 | nan | nan
+  r34: Soybean | Maize | 18.74 | 2.64 | 139 | 12.78 | 25.01 | 746 | nan | nan
+  r39: Alfalfa | Wheat | 9.75 | 11.62 | 139 | -11.69 | 36.39 | 15 | nan | nan
+  r40: Alfalfa | Maize | 20.15 | 7.35 | 139 | 4.43 | 38.23 | 20 | nan | nan
+  r41: Clover | Wheat | 6.51 | 7.44 | 139 | -7.58 | 22.76 | 57 | nan | nan
+  r42: Clover | Maize | 8.24 | 9.41 | 139 | -9.38 | 29.3 | 32 | nan | nan
+  r43: Clover | Barley | 36.07 | 19.44 | 139 | -4.24 | 93.36 | 15 | nan | nan
+  r45: Pigeon pea | Maize | 22.66 | 9.15 | 139 | 3.16 | 45.84 | 12 | nan | nan
+  r47: Sun hemp | Maize | 83.43 | 11.51 | 139 | 47.87 | 127.53 | 13 | nan | nan
+  r48: Velvet bean | Maize | 37.9 | 7.04 | 139 | 20.55 | 57.75 | 24 | nan | nan
+  r52: Fallow | Millet | -4.56 | 14.88 | 139 | -27.45 | 25.55 | 12 | nan | nan
+  r53: Fallow | Sorghum | 11.46 | 6.37 | 139 | -1.36 | 25.94 | 28 | nan | nan
+  r54: Fallow | Maize | 31.02 | 6.34 | 139 | 16.01 | 47.96 | 31 | nan | nan
+  r55: Fallow | Barley | 34.12 | 9.62 | 139 | 11.85 | 60.82 | 31 | nan | nan
+  r56: Fallow | Wheat | 35.25 | 4.73 | 139 | 23.43 | 48.2 | 293 | nan | nan
+  r57: Mixture | Potato | -1.79 | 17.05 | 139 | -28.06 | 34.08 | 10 | nan | nan
+  r58: Mixture | Wheat | 70.44 | 6.99 | 139 | 49.12 | 94.8 | 70 | nan | nan
+  r59: Multispecies | Soybean | 0.01 | 4.69 | 139 | -8.66 | 9.5 | 128 | nan | nan
+  r62: Multispecies | Sorghum | 16.94 | 5.6 | 139 | 4.99 | 30.24 | 49 | nan | nan
+
+--- aba 'Supplementary Figure S5-S6': (131, 10) ---
+  cab 0 ['Supplementary Figure S', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 1 ['nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan', 'nan']
+  cab 2 ['Item', 'Variable', 'Group', 'Effect size', 'lower.CL', 'upper.CL', 'n', 'df', 'se', '.group']
+  cab 3 ['MAP', 'Overall', 'Overall', '0.15', '0.1', '0.21', '1470', 'nan', 'nan', 'nan']
+  cab 4 ['MAP', 'Overall', '500-1000', '0.13', '0.05', '0.21', '610', '68', '0.04', 'a']
+  cab 5 ['MAP', 'Overall', '> 1000', '0.15', '0.05', '0.25', '341', '68', '0.051', 'a']
+  r4: MAP | Overall | 500-1000 | 0.13 | 0.05 | 0.21 | 610 | 68 | 0.04 | a
+  r5: MAP | Overall | > 1000 | 0.15 | 0.05 | 0.25 | 341 | 68 | 0.051 | a
+  r6: MAP | Overall | < 500 | 0.2 | 0.09 | 0.3 | 519 | 68 | 0.052 | a
+  r7: MAP | Legume | Overall | 0.18 | 0.11 | 0.25 | 626 | nan | nan | nan
+  r8: MAP | Legume | < 500 | 0.16 | 0.02 | 0.3 | 129 | 53 | 0.069 | a
+  r9: MAP | Legume | 500-1000 | 0.16 | 0.06 | 0.25 | 294 | 53 | 0.046 | a
+  r10: MAP | Legume | > 1000 | 0.23 | 0.1 | 0.36 | 203 | 53 | 0.064 | a
+  r11: MAP | Non-legume | Overall | 0.09 | 0.04 | 0.14 | 275 | nan | nan | nan
+  r12: MAP | Non-legume | > 1000 | 0.03 | -0.06 | 0.12 | 49 | 25 | 0.043 | a
+  r13: MAP | Non-legume | 500-1000 | 0.05 | 0 | 0.1 | 170 | 25 | 0.025 | a
+  r14: MAP | Non-legume | < 500 | 0.23 | 0.15 | 0.32 | 56 | 25 | 0.041 | b
+  r19: MAT | Legume | Overall | 0.17 | 0.07 | 0.28 | 505 | nan | nan | nan
+  r20: MAT | Legume | < 10 | 0.09 | -0.18 | 0.37 | 76 | 35 | 0.136 | a
+  r21: MAT | Legume |  10-20  | 0.18 | 0.04 | 0.31 | 201 | 35 | 0.067 | a
+  r22: MAT | Legume | > 20 | 0.2 | 0.05 | 0.34 | 228 | 35 | 0.072 | a
+  r23: MAT | Non-legume | < 10 | 0.06 | -0.04 | 0.17 | 54 | 25 | 0.052 | a
+  r24: MAT | Non-legume |  10-20  | 0.09 | 0.02 | 0.17 | 167 | 25 | 0.035 | a
+  r25: MAT | Non-legume | > 20 | 0.15 | 0.04 | 0.27 | 65 | 25 | 0.056 | a
+  r26: Irrigation | Overall | Overall | 0.12 | 0.07 | 0.17 | 1058 | nan | nan | nan
+  r27: Irrigation | Overall | irrigated | 0.07 | -0.03 | 0.17 | 124 | 45 | 0.051 | a
+  r28: Irrigation | Overall | rainfed | 0.13 | 0.08 | 0.19 | 934 | 45 | 0.028 | a
+  r29: Irrigation | Legume | Overall | 0.18 | 0.11 | 0.25 | 432 | nan | nan | nan
+  r30: Irrigation | Legume | irrigated | 0.09 | -0.07 | 0.25 | 36 | 30 | 0.079 | a
+  r31: Irrigation | Legume | rainfed | 0.2 | 0.13 | 0.28 | 396 | 29 | 0.036 | a
+  r32: Irrigation | Non-legume | Overall | 0.04 | -0.03 | 0.11 | 301 | nan | nan | nan
+  r33: Irrigation | Non-legume | irrigated | 0.02 | -0.09 | 0.13 | 72 | 23 | 0.054 | a
+  r34: Irrigation | Non-legume | rainfed | 0.05 | -0.03 | 0.13 | 229 | 23 | 0.039 | a
+  r39: SOM | Legume | Overall | 0.14 | 0.09 | 0.19 | 492 | nan | nan | nan
+  r40: SOM | Legume | < 10 | 0.12 | 0.06 | 0.18 | 264 | 28 | 0.029 | a
+  r41: SOM | Legume | > 20 | 0.16 | 0.08 | 0.24 | 203 | 26 | 0.039 | a
+  r42: SOM | Legume |  10-20  | 0.2 | 0.04 | 0.35 | 25 | 26 | 0.073 | a
+  r43: SOM | Non-legume | Overall | 0.11 | 0.04 | 0.18 | 317 | nan | nan | nan
+  r44: SOM | Non-legume | < 10 | 0.05 | -0.04 | 0.14 | 171 | 21 | 0.044 | a
+  r45: SOM | Non-legume | > 20 | 0.11 | 0 | 0.23 | 93 | 19 | 0.055 | a
+  r46: SOM | Non-legume |  10-20  | 0.23 | 0.09 | 0.36 | 53 | 19 | 0.063 | a
+  r50: TN | Legume | Overall | -0.04 | -0.13 | 0.06 | 425 | nan | nan | nan
+  r51: TN | Legume | > 0.76 | 0.15 | 0.04 | 0.27 | 236 | 25 | 0.055 | a
+  r52: TN | Legume | < 0.76 | 0.19 | 0.07 | 0.31 | 189 | 25 | 0.059 | a
+  r53: TN | Non-legume | Overall | 0.21 | -0.09 | 0.51 | 52 | nan | nan | nan
+  r54: TN | Non-legume | > 0.76 | 0.08 | -0.52 | 0.68 | 30 | 4 | 0.216 | a
+  r55: TN | Non-legume | < 0.76 | 0.28 | -0.14 | 0.7 | 22 | 5 | 0.163 | a
+  r61: pH | Legume | Overall | 0.21 | 0.14 | 0.27 | 864 | nan | nan | nan
+  r62: pH | Legume | strongly acidi | 0.17 | 0.02 | 0.33 | 106 | 66 | 0.076 | a
+  r63: pH | Legume | neutral | 0.17 | 0.09 | 0.26 | 418 | 66 | 0.043 | a
+  r64: pH | Legume | acidic | 0.24 | 0.11 | 0.38 | 92 | 66 | 0.067 | a
+  r65: pH | Legume | alkaline | 0.27 | 0.14 | 0.4 | 248 | 66 | 0.064 | a
+  r66: pH | Non-legume | Overall | 0.15 | 0.07 | 0.22 | 371 | nan | nan | nan
+  r67: pH | Non-legume | neutral | 0.08 | -0.05 | 0.2 | 117 | 33 | 0.061 | a
+  r68: pH | Non-legume | strongly acidi | 0.08 | -0.07 | 0.23 | 75 | 33 | 0.074 | a
+  r69: pH | Non-legume | acidic | 0.19 | 0.09 | 0.3 | 113 | 33 | 0.052 | a
+  r70: pH | Non-legume | alkaline | 0.19 | 0.03 | 0.35 | 66 | 33 | 0.079 | a
+  r73: Texture | Overall | sandy clay | 0.07 | -0.4 | 0.54 | 4 | 96 | 0.237 | a
+  r74: Texture | Overall | sandy loam | 0.11 | 0 | 0.21 | 295 | 102 | 0.052 | a
+  r81: Texture | Overall | loamy sand | 0.26 | 0.07 | 0.46 | 102 | 102 | 0.097 | a
+  r82: Texture | Overall | sandy clay loa | 0.38 | 0.04 | 0.73 | 72 | 96 | 0.174 | a
+  r83: Texture | Overall | sandy | 0.44 | 0.22 | 0.67 | 29 | 96 | 0.114 | a
+  r84: Texture | Legume | Overall | 0.2 | 0.15 | 0.25 | 1167 | nan | nan | nan
+  r85: Texture | Legume | clayey silt | 0.03 | -0.36 | 0.42 | 6 | 65 | 0.194 | a
+  r86: Texture | Legume | sandy clay | 0.07 | -0.36 | 0.5 | 4 | 65 | 0.215 | a
+  r87: Texture | Legume | silty clay | 0.11 | -0.24 | 0.47 | 12 | 65 | 0.178 | a
+  r88: Texture | Legume | sandy loam | 0.15 | 0.02 | 0.27 | 112 | 72 | 0.064 | a
+  r89: Texture | Legume | clay | 0.16 | 0.03 | 0.28 | 113 | 72 | 0.062 | a
+  r90: Texture | Legume | silty loam | 0.16 | 0.08 | 0.24 | 280 | 72 | 0.04 | a
+  r91: Texture | Legume | silty clay loa | 0.18 | 0.09 | 0.27 | 305 | 72 | 0.044 | a
+  r92: Texture | Legume | loam | 0.19 | 0.06 | 0.31 | 83 | 65 | 0.063 | a
+  r93: Texture | Legume | clay loam | 0.24 | 0.12 | 0.36 | 113 | 65 | 0.061 | a
+  r94: Texture | Legume | loamy sand | 0.27 | 0.08 | 0.45 | 81 | 72 | 0.091 | a
+  r95: Texture | Legume | sandy clay loa | 0.39 | 0.06 | 0.71 | 36 | 65 | 0.161 | a
+  r96: Texture | Legume | sandy | 0.53 | 0.32 | 0.74 | 22 | 65 | 0.106 | a
+  r97: Texture | Non-legume | Overall | 0.13 | 0.08 | 0.18 | 649 | nan | nan | nan
+  r98: Texture | Non-legume | loamy sand | -0.19 | -0.51 | 0.13 | 9 | 45 | 0.16 | a
+  r99: Texture | Non-legume | silty clay loa | 0.07 | -0.07 | 0.2 | 151 | 45 | 0.068 | a
+  r100: Texture | Non-legume | clay loam | 0.08 | -0.06 | 0.21 | 52 | 45 | 0.067 | a
+  r101: Texture | Non-legume | clay | 0.09 | -0.04 | 0.23 | 89 | 50 | 0.066 | a
+  r102: Texture | Non-legume | silty clay | 0.11 | -0.13 | 0.36 | 9 | 50 | 0.122 | a
+  r103: Texture | Non-legume | sandy loam | 0.13 | 0.02 | 0.24 | 153 | 50 | 0.056 | a
+  r104: Texture | Non-legume | loam | 0.16 | 0.03 | 0.29 | 54 | 45 | 0.064 | a
+  r105: Texture | Non-legume | silty loam | 0.22 | 0.12 | 0.32 | 126 | 50 | 0.048 | a
+  r106: Texture | Non-legume | sandy | 0.24 | -0.15 | 0.63 | 6 | 45 | 0.195 | a
+  r111: Tillage | Legume | Overall | 0.12 | 0.07 | 0.18 | 767 | nan | nan | nan
+  r112: Tillage | Legume | no-tillage | 0.05 | -0.07 | 0.17 | 51 | 51 | 0.061 | a
+  r113: Tillage | Legume | conventional | 0.13 | 0.07 | 0.19 | 417 | 51 | 0.03 | a
+  r114: Tillage | Legume | conservation | 0.14 | 0.07 | 0.2 | 299 | 51 | 0.031 | a
+  r115: Tillage | Non-legume | Overall | 0.11 | 0.04 | 0.19 | 490 | nan | nan | nan
+  r116: Tillage | Non-legume | conservation | 0.11 | 0.02 | 0.19 | 691 | 32 | 0.042 | a
+  r117: Tillage | Non-legume | conventional | 0.11 | 0.02 | 0.19 | 715 | 32 | 0.042 | a
+  r118: Tillage | Non-legume | no-tillage | 0.16 | -0.08 | 0.39 | 188 | 31 | 0.116 | a
+  r122: Precrop residu | Legume | Overall | 0.19 | 0.08 | 0.29 | 304 | nan | nan | nan
+  r123: Precrop residu | Legume | returned | 0.17 | 0.06 | 0.28 | 248 | 28 | 0.052 | a
+  r124: Precrop residu | Legume | removed | 0.27 | 0.11 | 0.43 | 56 | 28 | 0.079 | a
+  r125: Precrop residu | Non-legume | Overall | 0.11 | 0.04 | 0.19 | 143 | nan | nan | nan
+  r126: Precrop residu | Non-legume | removed | 0.09 | -0.04 | 0.22 | 24 | 17 | 0.061 | a
+  r127: Precrop residu | Non-legume | returned | 0.12 | 0.04 | 0.2 | 119 | 17 | 0.039 | a
+  r130: Length | Overall | mixture | 0.41 | 0.31 | 0.51 | 89 | 159 | 0.051 | b
+
+--- Fig. 2b completa (pares antecessora -> principal; efeito em %, IC em %) ---
+           Precrop Main crop  Effect size  lower.CL  upper.CL    n
+0           Barley    Potato        10.51    -10.57     36.56   37
+1           Barley     Wheat        26.41      3.24     54.78   13
+2           Barley    Barley        30.89      2.35     67.39   12
+3            Maize   Sorghum        -7.36    -19.88      7.11   16
+4            Maize   Soybean         7.27      0.76     14.20  237
+5            Maize     Wheat         9.14     -3.06     22.86   49
+6            Maize      Rice        11.92    -17.31     51.49   18
+7            Maize    Potato        12.71     -7.73     37.67   43
+8            Maize    Cotton        31.69      5.84     63.85   13
+9              Oat     Maize        -3.44    -20.39     17.13   19
+10         Sorghum   Soybean         7.34     -4.11     20.17   30
+11         Sorghum    Cotton        21.60      0.03     47.83   10
+12         Sorghum     Maize        27.92      7.58     52.12   10
+13           Wheat   Soybean         3.73     -9.97     19.51   21
+14           Wheat      Rice         4.26    -15.56     28.73   10
+15           Wheat    Canola        20.94      0.62     45.35   18
+16           Wheat     Maize        21.13      5.80     38.69   40
+17           Wheat   Sorghum        21.24     -5.70     55.88   10
+18          Cotton   Sorghum        17.43     -2.08     40.83   12
+19          Cotton     Maize        19.21      1.37     40.19   44
+20        Chickpea     Wheat        26.60     13.65     41.03   51
+21          Cowpea     Maize        14.68      3.76     26.74   81
+22          Cowpea    Millet        29.84      3.27     63.24   27
+23       Faba bean     Wheat        46.89     30.26     65.65   38
+24          Lentil     Wheat        32.31     12.65     55.40   15
+25             Pea     Wheat        24.36     10.78     39.60   35
+26          Peanut     Maize         8.14     -5.26     23.44   34
+27          Peanut    Millet        17.25    -10.87     54.24   12
+28         Soybean    Potato         9.35    -11.18     34.63   40
+29         Soybean     Wheat        14.76      2.00     29.11   42
+30         Soybean   Sorghum        18.48      9.72     27.95  106
+31         Soybean     Maize        18.74     12.78     25.01  746
+32          Canola     Wheat         7.82     -7.11     25.15   23
+33  Oilseed radish     Maize        -1.27    -19.44     21.01   16
+34       Sunflower     Wheat        23.58      9.57     39.39   33
+35             Rye     Maize        -0.50    -15.16     16.69   52
+36         Alfalfa     Wheat         9.75    -11.69     36.39   15
+37         Alfalfa     Maize        20.15      4.43     38.23   20
+38          Clover     Wheat         6.51     -7.58     22.76   57
+39          Clover     Maize         8.24     -9.38     29.30   32
+40          Clover    Barley        36.07     -4.24     93.36   15
+41          Lablab    Millet        51.26     17.72     94.36   15
+42      Pigeon pea     Maize        22.66      3.16     45.84   12
+43        Sesbania    Millet        40.59      9.42     80.65   15
+44        Sun hemp     Maize        83.43     47.87    127.53   13
+45     Velvet bean     Maize        37.90     20.55     57.75   24
+46           Vetch     Wheat        15.50     -4.46     39.64   28
+47           Vetch    Barley        33.50     10.40     61.43   29
+48           Vetch      Rice        34.31     10.27     63.60   67
+49          Fallow    Millet        -4.56    -27.45     25.55   12
+50          Fallow   Sorghum        11.46     -1.36     25.94   28
+51          Fallow     Maize        31.02     16.01     47.96   31
+52          Fallow    Barley        34.12     11.85     60.82   31
+53          Fallow     Wheat        35.25     23.43     48.20  293
+54         Mixture    Potato        -1.79    -28.06     34.08   10
+55         Mixture     Wheat        70.44     49.12     94.80   70
+56    Multispecies   Soybean         0.01     -8.66      9.50  128
+57    Multispecies      Rice         2.98    -17.24     28.14   13
+58    Multispecies     Wheat        11.92     -0.64     26.06   64
+59    Multispecies   Sorghum        16.94      4.99     30.24   49
+60    Multispecies     Maize        24.31     16.40     32.75  186
+61    Multispecies    Canola        29.71      9.79     53.25   24
+
+=== B. Trechos dos PDFs ===
+
+[2022_Zhao_Global_systematic_review_with_meta-analysis_reveals_yield.pdf] 9 p.
+  [excluded] p.7: ...treatment or control equaled zero and thereby indicated crop failure or experimental error, observations were excluded. Variable importance. To identify the potentially relevant moderators in predicting the yield beneﬁt of legum...
+  [236] p.3: ...lication). The positive effect of legumes on main crop yield becomes null with N fertilizer rates higher than 236 kg N ha–1 regardless of crop diversiﬁcation. The yield advantage provided by legumes is strong (+50%) at low ...
+  [28\.9] p.5: ...ommon bean (14.5%; CI, 9.5%–19.5%). Legume inclusion had a sig- niﬁcant yield beneﬁt for the following maize (28.9%; CI, 25.5%–32.2%), while the beneﬁts are null for the following rapeseed (3.9%; CI, 0.0%–7.8%), cotton (–1.3...
+  [32\.4] p.5: ...heir capacity for BNF35,36 and crop-speciﬁc traits37–39. For example, pigeon pea increased main crop yield by 32.4% (CI, 23.8%–41.0%), more than twice as much as common bean (14.5%; CI, 9.5%–19.5%). Legume inclusion had a si...
+  [14\.5] p.5: ...ple, pigeon pea increased main crop yield by 32.4% (CI, 23.8%–41.0%), more than twice as much as common bean (14.5%; CI, 9.5%–19.5%). Legume inclusion had a sig- niﬁcant yield beneﬁt for the following maize (28.9%; CI, 25.5%...
+  [78%] p.5: ...antage of 60 major legume-based cropping systems, with a minimum and maximum value of 2% (CI, –2.9%–7.7%) and 78% (CI, 59.1%–99.4%) in pea-rapeseed and mucuna-maize cropping sequences, respectively (Fig. 5). Consistent with...
+  [1\.3%] p.5: ...8.9%; CI, 25.5%–32.2%), while the beneﬁts are null for the following rapeseed (3.9%; CI, 0.0%–7.8%), cotton (–1.3%; CI, –12.0%–9.5%), and buck- wheat (5.4%; CI, –3.5%–14.2%). Moreover, other management prac- tices such as le...
+  [32%] p.1: ...rops (e.g., rice, wheat, maize) and evident across pedo-climatic regions. Moreover, greater yield advantages (32% vs. 7%) are observed in low- vs. high-yielding environments, suggesting legumes increase crop production with...
+  [7%] p.1: ...g., rice, wheat, maize) and evident across pedo-climatic regions. Moreover, greater yield advantages (32% vs. 7%) are observed in low- vs. high-yielding environments, suggesting legumes increase crop production with low in...
+  [7%] p.2: ...pping systems (i.e., the control), 45% of observations were obtained in monoculture (crop diversity = 1) and 47% in short rotations (crop diversity ≤ 4). This large and detailed dataset provides the basis for profound unde...
+  [7%] p.2: ...14. We found that the legume pre-crop effect on main crop yield was predominantly positive (73.6% positive, 0.7% neutral, and 25.7% negative), with 50% of the data showing a yield increase >10% (Fig. 2a). Averaged across a...
+
+[2025_Mudare_Crop_rotations_synergize_yield_nutrition_and_revenue.pdf] 11 p.
+  [lnCV] p.2: ... increases through time (Supple- mentary Fig. 1b). The year-to-year yield variability of the subsequent crop (lnCV) was 0.21 (CI: 0.06, 0.36, P =0.0059),representingahigher yield stability in rotation than in monoculture (CV...
+  [lnCV] p.9: ...mean yield over the number of years since the rotation started. We then used the natural logarithm of the CV (lnCV) from both monoculture and rotation to make the distribu- tion symmetrical, allowing for performing a meta-an...
+  [lnCV] p.9: ...le sizes, and standardizing stability comparisons across diverse systems through the coefﬁcient of variation: lnCV = ln Sc St /C18/C19 + 1 2 nc /C0 1ðÞ/C0 1 2ðnt /C0 1Þ ð6Þ where lnCV is the natural logarithm of the ratio be...
+  [83%] p.2: ...eased subsequent cereal yield gain by 26% (CI: 20%–32%), with the strongest yield increase obtained by maize (83%, CI: 48%–128%). Notably, growing cotton before maize or maize before cotton results in high yield gain of bot...
+  [16%] p.1: ...crop rotation increased subsequent crop yield, with legume pre-crops outperforming non- legumepre-crops(23%and16%averageincreases, respectively). Considering theentiresequence(i.e.,pre-cropplusmaincrop),rotationsincreasedto...
+  [16%] p.2: ...ents (Fig. 1a). Overall, crop rotation increased yields of subsequent crop by 20%(95%conﬁdence interval (CI): 16% − 24%, P < 0.0001) as compared to monoculture (Fig. 1b, Source Data). Legume pre-crops resulted in a yield ga...
+  [16%] p.2: ...19%−28%, Fig. 1c) to the subsequent crop, which was signiﬁcantly greater than that with non-legume pre-crops (16%, CI: 11%–21%, P < 0.0001, Fig. 1d, Source Data). When averaged across legume (grain legumes e.g., cow pea, so...
+  [29%] p.2: ...e-crops was found in Africa and North America, with the former witnessing the yield gain of legume pre-crops (29%, CI: 13%–47%) signiﬁcantly higher than that of the latter (16%, CI: 10%–22%). Yield gain varying with functio...
+  [29%] p.3: ... (CI: 10%–25%) and 17% (CI: 9%–25%), respec- tively. Revenue from crop rotation was increased by 20% (CI: 12%–29%) compared to the comparable continuous monocultures. We found some strong cases of win-win-win scenarios for ...
+  [stable] p.6: ... irrespectively of the presence of legume crops in rotations43,44. Balancing nutrient use to sustain high and stable yields, reducing fertilizer dependance, mitigating environmental risks, and cutting input costs remain as cha...
+  [stable] p.9: ...- iance component was also calculated based on Nakagawa et al.70.We assumed that the rotation system was more stable over years of experimental period when the lnCV was less than zero, implying that interannual differences are...
+  [stable] p.10: ...uptake: a review. Aust. J. Exp. Agric. 41, 347–359 (2001). 40. Reckling, M. et al. Grain legume yields are as stable as other spring crops in long-term experiments across northern Europe. Agron. Sustain. Dev. 38,63(2018). 41. ...
+  [transgressive] p.6: ...stead of continuous maize monoculture, or were legumes fail agro- nomically holds great potential to increase transgressive overyielding49, since both crops are highly dominant and adapted to adverse conditions54,55, offering greater...
+  [transgressive] p.7: ...-barley may yield the same output as monoculture wheat, yet alternative rotations like wheat-maize results in transgressive over- yielding. Similarly, while maize-soybean rotations are dominant in North America, evidence suggests a d...
+  [transgressive] p.7: ...ransitioning from high-yielding monoculture maize to soybean-maize rotations, as there is the possibility of “transgressive underyielding,” where a rotation performs less than a lower-yielding monoculture. Our study found signiﬁcant ...
+
+[2020_Bowles_Long-Term_Evidence_Shows_that_Crop-Rotation_Diversification_Increases.pdf] 11 p.
+  [88\.9] p.6: ...14.0% and 88.9% higher in more diverse rotations than in simpliﬁed rotations (Figure 2B). At these sites, rotations thus con...
+  [89\.9] p.2: ...lso showed positive effects on yield under unfavorable conditions, whereby yield losses were reduced by 14.0%–89.9% in drought years. Systems approaches to environmental sustainability and yield resilience, such as crop-rota...
+  [28\.1] p.2: ...ged grain systems. More diverse rotations increased maize yields over time and across all growing conditions (28.1% on average), including in favorable conditions (22.6%). Notably, more diverse rotations also showed positive...
+  [28\.1] p.4: ... 80.5% (ON1) higher in the most diverse rotations than in the sim- ple rotations, with an average increase of 28.1%. Crop-rotational diversity also affected how maize yield responded to growing conditions (Figure S3), as inf...
+  [22\.6] p.2: ...ize yields over time and across all growing conditions (28.1% on average), including in favorable conditions (22.6%). Notably, more diverse rotations also showed positive effects on yield under unfavorable conditions, whereb...
+
+[2021_Renwick_Long-term_crop_rotation_diversification_enhances_maize_drought.pdf] 13 p.
+  [17\.1] p.2: ...cover crops mitigated maize water stress at the leaf and canopy scales and reduced yield losses to drought by 17.1 ± 6.1%, while no-till did not affect maize drought resistance. Path analysis showed a strong correlation betw...
+  [53\s?%] p.6: ...ce (better maintained yield under drought) (figure 1(a)) (rotation p = 0.037). Drought reduced maize yield by 53% relative to irrigated con- ditions in the lowest diversity rotation versus 36% in the most diverse rotation. ...
+  [36\s?%] p.6: ...Drought reduced maize yield by 53% relative to irrigated con- ditions in the lowest diversity rotation versus 36% in the most diverse rotation. No-till did not affect yield drought resistance (p = 0.678) nor rotation divers...
+
+[2017_Diniz_Forage_cactus-sorghum_intercropping_at_different_irrigation_water.pdf] 10 p.
+  [1\.51] p.7: ...her than that of forage cactus (LERa = 0.87) (Table 3). The overall yield of the intercropping was 51% (LER = 1.51), which makes it necessary an increase of 0.51 ha of the single system to match the productivity of the crop ...
+  [1\.51] p.8: ...s partial land efficient use 0.87 LERb, sorghum partial land efficient use 0.65 LER, total land efficient use 1.51 ATER, area-time equivalent ratio 1.30 LEC, land equivalent coefficient 0.58 SPI, system productivity index (k...
+  [12[.,]130|12130] p.5: ...e crop 62,013aA 14,073aA 0.22aA Intercropping 34,665b 8,557b 0.21a Forage cactus- sorghum Single crop 60,075A 12,130A 0.19B (1)Means followed by equal lowercase letters, in the same crop, and uppercase letters, between plantin...
+  [14[.,]073|14073] p.5: ...ge cactus Single crop 44,009aB 4,627aB 0.11bC Intercropping 25,410b 3,573a 0.14a Sorghum Single crop 62,013aA 14,073aA 0.22aA Intercropping 34,665b 8,557b 0.21a Forage cactus- sorghum Single crop 60,075A 12,130A 0.19B (1)Means...
+  [4[.,]627|4627] p.5: ...ian Semiarid Region(1). Crop Planting system FM (kg ha-1) DM (kg ha-1) DMC Forage cactus Single crop 44,009aB 4,627aB 0.11bC Intercropping 25,410b 3,573a 0.14a Sorghum Single crop 62,013aA 14,073aA 0.22aA Intercropping 34,665...
+
+[2026_Raveloaritiana_Long-term_agricultural_diversification_increases_financial_profitability_biodiversity.pdf] 35 p.
+  [0\.1259] p.4: ...increased significantly by 189% over 20 years (LnRR=0.3633) compared to short-term effects (< 3 years, LnRR = 0.1259, Supplementary Fig. 2, Supplementary Table 2). Our analyses also showed that, over time, the probability of a...
+  [0\.3633] p.4: ...ge crop yield over time (Fig. 1), financial profitability increased significantly by 189% over 20 years (LnRR=0.3633) compared to short-term effects (< 3 years, LnRR = 0.1259, Supplementary Fig. 2, Supplementary Table 2). Our ...
+  [189] p.2: ...creases financial profitability, biodiversity, pollination, soil quality, and carbon sequestration from 37 to 189% over 20 years, and we find no significant effects on crop yield, pest control, and climate regulation. Non-c...
+  [189] p.4: ...id not significantly change crop yield over time (Fig. 1), financial profitability increased significantly by 189% over 20 years (LnRR=0.3633) compared to short-term effects (< 3 years, LnRR = 0.1259, Supplementary Fig. 2, ...
+  [189] p.26: ...rated biodiversity effects of agri-environmental management: a meta-analysis. Proc. R. Soc. B Biol. Sci. 278, 1894–1902 (2011). 72. Smith, O. M. et al. Landscape context affects the sustainability of organic farming systems...
+
+[2013_Melo_Sistemas_de_culturas_com_milho_sob_semeadura.pdf] 7 p.
+  [3[.,]728] p.5: ...-------------------------------Mgha-1------------------------------------------------------------- 3,447 bAB* 3,728 bAB 3,226bB 3,425bAB 3,399bB 4,000bANão adubado Adubado 5,063 aAB 5,047 aAB 4,665aB 4,849aA 5,074aA 4,884aA *...
+  [3[.,]447] p.5: ...------------------------------------------Mgha-1------------------------------------------------------------- 3,447 bAB* 3,728 bAB 3,226bB 3,425bAB 3,399bB 4,000bANão adubado Adubado 5,063 aAB 5,047 aAB 4,665aB 4,849aA 5,074a...
+  [22[.,]1] sem ocorrencia
+  [49[.,]3] sem ocorrencia
+
+[2025_Kluger_Precrop_payoffs_causal_machine_learning_reveals_large.pdf] 79 p.
+  [4\.5%] p.33: ...d net rotation benefit on yield across all 36 precrop, outcome crop and country combinations in our study was 4.5%. Nonetheless, our estimates for the benefits of rotation are still useful for understanding the effects of ro...
+  [4\.5%] p.64: ...9%* 1.6%* -2.0%* US R→SW SW→SW 18,061 35,515 7.1%* -0.1% 2.2%* -3.9%* US Su→SW SW→SW 14,730 35,515 3.9%* 1.0% 4.5%* -1.2%* US DB→SW SW→SW 7,624 35,515 14.4%* 0.6% 1.9%* -0.7% US C→SW SW→SW 7,693 35,515 2.1%* -0.1% 0.8% -0.1%...
+  [3\.7] p.13: ...ticular, we find that the average benefit of a 2- crop rotation across our 36 rotation-country pairs is about 3.7 times larger than the average additional benefit of switching from 2-crop rotations to a more diverse sequenc...
+  [3\.7] p.63: ...04 0.58 22.8% 0.007 Canada P→C C→C 4,437 16,497 0.93 0.47 24.0% 0.006 Canada WW→C C→C 3,016 16,497 1.02 0.54 23.7% 0.014 Canada UW→C C→C 2,380 16,497 1.09 0.71 23.6% 0.015 Canada SW→C C→C 2,015 16,497 0.56 0.73 23.6% 0.016 ...
+  [3\.7] p.64: ...97 1.7%* -2.3%* 1.3%* -0.3% Canada P→C C→C 4,437 16,497 -2.0%* 0.2% 1.7%* -1.4%* Canada WW→C C→C 3,016 16,497 3.7%* 5.2%* 2.3%* -0.9% Canada UW→C C→C 2,380 16,497 3.9%* 2.9%* 1.2% 1.7%* Canada SW→C C→C 2,015 16,497 -0.3% 1....
+
+[2011_Rusinamhodzi_A_meta-analysis_of_long-term_effects_of_conservation.pdf] 17 p.
+  [mean\s*=\s*0\.1] p.5: ...ure (CA) treatment. Weighted mean differences (t ha-1) -14 -12 -10 -8 -6 -4 -2 0 2 4 6 NT NTR NTM mean = -0.2 mean = 0.1 mean = -0.1 Fig. 2 Summary statistics of maize grain yield weighted mean differences (t ha−1) in the treatmen...
+  [20 years] p.6: ...nd no-tillage without rotation. Although effect sizes are generally positive, real yield benefits start after 20 years of production 662 L. Rusinamhodzi et. al....
+  [20 years] p.7: ...o reported no difference in yield between no-tillage and conventional ploughing on poorly drained soils after 20 years of continuous no-tillage. Dam et NT + mulch Duration of study (years) 02468101214 Weighted mean differences (...
+  [20 years] p.15: ...7 Kapusta G, Krausz RF, Matthews JL (1996) Corn yield is equal in conventional, reduced, and no tillage after 20 years. Agron J 88:812–817 Karlen DL, Berry EC, Colvin TS, Kanwar RS (1991) Twelve-year tillage and crop rotation ef...
+  [63] p.1: ...he data show that conservation agriculture practices require high inputs especially N for improved yield; (4) 63% of data show that increased yields are obtained with rotation but calculations often do not include the vari...
+  [63] p.7: ...Conservation agriculture long-term effects on maize grain yield under rain-fed conditions in southern Africa 663...
+  [63] p.8: ... strong correlation between the amount of rainfall and maize grain yield as rainfall accounted for on average 63% of the variation in all sites. NT no-tillage/reduced tillage 664 L. Rusinamhodzi et. al....
+
+[2015_Martins_Nitrogen_symbiotically_fixed_by_cowpea_and_gliricidia.pdf] 7 p.
+  [410] p.4: ...2) Gliricidia (tips) 3,938a 2,213b 2,253b ‑ Gliricidia (wood) 12,840a 9,767a 14,334a ‑ Cowpea (grain) 36a ‑ ‑ 410a Cowpea (straw) 61a ‑ ‑ 698a δ15N (‰) M. glaziovii 11.98a 13.23a 8.78b ‑ Gliricidia 4.95* 5.65* 10.35ns ‑ A. ...
+  [36[,.]] sem ocorrencia
+
+[2011_Souza_Eficiencia_do_uso_da_agua_das_culturas.pdf] 7 p.
+  [13%|13 %] p.5: ...ipalmente sob irrigação. A produção média do milho, em consorciação com o feijão-caupi, teve um decréscimo de 13% em relação ao monocultivo. Para o feijão-caupi, essa redução foi da ordem de 66%. Essas diferenças foram sign...
+  [66] p.4: ...7b 3.418,3cd 30,6a 72,5bc 75% da ETo 420,8c 443,3c 1.316,5b 3.005,0 bc 31,3a 67,8bc 50% da ETo 392,9d 415,4d 866,0ab 2.433,3ab 22,0a 58,6ab 0% da ETo 337,1e 359,5e 571,4a 1.655,0a 17,0a 46,3a ******** ******** 1.219,5 3.17...
+  [66] p.5: ...caupi, teve um decréscimo de 13% em relação ao monocultivo. Para o feijão-caupi, essa redução foi da ordem de 66%. Essas diferenças foram significativas, e podem ser atribuídas a duas causas: a) o uso de menor número de pl...
+  [66] p.5: ...m) Produção de grãos (kg ha-1) 300 350 400 450 500 550 600 0 200 400 600 800 1000 1200 1400 1600 1800 Pexc=1.366,30 *exp 0,9330R²= R²=0,9422 Pcons=624,60 *exp 2^-0,5* 90,24 LI-463,56 ((( ((( 2^-0,5* 68,53 LI-500,99 ((( (((...
+
+=== C. Franke 2018, Tabela 3 (XML) ===
+   Factor | n | Yield in continuous cereals | Yield after a legume | SE of yields | Yield response | SE of yield response | p-value
+   Overall mean | 199 | 1.20 | 1.69 | 0.23 | 0.49 | 0.09 | &lt;0.0001
+   Savannahs of southern Africa | 27 | 1.65 | 2.34 | 0.30 | 0.69 | 0.18 | 0.0005
+   Highlands of East Africa | 30 | 2.24 | 2.86 | 0.32 | 0.62 | 0.21 | 0.0074
+   Humid forest/Derived savannah | 22 | 1.59 | 1.81 | 0.25 | 0.21 | 0.21 | 0.334
+   Guinea savannah | 74 | 2.14 | 2.66 | 0.21 | 0.52 | 0.18 | 0.015
+   Sudano-Sahelian zone | 46 | 1.16 | 1.44 | 0.22 | 0.28 | 0.17 | 0.138
+   AEZ x yield response | 0.351
+   Maize | 131 | 1.96 | 2.53 | 0.15 | 0.57 | 0.12 | 0.0001
+   Millet | 37 | 1.11 | 1.43 | 0.25 | 0.32 | 0.21 | 0.134
+   Sorghum | 25 | 1.06 | 1.18 | 0.39 | 0.12 | 0.26 | 0.647
+   Other cereal | 6 | 0.93 | 1.26 | 0.78 | 0.33 | 0.42 | 0.445
+   Cereal type x yield response | 0.435
+   Cowpea | 91 | 1.21 | 1.60 | 0.23 | 0.40 | 0.09 | 0.0004
+   Groundnut | 35 | 1.22 | 1.84 | 0.23 | 0.62 | 0.11 | &lt;0.0001
+   Soybean | 47 | 1.18 | 1.80 | 0.23 | 0.62 | 0.10 | &lt;0.0001
+   Pigeonpea | 11 | 1.23 | 1.66 | 0.25 | 0.43 | 0.11 | 0.0005
+   Other legume | 15 | 1.24 | 1.61 | 0.25 | 0.36 | 0.11 | 0.0023
+   Legume type x yield response | &lt;0.0001
+   1st rotational cycle | 150 | 1.49 | 1.97 | 0.13 | 0.48 | 0.10 | &lt;0.0001
+   2nd or subsequent cycles | 49 | 2.08 | 2.57 | 0.16 | 0.49 | 0.12 | 0.0003
+   Rotational cycle x yield response | 0.907
+   0 N | 77 | 0.97 | 1.51 | 0.24 | 0.54 | 0.11 | &lt;0.0001
+   15–50 kg N ha−1 | 65 | 1.16 | 1.65 | 0.25 | 0.49 | 0.15 | 0.0025
+   60–120 kg N ha−1 | 53 | 1.92 | 2.25 | 0.26 | 0.32 | 0.14 | 0.0248
+   N application x yield response | 0.204
+  [Sudano-Sahelian zone[^.]{] ...ounced in southern Africa, the highlands of East Africa and the Guinea savannah, and less in the humid forest/derived savannah of West Africa and the Sudano-Sahelian zone. Maize showed stronger yield responses after a legume than millet and sorghum. Agro-ecological zone and cereal type were however confounded. All grai...
+  [Sudano-Sahelian zone[^.]{] ...vannah (&gt;1200 mm rain, &gt;250 growing days per annum), the drier Guinea savannah (700–1200 mm rain, 150–250 growing days per annum), and the arid Sudano-Sahelian zone (&lt;700 mm rain, &lt;150 growing days per annum). Studies from Southern and East Africa were too few to be divided. A search on the Web of Science using the terms “tuber AND legume AND Africa” yield...

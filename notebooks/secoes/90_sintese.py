@@ -6,17 +6,18 @@
 # | Base | Global? | Evidência deste estudo | Ressalva para o produto |
 # |---|---|---|---|
 # | NASA POWER | **Sim** | 107 pontos em todos os continentes, inclusive Antártida, Svalbard e oceano: meteorologia 100% válida (seção 1) | ~50 km: clima regional, não microclima |
-# | GPM IMERG | **Sim** | V07 com dados nos 216 pontos testados, de 85°S a 85°N (seção 2) | V07 diária a 0,1° vem aberta pelo POWER (~2 meses de atraso); V06 completa só entre 60°S e 60°N |
+# | GPM IMERG | **Sim** | V07 com dados nos 216 pontos testados, de 85°S a 85°N (seção 2) | V07 diária a 0,1° vem aberta pelo POWER (~2 meses de atraso): Final até 30/09/2025, depois Late, preliminar; V06 completa só entre 60°S e 60°N |
 # | ERA5 | **Sim** | 90°S–90°N, sem ausentes (seção 3) | modelo, não observação; ~31 km; aberto só até 2020 (Planetary Computer) |
 # | NEX-GDDP-CMIP6 | **Quase** | 60°S–90°N, só terra (seção 15) | projeções; usar vários modelos para chuva |
 # | NLDAS | **Não** | caixa 25–53°N, 125–67°W (seção 4) | usar só como enriquecimento nos EUA |
-# | GLDAS | **Quase** | 60°S–90°N (seção 4) | sem Antártida; exige Earthdata |
-# | SMAP | **Sim** | 85°S–90°N (seção 4) | exige Earthdata; 9 km; L3 só 0–5 cm → usar L4 (zona da raiz) |
+# | GLDAS | **Quase** | 60°S–90°N (seção 4); baixado: Noah mensal e CLSM diário do Nordeste (seção 5) | sem Antártida; o TWS do CLSM acompanha o GRACE (r 0,88 no CE, 0,95 no NE), mas em parte por construção, porque o CLSM assimila o GRACE |
+# | SMAP | **Sim** | amostra global: o L4 tem valor em 99,6% da terra entre 60°S e 60°N; L3 e L4 diários baixados para o Nordeste, 2015–2026 (seção 5) | 9 km; o L3 cobre só 0–5 cm, por isso o produto usa o L4 (zona da raiz e percentil) |
 # | GRACE/GRACE-FO | **Sim** | 100% das células de terra e oceano (seção 6) | resolução efetiva ~300 km; 35 meses faltantes (lacuna 2017–18) |
 # | Landsat | **Sim** | dados nas 27 caixas de teste de 81°N a 80°S (seção 7) | revisita de 8–16 dias; nuvem na estação chuvosa |
 # | Sentinel-2 | **Sim** | idem (seção 8) | NDVI tem viés contra o Landsat → usar **HLS** |
 # | MODIS | **Sim (terra)** | ~300 tiles por período, 14 pontos em 6 continentes (seção 9) | Terra no fim da vida (lacuna de jun–nov/2025) → migrar para VIIRS |
-# | VIIRS (fogo FIRMS) | **Sim** | arquivos anuais por país (seção 9) | NDVI do VIIRS exige Earthdata |
+# | VIIRS (fogo FIRMS + NDVI) | **Sim** | arquivos anuais por país (seção 9); NDVI VNP13A3 do Ceará baixado (seção 5) | o NDVI do VIIRS acompanha o do MODIS (r 0,988, viés +0,014) e cobre a lacuna do Terra em jun–nov/2025 |
+# | ECOSTRESS | (não baixado) | — | é a única base da lista oficial do desafio ainda sem dado; baixar nas AOIs |
 # | SRTM/NASADEM | **Quase** | 56°S–60°N (seção 10) | completar com o Copernicus DEM (global) |
 # | FAO GAEZ | **Sim** | 99,8% dos pixels de terra, 56°S–84°N (seção 11) | ~9 km; clima de 1981–2010; produção real "2010" não confere com o IBGE |
 # | AMS Market News | **Não** | só EUA, API com chave (seção 12) | trocar por FAOSTAT (por país) + Banco Mundial (referência) |
@@ -91,24 +92,65 @@
 #     média de 1,5 em 2000–2020 (Banco Mundial).
 # 11. **A rotação real é mensurável.** No CDL (EUA), 73% do Iowa alterna milho↔soja, mas o semiárido do Texas tem
 #     67% de algodão contínuo. A monocultura no semiárido é o mesmo risco que o bicudo explorou no Nordeste.
+# 12. **O El Niño de 2026–27 é o contexto da demo** (seção 17).
+#     - **Situação agora:** ONI de ago–out/2026 em +2,46. O CPC, em 12/11, prevê forte a muito forte até jan–mar/2027.
+#     - **Histórico:** nos 5 El Niños fortes desde 1982, a quadra do Ceará ficou no tercil inferior em 4. O milho caiu de
+#       40% a 64% nesses 4; 2023/24 foi a exceção.
+#     - **Entrada em 2027:** pelo SMAP, MA e SE têm o novembro mais seco da série e PI e PE o 2º; o Ceará está normal
+#       (5º de 12).
+#     - O solo de novembro não prevê a quadra: o risco vem do oceano.
+#     - (Corrigido em 14/11: o percentil pronto do SMAP quase não existe de out a jan.)
+# 13. **A rotação quebra a "ponte verde" das pragas de pouca mobilidade** (seção 16).
+#     - No Iowa, a ponte verde do milho está fragmentada: 5% dela no maior aglomerado.
+#     - No Texas de algodão contínuo, ela percola: 65% num único aglomerado. Rotacionar ~30% dos talhões derruba esse
+#       aglomerado para ~22%.
+#     - Pragas que voam km exigem coordenação regional.
+#     - No Ceará, a lavoura volta ao mesmo lugar em 82–91% dos casos no Apodi irrigado e em 28–64% no sertão.
+# 14. **O SMAP enxerga o que a chuva acumulada não vê, mas só no fim da quadra** (rodada 2 do conselho,
+#     `proposta/PROPOSTA_FINAL_v2.md`).
+#     - Em 30/abr/2016, a regra de chuva acendeu em 9 dos 127 municípios que perderam o milho; o SMAP L4 acendeu em 64.
+#     - Ele não ajuda em novembro nem em 19/mar.
+# 15. **Correção:** o "+6,6 p.p. de diversidade" (seção 20 e `pesquisa/`) é sobretudo composição. Só com sequeiro cai para
+#     +1,4 p.p., não significativo. O que importa é **qual** cultura entra, não quantas.
 #
 # ### 90.3 O que a literatura acrescenta (ver `pesquisa/artigos_e_datasets.md`)
 # - **Leguminosa antes da cultura:** +20% no rendimento seguinte, chegando a +32% em ambientes de baixa produtividade;
 #   o efeito some com muito N mineral (Zhao et al. 2022, Nat. Commun.).
 # - **Rotação diversa:** +28% no milho e perdas 14–90% menores em ano seco (Bowles et al. 2020, One Earth).
-# - **Corte e queima sem pousio no semiárido (Sobral-CE):** ~50% do carbono do solo perdido em ~10 anos (Primo et al. 2023).
+# - **Corte e queima no semiárido:** medido em Sobral-CE (Sacramento et al. 2013; grau C), a agrofloresta **perde menos**
+#   carbono do solo (0–40 cm) que a broca com queima (−8,13 e −23,87 contra −58,87 Mg/ha). O "~50% em ~10 anos sem
+#   pousio" de Primo et al. 2023 é simulação Century, com local não verificado (grau D; `proposta/PROPOSTA_FINAL_v3.md`,
+#   9.7).
 # - **Veranico** (≥ 3 dias com ≤ 2 mm) liga-se à perda de milho e feijão no Ceará (Rocha et al. 2021, FUNCEME).
 # - **ZARC (MAPA):** tábua de risco aberta por município × cultura × solo × decêndio. É a restrição de janela de
 #   plantio pronta para o Brasil.
 # - **Alerta:** o "Crop Recommendation Dataset" do Kaggle tem padrão de dado sintético e não deve ser usado como evidência.
+# - **Artigo-âncora:** Kluger, Di Tommaso & Lobell 2025 (*Environ. Res. Lett.* 20:114037). Satélite + mapas de culturas
+#   + floresta causal mostram que o benefício da rotação varia com o clima, mas o estudo cobre só celeiros temperados.
+#   A QUADRA leva a ideia ao semiárido, com os dados de água da NASA (`pesquisa/artigo_ancora_objetivo.md`).
+# - **Meta-análises globais verificadas** (`pesquisa/meta_analises_globais.md`):
+#   - Mudare 2025: +20% de receita;
+#   - Zhao 2022: +32% em ambiente de baixa produtividade;
+#   - MacLaren 2022: a diversidade substitui o N.
+#   - Resumo: o ganho é maior **onde se usa pouco adubo**, que é o caso do sertão.
+# - **79 artigos com base no Nordeste**, organizados pelo módulo do produto (`pesquisa/artigos_nordeste.md`), e o nível
+#   de evidência por cultura (`pesquisa/culturas_eficientes.md`). Milho e feijão/amendoim têm evidência forte; caupi,
+#   mandioca e palma, fraca para rotação.
 #
 # ### 90.4 Pendências e riscos
-# - **Earthdata Login:** SMAP, GLDAS, NLDAS, VIIRS VNP13 e os últimos ~2 meses do IMERG (Early/Late) aguardam a
-#   credencial. O IMERG V07 diário a 0,1° de 1998 a set/2026 já veio pelo POWER, sem login. Os scripts estão prontos
-#   (`scripts/baixar_earthdata.py`).
+# - **Earthdata: resolvido em 14/11.** SMAP L3/L4, GLDAS Noah/CLSM, NLDAS, VIIRS VNP13A3 e o IMERG Late/Early até
+#   13/11/2026 foram baixados (seção 5).
+# - **Faltam:**
+#   - **ECOSTRESS** (lista oficial do desafio);
+#   - validação de campo de IMERG e SMAP com FUNCEME, INMET e CEMADEN (em andamento);
+#   - mapa de culturas por tipo no Brasil (o MapBiomas exige Google Earth Engine).
 # - **Chuva no litoral leste:** o IMERG ficou em ~40–60% de normais aproximadas em Recife, Maceió, Aracaju e Salvador,
 #   contra 82–94% no sertão. As normais usadas eram aproximadas: **conferir com as Normais do INMET** antes de afirmar
 #   viés. Pode haver efeito de pixel misto terra/mar.
+#   - **Conferido na rodada 3:** contra as automáticas do INMET a menos de 20 km do mar (17 estações do RN à BA, fora o
+#     litoral norte do RN), o IMERG capta só 39–72% da chuva medida, mediana 52%; contra as normais oficiais de
+#     1991–2020, 0,46–0,67 no litoral leste e 0,84–1,12 no sertão (`v3_curador_valida_inmet.saida.txt`, B1 e B2;
+#     `pesquisa/viabilidade_artigos_nordeste.md`, 4.3).
 # - **ERA5 aberto só até 2020** (espelho do Planetary Computer); para 2021+, CDS com chave. O ERA5 tem viés de
 #   chuvisco (mais dias ≥ 1 mm que o IMERG).
 # - **Calibração do POWER:** o IMERG do POWER só vem preenchido no horário UTC; a radiação começa em 1984.

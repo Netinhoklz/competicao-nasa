@@ -151,7 +151,7 @@
   MODIS LST diurna AOI cariri jul-set/2019: [28.9, 32.6, 37.2] C (solo medido entre linhas no artigo: 37 C aspersao, 41 C gotejo)
 
 == G. Geracoes num ciclo de algodao de sequeiro de 150 dias semeado em 1/fev (Pereira 2023) ==
-  [Azambuja & Degrande 2014, p. 382, citando Bianchini 2004: 'sete geracoes' num unico ciclo do algodao]
+  [Azambuja & Degrande 2014, p. 384, citando Bianchini 2004: 'sete geracoes' num unico ciclo do algodao]
   apodi_jaguaribe   : 7.1 geracoes (min 6.2, max 8.2)
   cariri            : 5.5 geracoes (min 4.8, max 6.3)
   sertao_central    : 6.9 geracoes (min 6.1, max 8.0)

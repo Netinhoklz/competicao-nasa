@@ -1,0 +1,48 @@
+====================================================================================================
+A. LER por lamina, derivado de Souza 2011 (Tabelas 1 e 2, p. 718). Delineamento de substituicao:
+   caupi 80 mil pl/ha solteiro x 40 mil no consorcio; milho 50 mil nos dois (p. 716; Souza 2015 p. 153)
+====================================================================================================
+lamina  LER_parcial_milho  LER_parcial_caupi   LER  agua_extra_consorcio_mm
+  L125              0.901              0.471 1.372                     59.2
+  L100              0.838              0.404 1.243                     58.6
+   L75              0.865              0.463 1.328                     59.0
+   L50              0.862              0.432 1.294                     59.0
+    L0              0.910              0.242 1.152                     61.6
+  Medias da tabela (ultima linha): milho 2509,5/3179,2 + caupi 459,9/1219,5 = 0.789 + 0.377 = 1.166
+  Lima Filho 2000 (Tabela 1): 1500/2208 + 700/1550 = 0.679 + 0.452 = 1.131 (o artigo imprime 0,68 + 0,45 = 1,13)
+  Leitura: o LER cai de 1,24-1,37 (com agua) para 1,15 na lamina 0; quem cai e o caupi (0,47 -> 0,24).
+  CONFUSAO: o consorcio recebeu 58-62 mm a mais que o milho solteiro em toda lamina (Tabelas 1-2).
+  Inconsistencia do artigo: milho solteiro L0 = 1.655,0 (Tab. 1) x 1.663,33 (Tab. 3).
+  Unidade: 'EUA (kg m-3)' das Tabelas 1-2 = 10 x kg ha-1 mm-1 (3418,3/471,2 = 7,25 kg/ha/mm; tabela 72,5).
+
+====================================================================================================
+B. PAM CE (pares milho+feijao com area plantada: 1988-2025): o milho e o feijao quebram juntos?
+====================================================================================================
+  municipio-anos com as duas culturas: 6920; municipios 184; anos 1988-2025
+  razao de area plantada feijao/milho: mediana 0.97 (p10 0.47, p90 1.67)
+                                tudo  1988-1997  1998-2025
+n                           6920.000   1781.000   5139.000
+rho_spearman                   0.710      0.690      0.730
+p_quebra_milho                 0.227      0.301      0.202
+p_quebra_feijao                0.153      0.201      0.137
+p_ambos                        0.117      0.170      0.099
+p_ambos_se_independentes       0.035      0.060      0.028
+p_feijao_quebra_dado_milho     0.517      0.563      0.492
+p_milho_quebra_dado_feijao     0.765      0.844      0.725
+disp_milho                     1.770      1.620      1.830
+disp_feijao                    1.410      1.470      1.400
+disp_media_das_duas            1.470      1.360      1.490
+p10_milho                      0.230      0.110      0.280
+p10_feijao                     0.390      0.250      0.430
+p10_media_das_duas             0.350      0.210      0.400
+
+  rho por municipio (>=20 anos): mediana 0.74, p10 0.51, p90 0.86, n=184; municipios com rho < 0,5: 18
+
+  Anos de seca estadual (mediana da razao do milho < 0,5): 9
+ano       1990  1992  1993  1998  2010  2012  2013  2015  2016
+cult                                                          
+r_milho   0.25  0.48  0.07  0.23  0.43  0.29  0.46  0.41  0.37
+r_feijao  0.48  0.59  0.23  0.48  0.71  0.50  0.71  0.68  0.57
+  Nesses anos: razao mediana milho 0.37 x feijao 0.57; anos em que o feijao ficou >= 0,5: 5 de 9
+
+  Girassol no PAM do CE (rotacao caupi/girassol de Neves 2015): municipio-anos com area > 0 = 198; area total 6042 ha; anos [2008, 2009, 2010, 2011, 2012]

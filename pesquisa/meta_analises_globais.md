@@ -72,8 +72,11 @@ Conferido em 14/11/2026:
    - **Os efeitos de longo prazo são lentos.** Em Raveloaritiana não há efeito de rendimento; os benefícios estão em
      solo, carbono e lucratividade ao longo de décadas. A ferramenta deve separar o ganho deste ano do ganho em 10–20 anos.
    - **Combinar estratégias rende mais** (Rasmussen). Rotação + cobertura + manejo de água é melhor que rotação sozinha.
-5. **O nosso teste no Ceará** (`analise_diversidade_resiliencia.py`) já mostra o padrão: +6,6 p.p. de rendimento
-   preservado na seca nos municípios mais diversos, com o efeito robusto no portfólio e só sugestivo no milho.
+5. **O nosso teste no Ceará** (`analise_diversidade_resiliencia.py`): os municípios mais diversos preservaram +6,6 p.p.
+   de rendimento do portfólio na seca de 2012–2016. A rodada 2 do conselho mostrou que isso é sobretudo **composição**
+   (mais culturas tolerantes ou irrigadas). **Só com sequeiro, cai para +1,4 p.p., não significativo** (ver
+   `artigo_ancora_objetivo.md`). Coerente com a literatura: o que importa é **qual** cultura entra (leguminosa,
+   tolerante à seca), não o número de culturas.
 
 ## 4. Como citar no pitch sem exagero
 

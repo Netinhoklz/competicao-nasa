@@ -2,11 +2,12 @@
 # ## 4. SMAP, GLDAS, NLDAS, IMERG V07 recente e VIIRS NDVI — bases que exigem Earthdata Login
 #
 # Essas coleções **só são entregues com conta NASA Earthdata** (gratuita).
-# Exceção já resolvida: o **IMERG V07 diário a 0,1° (1998 → set/2026)** veio aberto pela API do NASA POWER (seção 2).
-# Só os últimos ~2 meses (Early/Late) dependem do Earthdata.
-# - **Enquanto a credencial não existir:** a análise abaixo usa os **metadados abertos do catálogo CMR** da NASA
-#   (extensão espacial, período e número de arquivos por ano) para validar a cobertura global e planejar os recortes.
-# - **Quando o arquivo `_netrc` existir:** `scripts/baixar_earthdata.py --dados` baixa os recortes do Ceará.
+# - **Situação:** a credencial está ativa desde 14/11/2026 e os dados **já foram baixados**. A análise deles está na
+#   **seção 5**.
+#   - SMAP, GLDAS, IMERG e VIIRS vieram por OPeNDAP na nuvem, recortados no servidor.
+#   - O IMERG V07 diário de 1998 a set/2026 tinha vindo antes pela API do NASA POWER (seção 2).
+# - **Esta seção** mantém a validação de cobertura global pelos **metadados abertos do catálogo CMR**: extensão espacial,
+#   período e número de arquivos por ano, que qualquer pessoa pode reproduzir sem login.
 #
 # **Ficha técnica (resumo)**
 #

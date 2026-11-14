@@ -1,0 +1,60 @@
+
+milho: solos [np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15), np.int64(16)]; ciclos ['20', '21', '22']; municipios 184
+  mais permissivo (curador)    dif mediana +0.0 | |dif|<=1 em 89% | Spearman 0.86
+  mediana solos x ciclos       dif mediana +2.0 | |dif|<=1 em 8% | Spearman 0.81
+  solo 11 (max dos ciclos)        dif mediana +3.0 | |dif|<=1 em 14% | n 93
+  solo 12 (max dos ciclos)        dif mediana +2.0 | |dif|<=1 em 27% | n 141
+  solo 13 (max dos ciclos)        dif mediana +2.0 | |dif|<=1 em 45% | n 176
+  solo 14 (max dos ciclos)        dif mediana +1.0 | |dif|<=1 em 78% | n 184
+  solo 15 (max dos ciclos)        dif mediana +0.0 | |dif|<=1 em 96% | n 184
+  solo 16 (max dos ciclos)        dif mediana +0.0 | |dif|<=1 em 89% | n 184
+    ciclo 20 solo 11: dif mediana +3.0 | |dif|<=1 em 14% | oficial sem janela 34%
+    ciclo 20 solo 12: dif mediana +2.0 | |dif|<=1 em 27% | oficial sem janela 35%
+    ciclo 20 solo 13: dif mediana +2.0 | |dif|<=1 em 45% | oficial sem janela 27%
+    ciclo 20 solo 14: dif mediana +1.0 | |dif|<=1 em 78% | oficial sem janela 10%
+    ciclo 20 solo 15: dif mediana +0.0 | |dif|<=1 em 96% | oficial sem janela 2%
+    ciclo 20 solo 16: dif mediana +0.0 | |dif|<=1 em 89% | oficial sem janela 1%
+    ciclo 21 solo 11: dif mediana +8.0 | |dif|<=1 em 0% | oficial sem janela 59%
+    ciclo 21 solo 12: dif mediana +3.0 | |dif|<=1 em 2% | oficial sem janela 28%
+    ciclo 21 solo 13: dif mediana +3.0 | |dif|<=1 em 3% | oficial sem janela 35%
+    ciclo 21 solo 14: dif mediana +3.0 | |dif|<=1 em 10% | oficial sem janela 27%
+    ciclo 21 solo 15: dif mediana +2.0 | |dif|<=1 em 27% | oficial sem janela 13%
+    ciclo 21 solo 16: dif mediana +1.0 | |dif|<=1 em 67% | oficial sem janela 9%
+    ciclo 22 solo 11: dif mediana +8.0 | |dif|<=1 em 0% | oficial sem janela 97%
+    ciclo 22 solo 12: dif mediana +7.0 | |dif|<=1 em 0% | oficial sem janela 60%
+    ciclo 22 solo 13: dif mediana +5.0 | |dif|<=1 em 0% | oficial sem janela 43%
+    ciclo 22 solo 14: dif mediana +4.0 | |dif|<=1 em 0% | oficial sem janela 34%
+    ciclo 22 solo 15: dif mediana +4.0 | |dif|<=1 em 1% | oficial sem janela 34%
+    ciclo 22 solo 16: dif mediana +3.0 | |dif|<=1 em 7% | oficial sem janela 24%
+
+caupi: solos [np.int64(1), np.int64(2), np.int64(3)]; ciclos ['20', '21', '22']; municipios 184
+  mais permissivo (curador)    dif mediana -2.0 | |dif|<=1 em 38% | Spearman 0.79
+  mediana solos x ciclos       dif mediana +0.0 | |dif|<=1 em 84% | Spearman 0.79
+  solo  1 (max dos ciclos)        dif mediana +0.0 | |dif|<=1 em 84% | n 184
+  solo  2 (max dos ciclos)        dif mediana -1.0 | |dif|<=1 em 76% | n 184
+  solo  3 (max dos ciclos)        dif mediana -2.0 | |dif|<=1 em 38% | n 184
+    ciclo 20 solo  1: dif mediana +0.0 | |dif|<=1 em 83% | oficial sem janela 1%
+    ciclo 20 solo  2: dif mediana -1.0 | |dif|<=1 em 76% | oficial sem janela 0%
+    ciclo 20 solo  3: dif mediana -2.0 | |dif|<=1 em 38% | oficial sem janela 0%
+    ciclo 21 solo  1: dif mediana +1.0 | |dif|<=1 em 80% | oficial sem janela 1%
+    ciclo 21 solo  2: dif mediana +0.0 | |dif|<=1 em 81% | oficial sem janela 0%
+    ciclo 21 solo  3: dif mediana -1.0 | |dif|<=1 em 72% | oficial sem janela 0%
+    ciclo 22 solo  1: dif mediana +2.0 | |dif|<=1 em 35% | oficial sem janela 3%
+    ciclo 22 solo  2: dif mediana +1.0 | |dif|<=1 em 82% | oficial sem janela 0%
+    ciclo 22 solo  3: dif mediana +0.0 | |dif|<=1 em 84% | oficial sem janela 0%
+
+sorgo: solos [np.int64(1), np.int64(2), np.int64(3)]; ciclos ['20', '21', '22']; municipios 184
+  mais permissivo (curador)    dif mediana -3.0 | |dif|<=1 em 2% | Spearman 0.77
+  mediana solos x ciclos       dif mediana +0.0 | |dif|<=1 em 84% | Spearman 0.84
+  solo  1 (max dos ciclos)        dif mediana +0.0 | |dif|<=1 em 81% | n 184
+  solo  2 (max dos ciclos)        dif mediana -2.0 | |dif|<=1 em 41% | n 184
+  solo  3 (max dos ciclos)        dif mediana -3.0 | |dif|<=1 em 2% | n 184
+    ciclo 20 solo  1: dif mediana +0.0 | |dif|<=1 em 81% | oficial sem janela 0%
+    ciclo 20 solo  2: dif mediana -2.0 | |dif|<=1 em 41% | oficial sem janela 0%
+    ciclo 20 solo  3: dif mediana -3.0 | |dif|<=1 em 2% | oficial sem janela 0%
+    ciclo 21 solo  1: dif mediana +0.0 | |dif|<=1 em 95% | oficial sem janela 0%
+    ciclo 21 solo  2: dif mediana -1.0 | |dif|<=1 em 82% | oficial sem janela 0%
+    ciclo 21 solo  3: dif mediana -2.0 | |dif|<=1 em 42% | oficial sem janela 0%
+    ciclo 22 solo  1: dif mediana +2.0 | |dif|<=1 em 40% | oficial sem janela 1%
+    ciclo 22 solo  2: dif mediana +1.0 | |dif|<=1 em 84% | oficial sem janela 0%
+    ciclo 22 solo  3: dif mediana +0.0 | |dif|<=1 em 99% | oficial sem janela 0%

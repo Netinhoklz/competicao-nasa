@@ -1,0 +1,145 @@
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v4_metodologo_debate_checagens.py:127: Pandas4Warning: ExcelFile.parse is deprecated. Use pd.read_excel instead.
+  d = xl.parse(aba)
+
+==================== A. Zhao 2022 PDF: indice de diversidade do controle ====================
+p.6:  (1) to simultaneously capture differences in crop species and functional diversity on spatial and temporal scale4,59,60 Crop diversity = Nspecies × Ngroup × Nyear ð1Þ where Nspecies is the total number of crop species, Ngroup is the total number of crop functional groups, and Nyear is the average number of crop species per year.
+---
+
+colunas: ['Unnamed: 0', 'Continent', 'Country', 'Lat', 'Lon', 'AI', 'Alt', 'MAP', 'MAT', 'pH', 'SOC', 'STN', 'ST2', 'PreEff', 'LeguSeaNo', 'NumCroPerYr', 'PreLegPur', 'PreLegRes', 'SubEff', 'MainCropType', 'IG', 'NonLegRes', 'SOCcat', 'ConsTill', 'RC', 'NFR', 'CD2', 'RepNL', 'RepL', 'GMC', 'RR_Y', 'wgt', 'vi', 'yi', 'sitio']
+CD2 (diversidade do controle) - distribuicao: {'count': 11768.0, 'mean': 2.49, 'std': 1.86, 'min': 1.0, '25%': 1.0, '50%': 2.0, '75%': 4.0, 'max': 12.0}
+PreEff top 15: {'Soybean': 3040, 'Pea': 1866, 'Alfalfa': 972, 'Faba bean': 936, 'Chickpea': 793, 'Clover': 708, 'Lentil': 671, 'Mix.': 528, 'Vetch': 387, 'Lupine': 381, 'Common bean': 326, 'Cowpea': 305, 'Mungbean': 194, 'Peanut': 132, 'Pigeon pea': 125}
+SubEff top 12: {'Wheat': 5147, 'Maize': 3595, 'Barley': 740, 'Sorghum': 640, 'Rapeseed': 440, 'Rice': 373, 'Millet': 177, 'Potato': 164, 'Sunflower': 82, 'Cotton': 57, 'Oat': 49, 'Safflower': 42}
+NFR describe: {'count': 11768.0, 'mean': 83.9, 'std': 69.1, 'min': 0.0, '25%': 30.0, '50%': 78.0, '75%': 120.0, 'max': 405.0}
+
+==================== B. Efeito medido com controle ja diverso (CD2), N baixo ====================
+CD2 1-1, todos os N                                           +26.0% (IC sitio  +21.0 a  +30.6) | 260 sitios, 5295 obs
+CD2 1-1, N <= 50                                              +41.3% (IC sitio  +33.9 a  +49.0) | 167 sitios, 2250 obs
+CD2 2-3, todos os N                                           +15.0% (IC sitio   +9.6 a  +23.0) | 106 sitios, 2633 obs
+CD2 2-3, N <= 50                                              +31.0% (IC sitio  +17.8 a  +45.4) | 65 sitios, 715 obs
+CD2 4-5, todos os N                                           +10.3% (IC sitio   +7.5 a  +15.7) | 144 sitios, 2871 obs
+CD2 4-5, N <= 50                                              +30.5% (IC sitio  +21.1 a  +41.3) | 77 sitios, 651 obs
+CD2 6-9, todos os N                                            +7.0% (IC sitio   +4.6 a   +9.1) | 54 sitios, 943 obs
+CD2 6-9, N <= 50                                               +9.4% (IC sitio   +5.1 a  +14.0) | 23 sitios, 160 obs
+CD2 10-99, todos os N                                          +1.6% (IC sitio   -1.6 a   +4.4) | 6 sitios, 20 obs
+CD2 10-99, N <= 50                                           sem dados
+Leitura: se CD2 >= 6 com N <= 50 der efeito >> +4%, a extrapolacao linear da Fig. 3b nao descreve os dados.
+Atencao: o controle de Zhao e sempre NAO leguminoso, mesmo com CD2 alto. Um consorcio milho+feijao nao e controle valido; o numero abaixo nao mede 'separar o consorcio no tempo'.
+
+==================== C. Caupi e outras leguminosas -> cereal no analogo quente e seco ====================
+Cowpea -> milho (global)                                      +26.6% (IC sitio  +17.3 a  +43.1) | 14 sitios, 168 obs
+Cowpea -> milho (analogo AI 0,2-0,5, MAT>=20)                 +57.5% (IC sitio  +29.8 a  +91.3) | 2 sitios, 28 obs
+Cowpea -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +48.6% (IC sitio  +32.4 a  +75.1) | 11 sitios, 89 obs
+   paises: {'Mali': 28, 'Nigeria': 19, 'Burkina Faso': 17, 'Niger': 12, 'India': 9, 'United States of America': 3, 'Mozambique': 1}
+Peanut -> milho (global)                                      +29.7% (IC sitio  +10.8 a  +55.2) | 14 sitios, 47 obs
+Peanut -> milho (analogo AI 0,2-0,5, MAT>=20)                 +25.5% (IC sitio   -1.4 a  +45.9) | 5 sitios, 25 obs
+Peanut -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +35.2% (IC sitio  +19.4 a  +54.4) | 14 sitios, 73 obs
+   paises: {'Niger': 20, 'Nigeria': 16, 'Guinea': 11, 'India': 9, 'Malawi': 8, 'Senegal': 4, 'Mozambique': 3, 'Burkina Faso': 2}
+Pigeon pea -> milho (global)                                  +28.7% (IC sitio   +9.6 a  +58.8) | 9 sitios, 68 obs
+Pigeon pea -> milho (analogo AI 0,2-0,5, MAT>=20)             +84.8% (IC sitio  +48.4 a +170.0) | 3 sitios, 13 obs
+Pigeon pea -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +48.9% (IC sitio  +14.3 a +100.1) | 4 sitios, 22 obs
+   paises: {'India': 18, 'United Republic of Tanzania': 3, 'Zambia': 1}
+Pigeonpea -> milho (global)                                  sem dados
+Pigeonpea -> milho (analogo AI 0,2-0,5, MAT>=20)             sem dados
+Pigeonpea -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20) sem dados
+Common bean -> milho (global)                                 +24.3% (IC sitio  +11.6 a  +39.5) | 9 sitios, 26 obs
+Common bean -> milho (analogo AI 0,2-0,5, MAT>=20)            +19.2% (IC sitio  +19.2 a  +19.2) | 1 sitios, 2 obs
+Common bean -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +19.2% (IC sitio  +19.2 a  +19.2) | 1 sitios, 2 obs
+   paises: {'Ethiopia': 2}
+Soybean -> milho (global)                                     +15.3% (IC sitio  +11.4 a  +20.0) | 118 sitios, 2112 obs
+Soybean -> milho (analogo AI 0,2-0,5, MAT>=20)                +30.9% (IC sitio  +15.2 a  +45.8) | 6 sitios, 38 obs
+Soybean -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +33.2% (IC sitio  +20.0 a  +46.1) | 8 sitios, 43 obs
+   paises: {'Nigeria': 19, 'Guinea': 11, 'Ghana': 10, 'United States of America': 2, 'Mozambique': 1}
+Mungbean -> milho (global)                                   sem dados
+Mungbean -> milho (analogo AI 0,2-0,5, MAT>=20)              sem dados
+Mungbean -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +18.7% (IC sitio   +8.5 a  +42.0) | 2 sitios, 11 obs
+   paises: {'India': 11}
+Mucuna -> milho (global)                                      +57.3% (IC sitio  +39.0 a  +76.7) | 6 sitios, 31 obs
+Mucuna -> milho (analogo AI 0,2-0,5, MAT>=20)                sem dados
+Mucuna -> milho/sorgo/milheto (analogo amplo AI<0,65, MAT>=20)  +97.2% (IC sitio  +97.2 a  +97.2) | 1 sitios, 2 obs
+   paises: {'Nigeria': 2}
+
+==================== D. Classe de chuva x efeito (leguminosa -> cereal, N <= 50, sequeiro quando informado) ====================
+MAP 0-500, cereal, N<=50, nao irrigado                        +49.2% (IC sitio  +21.1 a  +78.4) | 4 sitios, 61 obs
+MAP 0-500, qualquer cultura                                   +17.4% (IC sitio  +12.3 a  +29.4) | 102 sitios, 4743 obs
+MAP 500-600, cereal, N<=50, nao irrigado                      +42.7% (IC sitio  +13.5 a  +61.3) | 12 sitios, 75 obs
+MAP 500-600, qualquer cultura                                 +24.7% (IC sitio  +16.7 a  +31.7) | 47 sitios, 736 obs
+MAP 600-700, cereal, N<=50, nao irrigado                      +32.5% (IC sitio   +6.5 a  +73.2) | 9 sitios, 261 obs
+MAP 600-700, qualquer cultura                                 +13.0% (IC sitio   +2.5 a  +24.2) | 43 sitios, 1160 obs
+MAP 700-1000, cereal, N<=50, nao irrigado                     +41.5% (IC sitio  +27.6 a  +55.9) | 47 sitios, 553 obs
+MAP 700-1000, qualquer cultura                                +18.4% (IC sitio  +12.7 a  +25.5) | 126 sitios, 3638 obs
+MAP 1000-5000, cereal, N<=50, nao irrigado                    +72.1% (IC sitio  +53.3 a  +90.6) | 35 sitios, 312 obs
+MAP 1000-5000, qualquer cultura                               +20.8% (IC sitio  +14.3 a  +29.7) | 105 sitios, 1491 obs
+
+==================== E. Mudare 2025 Source Data ====================
+abas: ['Figure 1a-d', 'Figure 1e', 'Figure 2a', 'Figure 2b', 'Figure 3a', 'Figure 3e', 'Supplementary Figure S1', 'Supplementary Figure S2', 'Supplementary Figure S3', 'Supplementary Figure S4', 'Supplementary Figure S5-S6']
+
+-- aba Figure 1e: (23, 10)
+        Figure 1e  Unnamed: 1   Unnamed: 2 Unnamed: 3 Unnamed: 4 Unnamed: 5 Unnamed: 6 Unnamed: 7  Unnamed: 8 Unnamed: 9
+0             NaN         NaN          NaN        NaN        NaN        NaN        NaN        NaN         NaN        NaN
+1           Group    Category  Effect size   lower.CL   upper.CL     .group         df         SE           n   Asterisk
+2          Global     Overall     0.180966   0.145911    0.21602        NaN       2925    0.01788   (n =3663)        NaN
+3          Global  Non-legume        0.148      0.107       0.19          a        147     0.0209   (n = 953)        ***
+4          Global      Legume        0.209       0.17      0.248          b        147     0.0198  (n = 1726)        NaN
+5            Asia     Overall        0.223     0.1178      0.328        NaN        157     0.0531   (n = 239)        NaN
+6            Asia  Non-legume        0.222     0.0501      0.394          a         18     0.0818    (n = 76)         ns
+7            Asia      Legume        0.227     0.0617      0.393          a         18     0.0788   (n = 131)        NaN
+8          Africa     Overall        0.209     0.1136      0.305        NaN        161     0.0485   (n = 372)        NaN
+9          Africa  Non-legume       0.0223     -0.183      0.228          a         20     0.0985    (n = 36)         **
+10         Africa      Legume       0.2542      0.126      0.382          b         20     0.0612   (n = 303)        NaN
+11        Oceania     Overall         0.24     0.0552      0.425        NaN        157     0.0937    (n = 56)        NaN
+12        Oceania      Legume        0.239     0.0611      0.417          a          5     0.0693    (n = 40)         ns
+13        Oceania  Non-legume        0.272     0.0449      0.498          a          5     0.0882    (n = 16)        NaN
+14  North America     Overall        0.144     0.0945      0.194        NaN        157     0.0252  (n = 2438)        NaN
+15  North America  Non-legume       0.0973     0.0437      0.151          a         60     0.0268   (n = 677)         **
+16  North America      Legume       0.1492     0.0971      0.201          b         60      0.026  (n = 1057)        NaN
+17         Europe     Overall        0.221     0.1311      0.312        NaN        157     0.0457   (n = 338)        NaN
+18         Europe  Non-legume        0.181       0.08      0.282          a         20     0.0485   (n = 110)         ns
+19         Europe      Legume        0.218       0.12      0.316          a         20     0.0469   (n = 140)        NaN
+20  South America     Overall        0.199     0.0849      0.313        NaN        161     0.0577   (n = 220)        NaN
+21  South America      Legume        0.322     0.0254      0.618          a         12      0.136    (n = 55)         ns
+22  South America  Non-legume        0.274    -0.0293      0.577          a         12      0.139    (n = 38)        NaNC:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v4_metodologo_debate_checagens.py:127: Pandas4Warning: ExcelFile.parse is deprecated. Use pd.read_excel instead.
+  d = xl.parse(aba)
+
+
+-- aba Supplementary Figure S5-S6: (130, 10)
+   Supplementary Figure S5-S6  Unnamed: 1 Unnamed: 2   Unnamed: 3 Unnamed: 4 Unnamed: 5 Unnamed: 6 Unnamed: 7 Unnamed: 8 Unnamed: 9
+0                         NaN         NaN        NaN          NaN        NaN        NaN        NaN        NaN        NaN        NaN
+1                        Item    Variable      Group  Effect size   lower.CL   upper.CL          n         df         se     .group
+2                         MAP     Overall    Overall         0.15        0.1       0.21       1470        NaN        NaN        NaN
+3                         MAP     Overall   500-1000         0.13       0.05       0.21        610         68       0.04          a
+4                         MAP     Overall     > 1000         0.15       0.05       0.25        341         68      0.051          a
+5                         MAP     Overall      < 500          0.2       0.09        0.3        519         68      0.052          a
+6                         MAP      Legume    Overall         0.18       0.11       0.25        626        NaN        NaN        NaN
+7                         MAP      Legume      < 500         0.16       0.02        0.3        129         53      0.069          a
+8                         MAP      Legume   500-1000         0.16       0.06       0.25        294         53      0.046          a
+9                         MAP      Legume     > 1000         0.23        0.1       0.36        203         53      0.064          a
+10                        MAP  Non-legume    Overall         0.09       0.04       0.14        275        NaN        NaN        NaN
+11                        MAP  Non-legume     > 1000         0.03      -0.06       0.12         49         25      0.043          a
+12                        MAP  Non-legume   500-1000         0.05          0        0.1        170         25      0.025          a
+13                        MAP  Non-legume      < 500         0.23       0.15       0.32         56         25      0.041          b
+14                        MAT     Overall    Overall         0.17        0.1       0.23       1229        NaN        NaN        NaN
+15                        MAT     Overall       < 10         0.15       0.01       0.29        400         55       0.07          a
+16                        MAT     Overall     10-20          0.16       0.07       0.25        521         55      0.045          a
+17                        MAT     Overall       > 20         0.18       0.07        0.3        308         55      0.056          a
+18                        MAT      Legume    Overall         0.17       0.07       0.28        505        NaN        NaN        NaN
+19                        MAT      Legume       < 10         0.09      -0.18       0.37         76         35      0.136          a
+20                        MAT      Legume     10-20          0.18       0.04       0.31        201         35      0.067          a
+21                        MAT      Legume       > 20          0.2       0.05       0.34        228         35      0.072          a
+22                        MAT  Non-legume       < 10         0.06      -0.04       0.17         54         25      0.052          a
+23                        MAT  Non-legume     10-20          0.09       0.02       0.17        167         25      0.035          a
+24                        MAT  Non-legume       > 20         0.15       0.04       0.27         65         25      0.056          a
+25                 Irrigation     Overall    Overall         0.12       0.07       0.17       1058        NaN        NaN        NaN
+26                 Irrigation     Overall  irrigated         0.07      -0.03       0.17        124         45      0.051          a
+27                 Irrigation     Overall    rainfed         0.13       0.08       0.19        934         45      0.028          a
+28                 Irrigation      Legume    Overall         0.18       0.11       0.25        432        NaN        NaN        NaN
+29                 Irrigation      Legume  irrigated         0.09      -0.07       0.25         36         30      0.079          a
+30                 Irrigation      Legume    rainfed          0.2       0.13       0.28        396         29      0.036          a
+31                 Irrigation  Non-legume    Overall         0.04      -0.03       0.11        301        NaN        NaN        NaN
+32                 Irrigation  Non-legume  irrigated         0.02      -0.09       0.13         72         23      0.054          a
+33                 Irrigation  Non-legume    rainfed         0.05      -0.03       0.13        229         23      0.039          a
+34                        SOM     Overall    Overall         0.14       0.09       0.18       1030        NaN        NaN        NaN
+35                        SOM     Overall       < 10         0.09       0.03       0.15        533         38       0.03          a
+36                        SOM     Overall       > 20         0.14       0.05       0.22        389         36      0.042         ab
+37                        SOM     Overall     10-20          0.24       0.15       0.34        108         36      0.049          b
+38                        SOM      Legume    Overall         0.14       0.09       0.19        492        NaN        NaN        NaN
+39                        SOM      Legume       < 10         0.12       0.06       0.18        264         28      0.029          a

@@ -105,6 +105,11 @@ print(f"  consorcio, reducao vs 125%: caupi {np.round((1 - t2c / t2c[0]) * 100)[
       f"milho {np.round((1 - t2m / t2m[0]) * 100)[1:].tolist()}")
 b = np.polyfit(t1.LI_milho, t1.PG_milho, 1)
 print(f"  reta milho exclusivo refeita: PG = {b[1]:.0f} + {b[0]:.2f} x LI  (Figura 1 impressa: -4.105,67 + 15,95 x LI)")
+for a_, b_, c_ in [(1366.30, 463.56, 90.24), (1366.30, 500.99, 68.53)]:
+    pred = a_ * np.exp(-0.5 * ((t1.LI_caupi - b_) / c_) ** 2)
+    print(f"  gaussiana caupi exclusivo a={a_} b={b_} c={c_}: previsto {pred.round(0).tolist()} x medido "
+          f"{t1.PG_caupi.tolist()} (RMSE {np.sqrt(((pred - t1.PG_caupi) ** 2).mean()):.0f})")
+print("  -> o par que ajusta a Tabela 1 tem pico em 463,6 mm (1.366 kg/ha); o texto diz 449 mm e 1.376,9 kg/ha.")
 for cult, li, pg in [("milho", t1.LI_milho, t1.PG_milho), ("caupi", t1.LI_caupi, t1.PG_caupi)]:
     ref = 1 if cult == "caupi" else 0
     ky = (1 - pg.iloc[4] / pg.iloc[ref]) / (1 - li.iloc[4] / li.iloc[ref])

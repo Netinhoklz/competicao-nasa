@@ -1,0 +1,31 @@
+LSPA CE milho 1a safra, producao: periodos 200609 a 202610
+anos de quebra estadual (producao final < 50% da mediana): [2010, 2012, 2013, 2015, 2016]
+ mes_ref  n_anos_lspa  rho_LSPA  rho_IMERG_acum  quebras_vistas_LSPA(<-26%)  quebras_vistas_IMERG(<75%)
+       1           19     -0.16            0.46                         0.0                         0.6
+       2           19     -0.15            0.48                         0.0                         0.6
+       3           19     -0.13            0.74                         0.0                         0.4
+       4           19      0.23            0.82                         0.0                         0.6
+       5           19      0.65            0.89                         0.4                         0.6
+       6           19      0.81            0.89                         0.8                         0.6
+
+ano a ano (LSPA de abril e final, mil t; IMERG ate 30/abr em % da mediana):
+  2007: LSPA abr     786 | final PAM     357 | mediana    386 | IMERG 1/jan-30/abr 101%
+  2008: LSPA abr     875 | final PAM     753 | mediana    367 | IMERG 1/jan-30/abr 140%
+  2009: LSPA abr     883 | final PAM     539 | mediana    367 | IMERG 1/jan-30/abr 161%
+  2010: LSPA abr     656 | final PAM     175 | mediana    386 | IMERG 1/jan-30/abr 73%
+  2011: LSPA abr     946 | final PAM     915 | mediana    367 | IMERG 1/jan-30/abr 142%
+  2012: LSPA abr     424 | final PAM     123 | mediana    386 | IMERG 1/jan-30/abr 66%
+  2013: LSPA abr     478 | final PAM     113 | mediana    386 | IMERG 1/jan-30/abr 58%
+  2014: LSPA abr     740 | final PAM     348 | mediana    386 | IMERG 1/jan-30/abr 86%
+  2015: LSPA abr     741 | final PAM     131 | mediana    386 | IMERG 1/jan-30/abr 81%
+  2016: LSPA abr     693 | final PAM     115 | mediana    386 | IMERG 1/jan-30/abr 88%
+  2017: LSPA abr     204 | final PAM     373 | mediana    379 | IMERG 1/jan-30/abr 99%
+  2018: LSPA abr     367 | final PAM     470 | mediana    367 | IMERG 1/jan-30/abr 105%
+  2019: LSPA abr     529 | final PAM     424 | mediana    367 | IMERG 1/jan-30/abr 131%
+  2020: LSPA abr     485 | final PAM     633 | mediana    367 | IMERG 1/jan-30/abr 131%
+  2021: LSPA abr     559 | final PAM     414 | mediana    367 | IMERG 1/jan-30/abr 78%
+  2022: LSPA abr     527 | final PAM     539 | mediana    367 | IMERG 1/jan-30/abr 97%
+  2023: LSPA abr     494 | final PAM     360 | mediana    386 | IMERG 1/jan-30/abr 90%
+  2024: LSPA abr     526 | final PAM     399 | mediana    367 | IMERG 1/jan-30/abr 101%
+  2025: LSPA abr     579 | final PAM     277 | mediana    386 | IMERG 1/jan-30/abr 100%
+nota: n = 19 anos; Spearman com IC largo. O LSPA e opiniao de campo (GCEA/IBGE) e incorpora a chuva vista.

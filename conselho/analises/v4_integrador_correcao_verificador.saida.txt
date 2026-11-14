@@ -1,0 +1,6 @@
+conferido: as 147 linhas de cartão do .md batem com o JSON antes da correção
+cartões alterados: 31
+  grau: antes {'D': 18, 'B': 45, 'A': 10, 'C': 74} | depois {'D': 18, 'B': 44, 'A': 9, 'C': 76}
+  transferencia: antes {'T3': 31, 'T1': 16, 'T2': 64, 'T0': 36} | depois {'T3': 31, 'T1': 7, 'T2': 73, 'T0': 36}
+  tipo: antes {'rotacao': 64, 'sucessao': 1, 'cobertura': 22, 'consorcio': 16, 'agrofloresta': 10, 'ilp': 4, 'quebra_de_praga': 17, 'modulador': 13} | depois {'rotacao': 64, 'sucessao': 1, 'cobertura': 22, 'consorcio': 16, 'agrofloresta': 10, 'ilp': 4, 'quebra_de_praga': 17, 'modulador': 13}
+MD bytes: 148231 | JSON bytes: 227225

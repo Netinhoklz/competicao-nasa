@@ -123,7 +123,7 @@ print(f"Tamanho em disco: {tamanho_pasta(G)/1e9:.2f} GB (inclui catálogo de {(G
 # | Clima de referência | CRU-TS 3.2, 1981–2010 (também 1960–2010 ano a ano e cenários CMIP5 até 2100 no catálogo) |
 # | Solo | HWSD v1.2; relevo GMTED; cobertura do solo ~2010 |
 # | Resolução | 5 arc-min (~9,3 km no equador); algumas camadas a 30″ |
-# | Escala do índice de aptidão (SI) | 0–10000 (= SI×100). Classes: >7500 muito alta, >6300 alta, >5000 boa, >3500 média, >2000 moderada, >1000 marginal, >0 muito marginal, 0 inapto |
+# | Escala do índice de aptidão (SI) | 0–10000 (= SI×100). Classes da camada oficial de classes da v4 (siLr): >8500 muito alta, >7000 alta, >5500 boa, >4000 média, >2500 moderada, >1000 marginal, >0 muito marginal, 0 inapto. **Corrigido em 14/11 (revisão A3):** os limiares 7500/6300/5000/3500/2000 são do texto da legenda do portal, não da v4; o gráfico de classes da seção 4 já usa os da v4 |
 # | Acesso | ArcGIS ImageServer (catálogo) + GeoTIFF no S3 da FAO, aberto, sem cadastro |
 # | Licença | CC BY 4.0 (FAO) |
 
@@ -208,10 +208,11 @@ print(pd.DataFrame(inconsist).to_string(index=False))
 # ## 4. Ceará e Nordeste — ranking de culturas aptas
 #
 # Para cada cultura: SI médio, % da área com aptidão **boa ou melhor** (SI > 5000), e produtividade atingível média
-# onde a cultura é ao menos moderadamente apta (SI > 2000).
+# onde a cultura é ao menos moderadamente apta (SI > 2000). Esses dois cortes seguem os limiares do texto do portal; nas
+# classes oficiais da v4, "boa" começa em 5500 e "moderada" em 2500 (ficha da seção, revisão A3).
 
 # %%
-CLASSES = [(7500, "muito alta"), (6300, "alta"), (5000, "boa"), (3500, "média"), (2000, "moderada"),
+CLASSES = [(8500, "muito alta"), (7000, "alta"), (5500, "boa"), (4000, "média"), (2500, "moderada"),
            (1000, "marginal"), (0, "muito marginal")]
 
 
@@ -720,7 +721,8 @@ if len(gap):
 # ## 11. Insights e ideias para o produto
 #
 # 1. **GAEZ é global de verdade e serve de filtro de candidatas.** 99,8 % dos pixels de terra (sem Antártida) têm aptidão calculada, de 56°S a 84°N.
-#    Para qualquer ponto: `candidatas = {cultura | SI_sequeiro(insumo do agricultor) > 35}` ∪ `{cultura | SI_irrigado > 35 e há água}`.
+#    Para qualquer ponto: `candidatas = {cultura | SI_sequeiro(insumo do agricultor) > 40}` ∪ `{cultura | SI_irrigado > 40 e há água}`
+#    (> 40 = classe "média" ou melhor da v4; decisão de 14/11, revisão A3; antes usávamos > 35).
 #    É o primeiro estágio do motor de rotação, antes do clima recente (POWER/IMERG/SMAP) e do talhão (Landsat/Sentinel-2/SRTM).
 # 2. **O nível de insumo decide o ranking no Ceará.** Com insumo alto, algodão (71), sorgo (63), milho (60), guandu, milheto, soja e feijões (~58)
 #    ficam todos "bons"; com **insumo baixo** (agricultura familiar) lideram **sorgo, mandioca, guandu e feijão** (~50–53) e o algodão despenca (35).

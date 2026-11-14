@@ -1,0 +1,72 @@
+
+==================== BLOCO 0: checagens de dados ====================
+  CE: 184 municipios; anos 1999-2025; municipio-anos com Y e fracao t-1: 4901
+  NE: 1791 municipios; municipio-anos com Y e fracao t-1: 38655
+  chuva fev-mai IMERG no CE: mediana 605 mm (p10 384, p90 934)
+  CE: fracao completa (feijao+fava+amendoim / todas temporarias) x aproximacao do NE (feijao / 5 culturas): r bruto 0.846; r dentro do municipio 0.823; medias 0.393 x 0.417
+  fracao de leguminosa t-1 no CE: mediana 0.400; p10 0.247; p90 0.502
+
+==================== BLOCO 1: persistencia da fracao (o consorcio milho+feijao repete no mesmo roçado) ====================
+  CE: dp da fracao t-1 bruto 0.117; depois dos EF 0.072; r(t-1, t) depois dos EF +0.602; r(t-1, t-2) +0.551; R2 da fracao t-1 pelos controles 0.37; dp que sobra 0.057 (= 57 p.p./10)
+  NE: dp da fracao t-1 bruto 0.184; depois dos EF 0.099; r(t-1, t) depois dos EF +0.591; r(t-1, t-2) +0.557; R2 da fracao t-1 pelos controles 0.35; dp que sobra 0.080 (= 80 p.p./10)
+
+==================== BLOCO 2: CEARA, ln(rendimento do milho em t) ~ leguminosa em t-1 (EF municipio + ano; EP por ano) ====================
+  A1 base: fracao t-1 + chuva fev-mai (quadratica)            -3.38 % do milho por +10 p.p. | IC95 ano [ -7.23,  +0.64] p=0.095 | EP ano/mun/2v = 0.198/0.140/0.214 | MDE80 5.6 | n=4901, mun=184, anos=27
+     (checagem: efeito marginal da chuva na mediana 605 mm = +14.3% do milho por +100 mm)
+  A2 + fracao em t (consorcio) + ln area total t e t-1 + chuva t-1  -4.02 % do milho por +10 p.p. | IC95 ano [ -8.48,  +0.66] p=0.088 | EP ano/mun/2v = 0.231/0.157/0.236 | MDE80 6.5 | n=4901, mun=184, anos=27
+     (fracao em t, o consorcio do mesmo ano: +0.75% por +10 p.p., EP 0.248)
+  A3 = A2 + tendencia linear por municipio                    -3.66 % do milho por +10 p.p. | IC95 ano [ -7.11,  -0.08] p=0.046 | EP ano/mun/2v = 0.178/0.150/0.178 | MDE80 5.0 | n=4901, mun=184, anos=27
+  A4 PLACEBO: fracao em t+1 no lugar de t-1 (mesmos controles)  -4.12 % do milho por +10 p.p. | IC95 ano [ -9.56,  +1.64] p=0.150 | EP ano/mun/2v = 0.283/0.148/0.283 | MDE80 7.9 | n=4719, mun=184, anos=26
+  A4b fracao t-1 com t+1 junto: coef. de t-1                  -3.35 % do milho por +10 p.p. | IC95 ano [ -7.44,  +0.93] p=0.118 | EP ano/mun/2v = 0.210/0.162/0.216 | MDE80 5.9 | n=4719, mun=184, anos=26
+  A4b fracao t-1 com t+1 junto: coef. de t+1 (placebo)        -3.52 % do milho por +10 p.p. | IC95 ano [ -8.58,  +1.82] p=0.183 | EP ano/mun/2v = 0.261/0.153/0.261 | MDE80 7.3 | n=4719, mun=184, anos=26
+  A5 interacao: fracao t-1 x chuva (z no municipio): principal  -4.29 % do milho por +10 p.p. | IC95 ano [ -8.36,  -0.04] p=0.048 | EP ano/mun/2v = 0.211/0.157/0.216 | MDE80 5.9 | n=4901, mun=184, anos=27
+  A5 interacao: muda por +1 dp de chuva                       +4.12 % do milho por +10 p.p. | IC95 ano [ +1.40,  +6.92] p=0.004 | EP ano/mun/2v = 0.129/0.101/0.146 | MDE80 3.6 | n=4901, mun=184, anos=27
+  A5p PLACEBO da interacao: fracao t+1 x chuva                +2.27 % do milho por +10 p.p. | IC95 ano [ +0.07,  +4.52] p=0.043 | EP ano/mun/2v = 0.106/0.093/0.120 | MDE80 3.0 | n=4719, mun=184, anos=26
+  A5c interacao t-1 x chuva, com composicao media x chuva     +5.82 % do milho por +10 p.p. | IC95 ano [ +1.56, +10.25] p=0.009 | EP ano/mun/2v = 0.200/0.158/0.208 | MDE80 5.6 | n=4901, mun=184, anos=27
+  A5cp PLACEBO de A5c: fracao t+1 x chuva                     +0.53 % do milho por +10 p.p. | IC95 ano [ -3.87,  +5.15] p=0.809 | EP ano/mun/2v = 0.218/0.124/0.218 | MDE80 6.1 | n=4719, mun=184, anos=26
+  A5d = A5c com a fracao aproximada do NE (replica no CE?)    +7.46 % do milho por +10 p.p. | IC95 ano [ +3.23, +11.87] p=0.001 | EP ano/mun/2v = 0.196/0.160/0.201 | MDE80 5.5 | n=4901, mun=184, anos=27
+  A4c CORRIGIDO PELO PLACEBO: coef(t-1) - coef(t+1)           +0.18% (aprox.) por +10 p.p. | IC95 ano [ -5.01,  +5.37] p=0.944 | MDE80 7.1%
+  A6 Y = razao producao/area plantada (com perdas totais)     -1.58 p.p. do normal por +10 p.p. | IC95 ano [ -5.33,  +2.17] p=0.394 | EP ano/mun/2v = 0.182/0.154/0.197 | MDE80 5.1 | n=4924, mun=184, anos=27
+  A6 PLACEBO t+1, Y = razao                                   -2.87 p.p. do normal por +10 p.p. | IC95 ano [ -6.91,  +1.17] p=0.156 | EP ano/mun/2v = 0.196/0.146/0.203 | MDE80 5.5 | n=4742, mun=184, anos=26
+  A7 = A2 com a fracao aproximada do NE (feijao / 5 culturas)  -5.10 % do milho por +10 p.p. | IC95 ano [ -8.81,  -1.24] p=0.012 | EP ano/mun/2v = 0.194/0.145/0.194 | MDE80 5.4 | n=4901, mun=184, anos=27
+
+==================== BLOCO 3: NORDESTE (9 UFs), fracao = feijao / 5 temporarias; EP por ano ====================
+  B1 base                                                     -5.11 % do milho por +10 p.p. | IC95 ano [ -6.47,  -3.74] p=0.000 | EP ano/mun/2v = 0.070/0.063/0.085 | MDE80 2.0 | n=38495, mun=1621, anos=27
+  B2 + fracao t + areas + chuva t-1                           -2.76 % do milho por +10 p.p. | IC95 ano [ -4.30,  -1.19] p=0.001 | EP ano/mun/2v = 0.078/0.051/0.078 | MDE80 2.2 | n=38465, mun=1620, anos=27
+  B3 = B2 + tendencia por municipio                           -1.15 % do milho por +10 p.p. | IC95 ano [ -2.80,  +0.53] p=0.169 | EP ano/mun/2v = 0.082/0.051/0.082 | MDE80 2.3 | n=38465, mun=1620, anos=27
+  B4 PLACEBO fracao t+1                                       -3.25 % do milho por +10 p.p. | IC95 ano [ -5.38,  -1.08] p=0.005 | EP ano/mun/2v = 0.108/0.054/0.110 | MDE80 3.0 | n=36799, mun=1613, anos=26
+  B4b juntos: t-1                                             -2.22 % do milho por +10 p.p. | IC95 ano [ -3.78,  -0.63] p=0.008 | EP ano/mun/2v = 0.078/0.051/0.078 | MDE80 2.2 | n=36799, mun=1613, anos=26
+  B4b juntos: t+1 (placebo)                                   -2.96 % do milho por +10 p.p. | IC95 ano [ -5.04,  -0.84] p=0.008 | EP ano/mun/2v = 0.105/0.053/0.107 | MDE80 2.9 | n=36799, mun=1613, anos=26
+  B5 interacao com chuva: principal                           -2.96 % do milho por +10 p.p. | IC95 ano [ -4.53,  -1.36] p=0.001 | EP ano/mun/2v = 0.080/0.052/0.080 | MDE80 2.2 | n=38465, mun=1620, anos=27
+  B5 interacao: muda por +1 dp de chuva                       +4.79 % do milho por +10 p.p. | IC95 ano [ +2.82,  +6.79] p=0.000 | EP ano/mun/2v = 0.092/0.032/0.094 | MDE80 2.6 | n=38465, mun=1620, anos=27
+  B5p PLACEBO da interacao: fracao t+1 x chuva                +4.22 % do milho por +10 p.p. | IC95 ano [ +2.33,  +6.14] p=0.000 | EP ano/mun/2v = 0.089/0.032/0.091 | MDE80 2.5 | n=36799, mun=1613, anos=26
+  B5c interacao t-1 x chuva, com composicao media x chuva     +0.22 % do milho por +10 p.p. | IC95 ano [ -1.16,  +1.62] p=0.750 | EP ano/mun/2v = 0.068/0.046/0.069 | MDE80 1.9 | n=38465, mun=1620, anos=27
+  B5cp PLACEBO de B5c: fracao t+1 x chuva                     +0.13 % do milho por +10 p.p. | IC95 ano [ -1.94,  +2.24] p=0.901 | EP ano/mun/2v = 0.101/0.043/0.102 | MDE80 2.8 | n=36799, mun=1613, anos=26
+  B5d = B5c sem o Ceara (replica fora do CE?)                 -0.09 % do milho por +10 p.p. | IC95 ano [ -1.58,  +1.44] p=0.909 | EP ano/mun/2v = 0.074/0.047/0.075 | MDE80 2.1 | n=33564, mun=1436, anos=27
+  B4c CORRIGIDO PELO PLACEBO: coef(t-1) - coef(t+1)           +0.76% (aprox.) por +10 p.p. | IC95 ano [ -1.96,  +3.48] p=0.570 | MDE80 3.7%
+  B4d corrigido pelo placebo, com tendencia por municipio     +0.85% (aprox.) por +10 p.p. | IC95 ano [ -1.80,  +3.49] p=0.516 | MDE80 3.6%
+  B6 B2 so semiarido 2022                                     -2.91 % do milho por +10 p.p. | IC95 ano [ -4.63,  -1.17] p=0.002 | EP ano/mun/2v = 0.087/0.058/0.087 | MDE80 2.4 | n=29718, mun=1226, anos=27
+  B6 placebo t+1, so semiarido 2022                           -2.90 % do milho por +10 p.p. | IC95 ano [ -5.41,  -0.31] p=0.030 | EP ano/mun/2v = 0.127/0.061/0.130 | MDE80 3.6 | n=28404, mun=1225, anos=26
+  B6c corrigido pelo placebo, so semiarido 2022               +0.24% (aprox.) por +10 p.p. | IC95 ano [ -2.65,  +3.12] p=0.868 | MDE80 3.9%
+  B6 B2 so fora do semiarido                                  -1.41 % do milho por +10 p.p. | IC95 ano [ -3.22,  +0.44] p=0.129 | EP ano/mun/2v = 0.090/0.098/0.096 | MDE80 2.5 | n=8747, mun=394, anos=27
+  B6 placebo t+1, so fora do semiarido                        -2.17 % do milho por +10 p.p. | IC95 ano [ -4.13,  -0.17] p=0.035 | EP ano/mun/2v = 0.098/0.072/0.098 | MDE80 2.8 | n=8395, mun=388, anos=26
+  B6c corrigido pelo placebo, so fora do semiarido            +0.72% (aprox.) por +10 p.p. | IC95 ano [ -1.87,  +3.31] p=0.574 | MDE80 3.5%
+  B7 Y = razao com perdas totais                              -2.93 p.p. do normal por +10 p.p. | IC95 ano [ -4.37,  -1.50] p=0.000 | EP ano/mun/2v = 0.070/0.057/0.075 | MDE80 2.0 | n=39828, mun=1621, anos=27
+  B7 placebo t+1, Y = razao                                   -3.79 p.p. do normal por +10 p.p. | IC95 ano [ -6.28,  -1.30] p=0.004 | EP ano/mun/2v = 0.121/0.057/0.124 | MDE80 3.4 | n=38018, mun=1615, anos=26
+  B8 AL: t-1  -3.27% (EP 1.16) | placebo t+1  -2.06% (EP 2.02) | n=1525
+  B8 BA: t-1  -3.04% (EP 1.44) | placebo t+1  -2.84% (EP 1.73) | n=7765
+  B8 CE: t-1  -5.10% (EP 1.94) | placebo t+1  -5.06% (EP 2.22) | n=4901
+  B8 MA: t-1  +2.01% (EP 1.30) | placebo t+1  +0.36% (EP 1.40) | n=5556
+  B8 PB: t-1  +1.04% (EP 1.38) | placebo t+1  -1.71% (EP 1.94) | n=4611
+  B8 PE: t-1  +0.46% (EP 2.30) | placebo t+1  -1.66% (EP 2.01) | n=3012
+  B8 PI: t-1  -0.81% (EP 2.49) | placebo t+1  -2.43% (EP 2.01) | n=5839
+  B8 RN: t-1  -0.95% (EP 1.71) | placebo t+1  -0.26% (EP 1.19) | n=3638
+  B8 SE: t-1  -1.51% (EP 3.25) | placebo t+1  -3.66% (EP 1.91) | n=1618
+
+==================== BLOCO 4: teto que a literatura permitiria ver no painel (+10 p.p. de leguminosa em t-1, toda seguida de milho) ====================
+  Zhao 2022 p.2, leguminosa antecessora (global)     efeito no talhao +20.4% -> no municipio +1.87% [+1.64, +2.10]
+  Zhao 2022 p.5, milho apos leguminosa               efeito no talhao +28.9% -> no municipio +2.57% [+2.30, +2.83]
+  Zhao 2022 p.5, feijao comum como antecessor        efeito no talhao +14.5% -> no municipio +1.36% [+0.91, +1.80]
+  Mudare 2025 p.2, leguminosa antecessora            efeito no talhao +23.0% -> no municipio +2.09% [+1.75, +2.50]
+  MDE80 do desenho A2 (CE): 6.5% ; B2 (NE): 2.2%
+  Leitura: se o teto da literatura e menor que o MDE, o painel nao tem poder para ver a rotacao, mesmo que ela exista.

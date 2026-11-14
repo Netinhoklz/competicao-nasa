@@ -33,22 +33,30 @@ Dados baixados em 14/11/2026. Análise: `scripts/el_nino_2026.py`; notebook: se�
 - **2023/24 foi a exceção:** quadra e safra normais.
 
 ## Como o Nordeste entra em 2027 (NASA)
-- **Chuva de 01/08 a 13/11/2026 (IMERG V07):** MA 57%, PI 68%, CE 40%, RN 61%, PB 62% e PE 77% do normal; AL, SE e BA
-  ficaram acima do normal. É a estação seca, então os totais absolutos são pequenos.
-- **Umidade da zona da raiz (SMAP L4, percentil dos 30 dias até 10/11):**
-  - **Ceará: 18**, contra 25 na mesma época de 2015 e 28 em 2023;
-  - MA 12, PE 14, AL 12, SE 14, PB 19.
-  - **O solo está mais seco que na entrada dos dois últimos El Niños fortes.**
+- **Chuva de 01/08 a 13/11/2026 (IMERG V07 Late e Early, preliminar; o Final V07 só vai até 30/09/2025):** baixa no MA (percentil 11) e no PI (25); normal no CE (39), RN, PB e PE
+  (54); acima do normal em AL, SE e BA. É a estação seca, então use o percentil: o "% do normal" engana com totais tão
+  pequenos.
+- **Umidade da zona da raiz (SMAP L4, 30 dias até 10/11, posição entre 12 anos; 1 = o mais seco):**
+  - **Maranhão e Sergipe: 1º**, o novembro mais seco da série;
+  - **Piauí e Pernambuco: 2º**;
+  - AL e BA: 3º; PB e RN: 4º;
+  - **Ceará: 5º, normal.** Mais úmido que a entrada de 2015 (2º) e mais seco que a de 2023 (7º).
+- **Ressalva importante:** a umidade do solo de novembro **não prevê a quadra**, porque a memória dela não chega a
+  fevereiro (rodada 2 do conselho). O risco de 2027 vem do **oceano**.
+- **Correção (14/11):** a 1ª versão deste resumo dizia "CE 18 contra 25 e 28" pelo percentil pronto do SMAP. Esse
+  campo quase não existe no Nordeste de out a jan (menos de 0,5% das células do Ceará). Estava errado.
 - **Água total (GRACE, set/2026):** Ceará −9,7 cm, entre 2023 (−3,5) e 2015 (−16,7).
 - **Vegetação (VIIRS NDVI, nov/2026):** Ceará 0,403, perto da climatologia (0,393).
 
 ## Frase para o pitch
 - **PT:** "O Pacífico está no El Niño mais forte em décadas (+2,46 °C, NOAA). Nos últimos cinco El Niños fortes, o Ceará
-  perdeu chuva em quatro e o milho caiu de 40% a 64%. E os satélites da NASA mostram que o solo do sertão está mais seco
-  hoje do que antes de 2016. A QUADRA transforma isso numa decisão de rotação agora, em novembro."
+  perdeu chuva em quatro e o milho caiu de 40% a 64%. O SMAP da NASA mostra o Maranhão e Sergipe com o novembro mais
+  seco da série. A QUADRA transforma isso numa decisão de rotação agora, em novembro, e reavalia em março e abril,
+  quando o solo começa a falar."
 - **EN:** "The Pacific is in its strongest El Niño in decades (+2.46 °C, NOAA). In four of the last five strong El Niños,
-  Ceará's rainy season failed and maize fell 40–64%. NASA's SMAP shows the sertão's root-zone soil is drier now than
-  before 2016. QUADRA turns that into a rotation decision today, in November."
+  Ceará's rainy season failed and maize fell 40–64%. NASA's SMAP shows Maranhão and Sergipe at their driest November on
+  record. QUADRA turns that into a rotation decision today, in November, and re-checks in March and April, when the soil
+  starts to speak."
 
 ## Ressalvas obrigatórias
 - n = 5 eventos.

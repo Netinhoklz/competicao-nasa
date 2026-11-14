@@ -130,7 +130,7 @@ out(f"  MODIS LST diurna AOI cariri jul-set/2019: {l.valor.round(1).tolist()} C 
     f"(solo medido entre linhas no artigo: 37 C aspersao, 41 C gotejo)")
 
 out("\n== G. Geracoes num ciclo de algodao de sequeiro de 150 dias semeado em 1/fev (Pereira 2023) ==")
-out("  [Azambuja & Degrande 2014, p. 382, citando Bianchini 2004: 'sete geracoes' num unico ciclo do algodao]")
+out("  [Azambuja & Degrande 2014, p. 384, citando Bianchini 2004: 'sete geracoes' num unico ciclo do algodao]")
 for nome, (lon, lat) in SITIOS.items():
     t = d.sel(lon=lon, lat=lat, method="nearest").T2M.to_series().loc["1981":"2025"]
     tb, k = PARAMS["Pereira 2023 (Tb 10,18; K 357,84)"]

@@ -1,0 +1,192 @@
+
+==================== A. Zhao et al. 2022 - base aberta do Figshare (11.768 pares) ====================
+  arquivo E:\campeonato-nasa\dados\meta_analises\zhao2022_figshare\data.csv md5 3b2475164c21d87a5435db67d09fc1ef (Figshare informa 3b2475164c21d87a5435db67d09fc1ef) -> OK
+  linhas 11768; sitios (lat/lon a 0,01 grau) 417; paises 54
+  ATENCAO: a base nao tem identificador de estudo nem rendimento do controle; o agrupamento e por sitio
+
+==================== A1. Reproducao da media global (artigo p.2: +20,4%, IC95 17,7-23,1%) ====================
+  todas as observacoes (media ponderada por replicas)        n=11768 sitios= 417  efeito  +18.2%  IC95 sitio [ +14.7,  +23.0]
+  mediana dos lnRR: +10.2% (artigo: mediana 10,2%)
+  fracao positiva 73.6% | nula 0.7% | negativa 25.7% (artigo: 73,6/0,7/25,7)
+
+==================== A2. Efeito por classe de aridez (AI = P/PET; UNEP: <0,2 arido; 0,2-0,5 semiarido; 0,5-0,65 subumido seco; >0,65 umido) ====================
+  arido (<0,2)                                               n=  176 sitios=  13  efeito  +48.9%  IC95 sitio [ +20.5,  +67.5]
+  semiarido (0,2-0,5)                                        n= 5660 sitios= 156  efeito  +16.8%  IC95 sitio [ +12.3,  +25.9]
+  subumido seco (0,5-0,65)                                   n= 1825 sitios=  70  efeito  +21.3%  IC95 sitio [ +12.9,  +30.6]
+  umido (0,65-1,0)                                           n= 2822 sitios= 124  efeito  +20.3%  IC95 sitio [ +14.5,  +26.9]
+  hiperumido (>1,0)                                          n= 1285 sitios=  56  efeito   +9.1%  IC95 sitio [  +5.6,  +16.1]
+  -- so cereais (maize, sorghum, millet, wheat, barley, rice)
+  arido (<0,2) | cereais                                     n=  138 sitios=  10  efeito  +53.8%  IC95 sitio [ +22.3,  +72.5]
+  semiarido (0,2-0,5) | cereais                              n= 4957 sitios= 147  efeito  +18.6%  IC95 sitio [ +14.1,  +27.5]
+  subumido seco (0,5-0,65) | cereais                         n= 1669 sitios=  68  efeito  +21.2%  IC95 sitio [ +12.7,  +31.9]
+  umido (0,65-1,0) | cereais                                 n= 2756 sitios= 119  efeito  +20.8%  IC95 sitio [ +14.3,  +27.3]
+  hiperumido (>1,0) | cereais                                n= 1152 sitios=  53  efeito  +10.5%  IC95 sitio [  +6.4,  +19.2]
+
+==================== A3. Analogo termo-hidrico do Ceara: AI 0,2-0,5 E temperatura media anual >= 20 C ====================
+  analogo (AI 0,2-0,5 e MAT >= 20)                           n=  593 sitios=  49  efeito  +23.6%  IC95 sitio [ +13.8,  +34.0]
+  paises: {'India': {'n': 141, 'sitios': 16}, 'Australia': {'n': 136, 'sitios': 7}, 'Mali': {'n': 84, 'sitios': 1}, 'United States of America': {'n': 59, 'sitios': 4}, 'Nigeria': {'n': 54, 'sitios': 2}, 'Burkina Faso': {'n': 23, 'sitios': 3}, 'Guinea': {'n': 22, 'sitios': 3}, 'Niger': {'n': 16, 'sitios': 1}, 'Pakistan': {'n': 14, 'sitios': 1}, 'Zambia': {'n': 11, 'sitios': 4}, 'Ghana': {'n': 10, 'sitios': 1}, 'Mexico': {'n': 9, 'sitios': 1}, 'Malawi': {'n': 4, 'sitios': 1}, 'Senegal': {'n': 4, 'sitios': 1}, 'United Republic of Tanzania': {'n': 3, 'sitios': 1}, 'Ethiopia': {'n': 2, 'sitios': 1}, 'Mozambique': {'n': 1, 'sitios': 1}}
+  cultura seguinte: {'Wheat': 171, 'Maize': 128, 'Millet': 95, 'Sorghum': 78, 'Rice': 45, 'Cotton': 42, 'Sugarcane': 26, 'Sudan grass': 8}
+  leguminosa antecessora: {'Soybean': 122, 'Cowpea': 98, 'Peanut': 66, 'Chickpea': 65, 'Sesbania': 47, 'Alfalfa': 40, 'Mungbean': 31, 'Lablab': 28, 'Pigeon pea': 22, 'Mix.': 21, 'Medic': 12, 'Black gram': 10}
+  N aplicado no analogo: mediana 30.0 | p10-p90 [0.0, 128.0]
+  irrigacao no analogo: {'no': 241, 'yes': 178, nan: 174}
+  analogo amplo (AI < 0,65 e MAT >= 20)                      n=  740 sitios=  66  efeito  +26.7%  IC95 sitio [ +18.3,  +36.1]
+  amplo + N <= 50 + milho/sorgo/milheto + nao irrigado       n=  231 sitios=  23  efeito  +45.4%  IC95 sitio [ +36.3,  +66.8]
+     paises desse recorte: {'Australia': {'n': 2, 'sitios': 1}, 'Burkina Faso': {'n': 7, 'sitios': 2}, 'Guinea': {'n': 22, 'sitios': 3}, 'India': {'n': 43, 'sitios': 4}, 'Mali': {'n': 84, 'sitios': 1}, 'Mozambique': {'n': 1, 'sitios': 1}, 'Niger': {'n': 32, 'sitios': 2}, 'Nigeria': {'n': 27, 'sitios': 4}, 'Senegal': {'n': 4, 'sitios': 1}, 'United Republic of Tanzania': {'n': 2, 'sitios': 1}, 'United States of America': {'n': 5, 'sitios': 2}, 'Zambia': {'n': 2, 'sitios': 1}}
+    o mesmo recorte SEM Africa                               n=   50 sitios=   7  efeito  +35.5%  IC95 sitio [ +24.9,  +65.4]
+    o mesmo recorte SO Africa                                n=  181 sitios=  16  efeito  +47.7%  IC95 sitio [ +37.3,  +74.7]
+    o mesmo recorte sem o sitio unico do Mali (84 obs)       n=  147 sitios=  22  efeito  +51.3%  IC95 sitio [ +37.8,  +73.9]
+     mediana entre SITIOS (cada sitio pesa 1): +43.6% | sitios com efeito negativo 0 de 23
+  amplo | antecessora = Cowpea                               n=  108 sitios=  15  efeito  +43.6%  IC95 sitio [ +28.4,  +64.4]
+  amplo | antecessora = Peanut                               n=   87 sitios=  17  efeito  +29.8%  IC95 sitio [ +13.6,  +46.3]
+  amplo | antecessora = Common bean                          n=    2 sitios=   1  efeito  +19.2%  IC95 sitio [ +19.2,  +19.2]
+  amplo | antecessora = Pigeon pea                           n=   22 sitios=   4  efeito  +48.9%  IC95 sitio [ +14.3, +100.1]
+  amplo | antecessora = Mucuna                               n=    2 sitios=   1  efeito  +97.2%  IC95 sitio [ +97.2,  +97.2]
+  amplo | antecessora = Lablab                               n=   30 sitios=   2  efeito  +38.4%  IC95 sitio [ +37.5,  +61.5]
+  amplo | cultura seguinte = Maize                           n=  155 sitios=  24  efeito  +39.6%  IC95 sitio [ +28.3,  +52.4]
+  amplo | cultura seguinte = Sorghum                         n=   78 sitios=   8  efeito  +57.2%  IC95 sitio [ +35.3, +100.2]
+  amplo | cultura seguinte = Millet                          n=  115 sitios=   7  efeito  +30.1%  IC95 sitio [ +21.3,  +40.2]
+  amplo | cultura seguinte = Wheat                           n=  221 sitios=  16  efeito   +7.5%  IC95 sitio [  +1.9,  +14.7]
+  amplo | cultura seguinte = Cotton                          n=   42 sitios=   2  efeito   -8.0%  IC95 sitio [  -8.5,   -4.6]
+  -- comparacao: mesmas combinacoes fora das zonas secas quentes (AI >= 0,65 ou MAT < 20)
+  fora | milho apos qualquer leguminosa, N <= 50             n=  924 sitios=  94  efeito  +44.5%  IC95 sitio [ +33.9,  +56.0]
+  dentro (amplo) | milho apos qualquer leguminosa, N <= 50   n=   61 sitios=  11  efeito  +59.0%  IC95 sitio [ +45.1,  +82.1]
+  fora | milho, N > 100                                      n= 1941 sitios= 103  efeito   +9.3%  IC95 sitio [  +6.7,  +13.0]
+
+==================== A4. Meta-regressao WLS (peso = replicas), erro-padrao agrupado por sitio ====================
+  [M1 so N e diversidade (os 2 moderadores principais do artigo)] n=11768, sitios=417, R2=0.135
+     const            b=+0.3477 (lnRR)  EP=0.0270  p=0.000   ~ +41.6% (multiplicativo)
+     N50              b=-0.0611 (lnRR)  EP=0.0064  p=0.000   ~ -5.9% (multiplicativo)
+     CD2              b=-0.0311 (lnRR)  EP=0.0039  p=0.000   ~ -3.1% (multiplicativo)
+  [M2 + aridez, calor, cultura, irrigacao, finalidade da leguminosa] n=11768, sitios=417, R2=0.168
+     const            b=+0.2953 (lnRR)  EP=0.0431  p=0.000   ~ +34.4% (multiplicativo)
+     N50              b=-0.0611 (lnRR)  EP=0.0068  p=0.000   ~ -5.9% (multiplicativo)
+     CD2              b=-0.0238 (lnRR)  EP=0.0053  p=0.000   ~ -2.4% (multiplicativo)
+     seco             b=+0.0021 (lnRR)  EP=0.0249  p=0.933   ~ +0.2% (multiplicativo)
+     subumido         b=+0.0350 (lnRR)  EP=0.0308  p=0.257   ~ +3.6% (multiplicativo)
+     quente           b=+0.0639 (lnRR)  EP=0.0353  p=0.071   ~ +6.6% (multiplicativo)
+     milho            b=+0.0645 (lnRR)  EP=0.0291  p=0.027   ~ +6.7% (multiplicativo)
+     sorgo_milheto    b=+0.0289 (lnRR)  EP=0.0596  p=0.627   ~ +2.9% (multiplicativo)
+     irrig            b=-0.0438 (lnRR)  EP=0.0270  p=0.105   ~ -4.3% (multiplicativo)
+     irrig_na         b=-0.0425 (lnRR)  EP=0.0232  p=0.068   ~ -4.2% (multiplicativo)
+     adubo_verde      b=+0.0808 (lnRR)  EP=0.0245  p=0.001   ~ +8.4% (multiplicativo)
+     forrag           b=+0.1044 (lnRR)  EP=0.0409  p=0.011   ~ +11.0% (multiplicativo)
+  [M3 + interacoes seco x N e seco x quente] n=11768, sitios=417, R2=0.171
+     const            b=+0.2840 (lnRR)  EP=0.0456  p=0.000   ~ +32.8% (multiplicativo)
+     N50              b=-0.0603 (lnRR)  EP=0.0088  p=0.000   ~ -5.9% (multiplicativo)
+     CD2              b=-0.0243 (lnRR)  EP=0.0051  p=0.000   ~ -2.4% (multiplicativo)
+     seco             b=+0.0134 (lnRR)  EP=0.0409  p=0.743   ~ +1.4% (multiplicativo)
+     subumido         b=+0.0407 (lnRR)  EP=0.0306  p=0.184   ~ +4.2% (multiplicativo)
+     quente           b=+0.1181 (lnRR)  EP=0.0509  p=0.020   ~ +12.5% (multiplicativo)
+     quente_x_seco    b=-0.0995 (lnRR)  EP=0.0667  p=0.136   ~ -9.5% (multiplicativo)
+     seco_x_N50       b=+0.0021 (lnRR)  EP=0.0130  p=0.874   ~ +0.2% (multiplicativo)
+     milho            b=+0.0667 (lnRR)  EP=0.0285  p=0.019   ~ +6.9% (multiplicativo)
+     sorgo_milheto    b=+0.0437 (lnRR)  EP=0.0615  p=0.478   ~ +4.5% (multiplicativo)
+     irrig            b=-0.0407 (lnRR)  EP=0.0267  p=0.128   ~ -4.0% (multiplicativo)
+     irrig_na         b=-0.0397 (lnRR)  EP=0.0230  p=0.084   ~ -3.9% (multiplicativo)
+     adubo_verde      b=+0.0842 (lnRR)  EP=0.0239  p=0.000   ~ +8.8% (multiplicativo)
+     forrag           b=+0.1062 (lnRR)  EP=0.0397  p=0.007   ~ +11.2% (multiplicativo)
+
+==================== A5. Teste de transferencia: modelo SEM aridez ajustado fora do analogo preve o analogo? ====================
+  analogo amplo (AI<0,65 e MAT>=20): sitios=66, n=740 | observado +26.7% [+18.1, +36.4] | previsto pelos moderadores globais +22.8% | residuo (obs - prev) +0.032 lnRR IC95 [-0.029, +0.098] -> TRANSFERE (IC do residuo cruza 0)
+  analogo estrito (AI 0,2-0,5 e MAT>=20): sitios=49, n=593 | observado +23.6% [+14.8, +33.8] | previsto pelos moderadores globais +23.5% | residuo (obs - prev) +0.001 lnRR IC95 [-0.064, +0.086] -> TRANSFERE (IC do residuo cruza 0)
+  semiarido qualquer temperatura (AI 0,2-0,5): sitios=156, n=5660 | observado +16.8% [+12.4, +25.6] | previsto pelos moderadores globais +21.3% | residuo (obs - prev) -0.038 lnRR IC95 [-0.068, -0.011] -> NAO transfere (vies sistematico)
+  Africa inteira (controle positivo de baixo insumo): sitios=59, n=844 | observado +44.1% [+35.2, +54.9] | previsto pelos moderadores globais +28.4% | residuo (obs - prev) +0.116 lnRR IC95 [+0.052, +0.187] -> NAO transfere (vies sistematico)
+
+==================== A6. Irrigacao dentro das zonas secas (AI < 0,5): o ensaio irrigado nao e analogo do sequeiro ====================
+  AI<0,5 | irrigado = yes                                    n=  601 sitios=  52  efeito  +13.8%  IC95 sitio [  +7.5,  +19.9]
+  AI<0,5 | irrigado = no                                     n= 2867 sitios=  66  efeito  +21.9%  IC95 sitio [ +13.1,  +43.4]
+  AI<0,5 | irrigacao nao informada                           n= 2368 sitios=  68  efeito  +15.8%  IC95 sitio [ +11.4,  +22.8]
+
+==================== A7. Duracao: ciclo de rotacao (RC) - o efeito cresce com o tempo? ====================
+  RC 1o ciclo                                                n= 6821 sitios= 306  efeito  +15.3%  IC95 sitio [ +12.6,  +20.2]
+  RC 1o ciclo | AI<0,65                                      n= 4932 sitios= 175  efeito  +14.9%  IC95 sitio [ +12.3,  +20.8]
+  RC 2o-3o ciclo                                             n= 2572 sitios= 219  efeito  +18.8%  IC95 sitio [ +14.0,  +23.4]
+  RC 2o-3o ciclo | AI<0,65                                   n= 1380 sitios= 117  efeito  +21.0%  IC95 sitio [ +14.4,  +28.1]
+  RC 4o-10o ciclo                                            n= 1859 sitios=  86  efeito  +26.2%  IC95 sitio [ +17.6,  +36.2]
+  RC 4o-10o ciclo | AI<0,65                                  n=  891 sitios=  46  efeito  +35.9%  IC95 sitio [ +21.6,  +49.1]
+  RC >10 ciclos                                              n=  516 sitios=  23  efeito  +11.5%  IC95 sitio [  +4.0,  +61.1]
+  RC >10 ciclos | AI<0,65                                    n=  458 sitios=  14  efeito  +10.2%  IC95 sitio [  +3.0,  +83.5]
+
+==================== A8. Chuva anual (MAP) nao e aridez: mesma faixa de chuva, aridez diferente conforme o calor ====================
+  MAP 700-1000 mm, MAT -5-10 C: 54 sitios, AI mediana 0.81 (p10 0.71 - p90 1.05)
+  MAP 700-1000 mm, MAT 10-20 C: 48 sitios, AI mediana 0.58 (p10 0.43 - p90 0.99)
+  MAP 700-1000 mm, MAT 20-35 C: 30 sitios, AI mediana 0.42 (p10 0.32 - p90 0.50)
+
+==================== B. Kluger et al. 2025 - Tabela S9 (p.64 do PDF): efeito de 2 anos, diversificacao, chuva e temperatura ====================
+  linhas lidas da Tabela S9: 36 (o artigo diz 36 pares precrop-cultura-pais)
+  efeito de 2 anos: mediana 4.25% (artigo p.33: 4,5%) | media 4.52% | negativos 7
+  valores ordenados: [-12.4, -2.4, -2.1, -2.0, -0.9, -0.9, -0.3, 0.9, 1.7, 2.1, 2.1, 2.5, 2.6, 3.7, 3.9, 3.9, 4.0, 4.2, 4.3, 4.7, 6.2, 6.7, 6.7, 6.8, 7.0, 7.1, 8.3, 8.3, 8.3, 8.5, 9.4, 10.1, 10.4, 11.3, 13.7, 14.4]
+  diversificar alem de 2 culturas (n=34): mediana 0.75% | media 1.23% | razao media(2 anos)/media(diversificar) = 3.7 (artigo p.13: 3,7)
+  diversificar: negativos 12 de 34; negativos significativos 4
+  heterogeneidade com CHUVA (p25->p75):  positivos sig. 21, negativos sig. 4, nao sig. 11; mediana +1.05 p.p.
+  heterogeneidade com TEMPERATURA:  positivos sig. 12, negativos sig. 15, nao sig. 9
+              n  eff2_med  chuva_med  chuva_pos_sig  temp_med  temp_neg_sig
+grupo                                                                      
+cereal       16      3.95       0.75              7      0.80             4
+folha larga   7      7.00       1.70              5      1.70             2
+leguminosa    9      8.30       1.60              8     -1.10             6
+pastagem      2     -2.05       0.85              1      0.00             1
+pousio        2      6.50      -1.90              0     -3.65             2
+  leguminosas (linha a linha):  [{'pais': 'US', 'pre': 'S', 'cult': 'C', 'eff2': 2.5, 'bp': 0.6, 'bp_sig': True, 'bt': -1.0, 'bt_sig': True}, {'pais': 'Canada', 'pre': 'S', 'cult': 'C', 'eff2': 1.7, 'bp': 1.3, 'bp_sig': True, 'bt': -0.3, 'bt_sig': False}, {'pais': 'China', 'pre': 'S', 'cult': 'C', 'eff2': -2.4, 'bp': 0.5, 'bp_sig': True, 'bt': -1.5, 'bt_sig': True}, {'pais': 'US', 'pre': 'S', 'cult': 'SW', 'eff2': 8.3, 'bp': 1.6, 'bp_sig': True, 'bt': -2.0, 'bt_sig': True}, {'pais': 'US', 'pre': 'DB', 'cult': 'SW', 'eff2': 14.4, 'bp': 1.9, 'bp_sig': True, 'bt': -0.7, 'bt_sig': False}, {'pais': 'Canada', 'pre': 'Le', 'cult': 'SW', 'eff2': 10.4, 'bp': 2.7, 'bp_sig': True, 'bt': 0.4, 'bt_sig': False}, {'pais': 'Canada', 'pre': 'Pe', 'cult': 'SW', 'eff2': 11.3, 'bp': 3.6, 'bp_sig': True, 'bt': -1.1, 'bt_sig': True}, {'pais': 'Canada', 'pre': 'S', 'cult': 'SW', 'eff2': 13.7, 'bp': -1.0, 'bp_sig': False, 'bt': -1.7, 'bt_sig': True}, {'pais': 'US', 'pre': 'S', 'cult': 'WW', 'eff2': -12.4, 'bp': 5.0, 'bp_sig': True, 'bt': -4.6, 'bt_sig': True}]
+
+==================== C. Franke et al. 2018 (AGEE 261:172-185; PMC5946712) - Tabelas 2 e 3 ====================
+                        fator   n  cont  apos_leg  resp  se_resp      IC95_resp       p  rel_%
+                 Overall mean 199  1.20      1.69  0.49     0.09 [+0.31, +0.67] <0.0001   40.8
+ Savannahs of southern Africa  27  1.65      2.34  0.69     0.18 [+0.34, +1.04]  0.0005   41.8
+     Highlands of East Africa  30  2.24      2.86  0.62     0.21 [+0.21, +1.03]  0.0074   27.7
+Humid forest/Derived savannah  22  1.59      1.81  0.21     0.21 [-0.20, +0.62]   0.334   13.2
+              Guinea savannah  74  2.14      2.66  0.52     0.18 [+0.17, +0.87]   0.015   24.3
+         Sudano-Sahelian zone  46  1.16      1.44  0.28     0.17 [-0.05, +0.61]   0.138   24.1
+                        Maize 131  1.96      2.53  0.57     0.12 [+0.33, +0.81]  0.0001   29.1
+                       Millet  37  1.11      1.43  0.32     0.21 [-0.09, +0.73]   0.134   28.8
+                      Sorghum  25  1.06      1.18  0.12     0.26 [-0.39, +0.63]   0.647   11.3
+                 Other cereal   6  0.93      1.26  0.33     0.42 [-0.49, +1.15]   0.445   35.5
+                       Cowpea  91  1.21      1.60  0.40     0.09 [+0.22, +0.58]  0.0004   33.1
+                    Groundnut  35  1.22      1.84  0.62     0.11 [+0.40, +0.84] <0.0001   50.8
+                      Soybean  47  1.18      1.80  0.62     0.10 [+0.42, +0.82] <0.0001   52.5
+                    Pigeonpea  11  1.23      1.66  0.43     0.11 [+0.21, +0.65]  0.0005   35.0
+                 Other legume  15  1.24      1.61  0.36     0.11 [+0.14, +0.58]  0.0023   29.0
+         1st rotational cycle 150  1.49      1.97  0.48     0.10 [+0.28, +0.68] <0.0001   32.2
+     2nd or subsequent cycles  49  2.08      2.57  0.49     0.12 [+0.25, +0.73]  0.0003   23.6
+                          0 N  77  0.97      1.51  0.54     0.11 [+0.32, +0.76] <0.0001   55.7
+              15–50 kg N ha−1  65  1.16      1.65  0.49     0.15 [+0.20, +0.78]  0.0025   42.2
+             60–120 kg N ha−1  53  1.92      2.25  0.32     0.14 [+0.05, +0.59]  0.0248   16.7
+  interacoes (p): [('AEZ x yield response', '0.351'), ('Cereal type x yield response', '0.435'), ('Legume type x yield response', '<0.0001'), ('Rotational cycle x yield response', '0.907'), ('N application x yield response', '0.204')]
+  Tabela 2: 105 valores (% de aumento do cereal apos leguminosa, por estudo x leguminosa)
+                                             count   min   25%   50%    75%    max
+zona                                                                              
+East Africa                                   23.0   2.0  29.0  50.0   78.0  143.0
+Southern Africa                               21.0  21.0  25.0  87.0  123.0  765.0
+West Africa − Guinea savannah                 35.0 -11.0  22.0  36.0   96.0  211.0
+West Africa − Humid forest/Derived savannah    8.0   4.0  15.0  38.0   57.0   58.0
+West Africa − Sudano-Sahelian zone            18.0  -7.0  17.0  24.0   34.0  101.0
+  Sudano-saheliana: controle (cereal continuo) mediana 0.76 t/ha; aumento relativo mediana 24% (min -7, max 101); negativos 1 de 18
+  Tabela 2 inteira: Spearman(rendimento do controle, % de aumento) = -0.40 (p=2.69e-05); o texto diz que o ganho relativo cai com o controle
+
+==================== D. Raveloaritiana & Wanger 2026 - o que e o '+189% de lucratividade em 20 anos' (p.4 do PDF) ====================
+  lnRR 20 anos = 0.3633 -> efeito absoluto exp-1 = +43.8% | lnRR curto prazo (<3 anos) = 0.1259 -> +13.4%
+  (lnRR20 / lnRR0 - 1) = 189%  <- e ISTO que o artigo chama de '189%': aumento relativo do log da razao,
+  nao '+189% de lucro'. Em 20 anos a diversificacao da +44% de lucratividade contra +13% no curto prazo.
+
+==================== E1. Aridez do Ceara pelo NASA POWER (P/ET0 FAO-56, celulas 0,5 x 0,625 grau) x cobertura da base de Zhao ====================
+  celulas no Ceara: 38 | P media 778 mm | ET0 2313 mm | AI mediana 0.34 (p10 0.28, p90 0.49)
+  classes de aridez das celulas: {'semiarido (0,2-0,5)': 35, 'subumido seco (0,5-0,65)': 3, 'arido (<0,2)': 0, 'umido (0,65-1,0)': 0, 'hiperumido (>1,0)': 0}
+  Zhao com AI na faixa p10-p90 do Ceara (0.28-0.49) E MAT >= 24 C (Ceara ~26-27 C): 255 obs (2.2%), 24 sitios, paises ['Australia', 'Burkina Faso', 'Ghana', 'Guinea', 'India', 'Nigeria']
+  efeito nessa faixa                                         n=  255 sitios=  24  efeito  +35.8%  IC95 sitio [ +21.7,  +55.7]
+  CUIDADO: o AI de Zhao vem do WorldClim/CGIAR e o nosso do POWER; a comparacao e de ordem de grandeza.
+
+==================== E2. PAM Ceara: quanto do tempo o rendimento 'colhido' esconde a perda (Zhao excluiu rendimento zero, p.7) ====================
+  milho: 6532 municipio-anos (area plantada > 50 ha) | perda quase total (colhida < 5% da plantada) 1.3% | perda >= metade 4.8% | rendimento por ha plantado / por ha colhido = 0.98
+     rendimento colhido mediana 549 kg/ha; por ha plantado mediana 528 kg/ha
+     anos com >= 40% dos municipios perdendo metade ou mais: [1990, 1993]
+     quase falha (rendimento por ha plantado < 25% da mediana do municipio): 11.1% dos municipio-anos | anos acima da mediana do municipio somam 76% de todo o rendimento acumulado
+     -> um ganho RELATIVO constante (ex. +24%) entrega 76% do seu ganho ABSOLUTO nos anos bons; nos anos de quase falha, ~0 kg/ha
+  feijao: 6543 municipio-anos (area plantada > 50 ha) | perda quase total (colhida < 5% da plantada) 0.3% | perda >= metade 3.5% | rendimento por ha plantado / por ha colhido = 0.97
+     rendimento colhido mediana 257 kg/ha; por ha plantado mediana 250 kg/ha
+     anos com >= 40% dos municipios perdendo metade ou mais: [1993]
+     quase falha (rendimento por ha plantado < 25% da mediana do municipio): 5.4% dos municipio-anos | anos acima da mediana do municipio somam 70% de todo o rendimento acumulado
+     -> um ganho RELATIVO constante (ex. +24%) entrega 70% do seu ganho ABSOLUTO nos anos bons; nos anos de quase falha, ~0 kg/ha
+  Leitura: no PAM do Ceara a perda quase nunca aparece como area nao colhida; aparece como rendimento baixo.
+  O efeito multiplicativo das meta-analises (Zhao excluiu rendimento zero) entrega pouco kg/ha justamente nos anos secos.
+
+Tempo total: 0.7 s

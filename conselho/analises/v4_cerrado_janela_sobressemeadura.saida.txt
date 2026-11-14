@@ -1,0 +1,69 @@
+IMERG NE diario: 1998-01-01 a 2026-09-14, 10484 dias
+
+== A. Ancoras dos artigos x IMERG ==
+  Brejo-MA (Andrade): cobertura mai/2021-05/ago/2021 IMERG = 303 mm (Andrade p.3: 353 mm; media historica 514 mm)
+  Brejo-MA (Andrade): soja jan/2022-mai/2022 IMERG = 1497 mm (Andrade p.3: 1586 mm; media historica 1312 mm)
+  Bom Jesus-PI (Pacheco): 30 d antes da colheita (15/mar-14/abr/2011) = 79 mm; 30 d depois (16/abr-15/mai/2011) = 8 mm
+  inicio agronomico IMERG safra 2010/11 em Bom Jesus: 17/Oct/2010 (soja semeada em 12/dez/2010 no artigo)
+
+== B. Janelas ancoradas no inicio local das chuvas (safras 1999-2025; IMERG) ==
+  colunas: dia mediano do inicio | % anos sem inicio | mediana (mm) de: ciclo 125 d, sobressemeadura [S+95,S+124], pos-colheita [S+125,S+154], 90 d pos-colheita, 45 d pre-semeadura | % anos com sobre>=50 | % anos com pos>=50 | entressafra (d)
+  Bom Jesus-PI (Pacheco)    07/Nov    0% | ciclo   637 sobre  148 pos  112 90d  203 reb45   30 | sobre>=50  78% pos>=50  74% | entressafra  242 d (n=27)
+  Brejo-MA (Andrade)        16/Dec    0% | ciclo  1126 sobre  355 pos  256 90d  476 reb45   34 | sobre>=50 100% pos>=50 100% | entressafra  246 d (n=27)
+  Urucui-PI                 30/Oct    0% | ciclo   672 sobre  163 pos  138 90d  255 reb45   52 | sobre>=50  96% pos>=50  85% | entressafra  235 d (n=27)
+  Balsas-MA                 16/Oct    0% | ciclo   798 sobre  205 pos  201 90d  420 reb45   30 | sobre>=50 100% pos>=50 100% | entressafra  240 d (n=27)
+  LEM-BA                    19/Oct    0% | ciclo   893 sobre  190 pos  206 90d  412 reb45   26 | sobre>=50 100% pos>=50  96% | entressafra  240 d (n=27)
+  Quixada-CE                25/Jan    0% | ciclo   604 sobre   77 pos   27 90d   27 reb45   36 | sobre>=50  63% pos>=50  37% | entressafra  238 d (n=27)
+  Taua-CE                   11/Jan    0% | ciclo   493 sobre   45 pos   16 90d   37 reb45   44 | sobre>=50  48% pos>=50  19% | entressafra  241 d (n=27)
+  Iguatu-CE                 06/Jan    0% | ciclo   630 sobre  107 pos   48 90d   84 reb45   38 | sobre>=50  81% pos>=50  48% | entressafra  243 d (n=27)
+  Crateus-CE                11/Jan    0% | ciclo   550 sobre   81 pos   21 90d   29 reb45   38 | sobre>=50  67% pos>=50  22% | entressafra  242 d (n=27)
+  Sobral-CE                 15/Jan    0% | ciclo   784 sobre  128 pos   47 90d   73 reb45   27 | sobre>=50  85% pos>=50  41% | entressafra  243 d (n=27)
+  Ouricuri-PE               04/Jan    0% | ciclo   450 sobre   49 pos   25 90d   33 reb45   52 | sobre>=50  48% pos>=50  33% | entressafra  257 d (n=27)
+  Serra Talhada-PE          30/Dec    0% | ciclo   514 sobre   99 pos   42 90d   77 reb45   47 | sobre>=50  74% pos>=50  44% | entressafra  236 d (n=27)
+  Juazeiro-BA               11/Jan   15% | ciclo   304 sobre   22 pos    5 90d   18 reb45   36 | sobre>=50  30% pos>=50  17% | entressafra  232 d (n=23)
+  Irece-BA                  03/Dec    4% | ciclo   440 sobre   41 pos   12 90d   34 reb45   44 | sobre>=50  46% pos>=50  27% | entressafra  243 d (n=26)
+
+== C. Leitura: sertao contra as ancoras do Cerrado ==
+  Bom Jesus: sobre mediana 148 mm, pos 112 mm, 90 d pos-colheita 203 mm
+  Brejo-MA : sobre mediana 355 mm, pos 256 mm, 90 d pos-colheita 476 mm
+  Sertao (mediana das 9 medianas): ciclo 514 mm, sobre 77 mm, pos 25 mm, 90 d pos-colheita 34 mm, rebrota45 38 mm, sem inicio 0% dos anos
+  Sertao: % anos com sobre>=50 mm (mediana entre locais) 63% vs Bom Jesus 78% e Brejo 100%
+  Locais do sertao com 90 d pos-colheita >= 167 mm (menor lamina de Silva 2022): 0 de 9
+  Locais do sertao com 90 d pos-colheita >= Andrade 2021 IMERG (ver A): ver tabela B
+
+  p20 (ano ruim, 1 em 5) da janela de sobressemeadura (mm):
+    Bom Jesus-PI (Pacheco)   p20 sobre   51  p20 ciclo   528  p20 90d-pos   69
+    Brejo-MA (Andrade)       p20 sobre  228  p20 ciclo   902  p20 90d-pos  233
+    Urucui-PI                p20 sobre  116  p20 ciclo   564  p20 90d-pos  121
+    Balsas-MA                p20 sobre  160  p20 ciclo   642  p20 90d-pos  340
+    LEM-BA                   p20 sobre  130  p20 ciclo   768  p20 90d-pos  265
+    Quixada-CE               p20 sobre   18  p20 ciclo   474  p20 90d-pos    7
+    Taua-CE                  p20 sobre   20  p20 ciclo   345  p20 90d-pos    6
+    Iguatu-CE                p20 sobre   66  p20 ciclo   515  p20 90d-pos   41
+    Crateus-CE               p20 sobre   41  p20 ciclo   439  p20 90d-pos    7
+    Sobral-CE                p20 sobre   69  p20 ciclo   582  p20 90d-pos   22
+    Ouricuri-PE              p20 sobre   10  p20 ciclo   340  p20 90d-pos   12
+    Serra Talhada-PE         p20 sobre   39  p20 ciclo   388  p20 90d-pos   34
+    Juazeiro-BA              p20 sobre    9  p20 ciclo   219  p20 90d-pos    3
+    Irece-BA                 p20 sobre    2  p20 ciclo   314  p20 90d-pos    5
+
+== D1. Sensibilidade: semeadura = inicio + atraso (mediana mm da janela de sobressemeadura / pos-colheita) ==
+  atraso  0 d -> Bom:148/112  Brejo-MA:355/256  Urucui-PI:163/138  Balsas-MA:205/201  LEM-BA:190/206  Quixada-CE:77/27  Taua-CE:45/16  Iguatu-CE:107/48  Crateus-CE:81/21  Sobral-CE:128/47  Ouricuri-P:49/25  Serra:99/42  Juazeiro-B:22/5  Irece-BA:41/12
+  atraso 30 d -> Bom:112/58  Brejo-MA:256/134  Urucui-PI:138/79  Balsas-MA:201/154  LEM-BA:206/151  Quixada-CE:27/4  Taua-CE:16/4  Iguatu-CE:48/24  Crateus-CE:21/5  Sobral-CE:47/13  Ouricuri-P:25/3  Serra:42/21  Juazeiro-B:5/2  Irece-BA:12/9
+  atraso 56 d -> Bom:58/6  Brejo-MA:138/36  Urucui-PI:81/33  Balsas-MA:175/70  LEM-BA:168/34  Quixada-CE:8/0  Taua-CE:4/1  Iguatu-CE:24/5  Crateus-CE:8/2  Sobral-CE:24/4  Ouricuri-P:5/1  Serra:29/4  Juazeiro-B:2/0  Irece-BA:9/1
+
+== D2. Estacao util (dias entre 10% e 90% da chuva do ano agricola set-ago), mediana 1998/99-2024/25 ==
+  Bom Jesus-PI (Pacheco)   estacao util mediana  147 d (p20  132 d) | chuva anual mediana   941 mm
+  Brejo-MA (Andrade)       estacao util mediana  136 d (p20  121 d) | chuva anual mediana  1681 mm
+  Urucui-PI                estacao util mediana  152 d (p20  138 d) | chuva anual mediana  1064 mm
+  Balsas-MA                estacao util mediana  154 d (p20  145 d) | chuva anual mediana  1288 mm
+  LEM-BA                   estacao util mediana  149 d (p20  137 d) | chuva anual mediana  1364 mm
+  Quixada-CE               estacao util mediana  122 d (p20  107 d) | chuva anual mediana   740 mm
+  Taua-CE                  estacao util mediana  118 d (p20  103 d) | chuva anual mediana   566 mm
+  Iguatu-CE                estacao util mediana  126 d (p20  117 d) | chuva anual mediana   813 mm
+  Crateus-CE               estacao util mediana  118 d (p20   99 d) | chuva anual mediana   660 mm
+  Sobral-CE                estacao util mediana  113 d (p20   94 d) | chuva anual mediana   877 mm
+  Ouricuri-PE              estacao util mediana  133 d (p20  123 d) | chuva anual mediana   624 mm
+  Serra Talhada-PE         estacao util mediana  145 d (p20  117 d) | chuva anual mediana   665 mm
+  Juazeiro-BA              estacao util mediana  141 d (p20  109 d) | chuva anual mediana   465 mm
+  Irece-BA                 estacao util mediana  137 d (p20  117 d) | chuva anual mediana   630 mm

@@ -1,0 +1,83 @@
+Zhao data.csv: 11768 linhas; analogo estrito 593 obs; amplo 740 obs
+
+===== C1/C2. Pares antecessora -> cereal =====
+ -- GLOBAL
+  Cowpea -> Maize                                      n= 168 sitios= 14 efeito  +26.6% IC sitio [ +16.4;  +44.4] mediana sitios  +22.5% | Burkina Faso,Ghana,India,Kenya,Mozambique,Nigeria,South Afri
+  Peanut -> Maize                                      n=  47 sitios= 14 efeito  +29.7% IC sitio [ +11.7;  +54.3] mediana sitios  +30.7% | Guinea,Kenya,Malawi,Mozambique,Nigeria
+  Soybean -> Maize                                     n=2112 sitios=118 efeito  +15.3% IC sitio [ +11.3;  +19.9] mediana sitios  +15.0% | Argentina,Brazil,Canada,China,France,Ghana,Guinea,Japan,Keny
+  Common bean -> Maize                                 n=  26 sitios=  9 efeito  +24.3% IC sitio [ +11.1;  +41.1] mediana sitios  +19.2% | Ethiopia,Kenya,Mozambique
+  Pigeon pea -> Maize                                  n=  68 sitios=  9 efeito  +28.7% IC sitio [ +10.5;  +58.8] mediana sitios  +35.2% | Brazil,Ghana,India,Kenya,United Republic of Tanzania,Zambia,
+  Mucuna -> Maize                                      n=  31 sitios=  6 efeito  +57.3% IC sitio [ +39.9;  +75.8] mediana sitios  +59.6% | Ghana,Nigeria,Uganda,Zimbabwe
+  Cowpea -> Sorghum                                    n=  68 sitios=  8 efeito  +42.7% IC sitio [  +7.6; +102.2] mediana sitios  +56.6% | Australia,Burkina Faso,Mali,United States of America,Zimbabw
+  Peanut -> Sorghum                                    n=  20 sitios=  3 efeito  +76.9% IC sitio [ +21.2; +114.1] mediana sitios  +76.6% | Burkina Faso,Nigeria,Zimbabwe
+  Cowpea -> Millet                                     n=  36 sitios=  5 efeito  +32.2% IC sitio [ +19.6;  +46.8] mediana sitios  +28.6% | India,Mali,Niger,United States of America
+  Peanut -> Millet                                     n=  33 sitios=  4 efeito  +35.2% IC sitio [ +20.6;  +39.4] mediana sitios  +30.1% | India,Niger,Senegal
+ -- AMPLO quente AI<0,65
+  Cowpea -> Maize                                      n=  32 sitios=  4 efeito  +51.4% IC sitio [ +25.7;  +80.8] mediana sitios  +31.8% | Burkina Faso,Mozambique,Nigeria
+  Peanut -> Maize                                      n=  32 sitios=  9 efeito  +18.8% IC sitio [  +1.1;  +38.2] mediana sitios  +20.2% | Guinea,Malawi,Mozambique,Nigeria
+  Soybean -> Maize                                     n=  41 sitios=  7 efeito  +32.7% IC sitio [ +18.6;  +46.8] mediana sitios  +37.7% | Ghana,Guinea,Mozambique,Nigeria
+  Common bean -> Maize                                 n=   2 sitios=  1 efeito  +19.2% IC sitio [ +19.2;  +19.2] mediana sitios  +19.2% | Ethiopia
+  Pigeon pea -> Maize                                  n=  13 sitios=  3 efeito  +84.8% IC sitio [ +48.4; +170.0] mediana sitios  +89.2% | India,United Republic of Tanzania,Zambia
+  Mucuna -> Maize                                      n=   2 sitios=  1 efeito  +97.2% IC sitio [ +97.2;  +97.2] mediana sitios  +97.2% | Nigeria
+  Cowpea -> Sorghum                                    n=  21 sitios=  3 efeito  +70.8% IC sitio [ +36.7; +147.4] mediana sitios  +70.8% | Burkina Faso,Mali
+  Peanut -> Sorghum                                    n=   8 sitios=  2 efeito  +77.1% IC sitio [ +21.2; +114.1] mediana sitios  +61.1% | Burkina Faso,Nigeria
+  Cowpea -> Millet                                     n=  36 sitios=  5 efeito  +32.2% IC sitio [ +19.6;  +47.9] mediana sitios  +28.6% | India,Mali,Niger,United States of America
+  Peanut -> Millet                                     n=  33 sitios=  4 efeito  +35.2% IC sitio [ +20.6;  +39.4] mediana sitios  +30.1% | India,Niger,Senegal
+ -- ESTRITO quente AI 0,2-0,5
+  Cowpea -> Maize                                      n=  28 sitios=  2 efeito  +57.5% IC sitio [ +29.8;  +91.3] mediana sitios  +57.5% | Burkina Faso,Nigeria
+  Peanut -> Maize                                      n=  25 sitios=  5 efeito  +25.5% IC sitio [  +0.0;  +48.3] mediana sitios  +39.1% | Guinea,Malawi,Nigeria
+  Soybean -> Maize                                     n=  38 sitios=  6 efeito  +30.9% IC sitio [ +15.4;  +45.3] mediana sitios  +29.1% | Ghana,Guinea,Mozambique,Nigeria
+  Common bean -> Maize                                 n=   2 sitios=  1 efeito  +19.2% IC sitio [ +19.2;  +19.2] mediana sitios  +19.2% | Ethiopia
+  Pigeon pea -> Maize                                  n=  13 sitios=  3 efeito  +84.8% IC sitio [ +48.4; +170.0] mediana sitios  +89.2% | India,United Republic of Tanzania,Zambia
+  Mucuna -> Maize                                      n=0
+  Cowpea -> Sorghum                                    n=  21 sitios=  3 efeito  +70.8% IC sitio [ +36.7; +147.4] mediana sitios  +70.8% | Burkina Faso,Mali
+  Peanut -> Sorghum                                    n=   8 sitios=  2 efeito  +77.1% IC sitio [ +21.2; +114.1] mediana sitios  +61.1% | Burkina Faso,Nigeria
+  Cowpea -> Millet                                     n=  32 sitios=  4 efeito  +31.1% IC sitio [ +17.0;  +49.2] mediana sitios  +26.9% | India,Mali,Niger,United States of America
+  Peanut -> Millet                                     n=  21 sitios=  3 efeito  +30.9% IC sitio [ +18.2;  +39.9] mediana sitios  +21.6% | India,Niger,Senegal
+ -- por especie antecessora, cereal qualquer (milho, sorgo, milheto), AMPLO e N <= 50
+  Cowpea -> cereal tropical, N<=50                     n=  63 sitios=  9 efeito  +48.4% IC sitio [ +31.3;  +81.8] mediana sitios  +39.0% | Burkina Faso,India,Mali,Mozambique,Niger,Nigeria,United Stat
+  Peanut -> cereal tropical, N<=50                     n=  47 sitios=  9 efeito  +45.5% IC sitio [ +31.2;  +67.4] mediana sitios  +39.2% | Burkina Faso,Guinea,India,Niger,Nigeria,Senegal
+  Soybean -> cereal tropical, N<=50                    n=  21 sitios=  5 efeito  +50.1% IC sitio [ +32.6;  +69.7] mediana sitios  +43.6% | Guinea,Nigeria,United States of America
+  Pigeon pea -> cereal tropical, N<=50                 n=  14 sitios=  4 efeito  +66.9% IC sitio [ +22.8; +136.7] mediana sitios  +98.9% | India,United Republic of Tanzania,Zambia
+  Common bean -> cereal tropical, N<=50                n=0
+  Mucuna -> cereal tropical, N<=50                     n=   2 sitios=  1 efeito  +97.2% IC sitio [ +97.2;  +97.2] mediana sitios  +97.2% | Nigeria
+  Lablab -> cereal tropical, N<=50                     n=  30 sitios=  2 efeito  +38.4% IC sitio [ +37.5;  +61.5] mediana sitios  +49.0% | Mali,Nigeria
+ -- cereal seguinte (qualquer leguminosa), AMPLO
+  leguminosa -> Maize                                  n= 155 sitios= 24 efeito  +39.6% IC sitio [ +27.2;  +53.6] mediana sitios  +35.6% | Burkina Faso,Ethiopia,Ghana,Guinea,India,Malawi,Mozambique,N
+  leguminosa -> Maize, N<=50                           n=  61 sitios= 11 efeito  +59.0% IC sitio [ +44.3;  +82.6] mediana sitios  +70.4% | Guinea,India,Mozambique,Nigeria,Pakistan,United Republic of 
+  leguminosa -> Sorghum                                n=  78 sitios=  8 efeito  +57.2% IC sitio [ +33.6; +100.1] mediana sitios  +42.9% | Australia,Burkina Faso,India,Mali,Nigeria,United States of A
+  leguminosa -> Sorghum, N<=50                         n=  74 sitios=  8 efeito  +59.2% IC sitio [ +37.7; +103.6] mediana sitios  +42.9% | Australia,Burkina Faso,India,Mali,Nigeria,United States of A
+  leguminosa -> Millet                                 n= 115 sitios=  7 efeito  +30.1% IC sitio [ +21.3;  +39.8] mediana sitios  +25.2% | India,Mali,Niger,Senegal,United States of America
+  leguminosa -> Millet, N<=50                          n= 103 sitios=  7 efeito  +32.3% IC sitio [ +24.1;  +40.6] mediana sitios  +25.2% | India,Mali,Niger,Senegal,United States of America
+
+===== C3. Controle ja diverso (CD2 >= 8) =====
+  CD2 == 1, N <= 50                                    n=2250 sitios=167 efeito  +41.3% IC sitio [ +33.5;  +49.2] mediana sitios  +36.1% | Australia,Benin,Brazil,Burkina Faso,Canada,China,Ethiopia,Et
+  CD2 == 2, N <= 50                                    n= 687 sitios= 60 efeito  +32.2% IC sitio [ +15.9;  +48.6] mediana sitios  +32.2% | Australia,Benin,Canada,Chile,China,Denmark,Ethiopia,Finland,
+  CD2 == 4, N <= 50                                    n= 651 sitios= 77 efeito  +30.5% IC sitio [ +21.1;  +41.0] mediana sitios  +17.4% | Australia,Brazil,Bulgaria,Canada,China,Estonia,Ethiopia,Germ
+  CD2 == 6, N <= 50                                    n=  74 sitios= 12 efeito   +7.3% IC sitio [  +4.3;  +11.1] mediana sitios   +6.9% | Australia,Canada,Germany,Poland,Thailand,United States of Am
+  CD2 == 8, N <= 50                                    n=  86 sitios= 11 efeito  +12.1% IC sitio [  +2.2;  +21.8] mediana sitios   +6.5% | Bulgaria,Canada,China,Ghana,India,Italy,Spain,Turkey,United 
+  CD2 == 9, N <= 50                                    n=0
+  CD2 == 12, N <= 50                                   n=0
+  CD2 >= 8, qualquer N                                 n= 381 sitios= 33 efeito   +6.2% IC sitio [  +2.6;   +9.9] mediana sitios   +2.3% | Brazil,Bulgaria,Canada,China,Germany,Ghana,India,Indonesia,I
+  CD2 >= 8, N <= 50                                    n=  86 sitios= 11 efeito  +12.1% IC sitio [  +3.1;  +22.0] mediana sitios   +6.5% | Bulgaria,Canada,China,Ghana,India,Italy,Spain,Turkey,United 
+  CD2 >= 8, N <= 50, cereal                            n=  64 sitios=  8 efeito   +8.9% IC sitio [  -2.1;  +22.8] mediana sitios   +3.0% | Bulgaria,Canada,China,Ghana,India,Spain
+  CD2>=8: NumCroPerYr {2.0: 196, 1.0: 163, 3.0: 22} | paises {'United States of America': 174, 'China': 90, 'Canada': 31, 'Turkey': 16, 'Brazil': 16, 'Germany': 12, 'India': 10, 'Bulgaria': 8}
+  CD2>=8: culturas seguintes {'Wheat': 201, 'Rice': 76, 'Maize': 26, 'Potato': 26, 'Sugarcane': 18, 'Sorghum': 10} | antecessoras {'Vetch': 78, 'Pea': 69, 'Chickpea': 58, 'Soybean': 40, 'Lentil': 30, 'Faba bean': 26}
+
+===== C4. Quebra do milho no PAM-CE, tres definicoes =====
+  (1988, 2025): n=6971 | colhida/plantada<0,5: 4.7% | idem ou producao 0: 4.7% | rend/plantada < 0,5 mediana mun.: 22.7% | < 0,25 mediana: 10.8%
+  (2000, 2024): n=4589 | colhida/plantada<0,5: 0.7% | idem ou producao 0: 0.7% | rend/plantada < 0,5 mediana mun.: 18.8% | < 0,25 mediana: 7.5%
+
+===== C5. A 'perda' do PAM-NE (colhida/plantada < 0,5) depende da UF que informa? milho, 2000-2024 =====
+       n  perda_area  perda_rend
+uf                              
+21  5322       0.001       0.073
+22  5585       0.049       0.271
+23  4589       0.007       0.202
+24  4065       0.306       0.296
+25  5162       0.163       0.280
+26  3351       0.223       0.248
+27  2079       0.204       0.153
+28  1798       0.064       0.145
+29  9335       0.109       0.192
+  NE: perda_area 11.4% | perda_rend 21.0%

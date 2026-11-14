@@ -1,0 +1,75 @@
+==================== E. SoilGrids 2.0 x textura medida (CEMADEN) ====================
+  sand 0-5cm: 352 pontos, 113s
+  sand 5-15cm: 352 pontos, 113s
+  clay 0-5cm: 352 pontos, 107s
+  clay 5-15cm: 352 pontos, 106s
+  sand: n=352 | campo mediana 709 g/kg | SoilGrids 556 | vies -130 | erro abs mediano 154 | Spearman 0.31
+  clay: n=352 | campo mediana 175 g/kg | SoilGrids 232 | vies +56 | erro abs mediano 89 | Spearman 0.44
+  classe textural simplificada (arenoso/medio/argiloso): SoilGrids = campo em 52% das estacoes; campo: {np.int64(1): np.int64(124), np.int64(2): np.int64(182), np.int64(3): np.int64(46)} | SoilGrids: {np.int64(1): np.int64(4), np.int64(2): np.int64(345), np.int64(3): np.int64(3)}
+
+==================== F. ZARC oficial 2026/2027 (CE, sequeiro) x ZARC sintetico (IMERG + POWER) ====================
+  milho: 184 municipios com ZARC | solos x ciclos por municipio: 26 | sem janela <= 30% em nenhum solo/ciclo: 1 | Spearman(oficial mais permissivo, sintetico) = 0.86
+     sintetico - oficial (decendios): mediana +0; |dif| <= 1 em 89%; sintetico mais tarde em 1%, mais cedo em 11%
+     ultimo decendio oficial (mais permissivo): {'01/mar': 45, '21/fev': 36, '21/mar': 36, '11/mar': 31, '01/abr': 20, '11/fev': 9, '11/abr': 4, '01/fev': 2, 'nenhum': 1}
+     Quixada (2311306, Port.245_de_14-07-2026): sintetico = 01/mar
+       Cod_Ciclo Cod_Solo ultimo_risco<=30% ultimo_risco<=20%
+              20       12            nenhum            nenhum
+              20       12            nenhum            nenhum
+              20       13            nenhum            nenhum
+              20       13            nenhum            nenhum
+              20       14            21/fev            nenhum
+              20       14            21/fev            nenhum
+              20       15            01/mar            nenhum
+              20       15            01/mar            nenhum
+              20       16            01/mar            nenhum
+              20       16            01/mar            nenhum
+              21       13            nenhum            nenhum
+              21       13            nenhum            nenhum
+              21       14            nenhum            nenhum
+              21       14            nenhum            nenhum
+              21       15            11/fev            nenhum
+              21       15            11/fev            nenhum
+              21       16            21/fev            nenhum
+              21       16            21/fev            nenhum
+              22       15            nenhum            nenhum
+              22       15            nenhum            nenhum
+              22       16            11/fev            nenhum
+              22       16            11/fev            nenhum
+  caupi: 184 municipios com ZARC | solos x ciclos por municipio: 9 | sem janela <= 30% em nenhum solo/ciclo: 0 | Spearman(oficial mais permissivo, sintetico) = 0.79
+     sintetico - oficial (decendios): mediana -2; |dif| <= 1 em 38%; sintetico mais tarde em 0%, mais cedo em 62%
+     ultimo decendio oficial (mais permissivo): {'21/abr': 76, '11/abr': 41, '01/abr': 37, '21/mar': 25, '11/mar': 4, '01/mar': 1}
+     Quixada (2311306, Port.121_de_26-05-2026): sintetico = 21/mar
+       Cod_Ciclo Cod_Solo ultimo_risco<=30% ultimo_risco<=20%
+              20        1            21/mar            11/mar
+              20        2            01/abr            21/mar
+              20        3            11/abr            11/abr
+              21        1            21/mar            01/mar
+              21        2            01/abr            11/mar
+              21        3            01/abr            21/mar
+              22        1            11/mar            01/mar
+              22        2            21/mar            11/mar
+              22        3            21/mar            11/mar
+  sorgo: 184 municipios com ZARC | solos x ciclos por municipio: 18 | sem janela <= 30% em nenhum solo/ciclo: 0 | Spearman(oficial mais permissivo, sintetico) = 0.77
+     sintetico - oficial (decendios): mediana -3; |dif| <= 1 em 2%; sintetico mais tarde em 0%, mais cedo em 98%
+     ultimo decendio oficial (mais permissivo): {'11/abr': 74, '01/mai': 35, '21/mar': 27, '21/abr': 25, '01/abr': 20, '11/mar': 3}
+     Quixada (2311306, Port.270_de_22-07-2026): sintetico = 11/mar
+       Cod_Ciclo Cod_Solo ultimo_risco<=30% ultimo_risco<=20%
+              20        1            01/abr            11/mar
+              20        1            01/abr            11/mar
+              20        2            11/abr            01/abr
+              20        2            11/abr            01/abr
+              20        3            21/abr            11/abr
+              20        3            21/abr            11/abr
+              21        1            21/mar            01/mar
+              21        1            21/mar            01/mar
+              21        2            01/abr            21/mar
+              21        2            01/abr            21/mar
+              21        3            11/abr            01/abr
+              21        3            11/abr            01/abr
+              22        1            01/mar            21/fev
+              22        1            01/mar            21/fev
+              22        2            11/mar            01/mar
+              22        2            11/mar            01/mar
+              22        3            21/mar            11/mar
+              22        3            21/mar            11/mar
+  nota: codigos de ciclo 20/21/22 = Grupos I/II/III; solo 1/2/3 = arenoso/medio/argiloso, 11-16 = AD1-AD6 (dicionario de dados da Tabua de Risco 2026). O sintetico usa um solo (CAD 100 mm/m) e um ciclo por cultura.

@@ -63,7 +63,7 @@ def serie_regional(da, gdf):
     m = mascara(da.to_dataset(name="x"), gdf)
     s = da.where(m).mean(("lat", "lon")).to_series()
     s.index = pd.to_datetime(s.index)
-    return s
+    return s[~s.index.duplicated(keep="last")]  # o L3 tem dias com dois granulos (reprocessamento)
 
 
 def tendencia(s, rotulo):
@@ -143,6 +143,9 @@ else:
 l4_f = DADOS / "smap" / "smap_l4_diario_ne.nc"
 l4 = xr.open_dataset(l4_f) if l4_f.exists() else abrir_appeears("smap_l4_ceara", "SPL4SMGP")
 if l4 is not None:
+    # recorte do Ceará (+0,5°) carregado na memória: o resample diário lendo do disco o NE inteiro (2 GB) leva horas
+    x0, y0, x1, y1 = CE.total_bounds
+    l4 = l4.sortby("lat").sel(lat=slice(y0 - 0.5, y1 + 0.5), lon=slice(x0 - 0.5, x1 + 0.5)).load()
     vz, vs, vp = var(l4, "sm_rootzone"), var(l4, "sm_surface"), var(l4, "rootzone_pctl")
     if vp and vz == vp:
         vz = next(v for v in l4.data_vars if "sm_rootzone" in v and "pctl" not in v)
@@ -194,6 +197,8 @@ else:
 l3_f = DADOS / "smap" / "smap_l3_diario_ne.nc"
 l3 = xr.open_dataset(l3_f) if l3_f.exists() else abrir_appeears("smap_l3_ceara", "SPL3SMP_E")
 if l3 is not None:
+    x0, y0, x1, y1 = CE.total_bounds  # recorte do Ceará (+0,5°) na memória, como no L4
+    l3 = l3.sortby("lat").sel(lat=slice(y0 - 0.5, y1 + 0.5), lon=slice(x0 - 0.5, x1 + 0.5)).load()
     if "sm_am" in l3:
         vam, vqa = "sm_am", "qual_am"
     else:

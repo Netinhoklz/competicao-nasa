@@ -133,7 +133,9 @@ for _, u in ne.iterrows():
 AT = pd.DataFrame(atual)
 print(f"\nChuva 01/08 a {fim:%d/%m}/2026 por UF (IMERG V07 Late/Early):\n", AT.to_string(index=False))
 
-# ---------- SMAP L4: percentil da zona da raiz nos 30 dias finais, comparado aos mesmos dias de 2015 e 2023 ----------
+# ---------- SMAP L4: umidade da zona da raiz nos 30 dias ate a ultima data, comparada entre os 12 anos ----------
+# ATENCAO: o percentil pronto (sm_rootzone_pctl) quase nao existe no Nordeste em out-jan (no Ceara, < 0,5% das
+# celulas). Por isso usamos a umidade bruta (sm_rootzone, m3/m3) e a posicao de cada ano entre 2015 e 2026.
 sm = xr.open_dataset(DADOS / "smap" / "smap_l4_diario_ne.nc")
 smt = pd.Timestamp(sm.time.values.max())
 lo2, la2 = np.meshgrid(sm.lon.values, sm.lat.values)
@@ -141,15 +143,19 @@ linhas = []
 for _, u in ne.iterrows():
     sig = UF[str(u.codarea)]
     m = xr.DataArray(shapely.contains_xy(u.geometry, lo2, la2), dims=("lat", "lon"), coords={"lat": sm.lat, "lon": sm.lon})
-    lin = {"UF": sig}
-    for ano in (2015, 2023, 2026):
+    for ano in range(2015, 2027):
         f = pd.Timestamp(ano, smt.month, smt.day)
-        jan = sm.sm_rootzone_pctl.sel(time=slice(f - pd.Timedelta(days=29), f))
-        lin[f"pctl_raiz_{ano}"] = round(float(jan.where(m).mean()), 0)
-    linhas.append(lin)
-SM = pd.DataFrame(linhas)
+        jan = sm.sm_rootzone.sel(time=slice(f - pd.Timedelta(days=29), f))
+        linhas.append({"UF": sig, "ano": ano, "rz": float(jan.where(m).mean())})
+SMt = pd.DataFrame(linhas)
+SMt["posto"] = SMt.groupby("UF").rz.rank(method="min").astype(int)
+n_anos = SMt.ano.nunique()
+SM = SMt[SMt.ano.isin([2015, 2023, 2026])].pivot_table(index="UF", columns="ano", values="posto").astype(int)
+SM.columns = [f"posto_{c}" for c in SM.columns]
+SM["umidade_raiz_2026_m3m3"] = SMt[SMt.ano == 2026].set_index("UF").rz.round(3)
+SM = SM.reset_index()
 SM.to_csv(OUT / "smap_pctl_comparado.csv", index=False)
-print(f"\nSMAP L4: percentil médio da zona da raiz nos 30 dias até {smt:%d/%m} (2015 e 2023 = entrada dos El Niños anteriores):\n", SM.to_string(index=False))
+print(f"\nSMAP L4: posição da umidade da zona da raiz nos 30 dias até {smt:%d/%m} entre {n_anos} anos (1 = o mais seco):\n", SM.to_string(index=False))
 
 # ---------- GRACE e NDVI VIIRS: 2026 x mesma época de 2015 e 2023 ----------
 gr = pd.read_parquet(DERIV / "grace_ce_mensal.parquet").assign(data=lambda d: pd.to_datetime(d.data)).set_index("data").valor

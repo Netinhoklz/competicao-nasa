@@ -6,9 +6,9 @@ textura (g/kg), mediana: areia 706.0 | argila 175.0
 L4 superficie 0-5 cm x 10 cm (13 UTC)
    estacoes 329 | r mediano 0.69 (p10 0.49, p90 0.81) | r anomalia 0.57 | ubRMSD 0.037 | vies +0.033 m3/m3 | nivel NASA 0.104 x campo 0.076 | ubRMSD <= 0,04 em 63%
 L4 zona da raiz x media 10-20 cm (13 UTC)
-   estacoes 303 | r mediano 0.72 (p10 0.51, p90 0.86) | r anomalia 0.64 | ubRMSD 0.026 | vies +0.067 m3/m3 | nivel NASA 0.155 x campo 0.080 | ubRMSD <= 0,04 em 91%
+   estacoes 303 | r mediano 0.72 (p10 0.51, p90 0.86) | r anomalia 0.65 | ubRMSD 0.026 | vies +0.067 m3/m3 | nivel NASA 0.155 x campo 0.080 | ubRMSD <= 0,04 em 91%
 L3 AM (qualidade recomendada) x 10 cm, media diaria
-   estacoes 219 | r mediano 0.67 (p10 0.44, p90 0.82) | r anomalia nan | ubRMSD 0.048 | vies +0.022 m3/m3 | nivel NASA 0.104 x campo 0.081 | ubRMSD <= 0,04 em 16%
+   estacoes 219 | r mediano 0.67 (p10 0.44, p90 0.82) | r anomalia 0.59 | ubRMSD 0.048 | vies +0.022 m3/m3 | nivel NASA 0.104 x campo 0.081 | ubRMSD <= 0,04 em 16%
 GLDAS CLSM superficie x 10 cm, media diaria
    estacoes 330 | r mediano 0.65 (p10 0.45, p90 0.80) | r anomalia 0.47 | ubRMSD 0.049 | vies +0.126 m3/m3 | nivel NASA 0.209 x campo 0.077 | ubRMSD <= 0,04 em 27%
 GLDAS CLSM zona da raiz x media 10-20 cm
@@ -16,7 +16,7 @@ GLDAS CLSM zona da raiz x media 10-20 cm
 
 L4 zona da raiz: r por tercil de areia: {'menos areia': 0.73, 'meio': 0.72, 'mais areia': 0.72}
 L4 zona da raiz: r mediano por UF: {'AL': 0.74, 'BA': 0.7, 'CE': 0.77, 'MG': 0.78, 'PB': 0.75, 'PE': 0.65, 'PI': 0.75, 'RN': 0.75, 'SE': 0.39}
-Ceara (L4 zona da raiz): {'r': 0.766, 'r_anom': 0.639, 'ubrmsd': 0.03, 'vies': 0.072} n = 48
+Ceara (L4 zona da raiz): {'r': 0.766, 'r_anom': 0.666, 'ubrmsd': 0.03, 'vies': 0.072} n = 48
 
 ==================== C3. 'Onde': ordem entre estacoes na mesma data (percentil proprio, media de 7 dias) ====================
       data  n_est  rho_percentil  rho_nivel  luz_campo_%  luz_smap_%  concorda_luz_%

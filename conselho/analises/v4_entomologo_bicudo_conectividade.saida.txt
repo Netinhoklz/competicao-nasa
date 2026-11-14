@@ -1,0 +1,64 @@
+== A. Chegada do bicudo x continuidade do hospedeiro (CE, municipios) ==
+  pre = 1974-1982, pos = 1986-1992; Y = dlog(rend. algodao herbaceo) - dlog(rend. feijao)
+  municipios com rendimento de herbaceo e feijao nos dois periodos: 116 de 184
+  mediana dos rendimentos: herbaceo pre 278 -> pos 337 kg/ha; feijao pre 285 -> pos 218 kg/ha
+  Y mediano = +0.369 (exp = 1.45x do feijao)
+  fracao perene (arboreo) pre: mediana 0.95 (p10 0.49, p90 0.99); densidade propria mediana 6.5% da area
+
+  Spearman (n, rho, p):
+    Y_her        x perene   : n=116 rho=+0.150 p=0.109
+    Y_her        x dens     : n=116 rho=+0.080 p=0.393
+    Y_her        x viz_10km : n=116 rho=+0.105 p=0.260
+    Y_her        x viz_25km : n=116 rho=+0.111 p=0.238
+    Y_her        x viz_75km : n=116 rho=+0.120 p=0.201
+    Y_her_milho  x perene   : n=116 rho=+0.065 p=0.490
+    Y_her_milho  x dens     : n=116 rho=-0.043 p=0.650
+    Y_her_milho  x viz_10km : n=116 rho=-0.032 p=0.731
+    Y_her_milho  x viz_25km : n=116 rho=-0.070 p=0.458
+    Y_her_milho  x viz_75km : n=116 rho=-0.044 p=0.643
+    Y_arb        x perene   : n=115 rho=+0.089 p=0.346
+    Y_arb        x dens     : n=115 rho=-0.108 p=0.252
+    Y_arb        x viz_10km : n=115 rho=-0.072 p=0.442
+    Y_arb        x viz_25km : n=115 rho=-0.086 p=0.362
+    Y_arb        x viz_75km : n=115 rho=-0.155 p=0.098
+    dlog_area    x perene   : n=133 rho=-0.222 p=0.010
+    dlog_area    x dens     : n=184 rho=-0.787 p=0.000
+    dlog_area    x viz_10km : n=184 rho=-0.218 p=0.003
+    dlog_area    x viz_25km : n=184 rho=-0.277 p=0.000
+    dlog_area    x viz_75km : n=184 rho=-0.331 p=0.000
+
+  OLS Y_her ~ z(perene) + z(dens) + z(viz_L) + z(rend. herbaceo pre) [EP HC3]:
+    L=10 km, n=116, R2=0.12: perene +0.048 (IC95 -0.037 a +0.134); dens -0.039 (IC95 -0.118 a +0.041); viz_10km +0.050 (IC95 -0.057 a +0.156); log_rh_pre -0.137 (IC95 -0.223 a -0.051)
+    L=25 km, n=116, R2=0.12: perene +0.038 (IC95 -0.049 a +0.126); dens -0.039 (IC95 -0.110 a +0.033); viz_25km +0.064 (IC95 -0.030 a +0.158); log_rh_pre -0.146 (IC95 -0.231 a -0.062)
+    L=75 km, n=116, R2=0.13: perene +0.024 (IC95 -0.066 a +0.114); dens -0.031 (IC95 -0.097 a +0.036); viz_75km +0.087 (IC95 -0.003 a +0.176); log_rh_pre -0.162 (IC95 -0.244 a -0.080)
+
+  Area (so municipios existentes em 1974 com >= 50 ha de algodao no pre): n=125; area pos/pre mediana 0.33
+    dlog_area x perene   : rho=-0.237 p=0.008
+    dlog_area x dens     : rho=-0.536 p=0.000
+    dlog_area x viz_10km : rho=-0.340 p=0.000
+    dlog_area x viz_25km : rho=-0.348 p=0.000
+    dlog_area x viz_75km : rho=-0.333 p=0.000
+    parcial (controle: densidade propria) dlog_area x viz_10km : rho=-0.044 p=0.630
+    parcial (controle: densidade propria) dlog_area x viz_25km : rho=-0.055 p=0.545
+    parcial (controle: densidade propria) dlog_area x viz_75km : rho=-0.098 p=0.278
+    parcial (controle: densidade propria) dlog_area x perene   : rho=-0.029 p=0.749
+    placebo Feijão  : n=139 area pos/pre mediana 1.37; dlog_area x densidade propria rho=-0.410 p=0.000
+    placebo Mandioca: n=115 area pos/pre mediana 0.75; dlog_area x densidade propria rho=-0.045 p=0.633
+    placebo Milho   : n=139 area pos/pre mediana 1.19; dlog_area x densidade propria rho=-0.336 p=0.000
+
+  Por tercil da fracao perene (medianas):
+               n  perene      Y   rh_pre   rh_pos  razao_vs_feijao
+terc                                                              
+perene baixo  39   0.607  0.247  290.111  324.286            1.281
+perene medio  38   0.946  0.547  245.785  327.875            1.728
+perene alto   39   0.990  0.565  283.111  390.000            1.760
+
+  Sensibilidade pos = 1987-1995: Y_her2 x perene: n=115 rho=+0.176 p=0.060
+  Placebo sem bicudo (1979-82 vs 1974-77): Y x perene: n=98 rho=-0.033 p=0.749
+
+== B. Hospedeiro da lagarta-do-cartucho (milho + sorgo) no PAM do CE ==
+  municipio-anos 1990-2025 com milho ou sorgo colhido > 0: 98.3% (6510 de 6624)
+  municipios com gramínea hospedeira em TODOS os 36 anos: 130 de 184
+  fracao gramínea / (gramínea + feijao + mandioca), mediana por ano 1990-2025: 0.50 (min 0.32, max 0.57)
+  municipio-anos com fracao gramínea > 0,407 (limiar de percolacao, 8 vizinhos, secao 16): 69.7%
+  milho+sorgo como fracao da AREA do municipio, mediana 2015-2025: 3.4% (p90 7.6%)

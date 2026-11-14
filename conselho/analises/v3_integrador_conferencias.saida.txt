@@ -1,0 +1,60 @@
+=== 1. ZARC 2026/27, sequeiro, Quixada (2311306): ultimo decendio de jan-jun com risco <= 30 e <= 20 ===
+
+milho: sintetico (P>=0,7) ultimo = 01/mar
+  Grupo I   AD2       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo I   AD2       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo I   AD3       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo I   AD3       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo I   AD4       risco<=30 ate 21/fev     risco<=20 ate sem janela dif sint-oficial 1
+  Grupo I   AD4       risco<=30 ate 21/fev     risco<=20 ate sem janela dif sint-oficial 1
+  Grupo I   AD5       risco<=30 ate 01/mar     risco<=20 ate sem janela dif sint-oficial 0
+  Grupo I   AD5       risco<=30 ate 01/mar     risco<=20 ate sem janela dif sint-oficial 0
+  Grupo I   AD6       risco<=30 ate 01/mar     risco<=20 ate sem janela dif sint-oficial 0
+  Grupo I   AD6       risco<=30 ate 01/mar     risco<=20 ate sem janela dif sint-oficial 0
+  Grupo II  AD3       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo II  AD3       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo II  AD4       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo II  AD4       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo II  AD5       risco<=30 ate 11/fev     risco<=20 ate sem janela dif sint-oficial 2
+  Grupo II  AD5       risco<=30 ate 11/fev     risco<=20 ate sem janela dif sint-oficial 2
+  Grupo II  AD6       risco<=30 ate 21/fev     risco<=20 ate sem janela dif sint-oficial 1
+  Grupo II  AD6       risco<=30 ate 21/fev     risco<=20 ate sem janela dif sint-oficial 1
+  Grupo III AD5       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo III AD5       risco<=30 ate sem janela risco<=20 ate sem janela dif sint-oficial -
+  Grupo III AD6       risco<=30 ate 11/fev     risco<=20 ate sem janela dif sint-oficial 2
+  Grupo III AD6       risco<=30 ate 11/fev     risco<=20 ate sem janela dif sint-oficial 2
+  combinacoes com |dif| <= 1 decendio: 8 de 22
+
+caupi: sintetico (P>=0,7) ultimo = 21/mar
+  Grupo I   arenoso   risco<=30 ate 21/mar     risco<=20 ate 11/mar     dif sint-oficial 0
+  Grupo I   medio     risco<=30 ate 01/abr     risco<=20 ate 21/mar     dif sint-oficial -1
+  Grupo I   argiloso  risco<=30 ate 11/abr     risco<=20 ate 11/abr     dif sint-oficial -2
+  Grupo II  arenoso   risco<=30 ate 21/mar     risco<=20 ate 01/mar     dif sint-oficial 0
+  Grupo II  medio     risco<=30 ate 01/abr     risco<=20 ate 11/mar     dif sint-oficial -1
+  Grupo II  argiloso  risco<=30 ate 01/abr     risco<=20 ate 21/mar     dif sint-oficial -1
+  Grupo III arenoso   risco<=30 ate 11/mar     risco<=20 ate 01/mar     dif sint-oficial 1
+  Grupo III medio     risco<=30 ate 21/mar     risco<=20 ate 11/mar     dif sint-oficial 0
+  Grupo III argiloso  risco<=30 ate 21/mar     risco<=20 ate 11/mar     dif sint-oficial 0
+  combinacoes com |dif| <= 1 decendio: 8 de 9
+
+=== 2. PPM: bovino 2020 -> 2021 por UF (soma municipal) ===
+ano       2020        2021  var_%
+uf                               
+AL   1290414.0   1321236.0    2.4
+BA   9748632.0  11755096.0   20.6
+CE   2552916.0   2607005.0    2.1
+MA   8323445.0   8561509.0    2.9
+PB   1344094.0   1371007.0    2.0
+PE   1882153.0   2173313.0   15.5
+PI   1431540.0   1421095.0   -0.7
+RN    988134.0   1015835.0    2.8
+SE   1045507.0   1090821.0    4.3
+
+=== 3. Censo 2017: rotacao (soma municipal) ===
+  NE: rotacao / total de estab. = 12.925% | rotacao / estab. com lavoura temporaria = 14.8%
+  CE: rotacao / total de estab. = 7.927% | rotacao / estab. com lavoura temporaria = 7.9%
+  RN: rotacao / total de estab. = 23.856% | rotacao / estab. com lavoura temporaria = 28.9%
+
+=== 4. FUNCEME: datas ===
+  data maxima das linhas: 2026-11-30 | ultima leitura valida (mm nao nulo): 2026-11-13
+  linhas depois de 13/11/2026: 8075 (com mm nao nulo: 0; datas: ['2026-11-14', '2026-11-15', '2026-11-16', '2026-11-17', '2026-11-18'])

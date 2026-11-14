@@ -1,0 +1,5 @@
+municipios: 184 | estabelecimentos no CE: 394,330 | com cisterna: 201,489 (51%)
+fracao com cisterna por municipio: p10 16%, mediana 46%, p90 77%
+Quixada: [{'Poços e/ou cisternas - cisternas': 3911.0, 'estab_total': 4880, 'frac_cisterna': 0.801}]
+Spearman(fracao com cisterna, risco de quebra do milho 1998-2025) = 0.22 (n=184)
+nota: a tabela 6861 tem uma so categoria 'cisternas' (nao separa consumo humano de producao) e da a existencia, nao o volume. Serve como camada de contexto do M7, nao como dado de agua para salvamento.

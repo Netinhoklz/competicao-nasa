@@ -21,6 +21,9 @@ trat  LI_caupi  LI_milho  PG_caupi  PG_milho  EUA_caupi_impresso  EUA_milho_impr
   reducao do caupi exclusivo vs 100% (125,75,50,0): [4, 4, 37, 58]  (texto: 4, 4, 23, 48)
   consorcio, reducao vs 125%: caupi [11.0, 2.0, 40.0, 78.0] (texto 11, 2, 40, 78); milho [18.0, 25.0, 40.0, 57.0]
   reta milho exclusivo refeita: PG = -4132 + 16.01 x LI  (Figura 1 impressa: -4.105,67 + 15,95 x LI)
+  gaussiana caupi exclusivo a=1366.3 b=463.56 c=90.24: previsto [1352.0, 1348.0, 1221.0, 1006.0, 512.0] x medido [1320.7, 1374.7, 1316.5, 866.0, 571.4] (RMSE 82)
+  gaussiana caupi exclusivo a=1366.3 b=500.99 c=68.53: previsto [1282.0, 1021.0, 689.0, 394.0, 78.0] x medido [1320.7, 1374.7, 1316.5, 866.0, 571.4] (RMSE 444)
+  -> o par que ajusta a Tabela 1 tem pico em 463,6 mm (1.366 kg/ha); o texto diz 449 mm e 1.376,9 kg/ha.
   'Ky aparente' milho (L0 vs melhor, agua APLICADA, deficit so apos 40 DAS): 2.04
   'Ky aparente' caupi (L0 vs melhor, agua APLICADA, deficit so apos 40 DAS): 2.35
 

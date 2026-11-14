@@ -1,0 +1,87 @@
+==============================================================================================================
+A. Finalidade da leguminosa antecessora -> cereal tropical (milho, sorgo, milheto, arroz)
+==============================================================================================================
+  Seed (todos os climas)                            +19.7%  IC95 sitio +15.4 a +24.5%    n= 3468  sitios=197  obs>0 78%
+  GRM (todos os climas)                             +31.5%  IC95 sitio +22.1 a +41.3%    n= 1029  sitios= 70  obs>0 81%
+  Forage (todos os climas)                          +17.8%  IC95 sitio +7.4 a +42.3%     n=  288  sitios= 18  obs>0 80%
+ Por estrato de clima:
+  Seed | AI < 0,5 (arido + semiarido)               +25.2%  IC95 sitio +15.5 a +37.8%    n=  902  sitios= 60  obs>0 81%
+  GRM | AI < 0,5 (arido + semiarido)                +28.3%  IC95 sitio -0.6 a +45.4%     n=  149  sitios=  9  obs>0 72%
+  Seed | AI 0,2-0,5 e MAT >= 20 C (analogo do CE)   +38.5%  IC95 sitio +27.4 a +52.6%    n=  271  sitios= 33  obs>0 94%
+  GRM | AI 0,2-0,5 e MAT >= 20 C (analogo do CE)    +44.2%  IC95 sitio +37.6 a +104.2%   n=   73  sitios=  5  obs>0 97%
+  Seed | AI 0,5-0,65                                +31.1%  IC95 sitio +23.6 a +37.1%    n=  579  sitios= 33  obs>0 84%
+  GRM | AI 0,5-0,65                                 +49.7%  IC95 sitio +33.0 a +65.0%    n=   44  sitios=  7  obs>0 93%
+  Seed | AI >= 0,65 (umido)                         +13.8%  IC95 sitio +10.1 a +18.4%    n= 1987  sitios=104  obs>0 75%
+  GRM | AI >= 0,65 (umido)                          +30.9%  IC95 sitio +20.2 a +42.8%    n=  836  sitios= 54  obs>0 82%
+ Adubo verde (GRM) -> cereal tropical, por irrigacao:
+  GRM | irrigado = no                               +56.0%  IC95 sitio +43.5 a +75.8%    n=  260  sitios= 21  obs>0 97%
+  GRM | irrigado = yes                               +4.8%  IC95 sitio -2.6 a +15.5%     n=  217  sitios= 24  obs>0 59%
+  GRM | irrigado = nao informado                    +30.7%  IC95 sitio +17.3 a +44.2%    n=  552  sitios= 26  obs>0 83%
+
+==============================================================================================================
+B. Especies de cobertura tropical -> milho (todas as finalidades; a finalidade dominante entre parenteses)
+==============================================================================================================
+  Mucuna -> milho                                   +57.3%  IC95 sitio +39.9 a +76.3%    n=   31  sitios=  6  obs>0 81%
+      finalidade {'GRM': 17, 'Seed': 14}; paises (sitios) {'Ghana': 2, 'Zimbabwe': 2, 'Nigeria': 1, 'Uganda': 1}
+      AI mediana 0.55 (min 0.49, max 0.84); MAP mediana 1200 mm (min 750); MAT mediana 22.0 C; irrigado {'no': 22, nan: 9}; N mediana 23 kg/ha
+      com AI < 0,5: 7 obs em 1 sitios ['Zimbabwe']
+  Crotalaria (sunn hemp) -> milho                   +53.3%  IC95 sitio +18.2 a +102.1%   n=   57  sitios=  9  obs>0 79%
+      finalidade {'GRM': 32, 'Seed': 25}; paises (sitios) {'Kenya': 4, 'Zambia': 2, 'Brazil': 1, 'Burkina Faso': 1, 'Zimbabwe': 1}
+      AI mediana 0.88 (min 0.38, max 1.04); MAP mediana 1425 mm (min 748); MAT mediana 21.0 C; irrigado {'no': 57}; N mediana 69 kg/ha
+      com AI < 0,5: 9 obs em 3 sitios ['Burkina Faso', 'Zambia']
+  Lablab -> milho                                   +73.2%  IC95 sitio +38.9 a +140.5%   n=   25  sitios=  7  obs>0 92%
+      finalidade {'Seed': 23, 'GRM': 2}; paises (sitios) {'Kenya': 5, 'Nigeria': 1, 'Uganda': 1}
+      AI mediana 1.01 (min 0.55, max 1.04); MAP mediana 1200 mm (min 900); MAT mediana 18.0 C; irrigado {nan: 14, 'no': 11}; N mediana 0 kg/ha
+      com AI < 0,5: 0 obs em 0 sitios []
+  Pigeon pea -> milho                               +28.7%  IC95 sitio +9.6 a +59.4%     n=   68  sitios=  9  obs>0 72%
+      finalidade {'Seed': 46, 'GRM': 22}; paises (sitios) {'Brazil': 2, 'Ghana': 2, 'India': 1, 'Kenya': 1, 'United Republic of Tanzania': 1, 'Zambia': 1, 'Zimbabwe': 1}
+      AI mediana 0.84 (min 0.28, max 1.03); MAP mediana 1271 mm (min 560); MAT mediana 22.4 C; irrigado {'no': 37, nan: 31}; N mediana 52 kg/ha
+      com AI < 0,5: 25 obs em 4 sitios ['India', 'United Republic of Tanzania', 'Zambia', 'Zimbabwe']
+  Jackbean -> milho                                +178.1%  IC95 sitio +153.1 a +200.9%  n=    7  sitios=  3  obs>0 100%
+      finalidade {'GRM': 7}; paises (sitios) {'Kenya': 3}
+      AI mediana 0.96 (min 0.69, max 1.04); MAP mediana 1600 mm (min 1200); MAT mediana 19.0 C; irrigado {'no': 7}; N mediana 0 kg/ha
+      com AI < 0,5: 0 obs em 0 sitios []
+  Sesbania -> milho                                 +17.0%  IC n/d (< 3 sitios)          n=   12  sitios=  2  obs>0 42%
+      finalidade {'GRM': 12}; paises (sitios) {'Zambia': 1, 'Zimbabwe': 1}
+      AI mediana 0.49 (min 0.49, max 0.50); MAP mediana 750 mm (min 750); MAT mediana 18.1 C; irrigado {nan: 12}; N mediana 0 kg/ha
+      com AI < 0,5: 12 obs em 2 sitios ['Zambia', 'Zimbabwe']
+  Cowpea -> milho                                   +26.6%  IC95 sitio +16.8 a +42.9%    n=  168  sitios= 14  obs>0 82%
+      finalidade {'Seed': 164, 'GRM': 4}; paises (sitios) {'Zimbabwe': 3, 'Nigeria': 3, 'Ghana': 2, 'South Africa': 2, 'Kenya': 1, 'India': 1, 'Burkina Faso': 1, 'Mozambique': 1}
+      AI mediana 0.43 (min 0.29, max 1.04); MAP mediana 1011 mm (min 570); MAT mediana 24.8 C; irrigado {'no': 110, nan: 58}; N mediana 60 kg/ha
+      com AI < 0,5: 98 obs em 7 sitios ['Burkina Faso', 'Kenya', 'Nigeria', 'South Africa', 'Zimbabwe']
+
+==============================================================================================================
+C. Analogo quente e seco (AI 0,2-0,5 e MAT >= 20 C): finalidade x cultura seguinte
+==============================================================================================================
+  Seed -> Maize                                     +36.9%  IC95 sitio +25.8 a +49.4%    n=  118  sitios= 15  obs>0 97%
+      especies {'Soybean': 38, 'Peanut': 25, 'Cowpea': 24, 'Pigeon pea': 12, 'Chickpea': 8, 'Crotalaria (sunn hemp)': 5, 'Lentil': 4, 'Common bean': 2}; paises ['Burkina Faso', 'Ethiopia', 'Ghana', 'Guinea', 'India', 'Malawi', 'Mozambique', 'Nigeria', 'Pakistan', 'United Republic of Tanzania', 'Zambia']; irrigado {nan: 61, 'no': 45, 'yes': 12}
+  GRM -> Maize                                     +106.7%  IC n/d (< 3 sitios)          n=   10  sitios=  2  obs>0 100%
+      especies {'Cowpea': 4, 'Crotalaria (sunn hemp)': 4, 'Sesbania': 1, 'Pigeon pea': 1}; paises ['Burkina Faso', 'Zambia']; irrigado {'no': 8, nan: 2}
+  Seed -> Sorghum                                   +66.4%  IC95 sitio +32.3 a +104.5%   n=   43  sitios=  7  obs>0 98%
+      especies {'Cowpea': 21, 'Chickpea': 10, 'Peanut': 8, 'Soybean': 2, 'Mix.': 2}; paises ['Australia', 'Burkina Faso', 'India', 'Mali', 'Nigeria', 'United States of America']; irrigado {'no': 25, nan: 18}
+  GRM -> Sorghum                                    +44.9%  IC n/d (< 3 sitios)          n=   33  sitios=  2  obs>0 97%
+      especies {'Sesbania': 16, 'Lablab': 16, 'Chickpea': 1}; paises ['Australia', 'Mali']; irrigado {'no': 32, 'yes': 1}
+  Forage -> Sorghum                                  +2.8%  IC n/d (< 3 sitios)          n=    2  sitios=  1  obs>0 50%
+      especies {'Mix.': 2}; paises ['Australia']; irrigado {nan: 2}
+  Seed -> Millet                                    +26.8%  IC95 sitio +16.4 a +41.2%    n=   71  sitios=  5  obs>0 87%
+      especies {'Cowpea': 32, 'Peanut': 21, 'Pigeon pea': 9, 'Mungbean': 9}; paises ['India', 'Mali', 'Niger', 'Senegal', 'United States of America']; irrigado {nan: 36, 'no': 35}
+  GRM -> Millet                                     +28.0%  IC n/d (< 3 sitios)          n=   24  sitios=  1  obs>0 96%
+      especies {'Sesbania': 12, 'Lablab': 12}; paises ['Mali']; irrigado {'no': 24}
+
+==============================================================================================================
+D. Adubo verde (GRM) -> cereal tropical: o efeito cai com o N do cereal?
+==============================================================================================================
+  GRM | 0 kg N                                      +53.9%  IC95 sitio +36.8 a +76.7%    n=  435  sitios= 42  obs>0 87%
+  GRM | 1-60 kg N                                   +44.8%  IC95 sitio +27.7 a +63.4%    n=  151  sitios= 16  obs>0 84%
+  GRM | 61-120 kg N                                 +16.4%  IC95 sitio +10.3 a +22.2%    n=  168  sitios= 26  obs>0 88%
+  GRM | > 120 kg N                                   +5.8%  IC95 sitio +0.7 a +11.3%     n=  275  sitios= 25  obs>0 67%
+  Seed | 0 kg N                                     +45.1%  IC95 sitio +34.1 a +56.0%    n=  672  sitios= 91  obs>0 88%
+  Seed | 1-60 kg N                                  +27.9%  IC95 sitio +18.9 a +39.7%    n=  502  sitios= 67  obs>0 81%
+  Seed | 61-120 kg N                                +19.1%  IC95 sitio +12.1 a +26.6%    n=  922  sitios= 95  obs>0 81%
+  Seed | > 120 kg N                                  +8.2%  IC95 sitio +5.7 a +11.5%     n= 1372  sitios= 91  obs>0 70%
+  WLS GRM: lnRR = 0.403 -0.084 x (N/50)  -> +49.6% sem N; -8.4 p.p. de lnRR a cada 50 kg N (sem EP agrupado; descritivo)
+  WLS Seed: lnRR = 0.304 -0.056 x (N/50)  -> +35.6% sem N; -5.6 p.p. de lnRR a cada 50 kg N (sem EP agrupado; descritivo)
+
+Brasil na base (qualquer finalidade -> cereal):
+  66 obs, 3 sitios, AI 0.88-1.03, especies {'Pigeon pea': 29, 'Crotalaria (sunn hemp)': 20, 'Soybean': 17}, finalidade {'Seed': 57, 'GRM': 9}
+  Brasil -> cereal                                   +3.0%  IC95 sitio +0.6 a +8.2%      n=   66  sitios=  3  obs>0 56%

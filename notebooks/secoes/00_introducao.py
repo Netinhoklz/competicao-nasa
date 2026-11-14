@@ -16,6 +16,18 @@
 #
 # Depois vêm as **relações entre bases** (seção 20), as **ideias de ML/DL** (seção 30) e a **síntese** (seção 90).
 #
+# **Mapa das seções**
+#
+# | Seção | Conteúdo |
+# |---|---|
+# | 1–3 | NASA POWER, GPM IMERG, ERA5 |
+# | 4–5 | Bases do Earthdata: validação pelo catálogo (4) e dados baixados (5): SMAP L3/L4, GLDAS Noah/CLSM, NLDAS, VIIRS NDVI, IMERG 2026 |
+# | 6–10 | GRACE, Landsat, Sentinel-2/HLS, MODIS/VIIRS (fogo), SRTM |
+# | 11–15 | GAEZ, mercado, índices climáticos + IBGE, CDL (EUA), NEX-GDDP (futuro) |
+# | 16 | **Percolação de pragas**: conectividade do hospedeiro e "ponte verde" |
+# | 17 | **El Niño 2026–27 e o Nordeste** |
+# | 20, 30, 90 | Relações entre bases, ideias de ML/DL, síntese |
+#
 # **Regiões usadas em todo o estudo**
 # - Ceará: caixa −41,5 a −37,0 de longitude, −8,0 a −2,5 de latitude (limite do IBGE recortado por dentro).
 # - Nordeste: −48,8 a −34,7 de longitude, −18,4 a −1,0 de latitude (sem Fernando de Noronha).

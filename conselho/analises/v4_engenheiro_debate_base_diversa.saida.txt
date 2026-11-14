@@ -1,0 +1,38 @@
+Bloco 1. Bonus da leguminosa por diversidade do CONTROLE (CD2), base inteira
+  todos N, CD2 = 1 (monocultura)                               n= 5295 sitios= 260   +26.0%  IC95 [ +21.2;  +30.9]
+  todos N, CD2 2-4                                             n= 5510 sitios= 214   +12.6%  IC95 [  +9.1;  +18.0]
+  todos N, CD2 6-9                                             n=  943 sitios=  54    +7.0%  IC95 [  +4.5;   +8.9]
+  todos N, CD2 >= 12                                           n=   20 sitios=   6    +1.6%  IC95 [  -1.5;   +4.1]
+  N <= 50, CD2 = 1                                             n= 2250 sitios= 167   +41.3%  IC95 [ +33.7;  +48.6]
+  N <= 50, CD2 2-4                                             n= 1370 sitios= 132   +30.9%  IC95 [ +21.6;  +40.6]
+  N <= 50, CD2 6-9                                             n=  160 sitios=  23    +9.4%  IC95 [  +5.0;  +14.4]
+
+Referencia do artigo (Fig. 3b, p.3, sem N): +50% em D=1, -6,6% por unidade.
+  Reta extrapolada: D=8 -> 50 - 6,6*7 = +3,8%;  D=6 -> +17,0%;  D=4 -> +30,2%.
+
+Bloco 2. Estrato quente e seco (AI 0,2-0,5 e MAT >= 20 C), cereal tropical
+  milho+sorgo+milheto, todos CD2                               n=  301 sitios=  27   +40.8%  IC95 [ +30.7;  +56.9]
+  milho+sorgo+milheto, CD2 = 1                                 n=  230 sitios=  20   +40.3%  IC95 [ +29.1;  +62.3]
+  milho+sorgo+milheto, CD2 > 1                                 n=   71 sitios=  10   +42.6%  IC95 [ +19.3;  +66.3]
+  milho+sorgo+milheto, CD2 >= 4                                n=   39 sitios=   7   +30.8%  IC95 [ +14.3;  +37.6]
+  distribuicao de CD2 no estrato: {1.0: 230, 2.0: 32, 4.0: 25, 6.0: 4, 8.0: 10}
+
+Bloco 3. Sorgo x milho (conflito Franke x Zhao), mesmo estrato e global
+  quente-seco, Maize                                           n=  128 sitios=  16   +40.9%  IC95 [ +27.1;  +56.7]
+  quente-seco, Sorghum                                         n=   78 sitios=   8   +57.2%  IC95 [ +30.8; +100.5]
+  quente-seco, Millet                                          n=   95 sitios=   5   +27.1%  IC95 [ +18.2;  +41.2]
+  quente-seco, N<=50, Maize                                    n=   53 sitios=   8   +57.3%  IC95 [ +42.5;  +84.7]
+  quente-seco, N<=50, Sorghum                                  n=   74 sitios=   8   +59.2%  IC95 [ +37.7; +104.8]
+  quente-seco, N<=50, Millet                                   n=   83 sitios=   5   +29.8%  IC95 [ +23.0;  +41.3]
+  AI < 0,65 (qualquer MAT), Maize                              n=  973 sitios=  71   +25.7%  IC95 [ +20.1;  +32.6]
+  AI < 0,65 (qualquer MAT), Sorghum                            n=  491 sitios=  20   +30.4%  IC95 [ +10.4;  +56.8]
+
+Bloco 4. Controle com mais de uma cultura por ano (NumCroPerYr >= 2)
+  todos                                                        n= 1234 sitios= 107   +22.1%  IC95 [ +15.0;  +29.4]
+  N <= 50                                                      n=  541 sitios=  60   +42.2%  IC95 [ +28.6;  +55.2]
+  tropicos                                                     n=  381 sitios=  26   +19.7%  IC95 [ +12.3;  +28.6]
+  (Nyear na Eq. 1 = especies por ano do CONTROLE; o artigo nao diz se e consorcio ou duas safras)
+
+Bloco 5. Robustez: estrato quente-seco cereal sem o sitio de maior peso
+  sitio de maior peso: 13.25_-5.95 obs: 84 pais: Mali
+  sem o sitio de maior peso                                    n=  217 sitios=  26   +43.5%  IC95 [ +30.2;  +60.7]

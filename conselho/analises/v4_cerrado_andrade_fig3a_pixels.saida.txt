@@ -1,0 +1,12 @@
+barras encontradas: 9
+x(2500)=950  x(5000)=1818  (largura 868 px)
+cobertura     kg/ha  (T-F)/F  (T-F)/T
+Fallow         3474     0.0%     0.0%
+Millet         4300    23.8%    19.2%
+Marandu        4024    15.8%    13.7%
+Ruziziensis    3995    15.0%    13.0%
+Tanzania       4473    28.8%    22.3%
+Massai         4435    27.7%    21.7%
+Cowpea         4415    27.1%    21.3%
+Pigeon pea     3836    10.4%     9.5%
+C. juncea      4361    25.5%    20.3%

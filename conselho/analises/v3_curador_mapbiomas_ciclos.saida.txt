@@ -1,0 +1,36 @@
+==================== G1. Produtos agricolas finos do MapBiomas no Ceara ====================
+  ciclos 10 m: municipios no Brasil 3267 | no NE 453 | no CE 0
+  2a safra: municipios no Brasil 2425 | no NE 177 | no CE 0
+
+==================== G2. Semiarido do CE (colecao 11): classes agricolas x PAM ====================
+                                y1985   y2000   y2010   y2016   y2024
+class_level_4                                                        
+3.1. Pasture                    866.0  2014.0  2450.0  2595.0  3037.0
+3.2.1.1. Soybean                  0.0     0.0     0.0     0.0     0.0
+3.2.1.5. Other Temporary Crops   13.0    72.0   132.0   264.0   300.0
+3.2.2.4. Other Perennial Crops   18.0   143.0   264.0   244.0   259.0
+3.4. Mosaic of Uses             734.0   262.0   226.0   282.0   396.0 
+(mil ha)
+anos em comum: 1985-2024 (n=40)
+razao media MapBiomas lavoura temporaria / PAM: 0.08
+Pearson das variacoes ano a ano (diferenca primeira): lavoura temp x PAM = 0.05 | mosaico x PAM = -0.11
+      pam_plantada  mb_lav_temp  mb_mosaico
+1985           0.0         13.0       734.0
+1995        1678.0         21.0       624.0
+2005        1228.0        100.0       283.0
+2012        1151.0        147.0       266.0
+2016         936.0        264.0       282.0
+2020         996.0        298.0       235.0
+2024        1017.0        300.0       396.0 
+(mil ha)
+
+==================== G3. Irrigacao mapeada (colecao 11), CE ====================
+                                                 y2000  y2010  y2020  y2024
+IRRIGATION_CLASS_NAME    AGRICULTURE_CLASS_NAME                            
+Center Pivot Irrigation  Cotton                    2.5    3.2    6.6    7.3
+                         Other Perennial Crops     0.1    0.0    0.1    0.1
+                         Soybean                   0.0    0.0    0.0    0.0
+Other irrigation systems Cotton                    4.5    7.4   10.5   10.5
+                         Other Perennial Crops     0.0    0.0    0.0    0.0 
+(mil ha)
+maiores areas irrigadas 2024 (ha): {'Limoeiro do Norte': 13058.0, 'Tabuleiro do Norte': 1356.0, 'Jaguaruana': 791.0, 'Russas': 570.0, 'Quixeré': 409.0, 'Cascavel': 322.0}

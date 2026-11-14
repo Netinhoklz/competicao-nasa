@@ -1,0 +1,53 @@
+====================================================================================================
+A. Pentecoste, celula IMERG mais proxima: chuva mar-jun por ano (mm)
+====================================================================================================
+ano
+1998     324
+1999     725
+2000     711
+2001     610
+2002     782
+2003     929
+2004     485
+2005     594
+2006     836
+2007     490
+2008     851
+2009    1264
+2010     395
+2011     715
+2012     289
+2013     275
+2014     471
+2015     447
+2016     373
+2017     561
+2018     444
+2019     793
+2020     789
+2021     395
+2022     755
+2023     403
+2024     679
+2025     519
+  2012 = 289 mm (relatado no ensaio 132,8). Posto de 2012 entre 28 anos: 2 de 28 (1 = mais seco)
+  anos com mar-jun <= 2012: 2; anos >= 3x2012 (867 mm): 2
+  mediana 1998-2025 = 578 mm = 2.00 x 2012
+  1998-2011: anos <= 1,2 x 2012: 1 de 14; mediana 713
+  2012-2025: anos <= 1,2 x 2012: 2 de 14; mediana 459
+
+====================================================================================================
+B. Todo o CE (celulas de 0,1 grau no recorte do estado): fracao de anos com mar-jun <= 1,2 x o
+   valor de Pentecoste em 2012 (escala IMERG). Condicao 'sem lavagem' da regra de Neves.
+====================================================================================================
+  celulas no CE: 1212; fracao de anos 'sem lavagem': mediana 0.18, p10 0.00, p90 0.57
+  celulas com fracao >= 0.1: 79.37%
+  celulas com fracao >= 0.2: 48.51%
+  celulas com fracao >= 0.3: 30.12%
+  mar-jun mediano no CE: p10 326, p50 450, p90 613 mm
+  fracao do CE em condicao 'sem lavagem' por ano (so anos com >= 25% do estado):
+ano
+1998    0.42
+2012    0.43
+2016    0.29
+2025    0.33

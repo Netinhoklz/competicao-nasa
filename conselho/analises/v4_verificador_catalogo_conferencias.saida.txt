@@ -1,0 +1,32 @@
+===== A. Souza 2011: LER por lamina (Tab. 1 solteiro, Tab. 2 consorcio, p.718) =====
+  L125: pLER milho 0.901 + caupi 0.471 = LER 1.372
+  L100: pLER milho 0.838 + caupi 0.404 = LER 1.243
+  L75: pLER milho 0.865 + caupi 0.463 = LER 1.328
+  L50: pLER milho 0.862 + caupi 0.432 = LER 1.294
+  L0: pLER milho 0.910 + caupi 0.242 = LER 1.152
+  medias recalculadas: milho sol 2874.3 (impresso 3.179,2), caupi sol 1089.9 (impresso 1.219,5)
+  queda no consorcio: milho -12.7% (texto p.719: -13%), caupi -57.8% (texto: -66%); caupi c/ media impressa -62.3%
+  caupi: media das razoes por lamina -59.8%
+  Ye (Tab. 3, p.720) / milho solteiro: L125 +22.3%, L0 +7.2%
+
+===== B. Mudare 2025 Source Data: sequencias (aba Figure 3e) e Africa (Figure 1e) =====
+  Energy   Maize-sorghum    lnR -0.3871 (-0.607 a -0.167) = -32.1% (-45.5 a -15.4); n=10
+  Energy   Sorghum-maize    lnR +0.6626 (+0.443 a +0.882) = +94.0% (+55.7 a +141.6); n=3
+  Energy   Soybean-maize    lnR -0.3707 (-0.452 a -0.289) = -31.0% (-36.4 a -25.1); n=29
+  Energy   Soybean-sorghum  lnR -0.2704 (-0.409 a -0.132) = -23.7% (-33.6 a -12.4); n=216
+  Revenue  Maize-sorghum    lnR -0.3718 (-0.587 a -0.157) = -31.1% (-44.4 a -14.5); n=10
+  Revenue  Sorghum-maize    lnR +0.6355 (+0.420 a +0.851) = +88.8% (+52.2 a +134.2); n=3
+  Revenue  Soybean-maize    lnR -0.7579 (-0.836 a -0.680) = -53.1% (-56.6 a -49.3); n=29
+  Revenue  Soybean-sorghum  lnR -0.6371 (-0.772 a -0.503) = -47.1% (-53.8 a -39.5); n=216
+  Global         Non-legume  lnR 0.1480 (0.107 a 0.190) = +16.0% (+11.3 a +20.9); (n = 953)
+  Global         Legume      lnR 0.2090 (0.170 a 0.248) = +23.2% (+18.5 a +28.1); (n = 1726)
+  Africa         Non-legume  lnR 0.0223 (-0.183 a 0.228) = +2.3% (-16.7 a +25.6); (n = 36)
+  Africa         Legume      lnR 0.2542 (0.126 a 0.382) = +28.9% (+13.4 a +46.5); (n = 303)
+  North America  Non-legume  lnR 0.0973 (0.044 a 0.151) = +10.2% (+4.5 a +16.3); (n = 677)
+  North America  Legume      lnR 0.1492 (0.097 a 0.201) = +16.1% (+10.2 a +22.3); (n = 1057)
+
+===== C. Quebra do milho no PAM-CE: sensibilidade da janela da mediana =====
+  produtos com 'milho': ['Milho (em grão)', 'Milho verde']
+  como no debate (milho grao + milho verde 2025 na mesma mediana), 2000-2024, n=4589: mediana de todos os anos -> 18.8% | mediana 2000-2024 -> 20.2%
+  anos por produto: {'Milho (em grão)': {'min': 1988, 'max': 2025, 'size': 6920}, 'Milho verde': {'min': 2025, 'max': 2025, 'size': 51}}
+  so milho grao, 2000-2024, n=4589: mediana 1988-2025 -> 18.7% | mediana 2000-2024 (mesma janela do calculo NE) -> 20.2%

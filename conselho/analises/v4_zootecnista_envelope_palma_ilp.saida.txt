@@ -1,0 +1,53 @@
+=== A. IMERG (0,1 grau, celula mais proxima) nos sitios dos ensaios ===
+ensaio                                 janela                     relatado   IMERG IMERG/rel pct clim n anos
+Diniz 2017 (Serra Talhada, IPA)        2014-11-16..2015-11-09     354.7   627.4      1.77       33     27   mediana clim 672 mm  (Tabela 1, p.726)
+Lima 2018a/b (Serra Talhada, IPA)      2012-06-01..2013-06-15     393.0   440.9      1.12        0     27   mediana clim 685 mm  (Material e Metodos, p.113/193)
+Jardim 2020 (Serra Talhada, UAST)      2017-03-18..2018-06-16     997.0   892.2      0.89       22     27   mediana clim 946 mm  (p.758)
+Zonta 2016 (Lagoa Seca-PB) 2015        2015-06-05..2015-10-02     389.0    45.4      0.12       14     28   mediana clim 92 mm  (p.19 (colheita ~120 d, aprox.))
+Zonta 2016 (Lagoa Seca-PB) 2016        2016-04-19..2016-08-16     184.0   113.5      0.62       25     28   mediana clim 180 mm  (p.19 (colheita ~120 d, aprox.))
+
+Serra Talhada (celula IPA), chuva anual IMERG 1998-2025: media 704 mm, mediana 681 mm, p10 525, p90 978. Diniz 2017 (p.726) cita media historica de 657 mm.
+Lagoa Seca-PB (celula), chuva anual IMERG 1998-2025: media 493 mm, mediana 439 mm; 2015 253, 2016 531
+
+=== B. Envelope: municipio-anos com chuva anual (IMERG, ano civil 1998-2025) >= agua total do ensaio ===
+
+Ceara (todos): 184 municipios, 5152 municipio-anos; chuva anual mediana 804 mm (p10 550, p90 1235)
+   >=   355 mm:  99.3% dos municipio-anos; municipios com >= 50% dos anos acima: 100.0%   [Diniz sequeiro (LER 1,51 nao variou com a lamina)]
+   >=   563 mm:  88.9% dos municipio-anos; municipios com >= 50% dos anos acima: 100.0%   [Diniz 25% ETo]
+   >=   976 mm:  29.1% dos municipio-anos; municipios com >= 50% dos anos acima:  14.1%   [Lima 'sem irrigacao diferenciada': consorcio 11,5 x 8,7 t MS, NS]
+   >=  1048 mm:  23.0% dos municipio-anos; municipios com >= 50% dos anos acima:   7.1%   [Lima 1o nivel com consorcio > solteira (15,3 x 9,1 t)]
+   >=  1202 mm:  12.3% dos municipio-anos; municipios com >= 50% dos anos acima:   0.0%   [Lima maximo: 24,8 x 6,9 t (+258%)]
+   ano 1998: mediana 523 mm; >=355 99%; >=976 0%
+   ano 2012: mediana 475 mm; >=355 82%; >=976 0%
+   ano 2016: mediana 663 mm; >=355 100%; >=976 0%
+
+Ceara semiarido 2022: 175 municipios, 4900 municipio-anos; chuva anual mediana 795 mm (p10 545, p90 1217)
+   >=   355 mm:  99.3% dos municipio-anos; municipios com >= 50% dos anos acima: 100.0%   [Diniz sequeiro (LER 1,51 nao variou com a lamina)]
+   >=   563 mm:  88.3% dos municipio-anos; municipios com >= 50% dos anos acima: 100.0%   [Diniz 25% ETo]
+   >=   976 mm:  27.7% dos municipio-anos; municipios com >= 50% dos anos acima:   9.7%   [Lima 'sem irrigacao diferenciada': consorcio 11,5 x 8,7 t MS, NS]
+   >=  1048 mm:  21.6% dos municipio-anos; municipios com >= 50% dos anos acima:   4.0%   [Lima 1o nivel com consorcio > solteira (15,3 x 9,1 t)]
+   >=  1202 mm:  11.0% dos municipio-anos; municipios com >= 50% dos anos acima:   0.0%   [Lima maximo: 24,8 x 6,9 t (+258%)]
+   ano 1998: mediana 517 mm; >=355 99%; >=976 0%
+   ano 2012: mediana 466 mm; >=355 81%; >=976 0%
+   ano 2016: mediana 659 mm; >=355 100%; >=976 0%
+
+Semiarido NE 2022: 1254 municipios, 35112 municipio-anos; chuva anual mediana 689 mm (p10 359, p90 1169)
+   >=   355 mm:  90.3% dos municipio-anos; municipios com >= 50% dos anos acima:  99.3%   [Diniz sequeiro (LER 1,51 nao variou com a lamina)]
+   >=   563 mm:  67.5% dos municipio-anos; municipios com >= 50% dos anos acima:  71.3%   [Diniz 25% ETo]
+   >=   976 mm:  20.0% dos municipio-anos; municipios com >= 50% dos anos acima:  11.9%   [Lima 'sem irrigacao diferenciada': consorcio 11,5 x 8,7 t MS, NS]
+   >=  1048 mm:  15.5% dos municipio-anos; municipios com >= 50% dos anos acima:   8.6%   [Lima 1o nivel com consorcio > solteira (15,3 x 9,1 t)]
+   >=  1202 mm:   8.7% dos municipio-anos; municipios com >= 50% dos anos acima:   6.2%   [Lima maximo: 24,8 x 6,9 t (+258%)]
+   ano 1998: mediana 429 mm; >=355 65%; >=976 4%
+   ano 2012: mediana 357 mm; >=355 50%; >=976 4%
+   ano 2016: mediana 621 mm; >=355 91%; >=976 6%
+
+=== C. Censo Agro 2017: plantio direto e rotacao (% dos estabelecimentos) ===
+colunas pct disponiveis: ['pct_rotacao', 'pct_pousio', 'pct_plantio_nivel', 'pct_nenhuma_pratica', 'pct_area_rotacao', 'pct_rotacao_lavtemp', 'pct_sem_preparo', 'pct_convencional', 'pct_cultivo_minimo', 'pct_plantio_direto', 'pct_irrigacao', 'pct_orientacao_tecnica', 'pct_orientacao_governo', 'pct_rotacao_com_orientacao', 'pct_rotacao_sem_orientacao', 'pct_adubacao', 'pct_adubacao_organica_so', 'pct_cisterna', 'pct_area_semente_guardada_milho', 'pct_area_semente_guardada_feijao_fradinho']
+   Ceara pct_rotacao: media ponderada por estab. 7.9%  (mediana municipal 1.9%)
+   Ceara pct_plantio_direto: media ponderada por estab. 3.3%  (mediana municipal 0.5%)
+   Ceara pct_cultivo_minimo: media ponderada por estab. 26.6%  (mediana municipal 19.1%)
+   Ceara pct_pousio: media ponderada por estab. 17.4%  (mediana municipal 11.8%)
+   Serra Talhada (PE): pct_rotacao=13.0, pct_plantio_direto=0.2, pct_cultivo_minimo=15.0, pct_pousio=11.0
+   Lagoa Seca (PB): pct_rotacao=52.6, pct_plantio_direto=14.1, pct_cultivo_minimo=30.4, pct_pousio=41.5
+   Esperança (PB): pct_rotacao=6.7, pct_plantio_direto=0.0, pct_cultivo_minimo=75.7, pct_pousio=8.7
+   Quixadá (CE): pct_rotacao=6.1, pct_plantio_direto=1.0, pct_cultivo_minimo=33.8, pct_pousio=17.6

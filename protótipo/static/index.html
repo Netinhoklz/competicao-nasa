@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUADRA · protótipo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header>
+    <div class="marca">
+      <h1>QUADRA</h1>
+      <p>O que plantar, quando e em que ordem, a partir do lugar. Dados da NASA, FAO GAEZ e ZARC, para os 1.794 municípios do Nordeste.</p>
+    </div>
+    <div class="busca">
+      <input id="busca" list="lista-mun" placeholder="Município do Nordeste (ex.: Quixadá (CE))…" autocomplete="off">
+      <datalist id="lista-mun"></datalist>
+      <div class="atalhos">
+        <button data-lat="-4.9113" data-lon="-39.0277">Quixadá-CE</button>
+        <button data-lat="-7.08" data-lon="-41.47">Picos-PI</button>
+        <button data-lat="-9.40" data-lon="-40.50">Petrolina-PE</button>
+        <button data-lat="-9.75" data-lon="-36.66">Arapiraca-AL</button>
+        <button data-lat="-12.15" data-lon="-45.0">Oeste da Bahia</button>
+        <button data-lat="-17.83" data-lon="31.05">Harare (mundo)</button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section id="mapa-caixa">
+      <div id="mapa"></div>
+      <p class="dica">Clique em qualquer lugar do mapa. Nos 1.794 municípios do Nordeste entram o ZARC, o regime de chuva, o início da
+        estação, o El Niño do próprio município e o solo agora. Fora do Nordeste, só o que é global (GAEZ, POWER, catálogo).</p>
+    </section>
+    <section id="painel">
+      <div id="vazio" class="cartao">
+        <h2>Escolha um lugar</h2>
+        <p>Clique no mapa, digite um município do Nordeste ou use um atalho. A QUADRA mostra:</p>
+        <ol>
+          <li><b>O que cabe</b> (FAO GAEZ v4) e <b>quando plantar com que risco</b> (ZARC 2026/27);</li>
+          <li><b>Este ano</b>: El Niño, a estação do próprio município e o solo agora (NASA SMAP);</li>
+          <li><b>Um plano de rotação 2027–2029</b> com as culturas do lugar;</li>
+          <li><b>A evidência</b>: de que estudos vem cada regra e quão parecido é o clima (NASA POWER).</li>
+        </ol>
+      </div>
+      <div id="carregando" class="cartao oculto">Consultando GAEZ, ZARC, POWER, IMERG, SMAP e o catálogo…</div>
+      <div id="resultado"></div>
+    </section>
+  </main>
+  <footer>
+    Protótipo · NASA POWER, GPM IMERG V07, SMAP L4 · FAO/IIASA GAEZ v4 · MAPA ZARC 2026/27 · NOAA ONI · IBGE (malha) · OpenStreetMap ·
+    catálogo de 147 rotações com grau de evidência (A–D) e transferência (T0–T3). Revisado por 10 agentes em 14/11/2026
+    (protótipo/REVISAO_10_AGENTES.md).
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

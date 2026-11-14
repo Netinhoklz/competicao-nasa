@@ -1,0 +1,89 @@
+=== A1. Melo et al. 2013, Tabela 2 (p. 1539): milho, média de 9 anos (2000-2008), Mg/ha; letras de Tukey 1% ===
+  sistema  sem NPK   vs SD  com NPK   vs SD  efeito NPK
+  SD        3.447   +0.0%    5.063   +0.0%      +46.9%   letras bAB / aAB
+  SDM       3.728   +8.2%    5.047   -0.3%      +35.4%   letras bAB / aAB
+  SDG       3.226   -6.4%    4.665   -7.9%      +44.6%   letras bB / aB
+  SDGM      3.425   -0.6%    4.849   -4.2%      +41.6%   letras bAB / aA
+  SDF       3.399   -1.4%    5.074   +0.2%      +49.3%   letras bB / aA
+  SDFM      4.000  +16.0%    4.884   -3.5%      +22.1%   letras bA / aA
+  efeito do NPK dentro de cada sistema: 22% a 49%  <- é a faixa '22% e 49%' do resumo
+  efeito da leguminosa sem NPK (vs SD): -6.4% a +16.0% (nenhum difere de SD pela letra maiúscula)
+  efeito da leguminosa com NPK (vs SD): -7.9% a +0.2%
+  ganho do NPK cai com mucuna: SD 1.62 -> SDM 1.32; SDF 1.67 -> SDFM 0.88 Mg/ha (artigo: 1,62->1,32 e 1,68->0,88)
+  'equivalente-NPK' grosseiro de SDM: 17% do ganho do NPK completo (90N-60P2O5-45K2O)
+  'equivalente-NPK' grosseiro de SDFM: 34% do ganho do NPK completo (90N-60P2O5-45K2O)
+
+=== A2. Melo et al. 2013, Tabela 1 (p. 1538): fitomassa na superfície antes do plantio, Mg/ha (sem teste nas células) ===
+  2006: sem NPK leguminosas/SD = [1.29 1.06 1.1  1.63 1.06] | com NPK = [0.89 1.02 0.72 0.82 1.01]
+  2007: sem NPK leguminosas/SD = [1.3  1.13 1.25 1.38 1.34] | com NPK = [1.44 0.93 1.01 1.24 0.88]
+  2008: sem NPK leguminosas/SD = [1.48 1.15 0.92 1.25 1.53] | com NPK = [0.56 0.66 0.55 0.45 0.65]
+
+=== A3. Nascimento et al. 2008, Quadro 5 (p. 586): caupi, produtividade acumulada de grãos, kg/ha (Tukey 5%) ===
+            Adubo 50N  BR3301+BR3302  Nativa  NFB6156+NFB700
+Milheto          3593           3191    2516            4116
+Mucuna           4183           1563    3956            3457
+Espontânea       3324           3516    3665            3111
+  letras:
+           Adubo 50N BR3301+BR3302 Nativa NFB6156+NFB700
+Milheto           aA            aA     aA             aA
+Mucuna            aA            aB     aA             aA
+Espontânea        aA            aA     aA             aA
+  Adubo 50N      : mucuna vs espontânea   +26% | mucuna vs milheto   +16% | milheto vs espontânea    +8%
+  BR3301+BR3302  : mucuna vs espontânea   -56% | mucuna vs milheto   -51% | milheto vs espontânea    -9%
+  Nativa         : mucuna vs espontânea    +8% | mucuna vs milheto   +57% | milheto vs espontânea   -31%
+  NFB6156+NFB700 : mucuna vs espontânea   +11% | mucuna vs milheto   -16% | milheto vs espontânea   +32%
+  -> todas as letras minúsculas na coluna são 'a': a planta de cobertura NÃO mudou a produtividade do caupi a 5%,
+     apesar de o texto (p. 584) dizer que a mucuna deu a maior produtividade. Biomassa da cobertura (p. 582):
+     milheto 3.801, espontânea 1.986, mucuna 1.716 kg/ha MS em 60 d; ensaio IRRIGADO (369,4 mm no caupi).
+
+=== A4. Andrade Neto et al. 2010, Tabela 2 (p. 128): sorgo BR 601 após adubos verdes; modelo da Eq. 1 ===
+                MS_AV    N_AV  sorgo60  sorgo80  sorgo100  rel100_%
+adubo_verde                                                        
+V. espontânea    1.50   10.65     1.52     2.77      4.39      0.00
+Lab-lab         15.30  246.40     2.41     4.69      7.05     60.48
+F. porco         3.80   48.14     2.21     4.04      5.13     16.71
+C. juncea        3.53   51.78     2.19     4.08      6.73     53.15
+M. preta        10.30  199.78     2.52     5.20     10.69    143.22
+F. guandu        1.90   33.69     1.44     3.26      6.06     37.81
+F. caupi         1.37   20.52     2.32     4.82      6.16     40.23
+C. spectabilis   0.90   12.13     2.19     3.88      6.04     37.39
+Coquetel         8.27  113.16     1.81     3.22      5.51     25.49
+  correlação N acumulado no adubo verde x MS do sorgo aos 100 DAS: Pearson +0.66 | Spearman +0.65 (n = 9)
+  sem teste estatístico entre tratamentos para o sorgo (só curvas); ensaio IRRIGADO (aspersão no AV, gotejo no sorgo).
+[A: tabelas dos artigos] 0.0s
+
+=== B. Fotoperíodo (h) — referência de Miranda 2020 (p. 151): Mossoró 11,8 h em junho a 12,4 h em dezembro ===
+  Mossoró-RN (Miranda 2020)                  min 11.82 h | max 12.42 h | amplitude 0.60 h | fev-mai 12.07 h | nov-jan 12.38 h
+  Crato-CE (Nascimento 2008)                 min 11.70 h | max 12.54 h | amplitude 0.84 h | fev-mai 12.05 h | nov-jan 12.49 h
+  Arapiraca-AL (Luz 2023)                    min 11.56 h | max 12.69 h | amplitude 1.13 h | fev-mai 12.03 h | nov-jan 12.62 h
+  Goiás 16°43'S (Amabile 2000, cit.)         min 11.13 h | max 13.13 h | amplitude 2.00 h | fev-mai 11.97 h | nov-jan 13.00 h
+  Seropédica-RJ 22°46'S (Pereira 2005, cit.) min 10.73 h | max 13.53 h | amplitude 2.80 h | fev-mai 11.91 h | nov-jan 13.35 h
+  SP 24°35'S (Lima 2010, cit.)               min 10.61 h | max 13.66 h | amplitude 3.05 h | fev-mai 11.89 h | nov-jan 13.46 h
+  RS 29°42'S (Facco 2018, cit.)              min 10.23 h | max 14.05 h | amplitude 3.82 h | fev-mai 11.84 h | nov-jan 13.80 h
+  Ceará, 184 municípios (lat -7.78 a -2.88): máx. anual do dia 12.29-12.58 h; amplitude anual 0.33-0.91 h
+  latitude a partir da qual o dia mais longo do ano passa de 12.5 h: ~6.6°
+  latitude a partir da qual o dia mais longo do ano passa de 13.0 h: ~14.8°
+[B: fotoperíodo] 0.3s
+[C: IMERG municipal + ET0] 2.9s
+
+=== C. Água nas janelas de cobertura, Ceará 1998-2025 (IMERG por município; ET0 POWER no centroide) ===
+  município-anos com 1ª chuva (20 mm/3 d) até 15/abr: 5152 de 5152
+  cobertura 60 d ANTES do milho (1ª chuva -> +60 d):
+    chuva mediana 323 mm (p10 168, p90 547); ET0 mediana 290 mm; P/(0,8·ET0) mediana 1.37
+    município-anos com chuva >= 150 mm: 93%
+    município-anos com chuva >= 270 mm: 65%
+    município-anos com chuva >= 370 mm: 38%
+  cobertura 60 d APÓS o milho da 1ª chuva (+120 -> +180 d):
+    chuva mediana 63 mm (p10 16, p90 152); ET0 mediana 289 mm; P/(0,8·ET0) mediana 0.27
+    município-anos com chuva >= 150 mm: 10%
+    município-anos com chuva >= 270 mm: 2%
+    município-anos com chuva >= 370 mm: 0%
+  referência de água dos ensaios: Miranda 2020 irrigou a crotalária com 270/310/330 mm (p. 150); Nascimento 2008 deu 369,4 mm ao caupi (p. 581);
+  da Luz 2023 deu 370 mm (2021) e 322 mm (2022) ao milho no enchimento (p. 4); Andrade Neto 2010 irrigou adubo verde e sorgo (lâmina não informada).
+  milho de 120 d: chuva mediana no ciclo se semeado na 1ª chuva 641 mm x após 60 d de cobertura 387 mm (perda mediana 40%)
+    Crato   : cob. pré P  333 / ET0  286 mm | cob. pós P   47 / ET0  310 mm | milho cedo  577 x tardio  316 mm
+    Iguatu  : cob. pré P  305 / ET0  322 mm | cob. pós P   61 / ET0  315 mm | milho cedo  625 x tardio  383 mm
+    Quixadá : cob. pré P  321 / ET0  320 mm | cob. pós P   71 / ET0  318 mm | milho cedo  595 x tardio  358 mm
+    Sobral  : cob. pré P  381 / ET0  279 mm | cob. pós P   68 / ET0  269 mm | milho cedo  716 x tardio  417 mm
+    Tauá    : cob. pré P  261 / ET0  292 mm | cob. pós P   42 / ET0  301 mm | milho cedo  475 x tardio  228 mm
+    Tianguá : cob. pré P  407 / ET0  268 mm | cob. pós P   94 / ET0  263 mm | milho cedo  787 x tardio  463 mm

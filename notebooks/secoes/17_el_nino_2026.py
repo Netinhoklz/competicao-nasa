@@ -121,22 +121,28 @@ fig, axs = plt.subplots(1, 2, figsize=(14, 4))
 atual.set_index("UF")["%normal"].plot.bar(ax=axs[0], color=np.where(atual["%normal"] < 80, "tab:red", "tab:blue"))
 axs[0].axhline(100, color="k", lw=0.6)
 axs[0].set_title(f"Chuva de 01/08 a {res['imerg_data_final'][8:10]}/11/2026 (IMERG), % do normal")
-smc.set_index("UF").plot.bar(ax=axs[1])
-axs[1].axhline(50, color="k", lw=0.6, ls="--")
-axs[1].set_title(f"SMAP L4: percentil da zona da raiz (30 dias até {res['smap_data_final'][8:10]}/11)")
-axs[1].set_ylabel("percentil (50 = normal)")
+smc.set_index("UF")[["posto_2015", "posto_2023", "posto_2026"]].plot.bar(ax=axs[1])
+axs[1].axhline(6.5, color="k", lw=0.6, ls="--")
+axs[1].set_title(f"SMAP L4: posição da umidade da raiz nos 30 dias até {res['smap_data_final'][8:10]}/11 (1 = o mais seco de 12 anos)")
+axs[1].set_ylabel("posição entre 2015 e 2026")
 plt.tight_layout()
 plt.show()
 
+# Mapa: anomalia da umidade da raiz em 2026 contra a média da mesma janela de 2015-2025.
+# O percentil pronto do SMAP (sm_rootzone_pctl) quase não existe no Nordeste em out-jan, então não é usado aqui.
 sm = xr.open_dataset(DADOS / "smap" / "smap_l4_diario_ne.nc")
 fim = pd.Timestamp(sm.time.values.max())
-mapa = sm.sm_rootzone_pctl.sel(time=slice(fim - pd.Timedelta(days=29), fim)).mean("time")
+jan = lambda a: sm.sm_rootzone.sel(time=slice(pd.Timestamp(a, fim.month, fim.day) - pd.Timedelta(days=29), pd.Timestamp(a, fim.month, fim.day))).mean("time")
+clim = xr.concat([jan(a) for a in range(2015, 2026)], dim="ano").mean("ano")
+anom = jan(2026) - clim
 fig, ax = plt.subplots(figsize=(7, 7))
-mapa.plot(ax=ax, cmap="RdYlBu", vmin=0, vmax=100, cbar_kwargs={"label": "percentil da umidade da zona da raiz"})
+anom.plot(ax=ax, cmap="BrBG", vmin=-0.03, vmax=0.03, cbar_kwargs={"label": "anomalia da umidade da zona da raiz (m³/m³)"})
 nordeste_gdf().boundary.plot(ax=ax, color="k", lw=0.5)
 ceara_gdf().boundary.plot(ax=ax, color="k", lw=1.5)
-ax.set_title(f"SMAP L4 — umidade da zona da raiz, 30 dias até {fim:%d/%m/%Y}")
+ax.set_title(f"SMAP L4 — umidade da raiz, 30 dias até {fim:%d/%m/%Y}, menos a média 2015–2025")
 plt.show()
+print("O percentil pronto do SMAP tem valor em menos de 0,5% das células do Ceará nesta época:"
+      " ver E:/campeonato-nasa/dados/el_nino_2026/checagem_smap_novembro.csv")
 print("GRACE (set/AAAA, cm):", res["grace"])
 print("NDVI VIIRS (nov/AAAA):", res["ndvi"])
 
@@ -158,10 +164,17 @@ display(persp)
 # - **A exceção é 2023/24:** quadra normal e safra normal, mesmo com ONI de +2,0. O índice do Atlântico em fev–abr foi
 #   parecido com o de 2016, então o dipolo sozinho não explica a diferença. **El Niño forte aumenta muito a chance de
 #   seca, mas não a garante.**
-# - **A condição de entrada é pior que nas últimas vezes.** Em novembro de 2026, o percentil da umidade da zona da raiz
-#   do SMAP está em **18 no Ceará** (25 em 2015 e 28 em 2023), e entre 12 e 19 em MA, PE, AL, SE e PB. A chuva de
-#   ago–nov ficou entre 57% e 68% do normal no MA, PI, RN e PB. O GRACE do Ceará está em −9,7 cm, entre 2023 (−3,5) e
-#   2015 (−16,7).
+# - **A condição de entrada varia por estado** (SMAP L4, umidade da zona da raiz nos 30 dias até 10/11, entre 12 anos).
+#   - **Maranhão e Sergipe têm o novembro mais seco da série; Piauí e Pernambuco, o 2º mais seco.**
+#   - **O Ceará está normal:** 5º mais seco de 12, mais úmido que a entrada de 2015 (2º) e mais seco que a de 2023 (7º).
+#   - A chuva de ago–nov ficou baixa no MA (percentil 11) e no PI (25), e normal no CE (percentil 39).
+#   - O GRACE do Ceará está em −9,7 cm, entre 2023 (−3,5) e 2015 (−16,7).
+# - **O solo de novembro não prevê a quadra.** A memória da umidade da raiz não chega a fevereiro (rodada 2 do conselho,
+#   `conselho/analises/v2_clima_smap_estado_inicial.py`). **O risco de 2027 vem do oceano.** O estado do solo serve para
+#   o relógio lento (forragem e água) e para os portões de março e abril.
+# - **Correção (14/11):** a 1ª versão desta seção comparava o percentil pronto do SMAP (`sm_rootzone_pctl`), que quase
+#   não existe no Nordeste de out a jan (menos de 0,5% das células do Ceará). O "18 contra 25 e 28" estava errado e foi
+#   substituído pela posição da umidade bruta.
 #
 # **O que a QUADRA faz com isso no portão de novembro (alerta, não sentença):**
 # 1. Mostra a **probabilidade**: nos análogos, de 3 a 4 em cada 5 quadras abaixo do normal no norte do Nordeste. Diz que

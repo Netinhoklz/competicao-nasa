@@ -1,0 +1,5 @@
+ultimo dia com leitura FUNCEME no arquivo: 2026-11-13 | postos com leitura nos 7 dias ate ele: 425
+municipios com postos completos (>= 90% dos dias): 184
+2026, 1/jan-30/abr: razao IMERG/postos = 0.97; Spearman entre municipios = 0.43; Pearson = 0.45
+mediana estadual: postos 654 mm | IMERG 643 mm
+Quixada (2311306): [{'posto_mm': 479.0, 'imerg_mm': 522.0}]
