@@ -1,138 +1,90 @@
-/* Painel de infograficos do municipio (painel.js). Usa as tintas de style.css;
-   a unica cor nova e --seco, para ano seco e solo seco. */
+/* Painel lateral do mapa (painel.js) e easter eggs (ovos.js). Usa as tintas de style.css.
+   Depois do zoom: mapa a esquerda, painel Roca Certa do municipio a direita. */
 
-.painel {
-  --seco: #f2a65a;
+:root { --lado: min(520px, 40vw); }
+
+.lado {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 72px;
+  top: 76px;
+  right: 24px;
+  bottom: 24px;
   z-index: 5;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
+  width: var(--lado);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #121814;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateX(24px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.7s var(--ease);
+}
+.lado[hidden] { display: none; }
+body.no-mapa:not(.em-viagem) .lado {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.9s;
+}
+.lado iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* o mapa encolhe de verdade: vira um cartao a esquerda do painel (e volta a tela cheia na viagem) */
+#mapa {
+  width: auto;
+  height: auto;
+  transition: opacity 0.9s ease, top 0.8s var(--ease), right 0.8s var(--ease), bottom 0.8s var(--ease),
+    left 0.8s var(--ease), border-radius 0.8s var(--ease), box-shadow 0.8s ease;
+}
+body.com-lado.no-mapa:not(.em-viagem) #mapa {
+  top: 76px;
+  left: 24px;
+  bottom: 24px;
+  right: calc(var(--lado) + 48px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--line-2), 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+body.com-lado.no-mapa:not(.em-viagem) .hud-mapa { top: 92px; left: 40px; }
+body.com-lado .dica-mapa { left: calc(24px + (100vw - var(--lado) - 72px) / 2); }
+
+@media (max-width: 860px), (max-aspect-ratio: 19/20) {
+  .lado { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 55vh; border-radius: 16px 16px 0 0; transform: translateY(24px); }
+  body.com-lado.no-mapa:not(.em-viagem) #mapa { top: 0; left: 0; right: 0; bottom: 55vh; border-radius: 0; box-shadow: none; }
+  body.com-lado.no-mapa:not(.em-viagem) .hud-mapa { top: 60px; left: 12px; }
+}
+
+/* ------------------------------------------------------------ easter eggs */
+
+#espaco.sobre-satelite { cursor: pointer; }
+
+.ovo {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 10px 18px 10px 12px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink);
+  transform: translate(-50%, 12px);
+  opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.5s var(--ease);
 }
-.painel[hidden] { display: none; }
-body.no-mapa:not(.em-viagem) .painel {
-  opacity: 1;
-  transform: none;
-  transition-delay: 0.7s;
-}
-/* so os blocos recebem o ponteiro: entre eles e nas bordas o mapa continua arrastavel */
-body.no-mapa:not(.em-viagem) .pn-fileira,
-body.no-mapa:not(.em-viagem) .pn-abrir { pointer-events: auto; }
-
-/* fileira de blocos no pe do mapa; em tela estreita ela desliza para o lado */
-.pn-fileira {
-  display: flex;
-  align-items: stretch;
-  gap: 8px;
-  max-width: calc(100vw - 180px);
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: none;
-}
-.pn-bloco {
-  flex: 0 0 282px;
-  margin: 0;
-  padding: 12px 16px 10px;
-  border-radius: 12px;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  scroll-snap-align: center;
-}
-/* botao para o painel completo do municipio (Roca Certa) */
-.pn-abrir {
-  justify-self: center;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 18px;
-  border-radius: 10px;
-  background: var(--ink);
-  color: #000;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
-}
-.painel .pn-abrir svg:not(.pn-icone) { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.pn-abrir:hover { background: #fff; }
-.pn-abrir:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-/* a dica de gestos sobe para nao ficar atras do painel */
-.painel:not([hidden]) ~ .dica-mapa { bottom: 356px; }
-.pn-bloco p { margin: 0; }
-.pn-bloco header { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
-.pn-bloco h3 { margin: 0; font-size: 13px; font-weight: 500; }
-.pn-icone {
-  width: 18px;
-  height: 18px;
-  flex: none;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.pn-numero { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 6px !important; }
-.pn-numero b { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; }
-.pn-numero small, .pn-conta small { font-size: 0.5em; font-weight: 400; color: var(--ink-3); letter-spacing: 0; }
-.pn-numero span { font-size: 13px; color: var(--ink-2); }
-.pn-alerta { color: var(--seco); }
-
-.painel svg:not(.pn-icone) { display: block; width: 100%; height: auto; overflow: visible; }
-.painel svg text { fill: var(--ink-3); font-family: var(--mono); font-size: 10.5px; }
-.painel svg text.pn-valor { fill: var(--ink); }
-.pn-tubo { fill: rgba(255, 255, 255, 0.05); stroke: var(--line-2); }
-.pn-cheio { fill: var(--accent); }
-.pn-seco { fill: var(--seco); }
-.pn-apagado { fill: var(--ink-4); }
-.pn-normal { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 3 3; }
-
-.pn-conta { display: flex; align-items: center; gap: 8px; margin: 10px 0 4px !important; }
-.pn-conta b { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
-.pn-conta .pn-icone { width: 22px; height: 22px; color: var(--accent); }
-.pn-seta { flex: 1; max-width: 46px; height: 1px; background: var(--ink-3); position: relative; }
-.pn-seta::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: -3px;
-  width: 6px;
-  height: 6px;
-  border-top: 1px solid var(--ink-3);
-  border-right: 1px solid var(--ink-3);
-  transform: rotate(45deg);
-}
-.pn-forca { display: flex; align-items: center; gap: 10px; margin-top: 8px !important; font-size: 13px; color: var(--ink-2); }
-.pn-degraus { display: inline-flex; align-items: flex-end; gap: 3px; }
-.pn-degraus i { width: 9px; border-radius: 2px; background: var(--ink-4); }
-.pn-degraus i:nth-child(1) { height: 8px; }
-.pn-degraus i:nth-child(2) { height: 13px; }
-.pn-degraus i:nth-child(3) { height: 18px; }
-.pn-degraus i.on { background: var(--accent); }
-
-.pn-fila { display: flex; align-items: center; gap: 5px; margin-top: 10px; }
-.pn-fila i { flex: 1; height: 6px; border-radius: 3px; background: var(--ink-4); }
-.pn-fila i.on { height: 18px; background: var(--ink); }
-.pn-pontas { display: flex; justify-content: space-between; margin-top: 5px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
-
-.pn-fonte { margin: 0; font-size: 11px; color: var(--ink-2); text-shadow: 0 1px 6px #000; }
-
-@media (max-width: 860px), (max-aspect-ratio: 19/20) {
-  .painel { bottom: 34px; }
-  .pn-fileira { max-width: 100vw; padding: 0 12px; scroll-snap-type: x mandatory; }
-  .pn-bloco { flex-basis: min(282px, 80vw); }
-}
+.ovo.visivel { opacity: 1; transform: translate(-50%, 0); }
+.ovo svg { width: 22px; height: 22px; flex: none; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
 @media (prefers-reduced-motion: reduce) {
-  .painel { transition: opacity 0.2s ease; transform: none; }
+  .lado, .ovo { transition: opacity 0.2s ease; transform: none; }
+  .ovo.visivel { transform: translate(-50%, 0); }
 }

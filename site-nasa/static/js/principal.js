@@ -2,6 +2,8 @@
 import { Espaco, DIST_TROCA } from './espaco.js';
 import { Mapa, ASSENTAMENTO, zoomEquivalente, distEquivalente } from './mapa.js';
 import { Painel } from './painel.js';
+import { Ovos } from './ovos.js';
+import { dentroDoNordeste, passoKonami, KONAMI } from './util.js';
 
 const $ = (id) => document.getElementById(id);
 const esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
@@ -58,6 +60,7 @@ const espaco = new Espaco($('espaco'), {
   },
   aoClicar: (lat, lon) => {
     if (estado !== 'inicio') return;
+    if (!noNordeste(lat, lon)) { foraDoNordeste(); return; }
     viajar(pontoNoGlobo(lat, lon));
   },
   // mergulho com a rodinha/pinca: o cartao some aos poucos e a barra mostra quanto falta
@@ -78,6 +81,50 @@ const espaco = new Espaco($('espaco'), {
 });
 const mapa = new Mapa($('mapa'));
 const painel = new Painel($('painel'));
+// o mapa encolhe para um cartao a esquerda quando o painel abre: o MapLibre precisa saber do novo tamanho
+new ResizeObserver(() => mapa.mapa?.resize()).observe($('mapa'));
+
+// ------------------------------------------------------------------ easter eggs (ovos.js)
+
+const ovo = { caixa: $('ovo'), texto: $('ovoTexto'), tempo: 0 };
+function aviso(texto) {
+  ovo.texto.textContent = texto;
+  ovo.caixa.classList.add('visivel');
+  clearTimeout(ovo.tempo);
+  ovo.tempo = setTimeout(() => ovo.caixa.classList.remove('visivel'), 6500);
+}
+const ovos = new Ovos(espaco, { aviso });
+function lancarFoguete() {
+  if (estado !== 'inicio') return;
+  ovos.lancar();
+  aviso('3, 2, 1… Decolagem de Alcântara (MA), a base de foguetes do Brasil, a 2° do equador.');
+}
+// codigo Konami: cima cima baixo baixo esquerda direita esquerda direita B A
+let konami = 0;
+window.addEventListener('keydown', (e) => {
+  konami = passoKonami(konami, e.key);
+  if (konami === KONAMI.length) { konami = 0; lancarFoguete(); }
+});
+
+// ------------------------------------------------------------------ so o Nordeste
+
+// O QUADRA so desce no Nordeste: busca, coordenada, clique no globo, atalho e mergulho com a rodinha.
+// Contorno do IBGE (static/data/nordeste.json); se ele nao carregar, a pagina nao trava ninguem.
+let contornoNE = null;
+fetch('/static/data/nordeste.json').then((r) => r.json()).then((d) => { contornoNE = d.contorno; }).catch(() => {});
+const noNordeste = (lat, lon) => !contornoNE || dentroDoNordeste(lat, lon, contornoNE);
+let avisoForaEm = 0;
+function foraDoNordeste() {
+  if (performance.now() - avisoForaEm < 1500) return;   // a rodinha dispara muitas vezes seguidas
+  avisoForaEm = performance.now();
+  mensagem('Esse lugar fica fora do Nordeste. Por enquanto o QUADRA só desce lá.', true);
+  balancar();
+}
+espaco.podeMergulhar = (lat, lon) => {
+  if (noNordeste(lat, lon)) return true;
+  foraDoNordeste();
+  return false;
+};
 
 /** Lugar a partir de um ponto do globo; o nome chega do servidor enquanto o planeta gira. */
 function pontoNoGlobo(lat, lon) {
@@ -100,7 +147,7 @@ function pontoNoGlobo(lat, lon) {
 }
 
 // para depurar no console (e nas capturas automaticas)
-window.quadra = { espaco, mapa };
+window.quadra = { espaco, mapa, ovos };
 
 // ------------------------------------------------------------------ telemetria
 
@@ -252,9 +299,12 @@ async function buscar(texto, { primeiro = false } = {}) {
     const r = await fetch(`/api/geocode?q=${encodeURIComponent(texto)}`);
     const dados = await r.json();
     if (!r.ok) throw new Error(dados.erro || 'A busca falhou.');
-    const lista = unicos(dados.resultados);
+    const todos = unicos(dados.resultados);
+    const lista = todos.filter((l) => noNordeste(l.lat, l.lon));
     if (!lista.length) {
-      mensagem('Não achei esse lugar. Tente cidade e estado, um país ou coordenadas como -4.97, -39.01.', true);
+      mensagem(todos.length
+        ? 'Esse lugar fica fora do Nordeste. Por enquanto o QUADRA só desce lá.'
+        : 'Não achei esse lugar. Tente cidade e estado, ou coordenadas como -4.97, -39.01.', true);
       balancar();
       return;
     }
@@ -271,6 +321,7 @@ async function buscar(texto, { primeiro = false } = {}) {
 ui.form.addEventListener('submit', (e) => {
   e.preventDefault();
   if (estado !== 'inicio') return;
+  if (ui.campo.value.trim().toLowerCase() === 'foguete') { ui.campo.value = ''; lancarFoguete(); return; }
   if (resultados.length && ativo >= 0) { viajar(resultados[ativo]); return; }
   buscar(ui.campo.value.trim());
 });
@@ -326,6 +377,7 @@ let atual = null;   // lugar da viagem em curso (a altitude chega depois e preci
 /** @param continuar a pessoa entrou girando a rodinha: o mapa so segue o zoom dela */
 async function viajar(lugar, { continuar = false } = {}) {
   if (estado !== 'inicio') return;
+  if (!noNordeste(lugar.lat, lugar.lon)) { foraDoNordeste(); return; }
   estado = 'viajando';
   atual = lugar;
   fecharLista();
@@ -334,7 +386,7 @@ async function viajar(lugar, { continuar = false } = {}) {
   ui.hero.removeAttribute('style');
   corpo.classList.remove('mergulhando');
   preencherCartao(lugar);
-  painel.mostrar(lugar);
+  painel.mostrar(lugar);   // municipio do Nordeste: o mapa encolhe para a esquerda e o painel abre a direita
   ui.alt.hidden = true;
   ui.destino.textContent = lugar.nome;
   etapa(continuar ? 'Entrando no mapa' : 'Alinhando a órbita');
@@ -374,6 +426,7 @@ async function voltar() {
   etapa('Subindo para a órbita');
   ui.destino.textContent = '';
   corpo.classList.add('em-viagem');
+  if (corpo.classList.contains('com-lado')) await esperar(850);   // o mapa volta a ocupar a tela antes de subir
   espaco.retomar();
   const c = await mapa.subir((lat) => zoomEquivalente(lat, DIST_TROCA));
   espaco.posicionarNoCentro(c.lat, c.lon, distEquivalente(c.lat, c.zoom));

@@ -23,6 +23,8 @@ DERIV = RAIZ / "dados_resumo" / "derivados"
 MALHAS = RAIZ / "interface-nordeste-jp" / "dados"
 DESTINO = RAIZ / "site-nasa" / "static" / "data"
 ANALOGOS = [1998, 2010, 2016, 2024]
+ONI_NINO = 0.5             # ano de El Nino: ONI medio de jul-set do ano anterior a colheita >= 0,5
+SIGLA = {"21": "MA", "22": "PI", "23": "CE", "24": "RN", "25": "PB", "26": "PE", "27": "AL", "28": "SE", "29": "BA"}
 
 # projecao equirretangular do Nordeste (cos da latitude media), em px por grau
 LON0, LAT0, ESCALA = -48.9, -0.9, 40.0
@@ -81,6 +83,26 @@ def malha() -> dict:
             "m": {f["properties"]["codarea"]: caminho(f["geometry"])[0] for f in mun}}
 
 
+def enso_por_estado(mun: pl.DataFrame, chuva: pl.DataFrame) -> dict:
+    """Nos anos de El Nino (pelo ONI de jul-set anterior, ja conhecido em outubro): % dos municipios de cada
+    estado com a estacao no terco mais seco, ano a ano. O sinal e do ano no estado inteiro, nao do municipio
+    (validacao em conselho/analises/jp_analogos_atlantico.py)."""
+    oni = (pl.read_parquet(DERIV / "indices_clima_mensal.parquet")
+           .filter((pl.col("variavel") == "ONI") & pl.col("data").dt.month().is_in([7, 8, 9]))
+           .group_by(pl.col("data").dt.year().alias("a")).agg(pl.col("valor").mean(), pl.len().alias("n"))
+           .filter(pl.col("n") == 3))
+    nino = sorted(a + 1 for a, v in zip(oni["a"], oni["valor"]) if v >= ONI_NINO and chuva["ano_est"].min() <= a + 1 <= chuva["ano_est"].max())
+    atual = oni.sort("a").tail(1).row(0, named=True)
+    seco = (chuva.filter(pl.col("ano_est").is_in(nino)).join(mun.select("cod_mun", "t1"), on="cod_mun")
+            .with_columns((pl.col("chuva") <= pl.col("t1")).alias("seco"), pl.col("cod_mun").str.slice(0, 2).alias("uf")))
+    uf = {}
+    for (u,), g in seco.group_by("uf"):
+        por_ano = {a: round(v * 100) for a, v in g.group_by("ano_est").agg(pl.col("seco").mean()).iter_rows()}
+        uf[SIGLA[u]] = {"media": round(g["seco"].mean() * 100), "por_ano": [por_ano.get(a) for a in nino]}
+    return {"anos": nino, "criterio": f"ONI jul–set ≥ {ONI_NINO:.1f}".replace(".", ","),
+            "oni_jas": round(atual["valor"], 2), "acaso": 33, "uf": uf}
+
+
 def main() -> None:
     mun = pl.read_parquet(SAIDAS / "jp_nordeste_municipios.parquet")
     chuva = pl.read_parquet(SAIDAS / "jp_nordeste_municipios_chuva.parquet")
@@ -114,7 +136,8 @@ def main() -> None:
     dados = {"campos": ["nome", "uf", "lat", "lon", "ini", "normal_mm", "clima_mm", "analogos", "rho_milho",
                         "milho_pct_100mm", "solo_pctl", "solo_n", "semiarido", "serie_pct"],
              "anos": anos, "analogos": ANALOGOS, "solo_mes": "out 2026",
-             "oni": {"mes": f"{oni['data']:%m/%Y}", "valor": round(oni["valor"], 2)}, "m": m}
+             "oni": {"mes": f"{oni['data']:%m/%Y}", "valor": round(oni["valor"], 2)},
+             "enso": enso_por_estado(mun, chuva), "m": m}
     for nome, conteudo in (("municipios_ne.json", dados), ("malha_ne.json", malha())):
         arq = DESTINO / nome
         arq.write_text(json.dumps(conteudo, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

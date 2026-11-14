@@ -2,14 +2,23 @@
 // Pouco texto: cada informacao e um desenho com um numero. Dados (static/data/, gerados por
 // ferramentas/gerar_municipios.py): municipios_ne.json (IMERG, SMAP, IBGE, ONI) e malha_ne.json (malha IBGE).
 
+import { faixaDe, leituraSolo, naEstacao as estacaoTem } from './util.js';
+
+// ?embutido=1: dentro do painel lateral do globo (o mapa ja esta a esquerda): sem topo, sem mapa, tema escuro
+const EMB = new URLSearchParams(location.search).has('embutido');
+if (EMB) {
+  document.documentElement.dataset.theme = 'dark';
+  document.body.classList.add('embutido');
+}
 const [D, G] = await Promise.all([
   fetch('/static/data/municipios_ne.json').then((r) => r.json()),
-  fetch('/static/data/malha_ne.json').then((r) => r.json()),
+  EMB ? null : fetch('/static/data/malha_ne.json').then((r) => r.json()),
 ]);
 
 // campos de cada municipio (ver D.campos)
 const F = { nome: 0, uf: 1, ini: 4, normal: 5, clima: 6, analogos: 7, rho: 8, pct100: 9, solo: 10, soloN: 11, semi: 12, serie: 13 };
 const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const UF_EM = { MA: 'no Maranhão', PI: 'no Piauí', CE: 'no Ceará', RN: 'no Rio Grande do Norte', PB: 'na Paraíba', PE: 'em Pernambuco', AL: 'em Alagoas', SE: 'em Sergipe', BA: 'na Bahia' };
 const UF_NOME = { MA: 'Maranhão', PI: 'Piauí', CE: 'Ceará', RN: 'Rio Grande do Norte', PB: 'Paraíba', PE: 'Pernambuco', AL: 'Alagoas', SE: 'Sergipe', BA: 'Bahia' };
 const RHO_FIRME = 0.38;   // Spearman significativo a 5% com ~27 anos
 const HOJE = new Date().getMonth();
@@ -38,24 +47,15 @@ const IC = {
   mais: '<path d="M12 5v14M5 12h14"/>',
 };
 const ic = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
-const faixaDe = (v, cortes) => { let k = 0; while (k < cortes.length && v >= cortes[k]) k++; return k; };
-const mediana = (xs) => { const s = xs.filter((x) => x != null).sort((a, b) => a - b); if (!s.length) return null; const k = s.length >> 1; return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2; };
 const janela = (m) => (m[F.ini] == null ? '' : `${MES[m[F.ini] - 1]}–${MES[(m[F.ini] + 2) % 12]}`);
-const naEstacao = (m, mes0) => m[F.ini] != null && (mes0 - (m[F.ini] - 1) + 12) % 12 < 4;
+const naEstacao = (m, mes0) => estacaoTem(m[F.ini], mes0);
 
-// ------------------------------------------------------------------ leituras por municipio
+// ------------------------------------------------------------------ leituras por municipio (regras em util.js)
 
-function nino(m) {
-  const val = m[F.analogos].filter(Boolean);
-  return { n: val.length, secos: val.filter((a) => a[1]).length, pct: mediana(val.map((a) => a[0])) };
-}
-function solo(m) {
-  const p = m[F.solo], n = m[F.soloN];
-  if (p == null || !n) return null;
-  const k = Math.round((p / 100) * n);   // anos anteriores mais secos que agora
-  const palavra = p < 10 ? 'muito seco' : p < 34 ? 'seco' : p < 67 ? 'normal' : 'úmido';
-  return { p, n, k, palavra };
-}
+// El Nino: o sinal e do ano no estado inteiro, nao do municipio (validado em conselho/analises/jp_analogos_atlantico.py)
+const enso = (m) => D.enso.uf[m[F.uf]];
+const emDez = (e) => Math.round(e.media / 10);
+const solo = (m) => leituraSolo(m[F.solo], m[F.soloN]);
 function ligacao(m) {
   const r = m[F.rho];
   if (r == null) return null;
@@ -65,8 +65,20 @@ function ligacao(m) {
 
 // ------------------------------------------------------------------ mini-graficos (indicadores)
 
-const pontos = (an) => `<div class="pontos" aria-hidden="true">${an.map((a) => `<i class="${a == null ? '' : a[1] ? 'seco' : 'normal'}"></i>`).join('')}</div>`;
 const meses = (m) => `<div class="meses" aria-hidden="true">${MES.map((x, i) => `<span class="${naEstacao(m, i) ? 'on' : ''} ${i === HOJE ? 'hoje' : ''}">${x[0].toUpperCase()}</span>`).join('')}</div>`;
+function anosEstado(e) {
+  const W = 220, H = 52, base = 36, n = e.por_ano.length, passo = W / n, larg = passo * 0.6, y = (v) => base - (v / 100) * (base - 4);
+  let s = `<line x1="0" x2="${W}" y1="${y(D.enso.acaso)}" y2="${y(D.enso.acaso)}" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
+  e.por_ano.forEach((v, i) => {
+    const x = i * passo + (passo - larg) / 2;
+    if (v != null) s += `<rect x="${x}" y="${y(v)}" width="${larg}" height="${Math.max(2, base - y(v))}" rx="3" fill="${v >= 50 ? 'var(--amber)' : 'var(--meio)'}"/>`;
+    s += `<text x="${x + larg / 2}" y="${H - 2}" font-size="10" text-anchor="middle" fill="var(--muted)">${String(D.enso.anos[i]).slice(2)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${s}</svg>`;
+}
+// nov -> abr: a previsao da estacao so firma quando o Atlantico de fev-mai comeca a aparecer
+const REGUA = [10, 11, 0, 1, 2, 3];
+const regua = () => `<div class="meses" aria-hidden="true">${REGUA.map((i) => `<span class="${i >= 1 && i <= 3 ? 'on' : ''} ${i === HOJE ? 'hoje' : ''}">${MES[i][0].toUpperCase()}</span>`).join('')}</div>`;
 const degraus = (n) => `<div class="degraus" aria-hidden="true">${[1, 2, 3].map((k) => `<i class="${k <= n ? 'on' : ''}"></i>`).join('')}</div>`;
 const fila = (s) => `<div class="fila" aria-hidden="true">${Array.from({ length: s.n + 1 }, (_, i) => `<i class="${i === s.k ? 'on' : ''}"></i>`).join('')}</div><div class="pontas"><span>seco</span><span>úmido</span></div>`;
 function escalaOni(v) {
@@ -128,31 +140,31 @@ const ABAS = [
   {
     id: 'inverno', nome: 'Inverno 2027', icone: 'onda',
     faixa(m) {
-      const e = nino(m);
-      if (!e.n) return { tipo: 'idle', titulo: 'Sem série de chuva', pilula: '' };
-      const tipo = e.secos >= 3 ? 'bad' : e.secos === 2 ? 'warn' : 'ok';
-      return { tipo, icone: tipo === 'ok' ? 'ok' : 'alerta', titulo: `Depois de El Niño forte, chuva fraca em ${e.secos} de ${e.n} anos`, pilula: ['Risco baixo', 'Risco baixo', 'Risco médio', 'Risco alto', 'Risco alto'][e.secos] };
+      const e = enso(m), em = UF_EM[m[F.uf]];
+      if (!e) return { tipo: 'idle', titulo: 'Sem série de chuva', pilula: '' };
+      if (e.media < 40) return { tipo: 'info', icone: 'info', titulo: `El Niño muda pouco a chuva ${em}`, pilula: 'Previsão firma em fevereiro' };
+      return { tipo: 'warn', icone: 'alerta', titulo: `depois de El Niño, seca em ${emDez(e)} de cada 10 municípios ${em}`, pilula: 'Previsão firma em fevereiro' };
     },
     indicadores(m) {
-      const e = nino(m), oni = D.oni;
+      const e = enso(m), oni = D.oni;
       return ind('termo', 'El Niño agora', `${oni.valor > 0 ? '+' : ''}${fmt.format(oni.valor)}<small>°C</small>`, `Pacífico, ${oni.mes}`, escalaOni(oni.valor))
-        + ind('chuva', 'Anos secos', `${e.secos}<small>de ${e.n}</small>`, D.analogos.join(' · '), pontos(m[F.analogos]))
-        + (e.pct == null ? '' : ind('gota', 'Chuva nesses anos', `${fmt.format(Math.round(e.pct))}<small>%</small>`, 'do normal', barraNormal(e.pct)))
+        + (e ? ind('chuva', `Seca ${UF_EM[m[F.uf]]}`, `${emDez(e)}<small>em 10</small>`, `municípios por ano de El Niño · acaso: ${Math.round(D.enso.acaso / 10)}`, anosEstado(e)) : indVazio())
+        + ind('info', 'Previsão firma', 'fev', 'quando sai o prognóstico oficial', regua())
         + ind('sol', 'Normal da estação', `${fmt.format(m[F.normal] ?? 0)}<small>mm</small>`, janela(m), meses(m));
     },
     mapa: {
-      titulo: 'Chuva depois de El Niño forte', valor: (m) => nino(m).pct, cortes: [60, 80, 95, 105, 120, 140], cores: DIV,
-      rotulos: ['< 60%', '60–80', '80–95', 'normal', '105–120', '120–140', '> 140%'], dica: (v) => `${fmt.format(Math.round(v))}% do normal`,
+      titulo: 'Seca nos anos de El Niño, por estado', valor: (m) => enso(m)?.media, cortes: [40, 50], cores: ['#9ec5f4', '#f0b9ad', '#d96c5a'],
+      rotulos: ['quase o acaso', '4 em 10', '5 a 6 em 10'], dica: (v) => `${fmt.format(v)}% dos municípios do estado`,
     },
     grafico(m) {
       $('graficoTitulo').textContent = 'Chuva da estação, ano a ano';
-      const vals = m[F.serie], an = (i) => D.analogos.includes(D.anos[i]);
+      const vals = m[F.serie], an = (i) => D.enso.anos.includes(D.anos[i]);
       barras({
         vals, rotulos: D.anos.map((a, i) => (an(i) || i === 0 || i === D.anos.length - 1 ? a : '')), linha100: true, teto: 180, eixo: [0, 50, 100, 150],
         destaque: an, cor: (i) => (an(i) ? 'var(--amber)' : 'var(--meio)'),
-        dica: (i) => `<b>${D.anos[i]}${an(i) ? ' · El Niño forte' : ''}</b>${vals[i] == null ? 'sem dado' : `${vals[i]}% do normal (${fmt.format(Math.round((vals[i] * (m[F.normal] ?? 0)) / 100))} mm)`}`,
+        dica: (i) => `<b>${D.anos[i]}${an(i) ? ' · El Niño' : ''}</b>${vals[i] == null ? 'sem dado' : `${vals[i]}% do normal (${fmt.format(Math.round((vals[i] * (m[F.normal] ?? 0)) / 100))} mm)`}`,
       });
-      return [['var(--amber)', 'depois de El Niño forte'], ['var(--meio)', 'outros anos']];
+      return [['var(--amber)', 'ano de El Niño'], ['var(--meio)', 'outros anos']];
     },
   },
   {
@@ -187,7 +199,7 @@ const ABAS = [
     },
   },
   { id: 'veranico', nome: 'Veranico', icone: 'sol', vazia: true },
-  { id: 'rocado', nome: 'Roçado', icone: 'fogo', vazia: true },
+  { id: 'preparo', nome: 'Preparo da terra', icone: 'fogo', vazia: true },
   {
     id: 'alerta', nome: 'Alerta', icone: 'sino',
     faixa(m) {
@@ -197,10 +209,10 @@ const ABAS = [
       return { tipo, icone: tipo === 'ok' ? 'ok' : 'alerta', titulo: `Solo ${s.palavra} para a época (${D.solo_mes})`, pilula: `Solo: ${s.palavra}` };
     },
     indicadores(m) {
-      const s = solo(m), e = nino(m);
+      const s = solo(m), e = enso(m);
       return (s ? ind('solo', 'Solo agora', s.palavra, `zona da raiz, ${D.solo_mes}`, fila(s))
         + ind('chuva', 'Anos mais secos que agora', `${s.k}<small>de ${s.n}</small>`, 'mesmo mês, desde 2015', '') : indVazio() + indVazio())
-        + ind('onda', 'El Niño: anos secos', `${e.secos}<small>de ${e.n}</small>`, 'veja Inverno 2027', pontos(m[F.analogos]))
+        + (e ? ind('onda', `El Niño ${UF_EM[m[F.uf]]}`, `${emDez(e)}<small>em 10</small>`, 'municípios secos · veja Inverno 2027', '') : indVazio())
         + indVazio();
     },
     mapa: {
@@ -230,17 +242,21 @@ const ABAS = [
 // ------------------------------------------------------------------ mapa
 
 const svg = $('mapa'), gMun = svg.querySelector('.mun');
-const VB_NE = `0 0 ${G.vb[0]} ${G.vb[1]}`;
-svg.setAttribute('viewBox', VB_NE);
-const cods = Object.keys(G.m).filter((c) => D.m[c]);
-gMun.innerHTML = cods.map((c) => `<path data-c="${c}" d="${G.m[c]}"/>`).join('');
-svg.querySelector('.ufs').innerHTML = Object.values(G.ufs).map((u) => `<path d="${u.d}"/>`).join('');
-const forma = Object.fromEntries([...gMun.children].map((p) => [p.dataset.c, p]));
+const VB_NE = G ? `0 0 ${G.vb[0]} ${G.vb[1]}` : '';
+const cods = Object.keys(D.m);
+let forma = {};
+if (!EMB) {
+  svg.setAttribute('viewBox', VB_NE);
+  gMun.innerHTML = cods.filter((c) => G.m[c]).map((c) => `<path data-c="${c}" d="${G.m[c]}"/>`).join('');
+  svg.querySelector('.ufs').innerHTML = Object.values(G.ufs).map((u) => `<path d="${u.d}"/>`).join('');
+  forma = Object.fromEntries([...gMun.children].map((p) => [p.dataset.c, p]));
+}
 
 function pintarMapa(aba) {
+  if (EMB) return;
   if (aba.vazia) {
     $('mapaTitulo').textContent = 'Escolha o município';
-    for (const c of cods) forma[c].style.fill = 'var(--meio)';
+    for (const p of Object.values(forma)) p.style.fill = 'var(--meio)';
     $('legenda').innerHTML = '';
     return;
   }
@@ -248,13 +264,14 @@ function pintarMapa(aba) {
   $('mapaTitulo').textContent = k.titulo;
   for (const c of cods) {
     const v = k.valor(D.m[c]);
-    forma[c].style.fill = v == null ? 'var(--surface-2)' : k.cores[faixaDe(v, k.cortes)];
+    if (forma[c]) forma[c].style.fill = v == null ? 'var(--surface-2)' : k.cores[faixaDe(v, k.cortes)];
   }
   $('legenda').innerHTML = k.rotulos.map((r, i) => `<span><i style="background:${k.cores[i]}"></i>${r}</span>`).join('') + '<span><i style="background:var(--surface-2);border:1px solid var(--border)"></i>sem dado</span>';
 }
 
 let zoom = 'ne';
 function enquadrar() {
+  if (EMB) return;
   const m = D.m[estado.cod];
   $('zoomUf').textContent = UF_NOME[m[F.uf]];
   document.querySelectorAll('[data-zoom]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.zoom === zoom)));
@@ -318,9 +335,11 @@ function desenhar() {
     $('graficoLegenda').innerHTML = leg.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
   }
   pintarMapa(aba);
-  for (const p of gMun.querySelectorAll('.on')) p.classList.remove('on');
-  forma[estado.cod].classList.add('on');
-  gMun.appendChild(forma[estado.cod]);
+  if (forma[estado.cod]) {
+    for (const p of gMun.querySelectorAll('.on')) p.classList.remove('on');
+    forma[estado.cod].classList.add('on');
+    gMun.appendChild(forma[estado.cod]);
+  }
   enquadrar();
   document.title = `${m[F.nome]} · Roça Certa`;
   $('noGlobo').href = `/?lugar=${encodeURIComponent(`${m[F.nome]}, ${UF_NOME[m[F.uf]]}`)}`;
@@ -353,4 +372,8 @@ $('tema').addEventListener('click', () => {
   raiz.dataset.theme = escuro ? 'light' : 'dark';
 });
 
+if (EMB) {
+  document.querySelector('.fonte').insertAdjacentHTML('beforebegin',
+    `<a class="tela-cheia" href="/painel/${estado.cod}" target="_top">Abrir em tela cheia</a>`);
+}
 desenhar();

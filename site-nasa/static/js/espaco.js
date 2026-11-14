@@ -1016,6 +1016,7 @@ export class Espaco {
       c.classList.remove('arrastando');
       if (performance.now() - this.ultimo.t > 90) { this.velGiro = 0; this.velIncl = 0; }
       if (this.movido < 6 && e.type === 'pointerup') {
+        if (this.aoClicarAntes?.(e.clientX, e.clientY)) return;   // um extra (o satelite) pegou o clique
         const p = this._pontoNaTerra(e.clientX, e.clientY);
         if (p) this.aoClicar(p.lat, p.lon, e.clientX, e.clientY);
       }
@@ -1115,7 +1116,9 @@ export class Espaco {
     if (this.aproxAlvo === 0 && delta <= 0) return;
     if (!this.foco) {
       const p = this._pontoNaTerra(x, y);
-      this.foco = p ? { lat: p.lat, lon: p.lon } : this._pontoDeFrente();
+      const foco = p ? { lat: p.lat, lon: p.lon } : this._pontoDeFrente();
+      if (this.podeMergulhar && !this.podeMergulhar(foco.lat, foco.lon)) return;   // so desce onde a pagina deixa
+      this.foco = foco;
       this.qFoco = this._qAlvo(this.foco.lat, this.foco.lon);
       this.velGiro = 0;
       this.velIncl = 0;
@@ -1311,6 +1314,7 @@ export class Espaco {
     this._atualizarLua(dt);   // antes do Sol: o eclipse depende de onde a Lua esta
     this._atualizarSol();
     this._atualizarMira();
+    this.aoQuadro?.(dt, t);   // gancho para quem desenha extras na cena (ovos.js)
     this.renderer.render(this.cena, this.camera);
   }
 

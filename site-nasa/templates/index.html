@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>QUADRA · Escolha um lugar na Terra</title>
+  <title>QUADRA · Dá órbita pro campo</title>
   <meta name="description" content="QUADRA: dados de satélite da NASA para decidir a rotação de culturas. NASA Space Apps Challenge 2026, desafio Field Shift.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23fff'/%3E%3C/svg%3E">
@@ -37,8 +37,8 @@
 
   <main class="hero" id="hero">
     <div class="hero-cartao" id="heroCartao">
-      <p class="sobretitulo">Nordeste do Brasil · dados de satélite da NASA</p>
-      <h1><span class="linha">Escolha um lugar</span> <span class="linha suave">no Nordeste.</span></h1>
+      <p class="sobretitulo">Nordeste do Brasil · Dá órbita pro campo</p>
+      <h1><span class="linha">Qual é o seu município?</span> <span class="linha suave">A gente olha lá de cima.</span></h1>
 
       <form class="busca" id="busca" role="search" autocomplete="off">
         <svg class="busca-icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
@@ -105,8 +105,8 @@
       <p class="cartao-alt" id="localAlt" hidden></p>
     </div>
   </section>
-  <!-- Infograficos do municipio (painel.js) e o botao para o painel completo -->
-  <aside class="painel" id="painel" aria-label="O que os satélites dizem deste município" hidden></aside>
+  <!-- Depois do zoom: painel Roca Certa do municipio a direita, mapa a esquerda (painel.js) -->
+  <aside class="lado" id="painel" aria-label="Painel do município" hidden></aside>
   <p class="dica-mapa" id="dicaMapa" aria-hidden="true">
     <span><kbd>Arrastar</kbd> move o mapa</span>
     <span><kbd>Botão direito</kbd> inclina e gira</span>
@@ -118,6 +118,12 @@
     <blockquote><p id="pensamentoTexto">O sertanejo é, antes de tudo, um forte.</p></blockquote>
     <figcaption id="pensamentoAutor">Euclides da Cunha · <cite>Os Sertões</cite></figcaption>
   </figure>
+
+  <!-- Recado dos easter eggs (ovos.js): clique no satelite, "foguete" na busca ou codigo Konami -->
+  <div class="ovo" id="ovo" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 9.5 14.5 14.5M4 9l3-3 3 3-3 3zM14 19l3-3 3 3-3 3zM12 12l2.5-2.5"/><path d="M15 4.5a5.5 5.5 0 0 1 4.5 4.5"/></svg>
+    <span id="ovoTexto"></span>
+  </div>
 
   <footer class="creditos">
     Terra: NASA Blue Marble e VIIRS Black Marble (GIBS) <span aria-hidden="true">·</span> Busca: © OpenStreetMap

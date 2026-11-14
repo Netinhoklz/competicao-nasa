@@ -19,14 +19,48 @@ Link direto para um lugar: `http://127.0.0.1:5000/?lugar=Quixadá, Ceará`.
 
 ## Painel Roça Certa (`/painel/<código IBGE>`)
 
-Ao chegar a um município do Nordeste, o mapa mostra quatro infográficos e o botão **Abrir painel**, que leva a
-`/painel/<código IBGE de 7 dígitos>` (sem código: Quixadá). O painel é uma página própria, sem 3D: abas
-**Inverno 2027**, **Plantar** e **Alerta** com dado real; **Veranico**, **Roçado** e **Entressafra** são espaços
+Ao chegar a um município do Nordeste, o mapa fica à esquerda e o painel do município abre à direita
+(`/painel/<código>?embutido=1` num iframe; o MapLibre ganha folga para o lugar ficar no meio da parte livre).
+O mesmo painel abre em tela cheia em `/painel/<código IBGE de 7 dígitos>` (sem código: Quixadá), sem 3D: abas
+**Inverno 2027**, **Plantar** e **Alerta** com dado real; **Veranico**, **Preparo da terra** e **Entressafra** são espaços
 tracejados com conteúdo a definir. Mapa dos 1.794 municípios (malha IBGE), busca por nome, zoom no estado e
 modo claro/escuro.
 
-Regerar os dados: `python conselho/analises/jp_nordeste_municipios.py` e depois
+**Inverno 2027** mostra o sinal do El Niño **por estado**, não por município. Ele traz a % dos municípios do estado com
+a estação no terço mais seco, em cada ano de El Niño (ONI de jul–set ≥ 0,5: 1998, 2003, 2005, 2010, 2016, 2024), e
+quando a previsão firma (fevereiro).
+
+O motivo: o teste deixando um ano de fora (`conselho/analises/jp_analogos_atlantico.py`) mostrou que contar os "anos
+parecidos" do município não acerta mais que o acaso em novembro (AUC ≈ 0,5). O El Niño desloca o ano no estado inteiro.
+Embasamento e referências: `pesquisa/embasamento_painel_nordeste.md`.
+
+Regerar os dados: `python conselho/analises/jp_nordeste_municipios.py`, `python conselho/analises/jp_analogos_atlantico.py` (só o teste) e depois
 `python site-nasa/ferramentas/gerar_municipios.py` (escreve `static/data/municipios_ne.json` e `malha_ne.json`).
+
+## Easter eggs (`static/js/ovos.js`)
+
+- Um satélite dá a volta na Terra a cada 48 s; clicar nele mostra um recado sobre GPM, SMAP e MODIS.
+- Digitar **foguete** na busca (ou o código Konami: ↑ ↑ ↓ ↓ ← → ← → B A) lança um foguete de Alcântara (MA).
+- No console: `quadra.ovos.lancar()`.
+
+## Só o Nordeste
+
+O globo só desce em lugares do Nordeste: busca, coordenada, clique no globo, atalho, endereço `?lugar=` e o
+mergulho com a rodinha passam por `dentroDoNordeste` (`static/js/util.js`), que usa o contorno do IBGE
+(`static/data/nordeste.json`) com folga de 0,12° para cidades da costa e aceita Fernando de Noronha e o Atol das Rocas.
+
+## Testes
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest            # na raiz do repositório
+```
+
+- `site-nasa/testes/test_app.py`: rotas, validação da busca, compressão e arquivos dos templates;
+- `site-nasa/testes/test_dados.py`: integridade de `municipios_ne.json`, `malha_ne.json` e do gerador;
+- `site-nasa/testes/test_js.py`: regras de `util.js` e o painel de ponta a ponta no Chrome sem janela
+  (pula se não houver Chrome ou Edge; aponte outro com `CHROME=<caminho>`);
+- `testes/test_analise_nordeste.py`: funções da análise por estado e por município.
 
 ## Otimizações (14/11/2026)
 
@@ -61,7 +95,8 @@ Regerar os dados: `python conselho/analises/jp_nordeste_municipios.py` e depois
 | `static/js/principal.js` | liga tudo: busca, viagem globo → mapa e volta |
 | `templates/painel.html` + `static/js/rocacerta.js` + `static/css/rocacerta.css` | painel Roça Certa do município (abas, indicadores, mapa IBGE, gráficos) |
 | `static/data/malha_ne.json` | malha IBGE dos municípios e estados do Nordeste, já em caminhos SVG simplificados |
-| `static/js/painel.js` + `static/css/painel.css` | faixa de infográficos no pé do mapa, para municípios do Nordeste: El Niño forte (4 anos), chuva mês a mês, chuva × milho e solo (SMAP) |
+| `static/js/painel.js` + `static/css/painel.css` | painel lateral do mapa (iframe do painel Roça Certa) para municípios do Nordeste; estilos dos easter eggs |
+| `static/js/ovos.js` | easter eggs: satélite em órbita e foguete de Alcântara |
 | `static/data/municipios_ne.json` | números por município (1.794); regerar com `python site-nasa/ferramentas/gerar_municipios.py` depois de `python conselho/analises/jp_nordeste_municipios.py` |
 | `static/textures/` | texturas da Terra |
 | `ferramentas/captura.py` | fotografa o site em tempo real (Chrome headless via DevTools) e mostra erros do console |

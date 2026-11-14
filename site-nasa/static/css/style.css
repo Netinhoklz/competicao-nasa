@@ -166,7 +166,7 @@ body.no-mapa .hero {
 }
 
 .hero-cartao {
-  width: min(680px, 100%);
+  width: min(840px, 100%);
   text-align: center;
   text-shadow: 0 1px 18px rgba(0, 0, 0, 0.7);
 }
@@ -187,7 +187,7 @@ body.no-mapa .hero {
 .hero h1 {
   margin: 0;
   font-weight: 300;
-  font-size: clamp(2.6rem, 4.9vw, 4.9rem);
+  font-size: clamp(2.3rem, 4.2vw, 4.3rem);
   line-height: 0.98;
   letter-spacing: -0.045em;
 }

@@ -156,6 +156,22 @@ svg { overflow: visible; }
 .dica { position: fixed; z-index: 9; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 13px; padding: 7px 10px; border-radius: 8px; max-width: 240px; line-height: 1.35; }
 .dica b { display: block; }
 
+/* ------------------------------------------------------------ embutido no painel lateral do globo */
+.embutido { font-size: 14px; }
+.embutido .topo-linha, .embutido .dupla > .cartao:first-child { display: none; }
+.embutido .abas { padding: 12px 14px; flex-wrap: wrap; row-gap: 6px; }
+.embutido .conteudo { padding: 14px 14px 18px; gap: 12px; }
+.embutido .faixa { padding: 12px 14px; gap: 12px; flex-wrap: wrap; }
+.embutido .faixa .sinal { width: 40px; height: 40px; }
+.embutido .faixa h1 { font-size: 17px; }
+.embutido .indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.embutido .ind { min-height: 0; padding: 12px 14px; }
+.embutido .ind .valor { font-size: 26px; }
+.embutido .dupla { grid-template-columns: 1fr; }
+.embutido .cartao { padding: 14px 16px; }
+.tela-cheia { align-self: center; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--border); font-weight: 600; font-size: 14px; text-decoration: none; }
+.tela-cheia:hover { border-color: var(--green); }
+
 @media (max-width: 640px) {
   .topo-linha, .abas, .conteudo { padding-left: 16px; padding-right: 16px; }
   .marca-nome { display: none; }
