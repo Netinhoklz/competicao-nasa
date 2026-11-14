@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roça Certa — Mapa Cartográfico Nordeste & Ceará</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F3EC;
+    --surface: #FFFFFF;
+    --surface-2: #EFECE4;
+    --ink: #1C261E;
+    --ink-muted: #556358;
+    --border: #DFD9CC;
+    --green: #226B45;
+    --green-soft: #E3F1E9;
+    --amber: #C87A19;
+    --amber-soft: #FDF1DF;
+    --terra: #B8422C;
+    --terra-soft: #FBE8E4;
+    --blue: #236B8E;
+    --ocean: #DCEBF2;
+    --radius: 14px;
+    --shadow: 0 2px 10px rgba(28, 38, 30, 0.05);
+  }
+  body.dark {
+    --bg: #121814;
+    --surface: #1A231D;
+    --surface-2: #222E26;
+    --ink: #EEF2EE;
+    --ink-muted: #98A69B;
+    --border: #2C3A31;
+    --green: #38A169;
+    --green-soft: rgba(56, 161, 105, 0.16);
+    --amber: #E29B38;
+    --amber-soft: rgba(226, 155, 56, 0.16);
+    --terra: #E0634C;
+    --terra-soft: rgba(224, 99, 76, 0.16);
+    --blue: #4CA3CD;
+    --ocean: #15242B;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .topbar {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-badge {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--green);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .brand h1 { font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.1; }
+  .brand span { font-size: 11px; color: var(--ink-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  select, button.icon-btn {
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .time-machine {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .time-machine input[type="range"] { accent-color: var(--green); cursor: pointer; width: 120px; }
+
+  nav.tabs {
+    max-width: 1240px;
+    margin: 12px auto 0;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 7px 14px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .tab.active { background: var(--green); color: #fff; }
+  .tab.locked { opacity: 0.6; }
+
+  main { max-width: 1240px; margin: 20px auto; padding: 0 24px 48px; }
+  .banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--green);
+    border-radius: var(--radius);
+    padding: 15px 20px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow);
+  }
+  .banner.warn { border-left-color: var(--amber); }
+  .banner.crit { border-left-color: var(--terra); }
+  .banner h2 { font-family: 'Fraunces', serif; font-size: 18px; margin-bottom: 2px; }
+  .banner p { font-size: 13px; color: var(--ink-muted); }
+  .pill { padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 700; }
+  .pill.ok { background: var(--green-soft); color: var(--green); }
+  .pill.warn { background: var(--amber-soft); color: var(--amber); }
+  .pill.crit { background: var(--terra-soft); color: var(--terra); }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .kpi-label { font-size: 11.5px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .kpi-val { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; margin: 4px 0; }
+  .kpi-sub { font-size: 12px; color: var(--ink-muted); }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.2fr 1.15fr;
+    gap: 18px;
+  }
+  @media (max-width: 920px) { .grid-2 { grid-template-columns: 1fr; } }
+  .card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card-title { font-family: 'Fraunces', serif; font-size: 17px; margin-bottom: 2px; }
+  .card-desc { font-size: 12px; color: var(--ink-muted); }
+
+  .seg-group {
+    display: inline-flex;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 3px;
+  }
+  .seg-btn {
+    border: none;
+    background: transparent;
+    color: var(--ink-muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .seg-btn.active { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+  /* Map Canvas / SVG Stage */
+  .map-stage {
+    position: relative;
+    background: var(--ocean);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 390px;
+  }
+  #geoSvg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .state-poly {
+    stroke: var(--border);
+    stroke-width: 1;
+    transition: fill 0.2s, opacity 0.2s;
+    cursor: pointer;
+  }
+  .state-poly:hover { opacity: 0.88; }
+  .ce-highlight {
+    stroke: var(--ink);
+    stroke-width: 1.8;
+  }
+  .tooltip-box {
+    position: absolute;
+    pointer-events: none;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transition: opacity 0.12s;
+    z-index: 10;
+  }
+  .zoom-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-muted);
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 10px;
+  }
+  .legend-items { display: flex; gap: 12px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+  .bucket-bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+  .bucket-fill { height: 100%; background: var(--blue); border-radius: 99px; transition: width 0.25s; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-badge">RC</div>
+      <div>
+        <h1>Roça Certa</h1>
+        <span>Nordeste & Ceará · Quadra Chuvosa 2027</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <select id="muniSelect" aria-label="Município">
+        <option value="quixeramobim">Quixeramobim — CE (Sertão Central)</option>
+        <option value="sobral">Sobral — CE (Norte / Acaraú)</option>
+        <option value="iguatu">Iguatu — CE (Centro-Sul)</option>
+        <option value="taua">Tauá — CE (Inhamuns)</option>
+        <option value="crateus">Crateús — CE (Sertões)</option>
+        <option value="juazeiro">Juazeiro do Norte — CE (Cariri)</option>
+        <option value="petrolina">Petrolina — PE (Submédio São Francisco)</option>
+        <option value="mossoro">Mossoró — RN (Oeste Potiguar)</option>
+        <option value="picos">Picos — PI (Semiárido Piauiense)</option>
+      </select>
+
+      <div class="time-machine">
+        <span>⏳ Data:</span>
+        <input type="range" id="daySlider" min="15" max="120" value="68">
+        <span id="dateLabel">09 Mar 2027</span>
+      </div>
+
+      <button class="icon-btn" id="themeBtn" title="Alternar tema">🌓</button>
+    </div>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab active">1. Inverno 2027</button>
+    <button class="tab locked">2. Plantar</button>
+    <button class="tab locked">3. Veranico</button>
+    <button class="tab locked">4. Roçado</button>
+    <button class="tab locked">5. Alerta</button>
+    <button class="tab locked">6. Entressafra</button>
+  </nav>
+</header>
+
+<main>
+  <div class="banner" id="statusBanner">
+    <div>
+      <h2 id="bannerTitle">Quixeramobim (CE): Solo com boa reserva hídrica</h2>
+      <p id="bannerSub">Chuva acumulada 12% acima da média histórica para o início de março.</p>
+    </div>
+    <span class="pill ok" id="bannerPill">Cenário Favorável</span>
+  </div>
+
+  <div class="kpis">
+    <div class="card">
+      <div class="kpi-label">Chuva Acumulada (Jan–Atual)</div>
+      <div class="kpi-val" id="kpiRain">248 mm</div>
+      <div class="kpi-sub" id="kpiRainSub">Média histórica: 221 mm (+12%)</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Balde de Umidade do Solo</div>
+      <div class="kpi-val" id="kpiSoil">74%</div>
+      <div class="bucket-bar"><div class="bucket-fill" id="soilFill" style="width:74%"></div></div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Dias Consecutivos sem Chuva</div>
+      <div class="kpi-val" id="kpiDry">3 dias</div>
+      <div class="kpi-sub" id="kpiDrySub">Dentro da janela de tolerância</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Risco de Estresse Hídrico</div>
+      <div class="kpi-val" id="kpiRisk">Baixo</div>
+      <div class="kpi-sub" id="kpiRiskSub">Índice Agro-Stress: 0.21 / 1.00</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- MAPA GEOGRÁFICO EXATO (NORDESTE + ZOOM CEARÁ) -->
+    <div class="card">
+      <div class="card-header-row">
+        <div>
+          <div class="card-title" id="mapTitle">Mapa Hidrometeorológico — Nordeste</div>
+          <div class="card-desc" id="mapDesc">Coordenadas reais (WGS84) · Clique nos polos ou alterne o enquadramento</div>
+        </div>
+        <div class="seg-group">
+          <button class="seg-btn active" id="btnViewNE" onclick="setZoom('ne')">Nordeste</button>
+          <button class="seg-btn" id="btnViewCE" onclick="setZoom('ce')">Zoom Ceará</button>
+        </div>
+      </div>
+
+      <div class="map-stage" id="mapStage">
+        <div class="zoom-badge" id="coordBadge">Projeção WGS84 · 9 Estados NE</div>
+        <div class="tooltip-box" id="mapTooltip"></div>
+        <svg id="geoSvg" viewBox="0 0 520 420" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+
+      <div class="legend">
+        <div class="legend-items">
+          <span><i class="dot" style="background:var(--green)"></i>Adequado</span>
+          <span><i class="dot" style="background:var(--amber)"></i>Atenção</span>
+          <span><i class="dot" style="background:var(--terra)"></i>Déficit</span>
+        </div>
+        <span style="font-size:11px;">Malha IBGE simplificada · Carregamento &lt; 5ms</span>
+      </div>
+    </div>
+
+    <!-- GRÁFICO PLUVIOMÉTRICO -->
+    <div class="card">
+      <div class="card-title">Evolução da Chuva vs. Climatologia (2027)</div>
+      <div class="card-desc">Acumulado por decêndio (períodos de 10 dias) desde 1º de janeiro</div>
+      <svg id="rainChart" viewBox="0 0 540 275" style="width:100%; height:auto;"></svg>
+      <div style="display:flex; gap:16px; font-size:12px; color:var(--ink-muted); margin-top:8px;">
+        <span><i class="dot" style="background:var(--green)"></i>Chuva observada 2027 (mm)</span>
+        <span><i class="dot" style="background:var(--amber)"></i>Média histórica (mm)</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// 1. MALHA GEOGRÁFICA REAL (Coordenadas [Longitude, Latitude] WGS84 simplificadas do IBGE - ultraleve e instantânea)
+const NE_STATES = [
+  {
+    id: "MA", name: "Maranhão", soil: 82,
+    coords: [[-44.3,-2.5],[-42.8,-2.7],[-41.8,-2.9],[-42.2,-4.3],[-43.0,-5.6],[-44.1,-6.7],[-45.8,-7.5],[-46.6,-9.3],[-47.6,-7.8],[-48.6,-5.5],[-47.4,-4.2],[-46.5,-1.5],[-44.8,-1.6],[-44.3,-2.5]]
+  },
+  {
+    id: "PI", name: "Piauí", soil: 56,
+    coords: [[-41.8,-2.9],[-41.2,-3.3],[-40.9,-4.9],[-40.6,-6.8],[-41.2,-8.2],[-42.5,-9.5],[-44.2,-10.8],[-45.9,-10.7],[-45.8,-7.5],[-44.1,-6.7],[-43.0,-5.6],[-42.2,-4.3],[-41.8,-2.9]]
+  },
+  {
+    id: "CE", name: "Ceará", soil: 68, isCeara: true,
+    coords: [[-41.2,-2.9],[-40.1,-2.8],[-39.0,-3.2],[-38.5,-3.7],[-37.3,-4.8],[-37.9,-5.8],[-38.4,-6.8],[-38.6,-7.7],[-39.5,-7.8],[-40.5,-7.3],[-40.6,-6.8],[-40.9,-4.9],[-41.2,-3.3],[-41.2,-2.9]]
+  },
+  {
+    id: "RN", name: "Rio Grande do Norte", soil: 61,
+    coords: [[-37.3,-4.8],[-36.1,-5.1],[-35.2,-5.4],[-35.0,-6.5],[-36.4,-6.9],[-37.8,-6.5],[-38.4,-6.3],[-37.9,-5.8],[-37.3,-4.8]]
+  },
+  {
+    id: "PB", name: "Paraíba", soil: 58,
+    coords: [[-38.4,-6.3],[-37.8,-6.5],[-36.4,-6.9],[-35.0,-6.5],[-34.8,-7.5],[-36.5,-7.8],[-37.6,-7.6],[-38.6,-7.4],[-38.4,-6.8],[-38.4,-6.3]]
+  },
+  {
+    id: "PE", name: "Pernambuco", soil: 51,
+    coords: [[-40.5,-7.3],[-39.5,-7.8],[-38.6,-7.7],[-38.6,-7.4],[-37.6,-7.6],[-36.5,-7.8],[-34.8,-7.5],[-35.1,-8.9],[-36.8,-9.2],[-38.2,-9.4],[-39.6,-8.8],[-40.8,-9.4],[-41.2,-8.2],[-40.6,-6.8],[-40.5,-7.3]]
+  },
+  {
+    id: "AL", name: "Alagoas", soil: 69,
+    coords: [[-38.2,-9.4],[-36.8,-9.2],[-35.1,-8.9],[-35.7,-9.8],[-36.5,-10.5],[-37.9,-9.7],[-38.2,-9.4]]
+  },
+  {
+    id: "SE", name: "Sergipe", soil: 72,
+    coords: [[-37.9,-9.7],[-36.5,-10.5],[-37.3,-11.5],[-38.1,-11.2],[-38.0,-10.2],[-37.9,-9.7]]
+  },
+  {
+    id: "BA", name: "Bahia", soil: 49,
+    coords: [[-45.9,-10.7],[-44.2,-10.8],[-42.5,-9.5],[-41.2,-8.2],[-40.8,-9.4],[-39.6,-8.8],[-38.2,-9.4],[-37.9,-9.7],[-38.0,-10.2],[-38.1,-11.2],[-37.3,-11.5],[-38.5,-13.0],[-39.0,-15.5],[-39.2,-18.2],[-41.5,-17.8],[-43.8,-15.0],[-46.2,-14.5],[-46.5,-11.8],[-45.9,-10.7]]
+  }
+];
+
+// Polígono oficial aproximado do Semiárido Brasileiro (SUDENE)
+const SEMIARIDO_COORDS = [
+  [-41.5,-3.6],[-38.8,-4.2],[-36.2,-5.6],[-35.8,-7.4],[-36.6,-9.0],[-38.6,-10.4],[-39.8,-13.6],[-42.6,-15.8],[-44.2,-13.8],[-42.8,-9.8],[-41.9,-6.8],[-41.5,-3.6]
+];
+
+// Polos monitorados com Latitude/Longitude exatas
+const MUNICIPIOS = {
+  quixeramobim: { name: "Quixeramobim", uf: "CE", region: "Sertão Central", lon: -39.29, lat: -5.19, baseRain: 248, hist: 221, soil: 74, dry: 3, series: [18, 32, 24, 48, 55, 42, 29, 36, 44, 38, 22, 15] },
+  sobral:       { name: "Sobral",       uf: "CE", region: "Norte / Acaraú", lon: -40.35, lat: -3.68, baseRain: 340, hist: 310, soil: 86, dry: 1, series: [25, 44, 52, 68, 74, 45, 32, 48, 55, 40, 28, 18] },
+  iguatu:       { name: "Iguatu",       uf: "CE", region: "Centro-Sul",     lon: -39.29, lat: -6.36, baseRain: 215, hist: 240, soil: 52, dry: 8, series: [22, 28, 19, 35, 40, 28, 15, 18, 30, 25, 14, 10] },
+  taua:         { name: "Tauá",         uf: "CE", region: "Inhamuns",       lon: -40.29, lat: -6.00, baseRain: 142, hist: 195, soil: 31, dry: 14, series: [12, 18, 10, 22, 28, 16, 8,  10, 18, 14, 9,  6] },
+  crateus:      { name: "Crateús",      uf: "CE", region: "Sertões",        lon: -40.67, lat: -5.17, baseRain: 190, hist: 210, soil: 48, dry: 9, series: [15, 24, 20, 32, 38, 22, 14, 20, 26, 19, 12, 8] },
+  juazeiro:     { name: "Juazeiro do Norte", uf: "CE", region: "Cariri",    lon: -39.31, lat: -7.21, baseRain: 295, hist: 270, soil: 79, dry: 2, series: [34, 42, 38, 52, 48, 36, 25, 30, 35, 28, 20, 14] },
+  petrolina:    { name: "Petrolina",    uf: "PE", region: "São Francisco",  lon: -40.50, lat: -9.38, baseRain: 165, hist: 205, soil: 38, dry: 12, series: [14, 20, 16, 25, 24, 18, 10, 12, 16, 14, 8,  6] },
+  mossoro:      { name: "Mossoró",      uf: "RN", region: "Oeste Potiguar", lon: -37.34, lat: -5.18, baseRain: 210, hist: 225, soil: 58, dry: 6, series: [16, 26, 22, 36, 42, 28, 18, 22, 28, 22, 14, 10] },
+  picos:        { name: "Picos",        uf: "PI", region: "Semiárido PI",   lon: -41.46, lat: -7.07, baseRain: 185, hist: 215, soil: 45, dry: 9, series: [18, 24, 20, 30, 34, 22, 12, 16, 22, 18, 11, 7] }
+};
+
+const HIST_SERIES = [20, 26, 30, 38, 44, 40, 34, 36, 38, 32, 24, 16];
+const LABELS = ["Jan 1", "Jan 2", "Jan 3", "Fev 1", "Fev 2", "Fev 3", "Mar 1", "Mar 2", "Mar 3", "Abr 1", "Abr 2", "Abr 3"];
+
+let currentMuni = "quixeramobim";
+let currentDay = 68;
+let zoomMode = "ne"; // "ne" = Nordeste completo, "ce" = Foco Ceará
+
+// 2. PROJEÇÃO CARTOGRÁFICA INSTANTÂNEA (Lat/Lon -> SVG X/Y sem dependências externas)
+const BOUNDS = {
+  ne: { minLon: -49.2, maxLon: -34.0, minLat: -18.8, maxLat: -1.0 },
+  ce: { minLon: -42.0, maxLon: -36.8, minLat: -8.3,  maxLat: -2.4 }
+};
+
+function project(lon, lat, mode) {
+  const b = BOUNDS[mode];
+  const W = 520, H = 420, pad = 22;
+  const x = pad + ((lon - b.minLon) / (b.maxLon - b.minLon)) * (W - pad * 2);
+  const y = pad + ((b.maxLat - lat) / (b.maxLat - b.minLat)) * (H - pad * 2);
+  return [Number(x.toFixed(1)), Number(y.toFixed(1))];
+}
+
+function coordsToPath(coords, mode) {
+  return coords.map((pt, idx) => {
+    const [x, y] = project(pt[0], pt[1], mode);
+    return `${idx === 0 ? "M" : "L"}${x},${y}`;
+  }).join(" ") + " Z";
+}
+
+function setZoom(mode) {
+  zoomMode = mode;
+  document.getElementById("btnViewNE").classList.toggle("active", mode === "ne");
+  document.getElementById("btnViewCE").classList.toggle("active", mode === "ce");
+  document.getElementById("mapTitle").textContent = mode === "ne"
+    ? "Mapa Hidrometeorológico — Nordeste"
+    : "Detalhe Cartográfico — Estado do Ceará";
+  document.getElementById("coordBadge").textContent = mode === "ne"
+    ? "WGS84 · Nordeste (1°S–18°S)"
+    : "WGS84 · Ceará (2.7°S–7.9°S)";
+  render();
+}
+
+function selectMuni(key) {
+  currentMuni = key;
+  document.getElementById("muniSelect").value = key;
+  render();
+}
+
+function dayToDateStr(dayOfYear) {
+  const d = new Date(2027, 0, dayOfYear);
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).replace(".", "");
+}
+
+function getSoilForDay(baseSoil, day) {
+  return Math.max(12, Math.min(98, Math.round(baseSoil + Math.sin(day / 9) * 10)));
+}
+
+function getStatus(soil) {
+  if (soil >= 65) return { cls: "ok", label: "Cenário Favorável", color: "var(--green)", risk: "Baixo", score: "0.21" };
+  if (soil >= 42) return { cls: "warn", label: "Atenção (Veranico)", color: "var(--amber)", risk: "Moderado", score: "0.54" };
+  return { cls: "crit", label: "Déficit Hídrico", color: "var(--terra)", risk: "Alto", score: "0.83" };
+}
+
+function render() {
+  const m = MUNICIPIOS[currentMuni];
+  const factor = currentDay / 68;
+  const rain = Math.round(m.baseRain * factor);
+  const hist = Math.round(m.hist * factor);
+  const diffPct = Math.round(((rain - hist) / hist) * 100);
+  const soil = getSoilForDay(m.soil, currentDay);
+  const dry = Math.max(0, Math.round(m.dry + (soil < 50 ? 4 : -1)));
+  const st = getStatus(soil);
+
+  document.getElementById("dateLabel").textContent = dayToDateStr(currentDay);
+  const banner = document.getElementById("statusBanner");
+  banner.className = "banner " + (st.cls === "ok" ? "" : st.cls);
+  document.getElementById("bannerTitle").textContent = `${m.name} (${m.uf} · ${m.region}): ${soil >= 65 ? "Solo com boa reserva hídrica" : soil >= 42 ? "Umidade em queda — monitorar estiagem" : "Estresse hídrico severo na lavoura"}`;
+  document.getElementById("bannerSub").textContent = `Chuva acumulada ${Math.abs(diffPct)}% ${diffPct >= 0 ? "acima" : "abaixo"} da média histórica até ${dayToDateStr(currentDay)}.`;
+  const pill = document.getElementById("bannerPill");
+  pill.className = "pill " + st.cls;
+  pill.textContent = st.label;
+
+  document.getElementById("kpiRain").textContent = `${rain} mm`;
+  document.getElementById("kpiRainSub").textContent = `Média histórica: ${hist} mm (${diffPct >= 0 ? "+" : ""}${diffPct}%)`;
+  document.getElementById("kpiSoil").textContent = `${soil}%`;
+  const fill = document.getElementById("soilFill");
+  fill.style.width = `${soil}%`;
+  fill.style.background = st.color;
+  document.getElementById("kpiDry").textContent = `${dry} dias`;
+  document.getElementById("kpiDrySub").textContent = dry > 10 ? "Acima do limite crítico" : "Dentro da janela de tolerância";
+  document.getElementById("kpiRisk").textContent = st.risk;
+  document.getElementById("kpiRisk").style.color = st.color;
+  document.getElementById("kpiRiskSub").textContent = `Índice Agro-Stress: ${st.score} / 1.00`;
+
+  renderGeoMap();
+  renderChart(m);
+}
+
+function renderGeoMap() {
+  const svg = document.getElementById("geoSvg");
+  const tooltip = document.getElementById("mapTooltip");
+  let out = "";
+
+  // Grade cartográfica leve (Paralelos e Meridianos)
+  [-4, -8, -12, -16].forEach(lat => {
+    const [, y] = project(-40, lat, zoomMode);
+    if (y > 10 && y < 410) {
+      out += `<line x1="0" y1="${y}" x2="520" y2="${y}" stroke="var(--blue)" stroke-opacity="0.14" stroke-dasharray="3 3"/>`;
+      out += `<text x="492" y="${y - 3}" font-size="9" fill="var(--blue)" opacity="0.6">${Math.abs(lat)}°S</text>`;
+    }
+  });
+
+  // Faixa da ZCIT (Zona de Convergência Intertropical)
+  const zcitLat = -1.8 - Math.sin((currentDay / 120) * Math.PI) * 2.4;
+  const [zx1, zy1] = project(-49, zcitLat, zoomMode);
+  const [zx2, zy2] = project(-34, zcitLat - 0.5, zoomMode);
+  if (zy1 > 0 && zy1 < 420) {
+    out += `<line x1="${zx1}" y1="${zy1}" x2="${zx2}" y2="${zy2}" stroke="var(--blue)" stroke-width="10" stroke-opacity="0.15"/>`;
+    out += `<line x1="${zx1}" y1="${zy1}" x2="${zx2}" y2="${zy2}" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+    out += `<text x="275" y="${zy1 - 6}" font-size="9.5" font-weight="700" fill="var(--blue)">ZCIT (${Math.abs(zcitLat).toFixed(1)}°S)</text>`;
+  }
+
+  // Estados do Nordeste
+  NE_STATES.forEach(stObj => {
+    const sSoil = getSoilForDay(stObj.soil, currentDay);
+    const stInfo = getStatus(sSoil);
+    const d = coordsToPath(stObj.coords, zoomMode);
+    const isCE = stObj.isCeara;
+    out += `<path d="${d}" class="state-poly ${isCE ? "ce-highlight" : ""}"
+                  fill="${stInfo.color}" fill-opacity="${isCE ? "0.34" : "0.18"}"
+                  data-label="${stObj.name} (${stObj.id}) · Umidade média: ${sSoil}%"
+                  onclick="${isCE ? "setZoom('ce')" : "setZoom('ne')"}" />`;
+  });
+
+  // Contorno do Semiárido Brasileiro
+  const semiD = coordsToPath(SEMIARIDO_COORDS, zoomMode);
+  out += `<path d="${semiD}" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="4 3" pointer-events="none"/>`;
+
+  // Siglas dos estados no modo Nordeste
+  if (zoomMode === "ne") {
+    const labelPos = [
+      ["MA", -45.2, -5.0], ["PI", -42.6, -7.2], ["CE", -39.4, -5.3],
+      ["RN", -36.5, -5.8], ["PB", -36.7, -7.2], ["PE", -37.8, -8.4],
+      ["AL", -36.5, -9.6], ["SE", -37.4, -10.6], ["BA", -41.6, -12.6]
+    ];
+    labelPos.forEach(([uf, lon, lat]) => {
+      const [x, y] = project(lon, lat, zoomMode);
+      out += `<text x="${x}" y="${y}" text-anchor="middle" font-size="${uf === "CE" ? "11" : "9.5"}" font-weight="800" fill="var(--ink)" opacity="${uf === "CE" ? "0.95" : "0.45"}" pointer-events="none">${uf}</text>`;
+    });
+  }
+
+  // Polos monitorados (Lat/Lon exatas)
+  Object.entries(MUNICIPIOS).forEach(([key, info]) => {
+    if (zoomMode === "ce" && info.uf !== "CE") return;
+    const [x, y] = project(info.lon, info.lat, zoomMode);
+    const soilAdj = getSoilForDay(info.soil, currentDay);
+    const st = getStatus(soilAdj);
+    const active = key === currentMuni;
+
+    out += `<g style="cursor:pointer" onclick="selectMuni('${key}')"
+               data-label="${info.name} (${info.uf}) · Solo: ${soilAdj}% · ${Math.abs(info.lat).toFixed(2)}°S, ${Math.abs(info.lon).toFixed(2)}°W">`;
+    if (active) {
+      out += `<circle cx="${x}" cy="${y}" r="14" fill="${st.color}" fill-opacity="0.28"/>`;
+    }
+    out += `<circle cx="${x}" cy="${y}" r="${active ? 7 : 5}" fill="${st.color}" stroke="#fff" stroke-width="1.8"/>`;
+    if (zoomMode === "ce" || active || info.uf !== "CE") {
+      out += `<text x="${x + 9}" y="${y + 3.5}" font-size="${active ? "11" : "9.5"}" font-weight="${active ? "700" : "600"}" fill="var(--ink)">${info.name}</text>`;
+    }
+    out += `</g>`;
+  });
+
+  svg.innerHTML = out;
+
+  // Tooltip leve ao passar o mouse
+  svg.querySelectorAll("[data-label]").forEach(el => {
+    el.addEventListener("mousemove", e => {
+      const rect = document.getElementById("mapStage").getBoundingClientRect();
+      tooltip.style.opacity = "1";
+      tooltip.textContent = el.getAttribute("data-label");
+      tooltip.style.left = Math.min(rect.width - 210, e.clientX - rect.left + 12) + "px";
+      tooltip.style.top = Math.max(8, e.clientY - rect.top - 28) + "px";
+    });
+    el.addEventListener("mouseleave", () => { tooltip.style.opacity = "0"; });
+  });
+}
+
+function renderChart(m) {
+  const svg = document.getElementById("rainChart");
+  const activeBins = Math.min(12, Math.max(2, Math.ceil(currentDay / 10)));
+  const maxVal = 85;
+  const w = 540, h = 260, padL = 34, padB = 28, padT = 16;
+  const plotW = w - padL - 12;
+  const plotH = h - padB - padT;
+  const step = plotW / 12;
+
+  let html = "";
+  [0, 25, 50, 75].forEach(val => {
+    const y = padT + plotH - (val / maxVal) * plotH;
+    html += `<line x1="${padL}" y1="${y}" x2="${w - 10}" y2="${y}" stroke="var(--border)" stroke-dasharray="3 3"/>`;
+    html += `<text x="${padL - 6}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--ink-muted)">${val}</text>`;
+  });
+
+  let linePts = [];
+  for (let i = 0; i < 12; i++) {
+    const x = padL + i * step + 6;
+    const bw = step - 14;
+    const val = m.series[i];
+    const barH = (val / maxVal) * plotH;
+    const y = padT + plotH - barH;
+    const isPast = i < activeBins;
+
+    html += `<rect x="${x}" y="${y}" width="${bw}" height="${barH}" rx="4" fill="${isPast ? "var(--green)" : "var(--border)"}" fill-opacity="${isPast ? "0.85" : "0.35"}"/>`;
+    html += `<text x="${x + bw / 2}" y="${h - 8}" text-anchor="middle" font-size="9.5" fill="var(--ink-muted)">${LABELS[i]}</text>`;
+
+    const hx = x + bw / 2;
+    const hy = padT + plotH - (HIST_SERIES[i] / maxVal) * plotH;
+    linePts.push(`${hx},${hy}`);
+  }
+
+  html += `<polyline fill="none" stroke="var(--amber)" stroke-width="2.5" points="${linePts.join(" ")}"/>`;
+  svg.innerHTML = html;
+}
+
+document.getElementById("muniSelect").addEventListener("change", e => selectMuni(e.target.value));
+document.getElementById("daySlider").addEventListener("input", e => { currentDay = Number(e.target.value); render(); });
+document.getElementById("themeBtn").addEventListener("click", () => document.body.classList.toggle("dark"));
+
+render();
+</script>
+</body>
+</html>

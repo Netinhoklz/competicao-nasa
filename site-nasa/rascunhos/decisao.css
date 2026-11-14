@@ -1,0 +1,401 @@
+/* ══════════════════════════════════════════════════
+   decisao.css — Drawer de Decisão de Plantio
+   QUADRA · NASA Space Apps 2026
+   ══════════════════════════════════════════════════ */
+
+/* ── Botão no painel ───────────────────────────── */
+.pn-acao {
+  text-align: center;
+  padding: 14px 0 2px;
+  border-top: 1px solid var(--line);
+}
+.botao-decisao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 13px/1 var(--font);
+  color: var(--accent);
+  border: 1px solid rgba(156,194,255,.3);
+  background: rgba(156,194,255,.07);
+  border-radius: 8px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.botao-decisao:hover {
+  background: rgba(156,194,255,.14);
+  border-color: rgba(156,194,255,.5);
+}
+.botao-decisao svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Overlay e drawer ──────────────────────────── */
+.decisao-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.decisao-overlay.visivel {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.decisao-drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 21;
+  max-height: 82vh;
+  background: rgba(6,8,14,.96);
+  border: 1px solid var(--line);
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform .35s cubic-bezier(0.22,0.7,0.2,1);
+  overflow: hidden;
+}
+.decisao-drawer.visivel {
+  transform: translateY(0);
+}
+
+.decisao-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+.decisao-titulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.decisao-subtitulo {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+}
+.decisao-fechar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+}
+.decisao-fechar:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.decisao-corpo {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0 24px 32px;
+  scroll-padding-top: 16px;
+}
+.decisao-corpo::-webkit-scrollbar { width: 4px; }
+.decisao-corpo::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 2px;
+}
+
+/* ── Banner de alerta ──────────────────────────── */
+.dec-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin: 16px 0;
+  border-left: 3px solid currentColor;
+}
+.dec-banner-favoravel { background: rgba(107,203,119,.1);  color: #6bcb77; }
+.dec-banner-medio     { background: rgba(255,217,61,.08);  color: #ffd93d; }
+.dec-banner-alto      { background: rgba(255,107,107,.1);  color: #ff6b6b; }
+
+.dec-banner-icone {
+  font-size: 22px;
+  line-height: 1;
+  flex: none;
+  margin-top: 1px;
+}
+.dec-banner-titulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 3px;
+}
+.dec-banner-motivo {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Seções ────────────────────────────────────── */
+.dec-secao { margin: 24px 0 0; }
+.dec-secao-titulo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ── Calendário ────────────────────────────────── */
+.dec-calendario-wrap { margin: 0 0 8px; }
+.dec-calendario-svg  { width: 100%; height: auto; display: block; overflow: visible; }
+.dec-calendario-svg text { font-family: var(--mono); font-size: 10px; fill: var(--ink-3); }
+.dec-calendario-svg .cal-mes        { fill: rgba(255,255,255,.04); }
+.dec-calendario-svg .cal-hoje       { fill: rgba(156,194,255,.12); }
+.dec-calendario-svg .cal-semeadura  { fill: rgba(107,203,119,.35); }
+.dec-calendario-svg .cal-crescimento{ fill: rgba(156,194,255,.2);  }
+.dec-calendario-svg .cal-colheita   { fill: rgba(242,166,90,.25);  }
+
+.dec-calendario-legenda {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+.dec-cal-leg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.dec-cal-leg i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+.dec-cal-leg-s i { background: rgba(107,203,119,.5); }
+.dec-cal-leg-c i { background: rgba(156,194,255,.4); }
+.dec-cal-leg-h i { background: rgba(242,166,90,.5);  }
+
+.dec-regra {
+  font-size: 12px;
+  color: var(--ink-2);
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.04);
+  border-radius: 8px;
+  border-left: 2px solid var(--accent);
+}
+
+/* ── Tabela de culturas ────────────────────────── */
+.dec-culturas { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dec-culturas th {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-align: left;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+.dec-culturas td {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  vertical-align: middle;
+}
+.dec-culturas td:first-child { font-weight: 500; }
+.dec-culturas td:not(:first-child) { padding-left: 12px; }
+
+.dec-risco {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.dec-risco-baixo { background: rgba(107,203,119,.12); color: #6bcb77; }
+.dec-risco-medio { background: rgba(255,217,61,.1);   color: #ffd93d; }
+.dec-risco-alto  { background: rgba(255,107,107,.12); color: #ff6b6b; }
+
+.dec-estrelas { letter-spacing: .05em; font-size: 14px; }
+.dec-nota { font-size: 11px; color: var(--ink-3); margin: 2px 0 0; }
+
+/* ── Previsão de rendimento ────────────────────── */
+.dec-previsao-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 4px 0;
+}
+.dec-prev-bloco {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.dec-prev-cultura {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin: 0 0 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.dec-prev-numero {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+.dec-prev-numero small {
+  font-size: .5em;
+  font-weight: 400;
+  color: var(--ink-3);
+  letter-spacing: 0;
+}
+.dec-prev-positivo { color: #6bcb77; }
+.dec-prev-negativo { color: #ff6b6b; }
+.dec-prev-neutro   { color: var(--ink); }
+
+.dec-prev-intervalo {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin: 4px 0 0;
+}
+.dec-prev-barra-wrap { margin: 10px 0 0; }
+.dec-prev-barra-trilho {
+  height: 4px;
+  background: rgba(255,255,255,.1);
+  border-radius: 2px;
+  position: relative;
+  overflow: visible;
+}
+.dec-prev-barra-fill {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  position: absolute;
+}
+.dec-prev-barra-ponto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  top: -2px;
+  transform: translateX(-50%);
+}
+.dec-prev-indisponivel {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+.dec-prev-fonte {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+details.dec-como { margin-top: 12px; }
+details.dec-como summary {
+  font-size: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+details.dec-como summary::before { content: 'ⓘ'; font-style: normal; }
+details.dec-como p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  padding: 10px;
+  background: rgba(255,255,255,.04);
+  border-radius: 8px;
+}
+
+/* ── Análogos ──────────────────────────────────── */
+.dec-analogos-grade {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  margin: 4px 0;
+}
+.dec-analogo {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+}
+.dec-analogo-b b    { font-size: 13px; font-weight: 600; display: block; margin: 0 0 2px; }
+.dec-analogo-b span { font-size: 11px; color: var(--ink-3); display: block; margin: 0 0 6px; }
+
+.dec-analogo-badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+.dec-analogo-seco   .dec-analogo-badge { background: rgba(242,166,90,.15);  color: #f2a65a; }
+.dec-analogo-normal .dec-analogo-badge { background: rgba(107,203,119,.12); color: #6bcb77; }
+
+.dec-analogos-nota {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin: 8px 0 0;
+}
+
+/* ── Rodapé de ações ───────────────────────────── */
+.dec-rodape {
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  flex: none;
+}
+.dec-fonte {
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+/* ── Responsivo ────────────────────────────────── */
+@media (max-width: 600px) {
+  .decisao-corpo     { padding: 0 16px 24px; }
+  .decisao-cabecalho { padding: 16px 16px 12px; }
+  .dec-previsao-grade  { grid-template-columns: 1fr; }
+  .dec-analogos-grade  { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decisao-drawer,
+  .decisao-overlay { transition: none; }
+}

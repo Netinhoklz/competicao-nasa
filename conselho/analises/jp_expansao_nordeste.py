@@ -47,36 +47,37 @@ def baixar_pam_estados() -> pl.DataFrame:
     return df
 
 
-def anomalia_rendimento(pam: pl.DataFrame) -> pl.DataFrame:
+def anomalia_rendimento(pam: pl.DataFrame, chave: str = "uf") -> pl.DataFrame:
     """log(rendimento / mediana movel centrada de 7 anos): tira a tendencia tecnologica."""
-    return (pam.sort(["uf", "cultura", "ano"])
-            .with_columns(pl.col("rend").rolling_median(7, center=True, min_samples=4).over(["uf", "cultura"])
+    return (pam.sort([chave, "cultura", "ano"])
+            .with_columns(pl.col("rend").rolling_median(7, center=True, min_samples=4).over([chave, "cultura"])
                           .alias("tend"))
             .with_columns((pl.col("rend") / pl.col("tend")).log().alias("anom"))
             .filter(pl.col("anom").is_finite()))
 
 
-def estacao_chuvosa(chuva: pl.DataFrame) -> pl.DataFrame:
-    """Para cada estado: mes inicial da janela de 4 meses consecutivos com mais chuva na climatologia."""
-    clim = chuva.group_by(["uf", "mes"]).agg(pl.col("valor").mean().alias("p"))
+def estacao_chuvosa(chuva: pl.DataFrame, chave: str = "uf") -> pl.DataFrame:
+    """Para cada estado (ou municipio, conforme `chave`): mes inicial da janela de 4 meses consecutivos
+    com mais chuva na climatologia."""
+    clim = chuva.group_by([chave, "mes"]).agg(pl.col("valor").mean().alias("p"))
     janelas = (clim.join(pl.DataFrame({"ini": list(range(1, 13))}), how="cross")
                .filter(((pl.col("mes") - pl.col("ini")) % 12) < 4)
-               .group_by(["uf", "ini"]).agg(pl.col("p").sum().alias("p4")))
-    anual = clim.group_by("uf").agg(pl.col("p").sum().alias("p_ano"))
-    return (janelas.sort("p4", descending=True).group_by("uf", maintain_order=True).first()
-            .join(anual, on="uf").with_columns((pl.col("p4") / pl.col("p_ano")).alias("frac_na_estacao")))
+               .group_by([chave, "ini"]).agg(pl.col("p").sum().alias("p4")))
+    anual = clim.group_by(chave).agg(pl.col("p").sum().alias("p_ano"))
+    return (janelas.sort("p4", descending=True).group_by(chave, maintain_order=True).first()
+            .join(anual, on=chave).with_columns((pl.col("p4") / pl.col("p_ano")).alias("frac_na_estacao")))
 
 
-def soma_estacao(serie: pl.DataFrame, est: pl.DataFrame, agg: str = "sum") -> pl.DataFrame:
+def soma_estacao(serie: pl.DataFrame, est: pl.DataFrame, agg: str = "sum", chave: str = "uf") -> pl.DataFrame:
     """Agrega a serie mensal na estacao de cada estado. O ano da estacao e o ano em que ela termina
     (ex.: estacao nov-fev de 2011/12 conta como 2012, ano da colheita)."""
-    s = (serie.join(est.select("uf", "ini"), on="uf")
+    s = (serie.join(est.select(chave, "ini"), on=chave)
          .with_columns(((pl.col("mes") - pl.col("ini")) % 12).alias("k"))
          .filter(pl.col("k") < 4)
          .with_columns((pl.col("ano") + ((pl.col("ini") + 3) > 12).cast(pl.Int32)
                         * (pl.col("mes") >= pl.col("ini")).cast(pl.Int32)).alias("ano_est")))
     e = pl.col("valor").sum() if agg == "sum" else pl.col("valor").mean()
-    return s.group_by(["uf", "ano_est"]).agg(e.alias("x"), pl.len().alias("n")).filter(pl.col("n") == 4).drop("n")
+    return s.group_by([chave, "ano_est"]).agg(e.alias("x"), pl.len().alias("n")).filter(pl.col("n") == 4).drop("n")
 
 
 def spearman(df: pl.DataFrame, a: str, b: str, por: list[str]) -> pl.DataFrame:

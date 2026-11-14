@@ -14,6 +14,7 @@ culturas com dados da NASA. O produto é pensado para funcionar no mundo todo, c
 | `proposta/` | Proposta para a competição (conselho de 10 especialistas): rascunho, versão final e ata |
 | `conselho/analises/` | Análises feitas pelos especialistas durante o debate |
 | `dados_resumo/derivados/` | Séries mensais tratadas (Ceará, Nordeste, AOIs) usadas para cruzar as bases |
+| `interface-nordeste-jp/` | Página do agricultor para o Nordeste (mapa dos 1.794 municípios: El Niño, chuva × safra, solo). Abra `index.html`; regerar com `python conselho/analises/jp_nordeste_municipios.py` e `python interface-nordeste-jp/scripts/montar_pagina.py` |
 | `dados_resumo/manifestos/` | `MANIFESTO.json` de cada base: fonte, URL, recorte, período e arquivos |
 
 ## MVP "Agro-Stress Test" (condado piloto nos EUA)

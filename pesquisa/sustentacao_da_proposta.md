@@ -54,7 +54,38 @@ Limites desta análise:
 - média estadual mistura regimes (sertão, agreste e litoral em PE e BA) e sistemas (grão de alta tecnologia no
   cerrado de MA, PI e BA pesa no rendimento estadual e depende menos da chuva);
 - o IMERG subestima a chuva do litoral leste, o que enfraquece AL e SE;
-- 27 anos por estado é pouco; o teste definitivo é por município, com a produção municipal dos nove estados.
+- 27 anos por estado é pouco; o teste por município está na seção 2b.
+
+## 2b. O mesmo teste por município (1.794 municípios)
+
+Script: `conselho/analises/jp_nordeste_municipios.py`. Dados do José (`dados_resumo/derivados/ibge_ne_*`): IMERG V07 e
+SMAP L4 agregados na malha municipal, PAM municipal 1995–2024. "Firme" = Spearman ≥ 0,38; o acaso daria ~2,5% dos
+municípios.
+
+| Estado | Municípios | Chuva × milho firme | Chuva × feijão firme | Dipolo × chuva firme | Chuva depois de El Niño forte (mediana) |
+|---|---|---|---|---|---|
+| CE | 184 | **65%** | 38% | **64%** | 78% do normal |
+| PI | 224 | **55%** | 32% | 35% | 89% |
+| PB | 223 | **54%** | 36% | 15% | 94% |
+| PE | 185 | 40% | 31% | 1% | 94% |
+| RN | 167 | 38% | 31% | 44% | 84% |
+| MA | 217 | 13% | 6% | **68%** | 81% |
+| BA | 417 | 6% | 9% | 0% | 106% |
+| AL | 102 | 6% | 2% | 0% | 93% |
+| SE | 75 | 1% | 4% | 0% | 84% |
+
+Leitura:
+- **Na escala do município o sinal é bem mais forte que na média estadual.** Piauí e Pernambuco, fracos por estado,
+  têm 55% e 40% dos municípios com ligação firme: a média estadual escondia o sertão atrás do cerrado e do litoral.
+- **O recorte que se sustenta é o Semiárido**: 39% dos municípios do Semiárido (delimitação de 2022) com ligação
+  firme para milho, contra 10% fora dele. Elasticidade mediana: +12,7% de milho por +100 mm, contra +1,9%.
+- **AL, SE e BA continuam sem sinal**, e o Maranhão tem o oceano mandando na chuva (68%) sem a chuva mandar no milho (13%).
+- Depois de El Niño forte (1998, 2010, 2016, 2024) a chuva da estação ficou em 78% do normal no Ceará e acima do
+  normal no centro da Bahia. São só quatro eventos.
+- O percentil pronto do SMAP (`pctl_media`) vem nulo justamente nos municípios mais secos (1.356 de 1.794 em
+  out/2026); a página usa a posição do mês entre os mesmos meses desde 2015.
+
+Página para o agricultor com o mapa: `interface-nordeste-jp/index.html`.
 
 ## 3. Podemos usar dados do IBGE?
 

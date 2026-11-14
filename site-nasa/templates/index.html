@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUADRA · Escolha um lugar na Terra</title>
+  <meta name="description" content="QUADRA: dados de satélite da NASA para decidir a rotação de culturas. NASA Space Apps Challenge 2026, desafio Field Shift.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23fff'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/painel.css') }}">
+
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js" defer></script>
+  <script type="module" src="{{ url_for('static', filename='js/principal.js') }}"></script>
+</head>
+<body class="carregando">
+
+  <!-- Camadas visuais: espaco (WebGL) -> mapa (MapLibre) -> interface -->
+  <canvas id="espaco" aria-label="Planeta Terra em 3D. Arraste para girar, role para aproximar, clique para descer em um ponto."></canvas>
+  <div id="mapa" aria-label="Mapa interativo do lugar escolhido"></div>
+
+  <header class="topo">
+    <a class="marca" href="/" aria-label="QUADRA, voltar ao início">
+      <span class="marca-icone" aria-hidden="true"></span>
+      <span class="marca-nome">QUADRA</span>
+    </a>
+    <p class="selo">NASA Space Apps Challenge 2026 <span aria-hidden="true">/</span> Field Shift</p>
+  </header>
+
+  <main class="hero" id="hero">
+    <div class="hero-cartao" id="heroCartao">
+      <p class="sobretitulo">Nordeste do Brasil · dados de satélite da NASA</p>
+      <h1><span class="linha">Escolha um lugar</span> <span class="linha suave">no Nordeste.</span></h1>
+
+      <form class="busca" id="busca" role="search" autocomplete="off">
+        <svg class="busca-icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <input id="buscaCampo" name="q" type="text" maxlength="160" spellcheck="false"
+               placeholder="Quixadá, Ceará  ou  -4.97, -39.01" aria-label="Localização"
+               aria-controls="sugestoes" aria-autocomplete="list">
+        <kbd class="busca-atalho" aria-hidden="true">/</kbd>
+        <button type="submit" class="busca-botao" id="buscaBotao">
+          <span>Ir</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </button>
+        <ul class="sugestoes" id="sugestoes" role="listbox" aria-label="Lugares encontrados" hidden></ul>
+      </form>
+      <p class="busca-msg" id="buscaMsg" role="status" aria-live="polite"></p>
+
+      <div class="atalhos" aria-label="Sugestões de lugares">
+        <span>Experimente</span>
+        <button type="button" data-lugar="Quixadá, Ceará">Quixadá, CE</button>
+        <button type="button" data-lugar="Lençóis Maranhenses">Lençóis Maranhenses</button>
+        <button type="button" data-lugar="Chapada Diamantina">Chapada Diamantina</button>
+        <button type="button" data-lugar="Petrolina, Pernambuco">Petrolina, PE</button>
+      </div>
+    </div>
+    <p class="dica">
+      <span><kbd>Arrastar</kbd> gira o planeta</span>
+      <span><kbd>Rolar</kbd> aproxima até o mapa</span>
+      <span><kbd>Clicar</kbd> desce no ponto</span>
+    </p>
+  </main>
+
+  <!-- Barra do mergulho com a rodinha -->
+  <div class="mergulho" id="mergulho" aria-hidden="true">
+    <p>Continue rolando para entrar no mapa</p>
+    <span class="mergulho-barra"><i></i></span>
+  </div>
+
+  <!-- Leitura da coordenada sob o cursor -->
+  <div class="mira" id="mira" aria-hidden="true"><span id="miraTexto"></span></div>
+  <div class="telemetria" id="telemetria" aria-hidden="true">
+    <div><span>LAT</span><b id="telLat">--</b></div>
+    <div><span>LON</span><b id="telLon">--</b></div>
+    <div><span>ALT</span><b id="telAlt">--</b></div>
+    <div><span>UTC</span><b id="telUtc">--</b></div>
+  </div>
+
+  <!-- Status durante a viagem -->
+  <div class="viagem" id="viagem" role="status" aria-live="polite">
+    <p class="viagem-etapa" id="viagemEtapa">Alinhando a órbita</p>
+    <p class="viagem-destino" id="viagemDestino"></p>
+    <span class="viagem-linha" aria-hidden="true"></span>
+  </div>
+
+  <!-- Interface do mapa -->
+  <section class="hud-mapa" id="hudMapa" aria-label="Lugar escolhido">
+    <button type="button" class="botao-contorno" id="voltar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"/></svg>
+      Voltar ao espaço
+    </button>
+    <div class="cartao-local">
+      <p class="cartao-rotulo">Você está em</p>
+      <h2 id="localNome"></h2>
+      <p class="cartao-detalhe" id="localDetalhe"></p>
+      <p class="cartao-coords" id="localCoords"></p>
+      <p class="cartao-alt" id="localAlt" hidden></p>
+    </div>
+  </section>
+  <!-- Infograficos do municipio (painel.js) e o botao para o painel completo -->
+  <aside class="painel" id="painel" aria-label="O que os satélites dizem deste município" hidden></aside>
+  <p class="dica-mapa" id="dicaMapa" aria-hidden="true">
+    <span><kbd>Arrastar</kbd> move o mapa</span>
+    <span><kbd>Botão direito</kbd> inclina e gira</span>
+    <span><kbd>Esc</kbd> volta ao espaço</span>
+  </p>
+
+  <!-- Pensamento no canto inferior esquerdo (troca devagar entre algumas citacoes) -->
+  <figure class="pensamento" id="pensamento">
+    <blockquote><p id="pensamentoTexto">O sertanejo é, antes de tudo, um forte.</p></blockquote>
+    <figcaption id="pensamentoAutor">Euclides da Cunha · <cite>Os Sertões</cite></figcaption>
+  </figure>
+
+  <footer class="creditos">
+    Terra: NASA Blue Marble e VIIRS Black Marble (GIBS) <span aria-hidden="true">·</span> Busca: © OpenStreetMap
+  </footer>
+
+  <div class="tela-carga" id="telaCarga" aria-hidden="true">
+    <p>QUADRA</p>
+    <span class="tela-carga-linha"><i id="cargaBarra"></i></span>
+  </div>
+</body>
+</html>
