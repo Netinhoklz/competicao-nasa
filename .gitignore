@@ -7,3 +7,6 @@ _netrc
 .netrc
 .cdsapirc
 *token*.txt
+
+# PDFs de artigos: direito autoral das editoras; so o indice vai para o repositorio
+artigos/**/*.pdf

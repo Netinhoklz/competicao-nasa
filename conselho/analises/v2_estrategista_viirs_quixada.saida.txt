@@ -1,0 +1,36 @@
+municipios com pixel VIIRS: 184 de 184
+================== VIIRS NDVI mar-mai x quebra canonica do milho, 2012-2025 (n = 2545 municipio-anos) ==================
+  AUC agrupada = 0.806 | AUC dentro do ano = 0.623
+  ENTRE anos (n = 14): Spearman(NDVI anomalia mediana, fracao em quebra) = -0.84 (p 0.000)
+ano    2012   2013   2014   2015   2016   2017   2018   2019   2020   2021   2022   2023   2024   2025
+fq    0.746  0.564  0.171  0.610  0.698  0.170  0.038  0.066  0.011  0.038  0.016  0.110  0.077  0.247
+anom  0.908  0.903  0.985  0.977  0.950  0.989  1.001  1.020  1.031  1.013  1.023  1.018  1.024  1.010
+
+  Quixada (2311306): NDVI mar-mai / mediana dos outros anos, e o PAM (razao canonica do milho)
+      ndvi_anom  razao  quebra  rank_ndvi_no_ano
+2012       0.80   0.17     1.0              0.17
+2013       0.88   0.90     0.0              0.38
+2014       0.99   0.97     0.0              0.53
+2015       0.91   0.48     1.0              0.17
+2016       0.83   0.12     1.0              0.11
+2017       1.02   2.07     0.0              0.89
+2018       0.98   1.86     0.0              0.16
+2019       1.04   2.07     0.0              0.76
+2020       1.01   1.78     0.0              0.24
+2021       1.02   0.80     0.0              0.65
+2022       1.06   1.03     0.0              0.78
+2023       1.03   0.36     1.0              0.68
+2024       1.05   0.46     1.0              0.73
+2025       0.93   0.30     1.0              0.03
+2026       1.04    NaN     NaN              0.67
+
+  Quadra 2026 (sem IBGE ainda): NDVI mar-mai mediana estadual = 1.031 do normal; 1% dos municipios abaixo de 0,90; Quixada = 1.042
+  P(quebra) por faixa de anomalia de NDVI (2012-2025, todos os municipios):
+               n  p_quebra
+anom                      
+(0.0, 0.85]  154      0.75
+(0.85, 0.9]  137      0.66
+(0.9, 0.95]  244      0.58
+(0.95, 1.0]  735      0.26
+(1.0, 1.05]  985      0.08
+(1.05, 2.0]  290      0.09

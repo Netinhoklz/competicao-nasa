@@ -1,0 +1,13 @@
+{
+  "fonte": "Derivado: USDA CDL 2023-2025 (EUA) e Impact Observatory/Esri LULC anual v02 2017-2023 (Ceará, Planetary Computer)",
+  "metodo": "Percolacao de pragas na paisagem: conectividade dos hospedeiros no espaco e \"ponte verde\" no tempo.\n\nDados (30 m):\n- EUA: CDL por tipo de cultura (2023-2025) nas 6 janelas de 40 km (estudo_cdl/recortes).\n- Ceara: lavoura (classe 5) do Impact Observatory/Esri LULC anual 10 m (2017-2023, Planetary Computer), reamostrada\n  para 30 m em janelas de 40 km nas 4 AOIs.\nMetricas por janela e ano:\n- p = fracao de hospedeiro; S0 = fracao do hospedeiro no maior aglomerado (8 vizinhos); 'atravessa' = o maior\n  aglomerado toca dois lados opostos da janela (percolacao de fato).\n- Raio de dispersao r (0, 300 m, 1 km, 5 km): dois pixels de hospedeiro se conectam se estao a <= r; S(r).\n- Ponte verde: hospedeiro no ano t E no ano t+1 (o que a rotacao quebra) -> p2, S2(r).\n- Cenario de rotacao: retirar ao acaso uma fracao f dos talhoes da ponte verde -> S2(300 m) vs f (media de 10 sorteios).\nSaidas: E:/camp",
+  "janelas_km": 40,
+  "resolucao_m": 30.0,
+  "raios": [
+    "0 m",
+    "300 m",
+    "1 km",
+    "5 km"
+  ],
+  "atualizado_em": "2026-11-14T10:20:26"
+}

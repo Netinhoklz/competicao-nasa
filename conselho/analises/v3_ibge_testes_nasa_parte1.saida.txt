@@ -1,0 +1,89 @@
+
+=== TESTE LSPA x IMERG: a chuva do satelite antecipa a revisao da previsao oficial? ===
+revisao_log = ln(PAM final / estimativa LSPA no mes M); >0 = a LSPA subestimou; <0 = superestimou
+chuva = IMERG jan..M do ano, % da normal (sem o proprio ano), media da UF
+
+-- milho: UF x ano 2007-2025, 9 UFs
+  M=2: n=171  |ln erro| mediano LSPA=0.27  LSPA >=2x o final em 29%  Spearman(chuva, revisao)=+0.04 (p=0.6)  dentro da UF=+0.12 (p=0.1)
+  M=3: n=171  |ln erro| mediano LSPA=0.24  LSPA >=2x o final em 29%  Spearman(chuva, revisao)=+0.27 (p=0.0004)  dentro da UF=+0.35 (p=3e-06)
+  M=4: n=171  |ln erro| mediano LSPA=0.23  LSPA >=2x o final em 29%  Spearman(chuva, revisao)=+0.29 (p=0.0001)  dentro da UF=+0.42 (p=2e-08)
+  M=5: n=171  |ln erro| mediano LSPA=0.21  LSPA >=2x o final em 23%  Spearman(chuva, revisao)=+0.28 (p=0.0002)  dentro da UF=+0.39 (p=2e-07)
+  M=6: n=171  |ln erro| mediano LSPA=0.17  LSPA >=2x o final em 18%  Spearman(chuva, revisao)=+0.25 (p=0.001)  dentro da UF=+0.32 (p=2e-05)
+
+-- feijao: UF x ano 2007-2025, 9 UFs
+  M=2: n=171  |ln erro| mediano LSPA=0.42  LSPA >=2x o final em 33%  Spearman(chuva, revisao)=+0.09 (p=0.2)  dentro da UF=+0.09 (p=0.2)
+  M=3: n=171  |ln erro| mediano LSPA=0.44  LSPA >=2x o final em 35%  Spearman(chuva, revisao)=+0.21 (p=0.006)  dentro da UF=+0.23 (p=0.002)
+  M=4: n=171  |ln erro| mediano LSPA=0.42  LSPA >=2x o final em 32%  Spearman(chuva, revisao)=+0.28 (p=0.0002)  dentro da UF=+0.33 (p=1e-05)
+  M=5: n=171  |ln erro| mediano LSPA=0.38  LSPA >=2x o final em 28%  Spearman(chuva, revisao)=+0.35 (p=4e-06)  dentro da UF=+0.43 (p=4e-09)
+  M=6: n=171  |ln erro| mediano LSPA=0.31  LSPA >=2x o final em 23%  Spearman(chuva, revisao)=+0.29 (p=0.0001)  dentro da UF=+0.35 (p=3e-06)
+
+-- pareado 2016-2025 (SMAP L4 existe): Spearman dentro da UF com a revisao
+  milho M=3: n=90  IMERG +0.09  SMAP zona de raiz -0.09
+  milho M=4: n=90  IMERG +0.23  SMAP zona de raiz +0.14
+  milho M=5: n=90  IMERG +0.27  SMAP zona de raiz +0.25
+  feijao M=3: n=90  IMERG +0.01  SMAP zona de raiz -0.06
+  feijao M=4: n=90  IMERG +0.18  SMAP zona de raiz +0.12
+  feijao M=5: n=90  IMERG +0.35  SMAP zona de raiz +0.28
+
+Ceara, milho (1a+2a safra LSPA; PAM final):
+ ano  M    lspa_t    pam_t  pct_normal
+2012  1 1035226.0 122501.0        36.0
+2012  2 1035226.0 122501.0        78.0
+2012  3 1031918.0 122501.0        72.0
+2012  4  423517.0 122501.0        60.0
+2012  5  212233.0 122501.0        55.0
+2012  6  129234.0 122501.0        55.0
+2016  1  772010.0 114675.0       183.0
+2016  2  773413.0 114675.0       102.0
+2016  3  704880.0 114675.0        92.0
+2016  4  692752.0 114675.0        85.0
+2016  5  510719.0 114675.0        81.0
+2016  6  210476.0 114675.0        79.0
+  milho M=3: anos-UF secos (<75% IMERG) n=43: |ln erro| mediano LSPA 0.53 -> com corte IMERG (fator fora do ano) 0.60; melhora em 60% dos casos
+  milho M=4: anos-UF secos (<75% IMERG) n=37: |ln erro| mediano LSPA 0.71 -> com corte IMERG (fator fora do ano) 0.72; melhora em 59% dos casos
+  feijao M=3: anos-UF secos (<75% IMERG) n=43: |ln erro| mediano LSPA 0.66 -> com corte IMERG (fator fora do ano) 0.43; melhora em 67% dos casos
+  feijao M=4: anos-UF secos (<75% IMERG) n=37: |ln erro| mediano LSPA 0.65 -> com corte IMERG (fator fora do ano) 0.41; melhora em 73% dos casos
+
+=== TESTE Semiarido oficial (SUDENE 2022, lista do IBGE) x IMERG e SMAP L4 ===
+municipios NE: 1794; no Semiarido 2022: 1254
+municipios sem SMAP (celula mascarada): 1
+  p_anual          AUC=0.739  limiar Youden=883.904  acuracia=75.5%  mediana semiarido=715.332 x fora=972.625
+  smap_mediana     AUC=0.600  limiar Youden=0.229  acuracia=74.5%  mediana semiarido=0.162 x fora=0.181
+  smap_frac_lt015  AUC=0.547  limiar Youden=0.449  acuracia=51.2%  mediana semiarido=0.353 x fora=0.159
+  smap_frac_lt010  AUC=0.496  limiar Youden=0.781  acuracia=34.7%  mediana semiarido=0.000 x fora=0.000
+  IMERG + SMAP (logistica, deixa uma UF de fora): AUC=0.585
+  regra IMERG chuva media <= 700 mm: acerto 56.1%  (semiarido pego 48%, fora marcado 24%)
+  regra IMERG chuva media <= 800 mm: acerto 64.0%  (semiarido pego 64%, fora marcado 36%)
+  regra IMERG chuva media <= 900 mm: acerto 75.7%  (semiarido pego 84%, fora marcado 43%)
+  por UF (% do Semiarido, chuva IMERG mediana dentro/fora):
+      n  semi   p_semi   p_fora
+uf                             
+AL  102  0.41   426.58   660.09
+BA  417  0.69   612.88   759.88
+CE  184  0.95   846.22  1091.64
+MA  217  0.07  1414.69  1661.53
+PB  223  0.89   675.32  1048.34
+PE  185  0.77   530.87   889.03
+PI  224  0.96   914.94  1086.70
+RN  167  0.89   760.30  1044.92
+SE   75  0.40   452.83   592.63
+
+=== TESTE PPM (rebanhos) x IMERG: o rebanho caiu onde a chuva faltou em 2012-2016? ===
+NE total (milhoes de cabecas):
+      bovino  caprino  ovino
+ano                         
+2011   29.59     8.54  10.11
+2012   28.24     7.84   9.33
+2013   28.96     8.02   9.77
+2014   29.35     8.11  10.13
+2015   29.09     8.91  11.15
+2016   28.39     9.13  11.60
+2017   27.79     9.82  12.06
+2020   28.61    11.50  14.56
+2025   37.27    13.07  16.90
+  bovino_2016_2011: mediana 0.93; Spearman com chuva IMERG 2012-16 (% de 1998-2011) = +0.23 (n=1792, p=8e-24); so semiarido +0.27 (n=1254)
+  caprino_2016_2011: mediana 0.97; Spearman com chuva IMERG 2012-16 (% de 1998-2011) = -0.11 (n=1711, p=2e-06); so semiarido -0.17 (n=1245)
+  ovino_2016_2011: mediana 1.04; Spearman com chuva IMERG 2012-16 (% de 1998-2011) = -0.10 (n=1738, p=5e-05); so semiarido -0.16 (n=1243)
+  ruminantes_2016_2011: mediana 0.97; Spearman com chuva IMERG 2012-16 (% de 1998-2011) = +0.05 (n=1793, p=0.04); so semiarido +0.04 (n=1254)
+  painel bovino 1999-2025 (efeito fixo do municipio): Spearman(dlog rebanho t, chuva_rel) = +0.12 n=48350
+  painel bovino 1999-2025 (efeito fixo do municipio): Spearman(dlog rebanho t, chuva_rel_ant) = +0.08 n=48350

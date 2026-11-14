@@ -1,0 +1,77 @@
+SMAP L3 consolidado existe? False
+SMAP L4: 2015-03-31 -> 2026-11-10; 4247 dias; celulas no Ceara 1837, em Quixada 25
+
+========================= A. Estado do solo hoje (SMAP L4) =========================
+  CE: 10/11/2026: pctl zona da raiz nan | zona da raiz 0.1206 m3/m3 | superficie 0.0751 m3/m3
+  QX: 10/11/2026: pctl zona da raiz nan | zona da raiz 0.0870 m3/m3 | superficie 0.0534 m3/m3
+
+  CE: media de 01-10/nov por ano (posto de 2026 na zona da raiz: 5 de 12; 1 = mais seco)
+      sm_rootzone  sm_rootzone_pctl  sm_surface
+2015       0.1185               NaN      0.0597
+2016       0.1142               NaN      0.0560
+2017       0.1194               NaN      0.0642
+2018       0.1205               NaN      0.0685
+2019       0.1235               NaN      0.0645
+2020       0.1308               NaN      0.1007
+2021       0.1231               NaN      0.0819
+2022       0.1424               NaN      0.1258
+2023       0.1230               NaN      0.0765
+2024       0.1240               NaN      0.0699
+2025       0.1231               NaN      0.0687
+2026       0.1209               NaN      0.0681
+
+  QX: media de 01-10/nov por ano (posto de 2026 na zona da raiz: 5 de 12; 1 = mais seco)
+      sm_rootzone  sm_rootzone_pctl  sm_surface
+2015       0.0843               NaN      0.0428
+2016       0.0817               NaN      0.0397
+2017       0.0880               NaN      0.0467
+2018       0.0881               NaN      0.0573
+2019       0.0866               NaN      0.0452
+2020       0.0894               NaN      0.0626
+2021       0.0862               NaN      0.0564
+2022       0.1037               NaN      0.0959
+2023       0.0892               NaN      0.0580
+2024       0.0922               NaN      0.0570
+2025       0.0885               NaN      0.0523
+2026       0.0875               NaN      0.0494
+
+  fracao das celulas do Ceara com sm_rootzone_pctl VAZIO (fill), por mes (2015-2026):
+    {1: 0.36, 2: 0.02, 3: 0.01, 4: 0.02, 5: 0.02, 6: 0.05, 7: 0.2, 8: 0.54, 9: 0.9, 10: 1.0, 11: 1.0, 12: 1.0}
+    2016/2017: vazio em > 50% das celulas de 12/08/2016 a 12/01/2017
+    2020/2021: vazio em > 50% das celulas de 12/08/2020 a 12/01/2021
+    2025/2026: vazio em > 50% das celulas de 12/08/2025 a 12/01/2026
+    01-10/mar/2026: zona da raiz mediana onde o pctl esta vazio 0.144 contra 0.181 onde existe
+    Nordeste inteiro em 10/11/2026: pctl vazio em 64% das celulas de terra
+
+  percentil PROPRIO (posto de 01-10/nov/2026 entre 12 novembros 2015-2026), celulas do Ceara: tercil seco (posto 1-4) 41% | meio (5-8) 47% | umido (9-12) 12%
+  anomalia de 2026 contra a mediana 2015-2025 (mm por metro de solo): mediana espacial -1.1, p10 -5.9, p90 +2.7
+
+========================= B. Quanto vale o percentil num balde vazio (CE, zona da raiz, m3/m3) =========================
+  media mensal (2016-2025) e dp entre anos, por mes:
+                   1       2       3       4       5       6       7       8       9       10      11      12
+media          0.1466  0.1686  0.1936  0.2143  0.2028  0.1825  0.1649  0.1474  0.1348  0.1263  0.1235  0.1271
+dp_entre_anos  0.0143  0.0105  0.0150  0.0159  0.0149  0.0139  0.0105  0.0080  0.0055  0.0041  0.0083  0.0101
+min            0.1249  0.1505  0.1697  0.1907  0.1772  0.1592  0.1425  0.1309  0.1231  0.1174  0.1131  0.1162
+max            0.1617  0.1825  0.2165  0.2371  0.2236  0.2033  0.1784  0.1594  0.1424  0.1319  0.1437  0.1457
+  dp entre anos em 01-10/nov: 0.0071 m3/m3 | dp em abril: 0.0159 | amplitude sazonal media: 0.0908
+  faixa de 2015-2026 em 01-10/nov: 0.1142 a 0.1424 m3/m3 (28.3 mm por metro de solo)
+  2026: 0.1209; diferenca para a mediana dos outros novembros: -2.1 mm/m
+
+========================= C. Memoria: novembro(t-1) -> quadra(t) =========================
+  SMAP zona da raiz CE: 10/nov(t-1) x 10/dez: rho=+0.74 IC90 [+0.24,+1.00] p=0.01 n=11
+  SMAP zona da raiz CE: 10/nov(t-1) x 01/fev: rho=+0.01 IC90 [-0.50,+0.52] p=0.98 n=11
+  SMAP zona da raiz CE: 10/nov(t-1) x 19/mar: rho=-0.04 IC90 [-0.56,+0.61] p=0.92 n=11
+  SMAP zona da raiz CE: 10/nov(t-1) x 30/abr: rho=-0.04 IC90 [-0.60,+0.50] p=0.92 n=11
+  SMAP 01-10/nov(t-1) x chuva fev-mai(t): rho=-0.21 IC90 [-0.79,+0.44] p=0.54 n=11
+  SMAP 01-10/nov(t-1) x fracao em quebra(t): rho=-0.26 IC90 [-0.73,+0.41] p=0.47 n=10
+  SMAP pctl 01-10/nov(t-1) x fracao em quebra(t): rho=+nan IC90 [+nan,+nan] p=nan n=0
+
+  GLDAS-2.1 Noah RootMoist: novembro concorda com o SMAP de novembro (2015-2025)? rho=+0.82 IC90 [+0.41,+0.97] p=0.00 n=11
+    nov(t-1) x chuva fev-mai(t): rho=-0.18 IC90 [-0.54,+0.22] p=0.39 n=26
+    nov(t-1) x fracao em quebra(t): rho=+0.18 IC90 [-0.19,+0.52] p=0.38 n=25
+    nov(t-1) x fevereiro(t) do proprio modelo (persistencia): rho=+0.00 IC90 [-0.33,+0.34] p=0.99 n=26
+
+  GLDAS-2.2 CLSM SoilMoist_RZ: novembro concorda com o SMAP de novembro (2015-2025)? rho=+0.93 IC90 [+0.72,+1.00] p=0.00 n=11
+    nov(t-1) x chuva fev-mai(t): rho=-0.25 IC90 [-0.64,+0.16] p=0.24 n=23
+    nov(t-1) x fracao em quebra(t): rho=+0.05 IC90 [-0.37,+0.46] p=0.83 n=22
+    nov(t-1) x fevereiro(t) do proprio modelo (persistencia): rho=+0.02 IC90 [-0.34,+0.37] p=0.92 n=23

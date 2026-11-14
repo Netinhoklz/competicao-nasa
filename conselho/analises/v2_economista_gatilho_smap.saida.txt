@@ -1,0 +1,52 @@
+SMAP L4: 4247 granulos, 4 datas repetidas (fica o 1o granulo de cada dia)
+SMAP L4 recorte CE: (1203, 79, 50); pixels de 9 km por municipio: mediana 7, minimo 1; dias carregados 1203
+Rotulos: milho canonico 5106 municipio-anos (quebra 21.5%); cesta tipo Garantia-Safra 5144 (perda >= 50%: 20.2%; >= 40%: 26.0%)
+
+== L1 quebra canonica do milho | 2016-2025 ==
+  SMAP L4 pctl <= 20, fev-abr                  n=1820 (10 anos) perda 14.7% | paga  0.7% | perdas pagas  0.0% [0-0] | pagamentos sem perda 100.0% [100-100] | AUC 0.66 | AUC dentro do ano 0.49 (4 anos)
+  IMERG < 75% normal, jan-abr                  n=1820 (10 anos) perda 14.7% | paga  7.7% | perdas pagas  6.0% [1-11] | pagamentos sem perda 88.7% [58-96] | AUC 0.66 | AUC dentro do ano 0.53 (4 anos)
+  SMAP L4 pctl <= 20, fev-mai                  n=1820 (10 anos) perda 14.7% | paga  0.5% | perdas pagas  0.0% [0-0] | pagamentos sem perda 100.0% [100-100] | AUC 0.72 | AUC dentro do ano 0.52 (4 anos)
+  IMERG < 75% normal, fev-mai                  n=1820 (10 anos) perda 14.7% | paga 21.8% | perdas pagas 59.7% [7-79] | pagamentos sem perda 59.6% [42-93] | AUC 0.78 | AUC dentro do ano 0.55 (4 anos)
+
+== L2 cesta tipo GS, perda >= 50% | 2016-2025 ==
+  SMAP L4 pctl <= 20, fev-abr                  n=1832 (10 anos) perda 20.7% | paga  0.7% | perdas pagas  0.0% [0-0] | pagamentos sem perda 100.0% [100-100] | AUC 0.60 | AUC dentro do ano 0.46 (7 anos)
+  IMERG < 75% normal, jan-abr                  n=1832 (10 anos) perda 20.7% | paga  7.8% | perdas pagas  7.1% [1-15] | pagamentos sem perda 81.0% [46-89] | AUC 0.62 | AUC dentro do ano 0.50 (7 anos)
+  SMAP L4 pctl <= 20, fev-mai                  n=1832 (10 anos) perda 20.7% | paga  0.5% | perdas pagas  0.3% [0-1] | pagamentos sem perda 88.9% [0-100] | AUC 0.65 | AUC dentro do ano 0.47 (7 anos)
+  IMERG < 75% normal, fev-mai                  n=1832 (10 anos) perda 20.7% | paga 21.7% | perdas pagas 47.2% [7-70] | pagamentos sem perda 55.0% [39-89] | AUC 0.71 | AUC dentro do ano 0.49 (7 anos)
+
+== L2' cesta tipo GS, perda >= 40% | 2016-2025 ==
+  SMAP L4 pctl <= 20, fev-abr                  n=1832 (10 anos) perda 29.8% | paga  0.7% | perdas pagas  0.4% [0-1] | pagamentos sem perda 83.3% [83-83] | AUC 0.60 | AUC dentro do ano 0.52 (9 anos)
+  IMERG < 75% normal, jan-abr                  n=1832 (10 anos) perda 29.8% | paga  7.8% | perdas pagas  8.2% [2-18] | pagamentos sem perda 68.3% [32-76] | AUC 0.62 | AUC dentro do ano 0.54 (9 anos)
+  SMAP L4 pctl <= 20, fev-mai                  n=1832 (10 anos) perda 29.8% | paga  0.5% | perdas pagas  0.5% [0-1] | pagamentos sem perda 66.7% [0-75] | AUC 0.63 | AUC dentro do ano 0.51 (9 anos)
+  IMERG < 75% normal, fev-mai                  n=1832 (10 anos) perda 29.8% | paga 21.7% | perdas pagas 40.7% [6-64] | pagamentos sem perda 44.2% [30-79] | AUC 0.69 | AUC dentro do ano 0.52 (9 anos)
+
+== Placar por ano: cesta tipo GS (perda >= 50%), janela fev-mai ==
+      fracao_em_perda  fracao_SMAP  fracao_IMERG  fracao_IMERG_jan_abr  pctl_SMAP_mediano
+ano                                                                                      
+2016             0.70         0.01          0.96                  0.08          35.580002
+2017             0.19         0.00          0.03                  0.01          54.950001
+2018             0.08         0.00          0.00                  0.00          57.660000
+2019             0.15         0.00          0.00                  0.00          71.410004
+2020             0.03         0.00          0.00                  0.00          66.970001
+2021             0.07         0.04          0.32                  0.59          33.570000
+2022             0.13         0.00          0.12                  0.03          46.770000
+2023             0.20         0.00          0.18                  0.02          49.189999
+2024             0.17         0.00          0.00                  0.01          56.040001
+2025             0.35         0.00          0.57                  0.04          44.419998
+  Spearman entre anos (fracao_SMAP x fracao em perda): rho = +0.02, p = 0.962, n = 10 anos
+  Spearman entre anos (fracao_IMERG x fracao em perda): rho = +0.59, p = 0.074, n = 10 anos
+  anos ruins (>= 30% dos municipios em perda): [2016, 2025]; o gatilho SMAP 'disparou no estado' (>= 30% gatilhados) em [] -> acertou 0 de 2, alarme falso em 0 de 8
+  anos ruins (>= 30% dos municipios em perda): [2016, 2025]; o gatilho IMERG 'disparou no estado' (>= 30% gatilhados) em [2016, 2021, 2025] -> acertou 2 de 2, alarme falso em 1 de 8
+
+== Extensao: GLDAS-2.2 CLSM zona de raiz fev-mai, percentil empirico contra os outros anos (2003-2025) ==
+  SMAP L4 pctl x CLSM pctl empirico (municipio-anos 2016-2025): Spearman +0.61
+  -- L1 quebra canonica do milho | 2003-2025 --
+  CLSM pctl <= 20, fev-mai                     n=4191 (23 anos) perda 20.7% | paga 21.7% | perdas pagas 43.1% [25-58] | pagamentos sem perda 58.9% [45-76] | AUC 0.76 | AUC dentro do ano 0.51 (12 anos)
+  IMERG < 75% normal, fev-mai                  n=4191 (23 anos) perda 20.7% | paga 21.4% | perdas pagas 56.8% [36-70] | pagamentos sem perda 45.2% [36-61] | AUC 0.81 | AUC dentro do ano 0.55 (12 anos)
+  CLSM E IMERG (os dois)                       n=4191 (23 anos) perda 20.7% | paga 11.7% | perdas pagas 34.4% [17-49] | pagamentos sem perda 39.3% [31-55] | AUC 0.76 | AUC dentro do ano 0.51 (12 anos)
+  CLSM OU IMERG (qualquer um)                  n=4191 (23 anos) perda 20.7% | paga 31.4% | perdas pagas 65.5% [45-79] | pagamentos sem perda 56.8% [46-71] | AUC 0.76 | AUC dentro do ano 0.51 (12 anos)
+  -- L2 cesta tipo GS, perda >= 50% | 2003-2025 --
+  CLSM pctl <= 20, fev-mai                     n=4224 (23 anos) perda 20.5% | paga 21.8% | perdas pagas 37.5% [18-55] | pagamentos sem perda 64.8% [50-82] | AUC 0.71 | AUC dentro do ano 0.49 (13 anos)
+  IMERG < 75% normal, fev-mai                  n=4224 (23 anos) perda 20.5% | paga 21.5% | perdas pagas 51.2% [31-66] | pagamentos sem perda 51.3% [41-64] | AUC 0.79 | AUC dentro do ano 0.53 (13 anos)
+  CLSM E IMERG (os dois)                       n=4224 (23 anos) perda 20.5% | paga 11.8% | perdas pagas 31.0% [12-45] | pagamentos sem perda 46.4% [38-63] | AUC 0.71 | AUC dentro do ano 0.49 (13 anos)
+  CLSM OU IMERG (qualquer um)                  n=4224 (23 anos) perda 20.5% | paga 31.4% | perdas pagas 57.6% [35-73] | pagamentos sem perda 62.5% [51-77] | AUC 0.71 | AUC dentro do ano 0.49 (13 anos)

@@ -1,0 +1,78 @@
+
+============ milho | 19/mar ============
+
+  1998-2025 (28 quadras): n = 5106 mun-anos, taxa de quebra 0.215
+    al_chuva : acende 22% | P(q|alerta) 0.40 (n=1132) | P(q|sem) 0.16 | razao 2.5x IC90 [1.6,3.8] | recall 41% | 2016 6/127 | 2025 0/45 | alarmes falsos 60%
+    al_chuva_t: acende 36% | P(q|alerta) 0.38 (n=1818) | P(q|sem) 0.12 | razao 3.0x IC90 [2.0,4.7] | recall 63% | 2016 42/127 | 2025 3/45 | alarmes falsos 62%
+    al_api   : acende 36% | P(q|alerta) 0.41 (n=1819) | P(q|sem) 0.11 | razao 3.7x IC90 [2.3,5.5] | recall 67% | 2016 116/127 | 2025 7/45 | alarmes falsos 59%
+
+  2016-2025 (10 quadras, mesmas amostras): n = 1820 mun-anos, taxa de quebra 0.147
+    al_chuva : acende 12% | P(q|alerta) 0.10 (n=214) | P(q|sem) 0.15 | razao 0.6x IC90 [0.4,1.6] | recall 8% | 2016 6/127 | 2025 0/45 | alarmes falsos 90%
+    al_chuva_t: acende 26% | P(q|alerta) 0.14 (n=470) | P(q|sem) 0.15 | razao 0.9x IC90 [0.4,1.9] | recall 25% | 2016 42/127 | 2025 3/45 | alarmes falsos 86%
+    al_api   : acende 36% | P(q|alerta) 0.23 (n=648) | P(q|sem) 0.10 | razao 2.2x IC90 [0.5,4.4] | recall 54% | 2016 116/127 | 2025 7/45 | alarmes falsos 77%
+    al_smap  : acende 24% | P(q|alerta) 0.31 (n=444) | P(q|sem) 0.10 | razao 3.2x IC90 [0.7,6.2] | recall 51% | 2016 111/127 | 2025 6/45 | alarmes falsos 69%
+
+============ milho | 30/abr ============
+
+  1998-2025 (28 quadras): n = 5106 mun-anos, taxa de quebra 0.215
+    al_chuva : acende 18% | P(q|alerta) 0.52 (n=932) | P(q|sem) 0.15 | razao 3.5x IC90 [2.1,5.5] | recall 44% | 2016 9/127 | 2025 1/45 | alarmes falsos 48%
+    al_chuva_t: acende 36% | P(q|alerta) 0.45 (n=1817) | P(q|sem) 0.09 | razao 5.1x IC90 [3.4,8.4] | recall 74% | 2016 79/127 | 2025 21/45 | alarmes falsos 55%
+    al_api   : acende 36% | P(q|alerta) 0.43 (n=1818) | P(q|sem) 0.10 | razao 4.5x IC90 [2.9,7.2] | recall 71% | 2016 123/127 | 2025 43/45 | alarmes falsos 57%
+
+  2016-2025 (10 quadras, mesmas amostras): n = 1820 mun-anos, taxa de quebra 0.147
+    al_chuva : acende 8% | P(q|alerta) 0.11 (n=141) | P(q|sem) 0.15 | razao 0.8x IC90 [0.4,2.3] | recall 6% | 2016 9/127 | 2025 1/45 | alarmes falsos 89%
+    al_chuva_t: acende 30% | P(q|alerta) 0.24 (n=548) | P(q|sem) 0.11 | razao 2.2x IC90 [1.0,3.5] | recall 49% | 2016 79/127 | 2025 21/45 | alarmes falsos 76%
+    al_api   : acende 36% | P(q|alerta) 0.31 (n=650) | P(q|sem) 0.06 | razao 5.3x IC90 [1.6,9.2] | recall 75% | 2016 123/127 | 2025 43/45 | alarmes falsos 69%
+    al_smap  : acende 28% | P(q|alerta) 0.38 (n=511) | P(q|sem) 0.06 | razao 6.7x IC90 [2.2,10.8] | recall 72% | 2016 119/127 | 2025 41/45 | alarmes falsos 62%
+
+============ feijao | 19/mar ============
+
+  1998-2025 (28 quadras): n = 5107 mun-anos, taxa de quebra 0.146
+    al_chuva : acende 22% | P(q|alerta) 0.22 (n=1138) | P(q|sem) 0.12 | razao 1.8x IC90 [1.2,2.6] | recall 34% | 2016 4/78 | 2025 0/48 | alarmes falsos 78%
+    al_chuva_t: acende 36% | P(q|alerta) 0.24 (n=1825) | P(q|sem) 0.10 | razao 2.4x IC90 [1.7,3.6] | recall 58% | 2016 31/78 | 2025 0/48 | alarmes falsos 76%
+    al_api   : acende 36% | P(q|alerta) 0.25 (n=1824) | P(q|sem) 0.09 | razao 2.8x IC90 [1.7,4.5] | recall 61% | 2016 72/78 | 2025 7/48 | alarmes falsos 75%
+
+  2016-2025 (10 quadras, mesmas amostras): n = 1814 mun-anos, taxa de quebra 0.132
+    al_chuva : acende 12% | P(q|alerta) 0.09 (n=213) | P(q|sem) 0.14 | razao 0.6x IC90 [0.4,1.2] | recall 8% | 2016 4/78 | 2025 0/48 | alarmes falsos 91%
+    al_chuva_t: acende 26% | P(q|alerta) 0.14 (n=469) | P(q|sem) 0.13 | razao 1.1x IC90 [0.5,2.0] | recall 28% | 2016 31/78 | 2025 0/48 | alarmes falsos 86%
+    al_api   : acende 36% | P(q|alerta) 0.17 (n=647) | P(q|sem) 0.11 | razao 1.6x IC90 [0.6,3.0] | recall 47% | 2016 72/78 | 2025 7/48 | alarmes falsos 83%
+    al_smap  : acende 24% | P(q|alerta) 0.20 (n=443) | P(q|sem) 0.11 | razao 1.9x IC90 [0.6,3.4] | recall 38% | 2016 66/78 | 2025 5/48 | alarmes falsos 80%
+
+============ feijao | 30/abr ============
+
+  1998-2025 (28 quadras): n = 5107 mun-anos, taxa de quebra 0.146
+    al_chuva : acende 18% | P(q|alerta) 0.31 (n=938) | P(q|sem) 0.11 | razao 2.9x IC90 [1.8,4.6] | recall 39% | 2016 9/78 | 2025 2/48 | alarmes falsos 69%
+    al_chuva_t: acende 36% | P(q|alerta) 0.28 (n=1823) | P(q|sem) 0.07 | razao 4.0x IC90 [2.6,6.3] | recall 69% | 2016 46/78 | 2025 23/48 | alarmes falsos 72%
+    al_api   : acende 36% | P(q|alerta) 0.28 (n=1822) | P(q|sem) 0.07 | razao 3.8x IC90 [2.4,5.8] | recall 68% | 2016 78/78 | 2025 38/48 | alarmes falsos 72%
+
+  2016-2025 (10 quadras, mesmas amostras): n = 1814 mun-anos, taxa de quebra 0.132
+    al_chuva : acende 8% | P(q|alerta) 0.11 (n=140) | P(q|sem) 0.13 | razao 0.9x IC90 [0.4,3.2] | recall 7% | 2016 9/78 | 2025 2/48 | alarmes falsos 89%
+    al_chuva_t: acende 30% | P(q|alerta) 0.19 (n=546) | P(q|sem) 0.11 | razao 1.8x IC90 [1.1,2.5] | recall 44% | 2016 46/78 | 2025 23/48 | alarmes falsos 81%
+    al_api   : acende 36% | P(q|alerta) 0.21 (n=648) | P(q|sem) 0.09 | razao 2.5x IC90 [0.8,4.3] | recall 58% | 2016 78/78 | 2025 38/48 | alarmes falsos 79%
+    al_smap  : acende 28% | P(q|alerta) 0.24 (n=510) | P(q|sem) 0.09 | razao 2.7x IC90 [0.9,4.4] | recall 52% | 2016 73/78 | 2025 35/48 | alarmes falsos 76%
+
+============ Quixada (2311306): alertas por ano (milho; razao do PAM) ============
+      api_p_19/mar  api_p_30/abr  pct_19/mar  pct_30/abr  s_p_19/mar  s_p_30/abr  milho  feijao
+ano                                                                                            
+2010          0.00         25.93        0.40        0.65         NaN         NaN   0.78    0.67
+2011         96.30         70.37        1.80        1.35         NaN         NaN   3.74    2.32
+2012         25.93          0.00        0.75        0.48         NaN         NaN   0.17    0.15
+2013          7.41         33.33        0.41        0.51         NaN         NaN   0.90    1.10
+2014         85.19         37.04        0.93        0.78         NaN         NaN   0.97    1.27
+2015         22.22         18.52        0.63        0.70         NaN         NaN   0.48    0.52
+2016         14.81          7.41        0.88        0.78       20.88       26.06   0.12    0.39
+2017         70.37         40.74        1.25        1.02       92.06       54.15   2.07    2.12
+2018         11.11         96.30        0.68        1.11       20.80       89.72   1.86    1.73
+2019         74.07         48.15        1.50        1.19       79.80       50.01   2.07    1.70
+2020         92.59         66.67        1.39        1.10       83.59       53.62   1.78    1.56
+2021         33.33         22.22        0.72        0.69       30.21       15.88   0.80    0.81
+2022         48.15         59.26        0.98        0.98       55.36       57.38   1.03    0.91
+2023         88.89         51.85        1.19        1.04       63.79       65.86   0.36    0.49
+2024         66.67         55.56        1.17        1.05       74.38       73.77   0.46    0.68
+2025         55.56         14.81        1.44        0.93       71.24       25.10   0.30    0.32
+  Quixada chuva<75% em 19/mar: acendeu 8 vezes em 28 anos; acertou 2; quebras do milho nesses anos: 8
+  Quixada chuva<75% em 30/abr: acendeu 7 vezes em 28 anos; acertou 3; quebras do milho nesses anos: 8
+  Quixada API tercil seco em 19/mar: acendeu 10 vezes em 28 anos; acertou 4; quebras do milho nesses anos: 8
+  Quixada API tercil seco em 30/abr: acendeu 10 vezes em 28 anos; acertou 5; quebras do milho nesses anos: 8
+  Quixada SMAP tercil seco em 19/mar: acendeu 3 vezes em 10 anos; acertou 1; quebras do milho nesses anos: 4
+  Quixada SMAP tercil seco em 30/abr: acendeu 3 vezes em 10 anos; acertou 2; quebras do milho nesses anos: 4

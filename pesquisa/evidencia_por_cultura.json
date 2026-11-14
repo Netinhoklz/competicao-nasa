@@ -1,0 +1,776 @@
+{
+ "Milho": [
+  {
+   "ref": "Rusinamhodzi 2011",
+   "doi": "10.1007/s13593-011-0040-2",
+   "titulo": "A meta-analysis of long-term effects of conservation agriculture on maize grain yield under rain-fed conditions",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": [
+    "Here, we studied maize grain yield data from experiments lasting 5 years and more under rain-fed conditions."
+   ]
+  },
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Wart 2015",
+   "doi": "10.1016/j.agrformet.2015.02.020",
+   "titulo": "Creating long-term weather data from thin air for crop simulation modeling",
+   "revista": "Agricultural and Forest Meteorology",
+   "tipo": "article",
+   "frases_com_numero": [
+    "The distributions of simulated yields of maize, rice, or wheat with propagated data were compared with simulated yields using observed weather data at 18 sites in North and South America, Europe, Africa, and Asia."
+   ]
+  },
+  {
+   "ref": "Zhang 2019",
+   "doi": "10.1016/j.compag.2019.104989",
+   "titulo": "Machine-learned prediction of annual crop planting in the U.S. Corn Belt based on historical crop planting maps",
+   "revista": "Computers and Electronics in Agriculture",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Bowles 2020",
+   "doi": "10.1016/j.oneear.2020.02.007",
+   "titulo": "Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America",
+   "revista": "One Earth",
+   "tipo": "article",
+   "frases_com_numero": [
+    "More diverse rotations increased maize yields over time and across all growing conditions (28.1% on average), including in favorable conditions (22.6%)."
+   ]
+  },
+  {
+   "ref": "Anderson 2015",
+   "doi": "10.1016/j.rse.2015.11.034",
+   "titulo": "The Evaporative Stress Index as an indicator of agricultural drought in Brazil: An assessment based on crop yield impacts",
+   "revista": "Remote Sensing of Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Portmann 2010",
+   "doi": "10.1029/2008gb003435",
+   "titulo": "MIRCA2000—Global monthly irrigated and rainfed crop areas around the year 2000: A new high‐resolution data set for agricultural and hydrological modeling",
+   "revista": "Global Biogeochemical Cycles",
+   "tipo": "article",
+   "frases_com_numero": [
+    "For the dominant crops (rice (1.7 million km 2 harvested area), wheat (2.1 million km 2 ), and maize (1.5 million km 2 )), roughly 60%, 30%, and 20% of the harvested areas are irrigated, respectively, and half of the citrus, sugar cane, and cotton areas.",
+    "While wheat and maize are the crops with the largest rainfed harvested areas (1.5 million km 2 and 1.2 million km 2 , respectively), rice is clearly the crop with the largest irrigated harvested area (1.0 million km 2 ), followed by wheat (0.7 million km 2 ) and maize (0.3 million km 2 )."
+   ]
+  },
+  {
+   "ref": "Zhao 2022",
+   "doi": "10.1038/s41467-022-32464-0",
+   "titulo": "Global systematic review with meta-analysis reveals yield advantage of legume-based rotations and its drivers",
+   "revista": "Nature Communications",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Yang 2024",
+   "doi": "10.1038/s41467-023-44464-9",
+   "titulo": "Diversifying crop rotation increases food production, reduces net greenhouse gas emissions and improves soil health",
+   "revista": "Nature Communications",
+   "tipo": "article",
+   "frases_com_numero": [
+    "The large-scale adoption of diversified cropping systems in the North China Plain could increase cereal production by 32% when wheat–maize follows alternative crops in rotation and farmer income by 20% while benefiting the environment."
+   ]
+  },
+  {
+   "ref": "Iizumi 2020",
+   "doi": "10.1038/s41597-020-0433-7",
+   "titulo": "The global dataset of historical yields for major crops 1981–2016",
+   "revista": "Scientific Data",
+   "tipo": "data-paper",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Jägermeyr 2021",
+   "doi": "10.1038/s43016-021-00400-y",
+   "titulo": "Climate impacts on global agriculture emerge earlier in new generation of climate and crop models",
+   "revista": "Nature Food",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Mean end-of-century maize productivity is shifted from +5 to -6% (SSP126) and +1 to -24% (SSP585) — explained by warmer climate projections and improved crop model sensitivities."
+   ]
+  },
+  {
+   "ref": "Smith 2023",
+   "doi": "10.1038/s43247-023-00746-0",
+   "titulo": "Increasing crop rotational diversity can enhance cereal yields",
+   "revista": "Communications Earth & Environment",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Here, using grain yield data of small grain cereals and maize from 32 long-term (10–63 years) experiments across Europe and North America, we show that crop rotational diversity, measured as crop species diversity and functional richness, enhanced grain yields."
+   ]
+  },
+  {
+   "ref": "Arvor 2011",
+   "doi": "10.1080/01431161.2010.531783",
+   "titulo": "Classification of MODIS EVI time series for crop mapping in the state of Mato Grosso, Brazil",
+   "revista": "International Journal of Remote Sensing",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Renwick 2021",
+   "doi": "10.1088/1748-9326/ac1468",
+   "titulo": "Long-term crop rotation diversification enhances maize drought resistance through soil organic matter",
+   "revista": "Environmental Research Letters",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We show that diversifying maize-soybean rotations with small grain cereals and cover crops mitigated maize water stress at the leaf and canopy scales and reduced yield losses to drought by 17.1 ± 6.1%, while no-till did not affect maize drought resistance."
+   ]
+  },
+  {
+   "ref": "Levine 2002",
+   "doi": "10.1093/ae/48.2.94",
+   "titulo": "Adaptation of the Western Corn Rootworm to Crop Rotation: Evolution of a New Strain in Response to a Management Practice",
+   "revista": "American Entomologist",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Zhou 2024",
+   "doi": "10.1111/gcb.17556",
+   "titulo": "Changes in the Yield Effect of the Preceding Crop in the US Corn Belt Under a Warming Climate",
+   "revista": "Global Change Biology",
+   "tipo": "article",
+   "frases_com_numero": [
+    "In this study, we examine the impacts of both GS and NGS climate conditions on the yield effect of the preceding crop in corn-soybean rotation systems from 1999 to 2018 in the US Midwest.",
+    "Using causal forest analysis, we estimate that crop rotation increases corn and soybean yields by 0.96 and 0.22 t/ha on average, respectively.",
+    "By 2051-2070, we project that warming climates will reduce corn rotation benefits by 6.74% under Shared Socioeconomic Pathway (SSP) 1-2.6 and 17.18% under SSP 5-8.5.",
+    "If we project that all continuous corn and continuous soybeans are rotated by 2051-2070, county-average corn yields will increase by 0.265 t/ha under SSP 1-2.6 and 0.164 t/ha under SSP 5-8.5, while county-average soybean yields will gain 0.064 t/ha under SSP 1-2.6 and 0.076 t/ha under SSP 5-8.5."
+   ]
+  },
+  {
+   "ref": "Boddey 2009",
+   "doi": "10.1111/j.1365-2486.2009.02020.x",
+   "titulo": "Carbon accumulation at depth in Ferralsols under zero‐till subtropical agriculture",
+   "revista": "Global Change Biology",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Sacks 2010",
+   "doi": "10.1111/j.1466-8238.2010.00551.x",
+   "titulo": "Crop planting dates: an analysis of global patterns",
+   "revista": "Global Ecology and Biogeography",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Results We present global planting date patterns for maize, spring wheat and winter wheat (our full, publicly available data set contains planting and harvesting dates for 19 major crops).",
+    "12–17 °C at the time of maize planting in these regions, although soil moisture often determines planting date more directly than does temperature."
+   ]
+  },
+  {
+   "ref": "Kenis 2022",
+   "doi": "10.1127/entomologia/2022/1659",
+   "titulo": "Invasiveness, biology, ecology, and management of the fall armyworm, Spodoptera frugiperda",
+   "revista": "Entomologia Generalis",
+   "tipo": "article",
+   "frases_com_numero": [
+    "The fall armyworm (FAW), Spodoptera frugiperda (JE Smith, 1797), is a serious pest of several crops, particularly maize and other cereals.It has long been known as a pest in the Americas and has invaded most of Africa and parts of the Middle East, Asia, and Australia in the last six years.Its new status as an invasive species causing serious damage in many regions worldwide has highlighted the need for better understanding and has generated much research.In this article, we provide a comprehensive review of FAW covering its (i) taxonomy, biology, ecology, genomics, and microbiome, (ii) worldwide status and geographic spread, (iii) potential for geographic expansion and quarantine measures in place, and (iv) management including monitoring, sampling, forecasting, biological control, biopesticides, agroecological strategies, chemical control, insecticide resistance, effects of insecticides on natural enemies, as well as conventional and transgenic resistant cultivars.We conclude with recommendations for research to enhance the sustainable management of FAW in invaded regions."
+   ]
+  },
+  {
+   "ref": "Gray 2008",
+   "doi": "10.1146/annurev.ento.54.110807.090434",
+   "titulo": "Adaptation and Invasiveness of Western Corn Rootworm: Intensifying Research on a Worsening Pest",
+   "revista": "Annual Review of Entomology",
+   "tipo": "review",
+   "frases_com_numero": [
+    "The rotation of maize with another crop, principally soybeans, Glycine max (L.), was the primary management strategy utilized by North American producers and remained highly effective until the mid-1990s.",
+    "In 1995, widespread and severe root injury occurred in east-central Illinois and northern Indiana maize fields that had been annually rotated with soybeans on a regular basis for several decades.",
+    "In 1992, an infestation of western corn rootworm was found within a small maize field near the Belgrade Airport.",
+    "More recent molecular studies have confirmed that at least three separate invasions (until 2004) of western corn rootworms have occurred in Europe, increasing the risk that rotation-resistant western corn rootworms will be introduced into a new continent."
+   ]
+  },
+  {
+   "ref": "Gaudin 2015",
+   "doi": "10.1371/journal.pone.0113261",
+   "titulo": "Increasing Crop Diversity Mitigates Weather Variations and Improves Yield Stability",
+   "revista": "PLoS ONE",
+   "tipo": "article",
+   "frases_com_numero": [
+    "In hot and dry years, diversification of corn-soybean rotations and reduced tillage increased yield by 7% and 22% for corn and soybean respectively."
+   ]
+  },
+  {
+   "ref": "McDaniel 2013",
+   "doi": "10.1890/13-0616.1",
+   "titulo": "Does agricultural crop diversity enhance soil microbial biomass and organic matter dynamics? A meta‐analysis",
+   "revista": "Ecological Applications",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Seifert 2017",
+   "doi": "10.2134/agronj2016.03.0134",
+   "titulo": "Continuous Corn and Soybean Yield Penalties across Hundreds of Thousands of Fields",
+   "revista": "Agronomy Journal",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Core Ideas Analysis of 748,374 yield records showed a 4.3% yield penalty for continuous corn.",
+    "Corn yield penalties grew with up to 3 yr of continuous cropping, but not more.",
+    "For rainfed fields, we found an average continuous corn (Zea mays L.) yield penalty (CCYP) of 4.3% and continuous soybean [Glycine max (L.) Merr.] yield penalty (CSYP) of 10.3% during the 2007 to 2012 growing seasons.",
+    "Both penalties increased with the number of years a field had been continuously cropped, and while the CCYP leveled off after 3 yr in corn, the CSYP showed significant increases out to the (very rare) 5‐yr continuous soybean sequence."
+   ]
+  },
+  {
+   "ref": "Cohen 2019",
+   "doi": "10.2134/agronj2019.03.0157",
+   "titulo": "Rotation Effects on Corn and Soybean Yield Inferred from Satellite and Field‐level Data",
+   "revista": "Agronomy Journal",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We investigated the yield benefits of crop rotation on corn (Zea mays L.) and soybean [Glycine max (L.) Merr.] using estimates generated from satellite imagery in Indiana, Iowa, and Illinois and compared these to yield benefits from field‐level data between 2007 and 2012.",
+    "After adjusting for environmental differences between fields with and without rotations, satellite data show yield benefits of 1.0% with a range of −8.9 to 9.7% for corn rotations and 10.8% with a range of 4.6 to 17.6% for soybean rotations, within the range of effects found in the literature and not significantly different from estimates of 4.3% for rainfed corn and 10.3% for rainfed soybean found using the field‐level data.",
+    "Core Ideas Satellite data showed yield benefits of 1.0 and 10.8% for rotated corn and soybean from 2007 to 2012."
+   ]
+  },
+  {
+   "ref": "Rossato 2017",
+   "doi": "10.3389/fenvs.2017.00073",
+   "titulo": "Impact of Soil Moisture on Crop Yields over Brazilian Semiarid",
+   "revista": "Frontiers in Environmental Science",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Early 2018",
+   "doi": "10.3897/neobiota.40.28165",
+   "titulo": "Forecasting the global extent of invasion of the cereal pest Spodoptera frugiperda, the fall armyworm",
+   "revista": "NeoBiota",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Recent estimates of 20–50% maize yield loss in Africa suggest severe impact on livelihoods."
+   ]
+  },
+  {
+   "ref": "Tricht 2023",
+   "doi": "10.5194/essd-15-5491-2023",
+   "titulo": "WorldCereal: a dynamic open-source system for global-scale, seasonal, and reproducible crop and irrigation mapping",
+   "revista": "Earth system science data",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Feijão-caupi": [
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Santos 2026",
+   "doi": "10.1590/1983-21252026v3914137rc",
+   "titulo": "Water deficit limits growth and yield of cowpea cultivars",
+   "revista": "Revista Caatinga",
+   "tipo": "article",
+   "frases_com_numero": [
+    "The treatments comprised five water regimes (133.80, 191.70, 249.00, 303.00, and 357.00 mm per cycle) and two cowpea cultivars (BRS Inhuma and BRS Olho Negro)."
+   ]
+  }
+ ],
+ "Feijão comum": [
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Etten 2019",
+   "doi": "10.1073/pnas.1813720116",
+   "titulo": "Crop variety management for climate adaptation supported by citizen science",
+   "revista": "Proceedings of the National Academy of Sciences",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We present the results of 12,409 farmer-managed experimental plots of common bean ( Phaseolus vulgaris L.) in Nicaragua, durum wheat ( Triticum durum Desf.) in Ethiopia, and bread wheat ( Triticum aestivum L.) in India."
+   ]
+  }
+ ],
+ "Amendoim": [
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Yang 2024",
+   "doi": "10.1038/s41467-023-44464-9",
+   "titulo": "Diversifying crop rotation increases food production, reduces net greenhouse gas emissions and improves soil health",
+   "revista": "Nature Communications",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Sorgo": [
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Ramírez-Villegas 2011",
+   "doi": "10.1016/j.agrformet.2011.09.005",
+   "titulo": "Empirical approaches for assessing impacts of climate change on agriculture: The EcoCrop model and a case study with grain sorghum",
+   "revista": "Agricultural and Forest Meteorology",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Menezes 2021",
+   "doi": "10.1111/jac.12539",
+   "titulo": "Grain sorghum hybrids under drought stress and full‐irrigation conditions in the Brazilian Semiarid",
+   "revista": "Journal of Agronomy and Crop Science",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Diniz 2017",
+   "doi": "10.1590/s0100-204x2017000900004",
+   "titulo": "Forage cactus-sorghum intercropping at different irrigation water depths in the Brazilian Semiarid Region",
+   "revista": "Pesquisa Agropecuária Brasileira",
+   "tipo": "article",
+   "frases_com_numero": [
+    "The experiment was carried out in Serra Talhada, in the state of Pernambuco, between 2014 and 2015, in a randomized complete block design, with four replicates, and a 5x3 factorial arrangement in split plots, with one year of forage cactus cycle and two years of sorghum cycles.",
+    "The intercropping system promoted production stability with a higher system productivity index (SPI) for forage cactus-sorghum intercropping (6,279.02 kg ha-1 DM) than for forage cactus in single crop (4,626.98 kg ha-1 DM)."
+   ]
+  }
+ ],
+ "Milheto": [
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Mandioca": [
+  {
+   "ref": "Kriticos 2020",
+   "doi": "10.1038/s41598-020-79149-6",
+   "titulo": "Improving climate suitability for Bemisia tabaci in East Africa is correlated with increased prevalence of whiteflies and cassava diseases",
+   "revista": "Scientific Reports",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Since the late 1990's there have been reports from East and Central Africa of pandemics of begomoviruses in cassava linked to high abundances of whitefly species within the Bemisia tabaci complex."
+   ]
+  },
+  {
+   "ref": "Xing 2020",
+   "doi": "10.1093/biosci/biaa067",
+   "titulo": "Global Cropland Connectivity: A Risk Factor for Invasion and Saturation by Emerging Pathogens and Pests",
+   "revista": "BioScience",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Carvalho 2016",
+   "doi": "10.1590/0103-8478cr20151035",
+   "titulo": "Productivity and drought tolerance of cassava cultivars in the Coastal Tablelands of Northeastern Brazil",
+   "revista": "Ciência Rural",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Rossato 2017",
+   "doi": "10.3389/fenvs.2017.00073",
+   "titulo": "Impact of Soil Moisture on Crop Yields over Brazilian Semiarid",
+   "revista": "Frontiers in Environmental Science",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Algodão": [
+  {
+   "ref": "Portmann 2010",
+   "doi": "10.1029/2008gb003435",
+   "titulo": "MIRCA2000—Global monthly irrigated and rainfed crop areas around the year 2000: A new high‐resolution data set for agricultural and hydrological modeling",
+   "revista": "Global Biogeochemical Cycles",
+   "tipo": "article",
+   "frases_com_numero": [
+    "For the dominant crops (rice (1.7 million km 2 harvested area), wheat (2.1 million km 2 ), and maize (1.5 million km 2 )), roughly 60%, 30%, and 20% of the harvested areas are irrigated, respectively, and half of the citrus, sugar cane, and cotton areas."
+   ]
+  },
+  {
+   "ref": "Arvor 2011",
+   "doi": "10.1080/01431161.2010.531783",
+   "titulo": "Classification of MODIS EVI time series for crop mapping in the state of Mato Grosso, Brazil",
+   "revista": "International Journal of Remote Sensing",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Jin 2022",
+   "doi": "10.3390/agriculture12111759",
+   "titulo": "Potential Global Distribution of Invasive Alien Species, Anthonomus grandis Boheman, under Current and Future Climate Using Optimal MaxEnt Model",
+   "revista": "Agriculture",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Pereira 2023",
+   "doi": "10.3390/insects14070582",
+   "titulo": "Fertility Life Table, Thermal Requirements, and Ecological Zoning of Anthonomus grandis grandis Boheman (Coleoptera: Curculionidae) in Brazil",
+   "revista": "Insects",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Guandu": [],
+ "Soja": [
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Anderson 2015",
+   "doi": "10.1016/j.rse.2015.11.034",
+   "titulo": "The Evaporative Stress Index as an indicator of agricultural drought in Brazil: An assessment based on crop yield impacts",
+   "revista": "Remote Sensing of Environment",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Using finer scale yield estimates reported at the municipality level, ESI correlations with soybean yields peaked higher and earlier by 10 to 25 days in comparison to TRMM and LAI, respectively."
+   ]
+  },
+  {
+   "ref": "Yang 2024",
+   "doi": "10.1038/s41467-023-44464-9",
+   "titulo": "Diversifying crop rotation increases food production, reduces net greenhouse gas emissions and improves soil health",
+   "revista": "Nature Communications",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Iizumi 2020",
+   "doi": "10.1038/s41597-020-0433-7",
+   "titulo": "The global dataset of historical yields for major crops 1981–2016",
+   "revista": "Scientific Data",
+   "tipo": "data-paper",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Song 2021",
+   "doi": "10.1038/s41893-021-00729-z",
+   "titulo": "Massive soybean expansion in South America since 2000 and implications for conservation",
+   "revista": "Nature Sustainability",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Massive soybean expansion in South America since 2000 and implications for conservation."
+   ]
+  },
+  {
+   "ref": "Jägermeyr 2021",
+   "doi": "10.1038/s43016-021-00400-y",
+   "titulo": "Climate impacts on global agriculture emerge earlier in new generation of climate and crop models",
+   "revista": "Nature Food",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Arvor 2011",
+   "doi": "10.1080/01431161.2010.531783",
+   "titulo": "Classification of MODIS EVI time series for crop mapping in the state of Mato Grosso, Brazil",
+   "revista": "International Journal of Remote Sensing",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Renwick 2021",
+   "doi": "10.1088/1748-9326/ac1468",
+   "titulo": "Long-term crop rotation diversification enhances maize drought resistance through soil organic matter",
+   "revista": "Environmental Research Letters",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We show that diversifying maize-soybean rotations with small grain cereals and cover crops mitigated maize water stress at the leaf and canopy scales and reduced yield losses to drought by 17.1 ± 6.1%, while no-till did not affect maize drought resistance."
+   ]
+  },
+  {
+   "ref": "Kluger 2025",
+   "doi": "10.1088/1748-9326/ae0f45",
+   "titulo": "Precrop payoffs: causal machine learning reveals large but variable yield benefits of crop rotation in major breadbaskets",
+   "revista": "Environmental Research Letters",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Zhou 2024",
+   "doi": "10.1111/gcb.17556",
+   "titulo": "Changes in the Yield Effect of the Preceding Crop in the US Corn Belt Under a Warming Climate",
+   "revista": "Global Change Biology",
+   "tipo": "article",
+   "frases_com_numero": [
+    "In this study, we examine the impacts of both GS and NGS climate conditions on the yield effect of the preceding crop in corn-soybean rotation systems from 1999 to 2018 in the US Midwest.",
+    "Using causal forest analysis, we estimate that crop rotation increases corn and soybean yields by 0.96 and 0.22 t/ha on average, respectively.",
+    "For soybeans, warming climates are expected to increase rotation benefits by 8.36% under SSP 1-2.6 and 13.83% under SSP 5-8.5.",
+    "If we project that all continuous corn and continuous soybeans are rotated by 2051-2070, county-average corn yields will increase by 0.265 t/ha under SSP 1-2.6 and 0.164 t/ha under SSP 5-8.5, while county-average soybean yields will gain 0.064 t/ha under SSP 1-2.6 and 0.076 t/ha under SSP 5-8.5."
+   ]
+  },
+  {
+   "ref": "Menezes 2021",
+   "doi": "10.1111/jac.12539",
+   "titulo": "Grain sorghum hybrids under drought stress and full‐irrigation conditions in the Brazilian Semiarid",
+   "revista": "Journal of Agronomy and Crop Science",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Gray 2008",
+   "doi": "10.1146/annurev.ento.54.110807.090434",
+   "titulo": "Adaptation and Invasiveness of Western Corn Rootworm: Intensifying Research on a Worsening Pest",
+   "revista": "Annual Review of Entomology",
+   "tipo": "review",
+   "frases_com_numero": [
+    "The rotation of maize with another crop, principally soybeans, Glycine max (L.), was the primary management strategy utilized by North American producers and remained highly effective until the mid-1990s.",
+    "In 1995, widespread and severe root injury occurred in east-central Illinois and northern Indiana maize fields that had been annually rotated with soybeans on a regular basis for several decades."
+   ]
+  },
+  {
+   "ref": "Sutrave 2012",
+   "doi": "10.1371/journal.pone.0037793",
+   "titulo": "Identifying Highly Connected Counties Compensates for Resource Limitations when Evaluating National Spread of an Invasive Pathogen",
+   "revista": "PLoS ONE",
+   "tipo": "article",
+   "frases_com_numero": [
+    "soybean growers approximately $200 M/yr."
+   ]
+  },
+  {
+   "ref": "Gaudin 2015",
+   "doi": "10.1371/journal.pone.0113261",
+   "titulo": "Increasing Crop Diversity Mitigates Weather Variations and Improves Yield Stability",
+   "revista": "PLoS ONE",
+   "tipo": "article",
+   "frases_com_numero": [
+    "In hot and dry years, diversification of corn-soybean rotations and reduced tillage increased yield by 7% and 22% for corn and soybean respectively."
+   ]
+  },
+  {
+   "ref": "Seifert 2017",
+   "doi": "10.2134/agronj2016.03.0134",
+   "titulo": "Continuous Corn and Soybean Yield Penalties across Hundreds of Thousands of Fields",
+   "revista": "Agronomy Journal",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Continuous soybean showed a 10.3% yield penalty, worse in low‐yielding years.",
+    "For rainfed fields, we found an average continuous corn (Zea mays L.) yield penalty (CCYP) of 4.3% and continuous soybean [Glycine max (L.) Merr.] yield penalty (CSYP) of 10.3% during the 2007 to 2012 growing seasons.",
+    "Both penalties increased with the number of years a field had been continuously cropped, and while the CCYP leveled off after 3 yr in corn, the CSYP showed significant increases out to the (very rare) 5‐yr continuous soybean sequence."
+   ]
+  },
+  {
+   "ref": "Cohen 2019",
+   "doi": "10.2134/agronj2019.03.0157",
+   "titulo": "Rotation Effects on Corn and Soybean Yield Inferred from Satellite and Field‐level Data",
+   "revista": "Agronomy Journal",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We investigated the yield benefits of crop rotation on corn (Zea mays L.) and soybean [Glycine max (L.) Merr.] using estimates generated from satellite imagery in Indiana, Iowa, and Illinois and compared these to yield benefits from field‐level data between 2007 and 2012.",
+    "After adjusting for environmental differences between fields with and without rotations, satellite data show yield benefits of 1.0% with a range of −8.9 to 9.7% for corn rotations and 10.8% with a range of 4.6 to 17.6% for soybean rotations, within the range of effects found in the literature and not significantly different from estimates of 4.3% for rainfed corn and 10.3% for rainfed soybean found using the field‐level data.",
+    "Core Ideas Satellite data showed yield benefits of 1.0 and 10.8% for rotated corn and soybean from 2007 to 2012."
+   ]
+  }
+ ],
+ "Cana": [
+  {
+   "ref": "Valente 2021",
+   "doi": "10.1016/j.clet.2021.100255",
+   "titulo": "Pre-harvest sugarcane burning: A statistical analysis of the environmental impacts of a regulatory change in the energy sector",
+   "revista": "Cleaner Engineering and Technology",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We evaluate the efficiency of a regulatory change in sugarcane production (Law N°11.241/2002) that gradually banish the pre-harvest burning in the sugarcane production sector in the São Paulo state in Brazil, analyzing the occurrences of fires detected by satellite."
+   ]
+  },
+  {
+   "ref": "Portmann 2010",
+   "doi": "10.1029/2008gb003435",
+   "titulo": "MIRCA2000—Global monthly irrigated and rainfed crop areas around the year 2000: A new high‐resolution data set for agricultural and hydrological modeling",
+   "revista": "Global Biogeochemical Cycles",
+   "tipo": "article",
+   "frases_com_numero": [
+    "For the dominant crops (rice (1.7 million km 2 harvested area), wheat (2.1 million km 2 ), and maize (1.5 million km 2 )), roughly 60%, 30%, and 20% of the harvested areas are irrigated, respectively, and half of the citrus, sugar cane, and cotton areas."
+   ]
+  },
+  {
+   "ref": "Aguiar 2011",
+   "doi": "10.3390/rs3122682",
+   "titulo": "Remote Sensing Images in Support of Environmental Protocol: Monitoring the Sugarcane Harvest in São Paulo State, Brazil",
+   "revista": "Remote Sensing",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Traditional manual sugarcane harvesting requires the pre-harvest burning practice which should be gradually banned by 2021 for most of São Paulo State, Brazil, on cultivated sugarcane land (terrain slope ≤12%) according to State Law number 11241.",
+    "During the last five crop years, sugarcane acreage expanded by 1.5 million ha, which was compensated by a correspondent increase in the green harvested land."
+   ]
+  }
+ ],
+ "Caju": [
+  {
+   "ref": "Bezerra 2007",
+   "doi": "10.1590/s1677-04202007000400012",
+   "titulo": "Physiology of cashew plants grown under adverse conditions",
+   "revista": "Brazilian Journal of Plant Physiology",
+   "tipo": "article",
+   "frases_com_numero": []
+  }
+ ],
+ "Palma": [],
+ "Leguminosas": [
+  {
+   "ref": "King 2017",
+   "doi": "10.1002/eap.1648",
+   "titulo": "Crop rotations for increased soil carbon: perenniality as a guiding principle",
+   "revista": "Ecological Applications",
+   "tipo": "review",
+   "frases_com_numero": [
+    "Within grain‐only rotations, cereal + legume grain rotations decreased total C input (−16%), root C input (−12%), and SOC (−5.3%) relative to cereal‐only rotations.",
+    "N fertilizer rates mediated the effect of functional diversity on SOC within grain‐only crop rotations: at low N fertilizer rates (≤75 kg N·ha −1 ·yr −1 ), the decrease in SOC with cereal + legume grain rotations was less than at high N fertilizer rates."
+   ]
+  },
+  {
+   "ref": "Mudare 2022",
+   "doi": "10.1007/s13593-022-00816-1",
+   "titulo": "Yield and fertilizer benefits of maize/grain legume intercropping in China and Africa: A meta-analysis",
+   "revista": "Agronomy for Sustainable Development",
+   "tipo": "review",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Franke 2017",
+   "doi": "10.1016/j.agee.2017.09.029",
+   "titulo": "Sustainable intensification through rotations with grain legumes in Sub-Saharan Africa: A review",
+   "revista": "Agriculture Ecosystems & Environment",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We retrieved 44 unique publications providing 199 observations comparing continuous cereal performance with that of a grain legume-cereal rotation.",
+    "Fertiliser N application to cereals reduces the residual effects of legumes, but the response at 60–120 kg N ha −1 still equalled 0.32 t ha −1 or 59% of the response when no N is applied.",
+    "Future research on N 2 -fixation by grain legumes and residual N benefits should focus on explaining the wide variability observed among sites."
+   ]
+  },
+  {
+   "ref": "Zhao 2022",
+   "doi": "10.1038/s41467-022-32464-0",
+   "titulo": "Global systematic review with meta-analysis reveals yield advantage of legume-based rotations and its drivers",
+   "revista": "Nature Communications",
+   "tipo": "review",
+   "frases_com_numero": [
+    "Here, we synthesize 11,768 yield observations from 462 field experiments comparing legume-based and non-legume cropping systems and show that legumes enhanced main crop yield by 20%."
+   ]
+  },
+  {
+   "ref": "Yang 2024",
+   "doi": "10.1038/s41467-023-44464-9",
+   "titulo": "Diversifying crop rotation increases food production, reduces net greenhouse gas emissions and improves soil health",
+   "revista": "Nature Communications",
+   "tipo": "article",
+   "frases_com_numero": [
+    "Furthermore, including legumes in crop rotations stimulates soil microbial activities, increases soil organic carbon stocks by 8%, and enhances soil health (indexed with the selected soil physiochemical and biological properties) by 45%."
+   ]
+  },
+  {
+   "ref": "Mudare 2025",
+   "doi": "10.1038/s41467-025-64567-9",
+   "titulo": "Crop rotations synergize yield, nutrition, and revenue: a meta-analysis",
+   "revista": "Nature Communications",
+   "tipo": "review",
+   "frases_com_numero": [
+    "Here, we synthesize 3663 paired field-trial yield observations (1980–2024) and show that globally, crop rotation increased subsequent crop yield, with legume pre-crops outperforming non-legume pre-crops (23% and 16% average increases, respectively)."
+   ]
+  },
+  {
+   "ref": "Kluger 2025",
+   "doi": "10.1088/1748-9326/ae0f45",
+   "titulo": "Precrop payoffs: causal machine learning reveals large but variable yield benefits of crop rotation in major breadbaskets",
+   "revista": "Environmental Research Letters",
+   "tipo": "article",
+   "frases_com_numero": []
+  },
+  {
+   "ref": "Abdalla 2019",
+   "doi": "10.1111/gcb.14644",
+   "titulo": "A critical review of the impacts of cover crops on nitrogen leaching, net greenhouse gas balance and crop productivity",
+   "revista": "Global Change Biology",
+   "tipo": "review",
+   "frases_com_numero": [
+    "This drawback could be avoided by selecting mixed cover crops with a range of legumes and non‐legumes, which increased the yield by ≈13%."
+   ]
+  },
+  {
+   "ref": "Boddey 2009",
+   "doi": "10.1111/j.1365-2486.2009.02020.x",
+   "titulo": "Carbon accumulation at depth in Ferralsols under zero‐till subtropical agriculture",
+   "revista": "Global Change Biology",
+   "tipo": "article",
+   "frases_com_numero": [
+    "In rotations containing intercropped or cover‐crop legumes, there were significant accumulations of SOC in ZT soils varying from 5 to 8 Mg ha−1 in comparison with CT management, equivalent to annual soil C accumulation rates of between 0.04 and 0.88 Mg ha−1."
+   ]
+  },
+  {
+   "ref": "Gaudin 2015",
+   "doi": "10.1371/journal.pone.0113261",
+   "titulo": "Increasing Crop Diversity Mitigates Weather Variations and Improves Yield Stability",
+   "revista": "PLoS ONE",
+   "tipo": "article",
+   "frases_com_numero": [
+    "We used parametric and non-parametric approaches to quantify the impact of rotation diversity (monocrop, 2-crops, 3-crops without or with one or two legume cover crops) and tillage (conventional or reduced tillage) on yield probabilities and the benefits of crop diversity under different soil moisture and temperature scenarios."
+   ]
+  }
+ ]
+}

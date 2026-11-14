@@ -1,0 +1,87 @@
+[SMAP L4] 8.4s
+SMAP L4: 4243 dias únicos 2015-03-31 -> 2026-11-10; células por município: mediana 8, mín 1, municípios só com a célula mais próxima: 10
+[balde M1 contínuo] 0.1s
+balde: 2014-06-01 -> 2026-09-14; chuva média anual CE 2016-2025 = 821 mm; ET0 média anual = 2234 mm
+[CLSM] 0.5s
+Noah até 2026-07; CLSM até 2026-08-31; GWETROOT até 2026-11-10
+
+========================= (1) Concordância com o SMAP L4 (média do Ceará) =========================
+           fonte      dias  r bruto diário  r bruto mensal  r anomalia diária  r anomalia mensal defasagem (dias, + = atrasa o SMAP)  r na defasagem
+        M1_balde      4186           0.841           0.841              0.774              0.732                                  -1           0.777
+         CLSM_RZ      4172           0.913           0.919              0.851              0.853                                   0           0.851
+  POWER_GWETROOT      4243           0.892           0.879              0.696              0.605                                   0           0.696
+Noah_RZ (mensal) 136 meses             NaN           0.956                NaN              0.865                               0 mês           0.865
+matriz de r das anomalias mensais (todas as fontes):
+                SMAP_L4  M1_balde  CLSM_RZ  POWER_GWETROOT  Noah_RZ
+SMAP_L4            1.00      0.74     0.85            0.83     0.86
+M1_balde           0.74      1.00     0.86            0.77     0.70
+CLSM_RZ            0.85      0.86     1.00            0.82     0.83
+POWER_GWETROOT     0.83      0.77     0.82            1.00     0.76
+Noah_RZ            0.86      0.70     0.83            0.76     1.00
+
+========================= (2) Viés e amplitude (volumétricos; 2015-04 a 2026-07) =========================
+                               mean     5%    50%    95%  amplitude p95-p5
+SMAP_L4 (m3/m3)               0.161  0.119  0.159  0.217             0.098
+CLSM_RZ (mm/1000)             0.256  0.232  0.249  0.297             0.065
+Noah_RZ (mm/1000, supõe 1 m)  0.185  0.111  0.175  0.299             0.187
+  viés CLSM_RZ (mm/1000) − SMAP = +0.096 m3/m3; razão de amplitude = 0.66
+  viés Noah_RZ (mm/1000, supõe 1 m) − SMAP = +0.024 m3/m3; razão de amplitude = 1.91
+  M1 e GWETROOT são relativos (0-1): sem viés volumétrico. Amplitude p95-p5 em unidades próprias: {'M1_balde': 0.9, 'POWER_GWETROOT': 0.18}
+
+========================= (3) Ciclo sazonal: dia do pico e do vale (climatologia 2015-2025) =========================
+  SMAP_L4         pico no dia 107 (17/04) | vale no dia 324 (20/11)
+  M1_balde        pico no dia 100 (10/04) | vale no dia 251 (08/09)
+  CLSM_RZ         pico no dia  91 (01/04) | vale no dia 292 (19/10)
+  POWER_GWETROOT  pico no dia 102 (12/04) | vale no dia 287 (14/10)
+  Noah_RZ mensal: mês do pico 4, mês do vale 10
+  chuva IMERG CE: mês mais chuvoso 3 (208 mm)
+
+========================= (4) Memória: lag em que a autocorrelação da anomalia cai abaixo de 1/e =========================
+  SMAP_L4                      e-folding ≈ 46 dias | acf 30 d = 0.44, 90 d = 0.21, 180 d = 0.10
+  M1_balde                     e-folding ≈ 18 dias | acf 30 d = 0.10, 90 d = 0.01, 180 d = 0.01
+  CLSM_RZ                      e-folding ≈ 22 dias | acf 30 d = 0.31, 90 d = 0.19, 180 d = 0.07
+  POWER_GWETROOT               e-folding ≈ 38 dias | acf 30 d = 0.46, 90 d = 0.20, 180 d = 0.11
+  CLSM_GWS (água subterrânea)  e-folding ≈ 392 dias | acf 30 d = 0.91, 90 d = 0.73, 180 d = 0.53
+
+========================= (5) Portões: concordância ENTRE ANOS (z da anomalia no dia do portão; Spearman) =========================
+--- portão 19/mar (n anos = 11)
+      SMAP_L4  M1_balde  CLSM_RZ  POWER_GWETROOT  SMAP_pctl_produto  Noah_RZ (mês anterior)  IMERG % do normal  fração mun. em quebra (milho)
+2016    -0.92     -1.33    -0.97           -1.32              39.73                   10.56               0.88                           0.70
+2017     0.94      0.74     0.19            0.51              70.51                  -42.04               1.19                           0.17
+2018    -1.12     -1.60    -1.59           -1.19              34.00                   11.84               0.88                           0.04
+2019     0.23      0.14    -0.02           -0.14              53.35                   52.60               1.38                           0.07
+2020     1.67      1.03     1.56            1.94              78.82                   21.02               1.53                           0.01
+2021    -1.25     -0.94    -1.15           -1.20              31.41                  -30.31               0.71                           0.04
+2022    -0.50      0.41     0.55            0.35              46.40                   -3.48               0.82                           0.02
+2023     0.12      0.64     0.88            0.50              57.50                   -0.14               0.84                           0.11
+2024     0.37      0.50     0.72           -0.19              60.90                  -30.85               1.13                           0.08
+2025     0.65      0.37     0.88            0.39              62.93                   10.79               1.42                           0.25
+2026    -0.81      0.64     0.06           -1.18              38.85                  -27.98               1.10                            NaN
+Spearman entre anos (colunas-chave):
+                               SMAP_L4  M1_balde  CLSM_RZ  POWER_GWETROOT  SMAP_pctl_produto  Noah_RZ (mês anterior)  IMERG % do normal  fração mun. em quebra (milho)
+SMAP_L4                           1.00      0.72     0.81            0.86               0.98                    0.07               0.81                           0.09
+SMAP_pctl_produto                 0.98      0.69     0.84            0.86               1.00                    0.05               0.74                           0.11
+M1_balde                          0.72      1.00     0.72            0.77               0.69                   -0.29               0.42                          -0.14
+IMERG % do normal                 0.81      0.42     0.50            0.55               0.74                    0.39               1.00                           0.08
+fração mun. em quebra (milho)     0.09     -0.14    -0.01           -0.16               0.11                   -0.23               0.08                           1.00
+--- portão 30/abr (n anos = 12)
+      SMAP_L4  M1_balde  CLSM_RZ  POWER_GWETROOT  SMAP_pctl_produto  Noah_RZ (mês anterior)  IMERG % do normal  fração mun. em quebra (milho)
+2015    -1.12     -0.85    -1.06           -0.94              23.65                  -26.43               0.81                           0.61
+2016    -1.52     -2.21    -1.88           -1.59              16.24                  -51.15               0.88                           0.70
+2017    -0.33     -0.32    -0.02           -0.65              36.71                   -7.88               0.99                           0.17
+2018     1.11     -0.02     0.27            0.56              62.37                   -5.60               1.05                           0.04
+2019     1.54      1.43     1.79            0.99              67.15                   46.17               1.31                           0.07
+2020     1.64      1.66     1.83            2.16              68.16                   42.60               1.31                           0.01
+2021    -0.76     -0.11    -0.58           -0.51              34.41                  -26.16               0.78                           0.04
+2022     0.17      0.98     0.10            1.23              46.88                  -12.70               0.97                           0.02
+2023     0.68      0.77     0.14            1.05              55.98                   -9.41               0.90                           0.11
+2024     0.78      0.82     1.17            0.51              56.01                   22.51               1.01                           0.08
+2025    -0.92     -0.99    -0.47           -1.26              26.24                    1.63               1.00                           0.25
+2026    -0.57      1.32     0.80            0.43              35.06                   -0.52               1.05                            NaN
+Spearman entre anos (colunas-chave):
+                               SMAP_L4  M1_balde  CLSM_RZ  POWER_GWETROOT  SMAP_pctl_produto  Noah_RZ (mês anterior)  IMERG % do normal  fração mun. em quebra (milho)
+SMAP_L4                           1.00      0.81     0.91            0.86               1.00                    0.73               0.73                          -0.75
+SMAP_pctl_produto                 1.00      0.81     0.91            0.86               1.00                    0.73               0.73                          -0.75
+M1_balde                          0.81      1.00     0.90            0.87               0.81                    0.66               0.71                          -0.82
+IMERG % do normal                 0.73      0.71     0.88            0.50               0.73                    0.90               1.00                          -0.46
+fração mun. em quebra (milho)    -0.75     -0.82    -0.68           -0.85              -0.75                   -0.44              -0.46                           1.00

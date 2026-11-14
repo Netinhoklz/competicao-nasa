@@ -1,0 +1,47 @@
+celulas IMERG 0,1 no Ceara: 1212; em Quixada: 18; historico ate 2026-09-14
+Late: 2026-08-01 -> 2026-11-12; Early: 2026-11-01 -> 2026-11-13
+
+========================= A. Calibracao entre produtos (Ceara, media de area) =========================
+  01/ago-14/set/2026: POWER-IMERG 0.8 mm | Late 0.8 mm | razao Late/POWER 1.00 | r diario 1.00 (n=45 dias)
+  Quixada, mesmo periodo: POWER-IMERG 0.7 mm | Late 0.7 mm
+  01-12/nov/2026: Late 4.1 mm | Early 4.5 mm (Ceara); Quixada Late 0.6 | Early 1.6
+
+========================= B. Estacao seca 2026 (01/ago-13/nov) contra 1998-2025 =========================
+  Ceara:
+    ago           : 2026 =    0.4 mm | mediana 1998-2025 =    1.0 mm (   42%) | posto 6 de 29 (1 = mais seco) | min 0.2 max 34.8
+    set           : 2026 =    0.6 mm | mediana 1998-2025 =    0.8 mm (   81%) | posto 13 de 29 (1 = mais seco) | min 0.0 max 13.4
+    out           : 2026 =    0.5 mm | mediana 1998-2025 =    1.6 mm (   29%) | posto 2 de 29 (1 = mais seco) | min 0.2 max 33.7
+    01-13/nov     : 2026 =    4.1 mm | mediana 1998-2025 =    1.0 mm (  398%) | posto 21 de 29 (1 = mais seco) | min 0.1 max 47.4
+    01/ago-13/nov : 2026 =    5.7 mm | mediana 1998-2025 =    7.0 mm (   81%) | posto 13 de 29 (1 = mais seco) | min 1.0 max 60.1
+  Quixada:
+    ago           : 2026 =    0.7 mm | mediana 1998-2025 =    0.4 mm (  207%) | posto 16 de 29 (1 = mais seco) | min 0.0 max 77.7
+    set           : 2026 =    0.0 mm | mediana 1998-2025 =    0.1 mm (    8%) | posto 8 de 29 (1 = mais seco) | min 0.0 max 4.9
+    out           : 2026 =    0.2 mm | mediana 1998-2025 =    0.4 mm (   57%) | posto 14 de 29 (1 = mais seco) | min 0.0 max 22.1
+    01-13/nov     : 2026 =    0.6 mm | mediana 1998-2025 =    0.1 mm (  593%) | posto 20 de 29 (1 = mais seco) | min 0.0 max 37.8
+    01/ago-13/nov : 2026 =    1.6 mm | mediana 1998-2025 =    3.1 mm (   51%) | posto 10 de 29 (1 = mais seco) | min 0.0 max 82.8
+  quadra (fev-mai) 2026 em Ceara: 698 mm = 120% da mediana 1998-2025; posto 22 de 29
+  quadra (fev-mai) 2026 em Quixada: 649 mm = 114% da mediana 1998-2025; posto 23 de 29
+
+========================= C. A estacao seca (01/ago-13/nov, ano t-1) informa a quadra do ano t? =========================
+  Ceara: seca(t-1) x quadra fev-mai(t) % mediana                   : rho=-0.22 IC90 [-0.56,+0.13] p=0.26 n=28 anos
+  Ceara: seca(t-1) x fracao de municipios em quebra do milho(t)    : rho=+0.18 IC90 [-0.19,+0.52] p=0.37 n=27 anos
+  Quixada: seca(t-1) x quadra fev-mai(t)                           : rho=-0.33 IC90 [-0.62,+0.02] p=0.09 n=28 anos
+  Quixada: seca(t-1) x quebra do milho(t) (0/1)                    : rho=+0.09 IC90 [-0.37,+0.53] p=0.67 n=27 anos
+
+  estacao seca 2026 = 5.7 mm; anos t com estacao seca (t-1) <= 2026: [1999, 2003, 2006, 2008, 2013, 2016, 2017, 2018, 2019, 2020, 2024, 2025]
+    quadra 1999: 114% da mediana; fracao em quebra 0.05
+    quadra 2003: 133% da mediana; fracao em quebra 0.01
+    quadra 2006: 131% da mediana; fracao em quebra 0.00
+    quadra 2008: 146% da mediana; fracao em quebra 0.01
+    quadra 2013: 66% da mediana; fracao em quebra 0.56
+    quadra 2016: 64% da mediana; fracao em quebra 0.70
+    quadra 2017: 101% da mediana; fracao em quebra 0.17
+    quadra 2018: 110% da mediana; fracao em quebra 0.04
+    quadra 2019: 126% da mediana; fracao em quebra 0.07
+    quadra 2020: 133% da mediana; fracao em quebra 0.01
+    quadra 2024: 101% da mediana; fracao em quebra 0.08
+    quadra 2025: 78% da mediana; fracao em quebra 0.25
+
+  quartil seco da estacao seca (t-1) -> quadra mediana 101% | quartil umido -> 85%  (n=7 anos cada)
+  fracao media em quebra: quartil seco 0.18 | quartil umido 0.39 | todos 0.20
+  anos 'catastrofe' (>=50% dos municipios em quebra) entre os 12 anos com estacao seca <= 2026: 2

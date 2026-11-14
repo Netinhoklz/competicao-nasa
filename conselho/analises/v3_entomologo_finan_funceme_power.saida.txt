@@ -1,0 +1,28 @@
+== 0. Conferencia da transcricao (medias 1974-1998 da Tabela 2; artigo: 721 1153 532 704 1140 1273 946) ==
+  753 1061 716 677 1156 1253 931
+
+== A. Municipio a municipio, 1981-1998: FUNCEME (Tabela 2) x NASA POWER na celula mais proxima ==
+  Limoeiro do Norte    centroide (-5.16, -38.05) -> celula (-5.00, -38.12) | r +0.94 | rho +0.91 | POWER/FUNCEME 1.08 | anos secos FUNCEME 6, POWER 6, em comum 5 | 1998: FUNCEME 313, POWER 328, IMERG 396 mm
+  Barbalha             centroide (-7.40, -39.34) -> celula (-7.50, -39.38) | r +0.95 | rho +0.94 | POWER/FUNCEME 0.78 | anos secos FUNCEME 5, POWER 4, em comum 4 | 1998: FUNCEME 759, POWER 539, IMERG 583 mm
+  Parambu              centroide (-6.30, -40.63) -> celula (-6.50, -40.62) | r +0.94 | rho +0.95 | POWER/FUNCEME 0.93 | anos secos FUNCEME 8, POWER 5, em comum 5 | 1998: FUNCEME 344, POWER 365, IMERG 352 mm
+  Boa Viagem           centroide (-5.09, -39.81) -> celula (-5.00, -40.00) | r +0.96 | rho +0.91 | POWER/FUNCEME 1.04 | anos secos FUNCEME 5, POWER 5, em comum 4 | 1998: FUNCEME 395, POWER 310, IMERG 389 mm
+  Itarema              centroide (-3.05, -39.89) -> celula (-3.00, -40.00) | r +0.94 | rho +0.93 | POWER/FUNCEME 0.87 | anos secos FUNCEME 6, POWER 8, em comum 6 | 1998: FUNCEME 923, POWER 527, IMERG 747 mm
+  Guaraciaba do Norte  centroide (-4.23, -40.92) -> celula (-4.00, -40.62) | r +0.94 | rho +0.92 | POWER/FUNCEME 0.73 | anos secos FUNCEME 4, POWER 7, em comum 3 | 1998: FUNCEME 714, POWER 510, IMERG 579 mm
+  mediana do r nos 6 municipios: +0.94
+
+== B. Estado do Ceara, 1981-1998: FUNCEME (Tabela 2) x POWER (media do estado) ==
+  r = +1.00; media FUNCEME 907 mm, POWER 834 mm; 1983: 433 x 368; 1985: 1891 x 1761; 1997: 709 x 693; 1998: 493 x 436
+
+== C. 1997 (a previsao 'abaixo da media' que custou a credibilidade): POWER, media do estado ==
+  1997-01:   96.8 mm =   101% da mediana 1981-2010 do mes (96.0 mm)
+  1997-02:   75.5 mm =    65% da mediana 1981-2010 do mes (115.7 mm)
+  1997-03:  212.5 mm =   102% da mediana 1981-2010 do mes (208.9 mm)
+  1997-04:  163.8 mm =    94% da mediana 1981-2010 do mes (173.6 mm)
+  1997-05:   82.9 mm =    86% da mediana 1981-2010 do mes (96.7 mm)
+  1997-06:    3.9 mm =    10% da mediana 1981-2010 do mes (39.9 mm)
+  fev-mai/1997: 535 mm = 91% da mediana; posto 15 de 30 (1 = mais seco)
+  ano 1997 na Tabela 2 (estado): 709 mm = 76% da media 1974-1998 do artigo
+
+== D. 1998 e o dia de Sao Jose (19/mar): chuva acumulada 1/jan-19/mar, POWER media de celulas no CE ==
+  1998: 238 mm; mediana 1981-2010 357 mm (67%); posto 11 de 45
+  (media simples das 84 celulas do recorte retangular, nao so as do Ceara: serve para comparar anos)

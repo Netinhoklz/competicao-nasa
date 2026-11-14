@@ -1,0 +1,65 @@
+[balde em 20 combinações x 184 municípios, 1998-2026] 0.7s
+dias: 10484 1998-01-01 -> 2026-09-14
+
+========================= (i) r com o SMAP no ANO DEIXADO DE FORA (por município, média) =========================
+      r padrão  r calibrado  mun. em que melhora
+ano                                             
+2016     0.826        0.956                0.940
+2017     0.848        0.952                0.951
+2018     0.835        0.960                0.967
+2019     0.846        0.956                0.984
+2020     0.860        0.960                0.929
+2021     0.844        0.966                0.989
+2022     0.845        0.956                0.913
+2023     0.846        0.968                0.967
+2024     0.851        0.964                0.957
+2025     0.785        0.941                0.918
+média dos 10 anos: padrão 0.838 | calibrado 0.958 | anos em que melhora: 10 de 10
+
+parâmetros escolhidos com 2015-2026 (184 municípios):
+TAW    Kc 
+300.0  1.0    35
+200.0  0.6    29
+300.0  0.6    27
+       0.4    26
+200.0  1.0    25
+150.0  0.6    12
+200.0  0.8     9
+300.0  0.8     9
+TAW mediana 300 mm | Kc mediano 0.60 | r médio padrão 0.819 -> calibrado 0.937
+estabilidade: fração de município-anos LOYO com a mesma escolha do ajuste completo = 0.93
+
+========================= (ii) Memória e ciclo: média do Ceará =========================
+  SMAP L4          e-folding 58 dias | vale climatológico em 18/11 | r com SMAP (CE, diário) 1.000
+  balde padrão     e-folding 18 dias | vale climatológico em 08/09 | r com SMAP (CE, diário) 0.859
+  balde calibrado  e-folding 44 dias | vale climatológico em 20/10 | r com SMAP (CE, diário) 0.975
+  aquecimento [padrão]: fração de água média do CE em 1/jan dos anos 1999-2026: mediana 0.074, máx 0.326 (2000)
+  aquecimento [calibrado]: fração de água média do CE em 1/jan dos anos 1999-2026: mediana 0.101, máx 0.255 (2000)
+
+========================= (iii) Fora da amostra no tempo: 1998-2014 (SMAP nunca viu), quebra canônica do milho =========================
+--- portão 19/mar: n=3104 município-anos, 17 anos, taxa de quebra 0.23
+   [sem 1998] chuva < 75%                P(quebra|alerta) 0.43 (n=747) | recall 55%
+   [sem 1998] balde padrão pctl < 20     P(quebra|alerta) 0.55 (n=483) | recall 46%
+   [sem 1998] balde calibrado pctl < 20  P(quebra|alerta) 0.48 (n=606) | recall 50%
+   chuva IMERG % normal             AUC total 0.772 [0.68,0.84] | dentro do ano 0.524 | rho entre anos -0.62
+   balde padrão, percentil          AUC total 0.781 [0.67,0.84] | dentro do ano 0.497 | rho entre anos -0.62
+   balde calibrado SMAP, percentil  AUC total 0.792 [0.71,0.85] | dentro do ano 0.522 | rho entre anos -0.60
+   dentro do ano cal_pctl − pad_pctl: +0.025 IC90 [-0.020,+0.070] (12 anos)
+   dentro do ano cal_pctl − chuva_pct: -0.002 IC90 [-0.040,+0.047] (12 anos)
+   dentro do ano pad_pctl − chuva_pct: -0.027 IC90 [-0.076,+0.030] (12 anos)
+   alerta chuva < 75%                acende 26% | P(quebra|alerta) 0.46 (n=803) | P(quebra|sem) 0.15 | recall 51% | acertos/quebras em 1998:46/135, 2010:105/110, 2012:54/135, 2013:102/102
+   alerta balde padrão pctl < 20     acende 20% | P(quebra|alerta) 0.60 (n=633) | P(quebra|sem) 0.14 | recall 53% | acertos/quebras em 1998:113/135, 2010:107/110, 2012:76/135, 2013:72/102
+   alerta balde calibrado pctl < 20  acende 25% | P(quebra|alerta) 0.54 (n=776) | P(quebra|sem) 0.13 | recall 58% | acertos/quebras em 1998:128/135, 2010:110/110, 2012:49/135, 2013:98/102
+--- portão 30/abr: n=3104 município-anos, 17 anos, taxa de quebra 0.23
+   [sem 1998] chuva < 75%                P(quebra|alerta) 0.54 (n=597) | recall 55%
+   [sem 1998] balde padrão pctl < 20     P(quebra|alerta) 0.55 (n=395) | recall 37%
+   [sem 1998] balde calibrado pctl < 20  P(quebra|alerta) 0.58 (n=515) | recall 51%
+   chuva IMERG % normal             AUC total 0.833 [0.75,0.89] | dentro do ano 0.581 | rho entre anos -0.77
+   balde padrão, percentil          AUC total 0.794 [0.68,0.87] | dentro do ano 0.571 | rho entre anos -0.72
+   balde calibrado SMAP, percentil  AUC total 0.831 [0.74,0.89] | dentro do ano 0.586 | rho entre anos -0.78
+   dentro do ano cal_pctl − pad_pctl: +0.015 IC90 [-0.025,+0.047] (12 anos)
+   dentro do ano cal_pctl − chuva_pct: +0.004 IC90 [-0.049,+0.065] (12 anos)
+   dentro do ano pad_pctl − chuva_pct: -0.010 IC90 [-0.072,+0.065] (12 anos)
+   alerta chuva < 75%                acende 24% | P(quebra|alerta) 0.58 (n=733) | P(quebra|sem) 0.12 | recall 59% | acertos/quebras em 1998:103/135, 2010:78/110, 2012:123/135, 2013:93/102
+   alerta balde padrão pctl < 20     acende 19% | P(quebra|alerta) 0.61 (n=576) | P(quebra|sem) 0.15 | recall 49% | acertos/quebras em 1998:135/135, 2010:35/110, 2012:135/135, 2013:6/102
+   alerta balde calibrado pctl < 20  acende 22% | P(quebra|alerta) 0.62 (n=696) | P(quebra|sem) 0.12 | recall 60% | acertos/quebras em 1998:135/135, 2010:58/110, 2012:133/135, 2013:77/102

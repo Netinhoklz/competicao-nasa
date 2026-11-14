@@ -1,0 +1,25 @@
+FIRMS CE type0 n/h: 268453 focos; dentro de municipio: 267919 (1s)
+VIIRS NDVI ok; municipio-meses sem NDVI: 0.5% (3s)
+SMAP: 1835 celulas em municipios; 0 municipios pela celula mais proxima
+  sm_surface ok (4s)
+  sm_rootzone ok (4s)
+  sm_rootzone_pctl ok (5s)
+Painel: 32752 linhas, 184 municipios, 2012-01 a 2026-10 -> c:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\saidas\v2_ecologo_painel_mun_mes.parquet
+        focos   ndvi  sm_rootzone_pctl          P_mes
+ano                                                  
+2012  20632.0  0.505               NaN   87180.859375
+2013  14086.0  0.525               NaN  113391.546875
+2014  13650.0  0.545               NaN  132754.734375
+2015  15406.0  0.524            36.814  117115.328125
+2016  21499.0  0.528            32.064  121992.179688
+2017  16162.0  0.542            49.558  142889.078125
+2018  15995.0  0.578            46.737  159511.234375
+2019  21452.0  0.600            65.132  184007.843750
+2020  19835.0  0.617            67.393  190593.484375
+2021  22245.0  0.569            36.768  127825.234375
+2022  20780.0  0.641            59.636  165173.359375
+2023  25359.0  0.604            48.530  125259.039062
+2024  18583.0  0.590            54.000  149098.156250
+2025  22235.0  0.594            50.413  143582.687500
+2026      0.0  0.621            35.735  156645.593750
+Tempo total 5s

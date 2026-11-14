@@ -1,0 +1,6 @@
+n = 4678 municipio-anos, 26 anos, taxa de quebra 14.0%
+  so nivel do ano (chuva media do estado)       AUC agrupada 0.723 | AUC dentro do ano 0.500 (16 anos)
+  % do normal do municipio (designer)           AUC agrupada 0.722 | AUC dentro do ano 0.553 (16 anos)
+  nivel do ano + chuva local                    AUC agrupada 0.725 | AUC dentro do ano 0.553 (16 anos)
+  nivel do ano + NDVI local                     AUC agrupada 0.733 | AUC dentro do ano 0.590 (16 anos)
+  nivel do ano + chuva local + NDVI local       AUC agrupada 0.732 | AUC dentro do ano 0.591 (16 anos)

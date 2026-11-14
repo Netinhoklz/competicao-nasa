@@ -1,0 +1,165 @@
+[3s] paineis por portao montados; n municipio-anos de milho = 5106 (1100 quebras)
+
+====================== A. Curvas por ERA nos 5 portoes (AUC agrupada | Spearman entre anos da fracao com luz x fracao em quebra) ======================
+   score = -leitura (chuva em razao ao normal, cortada em 3); luz = leitura < 0,75; ONI = ONI ASO do ano anterior (score +ONI)
+  AUC agrupada:
+portao     31/jan                        28/fev                        19/mar                        31/mar                        30/abr                    
+era     1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025
+leitura                                                                                                                                                      
+API          0.63      0.59      0.31      0.65      0.65      0.65      0.75      0.72      0.61      0.69      0.66      0.53      0.79      0.77      0.80
+ONI          0.66      0.67      0.72      0.66      0.67      0.72      0.66      0.67      0.72      0.66      0.67      0.72      0.66      0.67      0.72
+R15          0.61      0.56      0.27      0.61      0.63      0.68      0.71      0.67      0.58      0.61      0.57      0.46      0.72      0.73      0.80
+R30          0.63      0.56      0.26      0.67      0.67      0.66      0.73      0.71      0.67      0.73      0.70      0.62      0.75      0.75      0.75
+SMAP7         NaN       NaN       NaN       NaN       NaN      0.62       NaN       NaN      0.68       NaN       NaN      0.68       NaN       NaN      0.77
+W1           0.63      0.57      0.27      0.71      0.67      0.46      0.77      0.73      0.55      0.79      0.75      0.55      0.83      0.80      0.66
+W2            NaN       NaN       NaN      0.65      0.66      0.66      0.74      0.73      0.71      0.76      0.74      0.70      0.82      0.80      0.76
+  Spearman entre anos (fracao de municipios com luz x fracao em quebra):
+portao     31/jan                        28/fev                        19/mar                        31/mar                        30/abr                    
+era     1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025 1998-2015 1998-2025 2016-2025
+leitura                                                                                                                                                      
+API          0.36      0.26     -0.06      0.36      0.29      0.10      0.65      0.42     -0.05      0.40      0.48      0.54      0.79      0.75      0.87
+R15          0.20      0.19     -0.34      0.24      0.25      0.26      0.53      0.37      0.15      0.19      0.25      0.04      0.63      0.61      0.80
+R30          0.34      0.21     -0.27      0.44      0.38      0.20      0.61      0.48      0.09      0.62      0.62      0.50      0.68      0.69      0.70
+SMAP7         NaN       NaN       NaN       NaN       NaN      0.18       NaN       NaN      0.32       NaN       NaN      0.83       NaN       NaN      0.63
+W1           0.33      0.20     -0.24      0.41      0.28     -0.39      0.63      0.45     -0.30      0.68      0.58      0.12      0.86      0.76      0.41
+W2            NaN       NaN       NaN      0.43      0.38      0.20      0.63      0.50      0.19      0.70      0.62      0.41      0.78      0.69      0.50
+
+  A2. Fracao de municipios com luz, por ano (chuva < 0,75 do normal; SMAP 7d < 20) e fracao em quebra:
+   [19/mar]
+    ano     1998  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011  2012  2013  2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025
+    quebra  0.75  0.05  0.02  0.46  0.01  0.01  0.08  0.19  0.00  0.18  0.01  0.13  0.61  0.00  0.75  0.56  0.17  0.61  0.70  0.17  0.04  0.07  0.01  0.04  0.02  0.11  0.08  0.25
+    W1l     0.31  0.02  0.00  0.24  0.00  0.00  0.00  0.77  0.38  0.00  0.06  0.00  0.97  0.00  0.40  1.00  0.28  0.63  0.04  0.00  0.12  0.10  0.00  0.55  0.18  0.20  0.00  0.00
+    W2l     0.99  0.00  0.00  0.23  0.33  0.00  0.00  0.83  0.04  0.00  0.13  0.00  1.00  0.00  0.19  0.98  0.12  0.17  1.00  0.00  0.09  0.18  0.00  0.42  0.78  0.26  0.00  0.26
+    APIl    0.81  0.00  0.54  0.19  0.07  0.00  0.00  0.56  0.31  0.00  0.04  0.01  0.99  0.03  0.69  0.80  0.09  0.85  0.54  0.00  0.95  0.22  0.00  0.67  0.04  0.02  0.09  0.02
+    Sl       NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN  0.31  0.00  0.03  0.13  0.00  0.14  0.00  0.00  0.00  0.07
+   [30/abr]
+    ano     1998  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011  2012  2013  2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025
+    quebra  0.75  0.05  0.02  0.46  0.01  0.01  0.08  0.19   0.0  0.18  0.01  0.13  0.61   0.0  0.75  0.56  0.17  0.61  0.70  0.17  0.04  0.07  0.01  0.04  0.02  0.11  0.08  0.25
+    W1l     0.75  0.04  0.00  0.07  0.00  0.00  0.00  0.55   0.0  0.00  0.00  0.00  0.65   0.0  0.88  0.86  0.23  0.32  0.08  0.01  0.00  0.00  0.00  0.59  0.03  0.02  0.01  0.04
+    W2l     1.00  0.04  0.00  0.01  0.09  0.00  0.00  0.46   0.0  0.00  0.00  0.00  0.74   0.0  0.68  0.85  0.14  0.12  0.90  0.02  0.01  0.00  0.00  0.53  0.14  0.08  0.00  0.55
+    APIl    1.00  0.07  0.00  0.21  0.22  0.00  0.83  0.34   0.0  0.01  0.00  0.00  0.43   0.0  1.00  0.07  0.29  0.72  0.99  0.58  0.20  0.04  0.00  0.55  0.04  0.23  0.22  0.68
+    Sl       NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN  0.50  0.13  0.00  0.00  0.00  0.45  0.00  0.00  0.01  0.25
+
+====================== B. Escolha pre-declarada (R1): maior AUC MINIMA em {19/mar, 30/abr} x {1998-2015, 2016-2025} ======================
+           min   mean
+leitura              
+W2       0.709  0.757
+R30      0.672  0.726
+API      0.607  0.737
+R15      0.576  0.703
+W1       0.547  0.703
+  maior minimo = 0.709; candidatos dentro de 0,01: ['W2']; ESCOLHIDA (regra R1): W2
+  Texto congelado da regra de 2027:
+   | QUADRA - regra de alerta congelada para a quadra de 2027 (fechamento da rodada 2, 14/11/2026)
+   | Luz principal (IMERG, NASA GPM): chuva IMERG V07 de 1/fev ate o portao < 75% do normal do municipio, normal = mediana
+   |   das quadras 1998-2026 (todas menos a do ano). Portoes: 19/mar (Checkpoint Sao Jose, ultima troca) e 30/abr (salvar).
+   |   Leitura descritiva extra so em ano de ONI ASO >= 1,5: 10/mar (decisao do caupi ate ~11/mar), sem habilidade medida.
+   | Segunda missao (SMAP L4 SPL4SMGP): percentil da zona da raiz < 20, media dos 7 dias ate o portao (percentil do produto;
+   |   se vazio, nao le). Papel: confirma ou nao a luz principal; nunca acende sozinha o vermelho.
+   | Estados: VERMELHO = luz principal E SMAP; AMARELO = so a luz principal; CINZA-AMARELO = so o SMAP ("instrumentos discordam;
+   |   o tecnico decide"); VERDE = nenhuma.
+   | Juiz: quebra canonica do milho no IBGE PAM 2027 (producao / area plantada < 50% da mediana dos outros anos), publicada em 2028.
+   | Placar a publicar: por ano (fracao de municipios com luz x fracao em quebra) e P(quebra | estado), com o n.
+   | Limiares fixados antes dos testes: 75% (rodada 1, regra canonica W1) e 20 (secao 05, commit 48a3608, 14/11 08:34).
+   | A escolha de W2 e do papel do SMAP foi feita DEPOIS de ver 2016-2025 (criterio R1 deste script). Grau B.
+  sha256 (interno; publicar so com o OK do Jose) = 41b7c820fe6693dd1ac2336075585a36fc6ec03fd9e1133c4537d8cf984fdb41
+
+====================== C. 2016 no NIVEL DO ANO, mesmo numero de alarmes, duas missoes (2016-2025) ======================
+  [19/mar] n = 1820 municipio-anos, 268 quebras
+    2016: quebra 127/182 (70%) | chuva 1/jan: luz em 7/182 (4%), pega 6/127, acaso 4.9 | chuva 1/fev: luz em 182/182 (100%), pega 127/127, acaso 127.0 | SMAP 7d: luz em 56/182 (31%), pega 47/127, acaso 39.1
+          AUC dentro do ano: chuva 1/jan 0.606 | chuva 1/fev 0.648 | SMAP 7d 0.654
+    2021: quebra 7/182 (4%) | chuva 1/jan: luz em 100/182 (55%), pega 7/7, acaso 3.8 | chuva 1/fev: luz em 76/182 (42%), pega 6/7, acaso 2.9 | SMAP 7d: luz em 26/182 (14%), pega 1/7, acaso 1.0
+          AUC dentro do ano: chuva 1/jan 0.762 | chuva 1/fev 0.770 | SMAP 7d 0.638
+    2022: quebra 3/182 (2%) | chuva 1/jan: luz em 32/182 (18%), pega 1/3, acaso 0.5 | chuva 1/fev: luz em 142/182 (78%), pega 2/3, acaso 2.3 | SMAP 7d: luz em 0/182 (0%), pega 0/3, acaso 0.0
+          AUC dentro do ano: chuva 1/jan 0.389 | chuva 1/fev 0.428 | SMAP 7d 0.493
+    2025: quebra 45/182 (25%) | chuva 1/jan: luz em 0/182 (0%), pega 0/45, acaso 0.0 | chuva 1/fev: luz em 47/182 (26%), pega 8/45, acaso 11.6 | SMAP 7d: luz em 12/182 (7%), pega 5/45, acaso 3.0
+          AUC dentro do ano: chuva 1/jan 0.552 | chuva 1/fev 0.529 | SMAP 7d 0.602
+    mesma taxa de alerta que a chuva 1/fev (29.9%): chuva 1/jan <= 0.89 do normal pega em 2016 55/127 (alertas 70), em 2021 142 alertas
+    estados de duas missoes:
+                               n  quebram  anos_com_estado
+      estado                                              
+      amarelo (so W2)        426     0.21                7
+      so SMAP                  6     0.00                2
+      verde                 1270     0.09                9
+      vermelho (W2 e SMAP)   118     0.53                5
+    Spearman entre anos: vermelho +0.32 (p 0.361) | luz 1/fev +0.19 (p 0.598) (n = 10)
+  [30/abr] n = 1820 municipio-anos, 268 quebras
+    2016: quebra 127/182 (70%) | chuva 1/jan: luz em 14/182 (8%), pega 9/127, acaso 9.8 | chuva 1/fev: luz em 164/182 (90%), pega 113/127, acaso 114.4 | SMAP 7d: luz em 91/182 (50%), pega 64/127, acaso 63.5
+          AUC dentro do ano: chuva 1/jan 0.530 | chuva 1/fev 0.587 | SMAP 7d 0.525
+    2021: quebra 7/182 (4%) | chuva 1/jan: luz em 107/182 (59%), pega 6/7, acaso 4.1 | chuva 1/fev: luz em 97/182 (53%), pega 6/7, acaso 3.7 | SMAP 7d: luz em 81/182 (45%), pega 3/7, acaso 3.1
+          AUC dentro do ano: chuva 1/jan 0.720 | chuva 1/fev 0.762 | SMAP 7d 0.582
+    2022: quebra 3/182 (2%) | chuva 1/jan: luz em 6/182 (3%), pega 0/3, acaso 0.1 | chuva 1/fev: luz em 26/182 (14%), pega 0/3, acaso 0.4 | SMAP 7d: luz em 0/182 (0%), pega 0/3, acaso 0.0
+          AUC dentro do ano: chuva 1/jan 0.399 | chuva 1/fev 0.419 | SMAP 7d 0.423
+    2025: quebra 45/182 (25%) | chuva 1/jan: luz em 7/182 (4%), pega 1/45, acaso 1.7 | chuva 1/fev: luz em 100/182 (55%), pega 34/45, acaso 24.7 | SMAP 7d: luz em 46/182 (25%), pega 21/45, acaso 11.4
+          AUC dentro do ano: chuva 1/jan 0.626 | chuva 1/fev 0.626 | SMAP 7d 0.775
+    mesma taxa de alerta que a chuva 1/fev (22.3%): chuva 1/jan <= 0.84 do normal pega em 2016 46/127 (alertas 62), em 2021 120 alertas
+    estados de duas missoes:
+                               n  quebram  anos_com_estado
+      estado                                              
+      amarelo (so W2)        194     0.34                7
+      so SMAP                 30     0.33                5
+      verde                 1384     0.08               10
+      vermelho (W2 e SMAP)   212     0.41                3
+    Spearman entre anos: vermelho +0.46 (p 0.177) | luz 1/fev +0.50 (p 0.143) (n = 10)
+
+  Leitura descritiva de 10/mar (nao e portao validado), fracao de municipios com chuva 1/fev < 75% e quebra observada:
+          quebra  luz_1fev  luz_1jan  ONI_ASO_ant
+    ano                                          
+    1998    0.75      0.94      0.15         2.04
+    2010    0.61      1.00      0.93         0.66
+    2012    0.75      0.12      0.30        -0.76
+    2016    0.70      1.00      0.00         2.02
+    2024    0.08      0.00      0.00         1.50
+    2025    0.25      0.31      0.00        -0.12
+    anos com ONI ASO >= 1,5 na era IMERG: [1998, 2016, 2024]
+
+====================== D. Placar de Quixada (milho, quebra canonica) ======================
+  quebras de Quixada: [1998, 2001, 2012, 2015, 2016, 2023, 2024, 2025] (8 em 28)
+  [19/mar] chuva 1/jan < 75% (1998-2025): 8 alertas [1998, 2005, 2006, 2010, 2013, 2015, 2018, 2021], 2 acertos [1998, 2015]; quebras sem alerta [2001, 2012, 2016, 2023, 2024, 2025]
+  [19/mar] chuva 1/fev < 75% (1998-2025): 9 alertas [1998, 2005, 2008, 2010, 2013, 2015, 2016, 2018, 2022], 3 acertos [1998, 2015, 2016]; quebras sem alerta [2001, 2012, 2023, 2024, 2025]
+  [19/mar] valores da chuva 1/fev em Quixada: 1998: 0.348, 2012: 0.884, 2016: 0.409, 2018: 0.609, 2021: 0.756, 2022: 0.746, 2023: 1.299, 2024: 1.559, 2025: 1.305
+  [30/abr] chuva 1/jan < 75% (1998-2025): 7 alertas [1998, 2005, 2010, 2012, 2013, 2015, 2021], 3 acertos [1998, 2012, 2015]; quebras sem alerta [2001, 2016, 2023, 2024, 2025]
+  [30/abr] chuva 1/fev < 75% (1998-2025): 9 alertas [1998, 2005, 2010, 2012, 2013, 2015, 2016, 2021, 2025], 5 acertos [1998, 2012, 2015, 2016, 2025]; quebras sem alerta [2001, 2023, 2024]
+  [30/abr] valores da chuva 1/fev em Quixada: 1998: 0.453, 2012: 0.498, 2016: 0.553, 2018: 1.125, 2021: 0.692, 2022: 0.871, 2023: 0.983, 2024: 1.134, 2025: 0.747
+
+====================== E. Contrafactual do caupi guardado (balde FAO-56 da rodada 1, copiado de v2_agronomo_smap_janelas.py), grau C ======================
+  conferencia com o agronomo (2016, balde): caupi 11/mar 68% (agronomo 68%) | caupi 21/mar 33% (33%) | sorgo 11/mar 10% (10%)
+  por quadra: fracao de municipios com agua na floracao (ISNA floracao >= 0,5) e quebra observada do milho (IBGE)
+          ONI_ASO_ant  milho_1a_chuva_balde  milho_nao_quebrou_IBGE  caupi_11mar  caupi_21mar  sorgo_11mar  QX_milho_IBGE  QX_caupi11  QX_caupi21
+    ano                                                                                                                                          
+    1998         2.04                  0.96                    0.25         0.10         0.15         0.01            1.0           0           0
+    2001        -0.42                  0.99                    0.54         0.83         0.69         0.59            1.0           1           1
+    2010         0.66                  0.04                    0.39         0.96         0.77         0.67            0.0           1           1
+    2012        -0.76                  0.52                    0.25         0.36         0.01         0.01            1.0           0           0
+    2016         2.02                  0.41                    0.30         0.68         0.33         0.10            1.0           1           0
+    2024         1.50                  1.00                    0.92         1.00         0.72         0.62            1.0           1           1
+    2025        -0.12                  0.91                    0.75         0.70         0.50         0.49            1.0           0           0
+    demais anos (19): caupi 11/mar 98% | caupi 21/mar 93% | milho 1a chuva balde 99% | milho nao quebrou (IBGE) 93%
+    Leitura: milho_1a_chuva_balde e o ISNA de cultura semeada na 1a chuva (rodada 1), que NAO ve 1998; por isso o observado do IBGE vai ao lado.
+
+====================== F. Carteira 1/3 x pratica atual (milho+feijao) nos anos em que a luz NASA acendeu (1998-2025) ======================
+  n = 2438 municipio-anos com as 3 culturas | todos: milho 0.157 | S0 milho+feijao 0.270 | 1/3 0.358
+  [19/mar] luz chuva 1/fev ACESA (n = 713, 17 anos): media milho 0.75 | S0 0.82 | 1/3 0.84 || CVaR10 milho 0.064 | S0 0.169 | 1/3 0.248 | 1/3 - S0 IC90 por ano [+0.048, +0.098] | 1/3 - milho [+0.156, +0.212]
+           luz APAGADA (n = 1725): media milho 1.26 | S0 1.21 | 1/3 1.16 || CVaR10 milho 0.273 | S0 0.367 | 1/3 0.470
+  [19/mar] luz chuva 1/jan ACESA (n = 569, 17 anos): media milho 0.76 | S0 0.86 | 1/3 0.85 || CVaR10 milho 0.063 | S0 0.166 | 1/3 0.229 | 1/3 - S0 IC90 por ano [+0.042, +0.085] | 1/3 - milho [+0.130, +0.210]
+           luz APAGADA (n = 1869): media milho 1.22 | S0 1.17 | 1/3 1.13 || CVaR10 milho 0.224 | S0 0.323 | 1/3 0.434
+  [30/abr] luz chuva 1/fev ACESA (n = 585, 17 anos): media milho 0.62 | S0 0.72 | 1/3 0.74 || CVaR10 milho 0.049 | S0 0.134 | 1/3 0.206 | 1/3 - S0 IC90 por ano [+0.042, +0.104] | 1/3 - milho [+0.118, +0.209]
+           luz APAGADA (n = 1853): media milho 1.26 | S0 1.22 | 1/3 1.16 || CVaR10 milho 0.301 | S0 0.400 | 1/3 0.508
+  [30/abr] luz chuva 1/jan ACESA (n = 518, 14 anos): media milho 0.64 | S0 0.74 | 1/3 0.74 || CVaR10 milho 0.041 | S0 0.119 | 1/3 0.193 | 1/3 - S0 IC90 por ano [+0.051, +0.105] | 1/3 - milho [+0.117, +0.205]
+           luz APAGADA (n = 1920): media milho 1.24 | S0 1.20 | 1/3 1.15 || CVaR10 milho 0.282 | S0 0.383 | 1/3 0.495
+
+====================== G. Quixada, S0 observado (IBGE, razao canonica) ======================
+  so milho (28 anos): P(<0,5) 0.286 (8 anos) | pior ano em 10 0.096 | mediana 1.001
+  S0 milho+feijao (28 anos): P(<0,5) 0.214 (6 anos: [1998, 2012, 2015, 2016, 2023, 2025]) | pior ano em 10 0.164 (anos [1998, 2012, 2016]) | mediana 1.052
+
+====================== H. SMAP L3 CONSOLIDADO (observacao do radiometro) nos portoes 2016-2025 ======================
+  L3: 4167 dias (2015-03-31 -> 2026-11-12); datas duplicadas: 7 (fica a primeira)
+  [19/mar] n = 1740 (255 quebras; dias L3 lidos 69): chuva 1/jan 0.538 [0.39,0.66] dentro 0.540 rho_ano -0.05 | chuva 1/fev 0.702 [0.42,0.84] dentro 0.525 rho_ano +0.22 | SMAP L4 7d 0.675 [0.43,0.80] dentro 0.566 rho_ano +0.22 | SMAP L3 7d 0.637 [0.43,0.77] dentro 0.571 rho_ano +0.21
+     2016: L3 7d abaixo de 75% da mediana dos outros anos em 124/174 municipios (descritivo; o L3 nao tem limiar de luz); mediana do L3 em 2016 = 0.65 do normal
+  [30/abr] n = 1740 (255 quebras; dias L3 lidos 70): chuva 1/jan 0.656 [0.50,0.74] dentro 0.518 rho_ano +0.41 | chuva 1/fev 0.756 [0.52,0.84] dentro 0.540 rho_ano +0.55 | SMAP L4 7d 0.767 [0.51,0.84] dentro 0.550 rho_ano +0.60 | SMAP L3 7d 0.774 [0.53,0.88] dentro 0.645 rho_ano +0.49
+     2016: L3 7d abaixo de 75% da mediana dos outros anos em 173/174 municipios (descritivo; o L3 nao tem limiar de luz); mediana do L3 em 2016 = 0.44 do normal
+
+====================== I. Contagem de palavras do roteiro novo do video (secao 11.2 da v2 corrigida) ======================
+  palavras por bloco: [16, 17, 14, 18, 5]; total 70 (teto 70; ~2,3-2,7 palavras/s -> 26-30 s)
+
+[71s] fim

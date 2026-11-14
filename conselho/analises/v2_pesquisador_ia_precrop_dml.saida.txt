@@ -1,0 +1,16 @@
+==================== Precrop payoff municipal (DML/R-learner, cross-fitting por ano) ====================
+  fracao de feijao (milho+feijao): mediana 0.48; dp entre anos dentro do municipio 0.061; correlacao T(t-1) x T(t-2) 0.87
+
+  PRINCIPAL: feijao em t-1 -> milho em t: n = 4709 mun-anos, 184 municipios, 26 anos | fracao da variancia de T explicada pelos confundidores: 0.83 (sobra 0.052 de dp em T)
+    theta0 (efeito no ano mediano de agua): -0.0561 na razao do milho por +10 p.p. de feijao | IC90 [-0.1076, -0.0073]
+    theta1 (muda do ano mais seco ao mais umido): +0.0599 na razao do milho por +10 p.p. de feijao | IC90 [-0.2204, +0.3084]
+    efeito por +10 p.p. de feijao em t-1, ano seco (API p10): -0.0801 IC90 [-0.1583, +0.0062]
+    efeito por +10 p.p. de feijao em t-1, ano mediano: -0.0561 IC90 [-0.1076, -0.0073]
+    efeito por +10 p.p. de feijao em t-1, ano umido (API p90): -0.0321 IC90 [-0.1854, +0.1028]
+
+  PLACEBO: feijao em t+1 -> milho em t (controlando T de t-1): n = 4517 mun-anos, 184 municipios, 25 anos | fracao da variancia de T explicada pelos confundidores: 0.81 (sobra 0.056 de dp em T)
+    theta0 (efeito no ano mediano de agua): -0.0489 na razao do milho por +10 p.p. de feijao | IC90 [-0.0885, -0.0091]
+    theta1 (muda do ano mais seco ao mais umido): -0.1110 na razao do milho por +10 p.p. de feijao | IC90 [-0.2777, +0.0896]
+    efeito por +10 p.p. de feijao em t-1, ano seco (API p10): -0.0045 IC90 [-0.0719, +0.0430]
+    efeito por +10 p.p. de feijao em t-1, ano mediano: -0.0489 IC90 [-0.0885, -0.0091]
+    efeito por +10 p.p. de feijao em t-1, ano umido (API p90): -0.0933 IC90 [-0.1892, +0.0131]

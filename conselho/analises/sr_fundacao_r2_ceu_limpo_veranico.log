@@ -1,0 +1,11 @@
+cenas fev-mai: 1506; limpas (>=60% da AOI): 25%
+
+Relacao entre ceu limpo e veranico em curso (dias secos seguidos, <= 2 mm/dia):
+  apodi_jaguaribe  rho(f, dias secos) +0.32 (p 9.1e-14) | mediana dias secos: cena limpa 2 x nublada 0 | chuva 5 d: limpa 14.8 x nublada 21.1 mm
+  cariri           rho(f, dias secos) +0.27 (p 7.1e-07) | mediana dias secos: cena limpa 2 x nublada 1 | chuva 5 d: limpa 8.9 x nublada 16.6 mm
+  ibiapaba         rho(f, dias secos) +0.21 (p 1.4e-04) | mediana dias secos: cena limpa 1 x nublada 0 | chuva 5 d: limpa 11.9 x nublada 23.4 mm
+  sertao_central   rho(f, dias secos) +0.18 (p 1.2e-03) | mediana dias secos: cena limpa 1 x nublada 1 | chuva 5 d: limpa 16.9 x nublada 15.4 mm
+  TODAS: mediana dias secos limpa 2 x nublada 0 (Mann-Whitney p 6.7e-14)
+  P(cena limpa | veranico em curso >= 5 d) = 34% (n 263) ; fora de veranico = 23% (n 1243)
+
+Veranicos >= 10 dias em fev-mai (2017-2025, 4 AOIs): 34; com >= 1 cena limpa S2/Landsat durante o veranico: 88%

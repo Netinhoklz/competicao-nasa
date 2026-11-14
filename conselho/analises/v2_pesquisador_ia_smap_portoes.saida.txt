@@ -1,0 +1,130 @@
+[SMAP L4 recorte CE] 2.9s
+municipios: 184; com >=1 centro de celula SMAP: 184; via celula mais proxima: 0; celulas por municipio (mediana): 8
+dias SMAP no recorte: 3874 (2015-10-01 a 2026-05-05); fracao NaN rootzone mun-dia: 0.000%
+
+==================== A. TESTE CENTRAL: R (chuva desde 1/jan) x R + SMAP, LOYO 2016-2025 ====================
+
+--- milho | portao 31/jan | n = 1820 mun-anos | 182 municipios | taxa de quebra 0.147
+    quebras por ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    clim    AUC 0.154 | dentro do ano 0.500 | Brier 0.1346 (BSS +0.000) | log-loss 0.4608
+    R       AUC 0.577 | dentro do ano 0.475 | Brier 0.1297 (BSS +0.037) | log-loss 0.4357
+    S_p     AUC 0.574 | dentro do ano 0.520 | Brier 0.1295 (BSS +0.038) | log-loss 0.4416
+    R+S_p   AUC 0.566 | dentro do ano 0.519 | Brier 0.1313 (BSS +0.024) | log-loss 0.4470
+    R+S_a   AUC 0.605 | dentro do ano 0.500 | Brier 0.1280 (BSS +0.049) | log-loss 0.4304
+    R2      AUC 0.562 | dentro do ano 0.488 | Brier 0.1300 (BSS +0.034) | log-loss 0.4410
+    R2+S_p  AUC 0.579 | dentro do ano 0.528 | Brier 0.1298 (BSS +0.036) | log-loss 0.4415
+    R+S_p - R: dAUC -0.011 IC90 [-0.051,+0.061] P(>0)=0.46 | d dentro +0.045 [+0.006,+0.098] | dBrier +0.0016 [-0.0007,+0.0050] | dLogLoss +0.0113 [-0.0008,+0.0258] | anos com log-loss melhor: 4/10
+    R+S_a - R: dAUC +0.028 IC90 [-0.014,+0.079] P(>0)=0.88 | d dentro +0.026 [-0.025,+0.088] | dBrier -0.0017 [-0.0050,+0.0017] | dLogLoss -0.0053 [-0.0169,+0.0059] | anos com log-loss melhor: 6/10
+    R2+S_p - R2: dAUC +0.018 IC90 [-0.006,+0.078] P(>0)=0.88 | d dentro +0.041 [-0.008,+0.106] | dBrier -0.0002 [-0.0013,+0.0009] | dLogLoss +0.0006 [-0.0073,+0.0091] | anos com log-loss melhor: 6/10
+
+--- milho | portao 19/mar | n = 1820 mun-anos | 182 municipios | taxa de quebra 0.147
+    quebras por ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    clim    AUC 0.154 | dentro do ano 0.500 | Brier 0.1346 (BSS +0.000) | log-loss 0.4608
+    R       AUC 0.205 | dentro do ano 0.496 | Brier 0.1383 (BSS -0.028) | log-loss 0.4754
+    S_p     AUC 0.396 | dentro do ano 0.496 | Brier 0.1415 (BSS -0.051) | log-loss 0.4832
+    R+S_p   AUC 0.475 | dentro do ano 0.561 | Brier 0.1371 (BSS -0.019) | log-loss 0.4746
+    R+S_a   AUC 0.541 | dentro do ano 0.644 | Brier 0.1345 (BSS +0.001) | log-loss 0.4488
+    R2      AUC 0.263 | dentro do ano 0.493 | Brier 0.1463 (BSS -0.087) | log-loss 0.5031
+    R2+S_p  AUC 0.433 | dentro do ano 0.556 | Brier 0.1420 (BSS -0.055) | log-loss 0.4935
+    R+S_p - R: dAUC +0.270 IC90 [+0.027,+0.372] P(>0)=0.98 | d dentro +0.065 [-0.038,+0.157] | dBrier -0.0012 [-0.0082,+0.0060] | dLogLoss -0.0008 [-0.0469,+0.0510] | anos com log-loss melhor: 5/10
+    R+S_a - R: dAUC +0.336 IC90 [+0.067,+0.438] P(>0)=0.99 | d dentro +0.147 [+0.053,+0.220] | dBrier -0.0039 [-0.0165,+0.0061] | dLogLoss -0.0266 [-0.0873,+0.0216] | anos com log-loss melhor: 6/10
+    R2+S_p - R2: dAUC +0.171 IC90 [-0.007,+0.284] P(>0)=0.94 | d dentro +0.063 [-0.023,+0.146] | dBrier -0.0043 [-0.0115,+0.0030] | dLogLoss -0.0096 [-0.0562,+0.0436] | anos com log-loss melhor: 7/10
+
+--- milho | portao 30/abr | n = 1820 mun-anos | 182 municipios | taxa de quebra 0.147
+    quebras por ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    clim    AUC 0.154 | dentro do ano 0.500 | Brier 0.1346 (BSS +0.000) | log-loss 0.4608
+    R       AUC 0.437 | dentro do ano 0.529 | Brier 0.1397 (BSS -0.038) | log-loss 0.4601
+    S_p     AUC 0.706 | dentro do ano 0.553 | Brier 0.1262 (BSS +0.063) | log-loss 0.4076
+    R+S_p   AUC 0.714 | dentro do ano 0.562 | Brier 0.1210 (BSS +0.101) | log-loss 0.3957
+    R+S_a   AUC 0.666 | dentro do ano 0.543 | Brier 0.1351 (BSS -0.004) | log-loss 0.4343
+    R2      AUC 0.420 | dentro do ano 0.550 | Brier 0.1448 (BSS -0.075) | log-loss 0.4800
+    R2+S_p  AUC 0.705 | dentro do ano 0.561 | Brier 0.1227 (BSS +0.089) | log-loss 0.4026
+    R+S_p - R: dAUC +0.278 IC90 [-0.010,+0.432] P(>0)=0.94 | d dentro +0.034 [-0.020,+0.083] | dBrier -0.0187 [-0.0402,-0.0019] | dLogLoss -0.0644 [-0.1466,-0.0032] | anos com log-loss melhor: 7/10
+    R+S_a - R: dAUC +0.229 IC90 [-0.018,+0.386] P(>0)=0.93 | d dentro +0.014 [-0.015,+0.036] | dBrier -0.0046 [-0.0184,+0.0087] | dLogLoss -0.0259 [-0.0783,+0.0174] | anos com log-loss melhor: 6/10
+    R2+S_p - R2: dAUC +0.286 IC90 [+0.009,+0.439] P(>0)=0.95 | d dentro +0.011 [-0.070,+0.068] | dBrier -0.0221 [-0.0403,-0.0069] | dLogLoss -0.0775 [-0.1515,-0.0193] | anos com log-loss melhor: 8/10
+
+--- feijao | portao 31/jan | n = 1814 mun-anos | 182 municipios | taxa de quebra 0.132
+    quebras por ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    clim    AUC 0.223 | dentro do ano 0.500 | Brier 0.1185 (BSS +0.000) | log-loss 0.4080
+    R       AUC 0.667 | dentro do ano 0.523 | Brier 0.1088 (BSS +0.082) | log-loss 0.3699
+    S_p     AUC 0.695 | dentro do ano 0.535 | Brier 0.1086 (BSS +0.084) | log-loss 0.3686
+    R+S_p   AUC 0.687 | dentro do ano 0.533 | Brier 0.1089 (BSS +0.081) | log-loss 0.3715
+    R+S_a   AUC 0.696 | dentro do ano 0.499 | Brier 0.1078 (BSS +0.091) | log-loss 0.3645
+    R2      AUC 0.624 | dentro do ano 0.527 | Brier 0.1130 (BSS +0.047) | log-loss 0.3853
+    R2+S_p  AUC 0.652 | dentro do ano 0.544 | Brier 0.1119 (BSS +0.055) | log-loss 0.3830
+    R+S_p - R: dAUC +0.020 IC90 [-0.013,+0.075] P(>0)=0.80 | d dentro +0.010 [-0.011,+0.041] | dBrier +0.0001 [-0.0012,+0.0013] | dLogLoss +0.0016 [-0.0104,+0.0146] | anos com log-loss melhor: 4/10
+    R+S_a - R: dAUC +0.028 IC90 [-0.009,+0.069] P(>0)=0.87 | d dentro -0.025 [-0.058,+0.023] | dBrier -0.0010 [-0.0025,+0.0006] | dLogLoss -0.0054 [-0.0132,+0.0025] | anos com log-loss melhor: 6/10
+    R2+S_p - R2: dAUC +0.029 IC90 [-0.001,+0.078] P(>0)=0.94 | d dentro +0.017 [-0.004,+0.047] | dBrier -0.0010 [-0.0024,+0.0003] | dLogLoss -0.0023 [-0.0148,+0.0118] | anos com log-loss melhor: 6/10
+
+--- feijao | portao 19/mar | n = 1814 mun-anos | 182 municipios | taxa de quebra 0.132
+    quebras por ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    clim    AUC 0.223 | dentro do ano 0.500 | Brier 0.1185 (BSS +0.000) | log-loss 0.4080
+    R       AUC 0.238 | dentro do ano 0.483 | Brier 0.1208 (BSS -0.020) | log-loss 0.4187
+    S_p     AUC 0.434 | dentro do ano 0.545 | Brier 0.1211 (BSS -0.022) | log-loss 0.4176
+    R+S_p   AUC 0.543 | dentro do ano 0.525 | Brier 0.1174 (BSS +0.009) | log-loss 0.3994
+    R+S_a   AUC 0.495 | dentro do ano 0.532 | Brier 0.1186 (BSS -0.001) | log-loss 0.4062
+    R2      AUC 0.233 | dentro do ano 0.476 | Brier 0.1234 (BSS -0.042) | log-loss 0.4355
+    R2+S_p  AUC 0.470 | dentro do ano 0.508 | Brier 0.1240 (BSS -0.046) | log-loss 0.4227
+    R+S_p - R: dAUC +0.305 IC90 [+0.135,+0.401] P(>0)=1.00 | d dentro +0.042 [-0.028,+0.104] | dBrier -0.0034 [-0.0094,+0.0013] | dLogLoss -0.0194 [-0.0482,+0.0023] | anos com log-loss melhor: 6/10
+    R+S_a - R: dAUC +0.257 IC90 [+0.126,+0.328] P(>0)=1.00 | d dentro +0.049 [+0.007,+0.080] | dBrier -0.0022 [-0.0062,+0.0018] | dLogLoss -0.0125 [-0.0314,+0.0047] | anos com log-loss melhor: 6/10
+    R2+S_p - R2: dAUC +0.236 IC90 [+0.127,+0.304] P(>0)=1.00 | d dentro +0.032 [-0.009,+0.074] | dBrier +0.0006 [-0.0064,+0.0092] | dLogLoss -0.0128 [-0.0427,+0.0169] | anos com log-loss melhor: 6/10
+
+--- feijao | portao 30/abr | n = 1814 mun-anos | 182 municipios | taxa de quebra 0.132
+    quebras por ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    clim    AUC 0.223 | dentro do ano 0.500 | Brier 0.1185 (BSS +0.000) | log-loss 0.4080
+    R       AUC 0.412 | dentro do ano 0.525 | Brier 0.1208 (BSS -0.019) | log-loss 0.4152
+    S_p     AUC 0.589 | dentro do ano 0.519 | Brier 0.1178 (BSS +0.006) | log-loss 0.3989
+    R+S_p   AUC 0.574 | dentro do ano 0.510 | Brier 0.1172 (BSS +0.011) | log-loss 0.3981
+    R+S_a   AUC 0.533 | dentro do ano 0.504 | Brier 0.1210 (BSS -0.021) | log-loss 0.4109
+    R2      AUC 0.381 | dentro do ano 0.510 | Brier 0.1227 (BSS -0.035) | log-loss 0.4278
+    R2+S_p  AUC 0.554 | dentro do ano 0.515 | Brier 0.1191 (BSS -0.005) | log-loss 0.4050
+    R+S_p - R: dAUC +0.162 IC90 [-0.090,+0.302] P(>0)=0.84 | d dentro -0.015 [-0.069,+0.040] | dBrier -0.0036 [-0.0098,+0.0025] | dLogLoss -0.0171 [-0.0436,+0.0111] | anos com log-loss melhor: 7/10
+    R+S_a - R: dAUC +0.121 IC90 [-0.060,+0.227] P(>0)=0.84 | d dentro -0.021 [-0.065,+0.014] | dBrier +0.0002 [-0.0035,+0.0041] | dLogLoss -0.0043 [-0.0180,+0.0084] | anos com log-loss melhor: 5/10
+    R2+S_p - R2: dAUC +0.173 IC90 [-0.014,+0.273] P(>0)=0.93 | d dentro +0.005 [-0.043,+0.045] | dBrier -0.0036 [-0.0093,+0.0018] | dLogLoss -0.0228 [-0.0517,+0.0030] | anos com log-loss melhor: 8/10
+
+Resumo (deltas pareados; IC90 por bootstrap de anos):
+cultura portao   comparacao  auc_base  auc_novo   dAUC  dAUC_lo  dAUC_hi  d_dentro  d_dentro_lo  d_dentro_hi  dBrier  anos_melhor_logloss
+  milho 31/jan   R+S_p vs R     0.577     0.566 -0.011   -0.051    0.061     0.045        0.006        0.098   0.002                    4
+  milho 31/jan   R+S_a vs R     0.577     0.605  0.028   -0.014    0.079     0.026       -0.025        0.088  -0.002                    6
+  milho 31/jan R2+S_p vs R2     0.562     0.579  0.018   -0.006    0.078     0.041       -0.008        0.106  -0.000                    6
+  milho 19/mar   R+S_p vs R     0.205     0.475  0.270    0.027    0.372     0.065       -0.038        0.157  -0.001                    5
+  milho 19/mar   R+S_a vs R     0.205     0.541  0.336    0.067    0.438     0.147        0.053        0.220  -0.004                    6
+  milho 19/mar R2+S_p vs R2     0.263     0.433  0.171   -0.007    0.284     0.063       -0.023        0.146  -0.004                    7
+  milho 30/abr   R+S_p vs R     0.437     0.714  0.278   -0.010    0.432     0.034       -0.020        0.083  -0.019                    7
+  milho 30/abr   R+S_a vs R     0.437     0.666  0.229   -0.018    0.386     0.014       -0.015        0.036  -0.005                    6
+  milho 30/abr R2+S_p vs R2     0.420     0.705  0.286    0.009    0.439     0.011       -0.070        0.068  -0.022                    8
+ feijao 31/jan   R+S_p vs R     0.667     0.687  0.020   -0.013    0.075     0.010       -0.011        0.041   0.000                    4
+ feijao 31/jan   R+S_a vs R     0.667     0.696  0.028   -0.009    0.069    -0.025       -0.058        0.023  -0.001                    6
+ feijao 31/jan R2+S_p vs R2     0.624     0.652  0.029   -0.001    0.078     0.017       -0.004        0.047  -0.001                    6
+ feijao 19/mar   R+S_p vs R     0.238     0.543  0.305    0.135    0.401     0.042       -0.028        0.104  -0.003                    6
+ feijao 19/mar   R+S_a vs R     0.238     0.495  0.257    0.126    0.328     0.049        0.007        0.080  -0.002                    6
+ feijao 19/mar R2+S_p vs R2     0.233     0.470  0.236    0.127    0.304     0.032       -0.009        0.074   0.001                    6
+ feijao 30/abr   R+S_p vs R     0.412     0.574  0.162   -0.090    0.302    -0.015       -0.069        0.040  -0.004                    7
+ feijao 30/abr   R+S_a vs R     0.412     0.533  0.121   -0.060    0.227    -0.021       -0.065        0.014   0.000                    5
+ feijao 30/abr R2+S_p vs R2     0.381     0.554  0.173   -0.014    0.273     0.005       -0.043        0.045  -0.004                    8
+Nota: 12 comparacoes primarias (2 culturas x 3 portoes x 2 variantes SMAP) sem correcao; ~1 'vitoria' espuria a 90% e esperada.
+
+==================== C. Redundancia SMAP x chuva (Spearman; 184 municipios x 10 anos) ====================
+  31/jan: rho(chuva 1/jan, S_p) agregado +0.89, dentro do ano +0.56; rho(chuva 1/out, S_p) agregado +0.83, dentro do ano +0.49; rho(chuva 1/jan, S_a) dentro do ano +0.55; ENTRE anos (media estadual, n=10): 1/jan +0.96, 1/out +0.92
+     media estadual por ano: 2016: chuva 226% / S_p 90, 2017: chuva 71% / S_p 44, 2018: chuva 71% / S_p 48, 2019: chuva 144% / S_p 73, 2020: chuva 130% / S_p 63, 2021: chuva 57% / S_p 35, 2022: chuva 146% / S_p 72, 2023: chuva 100% / S_p 72, 2024: chuva 52% / S_p 36, 2025: chuva 191% / S_p 85
+  19/mar: rho(chuva 1/jan, S_p) agregado +0.85, dentro do ano +0.77; rho(chuva 1/out, S_p) agregado +0.80, dentro do ano +0.70; rho(chuva 1/jan, S_a) dentro do ano +0.67; ENTRE anos (media estadual, n=10): 1/jan +0.73, 1/out +0.79
+     media estadual por ano: 2016: chuva 94% / S_p 26, 2017: chuva 115% / S_p 74, 2018: chuva 94% / S_p 42, 2019: chuva 133% / S_p 61, 2020: chuva 148% / S_p 80, 2021: chuva 75% / S_p 32, 2022: chuva 88% / S_p 48, 2023: chuva 91% / S_p 46, 2024: chuva 109% / S_p 66, 2025: chuva 137% / S_p 63
+  30/abr: rho(chuva 1/jan, S_p) agregado +0.80, dentro do ano +0.75; rho(chuva 1/out, S_p) agregado +0.79, dentro do ano +0.74; rho(chuva 1/jan, S_a) dentro do ano +0.70; ENTRE anos (media estadual, n=10): 1/jan +0.89, 1/out +0.87
+     media estadual por ano: 2016: chuva 87% / S_p 20, 2017: chuva 97% / S_p 41, 2018: chuva 106% / S_p 59, 2019: chuva 129% / S_p 64, 2020: chuva 132% / S_p 73, 2021: chuva 78% / S_p 31, 2022: chuva 96% / S_p 56, 2023: chuva 90% / S_p 48, 2024: chuva 100% / S_p 57, 2025: chuva 97% / S_p 32
+
+==================== D. Quixada (2311306), 2016-2025: razao do PAM, chuva % normal e percentil SMAP nos portoes ====================
+      milho  feijao  chuva_31/jan  Sp_31/jan  Sa_31/jan  chuva_19/mar  Sp_19/mar  Sa_19/mar  chuva_30/abr  Sp_30/abr  Sa_30/abr
+2016   0.12    0.39          1.97  89.739998       0.04          0.88  20.879999      -0.04          0.78  26.059999      -0.03
+2017   2.07    2.12          0.49  23.500000      -0.03          1.25  92.059998       0.05          1.02  54.150002       0.00
+2018   1.86    1.73          0.76  67.080002      -0.00          0.68  20.799999      -0.04          1.11  89.720001       0.04
+2019   2.07    1.70          1.72  86.169998       0.02          1.50  79.800003       0.02          1.19  50.009998      -0.00
+2020   1.78    1.56          1.00  63.939999      -0.00          1.39  83.589996       0.02          1.10  53.619999       0.00
+2021   0.80    0.81          0.52  27.250000      -0.03          0.72  30.209999      -0.03          0.69  15.880000      -0.04
+2022   1.03    0.91          1.44  81.260002       0.02          0.98  55.360001      -0.01          0.98  57.380001       0.01
+2023   0.36    0.49          1.03  76.070000       0.01          1.19  63.790001       0.00          1.04  65.860001       0.01
+2024   0.46    0.68          0.36  54.570000      -0.01          1.17  74.379997       0.01          1.05  73.769997       0.02
+2025   0.30    0.32          1.85  87.900002       0.03          1.44  71.239998       0.01          0.93  25.100000      -0.03
+  percentil do SMAP no proprio municipio-ano em relacao aos 184 municipios (rank dentro do ano, 30/abr):
+ano       2016  2017  2018  2019  2020  2021  2022  2023  2024  2025
+rk        0.71  0.77  0.97  0.28  0.08  0.33  0.53  0.93  0.95  0.38
+rk_chuva  0.15  0.64  0.64  0.24  0.07  0.48  0.60  0.90  0.66  0.58

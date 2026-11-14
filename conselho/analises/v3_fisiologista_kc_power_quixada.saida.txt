@@ -1,0 +1,192 @@
+
+==============================================================================================================
+P0. Contas refeitas a partir dos numeros impressos nos artigos
+==============================================================================================================
+Souza et al. 2015 (Rev. Caatinga 28(4)): Kc = ETc/ETo por fase, com as somas da Figura 4
+  milho exclusivo    Fig.4 ETc/ETo=[0.86, 1.23, 0.97, 0.52]  Tabela 2/resumo=[0.86, 1.23, 0.97, 0.52]  Conclusoes=[0.86, 1.23, 0.97, 0.52]  soma ETc=387.1  soma ETo=450.5
+  milho consorciado  Fig.4 ETc/ETo=[0.9, 1.43, 1.17, 0.72]  Tabela 2/resumo=[0.9, 1.3, 1.2, 0.72]  Conclusoes=[0.9, 1.43, 1.17, 0.72]  soma ETc=439.5  soma ETo=450.5
+  caupi exclusivo    Fig.4 ETc/ETo=[0.68, 1.02, 1.06, 0.63]  Tabela 2/resumo=[0.68, 1.02, 1.06, 0.63]  Conclusoes=[0.68, 1.02, 1.06, 0.63]  soma ETc=322.6  soma ETo=395.1
+  caupi consorciado  Fig.4 ETc/ETo=[0.86, 1.25, 1.31, 0.91]  Tabela 2/resumo=[0.86, 1.3, 1.21, 0.91]  Conclusoes=[0.86, 1.25, 1.31, 0.91]  soma ETc=408.3  soma ETo=395.1
+  -> no consorcio, a Figura 4 e as Conclusoes concordam entre si e divergem da Tabela 2 e do resumo nas fases II e III.
+
+Souza et al. 2011 (Bragantia 70(3)): Tabelas 1 e 2 (LI = agua aplicada, mm; PG = graos, kg/ha)
+trat  LI_caupi  LI_milho  PG_caupi  PG_milho  EUA_caupi_impresso  EUA_milho_impresso  EUA_caupi_kg_ha_mm  EUA_milho_kg_ha_mm
+ 125     476.6     499.1    1320.7    3860.0                27.7                77.3                2.77                7.73
+ 100     448.7     471.2    1374.7    3418.3                30.6                72.5                3.06                7.25
+  75     420.8     443.3    1316.5    3005.0                31.3                67.8                3.13                6.78
+  50     392.9     415.4     866.0    2433.3                22.0                58.6                2.20                5.86
+   0     337.1     359.5     571.4    1655.0                17.0                46.3                1.70                4.60
+  -> a coluna impressa 'EUA (kg m-3)' e 10x a conta em kg ha-1 mm-1 (e 100x em kg m-3); unidade trocada.
+  reducao do milho exclusivo vs 125% (100,75,50,0): [11.0, 22.0, 37.0, 57.0]  (texto: 15, 25, 40, 57 'em ambos')
+  reducao do caupi exclusivo vs 100% (125,75,50,0): [4, 4, 37, 58]  (texto: 4, 4, 23, 48)
+  consorcio, reducao vs 125%: caupi [11.0, 2.0, 40.0, 78.0] (texto 11, 2, 40, 78); milho [18.0, 25.0, 40.0, 57.0]
+  reta milho exclusivo refeita: PG = -4132 + 16.01 x LI  (Figura 1 impressa: -4.105,67 + 15,95 x LI)
+  'Ky aparente' milho (L0 vs melhor, agua APLICADA, deficit so apos 40 DAS): 2.04
+  'Ky aparente' caupi (L0 vs melhor, agua APLICADA, deficit so apos 40 DAS): 2.35
+
+Santos et al. 2026 (Rev. Caatinga 39): reducoes de graos (texto) e um 'Ky aparente' com agua aplicada
+  BRS Inhuma: otimo 311.0 mm; Ky(133,8 mm)=1.10; Ky(191,7 mm)=0.94
+  BRS Olho Negro: otimo 332.08 mm; Ky(133,8 mm)=1.04; Ky(191,7 mm)=0.76
+  regime 100% ETc = 249,0 mm com 13,2 mm de chuva -> ETc do ciclo (65 DAS) ~ 235,8 mm
+
+Lima Filho 2000 (PAB 35(5)): LER = 1500/2208 + 700/1550 = 0.679 + 0.452 = 1.13; '+18%' e '-5%' sao pontos percentuais acima/abaixo de 0,50 (populacao pela metade): +0.179, -0.048
+
+Campos et al. 2010 (RBEAA 14(4)): Tabela 1 (Sertao, % de baixo risco) x texto
+  area do Sertao implicita em '11.108 km2 = 48,9%': 22716 km2
+  4.752 km2 = 20.9%  e  3.366 km2 = 14.8% da mesorregiao
+  Tabela 1, linha 11-20/01: BR atual 48,9; +3C 20,9; +6C 14,8  |  linha 21-31/01: 91,1; 48,1; 22,7
+  -> os tres numeros do texto sao da linha 11-20/jan, mas o texto diz '21 a 31 de janeiro'.
+
+Ramos et al. 2014 (Eng. Agric. 34(4)): laminas aplicadas 161-322 mm; maximos estimados em 354 e 423 mm
+  -> os dois 'otimos' ficam FORA da faixa testada (extrapolacao da quadratica).
+  reducao Paraguacu 571,0/2498,04: 77.14%  Guariba 670,6/2936,96: 77.17%
+
+Santos et al. 2017 (Front. Plant Sci. 8:2074): media medida de forragem (Tabela 3)
+  media dos 12 valores = 11588 kg/ha (texto: 11,6 Mg/ha); Sao Bento media = 12650 (texto 12650)
+  janelas: resumo 15/abr-15/mai, 12/abr-02/mai, 17/abr-25/mai; Resultados 01/mar-15/abr, 15/fev-15/abr, 15/jan-01/abr
+
+==============================================================================================================
+P1. ET0 de estacao dos ensaios x ET0 FAO-56 do POWER (mensal NE) e do ERA5 (diario); chuva x IMERG
+==============================================================================================================
+Metodo (Quixada 1981-2025): PM com medias mensais / media da PM diaria = 1.041 (r mensal = 0.994); as razoes 'POWER/est' abaixo devem ser divididas por esse fator
+
+Petrolina: celulas POWER usadas {'T2M_MAX': (-9.0, -40.625), 'T2M_MIN': (-9.0, -40.625), 'T2MDEW': (-9.0, -40.625), 'WS2M': (-9.0, -40.625), 'ALLSKY_SFC_SW_DWN': (-9.5, -40.5), 'T2M': (-9.0, -40.625)}
+
+  milho (Souza 2015, Fig. 4; ciclo 109 d a partir de 20/12/2007):
+     fase  ETo_estacao  ET0_POWER   ET0_ERA5  POWER/est  POWER/est corr  ERA5/est
+F1 (40 d)        236.0     329.83 293.790009       1.40            1.34      1.24
+F2 (13 d)         61.4      89.15  68.529999       1.45            1.40      1.12
+F3 (20 d)         64.2     127.73 111.209999       1.99            1.91      1.73
+F4 (36 d)         88.9     185.31 146.789993       2.08            2.00      1.65
+    ciclo        450.5     732.03 620.330017       1.62            1.56      1.38
+
+  caupi (Souza 2015, Fig. 4; ciclo 79 d a partir de 20/12/2007):
+     fase  ETo_estacao  ET0_POWER   ET0_ERA5  POWER/est  POWER/est corr  ERA5/est
+F1 (30 d)        180.5     247.42 230.419998       1.37            1.32      1.28
+F2 (21 d)        101.6     158.68 119.360001       1.56            1.50      1.17
+F3 (12 d)         58.4      77.31  75.099998       1.32            1.27      1.29
+F4 (16 d)         54.6      95.28  78.559998       1.75            1.68      1.44
+    ciclo        395.1     578.69 503.429993       1.46            1.41      1.27
+  chuva no ciclo do milho: IMERG 411.9 mm (media 3x3 pixels de 0,1 grau) x estacao do ensaio 118,6 mm
+     IMERG por mes: [1.5, 55.900001525878906, 88.9000015258789, 198.60000610351562, 67.0] (dez/07 a abr/08)
+     IMERG pixel unico: 416.2 mm; POWER PRECTOTCORR (MERRA-2 corrigido, mensal): 447.4 mm
+     conta do proprio artigo (Souza 2011/2015): L0 milho = 359,5 mm = irrigacao a 100% ETo ate 40 DAS (ETo F1 = 236,0) + chuva 118,6 -> 354.6; L100 - L0 = 111.7 mm irrigados apos 40 DAS contra ETo F2-F4 = 214.5 mm
+
+Teresina: celulas POWER usadas {'T2M_MAX': (-5.0, -42.5), 'T2M_MIN': (-5.0, -42.5), 'T2MDEW': (-5.0, -42.5), 'WS2M': (-5.0, -42.5), 'ALLSKY_SFC_SW_DWN': (-5.5, -42.5), 'T2M': (-5.0, -42.5)}
+  Ramos 2014, 56 d: lamina 100% ETo aplicada = 275 mm | POWER 303 mm (1.10x) | ERA5 349 mm (1.27x)
+  Ramos 2014, 60 d: lamina 100% ETo aplicada = 275 mm | POWER 327 mm (1.19x) | ERA5 374 mm (1.36x)
+  chuva 10/09-08/11/2009: IMERG 30.6 mm (artigo: 'nao houve precipitacao')
+  Santos 2026, semeadura 2022-07-01: sum(Kc_Bastos x ET0_POWER) = 258 mm (ensaio: ~235,8 mm); ET0_POWER do ciclo = 339 mm
+  Santos 2026, semeadura 2022-07-10: sum(Kc_Bastos x ET0_POWER) = 268 mm (ensaio: ~235,8 mm); ET0_POWER do ciclo = 354 mm
+  Santos 2026, semeadura 2022-07-20: sum(Kc_Bastos x ET0_POWER) = 280 mm (ensaio: ~235,8 mm); ET0_POWER do ciclo = 370 mm
+  chuva jul-set/2022: IMERG 26.6 mm (artigo: 13,2 mm no ciclo)
+
+==============================================================================================================
+P2. Gaussiano Kc(GDA) de Souza 2015 (Tabela 3, Tb = 10 C) x medias de fase da Tabela 2
+==============================================================================================================
+
+  GDA com ERA5 gdd10: 17.2 graus-dia/dia; GDA no fim do milho (109 d) = 1879
+    milho exclusivo    Gauss por fase=[0.4399999976158142, 1.0399999618530273, 1.2300000190734863, 0.8799999952316284]  Tabela 2=[0.86, 1.23, 0.97, 0.52]  Kc dia 0=0.11  pico no dia 64 (fase 3)
+    caupi exclusivo    Gauss por fase=[0.28999999165534973, 0.9200000166893005, 1.0499999523162842, 0.7799999713897705]  Tabela 2=[0.68, 1.02, 1.06, 0.63]  Kc dia 0=0.07  pico no dia 52 (fase 3)
+    milho consorciado  Gauss por fase=[0.5400000214576721, 1.1200000047683716, 1.2799999713897705, 0.9599999785423279]  Tabela 2=[0.9, 1.3, 1.2, 0.72]  Kc dia 0=0.18  pico no dia 64 (fase 3)
+    caupi consorciado  Gauss por fase=[0.41999998688697815, 1.1299999952316284, 1.2899999618530273, 1.059999942779541]  Tabela 2=[0.86, 1.3, 1.21, 0.91]  Kc dia 0=0.13  pico no dia 54 (fase 3)
+
+  GDA com POWER T2M mensal: 17.0 graus-dia/dia; GDA no fim do milho (109 d) = 1854
+    milho exclusivo    Gauss por fase=[0.44, 1.06, 1.23, 0.91]  Tabela 2=[0.86, 1.23, 0.97, 0.52]  Kc dia 0=0.11  pico no dia 65 (fase 3)
+    caupi exclusivo    Gauss por fase=[0.3, 0.93, 1.05, 0.8]  Tabela 2=[0.68, 1.02, 1.06, 0.63]  Kc dia 0=0.07  pico no dia 52 (fase 3)
+    milho consorciado  Gauss por fase=[0.54, 1.14, 1.28, 0.98]  Tabela 2=[0.9, 1.3, 1.2, 0.72]  Kc dia 0=0.18  pico no dia 64 (fase 3)
+    caupi consorciado  Gauss por fase=[0.43, 1.14, 1.29, 1.07]  Tabela 2=[0.86, 1.3, 1.21, 0.91]  Kc dia 0=0.13  pico no dia 53 (fase 3)
+
+==============================================================================================================
+P3. M1 com Kc medido no semiarido x Kc FAO generico: Quixada e os 184 municipios (IMERG + ET0 POWER), 1998-2025
+==============================================================================================================
+clima: 184 municipios x 28 anos; Quixada: chuva jan-out mediana 683 mm, ET0 jan-out mediana 1900 mm, T2M media 27.6 C
+semeadura do agricultor em Quixada (mediana 1998-2025): dia 20 do ano
+
+Quixada, semeadura do agricultor, medianas 1998-2025:
+                    variante  ET0_ciclo  ETc_ciclo  Kc_medio  chuva_ciclo  ISNA  ISNA_crit  P(ISNA_crit<0,5)
+     milho|FAO generico (M1) 521.919983 423.299988      0.79   582.309998  0.80       0.80              0.11
+     milho|Souza15 exclusivo 518.049988 428.869995      0.82   582.309998  0.80       0.83              0.29
+milho|Souza15 consorcio Tab2 518.049988 493.619995      0.95   582.309998  0.78       0.75              0.21
+milho|Souza15 consorcio Fig4 518.049988 499.510010      0.96   582.309998  0.77       0.74              0.29
+     milho|Souza15 gauss GDA 518.049988 409.329987      0.77   582.309998  0.80       0.83              0.18
+     caupi|FAO generico (M1) 387.290009 290.140015      0.75   415.980011  0.78       0.76              0.43
+     caupi|Souza15 exclusivo 405.119995 327.820007      0.82   440.910004  0.75       0.74              0.32
+   caupi|Bastos08 (Santos26) 346.630005 249.270004      0.73   356.489990  0.81       0.75              0.36
+     caupi|Souza15 gauss GDA 405.119995 262.320007      0.65   440.910004  0.84       0.85              0.25
+  referencia medida (Souza 2015, irrigado, Petrolina dez-abr): ETc milho exclusivo 387,0 mm (ETo 450,6); caupi exclusivo 322,6 mm (ETo 395,9)
+
+Associacao com o PAM (184 municipios x 28 anos): Spearman(ISNA, anomalia log do rendimento)
+  IC90 por reamostragem de anos inteiros (1000x) da diferenca contra o Kc FAO generico do M1
+  milho isna      milho|FAO generico (M1)        rho=+0.515  (n=5088)
+  milho isna      milho|Souza15 exclusivo        rho=+0.442  dif=-0.073  IC90 [-0.143, -0.001]
+  milho isna      milho|Souza15 consorcio Tab2   rho=+0.483  dif=-0.031  IC90 [-0.088, +0.024]
+  milho isna      milho|Souza15 consorcio Fig4   rho=+0.482  dif=-0.033  IC90 [-0.090, +0.023]
+  milho isna      milho|Souza15 gauss GDA        rho=+0.511  dif=-0.004  IC90 [-0.025, +0.017]
+  milho isna_crit milho|FAO generico (M1)        rho=+0.436  (n=5088)
+  milho isna_crit milho|Souza15 exclusivo        rho=+0.398  dif=-0.038  IC90 [-0.110, +0.027]
+  milho isna_crit milho|Souza15 consorcio Tab2   rho=+0.412  dif=-0.024  IC90 [-0.087, +0.032]
+  milho isna_crit milho|Souza15 consorcio Fig4   rho=+0.410  dif=-0.027  IC90 [-0.092, +0.032]
+  milho isna_crit milho|Souza15 gauss GDA        rho=+0.437  dif=+0.000  IC90 [-0.050, +0.046]
+  caupi isna      caupi|FAO generico (M1)        rho=+0.317  (n=5138)
+  caupi isna      caupi|Souza15 exclusivo        rho=+0.325  dif=+0.008  IC90 [-0.010, +0.027]
+  caupi isna      caupi|Bastos08 (Santos26)      rho=+0.314  dif=-0.003  IC90 [-0.023, +0.018]
+  caupi isna      caupi|Souza15 gauss GDA        rho=+0.363  dif=+0.045  IC90 [+0.004, +0.086]
+  caupi isna_crit caupi|FAO generico (M1)        rho=+0.290  (n=5138)
+  caupi isna_crit caupi|Souza15 exclusivo        rho=+0.289  dif=-0.001  IC90 [-0.024, +0.023]
+  caupi isna_crit caupi|Bastos08 (Santos26)      rho=+0.294  dif=+0.003  IC90 [-0.034, +0.043]
+  caupi isna_crit caupi|Souza15 gauss GDA        rho=+0.313  dif=+0.022  IC90 [-0.003, +0.051]
+
+Data-limite por decendio fixo (ultimo decendio com P(ISNA_crit >= 0,5) >= alvo), Quixada e mediana estadual
+  -- TAW do M1 (100 mm/m x Zr)
+   milho|FAO generico (M1)        P Quixada 01/fev..21/mar=[0.93, 0.86, 0.82, 0.75, 0.64, 0.5]  alvo 0.7: Quixada 01/mar  mediana 01/mar  (  0 mun. sem data) | alvo 0.8: Quixada 21/fev  mediana 01/mar  (  0 mun. sem data)
+   milho|Souza15 exclusivo        P Quixada 01/fev..21/mar=[0.93, 0.93, 0.89, 0.93, 0.82, 0.68]  alvo 0.7: Quixada 11/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data)
+   milho|Souza15 consorcio Tab2   P Quixada 01/fev..21/mar=[0.89, 0.93, 0.89, 0.86, 0.79, 0.64]  alvo 0.7: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 11/mar  (  0 mun. sem data)
+   milho|Souza15 consorcio Fig4   P Quixada 01/fev..21/mar=[0.82, 0.93, 0.89, 0.86, 0.79, 0.64]  alvo 0.7: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 11/mar  (  0 mun. sem data)
+   milho|Souza15 gauss GDA        P Quixada 01/fev..21/mar=[0.93, 0.93, 0.89, 0.93, 0.82, 0.71]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data)
+   caupi|FAO generico (M1)        P Quixada 01/fev..21/mar=[0.79, 0.93, 0.89, 0.89, 0.89, 0.79]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 21/mar  (  0 mun. sem data)
+   caupi|Souza15 exclusivo        P Quixada 01/fev..21/mar=[0.86, 0.93, 0.93, 0.89, 0.93, 0.82]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data)
+   caupi|Bastos08 (Santos26)      P Quixada 01/fev..21/mar=[0.79, 0.89, 0.89, 0.89, 0.93, 0.75]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 21/mar  (  0 mun. sem data)
+   caupi|Souza15 gauss GDA        P Quixada 01/fev..21/mar=[0.89, 0.96, 0.96, 0.93, 0.93, 0.86]  alvo 0.7: Quixada 01/abr  mediana 11/abr  (  0 mun. sem data) | alvo 0.8: Quixada 21/mar  mediana 01/abr  (  0 mun. sem data)
+  -- CAD = 40 mm (Campos 2010)
+   milho|FAO generico (M1)        P Quixada 01/fev..21/mar=[0.86, 0.86, 0.79, 0.64, 0.57, 0.32]  alvo 0.7: Quixada 21/fev  mediana 01/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/fev  mediana 21/fev  (  6 mun. sem data)
+   milho|Souza15 exclusivo        P Quixada 01/fev..21/mar=[0.89, 0.89, 0.89, 0.86, 0.79, 0.64]  alvo 0.7: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 01/mar  (  0 mun. sem data)
+   milho|Souza15 consorcio Tab2   P Quixada 01/fev..21/mar=[0.86, 0.82, 0.86, 0.82, 0.68, 0.57]  alvo 0.7: Quixada 01/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 01/mar  (  8 mun. sem data)
+   milho|Souza15 consorcio Fig4   P Quixada 01/fev..21/mar=[0.79, 0.79, 0.86, 0.82, 0.64, 0.57]  alvo 0.7: Quixada 01/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 01/mar  ( 12 mun. sem data)
+   milho|Souza15 gauss GDA        P Quixada 01/fev..21/mar=[0.93, 0.89, 0.89, 0.86, 0.79, 0.57]  alvo 0.7: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data) | alvo 0.8: Quixada 01/mar  mediana 01/mar  (  0 mun. sem data)
+   caupi|FAO generico (M1)        P Quixada 01/fev..21/mar=[0.75, 0.93, 0.82, 0.89, 0.86, 0.75]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 11/mar  (  0 mun. sem data)
+   caupi|Souza15 exclusivo        P Quixada 01/fev..21/mar=[0.79, 0.93, 0.89, 0.89, 0.89, 0.82]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data)
+   caupi|Bastos08 (Santos26)      P Quixada 01/fev..21/mar=[0.79, 0.89, 0.82, 0.89, 0.86, 0.75]  alvo 0.7: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data) | alvo 0.8: Quixada 11/mar  mediana 11/mar  (  2 mun. sem data)
+   caupi|Souza15 gauss GDA        P Quixada 01/fev..21/mar=[0.89, 0.93, 0.89, 0.89, 0.93, 0.82]  alvo 0.7: Quixada 21/mar  mediana 01/abr  (  0 mun. sem data) | alvo 0.8: Quixada 21/mar  mediana 21/mar  (  0 mun. sem data)
+
+Sensibilidade a escala da ET0 (P1: estacao/POWER ~ 0,65 em Petrolina 2007-08; ERA5/POWER ~ 0,87):
+  data-limite com alvo 0,7 (M1), TAW do M1; Quixada | mediana estadual | ETc mediana do ciclo em Quixada (agricultor)
+   milho|FAO generico (M1)    x1.00: 01/mar | 01/mar | ETc 423 mm   x0.87: 01/mar | 11/mar | ETc 368 mm   x0.65: 21/mar | 21/mar | ETc 275 mm
+   milho|Souza15 exclusivo    x1.00: 11/mar | 21/mar | ETc 429 mm   x0.87: 21/mar | 21/mar | ETc 373 mm   x0.65: 11/abr | 11/abr | ETc 279 mm
+   caupi|FAO generico (M1)    x1.00: 21/mar | 21/mar | ETc 290 mm   x0.87: 21/mar | 01/abr | ETc 252 mm   x0.65: 11/abr | 11/abr | ETc 189 mm
+   caupi|Souza15 exclusivo    x1.00: 21/mar | 21/mar | ETc 328 mm   x0.87: 01/abr | 01/abr | ETc 285 mm   x0.65: 21/abr | 21/abr | ETc 213 mm
+
+==============================================================================================================
+P4. Campos 2010: +3 e +6 C na ETp de Thornthwaite x na ET0 FAO-56 (POWER diario, Quixada, 1991-2020)
+==============================================================================================================
+Elevacao da celula 155 m; T media jan-mai 27.0 C; indice de calor I = 161
+cenario     PM jan-mai    dPM  Thorn(I fixo)    dTh  Thorn(I novo)   dTh2
++0 C              794    +0%            709    +0%            709    +0%
++3 C              856    +8%           1103   +56%           1124   +58%
++6 C              920   +16%           1644  +132%           2016  +184%
+(Thornthwaite sem correcao de fotoperiodo; o que importa e a variacao relativa)
+
+==============================================================================================================
+P5. Bezerra 2007: 'produtividade dos pomares de caju no Nordeste < 220 kg de castanha/ha' x PAM Ceara
+==============================================================================================================
+PAM Ceara, castanha de caju (soma dos municipios): mediana 1990-2025 234 kg/ha; 2000-2007 217; 2016-2025 282; anos >= 220: 20 de 36
+ano
+1995    243.0
+2000    138.0
+2005    179.0
+2010     99.0
+2012     96.0
+2015    139.0
+2020    316.0
+2024    361.0
+2025    242.0

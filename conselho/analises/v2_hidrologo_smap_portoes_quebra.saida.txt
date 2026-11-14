@@ -1,0 +1,222 @@
+============================== Quebra canônica do milho ==============================
+  31/jan [2016-2025] n=1820 mun-anos, 10 anos, taxa de quebra 0.15
+     chuva IMERG % normal   AUC 0.271 [0.17,0.56] | dentro do ano 0.525 | rho entre anos +0.32
+        dentro do ano por ano (chuva): {2016: 0.53, 2017: 0.6, 2018: 0.51, 2019: 0.55, 2021: 0.54, 2022: 0.41, 2023: 0.41, 2024: 0.75, 2025: 0.45}
+     SMAP L4 percentil      AUC 0.230 [0.15,0.48] | dentro do ano 0.480 | rho entre anos +0.40
+        dentro do ano por ano (SMAP): {2016: 0.59, 2017: 0.36, 2018: 0.28, 2019: 0.56, 2021: 0.41, 2022: 0.45, 2023: 0.3, 2024: 0.66, 2025: 0.5}
+     SMAP L4 m3/m3 absoluto AUC 0.409 [0.33,0.59] | dentro do ano 0.551 | rho entre anos +0.36
+     balde M1 absoluto      AUC 0.342 [0.24,0.68] | dentro do ano 0.657 | rho entre anos +0.10
+     balde M1 percentil     AUC 0.289 [0.19,0.62] | dentro do ano 0.514 | rho entre anos +0.10
+     só geografia (balde clim.) AUC 0.665 [0.61,0.73] | dentro do ano 0.693 | rho entre anos -0.10
+     diferença dentro do ano SMAP − chuva = -0.046, IC90 por ano [-0.150,+0.020] (9 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.034, IC90 por ano [-0.121,+0.023]
+     diferença dentro do ano balde − balde_clim = -0.036, IC90 por ano [-0.098,+0.025]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.071, IC90 por ano [-0.030,+0.191]
+     diferença dentro do ano balde_pctl − imerg_pct = -0.011, IC90 por ano [-0.050,+0.021]
+     logística ano fora: chuva 0.576 | chuva+SMAP 0.567 | chuva+balde 0.509
+     alerta chuva < 75%    : acende 34% | P(quebra|alerta) 0.08 (n=611) | P(quebra|sem) 0.18 | recall 18%
+     alerta SMAP pctl < 20 : acende 5% | P(quebra|alerta) 0.06 (n=82) | P(quebra|sem) 0.15 | recall 2%
+     alerta as duas        : acende 4% | P(quebra|alerta) 0.06 (n=80) | P(quebra|sem) 0.15 | recall 2%
+  28/fev [2016-2025] n=1820 mun-anos, 10 anos, taxa de quebra 0.15
+     chuva IMERG % normal   AUC 0.456 [0.34,0.59] | dentro do ano 0.514 | rho entre anos +0.16
+        dentro do ano por ano (chuva): {2016: 0.5, 2017: 0.56, 2018: 0.91, 2019: 0.47, 2021: 0.81, 2022: 0.42, 2023: 0.31, 2024: 0.49, 2025: 0.5}
+     SMAP L4 percentil      AUC 0.618 [0.44,0.75] | dentro do ano 0.501 | rho entre anos -0.15
+        dentro do ano por ano (SMAP): {2016: 0.54, 2017: 0.49, 2018: 0.75, 2019: 0.52, 2021: 0.69, 2022: 0.39, 2023: 0.14, 2024: 0.48, 2025: 0.58}
+     SMAP L4 m3/m3 absoluto AUC 0.586 [0.53,0.64] | dentro do ano 0.571 | rho entre anos -0.19
+     balde M1 absoluto      AUC 0.708 [0.48,0.83] | dentro do ano 0.606 | rho entre anos -0.18
+     balde M1 percentil     AUC 0.676 [0.44,0.80] | dentro do ano 0.512 | rho entre anos -0.18
+     só geografia (balde clim.) AUC 0.595 [0.53,0.72] | dentro do ano 0.686 | rho entre anos +0.18
+     diferença dentro do ano SMAP − chuva = -0.013, IC90 por ano [-0.077,+0.033] (9 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.011, IC90 por ano [-0.043,+0.024]
+     diferença dentro do ano balde − balde_clim = -0.080, IC90 por ano [-0.171,-0.005]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.070, IC90 por ano [-0.027,+0.199]
+     diferença dentro do ano balde_pctl − imerg_pct = -0.002, IC90 por ano [-0.094,+0.057]
+     logística ano fora: chuva 0.220 | chuva+SMAP 0.470 | chuva+balde 0.658
+     alerta chuva < 75%    : acende 14% | P(quebra|alerta) 0.03 (n=260) | P(quebra|sem) 0.17 | recall 3%
+     alerta SMAP pctl < 20 : acende 5% | P(quebra|alerta) 0.18 (n=83) | P(quebra|sem) 0.15 | recall 6%
+     alerta as duas        : acende 3% | P(quebra|alerta) 0.02 (n=61) | P(quebra|sem) 0.15 | recall 0%
+  19/mar [2016-2025] n=1820 mun-anos, 10 anos, taxa de quebra 0.15
+     chuva IMERG % normal   AUC 0.547 [0.39,0.68] | dentro do ano 0.548 | rho entre anos +0.16
+        dentro do ano por ano (chuva): {2016: 0.61, 2017: 0.66, 2018: 0.95, 2019: 0.49, 2021: 0.76, 2022: 0.39, 2023: 0.2, 2024: 0.39, 2025: 0.55}
+     SMAP L4 percentil      AUC 0.682 [0.44,0.82] | dentro do ano 0.571 | rho entre anos -0.17
+        dentro do ano por ano (SMAP): {2016: 0.65, 2017: 0.61, 2018: 0.96, 2019: 0.57, 2021: 0.64, 2022: 0.49, 2023: 0.18, 2024: 0.49, 2025: 0.6}
+     SMAP L4 m3/m3 absoluto AUC 0.620 [0.56,0.66] | dentro do ano 0.591 | rho entre anos -0.13
+     balde M1 absoluto      AUC 0.660 [0.48,0.78] | dentro do ano 0.620 | rho entre anos -0.14
+     balde M1 percentil     AUC 0.623 [0.40,0.74] | dentro do ano 0.509 | rho entre anos -0.05
+     só geografia (balde clim.) AUC 0.599 [0.52,0.72] | dentro do ano 0.677 | rho entre anos +0.14
+     diferença dentro do ano SMAP − chuva = +0.023, IC90 por ano [-0.010,+0.050] (9 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = +0.062, IC90 por ano [+0.010,+0.110]
+     diferença dentro do ano balde − balde_clim = -0.057, IC90 por ano [-0.138,+0.016]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.019, IC90 por ano [-0.097,+0.166]
+     diferença dentro do ano balde_pctl − imerg_pct = -0.039, IC90 por ano [-0.091,+0.009]
+     SMAP<20 por ano (alertas, acertos): 2016:56/47, 2018:6/4, 2019:24/5, 2021:26/1, 2025:12/5 | P(quebra|alerta) 0.50 (n=124), recall 23%
+     chuva<75% por ano (alertas, acertos): 2016:7/6, 2018:21/6, 2019:18/1, 2021:100/7, 2022:32/1, 2023:36/0 | P(quebra|alerta) 0.10 (n=214), recall 8%
+     balde pctl<20 por ano (alertas, acertos): 2016:120/83, 2018:165/7, 2019:43/5, 2021:90/4, 2022:2/0, 2023:4/0, 2024:4/0, 2025:6/1 | P(quebra|alerta) 0.23 (n=434), recall 37%
+     quebras por ano: {2016: 127, 2017: 31, 2018: 7, 2019: 12, 2020: 2, 2021: 7, 2022: 3, 2023: 20, 2024: 14, 2025: 45}
+     logística ano fora: chuva 0.205 | chuva+SMAP 0.468 | chuva+balde 0.377
+     alerta chuva < 75%    : acende 12% | P(quebra|alerta) 0.10 (n=214) | P(quebra|sem) 0.15 | recall 8%
+     alerta SMAP pctl < 20 : acende 7% | P(quebra|alerta) 0.50 (n=124) | P(quebra|sem) 0.12 | recall 23%
+     alerta as duas        : acende 2% | P(quebra|alerta) 0.24 (n=45) | P(quebra|sem) 0.14 | recall 4%
+  30/abr [2016-2025] n=1820 mun-anos, 10 anos, taxa de quebra 0.15
+     chuva IMERG % normal   AUC 0.662 [0.53,0.76] | dentro do ano 0.529 | rho entre anos -0.39
+        dentro do ano por ano (chuva): {2016: 0.53, 2017: 0.74, 2018: 0.27, 2019: 0.43, 2021: 0.72, 2022: 0.4, 2023: 0.24, 2024: 0.4, 2025: 0.63}
+     SMAP L4 percentil      AUC 0.772 [0.56,0.84] | dentro do ano 0.553 | rho entre anos -0.66
+        dentro do ano por ano (SMAP): {2016: 0.52, 2017: 0.8, 2018: 0.14, 2019: 0.43, 2021: 0.58, 2022: 0.42, 2023: 0.21, 2024: 0.36, 2025: 0.77}
+     SMAP L4 m3/m3 absoluto AUC 0.643 [0.58,0.68] | dentro do ano 0.580 | rho entre anos -0.66
+     balde M1 absoluto      AUC 0.797 [0.57,0.86] | dentro do ano 0.618 | rho entre anos -0.77
+     balde M1 percentil     AUC 0.800 [0.60,0.85] | dentro do ano 0.569 | rho entre anos -0.78
+     só geografia (balde clim.) AUC 0.550 [0.50,0.61] | dentro do ano 0.613 | rho entre anos +0.77
+     diferença dentro do ano SMAP − chuva = +0.024, IC90 por ano [-0.033,+0.074] (9 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.016, IC90 por ano [-0.130,+0.056]
+     diferença dentro do ano balde − balde_clim = +0.005, IC90 por ano [-0.031,+0.037]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.027, IC90 por ano [-0.052,+0.152]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.040, IC90 por ano [-0.053,+0.139]
+     SMAP<20 por ano (alertas, acertos): 2016:91/64, 2017:23/9, 2021:81/3, 2024:1/0, 2025:46/21 | P(quebra|alerta) 0.40 (n=242), recall 36%
+     chuva<75% por ano (alertas, acertos): 2016:14/9, 2017:2/0, 2021:107/6, 2022:6/0, 2023:4/0, 2024:1/0, 2025:7/1 | P(quebra|alerta) 0.11 (n=141), recall 6%
+     balde pctl<20 por ano (alertas, acertos): 2016:181/126, 2017:64/21, 2018:48/0, 2021:90/2, 2024:6/0, 2025:116/42 | P(quebra|alerta) 0.38 (n=505), recall 71%
+     quebras por ano: {2016: 127, 2017: 31, 2018: 7, 2019: 12, 2020: 2, 2021: 7, 2022: 3, 2023: 20, 2024: 14, 2025: 45}
+     logística ano fora: chuva 0.436 | chuva+SMAP 0.714 | chuva+balde 0.748
+     alerta chuva < 75%    : acende 8% | P(quebra|alerta) 0.11 (n=141) | P(quebra|sem) 0.15 | recall 6%
+     alerta SMAP pctl < 20 : acende 13% | P(quebra|alerta) 0.40 (n=242) | P(quebra|sem) 0.11 | recall 36%
+     alerta as duas        : acende 5% | P(quebra|alerta) 0.10 (n=91) | P(quebra|sem) 0.15 | recall 3%
+  30/abr [2015-2025] n=2002 mun-anos, 11 anos, taxa de quebra 0.19
+     chuva IMERG % normal   AUC 0.708 [0.58,0.80] | dentro do ano 0.557 | rho entre anos -0.46
+        dentro do ano por ano (chuva): {2015: 0.66, 2016: 0.53, 2017: 0.74, 2018: 0.27, 2019: 0.43, 2021: 0.72, 2022: 0.4, 2023: 0.24, 2024: 0.4, 2025: 0.63}
+     SMAP L4 percentil      AUC 0.782 [0.63,0.84] | dentro do ano 0.593 | rho entre anos -0.68
+        dentro do ano por ano (SMAP): {2015: 0.74, 2016: 0.52, 2017: 0.8, 2018: 0.14, 2019: 0.43, 2021: 0.58, 2022: 0.42, 2023: 0.21, 2024: 0.36, 2025: 0.77}
+     SMAP L4 m3/m3 absoluto AUC 0.644 [0.60,0.67] | dentro do ano 0.590 | rho entre anos -0.69
+     balde M1 absoluto      AUC 0.790 [0.63,0.85] | dentro do ano 0.633 | rho entre anos -0.82
+     balde M1 percentil     AUC 0.801 [0.65,0.85] | dentro do ano 0.586 | rho entre anos -0.82
+     só geografia (balde clim.) AUC 0.549 [0.51,0.60] | dentro do ano 0.612 | rho entre anos +0.82
+     diferença dentro do ano SMAP − chuva = +0.036, IC90 por ano [-0.020,+0.075] (10 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = +0.006, IC90 por ano [-0.084,+0.061]
+     diferença dentro do ano balde − balde_clim = +0.021, IC90 por ano [-0.016,+0.048]
+     diferença dentro do ano smap_rz_abs − smap_pctl = -0.002, IC90 por ano [-0.070,+0.122]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.030, IC90 por ano [-0.042,+0.114]
+     SMAP<20 por ano (alertas, acertos): 2015:39/34, 2016:91/64, 2017:23/9, 2021:81/3, 2024:1/0, 2025:46/21 | P(quebra|alerta) 0.47 (n=281), recall 35%
+     chuva<75% por ano (alertas, acertos): 2015:58/43, 2016:14/9, 2017:2/0, 2021:107/6, 2022:6/0, 2023:4/0, 2024:1/0, 2025:7/1 | P(quebra|alerta) 0.30 (n=199), recall 16%
+     balde pctl<20 por ano (alertas, acertos): 2015:79/61, 2016:181/126, 2017:64/21, 2018:48/0, 2021:90/2, 2024:6/0, 2025:116/42 | P(quebra|alerta) 0.43 (n=584), recall 66%
+     quebras por ano: {2015: 111, 2016: 127, 2017: 31, 2018: 7, 2019: 12, 2020: 2, 2021: 7, 2022: 3, 2023: 20, 2024: 14, 2025: 45}
+     logística ano fora: chuva 0.602 | chuva+SMAP 0.711 | chuva+balde 0.728
+     alerta chuva < 75%    : acende 10% | P(quebra|alerta) 0.30 (n=199) | P(quebra|sem) 0.18 | recall 16%
+     alerta SMAP pctl < 20 : acende 14% | P(quebra|alerta) 0.47 (n=281) | P(quebra|sem) 0.14 | recall 35%
+     alerta as duas        : acende 6% | P(quebra|alerta) 0.26 (n=116) | P(quebra|sem) 0.19 | recall 8%
+============================== Quebra canônica do feijão ==============================
+  31/jan [2016-2025] n=1814 mun-anos, 10 anos, taxa de quebra 0.13
+     chuva IMERG % normal   AUC 0.292 [0.23,0.46] | dentro do ano 0.477 | rho entre anos +0.64
+     SMAP L4 percentil      AUC 0.260 [0.21,0.40] | dentro do ano 0.465 | rho entre anos +0.78
+     SMAP L4 m3/m3 absoluto AUC 0.399 [0.36,0.49] | dentro do ano 0.504 | rho entre anos +0.78
+     balde M1 absoluto      AUC 0.335 [0.27,0.48] | dentro do ano 0.510 | rho entre anos +0.43
+     balde M1 percentil     AUC 0.330 [0.26,0.52] | dentro do ano 0.487 | rho entre anos +0.43
+     só geografia (balde clim.) AUC 0.533 [0.44,0.59] | dentro do ano 0.508 | rho entre anos -0.43
+     diferença dentro do ano SMAP − chuva = -0.012, IC90 por ano [-0.056,+0.025] (10 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.022, IC90 por ano [-0.066,+0.012]
+     diferença dentro do ano balde − balde_clim = +0.002, IC90 por ano [-0.031,+0.044]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.039, IC90 por ano [-0.002,+0.094]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.010, IC90 por ano [-0.036,+0.059]
+     logística ano fora: chuva 0.667 | chuva+SMAP 0.688 | chuva+balde 0.651
+     alerta chuva < 75%    : acende 34% | P(quebra|alerta) 0.06 (n=609) | P(quebra|sem) 0.17 | recall 15%
+     alerta SMAP pctl < 20 : acende 5% | P(quebra|alerta) 0.05 (n=82) | P(quebra|sem) 0.14 | recall 2%
+     alerta as duas        : acende 4% | P(quebra|alerta) 0.05 (n=80) | P(quebra|sem) 0.14 | recall 2%
+  28/fev [2016-2025] n=1814 mun-anos, 10 anos, taxa de quebra 0.13
+     chuva IMERG % normal   AUC 0.460 [0.37,0.56] | dentro do ano 0.497 | rho entre anos +0.24
+     SMAP L4 percentil      AUC 0.592 [0.47,0.68] | dentro do ano 0.500 | rho entre anos -0.27
+     SMAP L4 m3/m3 absoluto AUC 0.535 [0.49,0.56] | dentro do ano 0.506 | rho entre anos -0.24
+     balde M1 absoluto      AUC 0.638 [0.49,0.73] | dentro do ano 0.538 | rho entre anos -0.38
+     balde M1 percentil     AUC 0.650 [0.52,0.74] | dentro do ano 0.550 | rho entre anos -0.38
+     só geografia (balde clim.) AUC 0.480 [0.40,0.54] | dentro do ano 0.506 | rho entre anos +0.38
+     diferença dentro do ano SMAP − chuva = +0.003, IC90 por ano [-0.039,+0.028] (10 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.050, IC90 por ano [-0.095,-0.019]
+     diferença dentro do ano balde − balde_clim = +0.032, IC90 por ano [-0.003,+0.078]
+     diferença dentro do ano smap_rz_abs − smap_pctl = +0.006, IC90 por ano [-0.012,+0.035]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.053, IC90 por ano [+0.013,+0.103]
+     logística ano fora: chuva 0.296 | chuva+SMAP 0.600 | chuva+balde 0.659
+     alerta chuva < 75%    : acende 14% | P(quebra|alerta) 0.07 (n=259) | P(quebra|sem) 0.14 | recall 8%
+     alerta SMAP pctl < 20 : acende 5% | P(quebra|alerta) 0.13 (n=83) | P(quebra|sem) 0.13 | recall 5%
+     alerta as duas        : acende 3% | P(quebra|alerta) 0.07 (n=61) | P(quebra|sem) 0.13 | recall 2%
+  19/mar [2016-2025] n=1814 mun-anos, 10 anos, taxa de quebra 0.13
+     chuva IMERG % normal   AUC 0.528 [0.41,0.65] | dentro do ano 0.537 | rho entre anos +0.19
+     SMAP L4 percentil      AUC 0.616 [0.46,0.72] | dentro do ano 0.545 | rho entre anos -0.19
+     SMAP L4 m3/m3 absoluto AUC 0.551 [0.49,0.61] | dentro do ano 0.516 | rho entre anos -0.15
+     balde M1 absoluto      AUC 0.565 [0.42,0.67] | dentro do ano 0.547 | rho entre anos -0.14
+     balde M1 percentil     AUC 0.561 [0.41,0.68] | dentro do ano 0.531 | rho entre anos -0.09
+     só geografia (balde clim.) AUC 0.500 [0.43,0.55] | dentro do ano 0.512 | rho entre anos +0.14
+     diferença dentro do ano SMAP − chuva = +0.008, IC90 por ano [-0.010,+0.024] (10 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = +0.014, IC90 por ano [-0.037,+0.061]
+     diferença dentro do ano balde − balde_clim = +0.035, IC90 por ano [+0.001,+0.099]
+     diferença dentro do ano smap_rz_abs − smap_pctl = -0.029, IC90 por ano [-0.060,+0.012]
+     diferença dentro do ano balde_pctl − imerg_pct = -0.006, IC90 por ano [-0.059,+0.046]
+     logística ano fora: chuva 0.238 | chuva+SMAP 0.539 | chuva+balde 0.302
+     alerta chuva < 75%    : acende 12% | P(quebra|alerta) 0.09 (n=213) | P(quebra|sem) 0.14 | recall 8%
+     alerta SMAP pctl < 20 : acende 7% | P(quebra|alerta) 0.29 (n=124) | P(quebra|sem) 0.12 | recall 15%
+     alerta as duas        : acende 2% | P(quebra|alerta) 0.16 (n=45) | P(quebra|sem) 0.13 | recall 3%
+  30/abr [2016-2025] n=1814 mun-anos, 10 anos, taxa de quebra 0.13
+     chuva IMERG % normal   AUC 0.614 [0.50,0.68] | dentro do ano 0.525 | rho entre anos -0.24
+     SMAP L4 percentil      AUC 0.661 [0.50,0.73] | dentro do ano 0.519 | rho entre anos -0.35
+     SMAP L4 m3/m3 absoluto AUC 0.562 [0.48,0.60] | dentro do ano 0.510 | rho entre anos -0.35
+     balde M1 absoluto      AUC 0.642 [0.42,0.74] | dentro do ano 0.517 | rho entre anos -0.35
+     balde M1 percentil     AUC 0.678 [0.53,0.74] | dentro do ano 0.543 | rho entre anos -0.39
+     só geografia (balde clim.) AUC 0.482 [0.40,0.54] | dentro do ano 0.495 | rho entre anos +0.37
+     diferença dentro do ano SMAP − chuva = -0.006, IC90 por ano [-0.040,+0.032] (10 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.024, IC90 por ano [-0.110,+0.030]
+     diferença dentro do ano balde − balde_clim = +0.022, IC90 por ano [+0.008,+0.036]
+     diferença dentro do ano smap_rz_abs − smap_pctl = -0.009, IC90 por ano [-0.039,+0.032]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.018, IC90 por ano [-0.048,+0.108]
+     logística ano fora: chuva 0.411 | chuva+SMAP 0.573 | chuva+balde 0.549
+     alerta chuva < 75%    : acende 8% | P(quebra|alerta) 0.11 (n=140) | P(quebra|sem) 0.13 | recall 7%
+     alerta SMAP pctl < 20 : acende 13% | P(quebra|alerta) 0.25 (n=242) | P(quebra|sem) 0.11 | recall 25%
+     alerta as duas        : acende 5% | P(quebra|alerta) 0.08 (n=91) | P(quebra|sem) 0.14 | recall 3%
+  30/abr [2015-2025] n=1996 mun-anos, 11 anos, taxa de quebra 0.15
+     chuva IMERG % normal   AUC 0.635 [0.53,0.70] | dentro do ano 0.543 | rho entre anos -0.33
+     SMAP L4 percentil      AUC 0.680 [0.56,0.74] | dentro do ano 0.552 | rho entre anos -0.42
+     SMAP L4 m3/m3 absoluto AUC 0.570 [0.52,0.60] | dentro do ano 0.519 | rho entre anos -0.42
+     balde M1 absoluto      AUC 0.665 [0.52,0.74] | dentro do ano 0.556 | rho entre anos -0.50
+     balde M1 percentil     AUC 0.694 [0.56,0.76] | dentro do ano 0.577 | rho entre anos -0.54
+     só geografia (balde clim.) AUC 0.502 [0.42,0.55] | dentro do ano 0.519 | rho entre anos +0.53
+     diferença dentro do ano SMAP − chuva = +0.010, IC90 por ano [-0.029,+0.045] (11 anos)
+     diferença dentro do ano smap_pctl − balde_pctl = -0.025, IC90 por ano [-0.092,+0.022]
+     diferença dentro do ano balde − balde_clim = +0.036, IC90 por ano [+0.012,+0.062]
+     diferença dentro do ano smap_rz_abs − smap_pctl = -0.034, IC90 por ano [-0.077,+0.018]
+     diferença dentro do ano balde_pctl − imerg_pct = +0.034, IC90 por ano [-0.024,+0.110]
+     logística ano fora: chuva 0.542 | chuva+SMAP 0.624 | chuva+balde 0.617
+     alerta chuva < 75%    : acende 10% | P(quebra|alerta) 0.21 (n=198) | P(quebra|sem) 0.14 | recall 14%
+     alerta SMAP pctl < 20 : acende 14% | P(quebra|alerta) 0.30 (n=281) | P(quebra|sem) 0.12 | recall 28%
+     alerta as duas        : acende 6% | P(quebra|alerta) 0.19 (n=116) | P(quebra|sem) 0.15 | recall 7%
+
+============================== ISNA canônico do M1 (fim de safra) × só geografia (média do ISNA do município nos OUTROS anos) ==============================
+  isna_flor_milho [1999-2025] n=4925: dentro do ano ISNA 0.613 | só geografia 0.612 | anomalia do ano 0.563 | ISNA − geografia +0.001 IC90 [-0.041,+0.046] (21 anos)
+  isna_flor_milho [2016-2025] n=1820: dentro do ano ISNA 0.658 | só geografia 0.689 | anomalia do ano 0.568 | ISNA − geografia -0.031 IC90 [-0.089,+0.018] (9 anos)
+  isna_ciclo_milho [1999-2025] n=4925: dentro do ano ISNA 0.631 | só geografia 0.610 | anomalia do ano 0.605 | ISNA − geografia +0.021 IC90 [-0.013,+0.054] (21 anos)
+  isna_ciclo_milho [2016-2025] n=1820: dentro do ano ISNA 0.672 | só geografia 0.695 | anomalia do ano 0.588 | ISNA − geografia -0.022 IC90 [-0.082,+0.031] (9 anos)
+
+============================== Replay de Quixadá 2015-2025 (milho canônico) ==============================
+      chuva % 19/mar  balde 19/mar  SMAP pctl 30/abr  chuva % 30/abr  balde 30/abr  SMAP pctl 31/mai  SMAP pctl mín fev-mai  SMAP pctl médio mar-abr  chuva fev-mai (mm)  razão milho  razão feijão  SMAP pctl 19/mar
+ano                                                                                                                                                                                                                  
+2015            0.63          0.16              23.0            0.70          0.38               6.0                    6.0                     25.0               404.0         0.48          0.52               NaN
+2016            0.88          0.22              26.0            0.78          0.28              14.0                   13.0                     32.0               323.0         0.12          0.39              21.0
+2017            1.25          0.92              54.0            1.02          0.73              50.0                   18.0                     82.0               638.0         2.07          2.12              92.0
+2018            0.68          0.08              90.0            1.11          0.97              75.0                   11.0                     55.0               644.0         1.86          1.73              21.0
+2019            1.50          0.99              50.0            1.19          0.78              49.0                   32.0                     72.0               611.0         2.07          1.70              80.0
+2020            1.39          0.97              54.0            1.10          0.92              56.0                   29.0                     59.0               645.0         1.78          1.56              84.0
+2021            0.72          0.42              16.0            0.69          0.50              40.0                   12.0                     29.0               480.0         0.80          0.81              30.0
+2022            0.98          0.92              57.0            0.98          0.96              65.0                   22.0                     50.0               553.0         1.03          0.91              55.0
+2023            1.19          1.00              66.0            1.04          0.85              42.0                   41.0                     70.0               527.0         0.36          0.49              64.0
+2024            1.17          0.94              74.0            1.05          0.87              49.0                   32.0                     75.0               605.0         0.46          0.68              74.0
+2025            1.44          0.90              25.0            0.93          0.24              30.0                   12.0                     46.0               440.0         0.30          0.32              71.0
+  rho(SMAP pctl 30/abr, razão milho) em Quixadá = +0.23 (n=11)
+  rho(SMAP pctl mín fev-mai, razão milho) em Quixadá = +0.06 (n=11)
+  rho(SMAP pctl médio mar-abr, razão milho) em Quixadá = +0.46 (n=11)
+  rho(chuva % 30/abr, razão milho) em Quixadá = +0.54 (n=11)
+  rho(balde 30/abr, razão milho) em Quixadá = +0.51 (n=11)
+  rho(chuva fev-mai (mm), razão milho) em Quixadá = +0.79 (n=11)
+  chuva mensal de Quixadá (mm), jan-jun, 2019-2025:
+          1      2      3      4      5     6
+2019  148.0  173.0  213.0  150.0   76.0  23.0
+2020   86.0  153.0  226.0  167.0  100.0  46.0
+2021   45.0   78.0  160.0  118.0  125.0   5.0
+2022  124.0   25.0  217.0  206.0  105.0  55.0
+2023   89.0  110.0  245.0  150.0   22.0  20.0
+2024   31.0  218.0  193.0  161.0   32.0  36.0
+2025  160.0  149.0  131.0  104.0   56.0   9.0
+  fração dos 20 vizinhos (< 0,3° do limite) em quebra do milho: {2016: 0.95, 2017: 0.15, 2018: 0.1, 2019: 0.0, 2020: 0.0, 2021: 0.1, 2022: 0.05, 2023: 0.35, 2024: 0.0, 2025: 0.45}
+  fração do Ceará em quebra do milho: {2016: 0.7, 2017: 0.17, 2018: 0.04, 2019: 0.07, 2020: 0.01, 2021: 0.04, 2022: 0.02, 2023: 0.11, 2024: 0.08, 2025: 0.25}

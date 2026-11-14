@@ -1,0 +1,71 @@
+==================== A. Inventario dos insumos do exportador (secao 10 da v2) ====================
+  agronomo_zarc_sintetico_prob             0.03 MB | forma (184, 36)      |                            | leitura 0.05 s
+  agronomo_isna_mun_ano                    0.22 MB | forma (5152, 16)     | anos 1998-2025             | leitura 0.01 s
+  hidrologo_fao56_mun_ano                  3.09 MB | forma (49680, 17)    | anos 1999-2025             | leitura 0.01 s
+  v2_hidrologo_smap_pctl_mun_diario        1.66 MB | forma (4243, 184)    | 2015-03-31 -> 2026-11-10   | leitura 0.01 s
+  v2_hidrologo_smap_rz_mun_diario          4.53 MB | forma (4243, 184)    | 2015-03-31 -> 2026-11-10   | leitura 0.01 s
+  estrategista_cache_chuva_mun_diaria      4.28 MB | forma (10484, 184)   | 1998-01-01 -> 2026-09-14   | leitura 0.02 s
+  carteira_cvar_municipios                 0.02 MB | forma (58, 20)       |                            | leitura 0.00 s
+  ibge_pam_mun_anual                       1.29 MB | forma (813280, 10)   | anos 1974-2025             | leitura 0.07 s
+  viirs_ndvi_ce_mensal                     0.01 MB | forma (179, 5)       | 2012-01 -> 2026-11         | leitura 0.00 s
+  v2_ecologo_painel_mun_mes                1.41 MB | forma (32752, 12)    | anos 2012-2026             | leitura 0.01 s
+
+  codigos: GeoJSON 184 | SMAP 184 | chuva 184 | ZARC sintetico 184 | carteira (CVaR) 58
+  GeoJSON == SMAP: True | GeoJSON == chuva: True | GeoJSON == ZARC: True
+  Quixada (2311306) na carteira CVaR: False; municipios SEM carteira: 126 de 184
+  colunas da carteira: ['cod', 'cvar_milho', 'cvar_feijao', 'cvar_mandioca', 'cvar_caju', 'cvar_atual', 'cvar_robusta', 'seca_atual', 'seca_robusta_oos', 'seca_milho', 'seca_feijao', 'seca_milho_feijao_50', 'w_atual_milho', 'w_atual_feijao', 'w_atual_mandioca', 'w_atual_caju', 'w_oos_milho', 'w_oos_feijao', 'w_oos_mandioca', 'w_oos_caju']
+  tipo do arquivo de nomes: list, 184 itens; exemplo: [{'id': 2300101, 'nome': 'Abaiara', 'microrregiao': {'id': 23033, 'nome': 'Brejo Santo', 'mesorregiao': {'id': 2307, 'nome': 'Sul Cearense', 'UF': {'id': 23, 's
+
+==================== B. Prototipo cronometrado do exportador minimo (duas luzes) ====================
+  [19/mar 2016] quebras 127 | chuva<75% pega 6 (alertas 7) | SMAP 7d<20 pega 47 (alertas 56) | SMAP dia<20 pega 32 (alertas 38)
+  [19/mar 2021] quebras 7 | chuva<75% pega 7 (alertas 100) | SMAP 7d<20 pega 1 (alertas 26) | SMAP dia<20 pega 1 (alertas 24)
+  [19/mar 2025] quebras 45 | chuva<75% pega 0 (alertas 0) | SMAP 7d<20 pega 5 (alertas 12) | SMAP dia<20 pega 2 (alertas 5)
+  [19/mar] Quixada, luz de chuva 1998-2025: 8 alertas, 2 acertos, 8 quebras; anos de quebra sem alerta: [2001, 2012, 2016, 2023, 2024, 2025]
+  [19/mar] Quixada, luz SMAP 7d<20 2016-2025: alertas [], acertos []
+  [30/abr 2016] quebras 127 | chuva<75% pega 9 (alertas 14) | SMAP 7d<20 pega 64 (alertas 91) | SMAP dia<20 pega 90 (alertas 128)
+  [30/abr 2021] quebras 7 | chuva<75% pega 6 (alertas 107) | SMAP 7d<20 pega 3 (alertas 81) | SMAP dia<20 pega 3 (alertas 86)
+  [30/abr 2025] quebras 45 | chuva<75% pega 1 (alertas 7) | SMAP 7d<20 pega 21 (alertas 46) | SMAP dia<20 pega 30 (alertas 65)
+  [30/abr] Quixada, luz de chuva 1998-2025: 7 alertas, 3 acertos, 8 quebras; anos de quebra sem alerta: [2001, 2016, 2023, 2024, 2025]
+  [30/abr] Quixada, luz SMAP 7d<20 2016-2025: alertas [2021], acertos []
+  tempo total do bloco B (le, calcula quebra, chuva por portao, SMAP 7d, para 184 municipios): 0.4 s
+  JSON de portoes + ZARC: 577 kB para 184 municipios (Quixada 3.1 kB); montagem 0.6 s
+
+==================== C. Painel 'hoje': o que sai pronto dos arquivos ====================
+  SMAP zona da raiz: ultimo dia 2026-11-10; CE 0.116 m3/m3; Quixada 0.087; posto do CE no mesmo dia entre 12 anos = 5o mais seco
+  percentil do PRODUTO no ultimo dia: 0% dos municipios com valor (esperado: vazio)
+  fracao de municipio-dias com percentil do produto, por mes: {1: 0.73, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.99, 7: 0.88, 8: 0.64, 9: 0.27, 10: 0.01, 11: 0.0, 12: 0.01}
+  VIIRS NDVI do CE (derivado): ultimo mes 2026-11; out/2026 = 0.407
+  z do out/2026 contra os outros 14 outubros (media e dp simples do derivado estadual): +1.07; posto 3 de 15 (1 = mais verde)
+  GRACE CE: ultimo mes 2026-09; CLSM CE mensal: ultimo mes 2026-08
+  chuva municipal diaria (cache): ultimo dia 2026-09-14. A 'estacao seca 01/ago-13/nov' exige o IMERG Late/Early recente (nao esta no cache municipal): conta nova no exportador ou numero copiado da saida.
+
+==================== D. Tamanho do pacote estatico ====================
+  GeoJSON: 311 kB, 184 feicoes, ~13977 pares de coordenadas, ~4 casas decimais (mediana)
+  serie SMAP 7d de 1 ano (365 d) x 184 mun.: ~0.34 MB
+  serie SMAP completa (4243 d) x 184 mun.: ~3.9 MB
+  chuva diaria completa (10484 d) x 184 mun.: ~9.6 MB
+  trajetorias diarias so de 3 municipios x 3 anos x 365 d x 4 series: ~66 kB
+
+==================== E. Densidade de numeros nos slides e no video ====================
+  slide 1:   2 tokens numericos | palavras  135 | "Stanford asked which rotation pays where. We asked when the water dec
+  slide 2:   7 tokens numericos | palavras   56 | "One window, one chance."
+  slide 3:  18 tokens numericos | palavras  122 | "Three curves decide when to decide."
+  slide 4:  15 tokens numericos | palavras  130 | Momento uau: "2016: rain-to-date said fine. The soil said no."
+  slide 5:  13 tokens numericos | palavras  112 | "Your county, every season replayed."
+  slide 6:  12 tokens numericos | palavras  122 | "NASA is the engine, IBGE is the referee. How we used SI, honestly."
+  slide 7:  16 tokens numericos | palavras  124 | "Today: strongest Aug–Oct El Niño on record (ONI +2.46)."
+  video 30 s: 85 palavras de locucao (fala em ingles confortavel ~2,3-2,7 palavras/s -> 31-37 s); numeros na locucao: ['127', '2016', '30', '64', '9']
+
+==================== F. Orcamento contra o relogio ====================
+  tarefas da tabela: ['Exportador (inclui o SMAP por portão, a deduplicação e o percentil próprio de novembro)', 'Trajetórias diárias', 'App (inclui converter o `site-nasa` atual para página estática)', 'Textos e verificador', 'Auditoria', 'Slides', 'Vídeo', 'Checagem cruzada', 'Bloco 0']
+  soma da tabela: 32.0-34.0 h; com 25% de contingencia: 40.0-42.5 h-pessoa
+  agora Sat 14/11 10:51; prazo dom 15/11 23:59 -> 37.1 h de parede; menos 6 h de sono e 2 h de folga de submissao = 29.1 h uteis por pessoa (antes de refeicoes e de pausas)
+  1 pessoa: oferta ~29 h contra demanda 32-34 h (sem contingencia)
+  2 pessoas: oferta ~58 h contra 40-42 h com contingencia
+
+==================== G. Cartoes S0-S3 por municipio: o que da para calcular ====================
+  municipios com >= 20 anos de milho (S0 calculavel no municipio): 182 de 184
+  municipios com >= 20 anos das 3 culturas juntas (S2 calculavel no municipio): 70 de 184; >= 10 anos: 102
+  Quixada, S0 so milho (28 anos): P(<0,5) 0.286 (8 anos) | 'pior ano em 10' (media dos <= q10) 0.096 | mediana 1.001
+  Quixada, anos com as 3 culturas: 10 ([1998, 1999, 2000, 2003, 2004, 2005, 2006, 2008, 2009, 2010]); com 10 anos o 'pior ano em 10' e UM ano so
+  S1 (escalonar) e S3 (leguminosa): sem metrica observada em nenhum municipio (grau C / faixa da literatura, secao 6.2)

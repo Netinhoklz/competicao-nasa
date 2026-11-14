@@ -1,0 +1,36 @@
+CEMADEN: 360 estacoes; 247,461 estacao-dias com 10 cm; 2015-07-01 a 2019-05-01
+por UF: {'BA': 133, 'CE': 64, 'PE': 42, 'PI': 32, 'MG': 28, 'PB': 28, 'RN': 17, 'AL': 12, 'SE': 4}
+textura (g/kg), mediana: areia 706.0 | argila 175.0
+
+==================== C1/C2. Tempo e nivel por estacao (min. 180 dias em comum) ====================
+L4 superficie 0-5 cm x 10 cm (13 UTC)
+   estacoes 329 | r mediano 0.69 (p10 0.49, p90 0.81) | r anomalia 0.57 | ubRMSD 0.037 | vies +0.033 m3/m3 | nivel NASA 0.104 x campo 0.076 | ubRMSD <= 0,04 em 63%
+L4 zona da raiz x media 10-20 cm (13 UTC)
+   estacoes 303 | r mediano 0.72 (p10 0.51, p90 0.86) | r anomalia 0.64 | ubRMSD 0.026 | vies +0.067 m3/m3 | nivel NASA 0.155 x campo 0.080 | ubRMSD <= 0,04 em 91%
+L3 AM (qualidade recomendada) x 10 cm, media diaria
+   estacoes 219 | r mediano 0.67 (p10 0.44, p90 0.82) | r anomalia nan | ubRMSD 0.048 | vies +0.022 m3/m3 | nivel NASA 0.104 x campo 0.081 | ubRMSD <= 0,04 em 16%
+GLDAS CLSM superficie x 10 cm, media diaria
+   estacoes 330 | r mediano 0.65 (p10 0.45, p90 0.80) | r anomalia 0.47 | ubRMSD 0.049 | vies +0.126 m3/m3 | nivel NASA 0.209 x campo 0.077 | ubRMSD <= 0,04 em 27%
+GLDAS CLSM zona da raiz x media 10-20 cm
+   estacoes 303 | r mediano 0.71 (p10 0.49, p90 0.84) | r anomalia 0.59 | ubRMSD 0.026 | vies +0.174 m3/m3 | nivel NASA 0.281 x campo 0.080 | ubRMSD <= 0,04 em 87%
+
+L4 zona da raiz: r por tercil de areia: {'menos areia': 0.73, 'meio': 0.72, 'mais areia': 0.72}
+L4 zona da raiz: r mediano por UF: {'AL': 0.74, 'BA': 0.7, 'CE': 0.77, 'MG': 0.78, 'PB': 0.75, 'PE': 0.65, 'PI': 0.75, 'RN': 0.75, 'SE': 0.39}
+Ceara (L4 zona da raiz): {'r': 0.766, 'r_anom': 0.639, 'ubrmsd': 0.03, 'vies': 0.072} n = 48
+
+==================== C3. 'Onde': ordem entre estacoes na mesma data (percentil proprio, media de 7 dias) ====================
+      data  n_est  rho_percentil  rho_nivel  luz_campo_%  luz_smap_%  concorda_luz_%
+2016-02-28    280           0.42       0.21         5.71        0.71           95.00
+2016-03-19    266           0.40       0.18         7.52        0.38           92.11
+2016-04-30    262           0.54       0.19         7.63        6.11           88.55
+2017-02-28    165           0.73       0.37        18.79       24.85           84.24
+2017-03-19    149           0.80       0.37        18.12       24.16           80.54
+2017-04-30    146           0.47       0.27         2.05        1.37           97.95
+2018-02-28     79           0.46       0.27         3.80        1.27           97.47
+2018-03-19     82           0.48       0.47         2.44        0.00           97.56
+2018-04-30     81           0.68       0.35         4.94        0.00           95.06
+2019-02-28     55           0.57       0.47         9.09       10.91           87.27
+2019-03-19     54           0.57       0.23         7.41        9.26           94.44
+2019-04-30     26           0.28       0.41         0.00        0.00          100.00
+mediana rho_percentil: 0.51 | rho_nivel: 0.31
+nota: percentil proprio com ~3,5 anos de serie; 'luz' = percentil < 20 (regra do portao do QUADRA, aqui em percentil proprio, nao o sm_rootzone_pctl do produto).

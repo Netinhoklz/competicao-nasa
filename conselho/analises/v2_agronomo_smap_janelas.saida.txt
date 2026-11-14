@@ -1,0 +1,89 @@
+datas duplicadas no SMAP L4 (dois granulos no mesmo dia): 4 -> fica o primeiro
+W: (184, 11, 300) (municipios x quadras 2016-2026 x dias desde 1/jan); faltas 0.00%
+chuva IMERG municipal ate 2026-09-14 (a quadra de 2026 entra completa ate a floracao de 21/abr + 85 d)
+
+=== A. P(sucesso) mediana estadual por decendio de semeadura (quadras 2016-2026) ===
+        milho SMAP  caupi SMAP  sorgo SMAP  mandioca SMAP  milho balde  caupi balde  sorgo balde
+01/jan        0.82        0.18        0.82           0.00         0.91         0.82         0.91
+11/jan        0.91        0.45        0.91           0.18         1.00         0.82         1.00
+21/jan        1.00        0.55        1.00           0.36         1.00         0.91         1.00
+01/fev        1.00        0.64        1.00           0.55         1.00         1.00         1.00
+11/fev        1.00        0.82        1.00           0.73         1.00         1.00         1.00
+21/fev        1.00        0.91        1.00           0.82         0.91         1.00         1.00
+01/mar        1.00        0.91        1.00           0.91         0.82         1.00         0.91
+11/mar        0.91        0.91        0.91           1.00         0.64         1.00         0.82
+21/mar        0.91        0.91        0.82           1.00         0.36         0.82         0.64
+01/abr        0.73        0.73        0.73           1.00         0.18         0.59         0.27
+11/abr        0.55        0.64        0.55           0.91         0.09         0.45         0.18
+21/abr        0.45        0.45        0.36           0.82         0.00         0.27         0.00
+01/mai        0.27        0.32        0.27           0.73          NaN          NaN          NaN
+11/mai        0.18        0.18        0.09           0.55          NaN          NaN          NaN
+
+=== B. Data-limite (ultimo decendio com P >= 0,7): SMAP x balde nos mesmos anos x balde 1998-2025 ===
+  milho SMAP: 21/fev 1, 01/mar 8, 11/mar 17, 21/mar 59, 01/abr 24, 11/abr 20, 21/abr 21, 01/mai 18, 11/mai 16
+  milho balde 2016-26: 11/fev 13, 21/fev 51, 01/mar 39, 11/mar 48, 21/mar 33
+     SMAP - balde (decendios), 184 municipios com as duas datas: mediana +3; |dif| <= 1 em 26%; SMAP mais tarde em 74%, mais cedo em 1%
+     sensibilidade limiar -0.1: data-limite anda mediana +2 decendios; 'nenhum' em 0%
+     sensibilidade limiar +0.1: data-limite anda mediana -2 decendios; 'nenhum' em 1%
+  caupi SMAP: 01/mar 6, 11/mar 19, 21/mar 44, 01/abr 37, 11/abr 23, 21/abr 26, 01/mai 17, 11/mai 11, nenhum 1
+  caupi balde 2016-26: 01/mar 5, 11/mar 50, 21/mar 47, 01/abr 64, 11/abr 18
+     SMAP - balde (decendios), 183 municipios com as duas datas: mediana +1; |dif| <= 1 em 58%; SMAP mais tarde em 38%, mais cedo em 4%
+     sensibilidade limiar -0.1: data-limite anda mediana +2 decendios; 'nenhum' em 0%
+     sensibilidade limiar +0.1: data-limite anda mediana -2 decendios; 'nenhum' em 10%
+  sorgo SMAP: 21/fev 2, 01/mar 10, 11/mar 24, 21/mar 54, 01/abr 26, 11/abr 17, 21/abr 19, 01/mai 21, 11/mai 11
+  sorgo balde 2016-26: 11/fev 3, 21/fev 13, 01/mar 48, 11/mar 34, 21/mar 85, 01/abr 1
+     SMAP - balde (decendios), 184 municipios com as duas datas: mediana +2; |dif| <= 1 em 39%; SMAP mais tarde em 59%, mais cedo em 2%
+     sensibilidade limiar -0.1: data-limite anda mediana +2 decendios; 'nenhum' em 0%
+     sensibilidade limiar +0.1: data-limite anda mediana -2 decendios; 'nenhum' em 1%
+  mandioca SMAP: 01/mar 1, 21/mar 2, 01/abr 8, 11/abr 24, 21/abr 50, 01/mai 30, 11/mai 69
+     sensibilidade limiar -0.1: data-limite anda mediana +1 decendios; 'nenhum' em 0%
+     sensibilidade limiar +0.1: data-limite anda mediana -2 decendios; 'nenhum' em 10%
+
+  Municipios de exemplo (SMAP | balde 2016-26 | balde 1998-2025):
+   Crato     : milho 21/mar | 21/fev | 21/fev; caupi 11/mar | 11/mar | 11/mar; sorgo 21/mar | 11/mar | 11/mar; mandioca 11/abr
+   Iguatu    : milho 01/abr | 21/fev | 21/fev; caupi 01/abr | 21/mar | 21/mar; sorgo 01/abr | 01/mar | 11/mar; mandioca 01/mai
+   Itapipoca : milho 11/abr | 21/mar | 21/mar; caupi 11/abr | 11/abr | 01/abr; sorgo 11/abr | 21/mar | 21/mar; mandioca 01/mai
+   Quixadá   : milho 21/abr | 01/mar | 01/mar; caupi 21/abr | 21/mar | 21/mar; sorgo 21/abr | 11/mar | 11/mar; mandioca 11/mai
+   Sobral    : milho 01/mai | 11/mar | 11/mar; caupi 01/mai | 01/abr | 01/abr; sorgo 01/mai | 21/mar | 21/mar; mandioca 11/mai
+   Tauá      : milho 01/mai | 21/fev | 21/fev; caupi 21/abr | 11/mar | 11/mar; sorgo 01/mai | 21/fev | 21/fev; mandioca 11/mai
+   Tianguá   : milho 11/mar | 11/mar | 11/mar; caupi 21/mar | 01/abr | 01/abr; sorgo 11/mar | 21/mar | 21/mar; mandioca 11/abr
+
+=== C. Os riscos de cada metodo ordenam os municipios como a quebra real de 2016-2025? (Spearman entre municipios) ===
+  milho (182 mun.), semeadura 21/jan: rho SMAP -0.13 (p 0.086) | rho balde +0.30 (p 0.000) | SMAP x balde -0.08
+  milho (182 mun.), semeadura 11/fev: rho SMAP -0.10 (p 0.183) | rho balde +0.33 (p 0.000) | SMAP x balde -0.06
+  milho: balde 1998-2025 (o da proposta), 21/jan, contra a quebra 2016-2025: rho +0.44 (p 0.000)
+  feijao (182 mun.), semeadura 21/jan: rho SMAP +0.02 (p 0.773) | rho balde -0.03 (p 0.651) | SMAP x balde -0.11
+  feijao (182 mun.), semeadura 11/fev: rho SMAP +0.07 (p 0.350) | rho balde +0.00 (p 1.000) | SMAP x balde +0.09
+  feijao: balde 1998-2025 (o da proposta), 21/jan, contra a quebra 2016-2025: rho +0.03 (p 0.683)
+
+=== D. Agua na zona da raiz ao longo do ano (SMAP L4, quadras 2016-2025) ===
+  dias por ano com W >= 0,5: mediana dos municipios 111 (p10-p90 dos municipio-anos 63-167); Quixada 133 (68 a 155)
+  maior corrida continua com W >= 0,5: mediana 95 d; Quixada mediana 122 d (por ano: {2016: 47, 2017: 151, 2018: 91, 2019: 130, 2020: 137, 2021: 42, 2022: 140, 2023: 113, 2024: 146, 2025: 50})
+   fracao de municipio-anos em que a maior corrida umida cobre caupi 75 d: 69%; Quixada 70%
+   fracao de municipio-anos em que a maior corrida umida cobre milho 110 d: 43%; Quixada 60%
+   fracao de municipio-anos em que a maior corrida umida cobre estabelecimento da maniva 60 d: 79%; Quixada 70%
+  entressafra (ago-dez): fracao dos dias com W < 0,1 (piso): mediana 49%; Quixada 55%
+  dias com W >= 0,5 em ago-dez: mediana 0 por ano
+
+  GLDAS-2.1 Noah, media do CE 2000-2025 (kg/m2 = mm por camada), climatologia mensal:
+time             1           2           3           4           5           6           7           8           9           10          11          12
+0-10      21.799999   25.500000   28.600000   29.900000   26.900000   22.400000   18.299999   13.900000   11.700000   11.400000   12.900000   15.500000
+10-40     60.500000   72.900002   83.500000   88.400002   80.000000   65.599998   54.599998   45.299999   40.700001   39.000000   39.900002   44.400002
+40-100    89.099998  113.599998  145.699997  165.300003  154.699997  126.099998  103.599998   88.099998   80.400002   77.099998   75.900002   76.599998
+100-200  270.100006  276.100006  288.299988  305.700012  305.500000  291.100006  282.600006  277.899994  274.899994  272.799988  271.000000  269.500000
+  amplitude do ciclo medio (max - min do mes medio): 0-10 cm 18.6 mm, 10-40 cm 49.4 mm, 40-100 cm 89.4 mm, 100-200 cm 36.1 mm
+  agua em dez acima do minimo do registro, por camada (mediana 2000-2025): 0-10 5.7 mm, 10-40 11.7 mm, 40-100 15.9 mm, 100-200 12.7 mm
+  em m3/m3 (camada / espessura): dez mediano 0-10 0.151, 10-40 0.140, 40-100 0.125, 100-200 0.270 | abr mediano 0-10 0.300, 10-40 0.294, 40-100 0.280, 100-200 0.301
+  a camada 1-2 m em dez acompanha a de abr do mesmo ano? rho +0.90 (n 26 anos)
+
+=== E. Conferencias ===
+  Quixada, W mediano por mes (2016-2025): 1: 0.20, 2: 0.42, 3: 0.68, 4: 0.82, 5: 0.72, 6: 0.56, 7: 0.43, 8: 0.27, 9: 0.15, 10: 0.08, 11: 0.04, 12: 0.03
+  Quixada, zona da raiz p2 0.083 / p98 0.202 m3/m3; mediana por mes: 1: 0.107, 2: 0.133, 3: 0.164, 4: 0.181, 5: 0.169, 6: 0.150, 7: 0.134, 8: 0.115, 9: 0.101, 10: 0.092, 11: 0.087, 12: 0.087
+  milho: umidade ABSOLUTA media da zona da raiz na floracao (semeadura 21/jan) x quebra 2016-2025: rho +0.11 (p 0.133); x risco do balde 28 anos: rho +0.15
+
+=== F. Troca em Sao Jose: fracao de municipios em que a semeadura de 11/mar ou 21/mar teria agua, por quadra ===
+    SMAP = W medio na janela sensivel >= limiar; balde = ISNA floracao >= 0,5. Anos de luz acesa em 2016-2025: 2016, 2017, 2021, 2025
+  caupi 11/mar: 2016: SMAP 70% / balde 68% (Quixada sim/sim); 2017: SMAP 90% / balde 82% (Quixada sim/sim); 2021: SMAP 74% / balde 100% (Quixada sim/sim); 2025: SMAP 64% / balde 70% (Quixada nao/nao); demais 2018-2024: SMAP 99% / balde 100%
+  caupi 21/mar: 2016: SMAP 40% / balde 33% (Quixada sim/nao); 2017: SMAP 72% / balde 67% (Quixada sim/sim); 2021: SMAP 88% / balde 99% (Quixada sim/sim); 2025: SMAP 52% / balde 50% (Quixada nao/nao); demais 2018-2024: SMAP 98% / balde 88%
+  sorgo 11/mar: 2016: SMAP 47% / balde 10% (Quixada sim/nao); 2017: SMAP 91% / balde 74% (Quixada sim/sim); 2021: SMAP 93% / balde 91% (Quixada sim/sim); 2025: SMAP 77% / balde 49% (Quixada sim/nao); demais 2018-2024: SMAP 99% / balde 83%
+  milho 01/mar: 2016: SMAP 76% / balde 21% (Quixada sim/nao); 2017: SMAP 94% / balde 54% (Quixada sim/nao); 2021: SMAP 96% / balde 98% (Quixada sim/sim); 2025: SMAP 87% / balde 46% (Quixada sim/nao); demais 2018-2024: SMAP 100% / balde 87%

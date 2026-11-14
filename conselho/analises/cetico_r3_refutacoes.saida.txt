@@ -1,0 +1,88 @@
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+E:\campeonato-nasa\venv\Lib\site-packages\statsmodels\discrete\discrete_model.py:268: ConvergenceWarning: Maximum Likelihood optimization failed to converge. Check mle_retvals
+  mlefit = super().fit(
+painel milho canonico x chuva IMERG: n=5106 municipio-anos, 184 municipios, 28 anos; taxa de quebra 0.215; anos El Nino (NDJ>=1): [np.int64(1998), np.int64(2003), np.int64(2010), np.int64(2016), np.int64(2019), np.int64(2024)]
+
+========================= A. OR do El Nino 'alem da chuva' com inferencia por ANO =========================
+  EP iid (como no rascunho)   : OR=1.57 IC95 1.31-1.89 p=0.000
+  EP agrupado por ano         : OR=1.57 IC95 0.71-3.50 p=0.268
+  chuva flexivel (faixas + meses + veranico), EP por ano: OR=1.38 IC95 0.62-3.11 p=0.430
+  jackknife: tira 1 ano El Nino por vez (chuva linear, EP por ano)
+    sem 1998: OR=1.47 IC95 0.64-3.41
+    sem 2003: OR=1.78 IC95 0.76-4.17
+    sem 2010: OR=1.43 IC95 0.59-3.49
+    sem 2016: OR=1.32 IC95 0.58-3.04
+    sem 2019: OR=1.66 IC95 0.68-4.04
+    sem 2024: OR=1.87 IC95 0.83-4.23
+  fracao de municipios em quebra nos anos El Nino: {1998: 0.75, 2003: 0.01, 2010: 0.61, 2016: 0.7, 2019: 0.07, 2024: 0.08}
+  diferenca de taxa El Nino - demais (media por ano): +0.191; IC90 bootstrap por ano [-0.033, +0.427]
+
+========================= B. AUC do ONI para a quebra municipal (o que se sabe ANTES do plantio) =========================
+  ONI ASO, conhecido em ~5/nov  : AUC=0.669 IC90 por ano [0.52, 0.79]
+  ONI OND, conhecido em ~5/jan  : AUC=0.670 IC90 por ano [0.52, 0.80]
+  ONI NDJ, conhecido em ~5/fev  : AUC=0.677 IC90 por ano [0.53, 0.80]
+  chuva de janeiro (% do normal, so dado de chuva, 31/jan): AUC=0.567
+  ONI OND + chuva de janeiro (soma de z, sem ajuste): AUC=0.696
+
+========================= C. ONI ASO alem da chuva no ESTADO (robustez do -0,208) =========================
+  replica: chuva linear (alvo mediana movel 9a)             : coef ONI_ASO=-0.208 (p=0.003) R2=0.50 n=44
+  alvo canonico (mediana dos outros anos)                   : coef ONI_ASO=-0.188 (p=0.033) R2=0.36 n=44
+  chuva + chuva^2                                           : coef ONI_ASO=-0.149 (p=0.014) R2=0.63 n=44
+  log(chuva)                                                : coef ONI_ASO=-0.175 (p=0.007) R2=0.56 n=44
+  chuva por mes (fev, mar, abr, mai)                        : coef ONI_ASO=-0.198 (p=0.007) R2=0.54 n=44
+  chuva por mes + veranico + Tmax                           : coef ONI_ASO=-0.097 (p=0.247) R2=0.63 n=44
+  chuva IMERG 1998-2025 (linear)                            : coef ONI_ASO=-0.234 (p=0.000) R2=0.62 n=28
+  chuva IMERG + quadrado                                    : coef ONI_ASO=-0.201 (p=0.000) R2=0.64 n=28
+  sem [1983]                                                : coef ONI_ASO=-0.198 (p=0.005) R2=0.47 n=43
+  sem [1998]                                                : coef ONI_ASO=-0.200 (p=0.008) R2=0.45 n=43
+  sem [2016]                                                : coef ONI_ASO=-0.192 (p=0.010) R2=0.46 n=43
+  sem [1983, 1998, 2016]                                    : coef ONI_ASO=-0.157 (p=0.075) R2=0.35 n=41
+  corr(chuva POWER fmam, ONI ASO) = -0.31; corr(POWER, IMERG) 1998+ = +0.84
+
+========================= D. Analogos: incerteza amostral (Clopper-Pearson 90%) =========================
+  ASO>=1,3 (rascunho: 4 secos em 7)               : 4/7 = 0.57  IC90 [0.23, 0.87]  (taxa-base de tercil seco = 0,33)
+  El Nino que nao decai (3 em 4)                  : 3/4 = 0.75  IC90 [0.25, 0.99]  (taxa-base de tercil seco = 0,33)
+  ASO>=1,49 (inclui 1973 e 1988, sem 1983/1966?)  : 3/6 = 0.50  IC90 [0.15, 0.85]  (taxa-base de tercil seco = 0,33)
+  so os 2 maiores (1998, 2016)                    : 2/2 = 1.00  IC90 [0.22, 1.00]  (taxa-base de tercil seco = 0,33)
+  limiar ASO >= 1.00: 10 anos -> [1952, 1958, 1964, 1966, 1973, 1983, 1988, 1998, 2016, 2024]
+  limiar ASO >= 1.30: 7 anos -> [1966, 1973, 1983, 1988, 1998, 2016, 2024]
+  limiar ASO >= 1.45: 7 anos -> [1966, 1973, 1983, 1988, 1998, 2016, 2024]
+  limiar ASO >= 1.49: 6 anos -> [1966, 1973, 1988, 1998, 2016, 2024]
+  limiar ASO >= 1.50: 4 anos -> [1966, 1998, 2016, 2024]
+  limiar ASO >= 2.00: 2 anos -> [1998, 2016]
+
+========================= E. GRACE CE: a queda de ago->set/2026 e incomum? =========================
+  variacao mes a mes dessazonalizada: dp=4.81 cm, n=239; ago->set/2026 = -5.79 cm (z=-1.2; percentil 9)
+  so ago->set de todos os anos: media -0.83, dp 3.33, min -7.30 (2022)
+  ultimos meses (cm): {Timestamp('2026-04-01 00:00:00'): 0.85, Timestamp('2026-05-01 00:00:00'): 0.31, Timestamp('2026-06-01 00:00:00'): 3.29, Timestamp('2026-07-01 00:00:00'): 3.76, Timestamp('2026-08-01 00:00:00'): 2.49, Timestamp('2026-09-01 00:00:00'): -3.3}
+
+========================= F. Milho x feijao: quanto da correlacao e o choque comum do ano? =========================
+  correlacao mediana por municipio: bruta 0.78 | depois de tirar a media do estado no ano 0.67
+
+========================= G. 30/abr e previsao ou quase o resultado? AUC por janela de chuva (municipal, % do normal) =========================
+  chuva jan                                     : AUC=0.567
+  chuva jan-fev                                 : AUC=0.673
+  chuva jan-mar                                 : AUC=0.747
+  chuva jan-abr (= portao 30/abr)               : AUC=0.800
+  chuva jan-mai (quadra inteira, a posteriori)  : AUC=0.828
+
+========================= H. 2012/2016/1998: % do normal acumulado desde 1/jan (media do estado, IMERG) =========================
+  1998: ate 01-31: 154% | ate 02-28: 92% | ate 03-31: 85% | ate 04-30: 72%
+  2012: ate 01-31: 42% | ate 02-28: 89% | ate 03-31: 82% | ate 04-30: 66%
+  2016: ate 01-31: 205% | ate 02-28: 112% | ate 03-31: 98% | ate 04-30: 89%
+  2024: ate 01-31: 53% | ate 02-28: 111% | ate 03-31: 105% | ate 04-30: 101%

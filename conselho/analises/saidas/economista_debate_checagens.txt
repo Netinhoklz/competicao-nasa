@@ -1,0 +1,41 @@
+A) Painel gatilho: 5144 município-anos, 184 municípios
+
+  Alvo perda >= 50%: frequência 0.160 (gatilho calibrado para pagar na mesma frequência; LOYO nas logísticas)
+                           gatilho   AUC  AUC dentro do ano  perdas pagas  perda sem pagamento  pagamento sem perda
+chuva fev–mai relativa (municipal) 0.829              0.589         0.481                0.083                0.083
+               ISNA floração milho 0.773              0.599         0.448                0.088                0.088
+                  ISNA ciclo milho 0.828              0.620         0.515                0.078                0.078
+       mín(ISNA flor milho, caupi) 0.778              0.603         0.439                0.090                0.090
+        logística chuva + veranico 0.841              0.630         0.521                0.077                0.077
+ logística ISNA + chuva + veranico 0.844              0.629         0.518                0.077                0.077
+
+  Alvo perda >= 40% (Lei 15.236/2025): frequência 0.212 (gatilho calibrado para pagar na mesma frequência; LOYO nas logísticas)
+                           gatilho   AUC  AUC dentro do ano  perdas pagas  perda sem pagamento  pagamento sem perda
+chuva fev–mai relativa (municipal) 0.807              0.586         0.522                0.101                0.101
+               ISNA floração milho 0.750              0.590         0.484                0.109                0.109
+                  ISNA ciclo milho 0.800              0.611         0.556                0.094                0.094
+       mín(ISNA flor milho, caupi) 0.755              0.600         0.491                0.108                0.108
+        logística chuva + veranico 0.816              0.626         0.573                0.091                0.091
+ logística ISNA + chuva + veranico 0.817              0.623         0.584                0.088                0.088
+
+  Estado, por ano: Spearman fração em perda × fração ISNA<0,5 = 0.69 | × chuva média relativa = 0.73
+
+B) Milho CE: rendimento mediano 2015–25 (área plantada) 696 kg/ha × R$ 1204/t = receita R$ 839/ha; anos de quebra (≤ 70% da mediana móvel de 9 anos): 16 de 51, perda média 51% → L ≈ R$ 426/ha
+  α = 0.2: C = R$ 85/ha, ganho esperado com a previsão = V·(E_clim − E_perfeito) = R$ 14/ha/ano (V = 0.23); 3 ha → R$ 41/família/ano
+  α = 0.33: C = R$ 141/ha, ganho esperado com a previsão = V·(E_clim − E_perfeito) = R$ 33/ha/ano (V = 0.39); 3 ha → R$ 100/família/ano
+  α = 0.5: C = R$ 213/ha, ganho esperado com a previsão = V·(E_clim − E_perfeito) = R$ 24/ha/ano (V = 0.38); 3 ha → R$ 73/família/ano
+
+C) Preço implícito municipal (valor/produção) relativo ao estado no ano × produção municipal relativa (efeito fixo de município)
+  Mandioca           n= 4720 | elasticidade preço/produção (dentro do município) +0.013 (r +0.03) | só choque local (fora do ano) +0.032 (r +0.07) | dp mediano do log-preço relativo 0.352
+  Feijão (em grão)   n= 5138 | elasticidade preço/produção (dentro do município) -0.011 (r -0.04) | só choque local (fora do ano) -0.026 (r -0.08) | dp mediano do log-preço relativo 0.194
+  Milho (em grão)    n= 5085 | elasticidade preço/produção (dentro do município) -0.003 (r -0.02) | só choque local (fora do ano) -0.013 (r -0.07) | dp mediano do log-preço relativo 0.121
+
+D) Sorgo × milho nos mesmos município-anos (área colhida ≥ 50 ha): n = 148, municípios = 21
+  preço sorgo/milho: mediana 0.79 (p25 0.66, p75 0.88)
+  rendimento sorgo/milho: mediana 2.50
+  receita bruta/ha (R$ correntes) sorgo/milho: mediana 2.00
+  área colhida de sorgo no CE (ha): {2015: 400, 2016: 0, 2017: 0, 2018: 0, 2019: 400, 2020: 1000, 2021: 2900, 2022: 1050, 2023: 1405, 2024: 40, 2025: 15}
+
+E) ONI (série mensal da NOAA CPC no arquivo; cada valor já é média móvel de 3 meses): {Timestamp('2026-06-01 00:00:00'): 1.39, Timestamp('2026-07-01 00:00:00'): 1.8, Timestamp('2026-08-01 00:00:00'): 2.16, Timestamp('2026-09-01 00:00:00'): 2.46}
+  último valor (rotulado set/2026) = 2.46 | média ago–set = 2.31 | média jul–set = 2.14  → três números para o mesmo fato
+  ureia/milho: 2026 por mês {Timestamp('2026-01-01 00:00:00'): 2.03, Timestamp('2026-02-01 00:00:00'): 2.25, Timestamp('2026-03-01 00:00:00'): 3.41, Timestamp('2026-04-01 00:00:00'): 4.0, Timestamp('2026-05-01 00:00:00'): 3.56, Timestamp('2026-06-01 00:00:00'): 2.3, Timestamp('2026-07-01 00:00:00'): 1.87, Timestamp('2026-08-01 00:00:00'): 1.74, Timestamp('2026-09-01 00:00:00'): 1.7, Timestamp('2026-10-01 00:00:00'): 1.85} | média 2000–2020 1.51

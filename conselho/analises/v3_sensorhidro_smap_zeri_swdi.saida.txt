@@ -1,0 +1,67 @@
+
+====================================================================================================
+Carregando SMAP L4 (SPL4SMGP v008) no recorte do Ceara  [0s]
+====================================================================================================
+dias: 4243 | grade: 78 x 49 | dias com falha: 0
+celulas SMAP dentro do CE com dado: 1837
+
+====================================================================================================
+(a) Zeri 2018 - SMI e ISA com SMAP L4 no Ceara, verao 2015/2016  [2s]
+====================================================================================================
+
+-- superficie 0-5 cm: WP(p5) mediano 0.057, FC(p95) mediano 0.243 m3/m3
+   data         SMI medio  %SMI<0,4 %ISA verm(7d) %ISA lar(3d)
+   2016-01-10        0.58       6.9           0.2          0.0
+   2016-01-20        0.75       0.0           0.0          0.0
+   2016-01-31        0.62       9.6           0.0          0.0
+   2016-02-10        0.30      75.0           0.4         46.1
+   2016-02-20        0.47      37.8          13.0         23.0
+   2016-02-28        0.29      72.7          19.1         40.3
+   2016-03-15        0.39      49.8          17.7         18.0
+
+-- zona de raizes 0-100 cm: WP(p5) mediano 0.127, FC(p95) mediano 0.230 m3/m3
+   data         SMI medio  %SMI<0,4 %ISA verm(7d) %ISA lar(3d)
+   2016-01-10        0.34      66.6          63.2          0.0
+   2016-01-20        0.53      26.1          23.1          2.0
+   2016-01-31        0.71       1.0           0.0          0.1
+   2016-02-10        0.60       4.8           0.7          1.6
+   2016-02-20        0.52       9.7           6.7          3.0
+   2016-02-28        0.46      27.7           9.7          9.3
+   2016-03-15        0.41      51.8          31.4         14.4
+   sm_rootzone_pctl (percentil do proprio L4) 2016-01-20: mediana 85.5 | %<=10: 0.0
+   sm_rootzone_pctl (percentil do proprio L4) 2016-02-20: mediana 61.5 | %<=10: 1.0
+
+====================================================================================================
+(b) Paredes-Trejo 2017 - SWDI com FC=p95 e WP=p5: quanto de 'seca' vem da construcao?  [5s]
+====================================================================================================
+   superficie p5/p95 da serie diaria    : fracao de semanas com SWDI<0 = 0.964
+   superficie p5/p95 da serie semanal   : fracao de semanas com SWDI<0 = 0.949
+   raizes     p5/p95 da serie diaria    : fracao de semanas com SWDI<0 = 0.952
+   raizes     p5/p95 da serie semanal   : fracao de semanas com SWDI<0 = 0.949
+
+   media do CE, 598 semanas 2015-2026; semanas com AWD<0 (P<ET0): 82.9%
+   swdi_sf: POD=0.992  FAR=0.134  r(SWDI,AWD)=0.864  rho=0.912  | 'sempre seca' daria POD=1,000 e FAR=0.171
+   swdi_rz: POD=0.972  FAR=0.151  r(SWDI,AWD)=0.700  rho=0.759  | 'sempre seca' daria POD=1,000 e FAR=0.171
+   fev-mai swdi_sf: r(SWDI,AWD)=0.640  (artigo: r=0,652 em todo o periodo, SMOS L2)
+   fev-mai swdi_rz: r(SWDI,AWD)=0.272  (artigo: r=0,652 em todo o periodo, SMOS L2)
+
+====================================================================================================
+(c) Zeri 2021 - defasagem SMA (SMAP L4 raizes) -> VHI (MODIS NDVI+LST) e SPI-1 (IMERG)  [13s]
+====================================================================================================
+   r(indice_t, alvo_t+k) | todos os meses 2015-04..2026-08 | anomalias padronizadas por mes do calendario
+   SMA (SMAP L4 raiz)   -> VHIa   k=0: +0.64 (n=133)  k=1: +0.45 (n=133)  k=2: +0.30 (n=132)  k=3: +0.24 (n=131)
+   SMA (SMAP L4 raiz)   -> NDVIa  k=0: +0.73 (n=133)  k=1: +0.56 (n=133)  k=2: +0.39 (n=132)  k=3: +0.32 (n=131)
+   SPI-1 (IMERG)        -> VHIa   k=0: +0.46 (n=133)  k=1: +0.46 (n=133)  k=2: +0.32 (n=132)  k=3: +0.20 (n=131)
+   SPI-1 (IMERG)        -> NDVIa  k=0: +0.49 (n=133)  k=1: +0.55 (n=133)  k=2: +0.36 (n=132)  k=3: +0.25 (n=131)
+   r(SMA, SPI-1) mesmo mes = +0.49; SMA x SPI-1 do mes anterior = +0.51
+
+====================================================================================================
+(d) Zeri 2021 - chuva nov-jul: razao com a media (CHIRPS semiarido no artigo; IMERG no CE aqui)  [13s]
+====================================================================================================
+   media nov-jul IMERG CE 1998/99-2019/20 = 835 mm (artigo: 698 mm, CHIRPS, pontos do semiarido 1981-2020)
+   2011-2012: IMERG CE 443 mm, razao 0.53 | artigo 400 mm, razao 0.57
+   2012-2013: IMERG CE 531 mm, razao 0.64 | artigo 553 mm, razao 0.79
+   2014-2015: IMERG CE 617 mm, razao 0.74 | artigo 653 mm, razao 0.94
+   ranking das 5 safras nov-jul mais secas (IMERG CE): {2012: 443.0, 2013: 531.0, 2010: 561.0, 2016: 611.0, 2015: 617.0}
+
+Tempo total: 13 s

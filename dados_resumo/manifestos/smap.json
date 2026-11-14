@@ -1,0 +1,92 @@
+{
+  "amostra_global": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\smap\\smap_global_amostra_2025-04-15.nc",
+    "dia": "2025-04-15",
+    "passo_celulas": 8
+  },
+  "atualizado_em": "2026-11-14T10:06:22",
+  "l4": {
+    "fonte": "NASA NSIDC SPL4SMGP v008 via OPeNDAP (Earthdata Cloud)",
+    "concept_id": "C3480440870-NSIDC_CPRD",
+    "grade": "EASE-Grid 2.0 9 km; linhas/colunas do recorte salvas em lat_linhas.npy/lon_colunas.npy",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "linhas": [
+      826,
+      1067
+    ],
+    "colunas": [
+      1405,
+      1555
+    ],
+    "variaveis": [
+      "/Geophysical_Data/sm_surface",
+      "/Geophysical_Data/sm_rootzone",
+      "/Geophysical_Data/sm_rootzone_pctl"
+    ],
+    "filtro_granulo": "T133000",
+    "granulos": 4247,
+    "status": {
+      "ok": 4247
+    },
+    "baixado_em": "2026-11-14T09:34:52"
+  },
+  "consolidado_l4": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\smap\\smap_l4_diario_ne.nc",
+    "tempos": 4247,
+    "inicio": "2015-03-31",
+    "fim": "2026-11-10",
+    "variaveis": [
+      "sm_surface",
+      "sm_rootzone",
+      "sm_rootzone_pctl"
+    ]
+  },
+  "l3": {
+    "fonte": "NASA NSIDC SPL3SMP_E v006 via OPeNDAP (Earthdata Cloud)",
+    "concept_id": "C2938664763-NSIDC_CPRD",
+    "grade": "EASE-Grid 2.0 9 km; linhas/colunas do recorte salvas em lat_linhas.npy/lon_colunas.npy",
+    "recorte_bbox": [
+      -48.8,
+      -18.4,
+      -34.7,
+      -1.0
+    ],
+    "linhas": [
+      826,
+      1067
+    ],
+    "colunas": [
+      1405,
+      1555
+    ],
+    "variaveis": [
+      "/Soil_Moisture_Retrieval_Data_AM/soil_moisture",
+      "/Soil_Moisture_Retrieval_Data_AM/retrieval_qual_flag",
+      "/Soil_Moisture_Retrieval_Data_PM/soil_moisture_pm",
+      "/Soil_Moisture_Retrieval_Data_PM/retrieval_qual_flag_pm"
+    ],
+    "filtro_granulo": null,
+    "granulos": 4167,
+    "status": {
+      "ok": 4167
+    },
+    "baixado_em": "2026-11-14T10:03:51"
+  },
+  "consolidado_l3": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\smap\\smap_l3_diario_ne.nc",
+    "tempos": 4167,
+    "inicio": "2015-03-31",
+    "fim": "2026-11-12",
+    "variaveis": [
+      "sm_am",
+      "qual_am",
+      "sm_pm",
+      "qual_pm"
+    ]
+  }
+}

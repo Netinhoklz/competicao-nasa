@@ -1,0 +1,35 @@
+R1 recalculado bate com o arquivo: max |dif| = 0.00000
+
+Razao mediana do estado (seca/base) das culturas de maior peso medio no portfolio:
+                  peso_medio  razao_mediana_estado
+produto                                           
+Milho (em grão)        0.428                 0.480
+Feijão (em grão)       0.391                 0.576
+Melão                  0.170                 1.079
+Soja (em grão)         0.094                 1.038
+Mandioca               0.080                 0.657
+Sorgo (em grão)        0.071                 1.026
+Arroz (em casca)       0.064                 0.543
+Cana-de-açúcar         0.054                 0.801
+
+1. Composicao. corr(diversidade, R1_comp) = +0.57; corr(R1, R1_comp) = +0.41; corr(frac milho+feijao, R1_comp) = -0.84
+   R1 ~ div + controles + EF meso (reproduz +6,6)             Q1->Q3 diversidade =  +6.6 p.p. (p = 0.002); R2 = 0.423
+   R1 ~ div + R1_comp + controles + EF meso                   Q1->Q3 diversidade =  +4.6 p.p. (p = 0.076); R2 = 0.456; beta_pad R1_comp = +0.046 (p = 0.001)
+   R1_comp ~ div + controles + EF meso (so mistura)           Q1->Q3 diversidade =  +2.1 p.p. (p = 0.000); R2 = 0.531
+   (R1 - R1_comp) ~ div + controles + EF meso                 Q1->Q3 diversidade =  +4.5 p.p. (p = 0.055); R2 = 0.359
+
+2. Dentro da cultura (painel municipio x cultura, culturas com >= 30 municipios; erro agrupado por municipio)
+   sem peso                  : Q1->Q3 diversidade = +2.2 p.p. na razao de CADA cultura (p = 0.081); n = 1032 pares, 184 municipios, 9 culturas
+   ponderado pela area-base  : Q1->Q3 diversidade = +3.1 p.p. na razao de CADA cultura (p = 0.133); n = 1032 pares, 184 municipios, 9 culturas
+      so Milho    : Q1->Q3 = +6.7 p.p. (p = 0.273, n = 183)
+      so Feijão   : Q1->Q3 = +1.2 p.p. (p = 0.574, n = 184)
+      so Mandioca : Q1->Q3 = -1.7 p.p. (p = 0.650, n = 172)
+
+3. Series planas (relato copiado) no portfolio
+   pares municipio-cultura com rendimento identico em >= 50% dos anos 2004-16: 2.1%; peso medio dessas series no portfolio: 1.1% (mediana 0.0%); corr(peso plano, diversidade) = +0.09
+   culturas com mais series planas: {'Melancia': 4, 'Melão': 4, 'Arroz (em casca)': 4, 'Mandioca': 4, 'Cana-de-açúcar': 2, 'Tomate': 2}
+   R1 sem series planas ~ div + controles + EF meso           Q1->Q3 diversidade =  +6.3 p.p. (p = 0.004); R2 = 0.424
+   R1 sem planas ~ div + R1_comp + controles + EF             Q1->Q3 diversidade =  +4.6 p.p. (p = 0.067); R2 = 0.447; beta_pad R1_comp = +0.039 (p = 0.020)
+
+4. I de Moran do residuo (modelo com EF de mesorregiao, 6 vizinhos): I = +0.082, p perm = 0.027
+   I de Moran do proprio R1: +0.375 | a seca 2012-16 e UM episodio: o n de 'eventos' e 1, nao 184

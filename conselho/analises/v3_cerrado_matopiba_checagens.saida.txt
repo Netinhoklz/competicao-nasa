@@ -1,0 +1,90 @@
+== Pontos (lon, lat, mesorregiao IBGE) ==
+  Bom Jesus-PI                  -44.691  -9.179  Sudoeste Piauiense
+  Urucui-PI                     -44.584  -7.407  Sudoeste Piauiense
+  Balsas-MA                     -46.425  -8.437  Sul Maranhense
+  Luis Eduardo Magalhaes-BA     -46.139 -12.227  Extremo Oeste Baiano
+  Lagoa Seca-PB                 -35.862  -7.141  Agreste Paraibano
+  Juazeiro-BA                   -40.267  -9.444  Vale São-Franciscano da Bahia
+  Quixada-CE                    -38.965  -4.940  Sertões Cearenses
+  Bom Jesus exp. Pacheco        -44.740  -9.280  texto do artigo
+  Juazeiro exp. Pimentel        -40.483  -9.417  texto do artigo (diz 'east')
+
+== A. IBGE PAM (pam_ne_estados.parquet) ==
+Piaui, area plantada (mil ha) - Pacheco 2013 cita Conab 2011/12: soja 438,8; milho 357,3; arroz 141,9
+  soja   2010:  343.1  2011:  383.6  2012:  444.9  2013:  551.6  2014:  626.8
+  milho  2010:  310.0  2011:  350.7  2012:  354.8  2013:  383.7  2014:  405.6
+  arroz  2010:  132.2  2011:  146.3  2012:  117.7  2013:  125.2  2014:  105.9
+Piaui, rendimento (kg/ha) - Pacheco 2017 cita Conab 2013/14: soja 2.990 (+78,2%), arroz 1.907 (+125,3%), milho 3.189 ('reducao de 138,5%')
+  soja   2011:   2982  2012:   2793  2013:   1727  2014:   2375  2015:   2659   var 2014/2013 = +37.5%
+  milho  2011:   1936  2012:   2860  2013:   1783  2014:   2749  2015:   2972   var 2014/2013 = +54.2%
+  arroz  2011:   1857  2012:   1164  2013:    872  2014:   1387  2015:   1294   var 2014/2013 = +59.1%
+  Nota: uma reducao percentual nao pode passar de 100%; '138,5%' so faz sentido como (anterior/atual - 1), i.e. o ano anterior foi 2,385x o atual.
+
+Soja: area plantada (mil ha) por UF
+  MA 2000:   178.7  2010:   495.8  2015:   761.2  2020:   960.9  2024:  1302.9  2025:  1373.8
+  PI 2000:    40.0  2010:   343.1  2015:   668.6  2020:   758.0  2024:  1080.5  2025:  1067.7
+  BA 2000:   628.4  2010:  1017.2  2015:  1440.1  2020:  1622.5  2024:  1969.3  2025:  2086.7
+  CE 2000:     0.0  2010:     1.0  2015:     0.0  2020:     0.5  2024:     3.5  2025:     3.9
+Milho em grao: rendimento medio 2016-2025 (kg/ha) e CV entre anos
+  MA  media   4141  min   2052  max   5059  CV  22.8%
+  PI  media   3855  min   1464  max   4718  CV  25.5%
+  BA  media   4238  min   3447  max   5021  CV  12.4%
+  CE  media    716  min    242  max   1178  CV  35.4%
+  PB  media    506  min    185  max    794  CV  39.7%
+Producao 2024 soja+milho+algodao herbaceo (mil t): {'MA': np.float64(6591.1), 'PI': np.float64(5582.6), 'BA': np.float64(11785.5), 'CE': np.float64(415.2)}
+Gergelim, area colhida (ha) nos anos com algum valor > 0 nas UFs do NE: {2025: {'PI': 6, 'CE': 48, 'PE': 6}}
+
+== B. IMERG diario 0,1 grau (NASA, via POWER) ==
+Bom Jesus (ponto do artigo) chuva mensal IMERG out/2010-abr/2012 (mm):
+  Oct10:118  Nov10:100  Dec10:123  Jan11:125  Feb11:265  Mar11:238  Apr11:30  May11:31  Jun11:1  Jul11:0  Aug11:0  Sep11:0  Oct11:170  Nov11:133  Dec11:148  Jan12:177  Feb12:106  Mar12:102  Apr12:70
+  safra 2010/11 nov-abr                                   882 mm (181 d)
+  safra 2011/12 nov-abr                                   736 mm (182 d)
+  entressafra 16/abr-31/out/2011                          207 mm (199 d)
+  30 d apos colheita 16/abr/2011 (S2 milheto falhou)        8 mm (30 d)
+  30 d antes da colheita (~janela R5.5)                    79 mm (31 d)
+  30 d apos dessecacao 22/nov/2011 (decomposicao)         124 mm (30 d)
+
+Climatologia 1998-2025: 30 d antes (15/mar-14/abr) x 30 d depois (16/abr-15/mai) da colheita; limiar pre-declarado 50 mm
+  Bom Jesus-PI                 pre: mediana   104 mm, anos<50 mm   11% | pos: mediana    28 mm, anos<50 mm   71% | 2011 pos=14
+  Urucui-PI                    pre: mediana   135 mm, anos<50 mm    0% | pos: mediana    55 mm, anos<50 mm   46% | 2011 pos=154
+  Balsas-MA                    pre: mediana   189 mm, anos<50 mm    4% | pos: mediana    59 mm, anos<50 mm   43% | 2011 pos=31
+  Luis Eduardo Magalhaes-BA    pre: mediana   177 mm, anos<50 mm    4% | pos: mediana    38 mm, anos<50 mm   64% | 2011 pos=2
+  Quixada-CE                   pre: mediana   198 mm, anos<50 mm    4% | pos: mediana   151 mm, anos<50 mm    7% | 2011 pos=191
+
+Chuva nov-abr por safra (IMERG, mm) - para cruzar com o IBGE (2013 = safra 2012/13 ruim no PI)
+  Bom Jesus-PI                 2009/10:644  2010/11:904  2011/12:692  2012/13:804  2013/14:874  2014/15:929
+  Urucui-PI                    2009/10:1026  2010/11:980  2011/12:776  2012/13:892  2013/14:953  2014/15:702
+  Balsas-MA                    2009/10:799  2010/11:1215  2011/12:1205  2012/13:1288  2013/14:1156  2014/15:1291
+  Luis Eduardo Magalhaes-BA    2009/10:1097  2010/11:1238  2011/12:1131  2012/13:1206  2013/14:1293  2014/15:1390
+
+Climatologia 1998-2025: chuva nos 30 d apos 22/nov (decomposicao) e total nov-abr
+  Bom Jesus-PI                 30d pos-22/nov mediana   116 (p10   50, p90  239) | nov-abr mediana   765 (p10  634) mm
+  Urucui-PI                    30d pos-22/nov mediana   149 (p10   75, p90  254) | nov-abr mediana   939 (p10  683) mm
+  Balsas-MA                    30d pos-22/nov mediana   162 (p10   93, p90  281) | nov-abr mediana  1139 (p10  882) mm
+  Luis Eduardo Magalhaes-BA    30d pos-22/nov mediana   205 (p10  105, p90  359) | nov-abr mediana  1190 (p10  990) mm
+  Quixada-CE                   30d pos-22/nov mediana     9 (p10    1, p90   51) | nov-abr mediana   617 (p10  380) mm
+
+== C. POWER mensal 0,5 grau em Bom Jesus (GWETROOT, T2M_MAX, PRECTOTCORR) ==
+  celula POWER: lon -45.00 lat -9.50
+  2011 GWETROOT: Mar:0.66  Apr:0.50  May:0.38  Jun:0.35  Jul:0.35  Aug:0.35  Sep:0.35  Oct:0.44  Nov:0.51  Dec:0.43
+  clim 1981-2025: 3:0.49  4:0.46  5:0.38  6:0.35  7:0.35  8:0.35  9:0.35  10:0.37  11:0.41  12:0.46
+  2011 T2M_MAX (C): Mar:30.1  Apr:32.4  May:34.5  Jun:35.4  Jul:35.2  Aug:37.0  Sep:39.5  Oct:37.5  Nov:32.1  Dec:35.5
+  T2M_MAX clim 1981-2025: 3:33.5  4:34.0  5:35.6  6:35.4  7:35.5  8:37.3  9:39.1  10:39.3  11:37.6  12:35.2
+  GLDAS Noah 0-10 cm (kg/m2) 2011: Mar:24.9  Apr:20.8  May:15.1  Jun:9.8  Jul:6.9  Aug:5.6  Sep:4.9  Oct:16.3  Nov:21.3
+  GLDAS Noah 0-10 cm clim 2000-2026: 3:22.6  4:20.4  5:14.2  6:8.9  7:6.4  8:5.7  9:6.8  10:10.9  11:17.5
+
+== D. SMAP L4 zona da raiz (m3/m3) e percentil, media de 7 d terminando em 15/mar, 15/abr, 15/mai ==
+  Bom Jesus-PI                 mediana raiz 15/mar 0.201 15/abr 0.201 15/mai 0.191 | queda mar->mai 0.008 | pctl disponivel 15/mai em 0/10 anos
+     por ano (15/abr raiz, pctl): 2016:0.206/nan  2017:0.215/nan  2018:0.224/nan  2019:0.223/nan  2020:0.221/nan  2021:0.191/nan  2022:0.196/nan  2023:0.193/nan  2024:0.187/nan  2025:0.187/nan
+     sm_rootzone_pctl presente em 0% dos dias 2015-2026
+  Urucui-PI                    mediana raiz 15/mar 0.150 15/abr 0.146 15/mai 0.123 | queda mar->mai 0.020 | pctl disponivel 15/mai em 10/10 anos
+     por ano (15/abr raiz, pctl): 2016:0.145/38  2017:0.147/41  2018:0.193/92  2019:0.182/82  2020:0.178/70  2021:0.118/4  2022:0.157/58  2023:0.139/26  2024:0.144/36  2025:0.115/1
+     sm_rootzone_pctl presente em 43% dos dias 2015-2026
+  Balsas-MA                    mediana raiz 15/mar 0.218 15/abr 0.218 15/mai 0.209 | queda mar->mai 0.006 | pctl disponivel 15/mai em 0/10 anos
+     por ano (15/abr raiz, pctl): 2016:0.218/nan  2017:0.228/nan  2018:0.244/nan  2019:0.236/nan  2020:0.225/nan  2021:0.208/nan  2022:0.217/nan  2023:0.216/nan  2024:0.202/nan  2025:0.213/nan
+     sm_rootzone_pctl presente em 0% dos dias 2015-2026
+  Luis Eduardo Magalhaes-BA    mediana raiz 15/mar 0.161 15/abr 0.150 15/mai 0.141 | queda mar->mai 0.016 | pctl disponivel 15/mai em 0/10 anos
+     por ano (15/abr raiz, pctl): 2016:0.139/nan  2017:0.150/nan  2018:0.174/nan  2019:0.165/nan  2020:0.174/nan  2021:0.138/nan  2022:0.153/nan  2023:0.151/nan  2024:0.150/nan  2025:0.136/nan
+     sm_rootzone_pctl presente em 28% dos dias 2015-2026
+  Quixada-CE                   mediana raiz 15/mar 0.163 15/abr 0.204 15/mai 0.207 | queda mar->mai -0.040 | pctl disponivel 15/mai em 10/10 anos
+     por ano (15/abr raiz, pctl): 2016:0.179/41  2017:0.223/86  2018:0.219/80  2019:0.217/74  2020:0.184/45  2021:0.165/25  2022:0.193/52  2023:0.216/72  2024:0.217/75  2025:0.180/42

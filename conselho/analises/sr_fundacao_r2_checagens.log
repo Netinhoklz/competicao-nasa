@@ -1,0 +1,55 @@
+====================================================================================================
+A) Downscaling aprendido x deriva da LST diurna do Terra
+  4 anomalias (LST dia, NDVI, LST noite, amplitude) [original]   R2 total 0.439 | anos 2000-2021 0.468 | 2022-2026 0.256 | vies 2022-26 +0.7452
+  sem LST diurna (NDVI + LST noite)                              R2 total 0.431 | anos 2000-2021 0.450 | 2022-2026 0.314 | vies 2022-26 +0.3174
+  so NDVI                                                        R2 total 0.355 | anos 2000-2021 0.393 | 2022-2026 0.112 | vies 2022-26 +1.1058
+  -- habilidade ESPACIAL dentro do mes (media do dominio removida; e o que o downscaling precisa) --
+  4 anomalias (LST dia, NDVI, LST noite, amplitude) [original]   R2 0.083 | 2000-21 0.092 | 2022-26 0.048 | rho espacial mediano/mes +0.26
+  sem LST diurna (NDVI + LST noite)                              R2 0.071 | 2000-21 0.078 | 2022-26 0.037 | rho espacial mediano/mes +0.24
+  so NDVI                                                        R2 0.069 | 2000-21 0.078 | 2022-26 0.033 | rho espacial mediano/mes +0.25
+====================================================================================================
+B) Chance de pelo menos uma vista optica limpa antes de cada portao (2020-2025, 4 AOIs)
+portao                       28/fev  30/abr  31/ago (seca, controle)  31/mar
+fonte              janela_d                                                 
+HLS                16          0.38    0.25                     1.00    0.21
+                   30          0.50    0.50                     1.00    0.38
+Landsat 8/9        16          0.29    0.33                     0.67    0.08
+                   30          0.50    0.46                     0.92    0.29
+S2+Landsat (uniao) 16          0.50    0.75                     1.00    0.50
+                   30          0.79    0.92                     1.00    0.71
+Sentinel-2         16          0.42    0.58                     1.00    0.46
+                   30          0.67    0.79                     1.00    0.67
+  (acima: fracao de AOI-anos com >= 1 cena com >= 60% da AOI limpa na janela antes do portao)
+portao                       28/fev  30/abr  31/ago (seca, controle)  31/mar
+fonte              janela_d                                                 
+HLS                16          0.48    0.47                     0.99    0.40
+                   30          0.71    0.73                     1.00    0.64
+Landsat 8/9        16          0.39    0.43                     0.72    0.24
+                   30          0.65    0.60                     0.92    0.47
+S2+Landsat (uniao) 16          0.67    0.85                     1.00    0.73
+                   30          0.93    0.97                     1.00    0.91
+Sentinel-2         16          0.58    0.79                     1.00    0.67
+                   30          0.85    0.95                     1.00    0.87
+  (acima: P de um pixel ter >= 1 vista limpa, supondo nuvem independente entre cenas - otimista)
+====================================================================================================
+C) Area de agua (QA Landsat bit 7) por AOI, estacao seca ago-dez, 1984-2026
+  cenas por AOI-ano (mediana): 5.0 | AOI-anos: 161
+                 count  mean   min   max
+aoi                                     
+apodi_jaguaribe   42.0  0.01  0.00  0.20
+cariri            42.0  0.00  0.00  0.03
+ibiapaba          39.0  0.01  0.00  0.02
+sertao_central    38.0  1.21  0.22  2.68
+  (mean/min/max em % da AOI)
+                 n_anos  rho_chuva6m  rho_chuva12m  rho_chuva24m  rho_chuva36m  rho_chuva48m  rho_quadra_mesmo_ano  rho_grace_agodez  p_grace  n_grace
+aoi                                                                                                                                                   
+apodi_jaguaribe      42        -0.06         -0.09          0.04         -0.00         -0.01                 -0.06              0.15     0.50       23
+cariri               42        -0.09          0.04          0.04          0.01         -0.11                 -0.11             -0.01     0.97       24
+ibiapaba             39         0.42          0.38          0.21          0.20          0.13                  0.40              0.20     0.38       22
+sertao_central       38         0.24          0.32          0.47          0.51          0.62                  0.17              0.57     0.00       24
+  Sertao Central, % de agua na AOI (ago-dez):
+   {1984: 1.47, 1987: 2.26, 1988: 2.2, 1989: 2.68, 1990: 2.67, 1992: 2.19, 1993: 1.01, 1994: 0.8, 1996: 0.96, 1998: 0.65, 1999: 0.22, 2000: 0.64, 2001: 0.26, 2002: 1.14, 2003: 1.2, 2004: 1.97, 2005: 1.44, 2006: 1.44, 2007: 0.86, 2008: 0.54, 2009: 2.52, 2010: 1.99, 2011: 1.76, 2012: 1.16, 2013: 1.16, 2014: 1.05, 2015: 0.63, 2016: 0.3, 2017: 1.1, 2018: 0.58, 2019: 1.01, 2020: 0.93, 2021: 0.47, 2022: 0.72, 2023: 0.79, 2024: 1.33, 2025: 1.12, 2026: 0.82}
+  apodi_jaguaribe  agua x pct_irrig_ativa (2013-26): rho -0.08 (p 0.788, n 14)
+  cariri           agua x pct_irrig_ativa (2013-26): rho +0.48 (p 0.081, n 14)
+  ibiapaba         agua x pct_irrig_ativa (2013-26): rho +0.09 (p 0.748, n 14)
+  sertao_central   agua x pct_irrig_ativa (2013-26): rho +0.51 (p 0.064, n 14)

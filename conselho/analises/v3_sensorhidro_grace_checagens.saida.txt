@@ -1,0 +1,58 @@
+
+====================================================================================================
+(a) Lima 2020 - GRACE CSR (media CE) x SPI-12/24/36 (IMERG CE) e NDVI (MODIS CE)  [0s]
+====================================================================================================
+   meses GRACE/GRACE-FO no arquivo entre 2002-04 e 2017-06: 161 (o artigo diz 377 grades nesse periodo, que so tem 183 meses de calendario)
+   2002-04..2017-06  SPI-12: rho=+0.52 (n=161)  SPI-24: rho=+0.61 (n=161)  SPI-36: rho=+0.66 (n=161)   | artigo: 0,57 / 0,73 / 0,72
+   2002-04..2026-08  SPI-12: rho=+0.37 (n=258)  SPI-24: rho=+0.35 (n=258)  SPI-36: rho=+0.42 (n=258)
+   TWS anual x NDVI anual 2003-2017: rho=+0.83 (n=15) | artigo 0,77
+   TWS anual x NDVI anual 2003-2025: rho=+0.71 (n=23)
+   tendencia TWS CE 2002-04..2017-06: -6.4 +- 2.0 mm/ano (n=161)
+   tendencia TWS CE 2011-01..2017-12: -36.8 +- 5.5 mm/ano (n=59)
+   tendencia TWS CE 2018-01..2026-09: +12.7 +- 3.5 mm/ano (n=98)
+   tendencia TWS CE 2002-04..2026-09: -0.3 +- 0.9 mm/ano (n=259)
+
+====================================================================================================
+(b) Goncalves 2020 - tendencia de TWS no Urucuia (caixa aproximada) - artigo: -6,5 +- 2,6 mm/ano 2002-2014  [0s]
+====================================================================================================
+   2002-04..2014-12: -9.8 +- 3.4 mm/ano (n=140, erro padrao OLS sem autocorrelacao)
+   2002-04..2017-06: -18.7 +- 2.7 mm/ano (n=163, erro padrao OLS sem autocorrelacao)
+   2018-06..2026-09: +7.3 +- 6.9 mm/ano (n=98, erro padrao OLS sem autocorrelacao)
+   2002-04..2026-09: -15.6 +- 1.3 mm/ano (n=261, erro padrao OLS sem autocorrelacao)
+
+====================================================================================================
+(c) Melati 2019 - Araripe: GRACE - GLDAS Noah (proxy de agua subterranea) e escala detectavel  [5s]
+====================================================================================================
+   TWS GRACE                        2010-2017: -33.2 +- 3.2 mm/ano (n=73)
+   solo 0-200 cm Noah               2010-2017: -11.0 +- 2.1 mm/ano (n=96)
+   GWS = TWS - solo (Noah)          2010-2017: -23.7 +- 2.5 mm/ano (n=73)
+   GWS CLSM 2.2 (assimila GRACE)    2010-2017: -18.7 +- 1.9 mm/ano (n=96)
+   bombeamento 84 milhoes m3/ano espalhado em afloramento 1.394 km2: 60.3 mm/ano
+   bombeamento 84 milhoes m3/ano espalhado em 1 grau x 1 grau a 7,4 S: 6.9 mm/ano
+   bombeamento 84 milhoes m3/ano espalhado em pegada efetiva GRACE ~300 km x 300 km: 0.9 mm/ano
+
+====================================================================================================
+(d) Alvala 2019 - chuva do ano hidrologico out-set (IMERG CE)  [7s]
+====================================================================================================
+   ultimos 6 anos hidrologicos do artigo (IMERG CE, mm): {'2010-2011': 1215.0, '2011-2012': 479.0, '2012-2013': 534.0, '2013-2014': 704.0, '2014-2015': 631.0, '2015-2016': 612.0}
+   ordem do mais seco ao mais umido: ['2011-2012', '2012-2013', '2015-2016', '2014-2015', '2013-2014', '2010-2011']
+   media 1998/99-2024/25 = 823 mm
+
+====================================================================================================
+(e) Medeiros 2022 - em que UF cai o sitio SD (6 34'42"S, 37 15'05"W)?  [7s]
+====================================================================================================
+   SD Serido          (-6.5783, -37.2514) -> UF ['RN']
+   MSD Petrolina      (-9.0464, -40.3211) -> UF ['PE']
+   BP Campina Grande  (-7.2803, -35.9761) -> UF ['PB']
+
+====================================================================================================
+(f) Barbosa 2019 (SEVIRI NDVI; resumo: R2 = 0,62 com chuva defasada 3 meses) - MODIS NDVI x IMERG, media do CE  [7s]
+====================================================================================================
+   NDVI bruto x chuva do mes           2008-2016: lag 0: R2=0.51  lag 1: R2=0.71  lag 2: R2=0.50  lag 3: R2=0.20
+   NDVI bruto x soma 3 meses (t-2..t)  2008-2016: lag 0: R2=0.82  lag 1: R2=0.64  lag 2: R2=0.25  lag 3: R2=0.02
+   anomalias (sem ciclo anual) NDVI x soma 3 meses, lag 0: R2=0.64 (n=108)
+   anomalias (sem ciclo anual) NDVI x soma 3 meses, lag 1: R2=0.64 (n=108)
+   anomalias (sem ciclo anual) NDVI x soma 3 meses, lag 2: R2=0.48 (n=108)
+   anomalias (sem ciclo anual) NDVI x soma 3 meses, lag 3: R2=0.39 (n=108)
+
+Tempo total: 7 s

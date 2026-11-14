@@ -1,0 +1,107 @@
+==================== A. Curva de habilidade canonica (milho, quebra municipal; n por portao abaixo) ====================
+  15/nov (ano-1)  so oceano (ONI ASO): AUC=0.669 IC90 [0.53,0.78]  dentro do ano = 0,50 por construcao  n=5106
+  31/jan          chuva: AUC=0.567 [0.43,0.68] | chuva+oceano (soma z): 0.695 [0.60,0.79] | logistica LOYO: 0.622 | dentro do ano (chuva): 0.528 | n=5106
+                  ALERTA <75%: 39% dos mun-anos acendem; recall 50%; precisao 28%; P(quebra|alerta)=0.28 (n=2002) vs P(quebra|sem alerta)=0.18 (n=3104); razao 1.6x
+      1998: quebras 135 | alertas   0 | acertos   0 | recall 0%
+      2012: quebras 135 | alertas 177 | acertos 131 | recall 97%
+      2016: quebras 127 | alertas   0 | acertos   0 | recall 0%
+      2024: quebras  14 | alertas 159 | acertos  14 | recall 100%
+  28/fev          chuva: AUC=0.669 [0.58,0.74] | chuva+oceano (soma z): 0.742 [0.63,0.83] | logistica LOYO: 0.697 | dentro do ano (chuva): 0.509 | n=5106
+                  ALERTA <75%: 28% dos mun-anos acendem; recall 40%; precisao 32%; P(quebra|alerta)=0.32 (n=1407) vs P(quebra|sem alerta)=0.18 (n=3699); razao 1.8x
+      1998: quebras 135 | alertas  16 | acertos  15 | recall 11%
+      2012: quebras 135 | alertas  52 | acertos  37 | recall 27%
+      2016: quebras 127 | alertas   0 | acertos   0 | recall 0%
+      2024: quebras  14 | alertas   0 | acertos   0 | recall 0%
+  19/mar          chuva: AUC=0.733 [0.66,0.79] | chuva+oceano (soma z): 0.766 [0.68,0.84] | logistica LOYO: 0.736 | dentro do ano (chuva): 0.530 | n=5106
+                  ALERTA <75%: 22% dos mun-anos acendem; recall 41%; precisao 40%; P(quebra|alerta)=0.40 (n=1132) vs P(quebra|sem alerta)=0.16 (n=3974); razao 2.5x
+      1998: quebras 135 | alertas  56 | acertos  46 | recall 34%
+      2012: quebras 135 | alertas  73 | acertos  54 | recall 40%
+      2016: quebras 127 | alertas   7 | acertos   6 | recall 5%
+      2024: quebras  14 | alertas   0 | acertos   0 | recall 0%
+  31/mar          chuva: AUC=0.746 [0.66,0.80] | chuva+oceano (soma z): 0.788 [0.71,0.85] | logistica LOYO: 0.767 | dentro do ano (chuva): 0.535 | n=5106
+                  ALERTA <75%: 14% dos mun-anos acendem; recall 31%; precisao 46%; P(quebra|alerta)=0.46 (n=735) vs P(quebra|sem alerta)=0.17 (n=4371); razao 2.6x
+      1998: quebras 135 | alertas  21 | acertos  19 | recall 14%
+      2012: quebras 135 | alertas  58 | acertos  52 | recall 39%
+      2016: quebras 127 | alertas   4 | acertos   3 | recall 2%
+      2024: quebras  14 | alertas   1 | acertos   0 | recall 0%
+  30/abr          chuva: AUC=0.800 [0.73,0.85] | chuva+oceano (soma z): 0.811 [0.74,0.87] | logistica LOYO: 0.805 | dentro do ano (chuva): 0.572 | n=5106
+                  ALERTA <75%: 18% dos mun-anos acendem; recall 44%; precisao 52%; P(quebra|alerta)=0.52 (n=932) vs P(quebra|sem alerta)=0.15 (n=4174); razao 3.5x
+      1998: quebras 135 | alertas 136 | acertos 103 | recall 76%
+      2012: quebras 135 | alertas 160 | acertos 123 | recall 91%
+      2016: quebras 127 | alertas  14 | acertos   9 | recall 7%
+      2024: quebras  14 | alertas   1 | acertos   0 | recall 0%
+
+Resumo da curva (para o grafico das 3 curvas):
+        portao  chuva  chuva_oceano    lo    hi  dentro
+15/nov (ano-1)    NaN         0.669 0.526 0.778   0.500
+        31/jan  0.567         0.695 0.595 0.785   0.528
+        28/fev  0.669         0.742 0.634 0.832   0.509
+        19/mar  0.733         0.766 0.676 0.836   0.530
+        31/mar  0.746         0.788 0.707 0.847   0.535
+        30/abr  0.800         0.811 0.741 0.866   0.572
+
+==================== B. Curva de possibilidade (ZARC sintetico, P(ISNA flor >= 0,5) >= 0,7) ====================
+  milho: 31/jan: 100% | 28/fev: 93% | 19/mar: 42% | 31/mar: 0% | 30/abr: 0%
+  sorgo: 31/jan: 100% | 28/fev: 99% | 19/mar: 71% | 31/mar: 5% | 30/abr: 0%
+  caupi: 31/jan: 100% | 28/fev: 100% | 19/mar: 98% | 31/mar: 41% | 30/abr: 0%
+  Quixada, P por decendio:
+     milho|01/jan  milho|11/jan  milho|21/jan  milho|01/fev  milho|11/fev  milho|21/fev  milho|01/mar  milho|11/mar  milho|21/mar  milho|01/abr  milho|11/abr  milho|21/abr  caupi|01/jan  caupi|11/jan  caupi|21/jan  caupi|01/fev  caupi|11/fev  caupi|21/fev  caupi|01/mar  caupi|11/mar  caupi|21/mar  caupi|01/abr  caupi|11/abr  caupi|21/abr  sorgo|01/jan  sorgo|11/jan  sorgo|21/jan  sorgo|01/fev  sorgo|11/fev  sorgo|21/fev  sorgo|01/mar  sorgo|11/mar  sorgo|21/mar  sorgo|01/abr  sorgo|11/abr  sorgo|21/abr
+cod                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+P        0.785714      0.821429      0.892857      0.928571      0.857143      0.821429          0.75      0.642857           0.5      0.321429          0.25      0.142857           0.5      0.678571      0.821429      0.785714      0.928571      0.892857      0.892857      0.892857      0.785714      0.607143           0.5      0.392857      0.821429      0.892857      0.928571      0.928571      0.928571      0.928571      0.857143      0.785714      0.678571      0.392857      0.357143      0.214286
+
+==================== C. Replay de Quixada (2311306), definicao canonica ====================
+      milho  feijao  mandioca  carteira_1_3  pct_19/mar  pct_31/mar  pct_30/abr  oni_ndj  isna_flor_milho  isna_flor_caupi
+1998   0.00    0.16      0.50          0.22        0.70        0.78        0.62     2.37             0.53             0.17
+1999   1.24    1.43      1.00          1.22        1.02        0.92        0.82    -1.47             0.84             0.47
+2000   1.34    1.43      1.00          1.26        1.22        1.24        1.20    -1.53             0.66             0.77
+2001   0.40    0.60       NaN           NaN        0.79        0.72        0.88    -0.78             0.78             0.49
+2002   2.65    2.48       NaN           NaN        1.66        1.53        1.44    -0.32             0.68             0.48
+2003   3.94    2.25      1.20          2.46        1.24        1.39        1.26     1.08             0.96             0.97
+2004   1.37    0.84      1.21          1.14        2.80        2.34        1.67     0.29             0.83             0.98
+2005   1.65    2.25      1.20          1.70        0.43        0.67        0.58     0.71             0.82             0.27
+2006   2.28    1.77      1.00          1.68        0.70        0.84        0.98    -0.82             0.99             0.95
+2007   0.61    0.61       NaN           NaN        1.22        1.04        1.04     0.88             0.66             0.50
+2008   3.72    2.19      1.00          2.30        0.85        1.31        1.23    -1.72             1.00             0.83
+2009   0.81    0.69      0.75          0.75        1.36        1.26        1.47    -0.79             1.00             1.00
+2010   0.78    0.67      0.37          0.61        0.40        0.48        0.65     1.50             0.26             0.06
+2011   3.74    2.32       NaN           NaN        1.80        1.55        1.35    -1.48             0.90             0.98
+2012   0.17    0.15       NaN           NaN        0.75        0.66        0.48    -0.92             0.13             0.31
+2013   0.90    1.10       NaN           NaN        0.41        0.35        0.51    -0.03             0.53             0.25
+2014   0.97    1.27       NaN           NaN        0.93        0.82        0.78    -0.11             0.66             0.80
+2015   0.48    0.52       NaN           NaN        0.63        0.82        0.70     0.80             0.74             0.83
+2016   0.12    0.39       NaN           NaN        0.88        0.88        0.78     2.59             0.24             0.26
+2017   2.07    2.12       NaN           NaN        1.25        1.26        1.02    -0.37             0.88             0.99
+2018   1.86    1.73       NaN           NaN        0.68        0.82        1.11    -0.76             0.66             0.41
+2019   2.07    1.70       NaN           NaN        1.50        1.46        1.19     1.05             1.00             0.98
+2020   1.78    1.56       NaN           NaN        1.39        1.27        1.10     0.75             0.90             1.00
+2021   0.80    0.81       NaN           NaN        0.72        0.74        0.69    -1.06             0.79             0.73
+2022   1.03    0.91       NaN           NaN        0.98        0.96        0.98    -0.83             0.88             0.33
+2023   0.36    0.49       NaN           NaN        1.19        1.22        1.04    -0.70             0.91             0.81
+2024   0.46    0.68       NaN           NaN        1.17        1.21        1.05     1.99             0.99             1.00
+2025   0.30    0.32       NaN           NaN        1.44        1.20        0.93    -0.43             0.74             0.76
+  anos de quebra do milho (razao<0,5): [1998, 2001, 2012, 2015, 2016, 2023, 2024, 2025]
+  anos com as 3 culturas: 10
+  3 piores anos do milho: {1998: 0.0, 2016: 0.12, 2012: 0.17}
+
+==================== D. ET0 x chuva por mes, CE, 1991-2020 ====================
+      P_power  ET0_power  P_era5  ET0_era5
+data                                      
+1      3544.0     5642.0   113.0     157.0
+2      3772.0     4136.0   131.0     132.0
+3      5684.0     4465.0   183.0     133.0
+4      5034.0     3759.0   168.0     118.0
+5      2807.0     4171.0    82.0     127.0
+6      1197.0     4340.0    31.0     133.0
+7       646.0     5530.0    17.0     159.0
+8       213.0     6923.0     6.0     192.0
+9        97.0     7521.0     3.0     208.0
+10      199.0     8383.0     8.0     220.0
+11      301.0     7482.0     9.0     202.0
+12      992.0     7125.0    30.0     191.0
+  anual: P POWER 24488, ET0 POWER 69477; P ERA5 781, ET0 ERA5 1971; razao ET0 ERA5/POWER 0.028
+  meses com ET0 > chuva: POWER 10 de 12; ERA5 10 de 12
+
+==================== E. Pontos globais sem mes de quebra termica (POWER 2020) ====================
+  tropicais: 48; com 0 meses de quebra: 41
+  tropicais TERRESTRES: 47; com 0 meses: 40 (85%); excecoes: ['Saara', 'Kalahari', 'Namibia', 'Madagascar', 'Etiopia', 'Equador_Andes', 'Andes_Peru']
+  Iowa: 7 meses de quebra

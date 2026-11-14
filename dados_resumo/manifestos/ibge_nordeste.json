@@ -1,0 +1,53 @@
+{
+  "fonte": "IBGE: Censo Agropecuario 2017, PAM, PPM, LSPA (API SIDRA, formato /f/c); localidades e malhas (servicodados.ibge.gov.br); lista oficial do Semiarido (geoftp.ibge.gov.br)",
+  "script": "conselho/analises/v3_ibge_baixar_nordeste.py",
+  "recorte": "1794 municipios do Nordeste (n6 in n2 2) e 9 UFs; Censo pedido por UF",
+  "tabelas_sidra": {
+    "censo2017": [
+      6880,
+      6855,
+      6857,
+      6846,
+      6847,
+      6861,
+      6958
+    ],
+    "pam": [
+      1612,
+      1613,
+      839,
+      1002
+    ],
+    "ppm": [
+      3939
+    ],
+    "lspa": [
+      6588
+    ]
+  },
+  "codigos_sidra": "'-' = zero; '..' nao se aplica; '...' nao disponivel; 'X' sigilo -> NaN",
+  "arquivos": {
+    "censo2017_ne_municipios_bruto.parquet": 4044104,
+    "download.log": 120,
+    "localidades_municipios_ne.json": 887083,
+    "lspa_ne_uf_mensal_bruto.parquet": 623357,
+    "malha_ne_municipio.geojson": 2662895,
+    "malha_ne_regiao-imediata.geojson": 1045063,
+    "malha_ne_regiao-intermediaria.geojson": 663044,
+    "malha_ne_UF.geojson": 81637,
+    "MANIFESTO.json": 1262,
+    "municipios_ne_referencia_sem_semiarido.parquet": 58932,
+    "pam_ne_municipios_bruto.parquet": 9101128,
+    "ppm_ne_municipios_bruto.parquet": 2775875,
+    "smap_l4_rootzone_diario_municipio.parquet": 59269635,
+    "teste_lspa_imerg.parquet": 69371,
+    "teste_ppm_imerg.parquet": 99758,
+    "teste_semiarido_nasa.parquet": 125492,
+    "semiarido_2005.xls": 143360,
+    "semiarido_2017.xlsx": 56815,
+    "semiarido_2021.xls": 154112,
+    "semiarido_2022.xlsx": 51813,
+    "semiarido_resolucao115_2017.pdf": 524279
+  },
+  "atualizado_em": "2026-11-14T11:22:21"
+}

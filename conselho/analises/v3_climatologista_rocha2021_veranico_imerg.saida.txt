@@ -1,0 +1,41 @@
+================ A) calibracao contra os numeros do artigo (postos FUNCEME, Thiessen por municipio, 1980-2018)
+  artigo: iv medio 0,74 | IDC medio 370,72 | iv 1989 = 0,59 | 1993 = 1,06 | 2018 = 0,62
+  IMERG 0,1 grau, media por municipio, 1998-2018: iv medio 0.59 | IDC medio 471 | iv 2018 = 0.55 | eventos/estacao 8.6 | maior seco medio 15.4 d | dias > 2 mm 49.7
+  POWER MERRA-2 0,5 grau   (38 celulas no CE), ate 2018: iv medio 0.47 | IDC medio 650 | iv 1989 = 0.31 | 1993 = 0.95 | 2018 = 0.43 | eventos/estacao 6.2 | dias > 2 mm 67.3
+  IMERG na grade POWER     (38 celulas no CE), ate 2018: iv medio 0.53 | IDC medio 492 | iv 1989 = nan | 1993 = nan | 2018 = 0.56 | eventos/estacao 7.5 | dias > 2 mm 46.8
+  POWER: r(iv estadual, chuva FMAM estadual) 1981-2025 = -0.84; anos de maior iv: 1981 1.07, 1993 0.95, 1998 0.86, 2010 0.86, 2012 0.85, 1983 0.85
+  IMERG: r(iv estadual, chuva FMAM estadual) 1998-2025 = -0.91; anos de maior iv: 2010 0.95, 2012 0.90, 1998 0.86, 2016 0.83, 2013 0.82, 2015 0.70
+
+================ B) correlacao por municipio (Pearson no tempo). Artigo: 'para a maior parte do estado' mais veranico -> mais perda; Jaguaribana perto de zero ou inversa (Limoeiro do Norte -0,3 no milho)
+  obs.: PR = (Ra - Rmax)/Rmax e linear em Ra dentro do municipio, entao corr(perda, x) = -corr(rendimento, x): a 'perda' nao muda a correlacao.
+  milho  1998-2018 (183 municipios): r(iv, rend) mediana -0.58, negativa em 100% (signif. 5% em 83%) | r(IDC, rend) mediana +0.52, positiva em 99% | r(chuva FMAM, rend) mediana +0.57, positiva em 99% | r(maior seco, rend) -0.46
+     Limoeiro do Norte: r(iv, rend) = -0.08 (perda: +0.08); r(IDC, rend) = +0.01 (perda: -0.01)
+  milho  1998-2025 (183 municipios): r(iv, rend) mediana -0.54, negativa em 99% (signif. 5% em 85%) | r(IDC, rend) mediana +0.50, positiva em 98% | r(chuva FMAM, rend) mediana +0.54, positiva em 98% | r(maior seco, rend) -0.42
+     perda media estilo Rocha (Ra relativo ao maximo do municipio, 1998-2018): 53.8% (artigo 1980-2018: 58,65%)
+  feijao 1998-2018 (183 municipios): r(iv, rend) mediana -0.49, negativa em 98% (signif. 5% em 62%) | r(IDC, rend) mediana +0.40, positiva em 94% | r(chuva FMAM, rend) mediana +0.46, positiva em 97% | r(maior seco, rend) -0.44
+     Limoeiro do Norte: r(iv, rend) = -0.39 (perda: +0.39); r(IDC, rend) = +0.39 (perda: -0.39)
+  feijao 1998-2025 (183 municipios): r(iv, rend) mediana -0.41, negativa em 99% (signif. 5% em 60%) | r(IDC, rend) mediana +0.37, positiva em 92% | r(chuva FMAM, rend) mediana +0.43, positiva em 95% | r(maior seco, rend) -0.34
+     perda media estilo Rocha (Ra relativo ao maximo do municipio, 1998-2018): 47.6% (artigo 1980-2018: 52,34%)
+
+================ C) o iv acrescenta algo a chuva total de fev-mai? (1998-2025)
+  milho : n = 5106 municipio-anos, taxa de quebra 21.5%; r(iv, % do normal) = -0.67
+     AUC quebra: chuva (% do normal, menor = risco) 0.833 | iv 0.806 | maior seco 0.754 | IDC (menor = risco) 0.823 | residuo do iv dado a chuva 0.593
+     parcial r(iv, log-rendimento | log-chuva) por municipio: mediana -0.22, negativa em 87% (146 municipios)
+     so anos de chuva no tercil do meio (n=1702): quebra com iv acima da mediana 18.0% contra 7.5% abaixo (AUC iv 0.647)
+     2012: iv medio 0.90, chuva % normal mediana 64%, quebra 75%
+     2016: iv medio 0.83, chuva % normal mediana 64%, quebra 70%
+     2018: iv medio 0.55, chuva % normal mediana 109%, quebra 4%
+  feijao: n = 5107 municipio-anos, taxa de quebra 14.6%; r(iv, % do normal) = -0.67
+     AUC quebra: chuva (% do normal, menor = risco) 0.776 | iv 0.743 | maior seco 0.707 | IDC (menor = risco) 0.772 | residuo do iv dado a chuva 0.552
+     parcial r(iv, log-rendimento | log-chuva) por municipio: mediana -0.10, negativa em 72% (179 municipios)
+     so anos de chuva no tercil do meio (n=1703): quebra com iv acima da mediana 10.4% contra 5.9% abaixo (AUC iv 0.600)
+     2012: iv medio 0.90, chuva % normal mediana 64%, quebra 53%
+     2016: iv medio 0.83, chuva % normal mediana 64%, quebra 43%
+     2018: iv medio 0.55, chuva % normal mediana 109%, quebra 4%
+
+================ D) 'milho e feijao correspondem a 91,0% das areas cultivadas no estado' (IBGE 2017, citado no artigo e na proposta)
+  PAM 2017: milho+feijao area plantada 1,008,727 ha; temporarias 1,109,673 ha -> 90.9%; todas as lavouras (temp.+perm.) 1,524,823 ha -> 66.2%; por area colhida 66.2%
+  PAM 2016: milho+feijao / todas as lavouras (area plantada) = 59.6%
+  PAM 2018: milho+feijao / todas as lavouras (area plantada) = 67.7%
+  PAM 2025: milho+feijao / todas as lavouras (area plantada) = 62.4%
+  tipos no PAM: ['permanente', 'temporaria']

@@ -1,0 +1,16 @@
+[8s] L3 lido: 3765 dias (2015-03-31 -> 2025-10-12); arquivos pulados 0
+  A. cobertura: municipio-dias com L3 valido = 44.5%
+[10s] L4 nas mesmas datas
+  r(L3, L4 superficie), anomalia da media do estado, diaria: 0.886 (n = 2321 dias)
+  r(L3, L4 superficie) dentro do dia (ordem entre municipios): 0.699 (n = 308576)
+  vies medio L3 - L4 superficie: +0.010 m3/m3
+
+  B. anomalia da superficie do L4 (municipio-dia com L3 valido, n = 308576), R2 ano fora:
+     so chuva IMERG (1-30 d): 0.603 | so L3: 0.697 | chuva + L3: 0.800 (Delta pela observacao = +0.197)
+     dentro do dia: so chuva 0.416 | chuva + L3 0.618 (Delta = +0.203)
+
+  C. portoes (pareado; L3 = media dos 7 dias ate o portao em % da mediana dos outros anos):
+     19/mar (anos 2016-2025, n = 1740, quebras 255): chuva IMERG: 0.538 [0.39,0.67] | chuva 15 d: 0.563 [0.42,0.67] | SMAP L3 (observacao, 0-5 cm): 0.637 [0.44,0.76] | SMAP L4 zona da raiz pctl: 0.583 [0.39,0.70]
+     30/abr (anos 2016-2025, n = 1740, quebras 255): chuva IMERG: 0.656 [0.51,0.75] | chuva 15 d: 0.800 [0.62,0.87] | SMAP L3 (observacao, 0-5 cm): 0.774 [0.52,0.88] | SMAP L4 zona da raiz pctl: 0.767 [0.51,0.84]
+
+[42s] fim

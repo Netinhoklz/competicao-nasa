@@ -1,0 +1,75 @@
+VIIRS: {'time': 179, 'lat': 550, 'lon': 450} 2012-01 -> 2026-11
+
+==================== D. Frescor do ultimo mes ====================
+  2026-09: fracao de celulas com NDVI valido = 0.797; n_pixels_validos medio = 1.42
+  2026-10: fracao de celulas com NDVI valido = 0.774; n_pixels_validos medio = 1.42
+  2026-11: fracao de celulas com NDVI valido = 0.758; n_pixels_validos medio = 1.42
+  granulos de nov/2026 (A2026305 = 01/11): ['VNP13A3.A2026305.h13v09.002.2026317182550.nc4', 'VNP13A3.A2026305.h14v09.002.2026317182548.nc4']
+  o carimbo de producao (2026317 = 13/11) e anterior ao fim de novembro: tratar nov/2026 como provisorio e NAO usar.
+municipios com celulas VIIRS: 184; carregado em 2s
+
+==================== A. VIIRS x IMERG, pareado (milho, quebra canonica, 2012-2025) ====================
+n = 2543 municipio-anos, 14 anos; taxa de quebra 0.254
+  IMERG % normal ate 30/abr                    : AUC 0.758 [IC90 ano 0.67-0.83] | dentro do ano 0.572 | entre anos Spearman +0.64 (n=14)
+  VIIRS NDVI fev-mar (disponivel em 30/abr)    : AUC 0.662 [IC90 ano 0.55-0.74] | dentro do ano 0.529 | entre anos Spearman +0.41 (n=14)
+  VIIRS NDVI abr-mai (fim de safra, testemunha): AUC 0.794 [IC90 ano 0.73-0.83] | dentro do ano 0.626 | entre anos Spearman +0.86 (n=14)
+  r(NDVI fev-mar, IMERG) = +0.47; r(NDVI abr-mai, IMERG) = +0.47
+  ndvi_fm < 90% do normal: 4.2 em 10 quebraram (n=573, anos 13); >= 90%: 2.1 em 10 (n=1970)
+  ndvi_am < 90% do normal: 7.5 em 10 quebraram (n=309, anos 12); >= 90%: 1.9 em 10 (n=2234)
+  ano a ano (estado):
+         q    fm    am    im
+ano                         
+2012  0.75  0.95  0.86  0.64
+2013  0.56  0.78  0.90  0.58
+2014  0.17  0.94  0.98  0.85
+2015  0.61  0.85  0.95  0.79
+2016  0.70  1.01  0.93  0.87
+2017  0.17  0.96  0.97  0.97
+2018  0.04  1.03  1.01  1.06
+2019  0.07  1.08  1.03  1.29
+2020  0.01  1.11  1.03  1.32
+2021  0.04  0.95  1.02  0.79
+2022  0.02  1.01  1.03  0.95
+2023  0.11  1.07  1.02  0.90
+2024  0.08  0.95  1.04  0.99
+2025  0.25  1.10  0.99  0.96
+
+==================== B. Quixada: o satelite ve 2023-2025? ====================
+      razao  quebra  imerg30  ndvi_fm  ndvi_am
+ano                                           
+2012   0.17       1     0.48     0.89     0.62
+2013   0.90       0     0.51     0.70     0.88
+2014   0.97       0     0.78     1.03     1.00
+2015   0.48       1     0.70     0.84     0.90
+2016   0.12       1     0.78     0.91     0.88
+2017   2.07       0     1.02     0.88     1.00
+2018   1.86       0     1.11     1.08     1.00
+2019   2.07       0     1.19     1.15     1.02
+2020   1.78       0     1.10     1.12     1.01
+2021   0.80       0     0.69     0.96     1.02
+2022   1.03       0     0.98     1.12     1.06
+2023   0.36       1     1.04     1.10     1.03
+2024   0.46       1     1.05     0.97     1.03
+2025   0.30       1     0.93     1.16     0.89
+  (NDVI em fracao do normal do municipio; < 0,90 = mais seco que o normal)
+
+==================== C. Sentinela: mais verde para a mesma chuva desde 2020? (CE, VIIRS) ====================
+       ndvi       chuva  residuo
+2012  0.669  436.845001    0.004
+2013  0.643  448.640015   -0.024
+2014  0.722  648.333008    0.009
+2015  0.710  556.101013    0.019
+2016  0.696  602.594971   -0.006
+2017  0.718  707.093994   -0.008
+2018  0.749  730.284973    0.018
+2019  0.762  923.085999   -0.013
+2020  0.774  944.445007   -0.006
+2021  0.747  601.119995    0.045
+2022  0.754  713.651978    0.027
+2023  0.762  608.846008    0.059
+2024  0.764  695.405029    0.041
+2025  0.753  692.181030    0.030
+  ajuste 2012-2019: NDVI = 0.565 + 0.0227 x chuva/100 mm; residuo medio 2020-2025 = +0.033 (dp dos residuos 2012-2019 = 0.015; n = 8 e 6 anos)
+  mesmo teste com MODIS (mesma janela 2012-2025): residuo medio 2020-2025 = +0.048 (dp 2012-2019 = 0.018)
+
+tempo total 6s

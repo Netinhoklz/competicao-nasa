@@ -1,0 +1,187 @@
+Quixada cod 2311306
+SMAP L4 CE: Frozen({'time': 4247, 'lat': 78, 'lon': 49}); 2015-03-31 -> 2026-11-10; carregado em 2s
+municipios: 184; sem celula de 9 km dentro (usa a mais proxima): 0; Quixada tem 25 celulas
+
+--- Checagem da escala do percentil (o produto traz a climatologia pronta) ---
+municipio-dias 2015-2026: fracao < 20 = 13.2%; < 40 = 37.3%; >= 40 = 62.7%; mediana 49
+  (se a climatologia do produto for de um periodo mais umido que 2015-2026, o vermelho aparece mais que 20% das vezes)
+  fracao de municipio-dias no vermelho por ano: {2015: 0.14, 2016: 0.32, 2017: 0.05, 2018: 0.06, 2019: 0.02, 2020: 0.0, 2021: 0.12, 2022: 0.02, 2023: 0.01, 2024: 0.02, 2025: 0.09, 2026: 0.16}
+
+==================== A/B. Termometro x regra do IMERG, pareado (milho, quebra canonica) ====================
+
+[28/fev] n = 1820 municipio-anos, 10 anos (2016-2025), taxa de quebra 0.147
+   AUC total     SMAP 0.618 [IC90 ano 0.43-0.74] | IMERG 0.456 [0.34-0.59]
+   AUC dentro do ano (entre municipios, mesmo ano): SMAP 0.501 | IMERG 0.514
+   entre anos (Spearman media anual x fracao em quebra, n = 10): SMAP +0.15 | IMERG -0.16
+   r(SMAP pctl, IMERG % normal) nos mesmos municipio-anos: +0.76
+   Frequencias naturais por faixa do termometro:
+     vermelho :   15 de   83 quebraram = 1.8 em 10 | anos distintos 5; anos que mais pesam: {2022: np.int64(52), 2016: np.int64(14), 2021: np.int64(8)}
+     amarelo  :   55 de  353 quebraram = 1.6 em 10 | anos distintos 6; anos que mais pesam: {2022: np.int64(108), 2021: np.int64(91), 2016: np.int64(54)}
+     verde    :  198 de 1384 quebraram = 1.4 em 10 | anos distintos 10; anos que mais pesam: {2017: np.int64(182), 2018: np.int64(182), 2024: np.int64(182)}
+   Regra IMERG <75%: com alerta 0.3 em 10 (n=260); sem alerta 1.7 em 10 (n=1560)
+   Mesma taxa de alerta (os 260 municipio-anos mais secos por cada fonte): SMAP 1.8 em 10 | IMERG 0.3 em 10
+   Concordancia: vermelho e alerta IMERG 3.4%; so vermelho 1.2%; so IMERG 10.9%
+     vermelho E alerta IMERG               : 0.2 em 10 quebraram (n=61, anos 3)
+     so vermelho (IMERG ok)                : 6.4 em 10 quebraram (n=22, anos 2)
+     so alerta IMERG (SMAP nao vermelho)   : 0.4 em 10 quebraram (n=199, anos 4)
+     nenhum                                : 1.6 em 10 quebraram (n=1538, anos 10)
+
+[19/mar] n = 1820 municipio-anos, 10 anos (2016-2025), taxa de quebra 0.147
+   AUC total     SMAP 0.682 [IC90 ano 0.45-0.81] | IMERG 0.547 [0.40-0.67]
+   AUC dentro do ano (entre municipios, mesmo ano): SMAP 0.571 | IMERG 0.548
+   entre anos (Spearman media anual x fracao em quebra, n = 10): SMAP +0.17 | IMERG -0.16
+   r(SMAP pctl, IMERG % normal) nos mesmos municipio-anos: +0.81
+   Frequencias naturais por faixa do termometro:
+     vermelho :   62 de  124 quebraram = 5.0 em 10 | anos distintos 5; anos que mais pesam: {2016: np.int64(56), 2021: np.int64(26), 2019: np.int64(24)}
+     amarelo  :   90 de  481 quebraram = 1.9 em 10 | anos distintos 9; anos que mais pesam: {2016: np.int64(112), 2021: np.int64(111), 2018: np.int64(87)}
+     verde    :  116 de 1215 quebraram = 1.0 em 10 | anos distintos 10; anos que mais pesam: {2020: np.int64(182), 2017: np.int64(179), 2024: np.int64(170)}
+   Regra IMERG <75%: com alerta 1.0 em 10 (n=214); sem alerta 1.5 em 10 (n=1606)
+   Mesma taxa de alerta (os 214 municipio-anos mais secos por cada fonte): SMAP 4.3 em 10 | IMERG 1.0 em 10
+   Concordancia: vermelho e alerta IMERG 2.5%; so vermelho 4.3%; so IMERG 9.3%
+     vermelho E alerta IMERG               : 2.4 em 10 quebraram (n=45, anos 4)
+     so vermelho (IMERG ok)                : 6.5 em 10 quebraram (n=79, anos 4)
+     so alerta IMERG (SMAP nao vermelho)   : 0.6 em 10 quebraram (n=169, anos 6)
+     nenhum                                : 1.3 em 10 quebraram (n=1527, anos 10)
+
+[30/abr] n = 2002 municipio-anos, 11 anos (2015-2025), taxa de quebra 0.189
+   AUC total     SMAP 0.782 [IC90 ano 0.62-0.85] | IMERG 0.708 [0.58-0.80]
+   AUC dentro do ano (entre municipios, mesmo ano): SMAP 0.593 | IMERG 0.557
+   entre anos (Spearman media anual x fracao em quebra, n = 11): SMAP +0.68 | IMERG +0.46
+   r(SMAP pctl, IMERG % normal) nos mesmos municipio-anos: +0.80
+   Frequencias naturais por faixa do termometro:
+     vermelho :  131 de  281 quebraram = 4.7 em 10 | anos distintos 6; anos que mais pesam: {2016: np.int64(91), 2021: np.int64(81), 2025: np.int64(46)}
+     amarelo  :  165 de  472 quebraram = 3.5 em 10 | anos distintos 10; anos que mais pesam: {2016: np.int64(90), 2025: np.int64(82), 2015: np.int64(80)}
+     verde    :   83 de 1249 quebraram = 0.7 em 10 | anos distintos 11; anos que mais pesam: {2020: np.int64(182), 2022: np.int64(167), 2018: np.int64(162)}
+   Regra IMERG <75%: com alerta 3.0 em 10 (n=199); sem alerta 1.8 em 10 (n=1803)
+   Mesma taxa de alerta (os 199 municipio-anos mais secos por cada fonte): SMAP 5.0 em 10 | IMERG 3.0 em 10
+   Concordancia: vermelho e alerta IMERG 5.8%; so vermelho 8.2%; so IMERG 4.1%
+     vermelho E alerta IMERG               : 2.6 em 10 quebraram (n=116, anos 4)
+     so vermelho (IMERG ok)                : 6.1 em 10 quebraram (n=165, anos 6)
+     so alerta IMERG (SMAP nao vermelho)   : 3.5 em 10 quebraram (n=83, anos 8)
+     nenhum                                : 1.3 em 10 quebraram (n=1638, anos 11)
+
+==================== C. Quixada ano a ano (o placar do tecnico) ====================
+      smap_28/fev  imerg%_28/fev  smap_19/mar  imerg%_19/mar  smap_30/abr  imerg%_30/abr  razao_milho  quebra
+ano                                                                                                          
+2015          NaN            NaN          NaN            NaN           23             70         0.48       1
+2016         58.0          122.0         21.0           88.0           26             78         0.12       1
+2017         93.0          131.0         92.0          125.0           54            102         2.07       0
+2018         64.0           89.0         21.0           68.0           90            111         1.86       0
+2019         86.0          174.0         80.0          150.0           50            119         2.07       0
+2020         70.0          123.0         84.0          139.0           54            110         1.78       0
+2021         30.0           61.0         30.0           72.0           16             69         0.80       0
+2022         35.0           75.0         55.0           98.0           57             98         1.03       0
+2023         66.0          108.0         64.0          119.0           66            104         0.36       1
+2024         77.0          134.0         74.0          117.0           74            105         0.46       1
+2025         64.0          167.0         71.0          144.0           25             93         0.30       1
+  28/fev: termometro vermelho em 0 anos, com quebra em 0; quebras sem vermelho: [2016, 2023, 2024, 2025]
+          IMERG <75% em 1 anos, com quebra em 0 (mesmos anos 2016-2025)
+  19/mar: termometro vermelho em 0 anos, com quebra em 0; quebras sem vermelho: [2016, 2023, 2024, 2025]
+          IMERG <75% em 2 anos, com quebra em 0 (mesmos anos 2016-2025)
+  30/abr: termometro vermelho em 1 anos, com quebra em 0; quebras sem vermelho: [2015, 2016, 2023, 2024, 2025]
+          IMERG <75% em 2 anos, com quebra em 1 (mesmos anos 2015-2025)
+
+==================== D. Quando o termometro dorme: espalhamento entre anos, por mes (CE) ====================
+    rz_mediana  rz_p10  rz_p90  pctl_p10  pctl_p90  rz_amplitude_p90_p10
+1        0.149   0.125   0.161    27.042    79.045                 0.037
+2        0.168   0.150   0.178    34.070    68.008                 0.027
+3        0.193   0.172   0.210    31.654    69.060                 0.037
+4        0.212   0.192   0.230    28.958    66.257                 0.038
+5        0.201   0.179   0.221    22.194    60.599                 0.042
+6        0.178   0.167   0.199    27.899    63.806                 0.032
+7        0.165   0.158   0.176    36.154    62.653                 0.018
+8        0.146   0.143   0.155    34.422    63.228                 0.013
+9        0.134   0.131   0.140    31.670    59.871                 0.009
+10       0.126   0.123   0.130    25.160    63.473                 0.007
+11       0.121   0.117   0.129       NaN       NaN                 0.013
+12       0.124   0.116   0.142    22.700    93.163                 0.026
+  amplitude entre anos (p90-p10) em abr = 0.038 m3/m3; em nov = 0.013; razao abr/nov = 3.0x
+  faixa dinamica do ano (mediana de abr - mediana de nov) = 0.090 m3/m3
+
+==================== D2. O proprio produto desliga o percentil na seca (celulas do CE com percentil, por mes) ====================
+  fracao das celulas terrestres do CE COM percentil, media por mes: {1: 0.636, 2: 0.983, 3: 0.986, 4: 0.983, 5: 0.984, 6: 0.953, 7: 0.803, 8: 0.455, 9: 0.104, 10: 0.002, 11: 0.0, 12: 0.001}
+  a mascara e a mesma todo ano? maior diferenca entre anos no mesmo dia do ano = 0.020
+  dia do ano em que >= 50% do CE tem percentil: de 12 a 223 (com eventuais buracos: 212 dias)
+    doy   1 (01/01): 2% das celulas com percentil
+    doy  15 (15/01): 89% das celulas com percentil
+    doy  32 (01/02): 98% das celulas com percentil
+    doy  46 (15/02): 98% das celulas com percentil
+    doy  60 (01/03): 98% das celulas com percentil
+    doy  78 (19/03): 99% das celulas com percentil
+    doy 121 (01/05): 98% das celulas com percentil
+    doy 152 (01/06): 98% das celulas com percentil
+    doy 182 (01/07): 90% das celulas com percentil
+    doy 213 (01/08): 65% das celulas com percentil
+    doy 244 (01/09): 26% das celulas com percentil
+
+==================== E. Hoje (04-10/nov/2026): nivel absoluto, porque o percentil esta desligado ====================
+ultimo dia SMAP L4: 2026-11-10
+      qxd_rz   ce_rz  qxd_pctl_disp
+ano                                
+2015  0.0841  0.1181            0.0
+2016  0.0816  0.1139            0.0
+2017  0.0877  0.1191            0.0
+2018  0.0882  0.1203            0.0
+2019  0.0863  0.1231            0.0
+2020  0.0896  0.1321            0.0
+2021  0.0859  0.1231            0.0
+2022  0.1078  0.1483            0.0
+2023  0.0890  0.1229            0.0
+2024  0.0918  0.1236            0.0
+2025  0.0883  0.1226            0.0
+2026  0.0872  0.1207            0.0
+  2026: Quixada 0.087 m3/m3 (faixa 2015-2025: 0.082 a 0.108); posto entre 12 novembros (1 = mais seco): 5; CE posto 5
+  persistencia (CE, n = 10 anos): Spearman nivel nov(t-1) x termometro 19/mar(t) = -0.12; nov(t-1) seco x fracao em quebra(t) = +0.25
+         smap19      q  nov_anterior_rz
+ano                                    
+2016  25.962999  0.698            0.118
+2017  73.779999  0.170            0.114
+2018  42.270000  0.038            0.119
+2019  60.344002  0.066            0.120
+2020  79.668999  0.011            0.123
+2021  31.874001  0.038            0.132
+2022  47.907001  0.016            0.123
+2023  45.879002  0.110            0.148
+2024  65.898003  0.077            0.123
+2025  62.153999  0.247            0.124
+
+tempo total 10s
+
+==================== F. Ano a ano no estado: quebras pegas pelo vermelho x pelo alerta IMERG (o caso 2016) ====================
+[19/mar]
+      quebras  frac_quebra  termometro_medio  imerg_medio_%  pegas_vermelho  pegas_verm_ou_amar  pegas_imerg75  alarmes_vermelho_sem_quebra
+ano                                                                                                                                        
+2016      127         0.70                26             94              47                 120              6                            9
+2017       31         0.17                74            114               0                   2              0                            0
+2018        7         0.04                42             93               4                   7              6                            2
+2019       12         0.07                60            132               5                   5              1                           19
+2020        2         0.01                80            148               0                   0              0                            0
+2021        7         0.04                32             75               1                   7              7                           25
+2022        3         0.02                48             88               0                   1              1                            0
+2023       20         0.11                46             91               0                   0              0                            0
+2024       14         0.08                66            108               0                   2              0                            0
+2025       45         0.25                62            136               5                   8              0                            7
+[30/abr]
+      quebras  frac_quebra  termometro_medio  imerg_medio_%  pegas_vermelho  pegas_verm_ou_amar  pegas_imerg75  alarmes_vermelho_sem_quebra
+ano                                                                                                                                        
+2015      111         0.61                33             79              34                  88             43                            5
+2016      127         0.70                20             87              64                 127              9                           27
+2017       31         0.17                41             97               9                  25              0                           14
+2018        7         0.04                60            106               0                   0              0                            0
+2019       12         0.07                64            129               0                   2              0                            0
+2020        2         0.01                73            132               0                   0              0                            0
+2021        7         0.04                32             79               3                   7              6                           78
+2022        3         0.02                56             95               0                   0              0                            0
+2023       20         0.11                48             90               0                   1              0                            0
+2024       14         0.08                57             99               0                   2              0                            1
+2025       45         0.25                32             96              21                  44              1                           25
+
+==================== G. Robustez: a vantagem do termometro sobre o IMERG depende de um ano so? (jackknife por ano) ====================
+[19/mar] diferenca de AUC (SMAP - IMERG) tirando um ano de cada vez: min +0.039 (sem 2016), max +0.171; sem 2016: SMAP 0.495 x IMERG 0.455; dentro do ano sem 2016: SMAP 0.544 x IMERG 0.529
+   anos em que o termometro (media do estado) ordenou melhor que o IMERG por dentro do ano: 6 de 9
+[30/abr] diferenca de AUC (SMAP - IMERG) tirando um ano de cada vez: min +0.027 (sem 2016), max +0.110; sem 2016: SMAP 0.734 x IMERG 0.707; dentro do ano sem 2016: SMAP 0.609 x IMERG 0.563
+   anos em que o termometro (media do estado) ordenou melhor que o IMERG por dentro do ano: 5 de 10
+
+==================== H. O caso 2016 completo (acertos e alarmes) para o recibo ====================
+[19/mar/2016] municipios 182; quebraram 127; vermelho: 47 das quebras e 9 dos 55 sem quebra; vermelho ou amarelo: 120 e 48; alerta IMERG: 6 e 1; termometro medio 26; IMERG medio 94%
+[30/abr/2016] municipios 182; quebraram 127; vermelho: 64 das quebras e 27 dos 55 sem quebra; vermelho ou amarelo: 127 e 54; alerta IMERG: 9 e 5; termometro medio 20; IMERG medio 87%

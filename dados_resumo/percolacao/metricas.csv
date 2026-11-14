@@ -1,0 +1,329 @@
+regiao,pais,hospedeiro,praga_modelo,camada,ano,raio,p,S,atravessa,n_aglomerados
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2023,0 m,0.39914536023353175,0.008637451232803703,False,3863
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2023,300 m,0.39914536023353175,0.9629841646727398,True,137
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2023,1 km,0.39914536023353175,0.9995953397806375,True,3
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2023,5 km,0.39914536023353175,1.0,True,1
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2024,0 m,0.4140236109289888,0.041088851855577334,False,2397
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2024,300 m,0.4140236109289888,0.9821999961939664,True,113
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2024,1 km,0.4140236109289888,0.999983688427211,True,3
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2024,5 km,0.4140236109289888,1.0,True,1
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2025,0 m,0.4226150311021116,0.02967081258156444,False,3208
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2025,300 m,0.4226150311021116,0.9781420619490239,True,119
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2025,1 km,0.4226150311021116,1.0,True,1
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",hospedeiro no ano,2025,5 km,0.4226150311021116,1.0,True,1
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2023,0 m,0.10074574157417825,0.01959064654161127,False,3693
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2023,300 m,0.10074574157417825,0.050007262001854604,False,1127
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2023,1 km,0.10074574157417825,0.9964918944886992,True,14
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2023,5 km,0.10074574157417825,1.0,True,1
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2024,0 m,0.12303525994026639,0.022696917024974842,False,4344
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2024,300 m,0.12303525994026639,0.04569115359985363,False,1007
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2024,1 km,0.12303525994026639,0.9953892599030281,True,8
+iowa_story,EUA,milho,"larva-alfinete do milho (Diabrotica): ovos no milho, larva morre se o ano seguinte não for milho",ponte verde (t e t+1),2024,5 km,0.12303525994026639,1.0,True,1
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,0 m,0.2099703470503785,0.010836411199322422,False,8525
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,300 m,0.2099703470503785,0.5343103882667639,False,576
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,1 km,0.2099703470503785,0.9977083523187186,True,7
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,5 km,0.2099703470503785,1.0,True,1
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,0 m,0.2623230826461304,0.06006191551942744,False,1637
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,300 m,0.2623230826461304,0.6556179859649575,True,237
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,1 km,0.2623230826461304,0.9618316352691051,True,24
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,5 km,0.2623230826461304,1.0,True,1
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,0 m,0.30236835277836716,0.20542552696477595,False,2274
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,300 m,0.30236835277836716,0.6444279000511842,False,280
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,1 km,0.30236835277836716,0.9909152668558932,True,13
+kansas_ogallala,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,5 km,0.30236835277836716,1.0,True,1
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,0 m,0.11485523293801694,0.013876571036577896,False,2464
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,300 m,0.11485523293801694,0.4148418551093907,False,420
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,1 km,0.11485523293801694,0.7503736188352892,True,71
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,5 km,0.11485523293801694,1.0,True,1
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,0 m,0.13698998643134153,0.07043908370854833,False,1443
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,300 m,0.13698998643134153,0.4496376573438065,False,370
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,1 km,0.13698998643134153,0.8086115949649982,True,66
+kansas_ogallala,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,5 km,0.13698998643134153,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,0 m,0.330364474089265,0.007228020803344344,False,7847
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,300 m,0.330364474089265,0.8553799608531892,True,203
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,1 km,0.330364474089265,0.9999897789005845,True,2
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2023,5 km,0.330364474089265,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,0 m,0.30270939827980253,0.043223315194253,False,3317
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,300 m,0.30270939827980253,0.3537827140203874,True,347
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,1 km,0.30270939827980253,0.9999014651939742,True,5
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2024,5 km,0.30270939827980253,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,0 m,0.34740155406443507,0.030316186452484555,False,2118
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,300 m,0.34740155406443507,0.37972829802330815,False,229
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,1 km,0.34740155406443507,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,hospedeiro no ano,2025,5 km,0.34740155406443507,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,0 m,0.030913579857830175,0.04680502457673402,False,4204
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,300 m,0.030913579857830175,0.04795193883123976,False,869
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,1 km,0.030913579857830175,0.7545603495357728,True,84
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2023,5 km,0.030913579857830175,1.0,True,1
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,0 m,0.03638156350790624,0.059570584413575475,False,2434
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,300 m,0.03638156350790624,0.08070104878878817,False,764
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,1 km,0.03638156350790624,0.47919438170961853,True,111
+north_dakota_cass,EUA,milho,larva-alfinete do milho,ponte verde (t e t+1),2024,5 km,0.03638156350790624,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2023,0 m,0.6101292765051728,0.20649699483088776,False,6993
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2023,300 m,0.6101292765051728,0.999752797629809,True,44
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2023,1 km,0.6101292765051728,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2023,5 km,0.6101292765051728,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2024,0 m,0.621160353854405,0.7527989106060977,True,5333
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2024,300 m,0.621160353854405,0.99979977041549,True,40
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2024,1 km,0.621160353854405,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2024,5 km,0.621160353854405,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2025,0 m,0.5080711288099594,0.12295051097380774,False,7323
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2025,300 m,0.5080711288099594,0.9989886861338124,True,80
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2025,1 km,0.5080711288099594,0.9999966769533422,True,2
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,hospedeiro no ano,2025,5 km,0.5080711288099594,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2023,0 m,0.4584979703290414,0.10517122867313121,False,8961
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2023,300 m,0.4584979703290414,0.9995716214557506,True,91
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2023,1 km,0.4584979703290414,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2023,5 km,0.4584979703290414,1.0,True,1
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2024,0 m,0.40546426929312973,0.1070211599453131,False,9090
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2024,300 m,0.40546426929312973,0.9932973843281769,True,119
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2024,1 km,0.40546426929312973,0.9999972240150459,True,2
+mississippi_delta,EUA,soja,pragas e doenças de solo da soja,ponte verde (t e t+1),2024,5 km,0.40546426929312973,1.0,True,1
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2023,0 m,0.5520288549256595,0.03780632769697847,False,14843
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2023,300 m,0.5520288549256595,0.9990090672386619,True,54
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2023,1 km,0.5520288549256595,0.9998215913238332,True,8
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2023,5 km,0.5520288549256595,1.0,True,1
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2024,0 m,0.4637025723047416,0.17790928553743682,False,6124
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2024,300 m,0.4637025723047416,0.9935384271822979,True,174
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2024,1 km,0.4637025723047416,0.9999611625976397,True,9
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2024,5 km,0.4637025723047416,1.0,True,1
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2025,0 m,0.35615674361200955,0.053287424686063546,False,6898
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2025,300 m,0.35615674361200955,0.9905222556336326,True,190
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2025,1 km,0.35615674361200955,0.9999699771352183,True,8
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),hospedeiro no ano,2025,5 km,0.35615674361200955,1.0,True,1
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2023,0 m,0.4021427337329456,0.026158645213927953,False,8084
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2023,300 m,0.4021427337329456,0.7812075352348219,True,169
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2023,1 km,0.4021427337329456,0.9999888043461528,True,2
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2023,5 km,0.4021427337329456,1.0,True,1
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2024,0 m,0.3154040573159044,0.03361477986860277,False,5260
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2024,300 m,0.3154040573159044,0.651865148330413,True,240
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2024,1 km,0.3154040573159044,0.9998179994932535,True,9
+texas_lubbock,EUA,algodão,bicudo-do-algodoeiro (análogo ao Ceará dos anos 1980),ponte verde (t e t+1),2024,5 km,0.3154040573159044,1.0,True,1
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2023,0 m,0.031229862979623376,0.06582930872918619,False,3184
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2023,300 m,0.031229862979623376,0.13371296763497442,False,978
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2023,1 km,0.031229862979623376,0.6253333813883082,False,112
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2023,5 km,0.031229862979623376,1.0,True,1
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2024,0 m,0.036432776611257094,0.05805026491805305,False,701
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2024,300 m,0.036432776611257094,0.08795588303443162,False,246
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2024,1 km,0.036432776611257094,0.34874955589539214,False,104
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2024,5 km,0.036432776611257094,0.9980382161669524,True,3
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2025,0 m,0.024093232610478202,0.05057111490037607,False,1055
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2025,300 m,0.024093232610478202,0.11132652822872627,False,341
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2025,1 km,0.024093232610478202,0.20265819532363177,False,132
+california_fresno,EUA,algodão,bicudo / pragas do algodão,hospedeiro no ano,2025,5 km,0.024093232610478202,0.999976641517367,True,2
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2023,0 m,0.008259941954730994,0.13013558629147645,False,304
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2023,300 m,0.008259941954730994,0.2107378892144171,False,80
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2023,1 km,0.008259941954730994,0.21530285480684064,False,50
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2023,5 km,0.008259941954730994,0.9674320365197248,False,6
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2024,0 m,0.006539519350955519,0.10249569707401032,False,249
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2024,300 m,0.006539519350955519,0.10249569707401032,False,77
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2024,1 km,0.006539519350955519,0.13390705679862305,False,51
+california_fresno,EUA,algodão,bicudo / pragas do algodão,ponte verde (t e t+1),2024,5 km,0.006539519350955519,0.7913080895008606,False,5
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,0 m,0.12738837444870738,0.45310610225398573,False,607
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,300 m,0.12738837444870738,0.5035689939527213,False,81
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,1 km,0.12738837444870738,0.7608400219901045,False,28
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,5 km,0.12738837444870738,0.9903023639362287,True,4
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,0 m,0.12809934024167235,0.215111702034604,False,493
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,300 m,0.12809934024167235,0.460064554503945,False,91
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,1 km,0.12809934024167235,0.8524168576476968,False,42
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,5 km,0.12809934024167235,0.9829604100698028,True,5
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,0 m,0.14600570565455914,0.3217129372038142,False,539
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,300 m,0.14600570565455914,0.6570134878455901,False,97
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,1 km,0.14600570565455914,0.8730607624565914,False,38
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,5 km,0.14600570565455914,0.9950461426296502,True,6
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,0 m,0.16038749596615154,0.6176438738974762,False,512
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,300 m,0.16038749596615154,0.6731359706575845,False,90
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,1 km,0.16038749596615154,0.8727482315954939,True,31
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,5 km,0.16038749596615154,0.9734555933979565,True,3
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,0 m,0.1770366452723296,0.6199840502291197,False,580
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,300 m,0.1770366452723296,0.6529120990404821,False,89
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,1 km,0.1770366452723296,0.8560786349021494,False,31
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,5 km,0.1770366452723296,0.9999303779842528,True,3
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,0 m,0.18022450607766502,0.6063348275626239,False,759
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,300 m,0.18022450607766502,0.6187694679839095,False,92
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,1 km,0.18022450607766502,0.811674262159524,False,31
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,5 km,0.18022450607766502,0.9993502900379878,True,2
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,0 m,0.1872551678080964,0.4818074924229051,False,675
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,300 m,0.1872551678080964,0.6082828941660109,False,97
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,1 km,0.1872551678080964,0.8173628418668526,False,35
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,5 km,0.1872551678080964,0.9998444189796877,True,2
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,0 m,0.10409738158413712,0.23041070380994924,False,458
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,300 m,0.10409738158413712,0.46180093970495634,False,72
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,1 km,0.10409738158413712,0.7531040941211928,False,26
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,5 km,0.10409738158413712,0.9890421575539684,True,6
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,0 m,0.11175104880060238,0.2327537801307504,False,453
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,300 m,0.11175104880060238,0.25960072995628286,False,74
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,1 km,0.11175104880060238,0.8824950868327117,False,31
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,5 km,0.11175104880060238,0.9950617655316247,True,5
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,0 m,0.1293268627415827,0.23301492407997054,False,444
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,300 m,0.1293268627415827,0.7112006411506054,False,78
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,1 km,0.1293268627415827,0.8396820239565057,False,30
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,5 km,0.1293268627415827,0.995667901314792,True,3
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,0 m,0.14615529420201512,0.6334140881351774,False,454
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,300 m,0.14615529420201512,0.7009529577723941,False,81
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,1 km,0.14615529420201512,0.8463614339599497,False,28
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,5 km,0.14615529420201512,0.9791736943788525,True,4
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,0 m,0.14948433970382588,0.5930311003170748,False,539
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,300 m,0.14948433970382588,0.6796307540084103,False,78
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,1 km,0.14948433970382588,0.8295029496203348,False,28
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,5 km,0.14948433970382588,0.9631653511434932,True,4
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,0 m,0.1547238606619097,0.5105769718212959,False,600
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,300 m,0.1547238606619097,0.576848706937132,False,91
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,1 km,0.1547238606619097,0.773621662333524,False,37
+apodi_jaguaribe,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,5 km,0.1547238606619097,0.9998117074513155,True,2
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,0 m,0.03544744343648033,0.2994468152362889,False,500
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,300 m,0.03544744343648033,0.4295400663821716,False,82
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,1 km,0.03544744343648033,0.4609767662399241,False,31
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,5 km,0.03544744343648033,0.9861545756282598,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,0 m,0.04126907113915881,0.3667069412579248,False,558
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,300 m,0.04126907113915881,0.3872062556848264,False,93
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,1 km,0.04126907113915881,0.4075562373576248,False,31
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,5 km,0.04126907113915881,0.9925605137046741,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,0 m,0.043689380221592744,0.34267321527038636,False,587
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,300 m,0.043689380221592744,0.3818109539503212,False,91
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,1 km,0.043689380221592744,0.6659570921121811,False,30
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,5 km,0.043689380221592744,0.9873815416575833,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,0 m,0.04276327584352253,0.4032596163924117,False,614
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,300 m,0.04276327584352253,0.42779844879991613,False,86
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,1 km,0.04276327584352253,0.7840635153547846,False,28
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,5 km,0.04276327584352253,0.9865449114348601,False,6
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,0 m,0.044361688300046616,0.42693322893118296,False,550
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,300 m,0.044361688300046616,0.526073174120054,False,84
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,1 km,0.044361688300046616,0.6151602025738497,False,31
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,5 km,0.044361688300046616,0.9852616157916672,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,0 m,0.0420764010900355,0.42410321962131503,False,674
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,300 m,0.0420764010900355,0.4422785012383159,False,106
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,1 km,0.0420764010900355,0.7647332960507044,False,34
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,5 km,0.0420764010900355,0.9893478202977284,True,3
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,0 m,0.04438409856932841,0.3965362719480946,False,820
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,300 m,0.04438409856932841,0.4200780096186617,False,113
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,1 km,0.04438409856932841,0.6323197132073566,False,32
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,5 km,0.04438409856932841,0.9793110412643112,True,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,0 m,0.02872940496253003,0.31849295033054464,False,380
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,300 m,0.02872940496253003,0.46845687318395446,False,61
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,1 km,0.02872940496253003,0.484233311882057,False,27
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,5 km,0.02872940496253003,0.9981083874490532,False,2
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,0 m,0.03307419591953817,0.40557983534912084,False,434
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,300 m,0.03307419591953817,0.4298709218416506,False,66
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,1 km,0.03307419591953817,0.4522647965579158,False,30
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,5 km,0.03307419591953817,0.9967137581732561,False,5
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,0 m,0.03419919143748431,0.41074997542675534,False,444
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,300 m,0.03419919143748431,0.4603551652960257,False,70
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,1 km,0.03419919143748431,0.63032010746699,False,30
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,5 km,0.03419919143748431,0.9931031093345566,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,0 m,0.034383515902327084,0.46531749523390525,False,456
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,300 m,0.034383515902327084,0.5077479591337928,False,69
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,1 km,0.034383515902327084,0.6557657525541379,False,28
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,5 km,0.034383515902327084,0.9954701732088446,False,4
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,0 m,0.032589013589587296,0.5075986796864256,False,492
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,300 m,0.032589013589587296,0.531856003300784,False,78
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,1 km,0.032589013589587296,0.6860301196534176,False,30
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,5 km,0.032589013589587296,0.9975587952138633,False,6
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,0 m,0.032490408404747394,0.4982411367085115,False,566
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,300 m,0.032490408404747394,0.5276072561732653,False,81
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,1 km,0.032490408404747394,0.6624017105807698,False,36
+cariri,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,5 km,0.032490408404747394,0.9994137122361705,True,5
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,0 m,0.00437000250995016,0.24615384615384617,False,107
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,300 m,0.00437000250995016,0.507051282051282,False,36
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,1 km,0.00437000250995016,0.507051282051282,False,25
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,5 km,0.00437000250995016,0.9966666666666667,False,5
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,0 m,0.0037357918892753413,0.15686862627474504,False,165
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,300 m,0.0037357918892753413,0.20605878824235152,False,39
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,1 km,0.0037357918892753413,0.5215956808638272,False,23
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,5 km,0.0037357918892753413,0.8764247150569886,False,7
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,0 m,0.004139176736347664,0.3004872766648619,False,141
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,300 m,0.004139176736347664,0.3115863562533839,False,38
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,1 km,0.004139176736347664,0.4558743909041689,False,26
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,5 km,0.004139176736347664,0.9749593936112615,False,7
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,0 m,0.005655791709993187,0.30411094601287764,False,133
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,300 m,0.005655791709993187,0.30599306587419517,False,35
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,1 km,0.005655791709993187,0.3113422486379396,False,25
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,5 km,0.005655791709993187,0.9783060921248142,False,6
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,0 m,0.004866389974541934,0.16843195947501727,False,183
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,300 m,0.004866389974541934,0.24810039143449228,False,50
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,1 km,0.004866389974541934,0.3473405480082892,False,30
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,5 km,0.004866389974541934,0.9146903062399263,False,4
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,0 m,0.004351514037792678,0.11909360113299858,False,282
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,300 m,0.004351514037792678,0.17831852710184112,False,75
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,1 km,0.004351514037792678,0.20200849748937813,False,39
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,5 km,0.004351514037792678,0.9000901248873439,False,10
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,0 m,0.006454717809889204,0.12281919972224634,False,287
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,300 m,0.006454717809889204,0.2366982032809652,False,74
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,1 km,0.006454717809889204,0.26959465324190607,False,49
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,5 km,0.006454717809889204,0.9611144865897058,False,6
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,0 m,0.0015558329448886658,0.2405473532589125,False,87
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,300 m,0.0015558329448886658,0.28051854519265396,False,22
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,1 km,0.0015558329448886658,0.30356499819949584,False,13
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,5 km,0.0015558329448886658,0.9467050774216781,False,2
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,0 m,0.0014998072716841766,0.3302203959656332,False,64
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,300 m,0.0014998072716841766,0.3350765782592454,False,23
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,1 km,0.0014998072716841766,0.3350765782592454,False,16
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,5 km,0.0014998072716841766,0.9887934254762795,False,5
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,0 m,0.002632646383878949,0.32794211534369017,False,80
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,300 m,0.002632646383878949,0.3366673760374548,False,20
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,1 km,0.002632646383878949,0.4586082145137263,False,14
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,5 km,0.002632646383878949,0.9957437752713343,False,3
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,0 m,0.0028461041987880528,0.22381889763779528,False,85
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,300 m,0.0028461041987880528,0.340748031496063,False,24
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,1 km,0.0028461041987880528,0.3543307086614173,False,17
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,5 km,0.0028461041987880528,0.6263779527559055,False,5
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,0 m,0.0013591828319409085,0.1768342951360264,False,57
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,300 m,0.0013591828319409085,0.3676834295136026,False,19
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,1 km,0.0013591828319409085,0.37304204451772466,False,12
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,5 km,0.0013591828319409085,0.6760098928277,False,4
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,0 m,0.0022740820753702176,0.20891845282089186,False,154
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,300 m,0.0022740820753702176,0.21852673072185266,False,40
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,1 km,0.0022740820753702176,0.21852673072185266,False,24
+sertao_central,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,5 km,0.0022740820753702176,0.5720620842572062,False,6
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,0 m,0.06148649557173079,0.1359125989776486,False,1007
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,300 m,0.06148649557173079,0.4888425196132924,False,126
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,1 km,0.06148649557173079,0.7517472003790536,False,41
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2017,5 km,0.06148649557173079,0.9984236471156387,True,2
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,0 m,0.05909475958263115,0.11919073171656648,False,1033
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,300 m,0.05909475958263115,0.5838184265913271,False,131
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,1 km,0.05909475958263115,0.8137241889303931,False,34
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2018,5 km,0.05909475958263115,0.9988718026507898,True,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,0 m,0.05044887769371437,0.08411256468915887,False,941
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,300 m,0.05044887769371437,0.30392243964196075,False,113
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,1 km,0.05044887769371437,0.7848433023121516,False,33
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2019,5 km,0.05044887769371437,0.9976456477800235,False,5
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,0 m,0.06123494029904263,0.12110011162143863,False,975
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,300 m,0.06123494029904263,0.19176929129535764,False,114
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,1 km,0.06123494029904263,0.8278651027466193,False,28
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2020,5 km,0.06123494029904263,0.9886823180662043,False,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,0 m,0.06990491322743735,0.1891915718945605,False,1239
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,300 m,0.06990491322743735,0.604497767946591,False,139
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,1 km,0.06990491322743735,0.7499539163120227,False,47
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2021,5 km,0.06990491322743735,0.9963213195162415,False,6
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,0 m,0.06973235415396752,0.17570401317639497,False,1194
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,300 m,0.06973235415396752,0.5063029767404491,False,131
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,1 km,0.06973235415396752,0.7765476238299923,False,36
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2022,5 km,0.06973235415396752,0.9891214397621821,False,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,0 m,0.07226527483954247,0.10959328919417612,False,1210
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,300 m,0.07226527483954247,0.31852294047415997,False,148
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,1 km,0.07226527483954247,0.7414525607430263,False,34
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,hospedeiro no ano,2023,5 km,0.07226527483954247,0.9965965298559534,False,3
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,0 m,0.04468775771809674,0.1340847260007773,False,839
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,300 m,0.04468775771809674,0.26276594410942417,False,110
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,1 km,0.04468775771809674,0.7847247470631746,False,34
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2017,5 km,0.04468775771809674,0.9996238857615687,True,3
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,0 m,0.03927511742981104,0.08538986048900174,False,884
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,300 m,0.03927511742981104,0.33970500128384357,False,103
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,1 km,0.03927511742981104,0.7929730963453254,False,28
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2018,5 km,0.03927511742981104,0.9991583692334027,False,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,0 m,0.042199097314353326,0.09022716108389427,False,861
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,300 m,0.042199097314353326,0.11587737815483065,False,104
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,1 km,0.042199097314353326,0.8003212915388802,False,25
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2019,5 km,0.042199097314353326,0.877842832676146,False,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,0 m,0.05144109236616587,0.09762897938290295,False,909
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,300 m,0.05144109236616587,0.19579162900116537,False,94
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,1 km,0.05144109236616587,0.7836784037814348,False,28
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2020,5 km,0.05144109236616587,0.8538941590337301,False,4
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,0 m,0.05425302090429918,0.19017720682390846,False,1010
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,300 m,0.05425302090429918,0.3427960675781734,False,103
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,1 km,0.05425302090429918,0.788787227890454,False,32
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2021,5 km,0.05425302090429918,0.8534842413978273,False,5
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,0 m,0.05397569382193696,0.11656511765499632,False,1013
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,300 m,0.05397569382193696,0.18904723845507104,False,120
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,1 km,0.05397569382193696,0.7820761669486511,False,33
+ibiapaba,Brasil (Ceará),lavoura (qualquer),pragas generalistas de lavoura,ponte verde (t e t+1),2022,5 km,0.05397569382193696,0.9987440445916069,False,3

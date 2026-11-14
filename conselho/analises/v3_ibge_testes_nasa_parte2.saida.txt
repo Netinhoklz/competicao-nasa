@@ -1,0 +1,72 @@
+
+=== TESTE Censo 2017 (rotacao) x perda na seca 2012-2016 (PAM) x anomalia de chuva IMERG ===
+janela chuvosa (mes inicial) mais comum por UF: {'AL': 3, 'BA': 11, 'CE': 1, 'MA': 1, 'PB': 1, 'PE': 3, 'PI': 1, 'RN': 1, 'SE': 2}
+
+-- Milho: n=1324 municipios; razao mediana (rend. 2012-16 / mediana 2003-11) = 0.54
+  Spearman(chuva IMERG 2012-16 %, razao) = +0.25 (p=8e-20)
+  Spearman(% rotacao, razao) bruto = +0.05 (p=0.07)
+  parcial(% rotacao, razao | chuva_2012_16_pct) = +0.03 (p=0.2, n=1324)
+  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar) = +0.08 (p=0.005, n=1307)
+  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.08 (p=0.006, n=1307)
+  razao mediana por tercil de chuva (linhas) x tercil de rotacao (colunas):
+tr          rot baixa  rot media  rot alta
+tc                                        
+seco             0.35       0.50      0.47
+medio            0.48       0.37      0.48
+menos seco       0.85       0.86      0.83
+
+-- Feijão: n=1239 municipios; razao mediana (rend. 2012-16 / mediana 2003-11) = 0.59
+  Spearman(chuva IMERG 2012-16 %, razao) = +0.17 (p=2e-09)
+  Spearman(% rotacao, razao) bruto = +0.01 (p=0.8)
+  parcial(% rotacao, razao | chuva_2012_16_pct) = -0.01 (p=0.8, n=1239)
+  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar) = +0.03 (p=0.3, n=1222)
+  parcial(% rotacao, razao | chuva_2012_16_pct+pct_irrigacao+pct_orientacao_tecnica+pct_familiar+uf_cod) = +0.03 (p=0.3, n=1222)
+  razao mediana por tercil de chuva (linhas) x tercil de rotacao (colunas):
+tr          rot baixa  rot media  rot alta
+tc                                        
+seco             0.45       0.60      0.55
+medio            0.60       0.52      0.55
+menos seco       0.83       0.70      0.72
+
+-- PAM como proxy da pratica atual (M5): diversidade das lavouras x rotacao declarada (Censo 2017)
+  Ceara (184 mun., PAM completa): Spearman(shannon, % rotacao) = +0.15 (p=0.04); com % rotacao nas lavouras temporarias = +0.12 (p=0.1)
+  Ceara (184 mun., PAM completa): Spearman(n_culturas_5pct, % rotacao) = +0.21 (p=0.005); com % rotacao nas lavouras temporarias = +0.17 (p=0.02)
+  Nordeste (5 lavouras: milho, feijao, mandioca, sorgo, algodao): Spearman(Shannon, % rotacao) = +0.06 (p=0.02, n=1767)
+
+=== TESTE PAM NE (arbitro) x IMERG (1999-2025) e SMAP L4 (2016-2025), por UF ===
+rho = Spearman entre o rendimento relativo (kg/ha plantado / mediana do municipio) e a chuva da estacao (IMERG, relativa) ou a zona de raiz (SMAP L4, anomalia) na janela de 4 meses mais chuvosa do municipio
+ cultura uf  n_mun_ano  rho_imerg_1999_2025  n_2016_2025  rho_imerg_2016_25  rho_smap_2016_25
+   Milho AL       1445                 0.27          555               0.04              0.04
+   Milho BA       7287                 0.13         2617               0.05              0.03
+   Milho CE       4871                 0.51         1801               0.35              0.25
+   Milho MA       5236                -0.01         1796               0.00              0.02
+   Milho PB       4828                 0.46         1798               0.32              0.32
+   Milho PE       3118                 0.43         1104               0.25              0.15
+   Milho PI       5946                 0.37         2203               0.30              0.24
+   Milho RN       3516                 0.55         1199               0.51              0.44
+   Milho SE       1374                 0.09          477               0.24              0.20
+  Feijão AL       1455                 0.13          485              -0.03              0.02
+  Feijão BA       7666                 0.17         2652               0.11              0.03
+  Feijão CE       4876                 0.39         1782               0.24              0.13
+  Feijão MA       3958                -0.01         1248               0.00              0.02
+  Feijão PB       4779                 0.41         1768               0.34              0.28
+  Feijão PE       3147                 0.39         1110               0.27              0.13
+  Feijão PI       5381                 0.32         2001               0.28              0.20
+  Feijão RN       3521                 0.49         1178               0.52              0.44
+  Feijão SE        920                 0.17          169               0.35              0.22
+Mandioca AL        986                 0.11          457               0.13              0.16
+Mandioca BA       7869                 0.13         2275               0.07              0.06
+Mandioca CE       1904                 0.24          575               0.00              0.04
+Mandioca MA       4161                -0.15         1327              -0.15             -0.08
+Mandioca PB       1478                 0.12          448              -0.01             -0.00
+Mandioca PE       2009                 0.15          625               0.06              0.03
+Mandioca PI       2293                 0.31          631               0.23              0.20
+Mandioca RN       1132                 0.15          333               0.01              0.02
+Mandioca SE       1193                 0.01          331              -0.15             -0.10
+
+media por cultura:
+          rho_imerg_1999_2025  rho_imerg_2016_25  rho_smap_2016_25
+cultura                                                           
+Feijão                   0.27               0.23              0.16
+Mandioca                 0.12               0.02              0.04
+Milho                    0.31               0.23              0.19

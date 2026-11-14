@@ -1,0 +1,52 @@
+Fracao de municipio-meses com sm_rootzone_pctl definido (2015-2025), por mes: 1: 0.91, 2: 0.91, 3: 1.00, 4: 1.00, 5: 1.00, 6: 1.00, 7: 0.95, 8: 0.78, 9: 0.52, 10: 0.07, 11: 0.00, 12: 0.07
+Secura D = pctl
+
+T1 mensal jul-dez (alvo log1p focos do mes; preditores do mes anterior)  (n = 6721 linhas, 611 grupos, 11 anos 2015-2025)
+  B1 (tendencia) contra B0 (climatologia): habilidade -0.022 (IC90 -0.039 a -0.006; melhora em 5/11 anos)
+  so combustivel (F_t, F_t-1)        vs B1 -0.006 (IC90 -0.025 a +0.015; melhora 6/11 anos) | vs B0 -0.028 | rho entre anos (resid. de B1, n=11) -0.23 | rho dentro do ano (mediana) +0.040 [7/11 anos > 0]
+  so secura SMAP (D m-1)             vs B1 +0.016 (IC90 -0.011 a +0.040; melhora 9/11 anos) | vs B0 -0.006 | rho entre anos (resid. de B1, n=11) +0.60 | rho dentro do ano (mediana) +0.072 [7/11 anos > 0]
+  so chuva IMERG (R m-1)             vs B1 +0.004 (IC90 -0.008 a +0.017; melhora 6/11 anos) | vs B0 -0.017 | rho entre anos (resid. de B1, n=11) +0.44 | rho dentro do ano (mediana) +0.016 [8/11 anos > 0]
+  PRINCIPAL F_t+F_t-1+D              vs B1 +0.034 (IC90 +0.012 a +0.057; melhora 7/11 anos) | vs B0 +0.013 | rho entre anos (resid. de B1, n=11) +0.65 | rho dentro do ano (mediana) +0.049 [9/11 anos > 0]
+  F_t+F_t-1+R (sem SMAP)             vs B1 +0.001 (IC90 -0.017 a +0.019; melhora 5/11 anos) | vs B0 -0.021 | rho entre anos (resid. de B1, n=11) +0.02 | rho dentro do ano (mediana) +0.037 [8/11 anos > 0]
+  F_t+F_t-1+D+R                      vs B1 +0.032 (IC90 +0.009 a +0.053; melhora 7/11 anos) | vs B0 +0.011 | rho entre anos (resid. de B1, n=11) +0.65 | rho dentro do ano (mediana) +0.049 [9/11 anos > 0]
+  indice fixo ICS (1 coef.)          vs B1 +0.039 (IC90 +0.013 a +0.065; melhora 9/11 anos) | vs B0 +0.018 | rho entre anos (resid. de B1, n=11) +0.77 | rho dentro do ano (mediana) +0.062 [9/11 anos > 0]
+  rho(ICS fixo, residuo de B1) pooled = +0.186; por mes-calendario: 7: +0.20, 8: +0.20, 9: +0.18, 10: +0.13, 11: +0.37, 12: +nan
+
+T2 portao 30/set -> focos out-dez por municipio  (n = 1056 linhas, 96 grupos, 11 anos 2015-2025)
+  B1 (tendencia) contra B0 (climatologia): habilidade +0.051 (IC90 -0.048 a +0.130; melhora em 7/11 anos)
+  so combustivel (F_t, F_t-1)        vs B1 -0.021 (IC90 -0.065 a +0.017; melhora 6/11 anos) | vs B0 +0.031 | rho entre anos (resid. de B1, n=11) +0.09 | rho dentro do ano (mediana) +0.092 [8/11 anos > 0]
+  so secura SMAP set (D)             vs B1 -0.020 (IC90 -0.040 a -0.004; melhora 4/11 anos) | vs B0 +0.032 | rho entre anos (resid. de B1, n=11) -0.40 | rho dentro do ano (mediana) -0.018 [5/11 anos > 0]
+  so chuva IMERG jul-set (R)         vs B1 -0.027 (IC90 -0.043 a -0.010; melhora 3/11 anos) | vs B0 +0.025 | rho entre anos (resid. de B1, n=11) -0.75 | rho dentro do ano (mediana) +0.050 [6/11 anos > 0]
+  PRINCIPAL F_t+F_t-1+D              vs B1 -0.031 (IC90 -0.080 a +0.019; melhora 4/11 anos) | vs B0 +0.022 | rho entre anos (resid. de B1, n=11) -0.03 | rho dentro do ano (mediana) +0.040 [8/11 anos > 0]
+  F_t+F_t-1+R (sem SMAP)             vs B1 -0.052 (IC90 -0.109 a +0.003; melhora 6/11 anos) | vs B0 +0.002 | rho entre anos (resid. de B1, n=11) -0.08 | rho dentro do ano (mediana) +0.116 [7/11 anos > 0]
+  F_t+F_t-1+D+R                      vs B1 -0.051 (IC90 -0.107 a +0.003; melhora 4/11 anos) | vs B0 +0.003 | rho entre anos (resid. de B1, n=11) -0.10 | rho dentro do ano (mediana) +0.051 [7/11 anos > 0]
+  indice fixo ICS (1 coef.)          vs B1 +0.012 (IC90 -0.010 a +0.035; melhora 7/11 anos) | vs B0 +0.062 | rho entre anos (resid. de B1, n=11) +0.31 | rho dentro do ano (mediana) +0.094 [9/11 anos > 0]
+
+T2' replica M7 com VIIRS (so combustivel), 2013-2025  (n = 2392 linhas, 184 grupos, 13 anos 2013-2025)
+  B1 (tendencia) contra B0 (climatologia): habilidade +0.098 (IC90 +0.015 a +0.173; melhora em 10/13 anos)
+  combustivel F_t, F_t-1             vs B1 +0.020 (IC90 +0.001 a +0.042; melhora 8/13 anos) | vs B0 +0.116 | rho entre anos (resid. de B1, n=13) +0.08 | rho dentro do ano (mediana) +0.206 [11/13 anos > 0]
+  so F_t-1                           vs B1 +0.004 (IC90 -0.012 a +0.019; melhora 10/13 anos) | vs B0 +0.101 | rho entre anos (resid. de B1, n=13) -0.10 | rho dentro do ano (mediana) +0.165 [11/13 anos > 0]
+
+T2 modelo principal, todos os anos, EF de municipio, EP agrupado por ano (11 grupos: p e indicativo):
+  Fz +0.090 (EP 0.042, p=0.033) | F1z +0.028 (EP 0.030, p=0.356) | D +0.072 (EP 0.049, p=0.135) | t +0.028 (EP 0.010, p=0.004)
+
+T2 por ano (estado): focos out-dez observados; anomalia media de log1p contra B1, observada e prevista fora do ano
+        focos      y      h     h1  anom_obs  anom_prev
+ano                                                    
+2015   6911.0  3.944  3.882  4.018    -0.075     -0.137
+2016   9867.0  4.242  3.868  3.964     0.278     -0.095
+2017   7783.0  3.988  4.061  4.081    -0.093     -0.020
+2018   6364.0  3.802  4.184  4.143    -0.342      0.041
+2019   9721.0  4.220  4.154  4.125     0.094      0.029
+2020   9448.0  4.233  4.188  4.164     0.069      0.025
+2021   9883.0  4.252  4.209  4.200     0.053      0.009
+2022  10786.0  4.309  4.171  4.230     0.079     -0.059
+2023  11871.0  4.390  4.289  4.251     0.139      0.038
+2024   9312.0  4.155  4.321  4.358    -0.204     -0.038
+2025  10396.0  4.335  4.337  4.350    -0.016     -0.013
+
+PREVISAO PRE-REGISTRADA out-dez/2026 (modelo principal ajustado em 2015-2025; 96 municipios)
+  preditores 2026 (medianas entre municipios): F_t +1.03 dp | F_t-1 +0.66 dp | D set/2026 +0.20 (pctl mediano 44)
+  anomalia prevista sobre a tendencia (media de log1p): +0.091; municipios acima da propria tendencia: 97%
+  soma expm1 prevista: ~11,390 focos (so tendencia: ~10,349); observado 2015-2025 out-dez: media 9,304, min 6,364, max 11,871
+  Conferir quando o FIRMS de 2026 sair (arquivo anual ou NRT com MAP_KEY).

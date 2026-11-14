@@ -1,0 +1,13 @@
+acude Sertao Central x grace    CE (ago-dez): rho +0.51 p 0.013 n 23
+acude Sertao Central x residual CE (ago-dez): rho +0.54 p 0.007 n 23
+acude Sertao Central x solo     CE (ago-dez): rho +0.27 p 0.220 n 23
+
+acude 2026 = 0.82% ; percentil na serie 1984-2025 = 32% ; mediana 1.10%
+acude 2025 = 1.12% ; percentil = 53%
+
+GRACE AOI Sertao Central ultimo mes 2026-09-01: cru -16.5 cm; dessaz -8.9 cm; percentil dessaz 11%
+setembros: 2026 = -16.5 cm, posicao 2 de 21
+tendencia linear GRACE AOI: -0.16 cm/ano
+acude(t) x GRACE AOI ago-dez(t-0): rho +0.57 p 0.004 n 24
+acude(t) x GRACE AOI ago-dez(t-1): rho +0.57 p 0.005 n 23
+acude(t) x GRACE AOI ago-dez(t-2): rho +0.50 p 0.018 n 22

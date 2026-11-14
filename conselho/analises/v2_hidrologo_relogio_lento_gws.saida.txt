@@ -1,0 +1,61 @@
+GWS CLSM: 2003-02 -> 2026-08 | chuva IMERG CE mensal: 1998-01 -> 2026-08
+
+========================= (1) GWS = memória de chuva + resíduo =========================
+  CE              n=283 meses | R2 da chuva (5 filtros) 0.70 | R2 deixando o ano de fora 0.55 | dp GWS 5.75 cm, dp resíduo 3.18 cm | autocorr {1: np.float64(0.93), 3: np.float64(0.69), 6: np.float64(0.43), 12: np.float64(0.25), 24: np.float64(0.23)} | e-folding 8 meses
+  Sertão Central  n=283 meses | R2 da chuva (5 filtros) 0.70 | R2 deixando o ano de fora 0.56 | dp GWS 5.19 cm, dp resíduo 2.86 cm | autocorr {1: np.float64(0.92), 3: np.float64(0.67), 6: np.float64(0.4), 12: np.float64(0.22), 24: np.float64(0.24)} | e-folding 7 meses
+  CE: r(GWS, GRACE) = 0.84 | r(parte da chuva, GRACE) = 0.73 | r(resíduo, GRACE) = 0.43 (n=250)
+  CE: r(chuva IMERG filtrada tau 12, GRACE) = 0.71 -> GRACE sem passar pelo CLSM
+
+========================= (2) Buraco GRACE -> GRACE-FO (jul/2017 a mai/2018): o resíduo do CLSM muda? =========================
+  |variação mensal do resíduo| (cm): no buraco 0.95 (n=11) | 2 anos antes e depois 1.09 (n=48) | série toda 1.31
+  |variação mensal do GWS| (cm): no buraco 0.84 | vizinhança 1.22
+  meses com GRACE no buraco (deveria ser 0): 0
+  resíduo e GRACE mês a mês em 2017-2018:
+         2017-03-01  2017-04-01  2017-05-01  2017-06-01  2017-07-01  2017-08-01  2017-09-01  2017-10-01  2017-11-01  2017-12-01  2018-01-01  2018-02-01  2018-03-01  2018-04-01  2018-05-01  2018-06-01  2018-07-01  2018-08-01  2018-09-01
+resíduo        1.29        2.02       -1.38       -1.78       -1.45       -0.49       -0.01        0.41        0.66        1.12        1.92        0.41         4.4        4.06        4.93        2.72        0.50        0.78        1.08
+GRACE         -4.32       -7.49      -15.86       -5.92         NaN         NaN         NaN         NaN         NaN         NaN         NaN         NaN         NaN         NaN         NaN      -10.06       -4.19         NaN         NaN
+
+========================= (3) Teste independente: fração de água dos açudes (Landsat, Sertão Central, ago-dez) =========================
+  anos: 2003-2026 (n=23)
+   rho(água dos açudes, gws_sc    ) = +0.50 (p=0.014)
+   rho(água dos açudes, chuva_sc  ) = +0.50 (p=0.014)
+   rho(água dos açudes, residuo_sc) = +0.04 (p=0.851)
+   rho(água dos açudes, gws_ce    ) = +0.42 (p=0.045)
+   rho(água dos açudes, residuo_ce) = +0.09 (p=0.677)
+   rho(água dos açudes, grace_ce  ) = +0.57 (p=0.005)
+   rho(água dos açudes, tau12     ) = +0.47 (p=0.024)
+   rho(água dos açudes, tau48     ) = +0.55 (p=0.006)
+   rho parcial(água, gws_sc | chuva_sc) = +0.20 (p=0.369)
+   rho parcial(água, residuo_sc | chuva_sc) = +0.17 (p=0.439)
+   rho parcial(água, grace_ce | tau48) = +0.35 (p=0.108)
+   rho parcial(água, gws_sc | tau48) = +0.26 (p=0.243)
+   em diferenças anuais: rho(Δágua, Δgws_sc) = +0.76 (p=0.000, n=22)
+   em diferenças anuais: rho(Δágua, Δchuva_sc) = +0.71 (p=0.000, n=22)
+   em diferenças anuais: rho(Δágua, Δresiduo_sc) = -0.16 (p=0.468, n=22)
+   em diferenças anuais: rho(Δágua, Δgrace_ce) = +0.73 (p=0.000, n=22)
+
+  VIIRS NDVI set-nov (Ceará, 2012-2025) contra o GWS de jul-ago e a chuva filtrada:
+   rho(NDVI set-nov, gws_ja    ) = +0.91 (p=0.000, n=14)
+   rho(NDVI set-nov, chuva_ja  ) = +0.87 (p=0.000, n=14)
+   rho(NDVI set-nov, residuo_ja) = +0.35 (p=0.221, n=14)
+   rho(NDVI set-nov, chuva_fmam) = +0.49 (p=0.078, n=14)
+   rho parcial(NDVI set-nov, GWS jul-ago | chuva fev-mai) = +0.88 (p=0.000)
+   rho parcial(NDVI set-nov, GWS jul-ago | parte da chuva do GWS) = +0.63 (p=0.020)
+   em diferenças anuais: rho(ΔNDVI set-nov, Δgws_ja) = +0.86 (p=0.000, n=13)
+   em diferenças anuais: rho(ΔNDVI set-nov, Δchuva_ja) = +0.73 (p=0.005, n=13)
+   em diferenças anuais: rho(ΔNDVI set-nov, Δresiduo_ja) = +0.47 (p=0.103, n=13)
+   em diferenças anuais: rho(ΔNDVI set-nov, Δchuva_fmam) = +0.64 (p=0.018, n=13)
+
+========================= (4) Os dois relógios hoje (Ceará) =========================
+   o percentil PRONTO do SMAP L4 (sm_rootzone_pctl) vem vazio em que fração dos município-dias, por mês (2015-2026):
+   1: 27% | 2: 0% | 3: 0% | 4: 0% | 5: 0% | 6: 1% | 7: 12% | 8: 36% | 9: 73% | 10: 99% | 11: 100% | 12: 99%
+   sm_rootzone (m3/m3) vazio: 0.0% dos município-dias
+   31/08/2026: percentil pronto (média CE) 44 (58% dos municípios com valor) | percentil próprio do sm_rootzone contra 2015-2025: média 42, municípios abaixo de 20: 23%, posto do CE 6º de 12
+   30/09/2026: percentil pronto (média CE) 44 (13% dos municípios com valor) | percentil próprio do sm_rootzone contra 2015-2025: média 46, municípios abaixo de 20: 20%, posto do CE 6º de 12
+   31/10/2026: percentil pronto (média CE) nan (0% dos municípios com valor) | percentil próprio do sm_rootzone contra 2015-2025: média 46, municípios abaixo de 20: 18%, posto do CE 6º de 12
+   10/11/2026: percentil pronto (média CE) nan (0% dos municípios com valor) | percentil próprio do sm_rootzone contra 2015-2025: média 42, municípios abaixo de 20: 22%, posto do CE 5º de 12
+   GWS CLSM 2026-05: anomalia +1.43 cm | percentil na série 2003-2026 70 | parte da chuva +1.52 | resíduo -0.09
+   GWS CLSM 2026-06: anomalia +1.26 cm | percentil na série 2003-2026 67 | parte da chuva +1.62 | resíduo -0.36
+   GWS CLSM 2026-07: anomalia +1.67 cm | percentil na série 2003-2026 71 | parte da chuva +1.66 | resíduo +0.01
+   GWS CLSM 2026-08: anomalia +1.87 cm | percentil na série 2003-2026 72 | parte da chuva +1.44 | resíduo +0.43
+   chuva IMERG CE dos últimos 12 meses até ago/2026: 891 mm | mediana 1998-2025 de set-ago: 800 mm

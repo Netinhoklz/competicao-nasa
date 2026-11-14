@@ -1,0 +1,104 @@
+
+===================== [19/mar] milho 2016-2025: n = 1820 municipio-anos, 268 quebras; dias SMAP por janela: [np.int64(7)]
+  A/B. contagens e o que elas medem dentro do ano
+   chuva desde 1/jan < 75%  pooled: acende 11.8% | P(q|luz) 0.10 | P(q|sem) 0.15
+      2016: 6/127 com 7 luzes (1 de 55 sem quebra) | acaso 4.9 | p 0.320 | taxa luz|quebra 5% x luz|sem 2%
+      2021: 7/7 com 100 luzes (93 de 175 sem quebra) | acaso 3.8 | p 0.014 | taxa luz|quebra 100% x luz|sem 53%
+      2025: 0/45 com 0 luzes (0 de 137 sem quebra) | acaso 0.0 | p nan | taxa luz|quebra 0% x luz|sem 0%
+   SMAP dia < 20            pooled: acende  7.1% | P(q|luz) 0.35 | P(q|sem) 0.13
+      2016: 32/127 com 38 luzes (6 de 55 sem quebra) | acaso 26.5 | p 0.021 | taxa luz|quebra 25% x luz|sem 11%
+      2021: 1/7 com 24 luzes (23 de 175 sem quebra) | acaso 0.9 | p 0.635 | taxa luz|quebra 14% x luz|sem 13%
+      2025: 2/45 com 5 luzes (3 de 137 sem quebra) | acaso 1.2 | p 0.361 | taxa luz|quebra 4% x luz|sem 2%
+   SMAP 7d < 20             pooled: acende  6.8% | P(q|luz) 0.50 | P(q|sem) 0.12
+      2016: 47/127 com 56 luzes (9 de 55 sem quebra) | acaso 39.1 | p 0.004 | taxa luz|quebra 37% x luz|sem 16%
+      2021: 1/7 com 26 luzes (25 de 175 sem quebra) | acaso 1.0 | p 0.667 | taxa luz|quebra 14% x luz|sem 14%
+      2025: 5/45 com 12 luzes (7 de 137 sem quebra) | acaso 3.0 | p 0.145 | taxa luz|quebra 11% x luz|sem 5%
+   IMERG API tau13 < 75%    pooled: acende 25.5% | P(q|luz) 0.20 | P(q|sem) 0.13
+      2016: 75/127 com 99 luzes (24 de 55 sem quebra) | acaso 69.1 | p 0.040 | taxa luz|quebra 59% x luz|sem 44%
+      2021: 5/7 com 122 luzes (117 de 175 sem quebra) | acaso 4.7 | p 0.579 | taxa luz|quebra 71% x luz|sem 67%
+      2025: 1/45 com 4 luzes (3 de 137 sem quebra) | acaso 1.0 | p 0.682 | taxa luz|quebra 2% x luz|sem 2%
+   IMERG 30 d < 75%         pooled: acende 31.6% | P(q|luz) 0.26 | P(q|sem) 0.09
+      2016: 122/127 com 175 luzes (53 de 55 sem quebra) | acaso 122.1 | p 0.680 | taxa luz|quebra 96% x luz|sem 96%
+      2021: 6/7 com 124 luzes (118 de 175 sem quebra) | acaso 4.8 | p 0.286 | taxa luz|quebra 86% x luz|sem 67%
+      2025: 7/45 com 24 luzes (17 de 137 sem quebra) | acaso 5.9 | p 0.376 | taxa luz|quebra 16% x luz|sem 12%
+  AUC (pooled 2016-2025 | dentro de 2016 | dentro de 2025), escore = -variavel:
+   chuva desde 1/jan  0.547 | 0.606 | 0.552
+   SMAP dia           0.593 | 0.579 | 0.585
+   SMAP 7d            0.682 | 0.654 | 0.602
+   API tau13          0.607 | 0.579 | 0.576
+   IMERG 30 d         0.672 | 0.592 | 0.611
+  E. mesmo orcamento de alarmes (chuva desde 1/jan com limiar casado na taxa da luz SMAP 7d < 20)
+   casado com SMAP 7d: chuva <= 0.69 do normal acende 6.8% | P(q|luz) 0.09 | P(q|sem) 0.15 | recall 4.1% | 2016 0/127 (luzes 0) | 2021 luzes 76 | 2025 0/45 (luzes 0)
+   casado com SMAP dia: chuva <= 0.69 do normal acende 7.1% | P(q|luz) 0.08 | P(q|sem) 0.15 | recall 4.1% | 2016 0/127 (luzes 0) | 2021 luzes 79 | 2025 0/45 (luzes 0)
+   dentro de 2016, as 56 cidades com menos chuva desde 1/jan: 43 quebras (SMAP 7d com as mesmas 56 luzes: 47)
+   dentro de 2016, as 38 cidades com menos chuva desde 1/jan: 30 quebras (SMAP dia com as mesmas 38 luzes: 32)
+  D. nivel do ano: fracao de municipios com luz x fracao em quebra
+      quebra  chuva  smap7d  smapdia   api   c30
+ano                                             
+2016    0.70   0.04    0.31     0.21  0.54  0.96
+2017    0.17   0.00    0.00     0.00  0.00  0.01
+2018    0.04   0.12    0.03     0.13  0.95  0.71
+2019    0.07   0.10    0.13     0.21  0.22  0.25
+2020    0.01   0.00    0.00     0.00  0.00  0.00
+2021    0.04   0.55    0.14     0.13  0.67  0.68
+2022    0.02   0.18    0.00     0.00  0.04  0.29
+2023    0.11   0.20    0.00     0.00  0.02  0.13
+2024    0.08   0.00    0.00     0.00  0.09  0.00
+2025    0.25   0.00    0.07     0.03  0.02  0.13
+   Spearman(fracao com luz chuva, fracao em quebra) = -0.30 (n = 10)
+   Spearman(fracao com luz smap7d, fracao em quebra) = +0.32 (n = 10)
+   Spearman(fracao com luz smapdia, fracao em quebra) = +0.21 (n = 10)
+   Spearman(fracao com luz api, fracao em quebra) = -0.05 (n = 10)
+   Spearman(fracao com luz c30, fracao em quebra) = +0.09 (n = 10)
+
+===================== [30/abr] milho 2016-2025: n = 1820 municipio-anos, 268 quebras; dias SMAP por janela: [np.int64(7)]
+  A/B. contagens e o que elas medem dentro do ano
+   chuva desde 1/jan < 75%  pooled: acende  7.7% | P(q|luz) 0.11 | P(q|sem) 0.15
+      2016: 9/127 com 14 luzes (5 de 55 sem quebra) | acaso 9.8 | p 0.783 | taxa luz|quebra 7% x luz|sem 9%
+      2021: 6/7 com 107 luzes (101 de 175 sem quebra) | acaso 4.1 | p 0.138 | taxa luz|quebra 86% x luz|sem 58%
+      2025: 1/45 com 7 luzes (6 de 137 sem quebra) | acaso 1.7 | p 0.868 | taxa luz|quebra 2% x luz|sem 4%
+   SMAP dia < 20            pooled: acende 17.3% | P(q|luz) 0.43 | P(q|sem) 0.09
+      2016: 90/127 com 128 luzes (38 de 55 sem quebra) | acaso 89.3 | p 0.471 | taxa luz|quebra 71% x luz|sem 69%
+      2021: 3/7 com 86 luzes (83 de 175 sem quebra) | acaso 3.3 | p 0.730 | taxa luz|quebra 43% x luz|sem 47%
+      2025: 30/45 com 65 luzes (35 de 137 sem quebra) | acaso 16.1 | p 0.000 | taxa luz|quebra 67% x luz|sem 26%
+   SMAP 7d < 20             pooled: acende 13.3% | P(q|luz) 0.40 | P(q|sem) 0.11
+      2016: 64/127 com 91 luzes (27 de 55 sem quebra) | acaso 63.5 | p 0.500 | taxa luz|quebra 50% x luz|sem 49%
+      2021: 3/7 com 81 luzes (78 de 175 sem quebra) | acaso 3.1 | p 0.678 | taxa luz|quebra 43% x luz|sem 45%
+      2025: 21/45 com 46 luzes (25 de 137 sem quebra) | acaso 11.4 | p 0.000 | taxa luz|quebra 47% x luz|sem 18%
+   IMERG API tau13 < 75%    pooled: acende 35.4% | P(q|luz) 0.32 | P(q|sem) 0.05
+      2016: 126/127 com 181 luzes (55 de 55 sem quebra) | acaso 126.3 | p 1.000 | taxa luz|quebra 99% x luz|sem 100%
+      2021: 4/7 com 101 luzes (97 de 175 sem quebra) | acaso 3.9 | p 0.621 | taxa luz|quebra 57% x luz|sem 55%
+      2025: 40/45 com 123 luzes (83 de 137 sem quebra) | acaso 30.4 | p 0.000 | taxa luz|quebra 89% x luz|sem 61%
+   IMERG 30 d < 75%         pooled: acende 23.8% | P(q|luz) 0.35 | P(q|sem) 0.09
+      2016: 80/127 com 111 luzes (31 de 55 sem quebra) | acaso 77.5 | p 0.249 | taxa luz|quebra 63% x luz|sem 56%
+      2021: 4/7 com 112 luzes (108 de 175 sem quebra) | acaso 4.3 | p 0.743 | taxa luz|quebra 57% x luz|sem 62%
+      2025: 35/45 com 86 luzes (51 de 137 sem quebra) | acaso 21.3 | p 0.000 | taxa luz|quebra 78% x luz|sem 37%
+  AUC (pooled 2016-2025 | dentro de 2016 | dentro de 2025), escore = -variavel:
+   chuva desde 1/jan  0.662 | 0.530 | 0.626
+   SMAP dia           0.772 | 0.530 | 0.799
+   SMAP 7d            0.772 | 0.525 | 0.775
+   API tau13          0.801 | 0.572 | 0.712
+   IMERG 30 d         0.747 | 0.581 | 0.771
+  E. mesmo orcamento de alarmes (chuva desde 1/jan com limiar casado na taxa da luz SMAP 7d < 20)
+   casado com SMAP 7d: chuva <= 0.79 do normal acende 13.3% | P(q|luz) 0.16 | P(q|sem) 0.15 | recall 14.6% | 2016 25/127 (luzes 34) | 2021 luzes 113 | 2025 5/45 (luzes 26)
+   casado com SMAP dia: chuva <= 0.81 do normal acende 17.3% | P(q|luz) 0.20 | P(q|sem) 0.14 | recall 23.1% | 2016 40/127 (luzes 52) | 2021 luzes 115 | 2025 11/45 (luzes 42)
+   dentro de 2016, as 91 cidades com menos chuva desde 1/jan: 66 quebras (SMAP 7d com as mesmas 91 luzes: 64)
+   dentro de 2016, as 128 cidades com menos chuva desde 1/jan: 89 quebras (SMAP dia com as mesmas 128 luzes: 90)
+  D. nivel do ano: fracao de municipios com luz x fracao em quebra
+      quebra  chuva  smap7d  smapdia   api   c30
+ano                                             
+2016    0.70   0.08    0.50     0.70  0.99  0.61
+2017    0.17   0.01    0.13     0.19  0.58  0.43
+2018    0.04   0.00    0.00     0.00  0.20  0.01
+2019    0.07   0.00    0.00     0.00  0.04  0.02
+2020    0.01   0.00    0.00     0.00  0.00  0.00
+2021    0.04   0.59    0.45     0.47  0.55  0.62
+2022    0.02   0.03    0.00     0.00  0.04  0.00
+2023    0.11   0.02    0.00     0.00  0.23  0.16
+2024    0.08   0.01    0.01     0.01  0.22  0.07
+2025    0.25   0.04    0.25     0.36  0.68  0.47
+   Spearman(fracao com luz chuva, fracao em quebra) = +0.41 (n = 10)
+   Spearman(fracao com luz smap7d, fracao em quebra) = +0.63 (n = 10)
+   Spearman(fracao com luz smapdia, fracao em quebra) = +0.63 (n = 10)
+   Spearman(fracao com luz api, fracao em quebra) = +0.87 (n = 10)
+   Spearman(fracao com luz c30, fracao em quebra) = +0.70 (n = 10)

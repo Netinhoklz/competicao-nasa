@@ -1,0 +1,102 @@
+PAM milho: anos 1998 - 2025 | mun-anos 5106
+SMAP: 4399 pixels no recorte; 184 municipios com pixel proprio, 0 pelo vizinho
+
+================== Portao 19/mar | quadras 2016-2025 | n = 1820 municipio-anos | taxa de quebra 14.7% ==================
+  AUC agrupada  SMAP pctl: 0.593 IC90 [0.39,0.71] | chuva IMERG %normal: 0.547 IC90 [0.40,0.67]
+  diferenca pareada SMAP - chuva: +0.046  IC90 por ano [-0.059,+0.118]  P(SMAP > chuva) no bootstrap = 0.76
+  AUC DENTRO do ano  SMAP: 0.531 | chuva: 0.548
+  ENTRE anos (n = 10): Spearman(fracao em quebra, SMAP medio) = +0.09 (p 0.815); (fracao em quebra, chuva mediana) = +0.03 (p 0.934)
+  Regra             | acende  | P(quebra|alerta) | P(quebra|sem) | recall | 2016 recall | 2025 recall
+  chuva <75%        |  11.8% |             0.10 |          0.15 |   7.8% |        4.7% |        0.0%   (n alerta = 214)
+  SMAP pctl <20     |   7.1% |             0.35 |          0.13 |  16.8% |       25.2% |        4.4%   (n alerta = 130)
+  dois relogios (OU) |  15.6% |             0.19 |          0.14 |  20.5% |       26.8% |        4.4%   (n alerta = 284)
+  Contagens por ano (quebras | alertas e acertos de cada regra):
+    2016: quebras 127 de 182 | chuva:   7 alertas,   6 acertos | SMAP:  38 alertas,  32 acertos
+    2017: quebras  31 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2018: quebras   7 de 182 | chuva:  21 alertas,   6 acertos | SMAP:  24 alertas,   5 acertos
+    2019: quebras  12 de 182 | chuva:  18 alertas,   1 acertos | SMAP:  39 alertas,   5 acertos
+    2020: quebras   2 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2021: quebras   7 de 182 | chuva: 100 alertas,   7 acertos | SMAP:  24 alertas,   1 acertos
+    2022: quebras   3 de 182 | chuva:  32 alertas,   1 acertos | SMAP:   0 alertas,   0 acertos
+    2023: quebras  20 de 182 | chuva:  36 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2024: quebras  14 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2025: quebras  45 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   5 alertas,   2 acertos
+  Por ano: fracao em quebra | SMAP pctl medio dos municipios | % mun com SMAP<20 | chuva mediana %normal | % mun com chuva<75%
+        fq   smap  smap20  chuva  ch75
+ano                                   
+2016  0.70  35.40    0.21   0.91  0.04
+2017  0.17  69.22    0.00   1.14  0.00
+2018  0.04  33.43    0.13   0.95  0.12
+2019  0.07  57.20    0.21   1.33  0.10
+2020  0.01  77.45    0.00   1.45  0.00
+2021  0.04  31.34    0.13   0.72  0.55
+2022  0.02  47.61    0.00   0.85  0.18
+2023  0.11  57.10    0.00   0.89  0.20
+2024  0.08  62.73    0.00   1.06  0.00
+2025  0.25  65.19    0.03   1.23  0.00
+  Diagnostico sem 2016: AUC SMAP 0.444 | chuva 0.455  (n = 1638)
+  Diagnostico chuva IMERG dos ultimos 60 dias (% normal): AUC 0.654 | dentro do ano 0.552 | 2016: mediana 0.75, % mun < 75% = 49% | Spearman SMAP x chuva60 = +0.77
+  Quixada (2311306) no portao 19/mar:
+ ano  smap_pctl  pct_chuva  razao  quebra
+2016  27.900000       0.88   0.12     1.0
+2017  91.010002       1.25   2.07     0.0
+2018  15.420000       0.68   1.86     0.0
+2019  80.370003       1.50   2.07     0.0
+2020  81.410004       1.39   1.78     0.0
+2021  36.549999       0.72   0.80     0.0
+2022  53.549999       0.98   1.03     0.0
+2023  85.489998       1.19   0.36     1.0
+2024  73.050003       1.17   0.46     1.0
+2025  72.290001       1.44   0.30     1.0
+2026  45.790001        NaN    NaN     NaN
+
+================== Portao 30/abr | quadras 2016-2025 | n = 1820 municipio-anos | taxa de quebra 14.7% ==================
+  AUC agrupada  SMAP pctl: 0.772 IC90 [0.52,0.84] | chuva IMERG %normal: 0.662 IC90 [0.52,0.75]
+  diferenca pareada SMAP - chuva: +0.110  IC90 por ano [-0.010,+0.173]  P(SMAP > chuva) no bootstrap = 0.93
+  AUC DENTRO do ano  SMAP: 0.562 | chuva: 0.529
+  ENTRE anos (n = 10): Spearman(fracao em quebra, SMAP medio) = -0.67 (p 0.035); (fracao em quebra, chuva mediana) = -0.43 (p 0.220)
+  Regra             | acende  | P(quebra|alerta) | P(quebra|sem) | recall | 2016 recall | 2025 recall
+  chuva <75%        |   7.7% |             0.11 |          0.15 |   6.0% |        7.1% |        2.2%   (n alerta = 141)
+  SMAP pctl <20     |  17.3% |             0.43 |          0.09 |  50.4% |       70.9% |       66.7%   (n alerta = 314)
+  dois relogios (OU) |  19.5% |             0.39 |          0.09 |  51.9% |       70.9% |       68.9%   (n alerta = 355)
+  Contagens por ano (quebras | alertas e acertos de cada regra):
+    2016: quebras 127 de 182 | chuva:  14 alertas,   9 acertos | SMAP: 128 alertas,  90 acertos
+    2017: quebras  31 de 182 | chuva:   2 alertas,   0 acertos | SMAP:  34 alertas,  12 acertos
+    2018: quebras   7 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2019: quebras  12 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2020: quebras   2 de 182 | chuva:   0 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2021: quebras   7 de 182 | chuva: 107 alertas,   6 acertos | SMAP:  86 alertas,   3 acertos
+    2022: quebras   3 de 182 | chuva:   6 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2023: quebras  20 de 182 | chuva:   4 alertas,   0 acertos | SMAP:   0 alertas,   0 acertos
+    2024: quebras  14 de 182 | chuva:   1 alertas,   0 acertos | SMAP:   1 alertas,   0 acertos
+    2025: quebras  45 de 182 | chuva:   7 alertas,   1 acertos | SMAP:  65 alertas,  30 acertos
+  Por ano: fracao em quebra | SMAP pctl medio dos municipios | % mun com SMAP<20 | chuva mediana %normal | % mun com chuva<75%
+        fq   smap  smap20  chuva  ch75
+ano                                   
+2016  0.70  15.64    0.70   0.86  0.08
+2017  0.17  38.01    0.19   0.96  0.01
+2018  0.04  58.03    0.00   1.07  0.00
+2019  0.07  68.77    0.00   1.28  0.00
+2020  0.01  69.04    0.00   1.28  0.00
+2021  0.04  33.39    0.47   0.70  0.59
+2022  0.02  49.67    0.00   0.94  0.03
+2023  0.11  53.21    0.00   0.88  0.02
+2024  0.08  56.88    0.01   1.00  0.01
+2025  0.25  29.64    0.36   0.89  0.04
+  Diagnostico sem 2016: AUC SMAP 0.652 | chuva 0.602  (n = 1638)
+  Diagnostico chuva IMERG dos ultimos 60 dias (% normal): AUC 0.712 | dentro do ano 0.550 | 2016: mediana 0.77, % mun < 75% = 38% | Spearman SMAP x chuva60 = +0.85
+  Quixada (2311306) no portao 30/abr:
+ ano  smap_pctl  pct_chuva  razao  quebra
+2016  20.100000       0.78   0.12     1.0
+2017  52.990002       1.02   2.07     0.0
+2018  91.730003       1.11   1.86     0.0
+2019  48.070000       1.19   2.07     0.0
+2020  49.630001       1.10   1.78     0.0
+2021  29.700001       0.69   0.80     0.0
+2022  53.830002       0.98   1.03     0.0
+2023  65.980003       1.04   0.36     1.0
+2024  69.610001       1.05   0.46     1.0
+2025  20.299999       0.93   0.30     1.0
+2026  39.230000        NaN    NaN     NaN
+
+Leitura: so 10 quadras (2016-2025) e ~3 anos de seca; toda diferenca entre fontes e exploratoria (grau B/C).

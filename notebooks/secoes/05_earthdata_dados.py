@@ -83,8 +83,35 @@ def tendencia(s, rotulo):
 #   cada ponto. O L3 tem buracos por órbita e qualidade; o L4 é um produto modelado contínuo.
 
 # %%
+amostra = DADOS / "smap" / "smap_global_amostra_2025-04-15.nc"
 pts = sorted((APP / "smap_global_pontos_2020").glob("*results.csv")) if (APP / "smap_global_pontos_2020").exists() else []
-if pts:
+if amostra.exists():
+    from comum import paises_gdf, terra_gdf
+    ga = xr.open_dataset(amostra)
+    terra = terra_gdf().union_all()
+    eh_terra = shapely.contains_xy(terra, ga.lon.values, ga.lat.values)
+    faixa = np.abs(ga.lat.values) <= 60
+    linhas = []
+    for v, rot in [("l4_sm_rootzone", "L4 zona da raiz"), ("l3_am", "L3 AM (1 passagem)"), ("l3_pm", "L3 PM (1 passagem)")]:
+        ok = np.isfinite(ga[v].values)
+        linhas.append({"produto": rot, "% das células de terra com valor": round(100 * ok[eh_terra].mean(), 1),
+                       "% terra entre 60°S e 60°N": round(100 * ok[eh_terra & faixa].mean(), 1),
+                       "% no oceano (deve ser ~0)": round(100 * ok[~eh_terra].mean(), 2)})
+    print(f"Amostra global de {ga.attrs.get('dia')} (1 a cada 8 células da grade de 9 km)")
+    display(pd.DataFrame(linhas))
+    fig, axs = plt.subplots(1, 2, figsize=(15, 3.8))
+    for ax, v, rot in [(axs[0], "l4_sm_rootzone", "SMAP L4 zona da raiz"), (axs[1], "l3_am", "SMAP L3 AM — uma passagem")]:
+        paises_gdf().boundary.plot(ax=ax, color="lightgray", lw=0.3)
+        m = np.isfinite(ga[v].values)
+        sc = ax.scatter(ga.lon.values[m], ga.lat.values[m], c=ga[v].values[m], s=0.3, cmap="YlGnBu", vmin=0, vmax=0.5)
+        ax.set_title(f"{rot} ({ga.attrs.get('dia')})")
+        ax.set_xlim(-180, 180)
+        ax.set_ylim(-90, 90)
+    plt.colorbar(sc, ax=axs, label="m³/m³", shrink=0.8)
+    plt.show()
+    print("Leitura: o L4 (modelo + assimilação) cobre toda a terra sem gelo; o L3 cobre faixas de órbita por passagem e"
+          " fecha o globo em ~2–3 dias. Nenhum dos dois põe valor no oceano.")
+elif pts:
     P = pd.read_csv(pts[0])
     col_l3 = next((c for c in P.columns if "AM_soil_moisture" in c and "qual" not in c.lower()), None)
     col_l4 = next((c for c in P.columns if "sm_rootzone" in c and "pctl" not in c), None)
@@ -113,7 +140,8 @@ else:
 #   zona da raiz**, que é um índice de seca pronto: abaixo de 20 = seco para a época.
 
 # %%
-l4 = abrir_appeears("smap_l4_ceara", "SPL4SMGP")
+l4_f = DADOS / "smap" / "smap_l4_diario_ne.nc"
+l4 = xr.open_dataset(l4_f) if l4_f.exists() else abrir_appeears("smap_l4_ceara", "SPL4SMGP")
 if l4 is not None:
     vz, vs, vp = var(l4, "sm_rootzone"), var(l4, "sm_surface"), var(l4, "rootzone_pctl")
     if vp and vz == vp:
@@ -163,11 +191,15 @@ else:
 #   Concordância com o L4, que é modelo + assimilação do L3.
 
 # %%
-l3 = abrir_appeears("smap_l3_ceara", "SPL3SMP_E")
+l3_f = DADOS / "smap" / "smap_l3_diario_ne.nc"
+l3 = xr.open_dataset(l3_f) if l3_f.exists() else abrir_appeears("smap_l3_ceara", "SPL3SMP_E")
 if l3 is not None:
-    vam, vqa = var(l3, "AM_soil_moisture"), var(l3, "AM_retrieval_qual_flag")
-    if vam and "qual" in vam.lower():
-        vam = next(v for v in l3.data_vars if v.endswith("AM_soil_moisture"))
+    if "sm_am" in l3:
+        vam, vqa = "sm_am", "qual_am"
+    else:
+        vam, vqa = var(l3, "AM_soil_moisture"), var(l3, "AM_retrieval_qual_flag")
+        if vam and "qual" in vam.lower():
+            vam = next(v for v in l3.data_vars if v.endswith("AM_soil_moisture"))
     sm = l3[vam].where((l3[vam] > 0) & (l3[vam] < 1))
     m = mascara(l3, CE)
     valido = sm.where(m).notnull().sum(("lat", "lon")) / m.sum()
@@ -258,7 +290,10 @@ if gc_f.exists():
         a.set_title(nome)
     plt.tight_layout()
     plt.show()
-    display(pd.DataFrame([l for l in linhas if l]))
+    print("Concordância CLSM × GRACE (anomalia de armazenamento total):")
+    display(pd.DataFrame([l for l in linhas if l and "região" in l]))
+    print("Tendência da água subterrânea (CLSM), teste sazonal de Mann-Kendall:")
+    display(pd.DataFrame([l for l in linhas if l and "série" in l]))
     tr = mens.GWS_tavg.groupby("time.year").mean()
     anos = tr.year.values
     incl = xr.apply_ufunc(lambda y: np.polyfit(anos, y, 1)[0] if np.isfinite(y).all() else np.nan, tr,
@@ -306,10 +341,11 @@ else:
 # Comparamos as duas séries do Ceará no período comum para saber se dá para emendar uma na outra.
 
 # %%
-vi = abrir_appeears("viirs_vnp13a3_ceara", "VNP13A3")
+vi_f = DADOS / "viirs" / "vnp13a3_ndvi_evi_ceara_001deg.nc"
+vi = xr.open_dataset(vi_f) if vi_f.exists() else abrir_appeears("viirs_vnp13a3_ceara", "VNP13A3")
 if vi is not None:
-    vn = var(vi, "NDVI")
-    vr = var(vi, "pixel_reliability")
+    vn = "ndvi" if "ndvi" in vi else var(vi, "NDVI")
+    vr = None if "ndvi" in vi else var(vi, "pixel_reliability")  # consolidado já filtrou confiabilidade 0–1
     nd = vi[vn]
     if vr:
         nd = nd.where(vi[vr] <= 1)  # 0 = boa, 1 = marginal

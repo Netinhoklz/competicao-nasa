@@ -1,0 +1,60 @@
+Municípios analisados: 184 (de 184)
+       n_efetivo_culturas  frac_milho_feijao  perda_base  perda_seca  aumento_perda  anom_chuva_seca
+count             184.000            184.000     184.000     184.000        184.000          184.000
+mean                2.938              0.814       0.008       0.011          0.003           -0.329
+std                 0.760              0.171       0.016       0.032          0.035            0.085
+min                 1.852              0.239       0.000       0.000         -0.105           -0.484
+25%                 2.340              0.705       0.000       0.000         -0.005           -0.390
+50%                 2.809              0.868       0.000       0.000          0.000           -0.355
+75%                 3.302              0.953       0.011       0.002          0.001           -0.302
+max                 5.997              0.997       0.105       0.280          0.280           -0.111
+
+Spearman (nº efetivo de culturas × aumento da perda na seca): rho = +0.109, p = 0.1421
+Spearman (fração milho+feijão × aumento da perda na seca): rho = -0.103, p = 0.1621
+
+>>> A perda por ÁREA (plantada - colhida) é ~0 na maioria dos municípios: após 2000 o IBGE registra a seca como queda de RENDIMENTO, não de área. A métrica de área é inadequada; os testes válidos estão no bloco de RENDIMENTO abaixo.
+
+Regressão (variáveis padronizadas, erro robusto HC3): aumento da perda na seca ~ diversidade + chuva + controles
+                     Coef.  Std.Err.       z   P>|z|  [0.025  0.975]
+const               0.0031    0.0024  1.3018  0.1930 -0.0016  0.0078
+n_efetivo_culturas  0.0018    0.0031  0.5857  0.5581 -0.0042  0.0078
+anom_chuva_seca    -0.0053    0.0021 -2.5382  0.0111 -0.0094 -0.0012
+chuva_clim_mm      -0.0062    0.0029 -2.0947  0.0362 -0.0119 -0.0004
+perda_base         -0.0125    0.0029 -4.3730  0.0000 -0.0182 -0.0069
+log_area           -0.0053    0.0030 -1.8074  0.0707 -0.0111  0.0005
+R² = 0.184, n = 184
+
+Efeito estimado de ir do 1º ao 3º quartil de diversidade (2.34 → 3.30 culturas efetivas): +0.2 pontos percentuais no aumento da perda de área na seca (aumento médio = 0.3 p.p.)
+Placebo (sem seca: 2008–11 vs 2004–07): rho = +0.082, p = 0.2693
+
+================ RENDIMENTO ================
+
+--- R1_rend_rel_portfolio: média 0.585 (1 = sem perda), n = 184
+   Spearman n_efetivo_culturas   × R1_rend_rel_portfolio: rho = +0.491, p = 0.0000
+   Spearman n_efetivo_c_perm     × R1_rend_rel_portfolio: rho = +0.386, p = 0.0000
+   Spearman frac_milho_feijao    × R1_rend_rel_portfolio: rho = -0.520, p = 0.0000
+   OLS R1_rend_rel_portfolio ~ n_efetivo_culturas + chuva + controles: beta_pad = +0.0700 (EP 0.0124, p = 0.0000); chuva beta_pad = +0.0683; R² = 0.386; Q1→Q3 de diversidade = +8.9 p.p. de rendimento relativo
+   OLS R1_rend_rel_portfolio ~ n_efetivo_c_perm + chuva + controles: beta_pad = +0.0619 (EP 0.0149, p = 0.0000); chuva beta_pad = +0.0722; R² = 0.347; Q1→Q3 de diversidade = +8.0 p.p. de rendimento relativo
+
+--- R2_rend_rel_milho: média 0.502 (1 = sem perda), n = 183
+   Spearman n_efetivo_culturas   × R2_rend_rel_milho: rho = +0.284, p = 0.0001
+   Spearman n_efetivo_c_perm     × R2_rend_rel_milho: rho = +0.292, p = 0.0001
+   Spearman frac_milho_feijao    × R2_rend_rel_milho: rho = -0.256, p = 0.0005
+   OLS R2_rend_rel_milho ~ n_efetivo_culturas + chuva + controles: beta_pad = +0.0593 (EP 0.0347, p = 0.0869); chuva beta_pad = +0.0939; R² = 0.278; Q1→Q3 de diversidade = +7.4 p.p. de rendimento relativo
+   OLS R2_rend_rel_milho ~ n_efetivo_c_perm + chuva + controles: beta_pad = +0.0760 (EP 0.0327, p = 0.0203); chuva beta_pad = +0.0976; R² = 0.310; Q1→Q3 de diversidade = +9.9 p.p. de rendimento relativo
+
+--- R3_rend_rel_feijao: média 0.610 (1 = sem perda), n = 184
+   Spearman n_efetivo_culturas   × R3_rend_rel_feijao: rho = +0.246, p = 0.0008
+   Spearman n_efetivo_c_perm     × R3_rend_rel_feijao: rho = +0.264, p = 0.0003
+   Spearman frac_milho_feijao    × R3_rend_rel_feijao: rho = -0.264, p = 0.0003
+   OLS R3_rend_rel_feijao ~ n_efetivo_culturas + chuva + controles: beta_pad = +0.0261 (EP 0.0143, p = 0.0686); chuva beta_pad = +0.0693; R² = 0.201; Q1→Q3 de diversidade = +3.3 p.p. de rendimento relativo
+   OLS R3_rend_rel_feijao ~ n_efetivo_c_perm + chuva + controles: beta_pad = +0.0385 (EP 0.0146, p = 0.0084); chuva beta_pad = +0.0710; R² = 0.218; Q1→Q3 de diversidade = +5.0 p.p. de rendimento relativo
+
+================ ROBUSTEZ: mesorregião (efeito fixo) + altitude e declividade ================
+municípios por mesorregião: Noroeste Cearense 47, Norte Cearense 36, Sertões Cearenses 30, Sul Cearense 25, Jaguaribe 21, Centro-Sul Cearense 14, Metropolitana de Fortaleza 11
+   R1_rend_rel_portfolio ~ n_efetivo_culturas + chuva + relevo + EF mesorregião: beta_pad = +0.0520 (EP 0.0169, p = 0.0021); Q1→Q3 = +6.6 p.p.; R² = 0.423; n = 184
+   R1_rend_rel_portfolio ~ n_efetivo_c_perm + chuva + relevo + EF mesorregião: beta_pad = +0.0482 (EP 0.0221, p = 0.0293); Q1→Q3 = +6.2 p.p.; R² = 0.408; n = 184
+   R2_rend_rel_milho ~ n_efetivo_culturas + chuva + relevo + EF mesorregião: beta_pad = +0.0526 (EP 0.0480, p = 0.2731); Q1→Q3 = +6.6 p.p.; R² = 0.340; n = 183
+   R2_rend_rel_milho ~ n_efetivo_c_perm + chuva + relevo + EF mesorregião: beta_pad = +0.0719 (EP 0.0543, p = 0.1856); Q1→Q3 = +9.3 p.p.; R² = 0.362; n = 183
+   R3_rend_rel_feijao ~ n_efetivo_culturas + chuva + relevo + EF mesorregião: beta_pad = +0.0092 (EP 0.0164, p = 0.5741); Q1→Q3 = +1.2 p.p.; R² = 0.268; n = 184
+   R3_rend_rel_feijao ~ n_efetivo_c_perm + chuva + relevo + EF mesorregião: beta_pad = +0.0282 (EP 0.0180, p = 0.1175); Q1→Q3 = +3.6 p.p.; R² = 0.279; n = 184

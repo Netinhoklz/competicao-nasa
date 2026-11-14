@@ -1,0 +1,123 @@
+[SMAP L4 recorte CE] 1.5s
+municipios: 184; com centro de celula SMAP: 184; via celula mais proxima: 0
+
+==================== A. TESTE CENTRAL 2016-2025 (10 anos): chuva x chuva + SMAP ====================
+
+--- milho | 31/jan | n = 1820 mun-anos, 182 municipios | taxa 0.147
+    quebras/ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    AUC crua (sem ajuste): s_chuva 0.271 | s_seco_p 0.230 | s_seco_a 0.245
+    escore de ordem LOYO: R AUC 0.435 dentro 0.475 | S_p AUC 0.417 dentro 0.520 | R+S_p AUC 0.442 dentro 0.519 | R+S_a AUC 0.501 dentro 0.500 | z:R+S_p AUC 0.247 dentro 0.488 | z:R+S_a AUC 0.253 dentro 0.513 | z:R AUC 0.271 dentro 0.525
+    probabilidade LOYO (operacional): R BSS +0.037 | S_p BSS +0.038 | R+S_p BSS +0.024 | R+S_a BSS +0.049
+    R+S_p    - R   : dAUC +0.007 IC90 [-0.039,+0.091] P(>0) 0.66 | d AUC dentro do ano +0.045 [+0.006,+0.098] | anos com AUC-dentro melhor: 7/9
+    R+S_a    - R   : dAUC +0.066 IC90 [-0.011,+0.130] P(>0) 0.90 | d AUC dentro do ano +0.026 [-0.025,+0.088] | anos com AUC-dentro melhor: 6/9
+    z:R+S_p  - z:R : dAUC -0.024 IC90 [-0.064,-0.011] P(>0) 0.00 | d AUC dentro do ano -0.037 [-0.098,+0.004] | anos com AUC-dentro melhor: 3/9
+    z:R+S_a  - z:R : dAUC -0.019 IC90 [-0.049,-0.006] P(>0) 0.01 | d AUC dentro do ano -0.013 [-0.069,+0.024] | anos com AUC-dentro melhor: 5/9
+    dBrier operacional (R+S_p - R): +0.0016
+
+--- milho | 19/mar | n = 1820 mun-anos, 182 municipios | taxa 0.147
+    quebras/ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    AUC crua (sem ajuste): s_chuva 0.547 | s_seco_p 0.682 | s_seco_a 0.679
+    escore de ordem LOYO: R AUC 0.656 dentro 0.496 | S_p AUC 0.676 dentro 0.496 | R+S_p AUC 0.635 dentro 0.561 | R+S_a AUC 0.353 dentro 0.644 | z:R+S_p AUC 0.631 dentro 0.563 | z:R+S_a AUC 0.628 dentro 0.577 | z:R AUC 0.547 dentro 0.548
+    probabilidade LOYO (operacional): R BSS -0.028 | S_p BSS -0.051 | R+S_p BSS -0.019 | R+S_a BSS +0.001
+    R+S_p    - R   : dAUC -0.021 IC90 [-0.163,+0.260] P(>0) 0.41 | d AUC dentro do ano +0.065 [-0.035,+0.160] | anos com AUC-dentro melhor: 5/9
+    R+S_a    - R   : dAUC -0.303 IC90 [-0.603,+0.303] P(>0) 0.34 | d AUC dentro do ano +0.147 [+0.054,+0.220] | anos com AUC-dentro melhor: 8/9
+    z:R+S_p  - z:R : dAUC +0.084 IC90 [-0.006,+0.146] P(>0) 0.93 | d AUC dentro do ano +0.015 [-0.002,+0.029] | anos com AUC-dentro melhor: 6/9
+    z:R+S_a  - z:R : dAUC +0.082 IC90 [+0.006,+0.134] P(>0) 0.97 | d AUC dentro do ano +0.029 [+0.016,+0.041] | anos com AUC-dentro melhor: 8/9
+    dBrier operacional (R+S_p - R): -0.0012
+
+--- milho | 30/abr | n = 1820 mun-anos, 182 municipios | taxa 0.147
+    quebras/ano: 2016:127/182, 2017:31/182, 2018:7/182, 2019:12/182, 2020:2/182, 2021:7/182, 2022:3/182, 2023:20/182, 2024:14/182, 2025:45/182
+    AUC crua (sem ajuste): s_chuva 0.662 | s_seco_p 0.772 | s_seco_a 0.764
+    escore de ordem LOYO: R AUC 0.789 dentro 0.529 | S_p AUC 0.792 dentro 0.553 | R+S_p AUC 0.765 dentro 0.562 | R+S_a AUC 0.514 dentro 0.543 | z:R+S_p AUC 0.743 dentro 0.545 | z:R+S_a AUC 0.739 dentro 0.554 | z:R AUC 0.662 dentro 0.529
+    probabilidade LOYO (operacional): R BSS -0.038 | S_p BSS +0.063 | R+S_p BSS +0.101 | R+S_a BSS -0.004
+    R+S_p    - R   : dAUC -0.024 IC90 [-0.066,+0.059] P(>0) 0.31 | d AUC dentro do ano +0.034 [-0.020,+0.082] | anos com AUC-dentro melhor: 4/9
+    R+S_a    - R   : dAUC -0.275 IC90 [-0.442,+0.054] P(>0) 0.26 | d AUC dentro do ano +0.014 [-0.015,+0.036] | anos com AUC-dentro melhor: 5/9
+    z:R+S_p  - z:R : dAUC +0.081 IC90 [+0.009,+0.124] P(>0) 0.97 | d AUC dentro do ano +0.017 [-0.023,+0.047] | anos com AUC-dentro melhor: 4/9
+    z:R+S_a  - z:R : dAUC +0.077 IC90 [+0.005,+0.119] P(>0) 0.96 | d AUC dentro do ano +0.025 [-0.015,+0.054] | anos com AUC-dentro melhor: 5/9
+    dBrier operacional (R+S_p - R): -0.0187
+
+--- feijao | 31/jan | n = 1814 mun-anos, 182 municipios | taxa 0.132
+    quebras/ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    AUC crua (sem ajuste): s_chuva 0.292 | s_seco_p 0.260 | s_seco_a 0.269
+    escore de ordem LOYO: R AUC 0.695 dentro 0.523 | S_p AUC 0.632 dentro 0.535 | R+S_p AUC 0.654 dentro 0.533 | R+S_a AUC 0.694 dentro 0.499 | z:R+S_p AUC 0.273 dentro 0.467 | z:R+S_a AUC 0.276 dentro 0.490 | z:R AUC 0.292 dentro 0.477
+    probabilidade LOYO (operacional): R BSS +0.082 | S_p BSS +0.084 | R+S_p BSS +0.081 | R+S_a BSS +0.091
+    R+S_p    - R   : dAUC -0.041 IC90 [-0.080,+0.019] P(>0) 0.13 | d AUC dentro do ano +0.010 [-0.011,+0.043] | anos com AUC-dentro melhor: 6/10
+    R+S_a    - R   : dAUC -0.001 IC90 [-0.032,+0.041] P(>0) 0.42 | d AUC dentro do ano -0.025 [-0.059,+0.025] | anos com AUC-dentro melhor: 5/10
+    z:R+S_p  - z:R : dAUC -0.019 IC90 [-0.043,-0.005] P(>0) 0.01 | d AUC dentro do ano -0.009 [-0.036,+0.005] | anos com AUC-dentro melhor: 5/10
+    z:R+S_a  - z:R : dAUC -0.016 IC90 [-0.046,+0.003] P(>0) 0.10 | d AUC dentro do ano +0.013 [-0.018,+0.030] | anos com AUC-dentro melhor: 5/10
+    dBrier operacional (R+S_p - R): +0.0001
+
+--- feijao | 19/mar | n = 1814 mun-anos, 182 municipios | taxa 0.132
+    quebras/ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    AUC crua (sem ajuste): s_chuva 0.528 | s_seco_p 0.616 | s_seco_a 0.613
+    escore de ordem LOYO: R AUC 0.555 dentro 0.483 | S_p AUC 0.609 dentro 0.545 | R+S_p AUC 0.638 dentro 0.525 | R+S_a AUC 0.443 dentro 0.532 | z:R+S_p AUC 0.581 dentro 0.547 | z:R+S_a AUC 0.579 dentro 0.542 | z:R AUC 0.528 dentro 0.537
+    probabilidade LOYO (operacional): R BSS -0.020 | S_p BSS -0.022 | R+S_p BSS +0.009 | R+S_a BSS -0.001
+    R+S_p    - R   : dAUC +0.083 IC90 [-0.048,+0.211] P(>0) 0.85 | d AUC dentro do ano +0.042 [-0.024,+0.103] | anos com AUC-dentro melhor: 6/10
+    R+S_a    - R   : dAUC -0.112 IC90 [-0.332,+0.155] P(>0) 0.31 | d AUC dentro do ano +0.049 [+0.011,+0.081] | anos com AUC-dentro melhor: 5/10
+    z:R+S_p  - z:R : dAUC +0.053 IC90 [+0.005,+0.088] P(>0) 0.98 | d AUC dentro do ano +0.010 [+0.001,+0.019] | anos com AUC-dentro melhor: 6/10
+    z:R+S_a  - z:R : dAUC +0.051 IC90 [+0.009,+0.081] P(>0) 0.99 | d AUC dentro do ano +0.005 [-0.014,+0.024] | anos com AUC-dentro melhor: 5/10
+    dBrier operacional (R+S_p - R): -0.0034
+
+--- feijao | 30/abr | n = 1814 mun-anos, 182 municipios | taxa 0.132
+    quebras/ano: 2016:78/182, 2017:9/182, 2018:8/182, 2019:19/182, 2020:6/182, 2021:4/181, 2022:12/181, 2023:40/181, 2024:16/181, 2025:48/180
+    AUC crua (sem ajuste): s_chuva 0.614 | s_seco_p 0.661 | s_seco_a 0.658
+    escore de ordem LOYO: R AUC 0.691 dentro 0.525 | S_p AUC 0.680 dentro 0.519 | R+S_p AUC 0.680 dentro 0.510 | R+S_a AUC 0.474 dentro 0.504 | z:R+S_p AUC 0.649 dentro 0.523 | z:R+S_a AUC 0.649 dentro 0.522 | z:R AUC 0.614 dentro 0.525
+    probabilidade LOYO (operacional): R BSS -0.019 | S_p BSS +0.006 | R+S_p BSS +0.011 | R+S_a BSS -0.021
+    R+S_p    - R   : dAUC -0.011 IC90 [-0.064,+0.054] P(>0) 0.38 | d AUC dentro do ano -0.015 [-0.070,+0.039] | anos com AUC-dentro melhor: 4/10
+    R+S_a    - R   : dAUC -0.217 IC90 [-0.389,-0.000] P(>0) 0.05 | d AUC dentro do ano -0.021 [-0.063,+0.012] | anos com AUC-dentro melhor: 5/10
+    z:R+S_p  - z:R : dAUC +0.035 IC90 [-0.013,+0.056] P(>0) 0.89 | d AUC dentro do ano -0.003 [-0.021,+0.016] | anos com AUC-dentro melhor: 4/10
+    z:R+S_a  - z:R : dAUC +0.035 IC90 [-0.013,+0.058] P(>0) 0.90 | d AUC dentro do ano -0.003 [-0.024,+0.015] | anos com AUC-dentro melhor: 3/10
+    dBrier operacional (R+S_p - R): -0.0036
+
+Resumo (deltas pareados, IC90 por bootstrap de anos; 'z:' = pesos iguais sem ajuste):
+cultura portao     comparacao    n  auc_base  auc_novo   dAUC     lo     hi  P_maior0  dentro_base  d_dentro  dd_lo  dd_hi  anos_melhor  anos_validos
+  milho 31/jan     R+S_p vs R 1820     0.435     0.442  0.007 -0.039  0.091     0.658        0.475     0.045  0.006  0.098            7             9
+  milho 31/jan     R+S_a vs R 1820     0.435     0.501  0.066 -0.011  0.130     0.900        0.475     0.026 -0.025  0.088            6             9
+  milho 31/jan z:R+S_p vs z:R 1820     0.271     0.247 -0.024 -0.064 -0.011     0.000        0.525    -0.037 -0.098  0.004            3             9
+  milho 31/jan z:R+S_a vs z:R 1820     0.271     0.253 -0.019 -0.049 -0.006     0.014        0.525    -0.013 -0.069  0.024            5             9
+  milho 19/mar     R+S_p vs R 1820     0.656     0.635 -0.021 -0.163  0.260     0.411        0.496     0.065 -0.035  0.160            5             9
+  milho 19/mar     R+S_a vs R 1820     0.656     0.353 -0.303 -0.603  0.303     0.336        0.496     0.147  0.054  0.220            8             9
+  milho 19/mar z:R+S_p vs z:R 1820     0.547     0.631  0.084 -0.006  0.146     0.926        0.548     0.015 -0.002  0.029            6             9
+  milho 19/mar z:R+S_a vs z:R 1820     0.547     0.628  0.082  0.006  0.134     0.969        0.548     0.029  0.016  0.041            8             9
+  milho 30/abr     R+S_p vs R 1820     0.789     0.765 -0.024 -0.066  0.059     0.310        0.529     0.034 -0.020  0.082            4             9
+  milho 30/abr     R+S_a vs R 1820     0.789     0.514 -0.275 -0.442  0.054     0.259        0.529     0.014 -0.015  0.036            5             9
+  milho 30/abr z:R+S_p vs z:R 1820     0.662     0.743  0.081  0.009  0.124     0.966        0.529     0.017 -0.023  0.047            4             9
+  milho 30/abr z:R+S_a vs z:R 1820     0.662     0.739  0.077  0.005  0.119     0.956        0.529     0.025 -0.015  0.054            5             9
+ feijao 31/jan     R+S_p vs R 1814     0.695     0.654 -0.041 -0.080  0.019     0.134        0.523     0.010 -0.011  0.043            6            10
+ feijao 31/jan     R+S_a vs R 1814     0.695     0.694 -0.001 -0.032  0.041     0.420        0.523    -0.025 -0.059  0.025            5            10
+ feijao 31/jan z:R+S_p vs z:R 1814     0.292     0.273 -0.019 -0.043 -0.005     0.009        0.477    -0.009 -0.036  0.005            5            10
+ feijao 31/jan z:R+S_a vs z:R 1814     0.292     0.276 -0.016 -0.046  0.003     0.100        0.477     0.013 -0.018  0.030            5            10
+ feijao 19/mar     R+S_p vs R 1814     0.555     0.638  0.083 -0.048  0.211     0.850        0.483     0.042 -0.024  0.103            6            10
+ feijao 19/mar     R+S_a vs R 1814     0.555     0.443 -0.112 -0.332  0.155     0.314        0.483     0.049  0.011  0.081            5            10
+ feijao 19/mar z:R+S_p vs z:R 1814     0.528     0.581  0.053  0.005  0.088     0.982        0.537     0.010  0.001  0.019            6            10
+ feijao 19/mar z:R+S_a vs z:R 1814     0.528     0.579  0.051  0.009  0.081     0.986        0.537     0.005 -0.014  0.024            5            10
+ feijao 30/abr     R+S_p vs R 1814     0.691     0.680 -0.011 -0.064  0.054     0.382        0.525    -0.015 -0.070  0.039            4            10
+ feijao 30/abr     R+S_a vs R 1814     0.691     0.474 -0.217 -0.389 -0.000     0.046        0.525    -0.021 -0.063  0.012            5            10
+ feijao 30/abr z:R+S_p vs z:R 1814     0.614     0.649  0.035 -0.013  0.056     0.886        0.525    -0.003 -0.021  0.016            4            10
+ feijao 30/abr z:R+S_a vs z:R 1814     0.614     0.649  0.035 -0.013  0.058     0.896        0.525    -0.003 -0.024  0.015            3            10
+12 comparacoes primarias (2 culturas x 3 portoes x S_p/S_a, escore LOYO) sem correcao de multiplicidade.
+
+==================== B. Onde esta a informacao: nivel do ano (media estadual, n = 10) e redundancia ====================
+  milho 31/jan: entre anos rho(fracao em quebra, chuva) +0.30, rho(fracao, S_p) +0.40, rho(chuva, S_p) +0.98 | dentro do ano rho(chuva, S_p) +0.56
+     2016: quebra 70% chuva 216% S_p 90, 2017: quebra 17% chuva 67% S_p 44, 2018: quebra 4% chuva 72% S_p 48, 2019: quebra 7% chuva 153% S_p 73, 2020: quebra 1% chuva 136% S_p 63, 2021: quebra 4% chuva 58% S_p 35, 2022: quebra 2% chuva 140% S_p 72, 2023: quebra 11% chuva 98% S_p 72, 2024: quebra 8% chuva 50% S_p 36, 2025: quebra 25% chuva 189% S_p 85
+  milho 19/mar: entre anos rho(fracao em quebra, chuva) +0.03, rho(fracao, S_p) -0.17, rho(chuva, S_p) +0.75 | dentro do ano rho(chuva, S_p) +0.77
+     2016: quebra 70% chuva 91% S_p 26, 2017: quebra 17% chuva 114% S_p 74, 2018: quebra 4% chuva 95% S_p 42, 2019: quebra 7% chuva 133% S_p 60, 2020: quebra 1% chuva 145% S_p 80, 2021: quebra 4% chuva 72% S_p 32, 2022: quebra 2% chuva 85% S_p 48, 2023: quebra 11% chuva 89% S_p 46, 2024: quebra 8% chuva 106% S_p 66, 2025: quebra 25% chuva 123% S_p 62
+  milho 30/abr: entre anos rho(fracao em quebra, chuva) -0.43, rho(fracao, S_p) -0.66, rho(chuva, S_p) +0.92 | dentro do ano rho(chuva, S_p) +0.74
+     2016: quebra 70% chuva 86% S_p 20, 2017: quebra 17% chuva 96% S_p 41, 2018: quebra 4% chuva 107% S_p 60, 2019: quebra 7% chuva 128% S_p 64, 2020: quebra 1% chuva 128% S_p 73, 2021: quebra 4% chuva 70% S_p 32, 2022: quebra 2% chuva 94% S_p 56, 2023: quebra 11% chuva 88% S_p 48, 2024: quebra 8% chuva 100% S_p 57, 2025: quebra 25% chuva 89% S_p 32
+  feijao 31/jan: entre anos rho(fracao em quebra, chuva) +0.65, rho(fracao, S_p) +0.78, rho(chuva, S_p) +0.98 | dentro do ano rho(chuva, S_p) +0.56
+  feijao 19/mar: entre anos rho(fracao em quebra, chuva) +0.08, rho(fracao, S_p) -0.19, rho(chuva, S_p) +0.75 | dentro do ano rho(chuva, S_p) +0.77
+  feijao 30/abr: entre anos rho(fracao em quebra, chuva) -0.22, rho(fracao, S_p) -0.35, rho(chuva, S_p) +0.92 | dentro do ano rho(chuva, S_p) +0.74
+
+==================== C. Quixada (2311306), 2016-2025 ====================
+      milho  feijao  chuva_31/jan  Sp_31/jan  chuva_19/mar  Sp_19/mar  chuva_30/abr  Sp_30/abr  rank_Sp_30abr  rank_chuva_30abr
+2016   0.12    0.39          1.97      89.74          0.88      20.88          0.78      26.06           0.71              0.15
+2017   2.07    2.12          0.49      23.50          1.25      92.06          1.02      54.15           0.77              0.64
+2018   1.86    1.73          0.76      67.08          0.68      20.80          1.11      89.72           0.97              0.64
+2019   2.07    1.70          1.72      86.17          1.50      79.80          1.19      50.01           0.28              0.24
+2020   1.78    1.56          1.00      63.94          1.39      83.59          1.10      53.62           0.08              0.07
+2021   0.80    0.81          0.52      27.25          0.72      30.21          0.69      15.88           0.33              0.48
+2022   1.03    0.91          1.44      81.26          0.98      55.36          0.98      57.38           0.53              0.60
+2023   0.36    0.49          1.03      76.07          1.19      63.79          1.04      65.86           0.93              0.90
+2024   0.46    0.68          0.36      54.57          1.17      74.38          1.05      73.77           0.95              0.66
+2025   0.30    0.32          1.85      87.90          1.44      71.24          0.93      25.10           0.38              0.58
+  (rank = posicao de Quixada entre os 184 municipios no mesmo ano; 0 = mais seco)

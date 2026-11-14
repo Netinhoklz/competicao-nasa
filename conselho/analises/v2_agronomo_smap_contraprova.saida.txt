@@ -1,0 +1,53 @@
+memoria da zona da raiz (SMAP L4, CE, fev-jun, 2016-2026): autocorrelacao da anomalia em 10 d 0.47, 30 d -0.06, 60 d -0.09; tau (1/e) = 13 dias
+
+=== milho: chuva desde 1/jan (regra canonica) x API com tau = 13 d (memoria do SMAP) ===
+  19/mar 1998-2015 (anos que o SMAP nao viu): AUC acum 0.77 | API 0.75 | dif API-acum IC90 -0.09 a +0.04 | acum alerta: 4.7 em 10 (n=918) x sem 1.7; api alerta: 4.9 em 10 (n=1083) x sem 1.4
+  19/mar 2016-2025 (era SMAP): AUC acum 0.55 | API 0.61 | dif API-acum IC90 -0.04 a +0.14 | acum alerta: 1.0 em 10 (n=214) x sem 1.5; api alerta: 2.0 em 10 (n=465) x sem 1.3
+  19/mar 1998-2025: AUC acum 0.73 | API 0.72 | dif API-acum IC90 -0.08 a +0.04 | acum alerta: 4.0 em 10 (n=1132) x sem 1.6; api alerta: 4.0 em 10 (n=1548) x sem 1.3
+  19/mar 2016-2025, mesmo painel: AUC SMAP pctl 0.59; Spearman API x pctl +0.87; acum x pctl +0.82
+  30/abr 1998-2015 (anos que o SMAP nao viu): AUC acum 0.83 | API 0.79 | dif API-acum IC90 -0.11 a +0.02 | acum alerta: 5.9 em 10 (n=791) x sem 1.5; api alerta: 5.2 em 10 (n=942) x sem 1.5
+  30/abr 2016-2025 (era SMAP): AUC acum 0.66 | API 0.80 | dif API-acum IC90 +0.02 a +0.23 | acum alerta: 1.1 em 10 (n=141) x sem 1.5; api alerta: 3.2 em 10 (n=645) x sem 0.5
+  30/abr 1998-2025: AUC acum 0.80 | API 0.77 | dif API-acum IC90 -0.09 a +0.04 | acum alerta: 5.2 em 10 (n=932) x sem 1.5; api alerta: 4.4 em 10 (n=1587) x sem 1.1
+  30/abr 2016-2025, mesmo painel: AUC SMAP pctl 0.77; Spearman API x pctl +0.85; acum x pctl +0.78
+
+=== feijao: chuva desde 1/jan (regra canonica) x API com tau = 13 d (memoria do SMAP) ===
+  19/mar 1998-2015 (anos que o SMAP nao viu): AUC acum 0.70 | API 0.69 | dif API-acum IC90 -0.08 a +0.05 | acum alerta: 2.5 em 10 (n=925) x sem 1.2; api alerta: 2.8 em 10 (n=1087) x sem 0.9
+  19/mar 2016-2025 (era SMAP): AUC acum 0.53 | API 0.54 | dif API-acum IC90 -0.07 a +0.08 | acum alerta: 0.9 em 10 (n=213) x sem 1.4; api alerta: 1.4 em 10 (n=464) x sem 1.3
+  19/mar 1998-2025: AUC acum 0.66 | API 0.64 | dif API-acum IC90 -0.09 a +0.04 | acum alerta: 2.2 em 10 (n=1138) x sem 1.2; api alerta: 2.4 em 10 (n=1551) x sem 1.1
+  19/mar 2016-2025, mesmo painel: AUC SMAP pctl 0.55; Spearman API x pctl +0.87; acum x pctl +0.82
+  30/abr 1998-2015 (anos que o SMAP nao viu): AUC acum 0.77 | API 0.77 | dif API-acum IC90 -0.06 a +0.05 | acum alerta: 3.5 em 10 (n=798) x sem 0.9; api alerta: 3.4 em 10 (n=947) x sem 0.8
+  30/abr 2016-2025 (era SMAP): AUC acum 0.61 | API 0.67 | dif API-acum IC90 -0.04 a +0.12 | acum alerta: 1.1 em 10 (n=140) x sem 1.3; api alerta: 2.0 em 10 (n=642) x sem 0.9
+  30/abr 1998-2025: AUC acum 0.73 | API 0.74 | dif API-acum IC90 -0.04 a +0.05 | acum alerta: 3.1 em 10 (n=938) x sem 1.1; api alerta: 2.8 em 10 (n=1589) x sem 0.8
+  30/abr 2016-2025, mesmo painel: AUC SMAP pctl 0.65; Spearman API x pctl +0.85; acum x pctl +0.78
+
+=== (b) Percentil PROPRIO da zona da raiz (posto entre os anos 2015-2026 no mesmo dia, +-15 d) ===
+  2026-11-10: percentil proprio mediano no CE 48 (p10-p90 19-74); Quixada 43; fracao de municipios abaixo do p33: 24%
+  umidade da zona da raiz em 2026-11-10: CE mediana 0.124 m3/m3; mesma data 2015-2025: 2015: 0.120, 2016: 0.118, 2017: 0.124, 2018: 0.125, 2019: 0.128, 2020: 0.134, 2021: 0.126, 2022: 0.148, 2023: 0.126, 2024: 0.128, 2025: 0.126
+  amplitude anual tipica (p95-p5) mediana 0.097 m3/m3; desvio entre anos em 10/11: 0.010 m3/m3 (10% da amplitude) -> o solo de novembro esta no piso todo ano
+
+=== (c) Quixada, milho: rendimento (produção/area plantada) e a mediana de referencia ===
+  1998: 0, 1999: 600, 2000: 650, 2001: 200, 2002: 1280, 2003: 1902, 2004: 661, 2005: 800, 2006: 1100, 2007: 305, 2008: 1800, 2009: 406, 2010: 391, 2011: 1806, 2012: 84, 2013: 450, 2014: 483, 2015: 237, 2016: 60, 2017: 1000, 2018: 900, 2019: 1000, 2020: 860, 2021: 400, 2022: 500, 2023: 180, 2024: 227, 2025: 150 kg/ha
+  anos com producao (t) = area plantada (ha), isto e, 1.000 kg/ha exatos: [2017, 2019]
+  2023: 180 kg/ha; referencia canonica 500 -> razao 0.36; sem os anos redondos 483 -> razao 0.37
+  2024: 228 kg/ha; referencia canonica 500 -> razao 0.46; sem os anos redondos 483 -> razao 0.47
+  2025: 150 kg/ha; referencia canonica 500 -> razao 0.30; sem os anos redondos 483 -> razao 0.31
+  CE: municipio-anos de milho com rendimento exato de 1.000 kg/ha: 36 de 5106 (0.7%); 2016-2025: 0.8%; 1998-2015: 0.6%
+
+=== (d) Quadras de El Nino forte na era SMAP: que fracao das quebras do milho cada alerta pegou (recall) ===
+  2016 19/mar: 127 municipios quebraram (70%); com alerta de chuva (<75%): 5%; com alerta SMAP (pctl<25): 43%; falsos alarmes SMAP (alerta sem quebra): 11 de 55; chuva mediana desde 1/jan 91% do normal; pctl mediano 33
+  2016 30/abr: 127 municipios quebraram (70%); com alerta de chuva (<75%): 7%; com alerta SMAP (pctl<25): 90%; falsos alarmes SMAP (alerta sem quebra): 44 de 55; chuva mediana desde 1/jan 86% do normal; pctl mediano 15
+  2017 19/mar: 31 municipios quebraram (17%); com alerta de chuva (<75%): 0%; com alerta SMAP (pctl<25): 0%; falsos alarmes SMAP (alerta sem quebra): 0 de 151; chuva mediana desde 1/jan 114% do normal; pctl mediano 70
+  2017 30/abr: 31 municipios quebraram (17%); com alerta de chuva (<75%): 0%; com alerta SMAP (pctl<25): 61%; falsos alarmes SMAP (alerta sem quebra): 30 de 151; chuva mediana desde 1/jan 96% do normal; pctl mediano 39
+  2025 19/mar: 45 municipios quebraram (25%); com alerta de chuva (<75%): 0%; com alerta SMAP (pctl<25): 7%; falsos alarmes SMAP (alerta sem quebra): 3 de 137; chuva mediana desde 1/jan 123% do normal; pctl mediano 67
+  2025 30/abr: 45 municipios quebraram (25%); com alerta de chuva (<75%): 2%; com alerta SMAP (pctl<25): 84%; falsos alarmes SMAP (alerta sem quebra): 53 de 137; chuva mediana desde 1/jan 89% do normal; pctl mediano 25
+
+=== (e) Duas luzes no portao: acende se chuva desde 1/jan < 75% OU agua recente baixa ===
+    agua recente = API(tau) < 75% do normal em 1998-2015 (substituto do SMAP); SMAP pctl < 25 em 2016-2025
+  19/mar 1998-2015 so chuva acumulada: acende em 28% dos municipio-anos; com luz quebram 4.7 em 10 (n=918), sem luz 1.7 em 10; pega 52% das quebras
+  19/mar 1998-2015 duas luzes        : acende em 38% dos municipio-anos; com luz quebram 4.7 em 10 (n=1252), sem luz 1.2 em 10; pega 71% das quebras
+  19/mar 2016-2025 so chuva acumulada: acende em 12% dos municipio-anos; com luz quebram 1.0 em 10 (n=214), sem luz 1.5 em 10; pega 8% das quebras
+  19/mar 2016-2025 duas luzes        : acende em 19% dos municipio-anos; com luz quebram 2.2 em 10 (n=352), sem luz 1.3 em 10; pega 29% das quebras
+  30/abr 1998-2015 so chuva acumulada: acende em 24% dos municipio-anos; com luz quebram 5.9 em 10 (n=791), sem luz 1.5 em 10; pega 56% das quebras
+  30/abr 1998-2015 duas luzes        : acende em 36% dos municipio-anos; com luz quebram 5.1 em 10 (n=1198), sem luz 1.1 em 10; pega 73% das quebras
+  30/abr 2016-2025 so chuva acumulada: acende em 8% dos municipio-anos; com luz quebram 1.1 em 10 (n=141), sem luz 1.5 em 10; pega 6% das quebras
+  30/abr 2016-2025 duas luzes        : acende em 23% dos municipio-anos; com luz quebram 4.2 em 10 (n=427), sem luz 0.6 em 10; pega 66% das quebras

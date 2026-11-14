@@ -1,0 +1,31 @@
+series municipio-cultura no portfolio: 1145; com rendimento repetido em 2004-2016: 37% (mandioca 68%, demais 31%)
+conferencia: R_V0 igual ao publicado? max |dif| = 0.0000
+mandioca na area-base: mediana 1.5%; rendimento relativo da mandioca na seca 0.66 contra milho 0.48 e feijao 0.58; Spearman diversidade x fracao de mandioca +0.59
+GLDAS Noah RootMoist fev-mai 2012-16 vs 2000-11: anomalia mediana -26.6%; Spearman com a anomalia de chuva IMERG +0.09
+
+=== Efeito da diversidade (n efetivo de temporarias) no rendimento relativo da seca, com EF de mesorregiao ===
+  V0 publicado, portfolio:                 Q1->Q3 +6.6 p.p. (IC90 +3.1 a +10.1; p 0.002; n 184)
+  V1 portfolio SEM mandioca:               Q1->Q3 +7.0 p.p. (IC90 +3.3 a +10.7; p 0.002; n 184)
+  V2 portfolio sem series repetidas:       Q1->Q3 +4.1 p.p. (IC90 -0.4 a +8.5; p 0.131; n 181)
+  V3 diversidade SEM mandioca, portfolio:  Q1->Q3 +5.2 p.p. (IC90 +2.5 a +7.8; p 0.001; n 184)
+  V3b diversidade e portfolio sem mandioca:Q1->Q3 +5.7 p.p. (IC90 +2.9 a +8.5; p 0.001; n 184)
+  fracao de mandioca no lugar da diversidade (Q1->Q3 da fracao): Q1->Q3 +0.0 p.p. (IC90 -2.4 a +2.4; p 0.994; n 184)
+  V4 controle GLDAS (no lugar do IMERG):   Q1->Q3 +6.2 p.p. (IC90 +2.7 a +9.7; p 0.004; n 184)
+  V4b IMERG + GLDAS:                       Q1->Q3 +6.6 p.p. (IC90 +3.0 a +10.1; p 0.002; n 184)
+  V5 interacao com a seca (IMERG):         Q1->Q3 +6.4 p.p. (IC90 +3.0 a +9.8; p 0.002; n 184) | interacao com anom_chuva_seca: -0.0055 (p 0.633)
+  V5b interacao com a seca (GLDAS):        Q1->Q3 +6.2 p.p. (IC90 +2.4 a +10.0; p 0.007; n 184) | interacao com anom_rootmoist_gldas: -0.0157 (p 0.120)
+  (interacao negativa = a diversidade ajuda MAIS onde a anomalia foi mais negativa, isto e, onde a seca foi pior)
+
+  Culturas sozinhas, com controle IMERG + GLDAS:
+   R2_rend_rel_milho   : Q1->Q3 +6.6 p.p. (IC90 -3.4 a +16.5; p 0.277; n 183)
+   R3_rend_rel_feijao  : Q1->Q3 +1.2 p.p. (IC90 -2.2 a +4.6; p 0.569; n 184)
+   rr_mandioca         : Q1->Q3 -1.5 p.p. (IC90 -7.2 a +4.2; p 0.664; n 172)
+  seca pior (anomalia abaixo da mediana): Q1->Q3 +7.7 p.p. (IC90 +1.4 a +13.9; p 0.043; n 92)
+  seca menor: Q1->Q3 +4.9 p.p. (IC90 +0.6 a +9.3; p 0.062; n 92)
+
+=== V6. So culturas de sequeiro (sem cana, arroz, hortalicas e frutas de ciclo curto) ===
+  area-base que e sequeiro: mediana 98.0% (p10 75.9%); Spearman diversidade x fracao NAO sequeiro +0.71
+  portfolio de sequeiro, diversidade de todas:      Q1->Q3 +5.0 p.p. (IC90 +0.8 a +9.3; p 0.052; n 184)
+  portfolio de sequeiro, diversidade de sequeiro:   Q1->Q3 +1.4 p.p. (IC90 -2.2 a +5.1; p 0.510; n 184)
+  portfolio total, controlando a fracao nao sequeiro: Q1->Q3 +3.6 p.p. (IC90 +0.0 a +7.2; p 0.097; n 184)
+  portfolio de sequeiro sem series repetidas:       Q1->Q3 -0.5 p.p. (IC90 -4.5 a +3.6; p 0.847; n 180)

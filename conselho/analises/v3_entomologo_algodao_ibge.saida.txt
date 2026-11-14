@@ -1,0 +1,85 @@
+== A. Area colhida de algodao (arboreo + herbaceo) no Nordeste, IBGE PAM por UF ==
+  maximo do NE: 3,247,124 ha em 1977; media 1974-1979: 2,995,420 ha
+  NE sem a Bahia, 1974-1979: 2,865,952 ha
+  1974: NE   2,927,851 ha | Ceara   1,039,743 (35.5%) | Bahia     190,340
+  1977: NE   3,247,124 ha | Ceara   1,296,000 (39.9%) | Bahia     123,400
+  1980: NE   2,904,832 ha | Ceara   1,304,000 (44.9%) | Bahia      77,170
+  1982: NE   2,739,955 ha | Ceara   1,101,955 (40.2%) | Bahia      69,261
+  1983: NE   1,999,355 ha | Ceara     747,192 (37.4%) | Bahia      75,934
+  1985: NE   2,350,029 ha | Ceara     755,548 (32.2%) | Bahia     130,901
+  1987: NE   1,029,433 ha | Ceara     301,821 (29.3%) | Bahia     179,131
+  1990: NE     841,861 ha | Ceara     276,733 (32.9%) | Bahia     186,793
+  1995: NE     447,630 ha | Ceara     121,541 (27.2%) | Bahia     156,557
+  2000: NE     240,624 ha | Ceara     107,037 (44.5%) | Bahia      55,952
+  2005: NE     339,251 ha | Ceara      10,679 ( 3.1%) | Bahia     257,377
+  2010: NE     295,497 ha | Ceara       2,315 ( 0.8%) | Bahia     270,173
+  2015: NE     369,002 ha | Ceara         362 ( 0.1%) | Bahia     332,506
+  2020: NE     364,928 ha | Ceara       3,233 ( 0.9%) | Bahia     313,648
+  2025: NE     477,581 ha | Ceara       3,046 ( 0.6%) | Bahia     407,000
+  [Mattos: '> 2,5 milhoes de ha' ate os anos 1970 no semiarido; o PAM so comeca em 1974]
+
+== B. Ceara, 1974-1995: algodao no PAM e chuva NASA POWER (media do estado) ==
+  ano | arboreo ha | herbaceo ha | total ha | rend. arb kg/ha | rend. herb kg/ha | chuva ano mm | fev-mai % mediana
+  1974 |    949,743 |      90,000 | 1,039,743 |             225 |               90 |       - |      -
+  1975 |  1,045,000 |      78,000 | 1,123,000 |             180 |              350 |       - |      -
+  1976 |  1,000,000 |      48,000 | 1,048,000 |             170 |              225 |       - |      -
+  1977 |  1,200,000 |      96,000 | 1,296,000 |             160 |              270 |       - |      -
+  1978 |  1,200,000 |      84,000 | 1,284,000 |             198 |              330 |       - |      -
+  1979 |  1,200,000 |      56,810 | 1,256,810 |             125 |              210 |       - |      -
+  1980 |  1,250,000 |      54,000 | 1,304,000 |             105 |              195 |       - |      -
+  1981 |  1,000,000 |      55,000 | 1,055,000 |              90 |              225 |     631 |     84
+  1982 |    977,945 |     124,010 | 1,101,955 |             144 |              465 |     633 |     82
+  1983 |    673,737 |      73,455 |  747,192 |              69 |              234 |     368 |     55
+  1984 |    533,595 |     269,899 |  803,494 |             194 |              672 |    1016 |    142
+  1985 |    449,794 |     305,754 |  755,548 |             146 |              374 |    1761 |    210
+  1986 |    411,534 |     349,797 |  761,331 |              74 |              195 |    1222 |    161
+  1987 |    267,791 |      34,030 |  301,821 |              88 |              187 |     655 |     86
+  1988 |    285,703 |     172,126 |  457,829 |             144 |              527 |    1033 |    128
+  1989 |    229,642 |     159,419 |  389,061 |              82 |              245 |    1181 |    139
+  1990 |    198,517 |      78,216 |  276,733 |              95 |              219 |     562 |     76
+  1991 |    153,592 |      72,598 |  226,190 |             119 |              489 |     727 |     99
+  1992 |    137,156 |      71,399 |  208,555 |             101 |              412 |     633 |     78
+  1993 |     75,815 |      17,614 |   93,429 |              83 |              271 |     413 |     51
+  1994 |     75,650 |     121,521 |  197,171 |             133 |              511 |    1066 |    118
+  1995 |     54,844 |      66,697 |  121,541 |             117 |              458 |     982 |    137
+  media 1984-1986: 773,458 ha =  66.2% da media 1974-1982 (1,167,612 ha)
+  media 1987-1990: 356,361 ha =  30.5% da media 1974-1982 (1,167,612 ha)
+  media 1991-2000: 108,691 ha =   9.3% da media 1974-1982 (1,167,612 ha)
+  media 2001-2010: 11,427 ha =   1.0% da media 1974-1982 (1,167,612 ha)
+  media 2011-2025: 1,988 ha =   0.2% da media 1974-1982 (1,167,612 ha)
+  rendimento arboreo 1974-1982: 155 kg/ha; 1984-1990: 118 kg/ha
+  rendimento herbaceo 1974-1982: 262 kg/ha; 1984-1990: 346 kg/ha
+  chuva POWER CE: 1981-1983 media 544 mm; 1984-1986 media 1333 mm; mediana 1981-2010 858 mm
+
+== C. Municipios da Esplar (Mattos et al. 2020): area colhida de algodao (arb + herb), ha ==
+      Chor?  Massap?  Quixad?  Tau?   soma
+ano                                       
+1994   3300     1172     6800  1190  12462
+1995   1610      400     3600   900   6510
+1996     35      129      113    63    340
+1997    184      245      420    56    905
+1998    130      125      510    60    825
+1999    805      145     5005   500   6455
+2000    605      175     7005  2010   9795
+2001    205       45      500   589   1339
+2002      0       25      370   493    888
+2003    162        0      420    67    649
+2004    162        0      600    70    832
+2005     80        0      200    70    350
+2006    100        0      400    70    570
+2007     40       14      300    75    429
+2008    102       25      414    76    617
+2009     20       14      306    75    415
+2010     11       11      128    75    225
+2011     80       11      350    75    516
+2012     40       12      177    27    256
+  soma 2003-2007 (media): 566 ha  [Mattos/Lima et al. 2005: Esplar < 200 ha]
+
+== D. Hospedeiro visivel hoje: municipios do CE com algodao colhido > 0 ==
+  1974-1982: 133 de 184 municipios tiveram algodao em algum ano; arboreo (moco) colhido no periodo: 9,822,688 ha
+  1995-2000: 160 de 184 municipios tiveram algodao em algum ano; arboreo (moco) colhido no periodo: 91,868 ha
+  2015-2019: 56 de 184 municipios tiveram algodao em algum ano; arboreo (moco) colhido no periodo: 0 ha
+  2020-2025: 81 de 184 municipios tiveram algodao em algum ano; arboreo (moco) colhido no periodo: 0 ha
+  maiores areas medias 2020-2025: Tabuleiro do Norte 344 ha; Milagres 87 ha; Limoeiro do Norte 79 ha; Mauriti 75 ha; Quixeramobim 56 ha; Quixer? 51 ha; Brejo Santo 49 ha; Boa Viagem 48 ha
+  Quixada 2020-2025: {2020: 60.0, 2021: 55.0, 2022: 10.0, 2023: 40.0, 2024: 45.0, 2025: 80.0}
+  [o arboreo zera no PAM, mas Mattos et al. descrevem o moco persistindo em capoeiras abandonadas: hospedeiro invisivel para o IBGE e para mapas de cobertura]

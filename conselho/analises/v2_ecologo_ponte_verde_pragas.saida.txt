@@ -1,0 +1,24 @@
+Pixels 0,01 grau no CE: 121,464; lavoura/mosaico ESA CCI: 25,636 (21.1%)
+
+(1) Ponte verde em outubro (VIIRS), % da lavoura/mosaico do CE com NDVI >= 0,55:
+ano               2012  2013  2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025  2026
+ponte_%           1.30  1.54  3.82  2.22  1.19  2.48  2.62  4.46  5.02  2.89  5.69  3.91  4.13  4.13  4.97
+ndvi_out_lavoura  0.33  0.34  0.37  0.33  0.33  0.34  0.36  0.36  0.38  0.36  0.39  0.37  0.37  0.37  0.38
+  2012-2025: mediana 3.4% (min 1.2 em 2016, max 5.7 em 2022); out/2026 = 5.0% -> posto 13 de 15
+  Municipios com ponte de out/2026 acima da propria mediana 2012-2025: 36% (n = 181)
+  rho entre municipios de um ano para o seguinte: mediana +0.81 (min +0.50) -> geografia fixa
+
+(2) A ponte depende da agua? (estado, n = anos)
+  rho(ponte, chuva IMERG fev-mai) = +0.64 (n=14); rho(ponte, SMAP zona da raiz set-out) = +0.97 (n=11)
+  Painel dentro do municipio (2015-2025, EP por ano): P_fmam_z +0.096 (p=0.003) | rz_so_z +0.292 (p=0.055) | R2 0.100
+  Fracao da variancia da ponte que e geografia fixa (media do municipio): 90%
+
+(3) Ponte de out(y-1) -> anomalia do milho em y (2231 municipio-anos, 172 municipios, 13 safras 2013-2025; EF de municipio, EP por ano)
+  ponte1_d                            : ponte1 +0.042 por dp (IC95 -0.018 a +0.103, p=0.172)
+  ponte1_d + P_fmam_z_d               : ponte1 +0.028 por dp (IC95 -0.016 a +0.072, p=0.213)
+  ponte1_d + P_fmam_z_d + P_fmam_z1_d : ponte1 +0.001 por dp (IC95 -0.036 a +0.037, p=0.969)
+  Dentro do ano (ponte desviada da media do municipio x residuo da chuva): rho mediano -0.016; negativo em 9/13 safras
+
+(4) Graus-dia da lagarta (POWER ate 10/11/2026); geracoes = soma / 390,8
+  Geracoes potenciais 1/ago-12/nov (mesma janela em todos os anos): 2012: 4.40, 2013: 4.40, 2014: 4.39, 2015: 4.46, 2016: 4.55, 2017: 4.44, 2018: 4.50, 2019: 4.49, 2020: 4.49, 2021: 4.46, 2022: 4.29, 2023: 4.63, 2024: 4.52, 2025: 4.48, 2026: 4.53
+  2026 = 4.53 contra mediana 2012-2025 4.47 (max 4.63 em 2023); dias por geracao em 2026: 23

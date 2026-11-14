@@ -1,0 +1,41 @@
+==================== a0) SMAP L4 sm_rootzone_pctl: fracao dos pixels do Ceara com percentil VALIDO (dia 15 de cada mes, 2015-2026) ====================
+  mes: 01: 89% (89%-89%) | 02: 98% (98%-98%) | 03: 99% (99%-99%) | 04: 98% (98%-98%) | 05: 98% (98%-98%) | 06: 96% (96%-96%) | 07: 82% (82%-82%) | 08: 47% (47%-47%) | 09: 8% (8%-8%) | 10: 0% (0%-0%) | 11: 0% (0%-0%) | 12: 0% (0%-0%)
+  -> o percentil some na estacao seca (solo no piso todo ano); em nov o SMAP nao da percentil no Ceara.
+==================== a) SMAP L4 umidade ABSOLUTA da zona da raiz (m3/m3), granulo de 10/11/2026, mesma data 2015-2026 ====================
+      data  quadra_seguinte  media_mun  quixada  fq_quadra_seguinte
+10/11/2015             2016     0.1126   0.0838              0.6978
+10/11/2016             2017     0.1091   0.0815              0.1703
+10/11/2017             2018     0.1149   0.0873              0.0385
+10/11/2018             2019     0.1147   0.0884              0.0659
+10/11/2019             2020     0.1175   0.0858              0.0110
+10/11/2020             2021     0.1263   0.0937              0.0385
+10/11/2021             2022     0.1184   0.0855              0.0165
+10/11/2022             2023     0.1436   0.1167              0.1099
+10/11/2023             2024     0.1174   0.0884              0.0769
+10/11/2024             2025     0.1181   0.0912              0.2473
+10/11/2025             2026     0.1177   0.0880                 NaN
+10/11/2026             2027     0.1164   0.0870                 NaN
+  Hoje: media dos municipios = 0.1164 m3/m3 (faixa 2015-2025 na mesma data 0.1091-0.1436); acima de 4 de 11 anos. Quixada = 0.0870 (acima de 4 de 11).
+  b) ENTRE anos: Spearman(SMAP raiz em 10/11 do ano-1, fracao em quebra da quadra) = -0.35 (p 0.32, n = 10 anos)
+  Quadra 2026, portao 19/03: 11% dos municipios com percentil < 20 (media 38.9; Quixada 45.8)
+  Quadra 2026, portao 30/04: 12% dos municipios com percentil < 20 (media 36.1; Quixada 39.2)
+
+==================== c) GLDAS-2.2 CLSM, Ceara (assimila GRACE: concordancia com GRACE e parcialmente circular) ====================
+  variaveis: ['Evap_tavg', 'GWS_tavg', 'SoilMoist_RZ_tavg', 'SoilMoist_S_tavg', 'TWS_tavg'] | fim: 2026-08-01
+  GWS_tavg          : anomalia jun-ago/2026 = +16.0 mm -> percentil 74 entre os jun-ago de 2003-2025 (n = 23); tendencia bruta -0.4 mm/ano
+    relogio lento: Spearman(GWS dez ano-1, fracao em quebra) = +0.05 (p 0.82, n = 22 anos 2004-2025); sem 2012: -0.09 (p 0.71)
+    autocorrelacao da anomalia de GWS a 12 meses = +0.25 (memoria de um ano para o outro)
+  TWS_tavg          : anomalia jun-ago/2026 = +16.6 mm -> percentil 74 entre os jun-ago de 2003-2025 (n = 23); tendencia bruta -0.4 mm/ano
+  SoilMoist_RZ_tavg : anomalia jun-ago/2026 = +0.6 mm -> percentil 70 entre os jun-ago de 2003-2025 (n = 23); tendencia bruta -0.0 mm/ano
+  GRACE CE variaveis: <ArrowStringArray>
+['TWS_anomalia']
+Length: 1, dtype: str | fim: 2026-09-01
+
+==================== d) VIIRS VNP13A3 NDVI, media do Ceara ====================
+  pixels validos (media da grade) set/out/nov-2026: [1.14, 1.1, 1.08]  <- nov/2026 nao pode ser composicao mensal completa em 14/11; usar out/2026 como ultimo mes fechado
+  NDVI 09/2026 = 0.432; media 09/2012-2025 = 0.404 (dp 0.031); z = +0.91; acima de 11 de 14 anos
+  NDVI 10/2026 = 0.407; media 10/2012-2025 = 0.382 (dp 0.023); z = +1.07; acima de 12 de 14 anos
+
+==================== e) IMERG V07 Late 01/08-12/11/2026, Ceara (so contexto; nao preve a quadra) ====================
+  2026 (Late): 6 mm de 01/08 a 12/11; 1998-2025 (diario historico): mediana 7 mm, faixa 1-60; 2026 = 81% da mediana; acima de 13 de 28 anos
+  (Late x Final: produtos diferentes; leitura so de ordem de grandeza)

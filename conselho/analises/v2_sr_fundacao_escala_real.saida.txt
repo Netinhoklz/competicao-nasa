@@ -1,0 +1,49 @@
+========================= A. Municipio x tamanho da celula de cada camada =========================
+area dos 184 municipios (km2): p10 157 | mediana 632 | p90 1826 | lado equivalente mediano 25 km
+  GRACE mascon (~300 km)       celula ~90000.0000 km2 ->        0.0 celulas num municipio mediano
+  POWER 0,5 grau               celula ~ 3041.5000 km2 ->        0.2 celulas num municipio mediano
+  IMERG 0,1 grau               celula ~  121.6600 km2 ->        5.2 celulas num municipio mediano
+  SMAP L3/L4 9 km (EASE2)      celula ~   81.0000 km2 ->        7.8 celulas num municipio mediano
+  NISAR SME2 200 m (roteiro)   celula ~    0.0400 km2 ->    15787.7 celulas num municipio mediano
+  VIIRS NDVI 1 km              celula ~    1.0000 km2 ->      631.5 celulas num municipio mediano
+  MODIS NDVI 250 m             celula ~    0.0625 km2 ->    10104.1 celulas num municipio mediano
+  HLS/Landsat 30 m             celula ~    0.0009 km2 ->   701675.5 celulas num municipio mediano
+
+========================= B. NDVI: VIIRS x MODIS, r espacial das anomalias por bloco =========================
+meses comuns 177 (2012-01..2026-09); (4 s)
+bloco  r_fev_mai  meses_fev_mai  r_outros  meses_outros
+ 1 km      0.424             60     0.754           113
+ 2 km      0.550             60     0.832           113
+ 5 km      0.732             60     0.892           113
+10 km      0.797             60     0.909           113
+25 km      0.854             56     0.925           112
+50 km      0.900             39     0.933           101
+VIIRS: r entre pixels vizinhos (1 km) da anomalia, mediana por mes 0.725
+
+========================= C. Agua: IMERG 0,1 grau x SMAP L3 (banda L), fev-mai, r espacial das anomalias mensais =========================
+meses fev-mai: 32; celulas IMERG do CE com SMAP: 1135 (19 s)
+                bloco  r_fev_mai  meses_fev_mai
+1 x 0,1 grau (~11 km)      0.568             32
+2 x 0,1 grau (~22 km)      0.585             32
+4 x 0,1 grau (~44 km)      0.598             32
+8 x 0,1 grau (~88 km)      0.631             32
+temporal (media do CE, anomalia do mes): r = 0.714 (n = 32 meses)
+
+========================= D. Quixada (2311306): o satelite viu as quebras de 2023-2025? =========================
+ ano  razao_milho_Quixada vizinhos50km_quebra estado_quebra  NDVI_VIIRS_anom NDVI_VIIRS_posto(1=mais seco)  NDVI_MODIS_anom NDVI_MODIS_posto(1=mais seco)
+2016                 0.12           100% de 5           70%           -0.110                        22/184           -0.117                        27/184
+2017                 2.07             0% de 5           17%            0.035                       175/184            0.044                       179/184
+2018                 1.86            20% de 5            4%            0.015                       108/184            0.017                       127/184
+2019                 2.07             0% de 5            7%            0.055                       154/184            0.052                       152/184
+2020                 1.78             0% de 5            1%            0.032                        90/184            0.057                       121/184
+2021                 0.80            20% de 5            4%            0.041                       143/184            0.046                       146/184
+2022                 1.03            20% de 5            2%            0.073                       154/184            0.071                       152/184
+2023                 0.36           100% de 5           11%            0.048                       145/184            0.066                       160/184
+2024                 0.46             0% de 5            8%            0.061                       144/184            0.067                       140/184
+2025                 0.30            60% de 5           25%           -0.026                         6/184           -0.013                        19/184
+PAM Quixada milho (area plantada ha, rendimento t/ha, razao canonica):
+ano                   2014      2015     2016      2017      2018      2019      2020    2021      2022     2023      2024     2025
+area_plantada_ha  2474.000  1800.000  3000.00  3500.000  4300.000  4500.000  3700.000  3900.0  4000.000  5000.00  2800.000  3000.00
+r                    0.483     0.238     0.06     1.000     0.900     1.000     0.860     0.4     0.500     0.18     0.228     0.15
+razao                0.967     0.476     0.12     2.069     1.862     2.069     1.779     0.8     1.034     0.36     0.456     0.30
+tempo total 26 s

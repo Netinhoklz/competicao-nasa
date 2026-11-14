@@ -1,0 +1,76 @@
+L4: datas duplicadas no consolidado: ['2023-10-09', '2024-04-03', '2024-11-26', '2025-05-22'] -> fica a 1a ocorrencia
+caixa CE na grade 9 km: 78 x 49 celulas; 1837 celulas com centro no Ceara
+L3 lidos: 3244 dias, 2015-03-31 -> 2024-05-08; falhas de leitura 0; (6 s)
+
+========================= A. Visibilidade do micro-ondas (L3, celulas do CE) =========================
+fracao das celulas do CE com retrieval, media por mes do ano (por passagem diaria):
+                   1      2      3      4      5      6      7      8      9      10     11     12
+AM qualquer     0.371  0.373  0.359  0.374  0.365  0.355  0.368  0.378  0.368  0.372  0.377  0.365
+AM recomendado  0.341  0.342  0.322  0.337  0.336  0.330  0.344  0.355  0.346  0.350  0.353  0.340
+PM qualquer     0.373  0.364  0.351  0.382  0.359  0.356  0.373  0.383  0.365  0.375  0.368  0.366
+PM recomendado  0.326  0.285  0.250  0.303  0.320  0.326  0.349  0.361  0.343  0.352  0.345  0.336
+dias por mes com >= 1 retrieval recomendado (AM ou PM), mediana por celula, por mes do ano:
+  01:15 02:13 03:13 04:14 05:15 06:14 07:15 08:16 09:14 10:15 11:15 12:14
+celula-meses com >= 4 dias vistos: fev-mai 93.5% | ago-nov 93.5%
+  portao 28/fev: fracao de celulas com >= 1 vista recomendada em 16 d = 0.935, em 30 d = 0.935 (anos 9)
+  portao 19/mar: fracao de celulas com >= 1 vista recomendada em 16 d = 0.935, em 30 d = 0.935 (anos 9)
+  portao 31/mar: fracao de celulas com >= 1 vista recomendada em 16 d = 0.935, em 30 d = 0.935 (anos 9)
+  portao 30/abr: fracao de celulas com >= 1 vista recomendada em 16 d = 0.935, em 30 d = 0.935 (anos 10)
+
+========================= B. L3 (observacao) x L4 superficie (modelo + assimilacao) =========================
+dias comuns: 3244 (7 s)
+  AM recomendado : pares  2033093 | r agrupado 0.743 | vies L3-L4 -0.001 m3/m3 | ubRMSD 0.052 | r temporal/celula mediana 0.887 (anomalia 0.866; celulas 1718) | r espacial no dia mediana 0.244 | r media CE 0.925 (dias 1166)
+  PM recomendado : pares  1931456 | r agrupado 0.716 | vies L3-L4 -0.003 m3/m3 | ubRMSD 0.052 | r temporal/celula mediana 0.852 (anomalia 0.826; celulas 1718) | r espacial no dia mediana 0.229 | r media CE 0.903 (dias 1115)
+  AM qualquer    : pares  2198082 | r agrupado 0.728 | vies L3-L4 +0.002 m3/m3 | ubRMSD 0.056 | r temporal/celula mediana 0.880 (anomalia 0.864; celulas 1826) | r espacial no dia mediana 0.234 | r media CE 0.927 (dias 1188)
+
+  escala real (L3 AM recomendado x L4 superficie): r espacial das ANOMALIAS dentro do dia, por tamanho de bloco
+    bloco 1 x 9 km =  9 km: r mediano fev-mai 0.751 (dias 544) | outros meses 0.664 (dias 1039)
+    bloco 2 x 9 km = 18 km: r mediano fev-mai 0.780 (dias 544) | outros meses 0.713 (dias 1039)
+    bloco 4 x 9 km = 36 km: r mediano fev-mai 0.824 (dias 544) | outros meses 0.792 (dias 1039)
+    bloco 8 x 9 km = 72 km: r mediano fev-mai 0.856 (dias 423) | outros meses 0.862 (dias 843)
+
+========================= C. SMAP L4 nos portoes x quebra canonica do milho (2016-2025) =========================
+celulas SMAP 9 km por municipio: mediana 8, min 1, max 51, municipios com 1 celula so: 10
+L4 nos portoes extraido (24 s)
+
+  portao 28/fev: n=1820 municipio-anos, anos com quebra e nao-quebra = 9, taxa 0.147
+    rho(pctl SMAP, % normal IMERG) agrupado = +0.760; dentro do ano (media) = +0.753
+    s_chuva  AUC total 0.456 [0.34,0.58] | dentro do ano 0.514 [0.46,0.58]
+    s_pctl   AUC total 0.618 [0.44,0.75] | dentro do ano 0.501 [0.41,0.57]
+    s_rza    AUC total 0.648 [0.47,0.77] | dentro do ano 0.546 [0.45,0.62]
+    s_comb   AUC total 0.508 [0.46,0.56] | dentro do ano 0.510 [0.44,0.58]
+    s_pctl - chuva: dentro -0.013 [-0.08,+0.03] | total +0.161 [-0.06,+0.22]
+    s_comb - chuva: dentro -0.004 [-0.04,+0.02] | total +0.052 [-0.07,+0.16]
+    Quixada (2311306) em 28/fev: 2016: chuva 1.22 do normal, pctl 58, quebra 1; 2017: chuva 1.31 do normal, pctl 93, quebra 0; 2018: chuva 0.89 do normal, pctl 64, quebra 0; 2019: chuva 1.74 do normal, pctl 86, quebra 0; 2020: chuva 1.23 do normal, pctl 70, quebra 0; 2021: chuva 0.61 do normal, pctl 30, quebra 0; 2022: chuva 0.75 do normal, pctl 35, quebra 0; 2023: chuva 1.08 do normal, pctl 66, quebra 1; 2024: chuva 1.34 do normal, pctl 77, quebra 1; 2025: chuva 1.67 do normal, pctl 64, quebra 1
+
+  portao 19/mar: n=1820 municipio-anos, anos com quebra e nao-quebra = 9, taxa 0.147
+    rho(pctl SMAP, % normal IMERG) agrupado = +0.844; dentro do ano (media) = +0.771
+    s_chuva  AUC total 0.547 [0.40,0.68] | dentro do ano 0.548 [0.45,0.63]
+    s_pctl   AUC total 0.682 [0.44,0.81] | dentro do ano 0.571 [0.47,0.65]
+    s_rza    AUC total 0.670 [0.44,0.78] | dentro do ano 0.569 [0.48,0.64]
+    s_comb   AUC total 0.546 [0.46,0.61] | dentro do ano 0.562 [0.46,0.64]
+    s_pctl - chuva: dentro +0.023 [-0.01,+0.05] | total +0.135 [-0.02,+0.24]
+    s_comb - chuva: dentro +0.014 [-0.00,+0.03] | total -0.001 [-0.12,+0.14]
+    regra simples 'pctl < 20' em 19/mar: acende em 6.8% dos municipio-anos; quebram 0.50 com alerta (n=124) contra 0.12 sem (n=1696)
+    alertas 'pctl < 20' por ano: {2016: 56, 2018: 6, 2019: 24, 2021: 26, 2025: 12}; quebra com alerta por ano: {2016: 0.84, 2018: 0.67, 2019: 0.21, 2021: 0.04, 2025: 0.42}
+    Quixada (2311306) em 19/mar: 2016: chuva 0.88 do normal, pctl 21, quebra 1; 2017: chuva 1.25 do normal, pctl 92, quebra 0; 2018: chuva 0.68 do normal, pctl 21, quebra 0; 2019: chuva 1.50 do normal, pctl 80, quebra 0; 2020: chuva 1.39 do normal, pctl 84, quebra 0; 2021: chuva 0.72 do normal, pctl 30, quebra 0; 2022: chuva 0.98 do normal, pctl 55, quebra 0; 2023: chuva 1.19 do normal, pctl 64, quebra 1; 2024: chuva 1.17 do normal, pctl 74, quebra 1; 2025: chuva 1.44 do normal, pctl 71, quebra 1
+
+  portao 30/abr: n=1820 municipio-anos, anos com quebra e nao-quebra = 9, taxa 0.147
+    rho(pctl SMAP, % normal IMERG) agrupado = +0.804; dentro do ano (media) = +0.743
+    s_chuva  AUC total 0.662 [0.52,0.75] | dentro do ano 0.529 [0.41,0.61]
+    s_pctl   AUC total 0.772 [0.53,0.84] | dentro do ano 0.553 [0.39,0.67]
+    s_rza    AUC total 0.766 [0.53,0.84] | dentro do ano 0.557 [0.39,0.67]
+    s_comb   AUC total 0.534 [0.43,0.63] | dentro do ano 0.544 [0.39,0.64]
+    s_pctl - chuva: dentro +0.024 [-0.03,+0.07] | total +0.110 [-0.00,+0.16]
+    s_comb - chuva: dentro +0.015 [-0.02,+0.04] | total -0.128 [-0.23,+0.01]
+    Quixada (2311306) em 30/abr: 2016: chuva 0.78 do normal, pctl 26, quebra 1; 2017: chuva 1.02 do normal, pctl 54, quebra 0; 2018: chuva 1.11 do normal, pctl 90, quebra 0; 2019: chuva 1.19 do normal, pctl 50, quebra 0; 2020: chuva 1.10 do normal, pctl 54, quebra 0; 2021: chuva 0.69 do normal, pctl 16, quebra 0; 2022: chuva 0.98 do normal, pctl 57, quebra 0; 2023: chuva 1.04 do normal, pctl 66, quebra 1; 2024: chuva 1.05 do normal, pctl 74, quebra 1; 2025: chuva 0.93 do normal, pctl 25, quebra 1
+
+========================= D. Disponibilidade do sm_rootzone_pctl e percentil proprio (portao de novembro) =========================
+fracao das celulas do CE com valor, por mes do ano (amostra de 1 dia a cada 3):
+                1      2      3      4      5      6      7      8      9      10   11     12
+pctl         0.632  0.983  0.986  0.983  0.984  0.952  0.803  0.455  0.102  0.002  0.0  0.001
+sm_rootzone  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.0  1.000
+SMAP L4 zona da raiz, 04/11 a 10/11/2026, contra a mesma janela de 11 anos (2015-2025):
+  percentil proprio por celula (CE): mediana 36; celulas abaixo de todos os 11 anos: 4.6%; media do CE 0.1207 m3/m3, posto 5 de 12 (1 = mais seco)
+  medias do CE na janela por ano: {2015: 0.1181, 2016: 0.114, 2017: 0.1192, 2018: 0.1204, 2019: 0.1231, 2020: 0.1321, 2021: 0.1231, 2022: 0.1484, 2023: 0.123, 2024: 0.1236, 2025: 0.1227}
+tempo total 57 s

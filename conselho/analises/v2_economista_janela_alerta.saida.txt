@@ -1,0 +1,23 @@
+Fracao de janeiro na chuva jan-mai (mediana dos municipios), anos selecionados: 1998: 0.33, 2004: 0.43, 2012: 0.10, 2016: 0.34, 2021: 0.10, 2024: 0.08, 2025: 0.28 | mediana 1998-2025: 0.12
+
+== L1 quebra canonica do milho ==
+  1998-2015 W1 jan-abr (canonica)  paga 24.1% | perdas pagas 56.4% | pagamentos sem perda 40.7% | AUC 0.83 | dentro do ano 0.57 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 5 de 6; alarme falso em 1 de 12 [2005]
+  1998-2015 W2 fev-abr             paga 22.8% | perdas pagas 52.3% | pagamentos sem perda 41.8% | AUC 0.82 | dentro do ano 0.56 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 4 de 6; alarme falso em 1 de 12 [2005]
+  1998-2015 W3 fev-mai             paga 22.0% | perdas pagas 58.8% | pagamentos sem perda 32.4% | AUC 0.86 | dentro do ano 0.59 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 4 de 6; alarme falso em 0 de 12 []
+  2016-2025 W1 jan-abr (canonica)  paga  7.7% | perdas pagas  6.0% | pagamentos sem perda 88.7% | AUC 0.66 | dentro do ano 0.53 | anos ruins [2016]: pegou 0 de 1; alarme falso em 1 de 9 [2021]
+  2016-2025 W2 fev-abr             paga 22.3% | perdas pagas 57.1% | pagamentos sem perda 62.3% | AUC 0.76 | dentro do ano 0.53 | anos ruins [2016]: pegou 1 de 1; alarme falso em 2 de 9 [2021, 2025]
+  2016-2025 W3 fev-mai             paga 21.8% | perdas pagas 59.7% | pagamentos sem perda 59.6% | AUC 0.78 | dentro do ano 0.55 | anos ruins [2016]: pegou 1 de 1; alarme falso em 2 de 9 [2021, 2025]
+  1998-2025 W1 jan-abr (canonica)  paga 18.3% | perdas pagas 44.1% | pagamentos sem perda 48.0% | AUC 0.80 | dentro do ano 0.56 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016]: pegou 5 de 7; alarme falso em 2 de 21 [2005, 2021]
+  1998-2025 W2 fev-abr             paga 22.6% | perdas pagas 53.5% | pagamentos sem perda 49.0% | AUC 0.80 | dentro do ano 0.55 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016]: pegou 5 de 7; alarme falso em 3 de 21 [2005, 2021, 2025]
+  1998-2025 W3 fev-mai             paga 21.9% | perdas pagas 59.0% | pagamentos sem perda 42.0% | AUC 0.83 | dentro do ano 0.58 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016]: pegou 5 de 7; alarme falso em 2 de 21 [2021, 2025]
+
+== L2 cesta tipo GS, perda >= 50% ==
+  1998-2015 W1 jan-abr (canonica)  paga 24.3% | perdas pagas 58.8% | pagamentos sem perda 51.9% | AUC 0.83 | dentro do ano 0.58 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 5 de 6; alarme falso em 1 de 12 [2005]
+  1998-2015 W2 fev-abr             paga 22.9% | perdas pagas 52.3% | pagamentos sem perda 54.7% | AUC 0.82 | dentro do ano 0.58 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 4 de 6; alarme falso em 1 de 12 [2005]
+  1998-2015 W3 fev-mai             paga 22.2% | perdas pagas 57.3% | pagamentos sem perda 48.7% | AUC 0.84 | dentro do ano 0.59 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015]: pegou 4 de 6; alarme falso em 0 de 12 []
+  2016-2025 W1 jan-abr (canonica)  paga  7.8% | perdas pagas  7.1% | pagamentos sem perda 81.0% | AUC 0.62 | dentro do ano 0.50 | anos ruins [2016, 2025]: pegou 0 de 2; alarme falso em 1 de 8 [2021]
+  2016-2025 W2 fev-abr             paga 22.3% | perdas pagas 46.2% | pagamentos sem perda 57.1% | AUC 0.70 | dentro do ano 0.50 | anos ruins [2016, 2025]: pegou 2 de 2; alarme falso em 1 de 8 [2021]
+  2016-2025 W3 fev-mai             paga 21.7% | perdas pagas 47.2% | pagamentos sem perda 55.0% | AUC 0.71 | dentro do ano 0.49 | anos ruins [2016, 2025]: pegou 2 de 2; alarme falso em 1 de 8 [2021]
+  1998-2025 W1 jan-abr (canonica)  paga 18.4% | perdas pagas 39.9% | pagamentos sem perda 56.3% | AUC 0.77 | dentro do ano 0.55 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016, 2025]: pegou 5 de 8; alarme falso em 2 de 20 [2005, 2021]
+  1998-2025 W2 fev-abr             paga 22.7% | perdas pagas 50.0% | pagamentos sem perda 55.6% | AUC 0.78 | dentro do ano 0.54 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016, 2025]: pegou 6 de 8; alarme falso em 2 de 20 [2005, 2021]
+  1998-2025 W3 fev-mai             paga 22.0% | perdas pagas 53.6% | pagamentos sem perda 50.9% | AUC 0.80 | dentro do ano 0.55 | anos ruins [1998, 2001, 2010, 2012, 2013, 2015, 2016, 2025]: pegou 6 de 8; alarme falso em 1 de 20 [2021]

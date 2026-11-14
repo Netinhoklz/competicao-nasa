@@ -1,0 +1,89 @@
+====================================================================================================
+A. Bezerra et al.: correlacao cruzada FRP x SPI / VPD, Ceara, mensal 2012-2025
+====================================================================================================
+FIRMS VIIRS UF 23: 319310 deteccoes, 268453 apos type 0 e confianca n/h
+meses: 168 | soma FRP 2012-2025 = 3,428,024 MW | focos = 268453
+
+Alvo: log1p(FRP) BRUTO (com ciclo sazonal)
+  SPI-1           r(lag0) -0.03 [IC95 -0.21 a +0.09] | r(lag+4) -0.13 [IC95 -0.30 a +0.05] | minimo -0.13 em lag +4 | maximo +0.05 em lag -3
+     lags -6..+6: -0.05 -0.01 +0.04 +0.05 +0.04 +0.05 -0.03 -0.07 -0.10 -0.11 -0.13 -0.09 -0.05
+  SPI-6           r(lag0) -0.06 [IC95 -0.31 a +0.22] | r(lag+4) -0.12 [IC95 -0.28 a +0.12] | minimo -0.13 em lag +3 | maximo -0.01 em lag -2
+     lags -6..+6: -0.07 -0.05 -0.04 -0.02 -0.01 -0.02 -0.06 -0.10 -0.13 -0.13 -0.12 -0.07 -0.03
+  VPD bruto       r(lag0) +0.89 [IC95 +0.86 a +0.92] | r(lag+4) -0.12 [IC95 -0.20 a -0.06] | minimo -0.88 em lag -5 | maximo +0.92 em lag +1
+     lags -6..+6: -0.83 -0.88 -0.68 -0.29 +0.18 +0.60 +0.89 +0.92 +0.72 +0.35 -0.12 -0.56 -0.83
+  VPD anomalia    r(lag0) +0.16 [IC95 -0.01 a +0.39] | r(lag+4) +0.05 [IC95 -0.19 a +0.22] | minimo -0.05 em lag -5 | maximo +0.16 em lag +0
+     lags -6..+6: -0.05 -0.05 -0.00 +0.04 +0.09 +0.12 +0.16 +0.13 +0.09 +0.06 +0.05 +0.00 -0.02
+  chuva mm bruta  r(lag0) -0.62 [IC95 -0.68 a -0.57] | r(lag+4) -0.26 [IC95 -0.30 a -0.18] | minimo -0.83 em lag +1 | maximo +0.80 em lag -4
+     lags -6..+6: +0.50 +0.75 +0.80 +0.62 +0.22 -0.21 -0.62 -0.83 -0.80 -0.59 -0.26 +0.14 +0.50
+
+Alvo: ANOMALIA de log1p(FRP) (sem ciclo)
+  SPI-1           r(lag0) -0.36 [IC95 -0.50 a -0.20] | r(lag+4) -0.14 [IC95 -0.27 a +0.05] | minimo -0.37 em lag +1 | maximo +0.01 em lag +6
+     lags -6..+6: -0.11 -0.11 -0.05 -0.06 -0.16 -0.16 -0.36 -0.37 -0.28 -0.15 -0.14 -0.03 +0.01
+  SPI-6           r(lag0) -0.42 [IC95 -0.54 a -0.22] | r(lag+4) -0.00 [IC95 -0.16 a +0.24] | minimo -0.49 em lag -3 | maximo +0.09 em lag +6
+     lags -6..+6: -0.26 -0.35 -0.47 -0.49 -0.49 -0.45 -0.42 -0.30 -0.18 -0.08 -0.00 +0.07 +0.09
+  VPD anomalia    r(lag0) +0.59 [IC95 +0.46 a +0.70] | r(lag+4) +0.13 [IC95 -0.12 a +0.30] | minimo -0.11 em lag +6 | maximo +0.59 em lag +0
+     lags -6..+6: +0.05 +0.00 +0.08 +0.18 +0.33 +0.44 +0.59 +0.46 +0.32 +0.19 +0.13 -0.05 -0.11
+
+Anual 2012-2023 (n=12): r(log FRP anual, media anual de spi1) = -0.02 (p = 0.960)
+
+Anual 2012-2023 (n=12): r(log FRP anual, media anual de spi6) = +0.15 (p = 0.647)
+
+Anual 2012-2023 (n=12): r(log FRP anual, media anual de vpd) = -0.28 (p = 0.372)
+Ranking dos anos por FRP anual no CE (2012-2025): 2023, 2021, 2022, 2016, 2019, 2020
+  Bezerra et al. (bioma Caatinga): maiores intensidades em 2015, 2019, 2021 e 2023
+
+Climatologia CE 2012-2025 (media mensal): FRP pico no mes 11 | chuva minima no mes 9 | VPD pico no mes 10 | ultimo mes com chuva media > 100 mm: 4
+
+====================================================================================================
+B. Argibay et al.: ano umido seguido de ano seco -> grande area queimada? (MCD64A1 x IMERG, Ceara)
+====================================================================================================
+         ba       P      P1  lba   t
+ano                                 
+2001   43.8   629.0   874.0  3.8 -12
+2002  355.0   925.8   629.0  5.9 -11
+2003  946.9   936.5   925.8  6.9 -10
+2004  455.5  1118.3   936.5  6.1  -9
+2005  267.3   610.0  1118.3  5.6  -8
+2006  183.7   825.1   610.0  5.2  -7
+2007  601.0   691.2   825.1  6.4  -6
+2008  323.5   996.2   691.2  5.8  -5
+2009  168.1  1320.4   996.2  5.1  -4
+2010  243.4   529.5  1320.4  5.5  -3
+2011  613.3  1011.9   529.5  6.4  -2
+2012  431.0   415.9  1011.9  6.1  -1
+2013   35.2   486.4   415.9  3.6   0
+2014   70.0   617.7   486.4  4.2   1
+2015  107.8   547.9   617.7  4.7   2
+2016  512.4   592.0   547.9  6.2   3
+2017  307.4   672.1   592.0  5.7   4
+2018  426.7   707.8   672.1  6.1   5
+2019  808.0   879.9   707.8  6.7   6
+2020  644.0   923.6   879.9  6.5   7
+2021  452.5   585.2   923.6  6.1   8
+2022  358.3   705.2   585.2  5.9   9
+2023  410.0   601.8   705.2  6.0  10
+2024  190.8   685.0   601.8  5.3  11
+2025  241.9   649.8   685.0  5.5  12
+
+B1 estado: log(area queimada) ~ z(P_t jan-jun) + z(P_t-1 jan-jun) + tendencia (n = 25, EP HC3)
+  P   +0.356 (IC95 -0.325 a +1.037; p = 0.305)
+  P1  +0.281 (IC95 -0.145 a +0.706; p = 0.196)
+  t   +0.043 (IC95 -0.014 a +0.099; p = 0.139)
+  R2 = 0.26
+  Anos 'umido (t-1) e seco (t)' (acima/abaixo da mediana jan-jun): [2001, 2005, 2010, 2012, 2021, 2023]
+  anomalia media de log(area) sobre a tendencia: -0.121 vs outros +0.038 (dif -0.159; p permutacao unilateral = 0.661)
+  Anos com maior area queimada no CE: [2003, 2019, 2020, 2011, 2007]
+
+B2 painel de celulas 0,1 grau no Ceara (2001-2025)
+  celulas dentro do CE: 1212 | centros de grade MCD64 -2.550.. ; IMERG casado por vizinho
+  linhas 30300; fracao media queimada por celula-ano 0.0024; zeros 85.94%
+  P1z+t          P1z +0.017 (IC95 -0.042 a +0.077) | t -0.004 (IC95 -0.013 a +0.005) | habilidade fora do ano vs celula+tendencia -0.003 (melhora em 11/25 anos)
+  Pz+t           Pz +0.062 (IC95 +0.001 a +0.122) | t -0.002 (IC95 -0.011 a +0.006) | habilidade fora do ano vs celula+tendencia +0.002 (melhora em 15/25 anos)
+  Pz+P1z+t       Pz +0.063 (IC95 -0.002 a +0.127) | P1z +0.021 (IC95 -0.030 a +0.071) | t -0.001 (IC95 -0.010 a +0.007) | habilidade fora do ano vs celula+tendencia -0.000 (melhora em 14/25 anos)
+  Pz+P1z+Iz+t    Pz +0.066 (IC95 +0.015 a +0.117) | P1z +0.018 (IC95 -0.042 a +0.077) | Iz +0.010 (IC95 -0.055 a +0.074) | t -0.001 (IC95 -0.010 a +0.007) | habilidade fora do ano vs celula+tendencia -0.010 (melhora em 14/25 anos)
+  entre anos (n=25): rho(anomalia de fogo, P_t-1) = +0.09 (p=0.65); rho(anomalia, P_t) = +0.48 (p=0.01)
+
+B3 mesmo teste com focos ativos FIRMS MODIS (Terra+Aqua, type 0, confianca >= 30), CE, jul-dez, 2001-2025
+  log area MCD64A1 (ano todo) : rho(resid. da tendencia, P_t) = +0.40 (p=0.05) | rho(resid., P_t-1) = +0.28 (p=0.17)
+  log focos MODIS jul-dez     : rho(resid. da tendencia, P_t) = +0.45 (p=0.03) | rho(resid., P_t-1) = +0.36 (p=0.07)
+  rho(log area MCD64A1, log focos MODIS jul-dez) = +0.39

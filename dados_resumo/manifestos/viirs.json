@@ -13,7 +13,7 @@
     ],
     "nota": "ano corrente nao tem arquivo anual (so NRT via API com MAP_KEY)"
   },
-  "atualizado_em": "2026-11-13T23:38:58",
+  "atualizado_em": "2026-11-14T09:19:17",
   "vnp13_ndvi": {
     "status": "NAO BAIXADO - exige Earthdata Login (LP DAAC: VNP13A1/VNP13Q1/VJ113A1)",
     "alternativa_aberta": "MODIS MOD13Q1 (mesmo algoritmo de VI) em dados/modis; VIIRS e a continuidade apos o fim do Terra/Aqua"
@@ -39,5 +39,29 @@
       "viirs_ce_mensal.parquet",
       "viirs_ne_mensal.parquet"
     ]
+  },
+  "vnp13a3_opendap": {
+    "fonte": "NASA LP DAAC VNP13A3 v002 via OPeNDAP (Earthdata Cloud)",
+    "concept_id": "C2631828309-LPCLOUD",
+    "tiles": [
+      "h13v09",
+      "h14v09"
+    ],
+    "variaveis": {
+      "_1_km_monthly_NDVI": "/HDFEOS/GRIDS/VIIRS_Grid_monthly_VI_1km/Data_Fields/_1_km_monthly_NDVI",
+      "_1_km_monthly_EVI": "/HDFEOS/GRIDS/VIIRS_Grid_monthly_VI_1km/Data_Fields/_1_km_monthly_EVI",
+      "_1_km_monthly_pixel_reliability": "/HDFEOS/GRIDS/VIIRS_Grid_monthly_VI_1km/Data_Fields/_1_km_monthly_pixel_reliability"
+    },
+    "granulos": 358,
+    "status": {
+      "ok": 358
+    },
+    "baixado_em": "2026-11-14T09:18:28"
+  },
+  "consolidado_vnp13a3": {
+    "arquivo": "E:\\campeonato-nasa\\dados\\viirs\\vnp13a3_ndvi_evi_ceara_001deg.nc",
+    "meses": 179,
+    "inicio": "2012-01-01",
+    "fim": "2026-11-01"
   }
 }

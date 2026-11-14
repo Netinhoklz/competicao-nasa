@@ -1,0 +1,142 @@
+{
+ "Mudare 2025 Nat Commun": {
+  "doi": "10.1038/s41467-025-64567-9",
+  "crossref_ok": true,
+  "titulo": "Crop rotations synergize yield, nutrition, and revenue: a meta-analysis",
+  "autores": "Shingirai Mudare, Jingying Jing, David Makowski, Xueqing He, Zhengyuan Liang, Zoe Sims et al.",
+  "n_autores": 10,
+  "revista": "Nature Communications",
+  "volume": "16",
+  "artigo": "9552",
+  "data": [
+   2025,
+   10,
+   29
+  ],
+  "citacoes_crossref": 61,
+  "acesso_aberto": "gold",
+  "pdf_aberto": "https://www.nature.com/articles/s41467-025-64567-9.pdf",
+  "pmcid": "https://www.ncbi.nlm.nih.gov/pmc/articles/12572145",
+  "resumo": "Increasing agricultural yields through crop diversification may help achieve food and nutrition security. However, the benefits of a transition from monoculture to crop rotation may be reduced if trade-offs exist between yields, dietary energy, nutrients, and revenue. Here, we synthesize 3663 paired field-trial yield observations (1980–2024) and show that globally, crop rotation increased subsequent crop yield, with legume pre-crops outperforming non-legume pre-crops (23% and 16% average increases, respectively). Considering the entire sequence (i.e., pre-crop plus main crop), rotations increased total yields, dietary energy, protein, iron, magnesium, zinc, and revenue by 14–27% relative to continuous monoculture. Notably, win-win relationships among yield, nutrition, and revenue were consistently higher (33–54%) than trade-offs. Different high-performing crop rotations have been identified for several major agricultural production regions worldwide. These findings establish crop rotations as a strategic pathway to enhance synergies among agricultural yields, nutrition, and revenue compared to monoculture, offering scalable solutions for sustainable intensification. Crop diversification is a promising strategy to enhance global food security, yet potential trade-offs between yields and nutritional outcomes remain unclear. This global synthesis reveals that transitioning from monoculture to crop rotation consistently boosts total yield, nutritional quality, and revenue by 14–27%, with win-win outcomes significantly outweighing trade-offs across major agricultural regions."
+ },
+ "Raveloaritiana 2026 Nat Commun": {
+  "doi": "10.1038/s41467-025-67757-7",
+  "crossref_ok": true,
+  "titulo": "Long-term agricultural diversification increases financial profitability, biodiversity, and ecosystem services: a second-order meta-analysis",
+  "autores": "Estelle Raveloaritiana, Thomas Cherico Wanger",
+  "n_autores": 2,
+  "revista": "Nature Communications",
+  "volume": "17",
+  "artigo": "1016",
+  "data": [
+   2026,
+   1,
+   26
+  ],
+  "citacoes_crossref": 25,
+  "acesso_aberto": "gold",
+  "pdf_aberto": "https://www.nature.com/articles/s41467-025-67757-7_reference.pdf",
+  "pmcid": "https://www.ncbi.nlm.nih.gov/pmc/articles/12847752",
+  "resumo": "Sustainable agriculture in the 21st century requires the production of sufficient food, while reducing environmental impacts and safeguarding human livelihoods. Many studies have confirmed agricultural diversification with practices such as intercropping, organic farming, and soil inoculations, as suitable pathways to achieve these goals, but the long-term viability of socioeconomic and ecological benefits is uncertain. Here, we use a second-order meta-analysis to quantify long-term effects of agricultural diversification practices on socioeconomic and ecological benefits based on 120 years of data from 184 meta-analyses with 6741 effect sizes. Diversification increases financial profitability, biodiversity, pollination, soil quality, and carbon sequestration from 37 to 189% over 20 years, and we find no significant effects on crop yield, pest control, and climate regulation. Non-crop and crop diversification practices and use of organic amendments increase or maintain most of these benefits over time. Trade-off analysis between yield and all services shows win-win outcomes during the first 40 years. Our synthesis provides the urgently needed evidence for farmers and other decision-makers that diversification increases long-term financial profitability, biodiversity, soil quality, and climate change mitigation benefits. A large-scale implementation of agricultural diversification requires, however, careful consideration of factors that mediate these benefits. Then, agricultural diversification can be upscaled for long-term socioeconomic and nature-positive outcomes and, ultimately, for a global food system transformation. Feeding a growing population while protecting the environment is a major global challenge. This study suggests that agricultural diversification enhances long-term profitability, biodiversity, soil health, and climate benefits while maintaining crop yields, supporting a shift toward nature-positive farming."
+ },
+ "Zhao 2022 Nat Commun": {
+  "doi": "10.1038/s41467-022-32464-0",
+  "crossref_ok": true,
+  "titulo": "Global systematic review with meta-analysis reveals yield advantage of legume-based rotations and its drivers",
+  "autores": "Jie Zhao, Ji Chen, Damien Beillouin, Hans Lambers, Yadong Yang, Pete Smith et al.",
+  "n_autores": 9,
+  "revista": "Nature Communications",
+  "volume": "13",
+  "artigo": "4926",
+  "data": [
+   2022,
+   8,
+   22
+  ],
+  "citacoes_crossref": 322,
+  "acesso_aberto": "gold",
+  "pdf_aberto": "https://www.nature.com/articles/s41467-022-32464-0.pdf",
+  "pmcid": "https://www.ncbi.nlm.nih.gov/pmc/articles/9395539",
+  "resumo": "Diversified cropping systems, especially those including legumes, have been proposed to enhance food production with reduced inputs and environmental impacts. However, the impact of legume pre-crops on main crop yield and its drivers has never been systematically investigated in a global context. Here, we synthesize 11,768 yield observations from 462 field experiments comparing legume-based and non-legume cropping systems and show that legumes enhanced main crop yield by 20%. These yield advantages decline with increasing N fertilizer rates and crop diversity of the main cropping system. The yield benefits are consistent among main crops (e.g., rice, wheat, maize) and evident across pedo-climatic regions. Moreover, greater yield advantages (32% vs. 7%) are observed in low- vs. high-yielding environments, suggesting legumes increase crop production with low inputs (e.g., in Africa or organic agriculture). In conclusion, our study suggests that legume-based rotations offer a critical pathway for enhancing global crop production, especially when integrated into low-input and low-diversity agricultural systems."
+ },
+ "Beillouin 2021 GCB": {
+  "doi": "10.1111/gcb.15747",
+  "crossref_ok": true,
+  "titulo": "Positive but variable effects of crop diversification on biodiversity and ecosystem services",
+  "autores": "Damien Beillouin, Tamara Ben‐Ari, Eric Malézieux, Verena Seufert, David Makowski",
+  "n_autores": 5,
+  "revista": "Global Change Biology",
+  "volume": "27",
+  "artigo": "4697-4710",
+  "data": [
+   2021,
+   7,
+   16
+  ],
+  "citacoes_crossref": 600,
+  "acesso_aberto": "closed",
+  "pdf_aberto": null,
+  "pmcid": null,
+  "resumo": "Ecological theory suggests that biodiversity has a positive and stabilizing effect on the delivery of ecosystem services. Yet, the impacts of increasing the diversity of cultivated crop species or varieties in agroecosystems are still under scrutiny. The available empirical evidence is scattered in scope, agronomic and geographic contexts, and impacts on ecosystem services may depend on the type of diversification strategy used. To robustly assess the effects of crop diversification in agroecosystems, we compiled the results of 95 meta-analyses integrating 5156 experiments conducted over 84 experimental years and representing more than 54,500 paired observations on 120 crop species in 85 countries. Overall, our synthesis of experimental data from across the globe shows that crop diversification enhances not only crop production (median effect +14%) but also the associated biodiversity (+24%, i.e., the biodiversity of non-cultivated plants and animals), and several supporting and regulating ecosystem services including water quality (+51%), pest and disease control (+63%) and soil quality (+11%). However, there was substantial variability in the results for each individual ecosystem service between different diversification strategies such as agroforestry, intercropping, cover crops, crop rotation or variety mixtures. Agroforestry is particularly effective in delivering multiple ecosystem services, that is, water regulation and quality, pest and diseases regulation, associated biodiversity, long-term soil productivity and quality. Variety mixtures, instead, provide the lowest benefits, whereas the other strategies show intermediate results. Our results highlight that while increasing the diversity of cultivated crop species or varieties in agroecosystems represents a very promising strategy for more sustainable land management, contributing to enhanced yields, enhanced biodiversity and ecosystem services, some crop diversification strategies are more effective than others in supporting key ecosystem services."
+ },
+ "Rasmussen 2024 Science": {
+  "doi": "10.1126/science.adj1914",
+  "crossref_ok": true,
+  "titulo": "Joint environmental and social benefits from diversified agriculture",
+  "autores": "Laura Vang Rasmussen, Ingo Grass, Zia Mehrabi, Olivia M. Smith, Rachel Bezner-Kerr, Jennifer Blesh et al.",
+  "n_autores": 58,
+  "revista": "Science",
+  "volume": "384",
+  "artigo": "87-93",
+  "data": [
+   2024,
+   4,
+   5
+  ],
+  "citacoes_crossref": 153,
+  "acesso_aberto": "green",
+  "pdf_aberto": null,
+  "pmcid": null,
+  "resumo": "Agricultural simplification continues to expand at the expense of more diverse forms of agriculture. This simplification, for example, in the form of intensively managed monocultures, poses a risk to keeping the world within safe and just Earth system boundaries. Here, we estimated how agricultural diversification simultaneously affects social and environmental outcomes. Drawing from 24 studies in 11 countries across 2655 farms, we show how five diversification strategies focusing on livestock, crops, soils, noncrop plantings, and water conservation benefit social (e.g., human well-being, yields, and food security) and environmental (e.g., biodiversity, ecosystem services, and reduced environmental externalities) outcomes. We found that applying multiple diversification strategies creates more positive outcomes than individual management strategies alone. To realize these benefits, well-designed policies are needed to incentivize the adoption of multiple diversification strategies in unison."
+ },
+ "MacLaren 2022 Nat Sustain": {
+  "doi": "10.1038/s41893-022-00911-x",
+  "crossref_ok": true,
+  "titulo": "Long-term evidence for ecological intensification as a pathway to sustainable agriculture",
+  "autores": "Chloe MacLaren, Andrew Mead, Derk van Balen, Lieven Claessens, Ararso Etana, Janjo de Haan et al.",
+  "n_autores": 24,
+  "revista": "Nature Sustainability",
+  "volume": "5",
+  "artigo": "770-779",
+  "data": [
+   2022,
+   6,
+   27
+  ],
+  "citacoes_crossref": 195,
+  "acesso_aberto": "hybrid",
+  "pdf_aberto": null,
+  "pmcid": null,
+  "resumo": "Ecological intensification (EI) could help return agriculture into a ‘safe operating space’ for humanity. Using a novel application of meta-analysis to data from 30 long-term experiments from Europe and Africa (comprising 25,565 yield records), we investigated how field-scale EI practices interact with each other, and with N fertilizer and tillage, in their effects on long-term crop yields. Here we confirmed that EI practices (specifically, increasing crop diversity and adding fertility crops and organic matter) have generally positive effects on the yield of staple crops. However, we show that EI practices have a largely substitutive interaction with N fertilizer, so that EI practices substantially increase yield at low N fertilizer doses but have minimal or no effect on yield at high N fertilizer doses. EI practices had comparable effects across different tillage intensities, and reducing tillage did not strongly affect yields. Intensifying food production sustainably is critical given growing demand and agriculture’s environmental footprint. This meta-analysis finds that practices such as adding organic matter and increasing crop diversity can partly substitute for nitrogen fertilizer to sustain or increase yields."
+ },
+ "Smith 2023 Commun Earth Environ": {
+  "doi": "10.1038/s43247-023-00746-0",
+  "crossref_ok": true,
+  "titulo": "Increasing crop rotational diversity can enhance cereal yields",
+  "autores": "Monique E. Smith, Giulia Vico, Alessio Costa, Timothy Bowles, Amélie C. M. Gaudin, Sara Hallin et al.",
+  "n_autores": 36,
+  "revista": "Communications Earth &amp; Environment",
+  "volume": "4",
+  "artigo": "89",
+  "data": [
+   2023,
+   3,
+   23
+  ],
+  "citacoes_crossref": 113,
+  "acesso_aberto": "gold",
+  "pdf_aberto": "https://www.nature.com/articles/s43247-023-00746-0.pdf",
+  "pmcid": null,
+  "resumo": "Abstract Diversifying agriculture by rotating a greater number of crop species in sequence is a promising practice to reduce negative impacts of crop production on the environment and maintain yields. However, it is unclear to what extent cereal yields change with crop rotation diversity and external nitrogen fertilization level over time, and which functional groups of crops provide the most yield benefit. Here, using grain yield data of small grain cereals and maize from 32 long-term (10–63 years) experiments across Europe and North America, we show that crop rotational diversity, measured as crop species diversity and functional richness, enhanced grain yields. This yield benefit increased over time. Only the yields of winter-sown small grain cereals showed a decline at the highest level of species diversity. Diversification was beneficial to all cereals with a low external nitrogen input, particularly maize, enabling a lower dependence on nitrogen fertilisers and ultimately reducing greenhouse gas emissions and nitrogen pollution. The results suggest that increasing crop functional richness rather than species diversity can be a strategy for supporting grain yields across many environments."
+ }
+}

@@ -1,0 +1,102 @@
+SMAP municipal (hidrologo, deduplicado): 4243 dias x 184 municipios, 2015-03-31 a 2026-11-10; datas repetidas no indice: 0
+
+================== A-D. SMAP pctl no DIA x MEDIA DE 7 DIAS, limiar 20 x 25 (milho, 2016-2025, pareado) ==================
+
+  [28/fev] n = 1820 municipio-anos, 10 anos, 268 quebras
+    AUC total: chuva 0.456 [0.34; 0.59] | SMAP dia 0.606 [0.40; 0.74] | SMAP 7 dias 0.618 [0.43; 0.74]
+    dif SMAP dia - chuva: +0.150 (IC90 por ano -0.069 a +0.237)
+    dif SMAP 7 dias - chuva: +0.161 (IC90 por ano -0.065 a +0.219)
+    AUC dentro do ano: chuva 0.514 | SMAP dia 0.503 | SMAP 7 dias 0.501
+    sem 2016: chuva 0.454 | SMAP dia 0.459 | SMAP 7 dias 0.518
+    r(SMAP dia, SMAP 7 dias) entre municipio-anos = 0.938
+    chuva < 75% (canonica)             acende 14.3% | P(q|alerta) 0.03 (n 260) | P(q|sem) 0.17 | recall  3.4% | 2016 0/127 (alertas 0) | 2021 7/7 (alertas 98) | 2025 0/45 (alertas 0)
+    SMAP dia < 20                      acende  8.0% | P(q|alerta) 0.21 (n 145) | P(q|sem) 0.14 | recall 11.6% | 2016 26/127 (alertas 30) | 2021 0/7 (alertas 19) | 2025 3/45 (alertas 7)
+    SMAP dia < 25                      acende 11.8% | P(q|alerta) 0.22 (n 215) | P(q|sem) 0.14 | recall 17.5% | 2016 38/127 (alertas 48) | 2021 2/7 (alertas 34) | 2025 4/45 (alertas 10)
+    SMAP 7d < 20                       acende  4.6% | P(q|alerta) 0.18 (n 83) | P(q|sem) 0.15 | recall  5.6% | 2016 11/127 (alertas 14) | 2021 0/7 (alertas 8) | 2025 3/45 (alertas 8)
+    SMAP 7d < 25                       acende  8.1% | P(q|alerta) 0.15 (n 148) | P(q|sem) 0.15 | recall  8.2% | 2016 16/127 (alertas 22) | 2021 1/7 (alertas 36) | 2025 4/45 (alertas 12)
+    duas luzes: chuva<75% OU SMAP dia<20 acende 16.8% | P(q|alerta) 0.12 (n 305) | P(q|sem) 0.15 | recall 14.2% | 2016 26/127 (alertas 30) | 2021 7/7 (alertas 98) | 2025 3/45 (alertas 7)
+    duas luzes: chuva<75% OU SMAP 7d<20 acende 15.5% | P(q|alerta) 0.08 (n 282) | P(q|sem) 0.16 | recall  8.6% | 2016 11/127 (alertas 14) | 2021 7/7 (alertas 98) | 2025 3/45 (alertas 8)
+    Quixada (28/fev):
+      razao  quebra   pct      p_dia       p_7d
+      ano                                            
+      2016   0.12       1  1.22  47.830002  57.910000
+      2017   2.07       0  1.31  91.410004  93.089996
+      2018   1.86       0  0.89  56.990002  64.010002
+      2019   2.07       0  1.74  88.169998  86.330002
+      2020   1.78       0  1.23  65.620003  70.320000
+      2021   0.80       0  0.61  35.259998  29.580000
+      2022   1.03       0  0.75  26.500000  35.029999
+      2023   0.36       1  1.08  61.070000  66.150002
+      2024   0.46       1  1.34  91.489998  77.010002
+      2025   0.30       1  1.67  81.610001  64.430000
+
+  [19/mar] n = 1820 municipio-anos, 10 anos, 268 quebras
+    AUC total: chuva 0.547 [0.40; 0.67] | SMAP dia 0.593 [0.39; 0.71] | SMAP 7 dias 0.682 [0.45; 0.81]
+    dif SMAP dia - chuva: +0.046 (IC90 por ano -0.054 a +0.109)
+    dif SMAP 7 dias - chuva: +0.135 (IC90 por ano -0.014 a +0.223)
+    AUC dentro do ano: chuva 0.548 | SMAP dia 0.531 | SMAP 7 dias 0.571
+    sem 2016: chuva 0.455 | SMAP dia 0.444 | SMAP 7 dias 0.495
+    r(SMAP dia, SMAP 7 dias) entre municipio-anos = 0.933
+    chuva < 75% (canonica)             acende 11.8% | P(q|alerta) 0.10 (n 214) | P(q|sem) 0.15 | recall  7.8% | 2016 6/127 (alertas 7) | 2021 7/7 (alertas 100) | 2025 0/45 (alertas 0)
+    SMAP dia < 20                      acende  7.1% | P(q|alerta) 0.35 (n 130) | P(q|sem) 0.13 | recall 16.8% | 2016 32/127 (alertas 38) | 2021 1/7 (alertas 24) | 2025 2/45 (alertas 5)
+    SMAP dia < 25                      acende 13.4% | P(q|alerta) 0.30 (n 244) | P(q|sem) 0.12 | recall 27.2% | 2016 54/127 (alertas 65) | 2021 4/7 (alertas 74) | 2025 3/45 (alertas 6)
+    SMAP 7d < 20                       acende  6.8% | P(q|alerta) 0.50 (n 124) | P(q|sem) 0.12 | recall 23.1% | 2016 47/127 (alertas 56) | 2021 1/7 (alertas 26) | 2025 5/45 (alertas 12)
+    SMAP 7d < 25                       acende 13.0% | P(q|alerta) 0.41 (n 236) | P(q|sem) 0.11 | recall 35.8% | 2016 76/127 (alertas 93) | 2021 4/7 (alertas 72) | 2025 6/45 (alertas 16)
+    duas luzes: chuva<75% OU SMAP dia<20 acende 15.6% | P(q|alerta) 0.19 (n 284) | P(q|sem) 0.14 | recall 20.5% | 2016 34/127 (alertas 40) | 2021 7/7 (alertas 103) | 2025 2/45 (alertas 5)
+    duas luzes: chuva<75% OU SMAP 7d<20 acende 16.1% | P(q|alerta) 0.25 (n 293) | P(q|sem) 0.13 | recall 26.9% | 2016 48/127 (alertas 57) | 2021 7/7 (alertas 102) | 2025 5/45 (alertas 12)
+    Quixada (19/mar):
+      razao  quebra   pct      p_dia       p_7d
+      ano                                            
+      2016   0.12       1  0.88  27.900000  20.879999
+      2017   2.07       0  1.25  91.010002  92.059998
+      2018   1.86       0  0.68  15.420000  20.799999
+      2019   2.07       0  1.50  80.370003  79.800003
+      2020   1.78       0  1.39  81.410004  83.589996
+      2021   0.80       0  0.72  36.549999  30.209999
+      2022   1.03       0  0.98  53.549999  55.360001
+      2023   0.36       1  1.19  85.489998  63.790001
+      2024   0.46       1  1.17  73.050003  74.379997
+      2025   0.30       1  1.44  72.290001  71.239998
+
+  [30/abr] n = 1820 municipio-anos, 10 anos, 268 quebras
+    AUC total: chuva 0.662 [0.51; 0.75] | SMAP dia 0.772 [0.50; 0.85] | SMAP 7 dias 0.772 [0.52; 0.84]
+    dif SMAP dia - chuva: +0.110 (IC90 por ano -0.023 a +0.171)
+    dif SMAP 7 dias - chuva: +0.110 (IC90 por ano +0.002 a +0.165)
+    AUC dentro do ano: chuva 0.529 | SMAP dia 0.562 | SMAP 7 dias 0.553
+    sem 2016: chuva 0.602 | SMAP dia 0.652 | SMAP 7 dias 0.663
+    r(SMAP dia, SMAP 7 dias) entre municipio-anos = 0.966
+    chuva < 75% (canonica)             acende  7.7% | P(q|alerta) 0.11 (n 141) | P(q|sem) 0.15 | recall  6.0% | 2016 9/127 (alertas 14) | 2021 6/7 (alertas 107) | 2025 1/45 (alertas 7)
+    SMAP dia < 20                      acende 17.3% | P(q|alerta) 0.43 (n 314) | P(q|sem) 0.09 | recall 50.4% | 2016 90/127 (alertas 128) | 2021 3/7 (alertas 86) | 2025 30/45 (alertas 65)
+    SMAP dia < 25                      acende 21.9% | P(q|alerta) 0.44 (n 399) | P(q|sem) 0.06 | recall 65.7% | 2016 114/127 (alertas 158) | 2021 4/7 (alertas 98) | 2025 38/45 (alertas 91)
+    SMAP 7d < 20                       acende 13.3% | P(q|alerta) 0.40 (n 242) | P(q|sem) 0.11 | recall 36.2% | 2016 64/127 (alertas 91) | 2021 3/7 (alertas 81) | 2025 21/45 (alertas 46)
+    SMAP 7d < 25                       acende 18.5% | P(q|alerta) 0.41 (n 337) | P(q|sem) 0.09 | recall 51.1% | 2016 87/127 (alertas 125) | 2021 5/7 (alertas 97) | 2025 30/45 (alertas 69)
+    duas luzes: chuva<75% OU SMAP dia<20 acende 19.5% | P(q|alerta) 0.39 (n 355) | P(q|sem) 0.09 | recall 51.9% | 2016 90/127 (alertas 128) | 2021 6/7 (alertas 113) | 2025 31/45 (alertas 66)
+    duas luzes: chuva<75% OU SMAP 7d<20 acende 16.0% | P(q|alerta) 0.36 (n 292) | P(q|sem) 0.11 | recall 38.8% | 2016 67/127 (alertas 94) | 2021 6/7 (alertas 112) | 2025 22/45 (alertas 49)
+    Quixada (30/abr):
+      razao  quebra   pct      p_dia       p_7d
+      ano                                            
+      2016   0.12       1  0.78  20.100000  26.059999
+      2017   2.07       0  1.02  52.990002  54.150002
+      2018   1.86       0  1.11  91.730003  89.720001
+      2019   2.07       0  1.19  48.070000  50.009998
+      2020   1.78       0  1.10  49.630001  53.619999
+      2021   0.80       0  0.69  29.700001  15.880000
+      2022   1.03       0  0.98  53.830002  57.380001
+      2023   0.36       1  1.04  65.980003  65.860001
+      2024   0.46       1  1.05  69.610001  73.769997
+      2025   0.30       1  0.93  20.299999  25.100000
+
+================== E. Regra canonica de chuva por era (milho, quebra canonica) ==================
+  [19/mar 1998-2025] AUC 0.733 | dentro do ano 0.530 | P(q|alerta) 0.40 (n 1132) | P(q|sem) 0.16 | recall 41.5% | taxa-base 0.215
+  [19/mar 1998-2015] AUC 0.772 | dentro do ano 0.522 | P(q|alerta) 0.47 (n 918) | P(q|sem) 0.17 | recall 52.3% | taxa-base 0.253
+  [19/mar 2016-2025] AUC 0.547 | dentro do ano 0.548 | P(q|alerta) 0.10 (n 214) | P(q|sem) 0.15 | recall 7.8% | taxa-base 0.147
+  [30/abr 1998-2025] AUC 0.800 | dentro do ano 0.572 | P(q|alerta) 0.52 (n 932) | P(q|sem) 0.15 | recall 44.1% | taxa-base 0.215
+  [30/abr 1998-2015] AUC 0.831 | dentro do ano 0.590 | P(q|alerta) 0.59 (n 791) | P(q|sem) 0.15 | recall 56.4% | taxa-base 0.253
+  [30/abr 2016-2025] AUC 0.662 | dentro do ano 0.529 | P(q|alerta) 0.11 (n 141) | P(q|sem) 0.15 | recall 6.0% | taxa-base 0.147
+
+================== F. Memoria da zona da raiz (e-folding da anomalia; duas definicoes) ==================
+  media do CE: e-folding ano inteiro = 46 dias | so pares dentro de fev-jun = 73 dias | so pares dentro de ago-dez = 109 dias
+  por municipio (mediana): ano inteiro = 38 dias | fev-jun = 67 dias
+  Nota: aqui a autocorrelacao e AGRUPADA entre anos (inclui a anomalia da estacao inteira). O agronomo (tau 13 d)
+  correlaciona DENTRO de cada ano, o que tira a anomalia media do ano e mede so a memoria intrassazonal.
+  As duas medidas estao certas e respondem perguntas diferentes; nenhuma vai ao pitch como 'o solo esquece em X dias'.

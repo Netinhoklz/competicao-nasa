@@ -1,0 +1,66 @@
+unidade POWER NE mensal: mm/day
+
+================ A) dipolo do Atlantico x chuva FMAM do Ceara (Moura & Shukla 1981: TNA quente + TSA fria 'sempre' com chuva abaixo)
+  P_CE_POWER (45 anos): r(TNA_FMAM) -0.39, r(TSA_FMAM) +0.22, r(DIP_FMAM) -0.57, r(ONI_DJF) -0.44
+    TNA>0 e TSA<0 (padrao de seca): 9 anos, abaixo da mediana em 67% (1981:93%, 1983:60%, 1987:94%, 1997:100%, 2004:98%, 2006:193%, 2007:162%, 2017:92%, 2021:97%)
+    TNA<0 e TSA>0 (padrao chuvoso): 10 anos, acima da mediana em 80%
+  P_CE_IMERG (26 anos): r(TNA_FMAM) -0.35, r(TSA_FMAM) +0.24, r(DIP_FMAM) -0.63, r(ONI_DJF) -0.32
+    TNA>0 e TSA<0 (padrao de seca): 5 anos, abaixo da mediana em 40% (2004:99%, 2006:132%, 2007:111%, 2017:101%, 2021:90%)
+    TNA<0 e TSA>0 (padrao chuvoso): 6 anos, acima da mediana em 67%
+  POWER 1981-2025: R2 so ONI DJF = 0.19; ONI DJF + dipolo FMAM (simultaneo) = 0.39
+
+================ B) Kayano & Andreoli 2006: previsao so pelo ENSO (El Nino -> tercil seco, La Nina -> umido, neutro -> normal)
+  P_CE_POWER (45 anos): acerto total 42% (ao acaso 33%); P(seco | El Nino DJF) 40% (n=15); P(umido | La Nina) 50% (n=16); P(seco | El Nino) inclui 1983, 1987, 1988, 1992, 1995, 1998, 2003, 2005, 2007, 2010, 2015, 2016, 2019, 2020, 2024
+  P_NE_POWER (45 anos): acerto total 44% (ao acaso 33%); P(seco | El Nino DJF) 40% (n=15); P(umido | La Nina) 56% (n=16); P(seco | El Nino) inclui 1983, 1987, 1988, 1992, 1995, 1998, 2003, 2005, 2007, 2010, 2015, 2016, 2019, 2020, 2024
+  P_CE_IMERG (26 anos): acerto total 50% (ao acaso 33%); P(seco | El Nino DJF) 44% (n=9); P(umido | La Nina) 45% (n=11); P(seco | El Nino) inclui 2003, 2005, 2007, 2010, 2015, 2016, 2019, 2020, 2024
+
+================ C) Marengo et al. 2017 (AABC 90(2) supl. 1)
+  P_NE_POWER: FMAM 1981-2016, posicao (1 = mais seco de 36): 1983 7, 1993 4, 1998 3, 2012 2, 2013 5, 2014 11, 2015 8, 2016 1
+    anos abaixo da media 1981-2000 em 1992-2016: 15 de 25 (artigo: 16 de 25 'desde meados dos anos 1990'); em 1991-2015: 15 de 25
+    2016 mais seco que 2012? 261 mm contra 264 mm
+  P_CE_POWER: FMAM 1981-2016, posicao (1 = mais seco de 36): 1983 4, 1993 2, 1998 1, 2012 3, 2013 6, 2014 13, 2015 8, 2016 5
+    anos abaixo da media 1981-2000 em 1992-2016: 15 de 25 (artigo: 16 de 25 'desde meados dos anos 1990'); em 1991-2015: 15 de 25
+    2016 mais seco que 2012? 342 mm contra 317 mm
+  ONI (pico de DJF do ano citado) para 'fortes El Ninos em 1998, 2003, 2007, 2011 e 2015' (secao final do artigo):
+    jun/1997-mai/1998: max ONI +2.4, min +0.4
+    jun/2002-mai/2003: max ONI +1.2, min -0.2
+    jun/2006-mai/2007: max ONI +0.9, min -0.3
+    jun/2010-mai/2011: max ONI -0.5, min -1.6
+    jun/2014-mai/2015: max ONI +1.0, min +0.1
+    jun/2015-mai/2016: max ONI +2.6, min +0.6
+    ONI 2011-06 a 2012-05: min -1.0, max -0.2  (artigo: 'La Nina em 2012-13')
+    ONI 2012-06 a 2013-05: min -0.3, max +0.4  (artigo: 'La Nina em 2012-13')
+    ONI 2013-06 a 2014-05: min -0.5, max +0.3  (artigo: 'La Nina em 2012-13')
+
+(carregando IMERG NE diario 1998-2025...)
+
+================ D) Sparacino et al. 2021 (postos INMET/ANA, jul/1983-jun/2018) x IMERG (jul/1998-jun/2025), quadrado aprox. das Serras (PI)
+  artigo: anual 749 +- 140 mm; inicio 11/nov (dp 20 d); fim 11/abr (dp 25 d); estacao 152 +- 26 d; seca 214 +- 34 d; meio da seca 158 +- 31 d; tendencias: anual -7 +- 2 mm/ano (P=0,0019), taxa de chuva -0,03 +- 0,02 mm/dia/ano (P=0,0648), meio da seca +1,2 +- 0,5 d/ano (P=0,024)
+  IMERG (27 anos climatologicos): anual 721 +- 117 mm; inicio 12/Nov (dp 23 d); fim 07/Apr (dp 23 d); estacao 146 +- 35 d; seca 220 +- 37 d; meio da seca (< 5 mm) 115 +- 17 d; fracao da chuva dentro da estacao 87%
+  r(chuva da estacao, data de inicio) = -0.02 (artigo +0,10); r(chuva, fim) = +0.54 (artigo +0,44); r(chuva, duracao) = +0.38 (artigo +0,34)
+  tendencia anual (mm/ano)               1998-2018: -6.562 +- 4.610 (P = 0.172, n = 20)
+  tendencia anual (mm/ano)               1998-2025: -4.073 +- 2.830 (P = 0.162, n = 27)
+  tendencia taxa de chuva (mm/dia/ano)   1998-2018: -0.014 +- 0.062 (P = 0.821, n = 20)
+  tendencia taxa de chuva (mm/dia/ano)   1998-2025: -0.043 +- 0.036 (P = 0.246, n = 27)
+  tendencia meio da seca (d/ano)         1998-2018: +0.378 +- 0.760 (P = 0.625, n = 20)
+  tendencia meio da seca (d/ano)         1998-2025: +0.084 +- 0.421 (P = 0.844, n = 27)
+  tendencia CDD < 2 mm (d/ano)           1998-2018: +1.165 +- 0.689 (P = 0.108, n = 20)
+  tendencia CDD < 2 mm (d/ano)           1998-2025: +0.424 +- 0.471 (P = 0.377, n = 27)
+  anos citados no artigo: estacao mais longa 2009-10 (189 d) e 1999-00 (184 d); mais curta 2015-16 (87 d) e 2003-04 (89 d). IMERG: 1999-00 183 d, 2003-04 88 d, 2009-10 184 d, 2015-16 44 d
+  IMERG: mais longas 2009-10 (184 d), 1999-00 (183 d); mais curtas 2015-16 (44 d), 2001-02 (85 d)
+
+================ E) Nobre & Shukla 1996: norte e sul do Nordeste fora de fase (IMERG 1998-2025)
+  r(sul NDJ anterior, norte FMAM) = -0.10 (n=27); r(sul FMAM, norte FMAM) = +0.59 (n=28)
+  anos de seca no norte (tercil inferior FMAM): [2001, 2005, 2010, 2012, 2013, 2015, 2016, 2025]; sul NDJ anterior acima da mediana em 38%
+
+================ F) Rocha Junior et al. 2021 (Water 13:1613): EOF da chuva de fev-abr no Nordeste, IMERG 0,5 grau, 1998-2025
+  variancia explicada (anomalia em mm, sem padronizar): EOF1 49%, EOF2 22%, EOF3 6%; soma 77%
+  PC1: |carga| norte (lat > -9) / sul = 1.9; r(ONI_DJF) -0.24, r(ONI_FMA) -0.25, r(DIP_FMAM) -0.47, r(TSA_FMAM) +0.31, r(TNA_FMAM) -0.16
+  PC2: |carga| norte (lat > -9) / sul = 1.3; r(ONI_DJF) -0.17, r(ONI_FMA) -0.24, r(DIP_FMAM) +0.39, r(TSA_FMAM) -0.24, r(TNA_FMAM) +0.15
+  PC3: |carga| norte (lat > -9) / sul = 1.1; r(ONI_DJF) +0.47, r(ONI_FMA) +0.46, r(DIP_FMAM) +0.49, r(TSA_FMAM) +0.41, r(TNA_FMAM) +0.70
+
+================ G) seca de 2012-2018: maior em duracao e severidade? SPI-12 do POWER (Ceara e Nordeste), corridas com SPI < 0
+  Ceara: eventos (SPI-12 < 0, >= 3 meses) por severidade: 04/2012-11/2018 (80 meses, severidade 70); 12/1981-04/1984 (29 meses, severidade 36); 03/1992-03/1994 (25 meses, severidade 34); 04/1997-12/1999 (33 meses, severidade 28)
+    mais longo: 04/2012-11/2018 (80 meses); SPI-12 atual (10/2026) = -0.77
+  Nordeste: eventos (SPI-12 < 0, >= 3 meses) por severidade: 03/2012-10/2020 (104 meses, severidade 104); 10/2023-12/2025 (27 meses, severidade 25); 03/1982-03/1984 (25 meses, severidade 21); 01/1993-03/1994 (15 meses, severidade 19)
+    mais longo: 03/2012-10/2020 (104 meses); SPI-12 atual (12/2025) = -1.12

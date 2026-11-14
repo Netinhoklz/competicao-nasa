@@ -1,0 +1,13 @@
+{
+  "fonte": "NOAA CPC (ONI, Niño semanal, discussão ENSO 12/11/2026), NOAA PSL (TNA/TSA), NASA IMERG/SMAP/GRACE/VIIRS, IBGE PAM",
+  "saidas": [
+    "analogos_chuva_uf.csv",
+    "analogos_rendimento_ce.csv",
+    "estado_atual_uf.csv",
+    "eventos.csv",
+    "indices.csv",
+    "perspectiva_uf.csv",
+    "smap_pctl_comparado.csv"
+  ],
+  "atualizado_em": "2026-11-14T11:12:28"
+}

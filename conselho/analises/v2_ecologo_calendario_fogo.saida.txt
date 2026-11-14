@@ -1,0 +1,67 @@
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+  seca = abaixo.idxmax().dayofyear if abaixo.any() else np.nan
+  fim = cum[c].ge(0.95).idxmax().dayofyear
+SMAP L4: 4 datas duplicadas no arquivo consolidado (2023-10-09, 2024-04-03, 2024-11-26, 2025-05-22); media por data
+Municipio-anos com >= 20 focos em jul-dez e as tres datas: 1649 (179 municipios, 2015-2025)
+  p10      : mediana 17/09 (IQR 29/08-08/10); dp entre anos dentro do municipio = 19.0 dias
+  p50      : mediana 10/11 (IQR 26/10-21/11); dp entre anos dentro do municipio = 15.4 dias
+  seca_smap: mediana 12/10 (IQR 26/09-28/10); dp entre anos dentro do municipio = 25.4 dias
+  fim_chuva: mediana 29/05 (IQR 15/05-12/06); dp entre anos dentro do municipio = 18.4 dias
+
+O fogo anda junto com a secura? (anomalias dentro do municipio; EP agrupado por ano, 11 grupos)
+  p10_a ~ seca_smap_a               : seca_smap_a +0.132 dia/dia (IC95 +0.011 a +0.253) | rho pooled com seca_smap_a +0.152
+  p10_a ~ fim_chuva_a               : fim_chuva_a +0.114 dia/dia (IC95 -0.031 a +0.259) | rho pooled com fim_chuva_a +0.119
+  p10_a ~ seca_smap_a + fim_chuva_a : seca_smap_a +0.118 dia/dia (IC95 +0.012 a +0.223) | fim_chuva_a +0.057 dia/dia (IC95 -0.005 a +0.118) | rho pooled com seca_smap_a +0.152
+  p50_a ~ seca_smap_a               : seca_smap_a +0.095 dia/dia (IC95 +0.006 a +0.183) | rho pooled com seca_smap_a +0.161
+  p50_a ~ fim_chuva_a               : fim_chuva_a +0.118 dia/dia (IC95 +0.009 a +0.227) | rho pooled com fim_chuva_a +0.153
+  p50_a ~ seca_smap_a + fim_chuva_a : seca_smap_a +0.073 dia/dia (IC95 -0.007 a +0.154) | fim_chuva_a +0.082 dia/dia (IC95 -0.001 a +0.166) | rho pooled com seca_smap_a +0.161
+
+Medias estaduais por ano (dia do ano):
+        p10    p50 seca_smap fim_chuva           n
+ano                                               
+2015  17/09  08/11     29/09     22/06   83.282895
+2016  04/09  28/10     26/08     11/05  120.650307
+2017  19/09  06/11     04/10     09/06   94.513158
+2018  13/09  02/11     30/09     09/05   88.563291
+2019  20/09  05/11     24/10     25/05  120.850000
+2020  14/09  06/11     09/11     04/06  106.393333
+2021  18/09  07/11     06/10     02/06  115.196319
+2022  04/10  20/11     05/11     08/06  131.207792
+2023  19/09  05/11     14/10     16/05  137.909639
+2024  24/09  20/11     26/10     04/06  104.430556
+2025  15/09  03/11     18/10     09/06  121.280488
+  entre anos (n=11): rho(p10, seca_smap) = +0.55 (p=0.08)
+  entre anos (n=11): rho(p50, seca_smap) = +0.41 (p=0.21)
+  entre anos (n=11): rho(p10, fim_chuva) = +0.25 (p=0.45)
+  entre anos (n=11): rho(p50, fim_chuva) = +0.57 (p=0.07)
+
+Fracao dos focos do ano por mes (2015-2025): 1: 5.6%, 2: 1.4%, 3: 0.5%, 4: 0.2%, 5: 0.4%, 6: 0.8%, 7: 1.7%, 8: 5.6%, 9: 10.9%, 10: 21.7%, 11: 27.5%, 12: 23.7%
+  acumulado ate 31/ago: 16%; ate 30/set: 27%
+
+Cobertura ESA CCI 2020 sob 159942 focos de out-dez (2015-2025) x area do Ceara (amostra 1 em 9 pixels):
+                         focos_out_dez_%  area_CE_%  razao
+floresta/arborea                    51.2       43.2   1.19
+arbustiva/campo                     27.8       33.3   0.83
+mosaico lavoura/natural             15.3       15.8   0.97
+lavoura                              4.7        5.2   0.90
+outra                                0.9        2.4   0.38

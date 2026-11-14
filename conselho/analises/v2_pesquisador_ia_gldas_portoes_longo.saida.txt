@@ -1,0 +1,122 @@
+[GLDAS CLSM + SMAP L4 recortes CE] 6.8s
+GLDAS: 118 municipios com centro de celula, 66 pela celula mais proxima | SMAP: 173 e 11
+
+==================== A. 2004-2025 (22 quadras): chuva acumulada x estado (API do IMERG, GLDAS CLSM) ====================
+
+--- milho | 31/jan | n = 4007 | anos 2004-2025 | taxa 0.216
+    AUC agregada: R 0.560 | API 0.594 | G 0.528 | R+G 0.539 | API+G 0.561
+    AUC dentro do ano: R 0.500 | API 0.492 | G 0.488 | R+G 0.499 | API+G 0.489
+    API       - R      : dAUC +0.034 IC90 [+0.014,+0.051] | d dentro -0.008 [-0.032,+0.013] | anos com dentro melhor 8/18
+    G         - R      : dAUC -0.032 IC90 [-0.119,+0.045] | d dentro -0.012 [-0.066,+0.041] | anos com dentro melhor 11/18
+    R+G       - R      : dAUC -0.021 IC90 [-0.078,+0.024] | d dentro -0.000 [-0.027,+0.025] | anos com dentro melhor 10/18
+    API+G     - API    : dAUC -0.033 IC90 [-0.073,+0.004] | d dentro -0.003 [-0.037,+0.031] | anos com dentro melhor 10/18
+
+--- milho | 19/mar | n = 4007 | anos 2004-2025 | taxa 0.216
+    AUC agregada: R 0.696 | API 0.727 | G 0.709 | R+G 0.718 | API+G 0.735
+    AUC dentro do ano: R 0.510 | API 0.508 | G 0.523 | R+G 0.512 | API+G 0.518
+    API       - R      : dAUC +0.031 IC90 [-0.015,+0.087] | d dentro -0.002 [-0.021,+0.019] | anos com dentro melhor 9/18
+    G         - R      : dAUC +0.013 IC90 [-0.026,+0.056] | d dentro +0.012 [-0.044,+0.076] | anos com dentro melhor 12/18
+    R+G       - R      : dAUC +0.022 IC90 [-0.004,+0.053] | d dentro +0.002 [-0.039,+0.040] | anos com dentro melhor 10/18
+    API+G     - API    : dAUC +0.008 IC90 [-0.015,+0.033] | d dentro +0.010 [-0.028,+0.042] | anos com dentro melhor 11/18
+
+--- milho | 30/abr | n = 4007 | anos 2004-2025 | taxa 0.216
+    AUC agregada: R 0.766 | API 0.770 | G 0.728 | R+G 0.782 | API+G 0.769
+    AUC dentro do ano: R 0.539 | API 0.556 | G 0.528 | R+G 0.542 | API+G 0.550
+    API       - R      : dAUC +0.004 IC90 [-0.042,+0.054] | d dentro +0.017 [-0.012,+0.045] | anos com dentro melhor 10/18
+    G         - R      : dAUC -0.037 IC90 [-0.113,+0.032] | d dentro -0.011 [-0.063,+0.052] | anos com dentro melhor 11/18
+    R+G       - R      : dAUC +0.016 IC90 [-0.016,+0.054] | d dentro +0.003 [-0.027,+0.035] | anos com dentro melhor 9/18
+    API+G     - API    : dAUC -0.001 IC90 [-0.030,+0.024] | d dentro -0.006 [-0.025,+0.015] | anos com dentro melhor 10/18
+
+--- feijao | 31/jan | n = 4007 | anos 2004-2025 | taxa 0.142
+    AUC agregada: R 0.485 | API 0.517 | G 0.444 | R+G 0.455 | API+G 0.477
+    AUC dentro do ano: R 0.454 | API 0.461 | G 0.461 | R+G 0.439 | API+G 0.442
+    API       - R      : dAUC +0.032 IC90 [+0.013,+0.049] | d dentro +0.007 [-0.023,+0.034] | anos com dentro melhor 12/19
+    G         - R      : dAUC -0.041 IC90 [-0.136,+0.053] | d dentro +0.007 [-0.055,+0.080] | anos com dentro melhor 11/19
+    R+G       - R      : dAUC -0.030 IC90 [-0.090,+0.022] | d dentro -0.015 [-0.051,+0.019] | anos com dentro melhor 12/19
+    API+G     - API    : dAUC -0.040 IC90 [-0.091,+0.002] | d dentro -0.019 [-0.058,+0.022] | anos com dentro melhor 10/19
+
+--- feijao | 19/mar | n = 4007 | anos 2004-2025 | taxa 0.142
+    AUC agregada: R 0.617 | API 0.657 | G 0.614 | R+G 0.625 | API+G 0.647
+    AUC dentro do ano: R 0.491 | API 0.510 | G 0.515 | R+G 0.501 | API+G 0.516
+    API       - R      : dAUC +0.040 IC90 [+0.000,+0.088] | d dentro +0.019 [+0.002,+0.035] | anos com dentro melhor 13/19
+    G         - R      : dAUC -0.004 IC90 [-0.036,+0.025] | d dentro +0.023 [-0.022,+0.061] | anos com dentro melhor 13/19
+    R+G       - R      : dAUC +0.008 IC90 [-0.011,+0.027] | d dentro +0.010 [-0.025,+0.040] | anos com dentro melhor 12/19
+    API+G     - API    : dAUC -0.010 IC90 [-0.033,+0.012] | d dentro +0.006 [-0.024,+0.032] | anos com dentro melhor 10/19
+
+--- feijao | 30/abr | n = 4007 | anos 2004-2025 | taxa 0.142
+    AUC agregada: R 0.689 | API 0.711 | G 0.669 | R+G 0.704 | API+G 0.706
+    AUC dentro do ano: R 0.511 | API 0.535 | G 0.524 | R+G 0.526 | API+G 0.542
+    API       - R      : dAUC +0.022 IC90 [-0.023,+0.062] | d dentro +0.024 [-0.009,+0.058] | anos com dentro melhor 8/19
+    G         - R      : dAUC -0.019 IC90 [-0.068,+0.028] | d dentro +0.013 [-0.035,+0.063] | anos com dentro melhor 12/19
+    R+G       - R      : dAUC +0.015 IC90 [-0.010,+0.038] | d dentro +0.015 [-0.009,+0.038] | anos com dentro melhor 11/19
+    API+G     - API    : dAUC -0.005 IC90 [-0.025,+0.014] | d dentro +0.007 [-0.013,+0.027] | anos com dentro melhor 12/19
+
+==================== B. 2016-2025 (10 quadras), mesmas amostras: SMAP contra chuva acumulada, API e GLDAS ====================
+
+--- milho | 31/jan | n = 1820 | anos 2016-2025 | taxa 0.147
+    AUC agregada: R 0.271 | API 0.266 | G 0.273 | S 0.230 | API+S 0.244 | R+S 0.247
+    AUC dentro do ano: R 0.525 | API 0.492 | G 0.526 | S 0.481 | API+S 0.480 | R+S 0.488
+    S         - R      : dAUC -0.041 IC90 [-0.119,-0.014] | d dentro -0.045 [-0.140,+0.018] | anos com dentro melhor 4/9
+    S         - API    : dAUC -0.036 IC90 [-0.082,-0.010] | d dentro -0.011 [-0.086,+0.050] | anos com dentro melhor 5/9
+    S         - G      : dAUC -0.043 IC90 [-0.114,-0.006] | d dentro -0.045 [-0.203,+0.107] | anos com dentro melhor 4/9
+    API+S     - API    : dAUC -0.021 IC90 [-0.041,-0.006] | d dentro -0.012 [-0.060,+0.025] | anos com dentro melhor 5/9
+    R+S       - R      : dAUC -0.024 IC90 [-0.063,-0.012] | d dentro -0.037 [-0.098,+0.003] | anos com dentro melhor 3/9
+
+--- milho | 19/mar | n = 1820 | anos 2016-2025 | taxa 0.147
+    AUC agregada: R 0.547 | API 0.653 | G 0.611 | S 0.684 | API+S 0.673 | R+S 0.632
+    AUC dentro do ano: R 0.548 | API 0.544 | G 0.512 | S 0.574 | API+S 0.559 | R+S 0.565
+    S         - R      : dAUC +0.137 IC90 [-0.014,+0.230] | d dentro +0.026 [-0.013,+0.056] | anos com dentro melhor 6/9
+    S         - API    : dAUC +0.031 IC90 [-0.008,+0.068] | d dentro +0.030 [-0.013,+0.071] | anos com dentro melhor 7/9
+    S         - G      : dAUC +0.072 IC90 [-0.038,+0.144] | d dentro +0.062 [-0.094,+0.187] | anos com dentro melhor 5/9
+    API+S     - API    : dAUC +0.020 IC90 [-0.001,+0.037] | d dentro +0.015 [-0.008,+0.035] | anos com dentro melhor 7/9
+    R+S       - R      : dAUC +0.085 IC90 [-0.005,+0.150] | d dentro +0.017 [-0.002,+0.033] | anos com dentro melhor 6/9
+
+--- milho | 30/abr | n = 1820 | anos 2016-2025 | taxa 0.147
+    AUC agregada: R 0.662 | API 0.766 | G 0.797 | S 0.772 | API+S 0.773 | R+S 0.743
+    AUC dentro do ano: R 0.529 | API 0.529 | G 0.548 | S 0.557 | API+S 0.544 | R+S 0.548
+    S         - R      : dAUC +0.110 IC90 [-0.001,+0.162] | d dentro +0.029 [-0.033,+0.078] | anos com dentro melhor 3/9
+    S         - API    : dAUC +0.005 IC90 [-0.033,+0.028] | d dentro +0.028 [-0.031,+0.065] | anos com dentro melhor 8/9
+    S         - G      : dAUC -0.025 IC90 [-0.095,+0.044] | d dentro +0.009 [-0.148,+0.119] | anos com dentro melhor 3/9
+    API+S     - API    : dAUC +0.006 IC90 [-0.016,+0.019] | d dentro +0.015 [-0.029,+0.040] | anos com dentro melhor 5/9
+    R+S       - R      : dAUC +0.081 IC90 [+0.009,+0.124] | d dentro +0.019 [-0.019,+0.048] | anos com dentro melhor 5/9
+
+--- feijao | 31/jan | n = 1814 | anos 2016-2025 | taxa 0.132
+    AUC agregada: R 0.292 | API 0.293 | G 0.285 | S 0.258 | API+S 0.271 | R+S 0.272
+    AUC dentro do ano: R 0.477 | API 0.444 | G 0.499 | S 0.462 | API+S 0.442 | R+S 0.466
+    S         - R      : dAUC -0.034 IC90 [-0.084,-0.002] | d dentro -0.015 [-0.060,+0.027] | anos com dentro melhor 4/10
+    S         - API    : dAUC -0.035 IC90 [-0.071,-0.007] | d dentro +0.017 [-0.026,+0.044] | anos com dentro melhor 6/10
+    S         - G      : dAUC -0.028 IC90 [-0.067,+0.004] | d dentro -0.037 [-0.123,+0.041] | anos com dentro melhor 4/10
+    API+S     - API    : dAUC -0.021 IC90 [-0.039,-0.008] | d dentro -0.002 [-0.026,+0.012] | anos com dentro melhor 5/10
+    R+S       - R      : dAUC -0.020 IC90 [-0.047,-0.005] | d dentro -0.011 [-0.040,+0.005] | anos com dentro melhor 5/10
+
+--- feijao | 19/mar | n = 1814 | anos 2016-2025 | taxa 0.132
+    AUC agregada: R 0.528 | API 0.597 | G 0.543 | S 0.618 | API+S 0.610 | R+S 0.582
+    AUC dentro do ano: R 0.537 | API 0.542 | G 0.511 | S 0.545 | API+S 0.544 | R+S 0.548
+    S         - R      : dAUC +0.089 IC90 [+0.003,+0.145] | d dentro +0.008 [-0.011,+0.024] | anos com dentro melhor 6/10
+    S         - API    : dAUC +0.020 IC90 [-0.008,+0.049] | d dentro +0.003 [-0.023,+0.031] | anos com dentro melhor 4/10
+    S         - G      : dAUC +0.075 IC90 [+0.004,+0.130] | d dentro +0.034 [-0.034,+0.097] | anos com dentro melhor 5/10
+    API+S     - API    : dAUC +0.013 IC90 [-0.003,+0.028] | d dentro +0.002 [-0.014,+0.018] | anos com dentro melhor 5/10
+    R+S       - R      : dAUC +0.054 IC90 [+0.004,+0.088] | d dentro +0.010 [-0.001,+0.020] | anos com dentro melhor 6/10
+
+--- feijao | 30/abr | n = 1814 | anos 2016-2025 | taxa 0.132
+    AUC agregada: R 0.614 | API 0.663 | G 0.685 | S 0.659 | API+S 0.664 | R+S 0.648
+    AUC dentro do ano: R 0.525 | API 0.505 | G 0.509 | S 0.515 | API+S 0.511 | R+S 0.521
+    S         - R      : dAUC +0.045 IC90 [-0.032,+0.089] | d dentro -0.010 [-0.044,+0.024] | anos com dentro melhor 4/10
+    S         - API    : dAUC -0.004 IC90 [-0.021,+0.015] | d dentro +0.010 [-0.008,+0.032] | anos com dentro melhor 7/10
+    S         - G      : dAUC -0.026 IC90 [-0.054,+0.005] | d dentro +0.006 [-0.045,+0.047] | anos com dentro melhor 4/10
+    API+S     - API    : dAUC +0.001 IC90 [-0.008,+0.011] | d dentro +0.007 [-0.003,+0.018] | anos com dentro melhor 7/10
+    R+S       - R      : dAUC +0.034 IC90 [-0.015,+0.056] | d dentro -0.005 [-0.023,+0.014] | anos com dentro melhor 4/10
+
+==================== C. Concordancia entre as camadas de estado (Spearman; 2016-2025) ====================
+  31/jan S x API: dentro do ano +0.60 | entre anos (media estadual, n=10) +0.96
+  31/jan S x G: dentro do ano +0.09 | entre anos (media estadual, n=10) +0.95
+  31/jan G x API: dentro do ano +0.14 | entre anos (media estadual, n=10) +0.94
+  31/jan S x R: dentro do ano +0.55 | entre anos (media estadual, n=10) +0.96
+  19/mar S x API: dentro do ano +0.79 | entre anos (media estadual, n=10) +0.93
+  19/mar S x G: dentro do ano +0.09 | entre anos (media estadual, n=10) +0.84
+  19/mar G x API: dentro do ano +0.10 | entre anos (media estadual, n=10) +0.68
+  19/mar S x R: dentro do ano +0.77 | entre anos (media estadual, n=10) +0.73
+  30/abr S x API: dentro do ano +0.76 | entre anos (media estadual, n=10) +0.98
+  30/abr S x G: dentro do ano +0.31 | entre anos (media estadual, n=10) +0.95
+  30/abr G x API: dentro do ano +0.29 | entre anos (media estadual, n=10) +0.93
+  30/abr S x R: dentro do ano +0.74 | entre anos (media estadual, n=10) +0.89

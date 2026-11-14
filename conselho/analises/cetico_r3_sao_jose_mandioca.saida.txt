@@ -1,0 +1,22 @@
+==================== A. Sao Jose: preve o RESTO da quadra (20/mar-31/mai)? ====================
+  dia19  x chuva restante: rho municipal (pooled) +0.18 | rho estadual +0.32 (p=0.10, n=28)
+  j3     x chuva restante: rho municipal (pooled) +0.23 | rho estadual +0.23 (p=0.24, n=28)
+  ate19  x chuva restante: rho municipal (pooled) +0.18 | rho estadual +0.32 (p=0.09, n=28)
+  fracao da chuva fev-mai que ja caiu ate 19/mar (mediana dos anos): 0.58 (inclui jan no numerador)
+  AUC quebra milho com dia19     : 0.556
+  AUC quebra milho com j3        : 0.573
+  AUC quebra milho com ate19_pct : 0.733
+  AUC quebra milho com resto_pct : 0.770
+
+==================== B. 2012 e 2016 no portao de 30/abr (alerta: jan-abr < 75% do normal do municipio) ====================
+  1998: quebras=135, alertas=121, acertos=95, recall=70%, precisao=79%
+  2012: quebras=135, alertas=155, acertos=119, recall=88%, precisao=77%
+  2016: quebras=127, alertas=12, acertos=8, recall=6%, precisao=67%
+  2024: quebras=14, alertas=1, acertos=0, recall=0%, precisao=0%
+  todos os anos: recall 41%; precisao 52%; taxa-base 21.5%
+
+==================== C. Mandioca: relato repetido x variancia ====================
+  municipios com >= 15 anos: 87; fracao mediana de anos repetidos 0.11; com >= 1 repeticao: 92%
+  rho(fracao repetida, dp do log-rendimento) = -0.37 (p=0.000)
+  dp mediano do log-rendimento: sem repeticao 0.52 (n=7) | com >= 10% repetido 0.37 (n=53)
+  referencia: dp mediano do log-rendimento do milho 0.76

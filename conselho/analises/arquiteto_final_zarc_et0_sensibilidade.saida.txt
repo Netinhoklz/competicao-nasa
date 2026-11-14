@@ -1,0 +1,15 @@
+
+ET0 x 1.00: ET0 media jan-out = 1768 mm
+  milho: Quixada data-limite = 01/mar; mediana estadual do indice do ultimo decendio = 01/mar
+  caupi: Quixada data-limite = 21/mar; mediana estadual do indice do ultimo decendio = 21/mar
+  sorgo: Quixada data-limite = 11/mar; mediana estadual do indice do ultimo decendio = 11/mar
+
+ET0 x 0.87: ET0 media jan-out = 1538 mm
+  milho: Quixada data-limite = 01/mar; mediana estadual do indice do ultimo decendio = 11/mar
+  caupi: Quixada data-limite = 21/mar; mediana estadual do indice do ultimo decendio = 01/abr
+  sorgo: Quixada data-limite = 21/mar; mediana estadual do indice do ultimo decendio = 21/mar
+
+Deslocamento da data-limite (ET0 x0,87 menos x1,00), em decendios, nos 184 municipios:
+  milho: {0: 87, 1: 96, 2: 1}  | fracao que anda >= 1 decendio: 53%; >= 2: 1%
+  caupi: {0: 76, 1: 105, 2: 3}  | fracao que anda >= 1 decendio: 59%; >= 2: 2%
+  sorgo: {0: 59, 1: 120, 2: 5}  | fracao que anda >= 1 decendio: 68%; >= 2: 3%

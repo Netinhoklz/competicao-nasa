@@ -1,0 +1,16 @@
+
+canonica (b): n=2495 municipio-anos, 135 municipios, 28 anos
+  100% milho    CVaR10=0.151 IC90 ano [0.093,0.259]  P(<0,5)=0.211
+  milho+feijao  CVaR10=0.263 IC90 ano [0.192,0.376]  P(<0,5)=0.146
+  1/3 cada      CVaR10=0.356 IC90 ano [0.279,0.473]  P(<0,5)=0.108
+  ganho de CVaR10 (1/3 - milho): IC90 [+0.172,+0.233]
+  P(<0,5) milho IC90 [0.134,0.292] | 1/3 IC90 [0.052,0.166]
+  anos que formam a cauda de 10% do milho (contagem de municipio-anos): {2012: 52, 1998: 51, 2010: 32, 2016: 26, 2013: 26, 2001: 18, 2015: 11, 2005: 7}
+
+sem anos repetidos da mandioca (c): n=2143 municipio-anos, 133 municipios, 28 anos
+  100% milho    CVaR10=0.139 IC90 ano [0.085,0.238]  P(<0,5)=0.231
+  milho+feijao  CVaR10=0.253 IC90 ano [0.181,0.362]  P(<0,5)=0.161
+  1/3 cada      CVaR10=0.340 IC90 ano [0.265,0.448]  P(<0,5)=0.120
+  ganho de CVaR10 (1/3 - milho): IC90 [+0.169,+0.227]
+  P(<0,5) milho IC90 [0.147,0.323] | 1/3 IC90 [0.062,0.187]
+  anos que formam a cauda de 10% do milho (contagem de municipio-anos): {1998: 47, 2012: 46, 2010: 29, 2016: 25, 2013: 20, 2001: 10, 2015: 9, 2025: 5}

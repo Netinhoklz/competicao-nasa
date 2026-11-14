@@ -1,0 +1,26 @@
+A) replicacao: R1 recalculado x R1 do arquivo: r = 1.0000; n = 184
+   Efeito Q1->Q3 de diversidade (2,34 -> 3,30 culturas efetivas), p.p. de rendimento relativo do portfolio na seca 2012-16:
+   total (o +6,6 do teste)                               +6.6 p.p. (EP 2.1; p HC3 0.002 | p agrupado por microrregiao 0.001)
+   composicao (razao da cultura nos outros municipios)   +2.0 p.p. (EP 0.5; p HC3 0.000 | p agrupado por microrregiao 0.000)
+   transbordamento (resto)                               +4.6 p.p. (EP 2.5; p HC3 0.064 | p agrupado por microrregiao 0.039)
+   composicao, referencia da mesorregiao                 +4.0 p.p. (EP 0.6; p HC3 0.000 | p agrupado por microrregiao 0.000)
+   transbordamento, referencia da mesorregiao            +2.6 p.p. (EP 2.2; p HC3 0.255 | p agrupado por microrregiao 0.151)
+   razao media na seca por cultura (todos os municipios, nao ponderada): Mamona (baga 0.41, Milho (em gr 0.50, Arroz (em ca 0.59, Feijão (em g 0.61, Mandioca 0.69, Cana-de-açúc 0.80, Tomate 0.91
+
+B) carteira real: 184 municipios x 28 anos; municipio-anos validos = 5117
+   CVaR10 medio da carteira real: 0.335; do milho sozinho no mesmo municipio: 0.192
+   inclinacao do CVaR10 por +1 cultura efetiva (controles + EF meso), IC90 bootstrap de anos (500):
+     carteira real                 +0.067  [+0.043, +0.081]
+     so composicao (outros munic.) +0.028  [+0.017, +0.037]
+     milho sozinho (placebo/transb.) +0.026  [+0.007, +0.038]
+   Q1->Q3 (2.34->3.30) no CVaR10 da carteira real: +0.064; promessa da M4 por cultura efetiva: (0,356-0,151)/2 = +0,103 (1 -> 3 culturas efetivas)
+   anos que formam a cauda de 10% da carteira real (contagem de municipio-anos): {1998: 92, 2012: 84, 2016: 75, 2015: 56, 2010: 53, 2001: 53, 2013: 51, 2025: 14}
+
+C) municipios de mandioca (>= 14 de 28 anos): 91; municipio-anos com milho e feijao: 2543; sem mandioca no ano: 361 (14.2%)
+   milho medio quando a mandioca SOME: 1.169 (mediana 1.065) x quando existe: 1.108 (mediana 0.998)
+   fracao do ano sem mandioca nos anos de cauda: 1998: 3%, 2010: 3%, 2012: 4%, 2013: 12%, 2016: 25%
+   100% milho (todos os anos)                       CVaR10 = 0.169 IC90 ano [0.114, 0.270]  P(<0,5) = 0.199  n = 2543
+   1/3 cada, como a M4 (exclui ano sem mandioca)    CVaR10 = 0.360 IC90 ano [0.285, 0.469]  P(<0,5) = 0.104  n = 2182
+   1/3, ano sem mandioca vira milho+feijao          CVaR10 = 0.356 IC90 ano [0.288, 0.456]  P(<0,5) = 0.107  n = 2543
+   1/3, ano sem mandioca = 0 (limite inferior)      CVaR10 = 0.321 IC90 ano [0.265, 0.401]  P(<0,5) = 0.137  n = 2543
+   ganho 1/3 - milho, como a M4: IC90 [+0.168, +0.228] | limite inferior (sem mandioca = 0): IC90 [+0.122, +0.171]

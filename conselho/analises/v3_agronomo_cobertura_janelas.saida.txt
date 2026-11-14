@@ -1,0 +1,182 @@
+[A: IMERG nos sítios] 15.0s
+=== A. IMERG V07 (via POWER, 0,1°) nos sítios dos ensaios ===
+
+Arapiraca_Luz2023 (-9.7, -36.6867; artigo 9°42'00"S 36°41'12"W)
+  chuva anual média 1998–2025: 430 mm (p10 272, p90 666)
+  climatologia mensal (mm): 1:49 2:40 3:61 4:70 5:86 6:37 7:14 8:10 9:5 10:8 11:18 12:31
+  6 meses mais chuvosos começam no mês 1 (80% do total anual)
+
+Arapiraca_Souza2024 (-9.7686, -36.5614; artigo 9°46'07"S 36°33'41"W)
+  chuva anual média 1998–2025: 468 mm (p10 280, p90 729)
+  climatologia mensal (mm): 1:47 2:42 3:60 4:80 5:100 6:44 7:18 8:13 9:6 10:9 11:19 12:30
+  6 meses mais chuvosos começam no mês 1 (80% do total anual)
+
+Alagoinha_PB_Melo2013 (-6.9618, -35.5222; centroide IBGE 2500502 (estação não georreferenciada no artigo))
+  chuva anual média 1998–2025: 667 mm (p10 420, p90 1069)
+  climatologia mensal (mm): 1:65 2:75 3:104 4:106 5:97 6:104 7:71 8:17 9:6 10:1 11:3 12:18
+  6 meses mais chuvosos começam no mês 2 (83% do total anual)
+
+Crato_Nascimento2008 (-7.2333, -39.4167; artigo 7°14'S 39°25'W)
+  chuva anual média 1998–2025: 866 mm (p10 673, p90 1157)
+  climatologia mensal (mm): 1:142 2:158 3:209 4:132 5:69 6:20 7:12 8:2 9:4 10:14 11:29 12:76
+  6 meses mais chuvosos começam no mês 12 (91% do total anual)
+
+Arapiraca_Luz2023: totais das safras do ensaio contra 1998–2020 (IMERG; o artigo usa a normal 1991–2021)
+  2021 abr–set: 174 mm | normal 207 mm | anomalia -16%
+  2021 abr–out: 175 mm | normal 216 mm | anomalia -19%
+  2021 mai–out: 56 mm | normal 147 mm | anomalia -62%
+  2021 ano: 396 mm | normal 414 mm | anomalia -4%
+  2022 abr–set: 555 mm | normal 207 mm | anomalia +169%
+  2022 abr–out: 568 mm | normal 216 mm | anomalia +162%
+  2022 mai–out: 502 mm | normal 147 mm | anomalia +242%
+  2022 ano: 926 mm | normal 414 mm | anomalia +124%
+  2023 abr–set: 218 mm | normal 207 mm | anomalia +6%
+  2023 abr–out: 218 mm | normal 216 mm | anomalia +1%
+  2023 mai–out: 174 mm | normal 147 mm | anomalia +18%
+  2023 ano: 369 mm | normal 414 mm | anomalia -11%
+  2021: chuva na cobertura (20/abr +60 d) 68 mm; no milho (19/06–17/10) 14 mm
+  2022: chuva na cobertura (20/abr +60 d) 450 mm; no milho (19/06–17/10) 65 mm
+
+Arapiraca_Souza2024: totais das safras do ensaio contra 1998–2020 (IMERG; o artigo usa a normal 1991–2021)
+  2021 abr–set: 188 mm | normal 249 mm | anomalia -24%
+  2021 abr–out: 189 mm | normal 259 mm | anomalia -27%
+  2021 mai–out: 54 mm | normal 179 mm | anomalia -70%
+  2021 ano: 413 mm | normal 455 mm | anomalia -9%
+  2022 abr–set: 534 mm | normal 249 mm | anomalia +115%
+  2022 abr–out: 553 mm | normal 259 mm | anomalia +114%
+  2022 mai–out: 503 mm | normal 179 mm | anomalia +180%
+  2022 ano: 919 mm | normal 455 mm | anomalia +102%
+  2023 abr–set: 256 mm | normal 249 mm | anomalia +3%
+  2023 abr–out: 256 mm | normal 259 mm | anomalia -1%
+  2023 mai–out: 201 mm | normal 179 mm | anomalia +12%
+  2023 ano: 427 mm | normal 455 mm | anomalia -6%
+  2021: chuva na cobertura (20/abr +60 d) 71 mm; no milho (19/06–17/10) 16 mm
+  2022: chuva na cobertura (20/abr +60 d) 424 mm; no milho (19/06–17/10) 82 mm
+
+Alagoinha-PB (Melo 2013): o artigo diz 2004 chuvoso; 2007 e 2008 mais chuva; 2002 e 2007 > 600 mm com veranico na floração; 2008 melhor
+       anual  mar_ago  veranico_mai_jul  veranico_abr_ago  dias_secos_jun_jul  rank_anual
+ano                                                                                      
+1998   352.0    294.0                17                31                  50          11
+1999   521.0    347.0                16                35                  52           7
+2000  1232.0    889.0                12                16                  36           1
+2001   402.0    316.0                19                40                  47          10
+2002   708.0    521.0                13                23                  47           5
+2003   771.0    510.0                12                43                  43           4
+2004  1145.0    546.0                 9                20                  32           2
+2005   507.0    447.0                13                24                  43           8
+2006   500.0    437.0                28                36                  48           9
+2007   688.0    576.0                24                35                  47           6
+2008   850.0    784.0                11                12                  45           3
+  média 1998–2025 no centroide: 667 mm (artigo: 1.100 mm)
+[B: carregar IMERG CE + ET0 POWER] 13.1s
+[B: simulação 1999–2025 × 3 cenários] 6.5s
+
+=== B. 60 dias de cobertura antes do milho na quadra do Ceará (balde FAO-56, 184 municípios, 1999–2025) ===
+  1ª chuva (20 mm/3 d desde 1/jan): mediana doy 14 (p10 1, p90 42); sem 1ª chuva até 15/abr: 0.0%
+    q10: 1ª chuva 01/01 -> milho após 60 d de cobertura 02/03
+    q50: 1ª chuva 14/01 -> milho após 60 d de cobertura 15/03
+    q90: 1ª chuva 11/02 -> milho após 60 d de cobertura 12/04
+     P_sucesso  isna_flor_med  isna_med  chuva_ciclo_med  doy_milho_med
+cen                                                                    
+S0       0.919          0.919     0.910          651.193           14.0
+S1       0.489          0.488     0.579          398.750           74.0
+S2       0.489          0.487     0.569          398.750           74.0
+  municípios com P(sucesso) >= 0,7: S0 184 | S1 21 | S2 21 de 184
+  P(sucesso) mediana entre municípios: S0 0.93 | S1 0.48 | S2 0.48
+  municipio-anos em que S0 dá certo e S2 falha: 45.4% | o contrário: 2.3%
+  milho após 60 d de cobertura semeado depois de 21/mar (data-limite do balde na maior parte do estado): 30% dos município-anos
+  tercil seco de fev–mai (2005, 2010, 2012, 2013, 2015, 2016, 2021, 2023, 2025): P(sucesso) S0 0.76 | S1 0.21 | S2 0.21
+  tercil chuvoso de fev–mai (1999, 2000, 2003, 2006, 2008, 2009, 2011, 2019, 2020): P(sucesso) S0 1.00 | S1 0.79 | S2 0.79
+    Crato   : P(sucesso) S0 0.93 | S1 0.33 | S2 0.33
+    Iguatu  : P(sucesso) S0 0.96 | S1 0.52 | S2 0.52
+    Quixadá : P(sucesso) S0 0.89 | S1 0.48 | S2 0.48
+    Sobral  : P(sucesso) S0 0.93 | S1 0.59 | S2 0.59
+    Tauá    : P(sucesso) S0 0.78 | S1 0.15 | S2 0.15
+    Tianguá : P(sucesso) S0 0.96 | S1 0.74 | S2 0.74
+  sensibilidade do comprimento da cobertura verde antes do milho (S2), P(sucesso) estadual:
+    20 d: P(sucesso) 0.92 | municípios com P >= 0,7: 181 de 184
+    30 d: P(sucesso) 0.87 | municípios com P >= 0,7: 174 de 184
+    45 d: P(sucesso) 0.72 | municípios com P >= 0,7: 106 de 184
+    60 d: P(sucesso) 0.49 | municípios com P >= 0,7: 21 de 184
+[C: SMAP L4] 1.7s
+
+=== C. SMAP L4 (percentil da zona da raiz) no ciclo do milho semeado após 60 d de cobertura ===
+  2016: Arapiraca (milho 19/jun +120 d) pctl 12.32 | Quixadá (milho 08/03 +120 d) pctl 22.24
+  2017: Arapiraca (milho 19/jun +120 d) pctl 96.46 | Quixadá (milho 12/04 +120 d) pctl 59.96
+  2018: Arapiraca (milho 19/jun +120 d) pctl 7.20 | Quixadá (milho 28/03 +120 d) pctl 70.87
+  2019: Arapiraca (milho 19/jun +120 d) pctl 33.35 | Quixadá (milho 10/03 +120 d) pctl 50.39
+  2020: Arapiraca (milho 19/jun +120 d) pctl 54.99 | Quixadá (milho 01/03 +120 d) pctl 52.02
+  2021: Arapiraca (milho 19/jun +120 d) pctl 43.32 | Quixadá (milho 22/03 +120 d) pctl 30.43
+  2022: Arapiraca (milho 19/jun +120 d) pctl 98.70 | Quixadá (milho 14/03 +120 d) pctl 60.79
+  2023: Arapiraca (milho 19/jun +120 d) pctl 79.35 | Quixadá (milho 20/03 +120 d) pctl 60.42
+  2024: Arapiraca (milho 19/jun +120 d) pctl 68.98 | Quixadá (milho 14/04 +120 d) pctl 63.75
+  2025: Arapiraca (milho 19/jun +120 d) pctl 92.37 | Quixadá (milho 15/03 +120 d) pctl 29.03
+
+=== D. MOD11A2 LST diurna (~10:30) no Cariri, ago–dez 2016–2025 ===
+  pixels na AOI: 100 | compostos: 172 | válidos: 96%
+  desvio-padrão espacial entre pixels de 1 km no mesmo composto: mediana 2.83 °C
+  desvio-padrão temporal da anomalia de um pixel (relativa à AOI): mediana 1.06 °C
+  atributo do produto: QC mandatorio=0 ou (=1 e erro<=2K); media para 0.01 grau
+  campo de 0.004 ha num pixel de 100 ha com efeito de 2 °C: sinal de 0.000 °C
+  campo de 1 ha num pixel de 100 ha com efeito de 2 °C: sinal de 0.020 °C
+  campo de 5 ha num pixel de 100 ha com efeito de 2 °C: sinal de 0.100 °C
+  campo de 20 ha num pixel de 100 ha com efeito de 2 °C: sinal de 0.400 °C
+[D: LST MOD11A2 no Cariri] 2.3s
+[E: INMET A353] 5.1s
+
+=== E. IMERG (célula de 0,1° da estação) x pluviômetro INMET A353 Arapiraca (-9.804, -36.619), dias válidos nos dois ===
+  média mensal nos meses com >= 25 dias válidos (mm):
+mes       1      2      3          4       5       6       7      8      9     10     11         12
+inmet  22.30  19.45  16.10  40.270000  101.60  121.60  155.40  17.90  30.07  7.20   2.45  12.800000
+imerg  47.93  36.52  41.43  95.629997    2.63   20.32   12.31  11.09   0.70  2.43  11.64  19.959999
+razao   2.15   1.88   2.57   2.370000    0.03    0.17    0.08   0.62   0.02  0.34   4.75   1.560000
+      inmet       imerg  dias  razao
+ano                                 
+2016  495.4  292.309998   315   0.59
+2017   26.8   52.700001   151   1.97
+2018  140.8  275.390015   237   1.96
+2020    0.0    0.000000    13    NaN
+2022  380.8   87.680000    98   0.23
+2023   90.0   34.200001   127   0.38
+2024   60.8  256.839996   121   4.22
+2025   33.8   22.790001    91   0.67
+  jan–mar: INMET 231 mm, IMERG 504 mm (razão 2.18); r diário 0.52; dias >= 1 mm: INMET 39 x IMERG 59
+  abr–ago: INMET 817 mm, IMERG 377 mm (razão 0.46); r diário 0.15; dias >= 1 mm: INMET 99 x IMERG 32
+  set–dez: INMET 180 mm, IMERG 141 mm (razão 0.79); r diário 0.05; dias >= 1 mm: INMET 32 x IMERG 27
+  2021 abr–set: INMET 0 mm (0 dias válidos) | IMERG 0 mm
+  2022 abr–set: INMET 381 mm (88 dias válidos) | IMERG 87 mm
+  2023 abr–set: INMET 68 mm (35 dias válidos) | IMERG 2 mm
+  meses com >= 25 dias válidos por mês do calendário: {1: 4, 2: 4, 3: 4, 4: 3, 5: 1, 6: 2, 7: 2, 8: 2, 9: 3, 10: 4, 11: 4, 12: 4}
+[F: CEMADEN] 3.8s
+
+=== F. IMERG (célula de 0,1°) x pluviômetros CEMADEN, dias com >= 23 h válidas, 2015-08 a 2019-05 ===
+  jan–mar:  AL 1.21 (12 est.) | BA 1.28 (126 est.) | CE 1.03 (62 est.) | MG 1.44 (27 est.) | PB 1.43 (26 est.) | PE 1.28 (42 est.) | PI 1.39 (30 est.) | RN 1.36 (16 est.) | SE 1.00 (3 est.)
+     a leste de 37,5°W: razão 1.34 (60 est.) | a oeste: 1.24 (284 est.)
+  abr–ago:  AL 0.35 (10 est.) | BA 0.38 (126 est.) | CE 1.10 (60 est.) | MG 0.62 (27 est.) | PB 1.57 (26 est.) | PE 0.84 (42 est.) | PI 1.39 (30 est.) | RN 1.49 (15 est.) | SE 0.30 (3 est.)
+     a leste de 37,5°W: razão 1.01 (59 est.) | a oeste: 0.77 (280 est.)
+  set–dez:  AL 0.72 (10 est.) | BA 1.22 (125 est.) | CE 1.02 (58 est.) | MG 1.70 (28 est.) | PB 1.22 (25 est.) | PE 1.25 (42 est.) | PI 1.63 (30 est.) | RN 1.10 (14 est.) | SE 0.58 (3 est.)
+     a leste de 37,5°W: razão 0.85 (57 est.) | a oeste: 1.38 (278 est.)
+  estações a < 0,5° do ensaio de Arapiraca (3: Girau Do Ponciano, Major Isidoro, Palmeira Dos Índios), jan–mar: pluviômetro 881 mm x IMERG 896 mm (razão 1.02) em 491 estação-dias
+  estações a < 0,5° do ensaio de Arapiraca (3: Girau Do Ponciano, Major Isidoro, Palmeira Dos Índios), abr–ago: pluviômetro 2192 mm x IMERG 755 mm (razão 0.34) em 865 estação-dias
+  Ceará fev–mai (a quadra): razão 1.08 (62 est.)
+
+=== G. Leguminosa intercalada (desenho de Melo 2013) no Ceará: chuva e ET0 (POWER) nos 60 d após milho+85 d ===
+  início da janela (mediana): 09/04
+  chuva mediana 203 mm (p10 70, p90 436); ET0 mediana 250 mm; P/ET0 mediana 0.79; município-anos com P/ET0 >= 0,5: 72%
+    Crato   : P 168 mm | ET0 259 mm | P/ET0 0.65
+    Iguatu  : P 215 mm | ET0 272 mm | P/ET0 0.86
+    Quixadá : P 179 mm | ET0 263 mm | P/ET0 0.68
+    Sobral  : P 240 mm | ET0 230 mm | P/ET0 0.89
+    Tauá    : P 121 mm | ET0 255 mm | P/ET0 0.52
+    Tianguá : P 268 mm | ET0 233 mm | P/ET0 1.12
+
+=== H. POWER PRECTOTCORR mensal (mm/dia x dias do mês) x pluviômetros CEMADEN, meses com >= 25 dias válidos ===
+  AL+SE              jan–mar: 45 estação-meses | pluviômetro 2266 | IMERG 1.12x (r mensal 0.71) | POWER 0.90x (r mensal 0.79)
+  AL+SE              abr–ago: 95 estação-meses | pluviômetro 4820 | IMERG 0.33x (r mensal 0.64) | POWER 1.02x (r mensal 0.58)
+  AL+SE              fev–mai: 81 estação-meses | pluviômetro 4182 | IMERG 0.78x (r mensal 0.67) | POWER 0.99x (r mensal 0.68)
+  perto de Arapiraca jan–mar: 12 estação-meses | pluviômetro 671 | IMERG 0.87x (r mensal 0.82) | POWER 0.37x (r mensal 0.67)
+  perto de Arapiraca abr–ago: 26 estação-meses | pluviômetro 1872 | IMERG 0.35x (r mensal 0.76) | POWER 0.38x (r mensal 0.60)
+  perto de Arapiraca fev–mai: 22 estação-meses | pluviômetro 1566 | IMERG 0.61x (r mensal 0.84) | POWER 0.45x (r mensal 0.48)
+  CE                 jan–mar: 132 estação-meses | pluviômetro 16895 | IMERG 1.10x (r mensal 0.67) | POWER 0.71x (r mensal 0.47)
+  CE                 abr–ago: 364 estação-meses | pluviômetro 16122 | IMERG 1.10x (r mensal 0.61) | POWER 0.67x (r mensal 0.50)
+  CE                 fev–mai: 286 estação-meses | pluviômetro 29405 | IMERG 1.12x (r mensal 0.57) | POWER 0.68x (r mensal 0.43)

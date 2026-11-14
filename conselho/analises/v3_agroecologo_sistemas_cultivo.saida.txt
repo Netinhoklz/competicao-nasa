@@ -1,0 +1,167 @@
+====================================================================================================
+A. CHUVA DO ENSAIO (texto do artigo) x IMERG V07 x POWER PRECTOTCORR
+====================================================================================================
+Esperança-PB (IBGE 2506004) centroide -6.998, -35.890; ponto do texto 7°19'S contém? False; lon do texto 33°51'O fica a 1.93 grau a leste do limite leste do município (no mar)
+Pesqueira-PE (IBGE 2610905) centroide -8.392, -36.735 (bacia do Jatobá; sem coordenada no texto)
+                       sitio                               periodo  relatado_mm  imerg_cel  imerg_3x3  razao_imerg  power_prectotcorr  razao_power
+      Serra Talhada-PE (IPA)    16/nov/2014-09/nov/2015 (Diniz T1)        354.7      627.4      631.3         1.77              431.8         1.22
+      Serra Talhada-PE (IPA) 01/jun/2012-15/jun/2013 (Lima, 380 d)        393.0      440.9      446.2         1.12              367.9         0.94
+               Pentecoste-CE                  mar-jun/2012 (Neves)        132.8      289.0      300.5         2.18              313.9         2.36
+         Esperança-PB (CASM)                    2003 (Pérez-Marin)        653.0      478.2      479.1         0.73              807.1         1.24
+         Esperança-PB (CASM)                    2004 (Pérez-Marin)       1000.0      822.9      836.4         0.82             1200.2         1.20
+Taperoá-PB (Vila Maria Rita)                        2006 (Martins)        987.0      719.1      712.4         0.73              936.2         0.95
+Taperoá-PB (Vila Maria Rita)                        2007 (Martins)        533.0      484.4      495.0         0.91              603.5         1.13
+Taperoá-PB (Vila Maria Rita)                        2008 (Martins)        725.0      859.4      852.6         1.19              856.3         1.18
+Taperoá-PB (Vila Maria Rita)                        2009 (Martins)        756.0      960.4      979.4         1.27             1106.3         1.46
+       Pesqueira-PE (Jatobá)                     2016 (Montenegro)        593.0      433.1      428.8         0.73              425.8         0.72
+       Pesqueira-PE (Jatobá)                     2017 (Montenegro)        651.0      411.2      368.7         0.63              607.8         0.93
+       Pesqueira-PE (Jatobá)                     2018 (Montenegro)        628.0      495.7      496.4         0.79              544.2         0.87
+
+IMERG/relatado: mediana 0.86, min 0.63, max 2.18, n=12
+POWER/relatado: mediana 1.15, min 0.72, max 2.36
+Erro absoluto medio relativo: IMERG 0.35; POWER 0.28
+  Taperoá-PB (Vila Maria Rita): ordem dos anos relatado x IMERG (Spearman) = 0.40; relatado [987.0, 533.0, 725.0, 756.0] IMERG [719.1, 484.4, 859.4, 960.4]
+  Pesqueira-PE (Jatobá): ordem dos anos relatado x IMERG (Spearman) = -0.50; relatado [593.0, 651.0, 628.0] IMERG [433.1, 411.2, 495.7]
+  Esperança-PB (CASM): relatado [653.0, 1000.0] IMERG [478.2, 822.9] (mesmo sinal: True)
+
+Diniz 2017 Tabela 1, mes a mes (Serra Talhada): chuva do pluviometro x IMERG; ET0 INMET (FAO-56) x ET0 POWER (FAO-56)
+    mes  chuva_ensaio  imerg  et0_inmet  et0_power
+2014-11          91.1   92.6        172      106.6
+2014-12          11.4   37.4        171      241.4
+2015-01          45.0   36.1        177      242.3
+2015-02          63.6  107.8        150      177.5
+2015-03          67.0  160.3        156      184.0
+2015-04          20.6   61.7        146      170.0
+2015-05           5.6   57.6        139      181.0
+2015-06          47.6   20.7        110      159.3
+2015-07           2.8   48.9        116      156.2
+2015-08           0.0    0.0        157      213.9
+2015-09           0.0    0.0        178      249.1
+2015-10           0.0    2.6        199      272.7
+2015-11           0.0    1.7        201       79.7
+Somas: chuva ensaio 354.7 | IMERG 627.4 | ET0 INMET 2072 | ET0 POWER 2434
+r mensal chuva (ensaio x IMERG) = 0.74; r mensal ET0 (INMET x POWER) = 0.20
+  ATENÇÃO: nov/2014 (15 d) e nov/2015 (9 d) têm ET0 de 172 e 201 mm na tabela: são valores de mês inteiro, não dos dias do ensaio (a soma 2.072 inclui isso). Comparação justa = meses inteiros dez/2014-out/2015:
+  dez/2014-out/2015: ET0 INMET 1699 x POWER 2247 mm (razão 1.32); chuva ensaio 263.6 x IMERG 533.1
+  r mensal só meses inteiros: ET0 0.93; chuva 0.73; meses com POWER > INMET: 11/11; diferença média 50 mm/mês
+  Registro anterior do conselho: POWER ~13-16% acima do ERA5 (viés quente da Tmax). Contra estação FAO-56 a diferença é maior.
+
+====================================================================================================
+B. ETP normal de Mossoró (Miranda 2020, Tabela 1, fonte INMET) x ET0 FAO-56 do POWER, média 1991-2020
+====================================================================================================
+  mês  8: normal INMET  186.1 | POWER ET0  243.5 | razão 1.31
+  mês  9: normal INMET  202.2 | POWER ET0  264.0 | razão 1.31
+  mês 10: normal INMET  223.7 | POWER ET0  282.1 | razão 1.26
+  mês 11: normal INMET  218.2 | POWER ET0  262.4 | razão 1.20
+  mês 12: normal INMET  234.7 | POWER ET0  252.9 | razão 1.08
+  soma ago-dez: INMET 1065 x POWER 1305
+  Chuva ago-dez normal INMET (7,2; 1,8; 2,4; 1,7; 14,3) x IMERG 1998-2025: 3.9; 0.9; 2.0; 3.0; 18.5
+  -> crotalária na seca (ago-out) só com água azul: o ensaio aplicou 270-330 mm; a ETP ago-out normal soma 612 mm
+
+====================================================================================================
+C. Pérez-Marin 2006: 2004 (1.000 mm) rendeu 34-69% menos milho que 2003 (653 mm). Distribuição mensal IMERG em Esperança-PB
+====================================================================================================
+  2003: total    478 | jan-fev   163 (34%) | mar-ago (estação de cultivo do artigo)   290 | meses: 47 115 144 62 37 31 14 0 0 2 2 19
+  2004: total    823 | jan-fev   568 (69%) | mar-ago (estação de cultivo do artigo)   253 | meses: 387 180 26 67 52 51 54 0 0 0 0 0
+  (o artigo diz que a estação chuvosa local é mar-ago e o milho foi semeado nela)
+
+====================================================================================================
+D. NASADEM 30 m nas AOIs: classes de declividade das regras de arranjo (Pinheiro & Nair 2018, citando Araújo Filho 2013):
+   savana/bosquetes < 10%; aleias (faixas) 10-25%; sem raleamento > 25%
+====================================================================================================
+  apodi_jaguaribe : n=129,600 | <3% 53% | 3-10% 47% | 10-25% (aleia em nível) 0.2% | >25% 0.0% | mediana 2.3%
+  cariri          : n=129,600 | <3% 12% | 3-10% 51% | 10-25% (aleia em nível) 32.3% | >25% 4.3% | mediana 7.3%
+  sertao_central  : n=129,600 | <3% 18% | 3-10% 64% | 10-25% (aleia em nível) 11.9% | >25% 5.9% | mediana 5.1%
+  ibiapaba        : n=129,600 | <3% 13% | 3-10% 64% | 10-25% (aleia em nível) 17.4% | >25% 4.7% | mediana 5.8%
+
+====================================================================================================
+E. SMAP L4 (9 km) na bacia do Jatobá/Pesqueira x CC 0,16 / PMP 0,05 / porosidade 0,40 (Montenegro 2019)
+====================================================================================================
+  sm_surface : n=1096 | p5 0.040 p50 0.061 p95 0.165 max 0.366 | dias > CC 0,16: 6% | dias < PMP 0,05: 35%
+  sm_rootzone: n=1096 | p5 0.052 p50 0.079 p95 0.141 max 0.211 | dias > CC 0,16: 2% | dias < PMP 0,05: 2%
+  2016: raiz média 0.076, máx 0.147 | IMERG 433 mm | relatado 593 mm
+  2017: raiz média 0.097, máx 0.211 | IMERG 411 mm | relatado 651 mm
+  2018: raiz média 0.079, máx 0.122 | IMERG 496 mm | relatado 628 mm
+  Parcela do artigo = 4,5 x 11 m; pixel SMAP L4 = 9 km: a diferença entre solo nu, palma em nível, cobertura morta e caatinga fica abaixo da resolução. SMAP só dá o estado de fundo.
+
+====================================================================================================
+F. PAM (IBGE, municípios do CE): o que existe para validar as estratégias do grupo 5
+====================================================================================================
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+C:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\conselho\analises\v3_agroecologo_sistemas_cultivo.py:300: RuntimeWarning: All-NaN slice encountered
+  med = np.nanmedian(nd, axis=0)
+                              mun_ano  municipios  area_med_ha
+produto                                                       
+Feijão (em grão)                 2014         184       1374.0
+Milho (em grão)                  2011         184       1950.0
+Mandioca                         1854         178         35.0
+Fava (em grão)                    886         106         48.5
+Algodão herbáceo (em caroço)      407          86         20.0
+Amendoim (em casca)               235          29          7.0
+Mamona (baga)                     153          42         45.0
+Gergelim                           15          15          2.0
+Sorgo (em grão)                    11           5        400.0
+  Ausentes do PAM (não existem como produto): palma forrageira, guandu, gliricídia, leucena, crotalária, mucuna, consórcio.
+  Pentecoste (ensaio de Neves, girassol mar-jun/2012):
+produto  Feijão (em grão)  Milho (em grão)
+ano                                       
+2010                111.0            246.0
+2011                496.0           1048.0
+2012                113.0            110.0
+2013                107.0             35.0
+
+====================================================================================================
+G. Coeficientes de água do consórcio palma-sorgo (equações do próprio artigo)
+====================================================================================================
+  Fig. 2B de Diniz (sorgo, solteiro e consorciado juntos) traz 'DM = 12,473 WD' impresso SEM intercepto: daria 4428 kg em 355 mm, mas o ponto da figura está em ~6.400 (conferido na imagem da p. 729). Equação não usada.
+  água total   355 mm: consórcio    6966 kg MS/ha (Fig. 3B) | palma solteira 4.627 (média; lâmina sem efeito) | razão 1.51
+  água total   563 mm: consórcio    9336 kg MS/ha (Fig. 3B) | palma solteira 4.627 (média; lâmina sem efeito) | razão 2.02
+  água total   725 mm: consórcio   10797 kg MS/ha (Fig. 3B) | palma solteira 4.627 (média; lâmina sem efeito) | razão 2.33
+  água total   867 mm: consórcio   11803 kg MS/ha (Fig. 3B) | palma solteira 4.627 (média; lâmina sem efeito) | razão 2.55
+  água total  1012 mm: consórcio   12563 kg MS/ha (Fig. 3B) | palma solteira 4.627 (média; lâmina sem efeito) | razão 2.72
+  Média da curva da Fig. 3B nas 5 lâminas = 10293 kg MS/ha x Tabela 2 'consórcio' = 12.130 (3.573 palma + 8.557 sorgo): o artigo não fecha Tabela e Figura (~18% de diferença)
+  Médias da Tabela 2 (todas as lâminas): palma solteira 4.627 | sorgo solteiro 14.073 | consórcio 12.130 kg MS/ha; IPS 6.279 = sorgo convertido em 'equivalente palma' (não é biomassa)
+  Diniz: 6.279/4.627 = 1.36x ; consórcio/sorgo solteiro (biomassa real) = 0.86x ; consórcio/palma = 2.62x
+  Lima 2018b (mesmo grupo, outro ano): ET/ET0 = 0,50 com ou sem sorgo; WUE consórcio 18,9 x palma solteira 8,4 kg MS/ha/mm de ET
+  ATENÇÃO para o M1: o Kc 0,50 de Lima 2018b foi medido contra ET0 da estação INMET (300 m). Com ET0 do POWER sem correção (bloco A: +32% em Serra Talhada) a demanda da palma sai inflada na mesma proporção.
+  Quixadá (AOI Sertão Central) 1998-2025: ET0 POWER anual mediana 2422 mm -> demanda da palma (0,50 ET0) 1211 mm; IMERG anual mediana 716 mm; anos com chuva >= 355 mm (lâmina que bastou à palma em Diniz): 27/28
+
+====================================================================================================
+H. Landsat C2 L2 30 m (NASA/USGS), AOI Sertão Central: cobertura no fim da seca (out-dez) x chuva da quadra (IMERG fev-mai)
+   Pergunta: o NDVI vê a entressafra coberta? (Montenegro: solo nu escoa mais; Pinheiro: deixar 40% da forragem secar como cobertura)
+====================================================================================================
+ ano  cenas  frac_valida  ndvi_mediana  frac_ndvi_lt020  frac_ndvi_gt040  quadra_imerg_mm
+2013      4         1.00         0.368            0.033            0.277              352
+2014      3         0.40         0.340            0.034            0.242              529
+2015      5         1.00         0.299            0.065            0.052              392
+2016      3         1.00         0.299            0.054            0.048              329
+2017      3         0.53         0.335            0.033            0.162              651
+2018      4         0.89         0.346            0.038            0.183              645
+2019      5         0.94         0.345            0.039            0.168              579
+2020      4         0.81         0.343            0.037            0.173              606
+2021      5         0.81         0.338            0.036            0.180              477
+2022      4         0.93         0.380            0.025            0.378              522
+2023      8         1.00         0.348            0.036            0.179              517
+2024      8         1.00         0.381            0.039            0.390              601
+2025      9         1.00         0.335            0.048            0.146              431
+  Spearman quadra x ndvi_mediana: +0.30 (n=13)
+  Spearman quadra x frac_ndvi_lt020: -0.28 (n=13)
+  Spearman quadra x frac_ndvi_gt040: +0.28 (n=13)
+  Limites: o cubo Landsat guardado tem red, nir08, swir16; sem swir22 não há NDTI (índice de palhada). NDVI baixo = solo nu OU palhada seca: não separa as duas. Faixa de gliricídia (1 m a cada 6 m) é subpixel; gliricídia é caducifólia na seca (Pérez-Marin).

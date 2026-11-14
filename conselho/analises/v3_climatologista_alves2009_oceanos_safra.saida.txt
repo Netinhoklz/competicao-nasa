@@ -1,0 +1,85 @@
+checagem: DIP_DJ == TNA_DJ - TSA_DJ (max |dif|) = 0.000
+
+================ A) r(chuva FMAM NASA, producao e rendimento) - artigo: milho +0,52/+0,38, feijao +0,46/+0,22 (1952-2000, FUNCEME)
+  milho  P_FMAM_POWER  1981-2000: producao +0.43 (IC90 +0.06 a +0.69; n=20) | rend/area plantada +0.73 (IC90 +0.39 a +0.90; n=13) | rend/area colhida +0.45 (IC90 +0.08 a +0.71; n=20)
+  milho  P_FMAM_POWER  2001-2025: producao +0.75 (IC90 +0.56 a +0.87; n=25) | rend/area plantada +0.72 (IC90 +0.51 a +0.85; n=25) | rend/area colhida +0.73 (IC90 +0.52 a +0.86; n=25)
+  milho  P_FMAM_POWER  1981-2025: producao +0.48 (IC90 +0.27 a +0.65; n=45) | rend/area plantada +0.69 (IC90 +0.51 a +0.81; n=38) | rend/area colhida +0.50 (IC90 +0.28 a +0.66; n=45)
+  milho  P_FMAM_IMERG  2001-2025: producao +0.75 (IC90 +0.55 a +0.87; n=25) | rend/area plantada +0.71 (IC90 +0.50 a +0.85; n=25) | rend/area colhida +0.73 (IC90 +0.51 a +0.85; n=25)
+  milho  P_FMAM_IMERG  1998-2025: producao +0.77 (IC90 +0.60 a +0.87; n=28) | rend/area plantada +0.75 (IC90 +0.56 a +0.86; n=28) | rend/area colhida +0.75 (IC90 +0.57 a +0.86; n=28)
+  feijao P_FMAM_POWER  1981-2000: producao +0.36 (IC90 -0.03 a +0.65; n=20) | rend/area plantada +0.75 (IC90 +0.43 a +0.90; n=13) | rend/area colhida +0.36 (IC90 -0.02 a +0.65; n=20)
+  feijao P_FMAM_POWER  2001-2025: producao +0.72 (IC90 +0.50 a +0.85; n=25) | rend/area plantada +0.69 (IC90 +0.46 a +0.84; n=25) | rend/area colhida +0.70 (IC90 +0.48 a +0.84; n=25)
+  feijao P_FMAM_POWER  1981-2025: producao +0.52 (IC90 +0.31 a +0.68; n=45) | rend/area plantada +0.71 (IC90 +0.55 a +0.82; n=38) | rend/area colhida +0.52 (IC90 +0.31 a +0.68; n=45)
+  feijao P_FMAM_IMERG  2001-2025: producao +0.63 (IC90 +0.37 a +0.80; n=25) | rend/area plantada +0.59 (IC90 +0.32 a +0.77; n=25) | rend/area colhida +0.61 (IC90 +0.34 a +0.78; n=25)
+  feijao P_FMAM_IMERG  1998-2025: producao +0.66 (IC90 +0.43 a +0.81; n=28) | rend/area plantada +0.64 (IC90 +0.40 a +0.79; n=28) | rend/area colhida +0.64 (IC90 +0.40 a +0.80; n=28)
+
+================ B) categorias Pacifico (ONI NDJ +-0,5) x Atlantico (dipolo FMA +-0,2), Tabela 1 do artigo
+  concordancia com a Tabela 1 em 1974-2000 (27 anos): Pacifico 85%, Atlantico 93%, categoria inteira 78%
+  discordancias: 1978: artigo DipPos/PacNeu / nosso DipPos/PacPos (ONI +0.8, DIP +0.84); 1980: artigo DipPos/PacNeu / nosso DipPos/PacPos (ONI +0.6, DIP +0.76); 1982: artigo DipNeu/PacNeu / nosso DipPos/PacNeu (ONI -0.1, DIP +0.30); 1986: artigo DipNeg/PacNeg / nosso DipNeg/PacNeu (ONI -0.4, DIP -0.86); 1997: artigo DipPos/PacNeg / nosso DipPos/PacNeu (ONI -0.4, DIP +0.84); 1999: artigo DipNeu/PacNeg / nosso DipNeg/PacNeg (ONI -1.5, DIP -0.31)
+  tendencia linear do rendimento (prod/area colhida) do milho 1974-2000: +10.6 kg/ha/ano (artigo: tendencia negativa significativa em 1952-2000); 2001-2025: -2.2 kg/ha/ano
+    checagem de numeros do artigo (milho): producao 2000 = 623,630 t; 1994 = 486,481 t; menores 1974-2000: 1983 17,531 t, 1981 21,600 t, 1993 39,404 t, 1987 74,812 t; area colhida 2000 = 612,976 ha
+  tendencia linear do rendimento (prod/area colhida) do feijao 1974-2000: +2.1 kg/ha/ano (artigo: tendencia negativa significativa em 1952-2000); 2001-2025: -2.6 kg/ha/ano
+    checagem de numeros do artigo (feijao): producao 2000 = 196,696 t; 1994 = 292,762 t; menores 1974-2000: 1983 24,810 t, 1981 36,000 t, 1993 40,626 t, 1987 49,920 t; area colhida 2000 = 569,777 ha
+  compostos 1974-2025 (anomalia media; rendimento = razao a mediana movel de 7 anos; producao = desvio da reta):
+    DipNeg/PacNeg  n= 9 | rend milho  +21% feijao  +13% | prod milho  +26% feijao  +17% | 1974,1984,1985,1989,1999,2000,2008,2009,2022
+    DipNeg/PacNeu  n= 4 | rend milho  +48% feijao  +31% | prod milho  +21% feijao  +44% | 1986,1991,1994,2014
+    DipNeg/PacPos  n= 5 | rend milho  +13% feijao  +10% | prod milho  +31% feijao  +28% | 1988,1995,2003,2015,2019
+    DipNeu/PacNeg  n= 8 | rend milho  +11% feijao  +12% | prod milho  +37% feijao  +21% | 1975,1976,1996,2001,2006,2011,2018,2023
+    DipNeu/PacNeu  n= 4 | rend milho  -25% feijao  -12% | prod milho  -49% feijao  -38% | 1990,1993,2017,2025
+    DipNeu/PacPos  n= 6 | rend milho  -12% feijao  -20% | prod milho  -20% feijao  -32% | 1977,1987,1998,2016,2020,2024
+    DipPos/PacNeg  n= 2 | rend milho  -15% feijao  -17% | prod milho  -38% feijao  -34% | 2012,2021
+    DipPos/PacNeu  n= 7 | rend milho   -5% feijao   -0% | prod milho  -21% feijao   -6% | 1979,1981,1982,1997,2002,2004,2013
+    DipPos/PacPos  n= 7 | rend milho  -25% feijao  -19% | prod milho  -36% feijao  -27% | 1978,1980,1983,1992,2005,2007,2010
+  dipolo positivo (qualquer Pacifico)   : n=16; rend milho -15% (resto +10%); feijao -11% (resto +6%)
+  dipolo negativo (qualquer Pacifico)   : n=18; rend milho +25% (resto -9%); feijao +16% (resto -7%)
+  Pacifico quente (qualquer dipolo)     : n=18; rend milho -10% (resto +9%); feijao -11% (resto +7%)
+  DipPos/PacPos (o pior do artigo)      : n= 7; rend milho -25% (resto +7%); feijao -19% (resto +4%)
+
+================ C) modelo prognostico (so oceano, antes da estacao): artigo r = +0,51 milho, +0,36 feijao (validacao em anos pares 1952-2000)
+  posto da matriz [1, ONI, TNA, TSA, DIP] = 4 de 5 colunas -> DIP = TNA - TSA e exatamente colinear; a equacao (4)-(5) com os 4 indices nao e identificavel (so 3 graus de liberdade)
+  --- alvo: rendimento (prod/area colhida) sem tendencia linear 1974-2025
+    milho  ONI_NDJ                                  impar->par r +0.52 | par->impar +0.29 | 1974-2000 -> 2001-2025 r +0.38 MSESS +0.14 | LOYO r +0.30 MSESS +0.12
+    milho  TNA_DJ                                   impar->par r -0.15 | par->impar -0.27 | 1974-2000 -> 2001-2025 r +0.02 MSESS +0.01 | LOYO r -0.44 MSESS -0.04
+    milho  TSA_DJ                                   impar->par r +0.19 | par->impar +0.25 | 1974-2000 -> 2001-2025 r +0.01 MSESS -0.05 | LOYO r -0.20 MSESS -0.03
+    milho  DIP_DJ                                   impar->par r -0.27 | par->impar -0.02 | 1974-2000 -> 2001-2025 r -0.00 MSESS -0.02 | LOYO r -0.62 MSESS -0.05
+    milho  ONI+TNA+TSA (= artigo)                   impar->par r +0.16 | par->impar +0.33 | 1974-2000 -> 2001-2025 r +0.45 MSESS +0.13 | LOYO r +0.31 MSESS +0.11
+    milho  ONI_ASO (portao nov)                     impar->par r +0.39 | par->impar +0.28 | 1974-2000 -> 2001-2025 r +0.35 MSESS +0.11 | LOYO r +0.22 MSESS +0.08
+    milho  chuva FMAM POWER (teto, nao e previsao)  impar->par r +0.73 | par->impar +0.41 | 1974-2000 -> 2001-2025 r +0.76 MSESS +0.33 | LOYO r +0.51 MSESS +0.27
+    feijao ONI_NDJ                                  impar->par r +0.32 | par->impar +0.32 | 1974-2000 -> 2001-2025 r +0.38 MSESS +0.13 | LOYO r +0.25 MSESS +0.09
+    feijao TNA_DJ                                   impar->par r +0.00 | par->impar +0.53 | 1974-2000 -> 2001-2025 r +0.07 MSESS -0.09 | LOYO r -0.27 MSESS -0.04
+    feijao TSA_DJ                                   impar->par r +0.34 | par->impar +0.10 | 1974-2000 -> 2001-2025 r -0.04 MSESS -0.13 | LOYO r -0.34 MSESS -0.03
+    feijao DIP_DJ                                   impar->par r -0.27 | par->impar -0.27 | 1974-2000 -> 2001-2025 r -0.09 MSESS -0.01 | LOYO r -0.73 MSESS -0.05
+    feijao ONI+TNA+TSA (= artigo)                   impar->par r +0.21 | par->impar +0.33 | 1974-2000 -> 2001-2025 r +0.33 MSESS -0.14 | LOYO r +0.22 MSESS +0.05
+    feijao ONI_ASO (portao nov)                     impar->par r +0.19 | par->impar +0.35 | 1974-2000 -> 2001-2025 r +0.34 MSESS +0.10 | LOYO r +0.17 MSESS +0.05
+    feijao chuva FMAM POWER (teto, nao e previsao)  impar->par r +0.63 | par->impar +0.18 | 1974-2000 -> 2001-2025 r +0.70 MSESS +0.27 | LOYO r +0.40 MSESS +0.16
+  --- alvo: rendimento (prod/area colhida) razao a mediana movel de 7 anos
+    milho  ONI_NDJ                                  impar->par r +0.35 | par->impar +0.23 | 1974-2000 -> 2001-2025 r +0.37 MSESS +0.12 | LOYO r +0.22 MSESS +0.08
+    milho  TNA_DJ                                   impar->par r -0.03 | par->impar -0.19 | 1974-2000 -> 2001-2025 r -0.01 MSESS -0.01 | LOYO r -0.34 MSESS -0.03
+    milho  TSA_DJ                                   impar->par r +0.15 | par->impar +0.31 | 1974-2000 -> 2001-2025 r -0.15 MSESS -0.16 | LOYO r -0.54 MSESS -0.04
+    milho  DIP_DJ                                   impar->par r +0.14 | par->impar +0.07 | 1974-2000 -> 2001-2025 r -0.14 MSESS -0.04 | LOYO r -0.67 MSESS -0.03
+    milho  ONI+TNA+TSA (= artigo)                   impar->par r +0.14 | par->impar +0.32 | 1974-2000 -> 2001-2025 r +0.20 MSESS -0.07 | LOYO r +0.19 MSESS +0.04
+    milho  ONI_ASO (portao nov)                     impar->par r +0.24 | par->impar +0.18 | 1974-2000 -> 2001-2025 r +0.40 MSESS +0.10 | LOYO r +0.16 MSESS +0.05
+    milho  chuva FMAM POWER (teto, nao e previsao)  impar->par r +0.75 | par->impar +0.61 | 1974-2000 -> 2001-2025 r +0.45 MSESS +0.14 | LOYO r +0.42 MSESS +0.20
+    feijao ONI_NDJ                                  impar->par r +0.21 | par->impar +0.25 | 1974-2000 -> 2001-2025 r +0.42 MSESS +0.11 | LOYO r +0.20 MSESS +0.06
+    feijao TNA_DJ                                   impar->par r +0.02 | par->impar +0.27 | 1974-2000 -> 2001-2025 r +0.16 MSESS +0.04 | LOYO r -0.08 MSESS -0.02
+    feijao TSA_DJ                                   impar->par r +0.28 | par->impar +0.41 | 1974-2000 -> 2001-2025 r -0.13 MSESS -0.21 | LOYO r -0.21 MSESS -0.02
+    feijao DIP_DJ                                   impar->par r +0.22 | par->impar +0.08 | 1974-2000 -> 2001-2025 r -0.26 MSESS -0.10 | LOYO r -0.45 MSESS -0.04
+    feijao ONI+TNA+TSA (= artigo)                   impar->par r +0.24 | par->impar +0.45 | 1974-2000 -> 2001-2025 r +0.18 MSESS -0.09 | LOYO r +0.22 MSESS +0.06
+    feijao ONI_ASO (portao nov)                     impar->par r +0.07 | par->impar +0.23 | 1974-2000 -> 2001-2025 r +0.43 MSESS +0.07 | LOYO r +0.09 MSESS +0.02
+    feijao chuva FMAM POWER (teto, nao e previsao)  impar->par r +0.62 | par->impar +0.33 | 1974-2000 -> 2001-2025 r +0.59 MSESS +0.24 | LOYO r +0.38 MSESS +0.16
+
+================ D) portao de janeiro (P2): o Atlantico de dez-jan acrescenta ao ONI de ASO? (quebra canonica, 1998-2025)
+  milho: r simples com a fracao em quebra (n=28): ONI_ASO +0.46, ONI_NDJ +0.47, TNA_DJ -0.08, TSA_DJ -0.06, DIP_DJ -0.01, DIP_FMA +0.31, P_FMAM_IMERG -0.70
+    parcial r(TNA_DJ, fracao | ONI_ASO) = -0.22
+    parcial r(TSA_DJ, fracao | ONI_ASO) = -0.44
+    parcial r(DIP_DJ, fracao | ONI_ASO) = +0.20
+    LOYO (logito da fracao): ONI_ASO: r +0.33 MSESS +0.16 | ONI_ASO+TNA_DJ+TSA_DJ: r +0.34 MSESS +0.13 | ONI_ASO+DIP_DJ: r +0.24 MSESS +0.07 | ONI_NDJ+TNA_DJ+TSA_DJ: r +0.41 MSESS +0.20
+    anos mais quebrados: 1998 75% (ONI_ASO +2.0, TNA_DJ +0.17, TSA_DJ +0.57), 2012 75% (ONI_ASO -0.8, TNA_DJ -0.07, TSA_DJ -0.70), 2016 70% (ONI_ASO +2.0, TNA_DJ +0.19, TSA_DJ +0.45), 2015 61% (ONI_ASO +0.2, TNA_DJ -0.01, TSA_DJ -0.14), 2010 61% (ONI_ASO +0.7, TNA_DJ +0.40, TSA_DJ +0.45), 2013 56% (ONI_ASO +0.4, TNA_DJ +0.23, TSA_DJ -0.02)
+  feijao: r simples com a fracao em quebra (n=28): ONI_ASO +0.41, ONI_NDJ +0.40, TNA_DJ -0.09, TSA_DJ +0.00, DIP_DJ -0.08, DIP_FMA +0.22, P_FMAM_IMERG -0.66
+    parcial r(TNA_DJ, fracao | ONI_ASO) = -0.21
+    parcial r(TSA_DJ, fracao | ONI_ASO) = -0.31
+    parcial r(DIP_DJ, fracao | ONI_ASO) = +0.09
+    LOYO (logito da fracao): ONI_ASO: r +0.34 MSESS +0.17 | ONI_ASO+TNA_DJ+TSA_DJ: r +0.22 MSESS +0.03 | ONI_ASO+DIP_DJ: r +0.24 MSESS +0.07 | ONI_NDJ+TNA_DJ+TSA_DJ: r +0.28 MSESS +0.07
+    anos mais quebrados: 2012 53% (ONI_ASO -0.8, TNA_DJ -0.07, TSA_DJ -0.70), 1998 52% (ONI_ASO +2.0, TNA_DJ +0.17, TSA_DJ +0.57), 2016 43% (ONI_ASO +2.0, TNA_DJ +0.19, TSA_DJ +0.45), 2001 39% (ONI_ASO -0.4, TNA_DJ -0.43, TSA_DJ -0.22), 2010 32% (ONI_ASO +0.7, TNA_DJ +0.40, TSA_DJ +0.45), 2015 30% (ONI_ASO +0.2, TNA_DJ -0.01, TSA_DJ -0.14)
+
+2027 (indices ja publicados): ONI ASO/2026 = +2.46; TNA/TSA de dez/2026-jan/2027 ainda nao existem (portao de janeiro).
+Ultimos TNA/TSA no arquivo: 2026-09 TNA +0.64, TSA +0.57

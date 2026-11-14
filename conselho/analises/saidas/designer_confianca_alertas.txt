@@ -1,0 +1,29 @@
+municipio-anos com rendimento: 5036; taxa de quebra 0.159
+
+(1) alerta 28/fev: toca em 27.4%; entre os alertados -> ano normal(>=75%) 63%, quebra(<50%) 23%, perda moderada(50-75%) 15% | razao mediana 0.99 (nao alertados 1.00)
+    falso alarme (sem quebra): razao mediana 1.00; 19% deles foram perda moderada; 64% acima do normal
+
+(1) alerta 31/mar: toca em 14.0%; entre os alertados -> ano normal(>=75%) 48%, quebra(<50%) 35%, perda moderada(50-75%) 17% | razao mediana 0.73 (nao alertados 1.00)
+    falso alarme (sem quebra): razao mediana 1.00; 26% deles foram perda moderada; 54% acima do normal
+
+(1) alerta 30/abr: toca em 17.9%; entre os alertados -> ano normal(>=75%) 45%, quebra(<50%) 38%, perda moderada(50-75%) 17% | razao mediana 0.69 (nao alertados 1.00)
+    falso alarme (sem quebra): razao mediana 1.00; 27% deles foram perda moderada; 50% acima do normal
+
+(2) primeiro alerta de 30/abr recebido (184 mun x inicios 1998-2020, n=3669):
+    ano normal(>=75%) 44%, quebra(<50%) 36%, perda moderada(50-75%) 19%
+    espera mediana ate o 1o alerta: 3 anos (p90 8)
+    em 3 anos de uso: P(>=1 alarme claro em ano normal) 22%; P(>=1 quebra sem alerta) 24%; P(nenhum alerta) 60%
+
+(3) padrao do alerta 28/fev-31/mar-30/abr (1=alerta): 000 66.5%, 100 12.1%, 111 9.5%, 001 4.4%, 101 3.1%, 110 2.8%, 011 0.9%, 010 0.8%
+    mensagem que liga e depois desliga (100,110,010,101): 18.7% dos municipio-anos; quebra nesses casos 0.20 vs 0.31 em 111 e 0.09 em 000
+    111: n= 477  P(quebra)=0.31  razao mediana=0.74
+    011: n=  47  P(quebra)=0.74  razao mediana=0.24
+    001: n= 221  P(quebra)=0.54  razao mediana=0.45
+    100: n= 608  P(quebra)=0.14  razao mediana=1.00
+    110: n= 140  P(quebra)=0.29  razao mediana=0.89
+    000: n=3347  P(quebra)=0.09  razao mediana=1.00
+
+(4) alerta em ano sincronizado (>=50% mun alertados): 752 casos (84% dos alertas); P(quebra) 0.41; P(razao<0,75) 0.58
+
+(4) alerta isolado (<50% alertados): 148 casos (16% dos alertas); P(quebra) 0.25; P(razao<0,75) 0.39
+    anos sincronizados: [1998, 2005, 2010, 2012, 2013, 2021]

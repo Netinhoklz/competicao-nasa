@@ -1,0 +1,14 @@
+==================== 1-3. Seca 2012-2016 (base 2004-2011), mesma especificacao do original ====================
+   R1 medio = 0.585; correlacao diversidade x fracao milho+feijao = -0.75
+   1. reproducao (HC3)                                       : Q1->Q3 = +6.6 p.p. (IC90 +3.1 a +10.1); p = 0.0021; n = 184
+   2. erro agrupado por microrregiao (33 grupos)             : Q1->Q3 = +6.6 p.p. (IC90 +3.4 a +9.8); p = 0.0007; n = 184
+   3. + fracao milho+feijao (HC3)                            : Q1->Q3 = +2.6 p.p. (IC90 -1.7 a +7.0); p = 0.3167; n = 184; coef padronizado de frac_milho_feijao = -0.0571 (p 0.002)
+   3b. + fracao milho+feijao, agrupado por microrregiao      : Q1->Q3 = +2.6 p.p. (IC90 -0.7 a +6.0); p = 0.1994; n = 184; coef padronizado de frac_milho_feijao = -0.0571 (p 0.001)
+
+==================== 4. Fora do episodio e placebo (mesma especificacao) ====================
+   seca de 1998: R1 medio = 0.692
+   4a. seca de 1998, base 1990-1997 (HC3)                    : Q1->Q3 = +10.5 p.p. (IC90 +4.9 a +16.1); p = 0.0022; n = 184
+   4a'. seca de 1998, agrupado por microrregiao              : Q1->Q3 = +10.5 p.p. (IC90 +2.8 a +18.2); p = 0.0254; n = 184
+   placebo 2008-11 x 2004-07: R1 medio = 1.133
+   4b. placebo sem seca (HC3)                                : Q1->Q3 = +0.0 p.p. (IC90 -3.8 a +3.8); p = 0.9921; n = 184
+   4b'. placebo sem seca, agrupado por microrregiao          : Q1->Q3 = +0.0 p.p. (IC90 -3.9 a +3.9); p = 0.9923; n = 184

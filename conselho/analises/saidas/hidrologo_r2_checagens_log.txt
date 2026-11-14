@@ -1,0 +1,60 @@
+============================== (A) GRACE CE: estado recente ==============================
+últimos meses (bruto | dessaz. | percentil do dessaz. na série toda):
+  2026-04:  +6.82 |  +0.72 | p  57
+  2026-05:  +8.37 |  +0.00 | p  54
+  2026-06:  +5.60 |  +3.45 | p  71
+  2026-07:  +1.82 |  +3.94 | p  73
+  2026-08:  -2.22 |  +2.20 | p  66
+  2026-09:  -9.74 |  -3.80 | p  33
+setembros: n=21, set/2026 bruto = -9.74, posição 7º menor; mediana -8.24
+  mês 7: dessaz. 2026 = +3.94 ; percentil entre os mesmos meses = 68
+  mês 8: dessaz. 2026 = +2.20 ; percentil entre os mesmos meses = 68
+  mês 9: dessaz. 2026 = -3.80 ; percentil entre os mesmos meses = 33
+média do dessaz.: 2003–2010 +2.78 | 2011–2017 -5.17 | 2018–2025 +0.46
+
+============================== (B) GLDAS-2.2 CLSM GWS × residual GRACE − Noah ==============================
+meses em comum: 249 (2003-02 a 2026-07)
+correlações (anomalias dessazonalizadas):
+            res    gws  grace  clsm_tws  clsm_rz
+res       1.000  0.558  0.838     0.495    0.218
+gws       0.558  1.000  0.844     0.992    0.839
+grace     0.838  0.844  1.000     0.807    0.578
+clsm_tws  0.495  0.992  0.807     1.000    0.901
+clsm_rz   0.218  0.839  0.578     0.901    1.000
+dp (cm): {'res': 6.32, 'gws': 5.8, 'grace': 8.24, 'clsm_tws': 7.28, 'clsm_rz': 1.69}
+  r(residual(t), GWS(t+0)) = 0.558
+  r(residual(t), GWS(t+3)) = 0.328
+  r(residual(t), GWS(t+6)) = 0.273
+fração da variância do GRACE dessaz. 'explicada' pelo GWS CLSM (cov/var): 0.59
+autocorrelação do GWS dessaz.: {1: np.float64(0.93), 3: np.float64(0.69), 6: np.float64(0.43), 12: np.float64(0.25), 24: np.float64(0.23)}
+GWS CLSM recente (bruto cm | dessaz. | percentil):
+  2026-03:   86.48 |  -0.48 | p52
+  2026-04:   91.57 |  -1.01 | p47
+  2026-05:   95.97 |  +1.43 | p70
+  2026-06:   93.39 |  +1.26 | p67
+  2026-07:   90.38 |  +1.67 | p71
+  2026-08:   87.42 |  +1.87 | p72
+mínimo GWS dessaz.: -11.73 cm em 2013-04; primeiro mês >= 0 depois: 2018-03
+unidade PRECTOTCORR / ET0: mm/day/mes / mm/day/mes
+r com a chuva filtrada exp(−k/τ): {3: {'gws': np.float64(0.545), 'residual': np.float64(0.041)}, 6: {'gws': np.float64(0.588), 'residual': np.float64(0.155)}, 12: {'gws': np.float64(0.598), 'residual': np.float64(0.301)}, 18: {'gws': np.float64(0.6), 'residual': np.float64(0.399)}, 24: {'gws': np.float64(0.595), 'residual': np.float64(0.461)}, 36: {'gws': np.float64(0.571), 'residual': np.float64(0.522)}, 48: {'gws': np.float64(0.539), 'residual': np.float64(0.539)}, 60: {'gws': np.float64(0.509), 'residual': np.float64(0.538)}}
+
+============================== (C) Açudes do espaço: fração de água Landsat na seca ==============================
+fração de água (% da AOI) na seca, resumo por AOI:
+                  count   mean    std   min    10%    50%    90%    max
+aoi                                                                    
+apodi_jaguaribe  3800.0  0.012  0.031  0.00  0.000  0.003  0.022  0.186
+cariri           3800.0  0.003  0.003  0.00  0.000  0.002  0.008  0.011
+ibiapaba         3700.0  0.005  0.003  0.00  0.001  0.006  0.009  0.014
+sertao_central   3600.0  1.057  0.601  0.16  0.411  0.936  2.079  2.584
+  apodi_jaguaribe: água máxima 0.186% — sem açude relevante na AOI, pulado
+  cariri: água máxima 0.011% — sem açude relevante na AOI, pulado
+  ibiapaba: água máxima 0.014% — sem açude relevante na AOI, pulado
+  sertao_central: n anos=36 (1984–2026); ρ(água seca, chuva filtrada τ): τ3=+0.16, τ6=+0.22, τ12=+0.32, τ18=+0.41, τ24=+0.46, τ36=+0.51, τ48=+0.54, τ60=+0.55, τ72=+0.54
+     ρ com a chuva fev–mai do mesmo ano: +0.06 (n=36)
+     2002+: ρ(água, GRACE AOI ago–dez) = +0.58; ρ(água, residual CE) = +0.56 (n=23)
+     verde na seca (SR, n=13): ρ com água = +0.53 (p=0.064); com GRACE = +0.80 (p=0.001); parcial água|GRACE = +0.03
+     água seca por ano (% AOI): 2010:1.64 2011:1.52 2012:0.83 2013:1.00 2014:1.04 2015:0.60 2016:0.19 2017:0.95 2018:0.35 2019:0.92 2020:0.99 2021:0.55 2022:0.83 2023:0.68 2024:1.24 2025:1.04 2026:0.80
+
+============================== (D) ET0 POWER média CE ==============================
+ET0 anual 1991–2020 (média CE, supondo mm/dia): 69477 mm | chuva POWER 24488 | IMERG 23279
+ET0 anual 1999–2025: 69050 mm

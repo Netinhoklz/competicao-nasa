@@ -1,0 +1,73 @@
+painel: 5106 municipio-anos, 184 municipios, 28 anos; taxa-base 0.215
+POWER PRECTOTCORR CE: media de abril 1991-2020 = 168 (total mensal em mm)
+POWER PRECTOTCORR unidade 'mm/day/mes'; tercil seco fev-mai (1982-2025) < 498 mm; corr POWER x IMERG 1998-2025 = 0.84
+
+========================= A. Analogos (ONI ASO do ano anterior >= 1,3; limiar fixado na rodada 1) =========================
+        ONI_ASO(t-1)  ONI_NDJ  ONI_FMA(t)  TNA_JAS(t-1)  TSA_JAS(t-1)  DIP_JAS(t-1)  DIP_FMAM(t)  POWER_%med POWER_tercil_seco  IMERG_%med  frac_quebra  Quixada_razao
+quadra                                                                                                                                                                
+1983            1.45     2.12        1.52         -0.61         -0.64          0.03         0.52       59.16              True         NaN          NaN            NaN
+1988            1.49     1.00       -0.03          0.15          0.22         -0.07        -0.31      138.23             False         NaN          NaN            NaN
+1998            2.04     2.37        1.40         -0.08         -0.25          0.18         0.19       47.95              True       51.57         0.75           0.00
+2016            2.02     2.59        1.69          0.11         -0.23          0.34         0.05       63.02              True       63.52         0.70           0.12
+2024            1.50     1.99        1.18          1.07          0.28          0.80         0.15      101.56             False      103.27         0.08           0.46
+2027            2.46      NaN         NaN          0.57          0.37          0.20          NaN         NaN               NaN         NaN          NaN            NaN
+  POWER 1982-2026: quadra no tercil seco em 3 de 5 analogos (IC90 Clopper-Pearson 0.19-0.92); taxa-base 1/3
+  ONI ASO 2026 = 2.46; maximo de ASO entre as quadras 1982-2026: 2.04
+
+========================= B. Logistica pre-registrada P(quebra municipal) ~ ONI ASO(t-1), LOYO por ano =========================
+  BSS municipal (LOYO) = +0.063  IC90 por ano [-0.072, +0.181]
+  nivel do ano (n=28): 'BSS' da fracao em quebra = +0.159; rho(ONI ASO, fracao) = +0.39 (p=0.038)
+  confiabilidade nos anos de ONI ASO(t-1) >= 1,0 (previsto LOYO x observado):
+         f    pl    pc   oni
+ano                         
+1998  0.75  0.46  0.20  2.04
+2016  0.70  0.48  0.20  2.02
+2024  0.08  0.51  0.22  1.50
+  P(quebra municipal | ONI ASO = 2.46) = 0.62  IC90 por ano [0.25, 0.83]   <- extrapolacao (acima do maximo 2,04)
+  P(quebra municipal | ONI ASO = 2.04) = 0.54  IC90 por ano [0.24, 0.75]
+  P(quebra municipal | ONI ASO = 1.50) = 0.44  IC90 por ano [0.21, 0.61]
+  P(quebra municipal | ONI ASO = 0.00) = 0.20  IC90 por ano [0.11, 0.27]
+  coeficiente: +0.78 por unidade de ONI; taxa-base 0.22
+
+========================= C. Ano-catastrofe (>= 50% dos municipios em quebra) =========================
+  anos-catastrofe 1998-2025: [1998, 2010, 2012, 2013, 2015, 2016] -> 6 de 28
+  ONI ASO(t-1) >= 1.0: anos [1998, 2016, 2024] -> catastrofe em 2 de 3 (IC90 0.14-0.98)
+  ONI ASO(t-1) >= 1.3: anos [1998, 2016, 2024] -> catastrofe em 2 de 3 (IC90 0.14-0.98)
+  ONI ASO(t-1) >= 2.0: anos [1998, 2016] -> catastrofe em 2 de 2 (IC90 0.22-1.00)
+  Quixada nos analogos >= 1,3 da era IMERG: 1998: razao 0.00 quebra 1, 2016: razao 0.12 quebra 1, 2024: razao 0.46 quebra 1
+  Quixada, taxa-base: 8 quebras em 28 anos
+
+========================= D. Exploratorio: Atlantico de jul-set (t-1) nos anos de El Nino (ONI ASO >= 1,0), era IMERG =========================
+        ONI_ASO  TNA_JAS  TSA_JAS  DIP_JAS  frac_quebra  IMERG_%med
+quadra                                                             
+1998       2.04    -0.08    -0.25     0.18         0.75       51.57
+2016       2.02     0.11    -0.23     0.34         0.70       63.52
+2024       1.50     1.07     0.28     0.80         0.08      103.27
+2027       2.46     0.57     0.37     0.20          NaN         NaN
+
+========================= E. Sensibilidade: tira um analogo por vez e refaz a logistica (P em ONI 2,46 e 2,04) =========================
+  todos os anos : P(2,46) = 0.62 | P(2,04) = 0.54 | coef +0.78
+  sem 1998      : P(2,46) = 0.53 | P(2,04) = 0.46 | coef +0.63
+  sem 2016      : P(2,46) = 0.55 | P(2,04) = 0.48 | coef +0.66
+  sem 2024      : P(2,46) = 0.72 | P(2,04) = 0.63 | coef +0.93
+  2 anos mais proximos em ONI ASO ([1998, 2016]): fracao media em quebra 0.72
+  3 anos mais proximos em ONI ASO ([1998, 2016, 2024]): fracao media em quebra 0.51
+
+========================= F. Rota de fuga: o El Nino decai ate fev-abr (ONI FMA <= 0,5)? 1951-2026 =========================
+  quadras com ONI ASO(t-1) >= 1,3: {1966: (np.float64(1.55), np.float64(0.76)), 1973: (np.float64(1.49), np.float64(0.56)), 1983: (np.float64(1.45), np.float64(1.52)), 1988: (np.float64(1.49), np.float64(-0.03)), 1998: (np.float64(2.04), np.float64(1.4)), 2016: (np.float64(2.02), np.float64(1.69)), 2024: (np.float64(1.5), np.float64(1.18))}
+  decaiu ate FMA <= 0,5 em 1 de 7 (IC90 0.01-0.52)
+  regressao em todos os anos: FMA = 0.68*ASO +0.02 (dp do residuo 0.39); para ASO 2,46: FMA previsto 1.69; P(FMA <= 0,5) = 0.00 [extrapolacao]
+
+========================= G. Exploratorio com contraprova: o sinal do TSA de jul-set(t-1) nos 7 analogos desde 1966 =========================
+  Hipotese formada AGORA nos 5 analogos 1982-2026 (bloco A/D): TSA_JAS(t-1) < 0 -> quadra seca; > 0 -> escapou.
+  Contraprova nos 2 analogos que NAO entraram na hipotese (1966 e 1973; desfecho seco/nao seco da rodada 1,
+  cetico_r3_refutacoes.saida.txt bloco D: secos 1966, 1983, 1998, 2016; nao secos 1973, 1988, 2024):
+    1966: ONI ASO 1.55 | TNA_JAS -0.50 | TSA_JAS -0.41 | DIP_JAS -0.09 | TSA_FMAM(t) -0.43
+    1973: ONI ASO 1.49 | TNA_JAS -0.72 | TSA_JAS +0.05 | DIP_JAS -0.77 | TSA_FMAM(t) +0.43
+    1983: ONI ASO 1.45 | TNA_JAS -0.61 | TSA_JAS -0.64 | DIP_JAS +0.03 | TSA_FMAM(t) -0.43
+    1988: ONI ASO 1.49 | TNA_JAS +0.15 | TSA_JAS +0.22 | DIP_JAS -0.07 | TSA_FMAM(t) +0.37
+    1998: ONI ASO 2.04 | TNA_JAS -0.08 | TSA_JAS -0.25 | DIP_JAS +0.18 | TSA_FMAM(t) +0.31
+    2016: ONI ASO 2.02 | TNA_JAS +0.11 | TSA_JAS -0.23 | DIP_JAS +0.34 | TSA_FMAM(t) +0.17
+    2024: ONI ASO 1.50 | TNA_JAS +1.07 | TSA_JAS +0.28 | DIP_JAS +0.80 | TSA_FMAM(t) +1.10
+    2027: ONI ASO 2.46 | TNA_JAS +0.57 | TSA_JAS +0.37 | DIP_JAS +0.20 | TSA_FMAM(t) +nan
+  persistencia do TSA: corr(TSA jul-set(t-1), TSA fev-mai(t)) = +0.51 (1950-2025)

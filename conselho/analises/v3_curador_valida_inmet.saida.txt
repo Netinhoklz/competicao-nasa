@@ -1,0 +1,100 @@
+INMET automaticas NE: 150 estacoes, 320,507 dias com chuva valida, 2016-01-01 a 2025-12-31
+
+==================== B1. Normais INMET 1991-2020 x IMERG 1998-2025 (razao anual) ====================
+           razao  razao_oeste  razao_power  r_ciclo_mensal   n
+faixa                                                         
+<20 km      0.67         0.61         0.71            0.94  13
+20-60 km    0.72         0.66         0.94            0.97   7
+60-150 km   0.98         0.97         0.98            0.98  18
+>150 km     0.98         0.98         0.87            0.99  20
+          estacao uf  km_mar  normal   imerg  razao  razao_oeste  razao_power  celula_em_terra
+          ARACAJU SE    2.27  1189.3  760.54   0.64         0.58         0.89             True
+         BARBALHA CE  350.73  1022.3  854.65   0.84         0.84         0.77             True
+        FORTALEZA CE   10.95  1584.0 1132.26   0.71         0.69         0.67             True
+           IGUATU CE  270.46   951.7  829.50   0.87         0.87         0.80             True
+      JOAO PESSOA PB    2.39  1837.4 1222.87   0.67         0.61         0.67             True
+           MACEIO AL   11.67  1808.1  826.02   0.46         0.42         0.64             True
+            NATAL RN    3.16  1691.2 1071.32   0.63         0.58         0.69             True
+        PETROLINA PE  419.19   419.0  470.32   1.12         1.17         1.02             True
+  RECIFE (CURADO) PE    9.39  2155.5 1040.87   0.48         0.43         0.65             True
+SALVADOR (ONDINA) BA    0.93  1833.3 1123.30   0.61         0.56         0.66            False
+         SAO LUIS MA    5.91  2117.1 2097.52   0.99         1.00         0.84             True
+           SOBRAL CE  103.27   887.6  896.50   1.01         1.04         1.05             True
+costa leste (RN a BA, < 20 km do mar): razao mediana 0.63 | costa norte (MA, PI, CE, < 20 km): 0.99
+nota: periodos diferentes (normal 1991-2020; IMERG 1998-2025). A normal e a media de 30 anos da estacao.
+
+==================== B2. Chuva diaria: automaticas INMET x IMERG (dia UTC), 2016-2025 ====================
+           r_dia  r_dia_lag  r_mes  razao_volume  freq_g  freq_s   n
+faixa                                                               
+<20 km     0.656      0.207  0.799         0.599   0.342   0.213  27
+20-60 km   0.631      0.227  0.784         0.937   0.251   0.212  16
+60-150 km  0.630      0.237  0.842         0.890   0.226   0.174  38
+>150 km    0.683      0.219  0.903         1.024   0.156   0.190  64
+        nome  km_mar    n  r_dia  r_mes  razao_volume
+   FORTALEZA   11.01 2687   0.75   0.97          0.66
+  JAGUARUANA   30.47 1766   0.54   0.76          2.07
+      ACARAU   31.80 1791   0.69   0.95          0.99
+   ITAPIPOCA   40.61 1065   0.54   0.89          0.93
+GUARAMIRANGA   71.32 1503   0.63   0.95          0.45
+     TIANGUA   92.81 1850   0.62   0.93          0.86
+ MORADA NOVA   99.76 3204   0.66   0.90          1.05
+      SOBRAL  103.24 1866   0.60   0.84          1.18
+     QUIXADA  139.37 1444   0.73   0.93          0.91
+QUIXERAMOBIM  173.06 1660   0.70   0.92          0.90
+   JAGUARIBE  182.71 1463   0.55   0.80          1.83
+     CRATEUS  256.19 3074   0.70   0.93          0.88
+      IGUATU  270.46 2535   0.68   0.92          0.86
+        TAUA  316.05 1791   0.70   0.93          1.14
+    BARBALHA  350.73 1533   0.67   0.90          0.99
+CAMPOS SALES  408.28 1409   0.66   0.93          1.28
+costa leste < 20 km:                 nome uf  r_dia  r_mes  razao_volume
+              RECIFE PE   0.72   0.82          0.44
+              MACEIO AL   0.70   0.83          0.41
+               NATAL RN   0.70   0.87          0.65
+               MACAU RN   0.53   0.91          1.28
+             MOSSORO RN   0.64   0.85          1.17
+         JOAO PESSOA PB   0.76   0.90          0.56
+           CALCANHAR RN   0.78   0.85          0.95
+          CAMARATUBA PB   0.62   0.79          0.72
+            CORURIPE AL   0.37   0.02          0.54
+SAO LUIS DO QUITUNDE AL   0.68   0.77          0.39
+            SALVADOR BA   0.70   0.91          0.57
+           CARAVELAS BA   0.65   0.70          0.64
+             ARACAJU SE   0.62   0.68          0.51
+              ILHEUS BA   0.64   0.70          0.50
+        BREJO GRANDE SE   0.60   0.70          0.50
+        PORTO SEGURO BA   0.63   0.69          0.46
+               CONDE BA   0.66   0.70          0.53
+                 UNA BA   0.60   0.66          0.60
+               MARAU BA   0.62   0.63          0.52
+             VALENCA BA   0.48   0.24          0.50
+
+==================== D. Tmax e ET0 FAO-56: POWER (0,5 x 0,625 grau) x automaticas do CE, 2016-2025 ====================
+     estacao  alt_est  alt_power  km_mar  dias_T  vies_tmax  vies_tmax_corr_alt  r_tmax  dias_ET0  et0_est_mm_ano  et0_power_mm_ano  razao_et0  vies_rs  vies_u2  vies_td
+   FORTALEZA    29.55     138.15   11.01    2771       0.56                1.26    0.63      2625         1579.47           1971.96       1.25     4.51     0.70    -0.14
+      SOBRAL    92.07     190.99  103.24    2295      -1.02               -0.38    0.88      1909         1734.16           2236.89       1.29     0.37     1.86     0.63
+GUARAMIRANGA   865.53     161.84   71.32    1558       7.37                2.80    0.78      1527         1320.73           2242.09       1.70     4.56     0.77     1.89
+    BARBALHA   409.41     703.75  350.73    1712      -1.82                0.10    0.85      1671         1834.39           1665.37       0.91    -0.22    -0.29    -1.00
+      IGUATU   221.56     296.47  270.46    2578       0.85                1.34    0.82      2210         1679.27           2427.98       1.45     8.38     0.99     0.17
+        TAUA   410.87     460.70  316.05    1800      -0.59               -0.27    0.82      1578         1844.24           2253.12       1.22     0.91     1.64     0.46
+QUIXERAMOBIM   221.04     279.55  173.06    1781       0.27                0.65    0.86      1775         2087.75           2433.69       1.17    -0.99     1.56     0.79
+ MORADA NOVA    45.03      84.43   99.76    3569       0.54                0.79    0.83      2887         2065.69           2686.79       1.30     2.19     1.62     0.32
+  JAGUARUANA    12.00      52.13   30.47    2943      -0.00                0.26    0.76      2914         1992.18           2576.48       1.29     0.86     2.55     0.62
+     CRATEUS   298.19     389.89  256.19    3201      -0.60               -0.00    0.84      3131         1765.35           2370.81       1.34     2.68     1.71    -0.33
+CAMPOS SALES   577.95     551.85  408.28    1812       0.83                0.66    0.80      1754         1615.20           2413.63       1.49     1.54     2.18    -1.61
+   JAGUARIBE   149.31     246.65  182.71    2140      -1.00               -0.36    0.83      1972         2183.17           2556.37       1.17     1.58     1.28     0.52
+   ITAPIPOCA   104.49     111.37   40.61    1672      -1.11               -1.07    0.84      1578         2120.47           2173.08       1.02     1.33     1.06     0.98
+      ACARAU    67.15      31.26   31.80    2015      -0.94               -1.18    0.82      1893         1775.86           2148.72       1.21     2.65     1.79     0.58
+     TIANGUA   756.00     278.18   92.81    1850       4.03                0.92    0.86      1603         1715.09           2117.02       1.23    -0.03     0.39     1.75
+     QUIXADA   193.00     155.49  139.37    1446       1.20                0.95    0.86       386         1814.91           2442.82       1.35     0.40     1.83    -1.22
+medianas: {'vies_tmax': 0.136, 'vies_tmax_corr_alt': 0.456, 'r_tmax': 0.828, 'razao_et0': 1.269, 'vies_rs': 1.432, 'vies_u2': 1.588, 'vies_td': 0.49}
+nota: a celula POWER (~55 x 70 km) mistura serra, sertao e litoral; a ET0 da estacao usa Rs medida e vento de 10 m reduzido a 2 m. A estacao automatica ja e a referencia de campo do INMET; nao foi feito controle de qualidade alem de faixas fisicas.
+
+==================== D2. ET potencial normal INMET 1991-2020 (convencionais do CE) x ET0 POWER FAO-56 1991-2020 ====================
+  BARBALHA       normal INMET  1957.4 mm/ano | POWER FAO-56  1639.9 | razao POWER/INMET 0.84
+  FORTALEZA      normal INMET  1997.9 mm/ano | POWER FAO-56  1943.0 | razao POWER/INMET 0.97
+  GUARAMIRANGA   normal INMET  1063.2 mm/ano | POWER FAO-56  2200.0 | razao POWER/INMET 2.07
+  JAGUARUANA     normal INMET  2239.1 mm/ano | POWER FAO-56  2553.0 | razao POWER/INMET 1.14
+  MORADA NOVA    normal INMET     nan mm/ano | POWER FAO-56  2511.4 | razao POWER/INMET nan
+  QUIXERAMOBIM   normal INMET     nan mm/ano | POWER FAO-56  2370.9 | razao POWER/INMET nan
+  SOBRAL         normal INMET  2132.4 mm/ano | POWER FAO-56  2157.0 | razao POWER/INMET 1.01

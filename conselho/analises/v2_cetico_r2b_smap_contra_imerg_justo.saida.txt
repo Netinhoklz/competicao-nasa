@@ -1,0 +1,95 @@
+==================== A. 30/abr, milho, 2016-2025: SMAP 7 d contra CINCO leituras de chuva IMERG (mesmas linhas) ====================
+  n = 1820 municipio-anos, 10 anos, 268 quebras (2016: 127)
+  AUC SMAP 7 d = 0.772 | dentro do ano 0.553
+  chuva W1   AUC 0.662 | dentro do ano 0.529 | SMAP - W1: +0.110 (IC90 por ano +0.007 a +0.166) | rho Spearman(S7, W1) = +0.80
+  chuva W2   AUC 0.759 | dentro do ano 0.541 | SMAP - W2: +0.013 (IC90 por ano -0.039 a +0.080) | rho Spearman(S7, W2) = +0.85
+  chuva API  AUC 0.801 | dentro do ano 0.576 | SMAP - API: -0.029 (IC90 por ano -0.085 a +0.024) | rho Spearman(S7, API) = +0.81
+  chuva R30  AUC 0.747 | dentro do ano 0.606 | SMAP - R30: +0.025 (IC90 por ano -0.089 a +0.058) | rho Spearman(S7, R30) = +0.80
+  chuva R15  AUC 0.805 | dentro do ano 0.592 | SMAP - R15: -0.033 (IC90 por ano -0.138 a +0.042) | rho Spearman(S7, R15) = +0.68
+
+  Regras com limiar FIXO (chuva < 75% do normal; SMAP < 20):
+    SMAP 7 d < 20 (canonica da v2)           acende 13.3% | P(q|alerta) 0.40 | P(q|sem) 0.11 | recall 36.2% | 2016 64/127 (alertas 91) | 2021 3/7 (alertas 81) | 2025 21/45 (alertas 46)
+    chuva W1 < 75%                           acende  7.7% | P(q|alerta) 0.11 | P(q|sem) 0.15 | recall  6.0% | 2016 9/127 (alertas 14) | 2021 6/7 (alertas 107) | 2025 1/45 (alertas 7)
+    chuva W2 < 75%                           acende 22.3% | P(q|alerta) 0.38 | P(q|sem) 0.08 | recall 57.1% | 2016 113/127 (alertas 164) | 2021 6/7 (alertas 97) | 2025 34/45 (alertas 100)
+    chuva API < 75%                          acende 35.4% | P(q|alerta) 0.32 | P(q|sem) 0.05 | recall 77.6% | 2016 126/127 (alertas 181) | 2021 4/7 (alertas 101) | 2025 40/45 (alertas 123)
+    chuva R30 < 75%                          acende 23.8% | P(q|alerta) 0.35 | P(q|sem) 0.09 | recall 56.0% | 2016 80/127 (alertas 111) | 2021 4/7 (alertas 112) | 2025 35/45 (alertas 86)
+    chuva R15 < 75%                          acende 39.5% | P(q|alerta) 0.30 | P(q|sem) 0.05 | recall 79.5% | 2016 127/127 (alertas 182) | 2021 4/7 (alertas 79) | 2025 33/45 (alertas 104)
+
+  B. Mesma taxa de alerta que o SMAP (13.3% dos municipio-anos de 2016-2025; limiar escolhido sem rotulo):
+    chuva W1 <= 0.79 do normal               acende 13.3% | P(q|alerta) 0.16 | P(q|sem) 0.15 | recall 14.6% | 2016 25/127 (alertas 34) | 2021 6/7 (alertas 113) | 2025 5/45 (alertas 26)
+    chuva W2 <= 0.65 do normal               acende 13.3% | P(q|alerta) 0.44 | P(q|sem) 0.10 | recall 39.9% | 2016 86/127 (alertas 113) | 2021 4/7 (alertas 64) | 2025 17/45 (alertas 64)
+    chuva API <= 0.50 do normal              acende 13.3% | P(q|alerta) 0.54 | P(q|sem) 0.09 | recall 48.9% | 2016 106/127 (alertas 146) | 2021 2/7 (alertas 35) | 2025 16/45 (alertas 40)
+    chuva R30 <= 0.62 do normal              acende 13.3% | P(q|alerta) 0.38 | P(q|sem) 0.11 | recall 34.0% | 2016 60/127 (alertas 76) | 2021 4/7 (alertas 105) | 2025 22/45 (alertas 45)
+    chuva R15 <= 0.32 do normal              acende 13.3% | P(q|alerta) 0.51 | P(q|sem) 0.09 | recall 45.9% | 2016 100/127 (alertas 137) | 2021 1/7 (alertas 3) | 2025 4/45 (alertas 20)
+
+==================== C. Placar por ANO (n = 10; a unidade independente) ====================
+      frac_quebra     S7_med  W1_med  W2_med  API_med  R30_med  R15_med  al_S7  al_W1  al_W2  al_API  al_R30  al_R15
+ano                                                                                                                 
+2016         0.70  19.930000    0.86    0.63     0.44     0.67     0.20   0.50   0.08   0.90    0.99    0.61    1.00
+2017         0.17  43.689999    0.96    1.03     0.71     0.78     0.49   0.13   0.01   0.02    0.58    0.43    0.78
+2018         0.04  57.939999    1.07    1.18     0.92     1.37     0.73   0.00   0.00   0.01    0.20    0.01    0.53
+2019         0.07  69.769997    1.28    1.27     1.29     1.30     1.21   0.00   0.00   0.00    0.04    0.02    0.08
+2020         0.01  74.279999    1.28    1.25     1.54     1.30     2.23   0.00   0.00   0.00    0.00    0.00    0.00
+2021         0.04  21.930000    0.70    0.73     0.69     0.56     0.83   0.45   0.59   0.53    0.55    0.62    0.43
+2022         0.02  56.750000    0.94    0.85     1.07     1.12     1.39   0.00   0.03   0.14    0.04    0.00    0.03
+2023         0.11  46.430000    0.88    0.87     0.88     0.87     0.89   0.00   0.02   0.08    0.23    0.16    0.34
+2024         0.08  60.139999    1.00    1.10     0.93     0.97     1.05   0.01   0.01   0.00    0.22    0.07    0.19
+2025         0.25  29.110001    0.89    0.73     0.64     0.77     0.62   0.25   0.04   0.55    0.68    0.47    0.57
+  Spearman entre anos (-S7_med, fracao em quebra) = +0.63 (p 0.050, n = 10)
+  Spearman entre anos (-W1_med, fracao em quebra) = +0.43 (p 0.220, n = 10)
+  Spearman entre anos (-W2_med, fracao em quebra) = +0.53 (p 0.111, n = 10)
+  Spearman entre anos (-API_med, fracao em quebra) = +0.77 (p 0.010, n = 10)
+  Spearman entre anos (-R30_med, fracao em quebra) = +0.57 (p 0.084, n = 10)
+  Spearman entre anos (-R15_med, fracao em quebra) = +0.80 (p 0.005, n = 10)
+  Spearman entre anos (al_S7 = fracao com alerta, fracao em quebra) = +0.63 (p 0.051)
+  Spearman entre anos (al_W1 = fracao com alerta, fracao em quebra) = +0.41 (p 0.236)
+  Spearman entre anos (al_W2 = fracao com alerta, fracao em quebra) = +0.50 (p 0.143)
+  Spearman entre anos (al_API = fracao com alerta, fracao em quebra) = +0.87 (p 0.001)
+  Spearman entre anos (al_R30 = fracao com alerta, fracao em quebra) = +0.70 (p 0.024)
+  Spearman entre anos (al_R15 = fracao com alerta, fracao em quebra) = +0.80 (p 0.005)
+
+==================== D. Tirando um ano por vez: dif de AUC SMAP 7 d - chuva ====================
+  SMAP - W1: 2016: +0.061 | 2017: +0.112 | 2018: +0.122 | 2019: +0.129 | 2020: +0.128 | 2021: +0.103 | 2022: +0.093 | 2023: +0.101 | 2024: +0.117 | 2025: +0.103
+  SMAP - W2: 2016: +0.033 | 2017: -0.007 | 2018: +0.022 | 2019: +0.016 | 2020: +0.017 | 2021: +0.022 | 2022: -0.004 | 2023: +0.017 | 2024: +0.015 | 2025: +0.003
+  SMAP - API: 2016: -0.020 | 2017: -0.038 | 2018: -0.033 | 2019: -0.038 | 2020: -0.031 | 2021: -0.015 | 2022: -0.031 | 2023: -0.013 | 2024: -0.035 | 2025: -0.036
+
+==================== E. Sensibilidade a data do portao (30/abr e o pre-declarado) ====================
+  15/04: SMAP7<20: AUC 0.64, 2016 10/127 (al 12), 2021 al 100 || W1<75%: AUC 0.55, 2016 0/127 (al 0), 2021 al 108 || W2<75%: AUC 0.70, 2016 82/127 (al 114), 2021 al 96 || API<75%: AUC 0.51, 2016 6/127 (al 9), 2021 al 110
+  22/04: SMAP7<20: AUC 0.68, 2016 17/127 (al 27), 2021 al 94 || W1<75%: AUC 0.61, 2016 0/127 (al 0), 2021 al 102 || W2<75%: AUC 0.73, 2016 95/127 (al 132), 2021 al 93 || API<75%: AUC 0.70, 2016 53/127 (al 75), 2021 al 78
+  30/04: SMAP7<20: AUC 0.77, 2016 64/127 (al 91), 2021 al 81 || W1<75%: AUC 0.66, 2016 9/127 (al 14), 2021 al 107 || W2<75%: AUC 0.76, 2016 113/127 (al 164), 2021 al 97 || API<75%: AUC 0.80, 2016 126/127 (al 181), 2021 al 101
+  07/05: SMAP7<20: AUC 0.77, 2016 61/127 (al 89), 2021 al 34 || W1<75%: AUC 0.67, 2016 9/127 (al 13), 2021 al 76 || W2<75%: AUC 0.77, 2016 112/127 (al 163), 2021 al 69 || API<75%: AUC 0.77, 2016 108/127 (al 160), 2021 al 1
+  15/05: SMAP7<20: AUC 0.78, 2016 76/127 (al 102), 2021 al 8 || W1<75%: AUC 0.68, 2016 9/127 (al 11), 2021 al 42 || W2<75%: AUC 0.78, 2016 116/127 (al 167), 2021 al 33 || API<75%: AUC 0.74, 2016 93/127 (al 132), 2021 al 0
+
+==================== F. Era 1998-2015 (o SMAP nao existia): as leituras alternativas da chuva tambem funcionam? ====================
+  [19/mar 1998-2015] W1 AUC 0.77 P(q|al) 0.47 rec 52% | W2 AUC 0.74 P(q|al) 0.49 rec 53% | API AUC 0.75 P(q|al) 0.49 rec 63% | R30 AUC 0.73 P(q|al) 0.47 rec 53% | R15 AUC 0.71 P(q|al) 0.41 rec 62%
+  [19/mar 2016-2025] W1 AUC 0.55 P(q|al) 0.10 rec 8% | W2 AUC 0.71 P(q|al) 0.28 rec 57% | API AUC 0.61 P(q|al) 0.20 rec 35% | R30 AUC 0.67 P(q|al) 0.26 rec 56% | R15 AUC 0.58 P(q|al) 0.19 rec 40%
+  [19/mar 1998-2025] W1 AUC 0.73 P(q|al) 0.40 rec 41% | W2 AUC 0.73 P(q|al) 0.41 rec 54% | API AUC 0.72 P(q|al) 0.40 rec 56% | R30 AUC 0.71 P(q|al) 0.39 rec 54% | R15 AUC 0.67 P(q|al) 0.34 rec 57%
+  [30/abr 1998-2015] W1 AUC 0.83 P(q|al) 0.59 rec 56% | W2 AUC 0.82 P(q|al) 0.58 rec 52% | API AUC 0.79 P(q|al) 0.52 rec 59% | R30 AUC 0.75 P(q|al) 0.47 rec 57% | R15 AUC 0.72 P(q|al) 0.44 rec 57%
+  [30/abr 2016-2025] W1 AUC 0.66 P(q|al) 0.11 rec 6% | W2 AUC 0.76 P(q|al) 0.38 rec 57% | API AUC 0.80 P(q|al) 0.32 rec 78% | R30 AUC 0.75 P(q|al) 0.35 rec 56% | R15 AUC 0.80 P(q|al) 0.30 rec 79%
+  [30/abr 1998-2025] W1 AUC 0.80 P(q|al) 0.52 rec 44% | W2 AUC 0.80 P(q|al) 0.51 rec 53% | API AUC 0.77 P(q|al) 0.44 rec 63% | R30 AUC 0.75 P(q|al) 0.43 rec 57% | R15 AUC 0.73 P(q|al) 0.38 rec 63%
+
+==================== G. 19/mar, 2016-2025, mesmas comparacoes (o deck usa 0,59 do dia; aqui a media de 7 d) ====================
+  n = 1820; AUC SMAP 7 d = 0.682
+  chuva W1   AUC 0.547 | SMAP - W1: +0.135 (IC90 por ano -0.021 a +0.232)
+  chuva W2   AUC 0.709 | SMAP - W2: -0.026 (IC90 por ano -0.067 a +0.042)
+  chuva API  AUC 0.607 | SMAP - API: +0.075 (IC90 por ano -0.018 a +0.159)
+  chuva R30  AUC 0.672 | SMAP - R30: +0.011 (IC90 por ano -0.019 a +0.067)
+  chuva R15  AUC 0.576 | SMAP - R15: +0.106 (IC90 por ano -0.062 a +0.237)
+    SMAP 7 d < 20                            acende  6.8% | P(q|alerta) 0.50 | P(q|sem) 0.12 | recall 23.1% | 2016 47/127 (alertas 56) | 2021 1/7 (alertas 26) | 2025 5/45 (alertas 12)
+    chuva W1 < 75%                           acende 11.8% | P(q|alerta) 0.10 | P(q|sem) 0.15 | recall  7.8% | 2016 6/127 (alertas 7) | 2021 7/7 (alertas 100) | 2025 0/45 (alertas 0)
+    chuva W2 < 75%                           acende 29.9% | P(q|alerta) 0.28 | P(q|sem) 0.09 | recall 56.7% | 2016 127/127 (alertas 182) | 2021 6/7 (alertas 76) | 2025 8/45 (alertas 47)
+    chuva API < 75%                          acende 25.5% | P(q|alerta) 0.20 | P(q|sem) 0.13 | recall 35.1% | 2016 75/127 (alertas 99) | 2021 5/7 (alertas 122) | 2025 1/45 (alertas 4)
+    chuva R30 < 75%                          acende 31.6% | P(q|alerta) 0.26 | P(q|sem) 0.09 | recall 56.0% | 2016 122/127 (alertas 175) | 2021 6/7 (alertas 124) | 2025 7/45 (alertas 24)
+    chuva R15 < 75%                          acende 31.2% | P(q|alerta) 0.19 | P(q|sem) 0.13 | recall 39.9% | 2016 73/127 (alertas 97) | 2021 6/7 (alertas 140) | 2025 1/45 (alertas 2)
+
+==================== H. A regra 'duas luzes' da v2 (W1 OU SMAP < 20) contra W2 sozinha e W2 combinada (2016-2025) ====================
+  [19/mar]
+    duas luzes v2: W1<75% OU SMAP7<20        acende 16.1% | P(q|alerta) 0.25 | P(q|sem) 0.13 | recall 26.9% | 2016 48/127 (alertas 57) | 2021 7/7 (alertas 102) | 2025 5/45 (alertas 12)
+    so IMERG W2 < 75%                        acende 29.9% | P(q|alerta) 0.28 | P(q|sem) 0.09 | recall 56.7% | 2016 127/127 (alertas 182) | 2021 6/7 (alertas 76) | 2025 8/45 (alertas 47)
+    W2<75% OU SMAP7<20                       acende 30.2% | P(q|alerta) 0.28 | P(q|sem) 0.09 | recall 56.7% | 2016 127/127 (alertas 182) | 2021 6/7 (alertas 79) | 2025 8/45 (alertas 47)
+    W2<75% E SMAP7<20                        acende  6.5% | P(q|alerta) 0.53 | P(q|sem) 0.12 | recall 23.1% | 2016 47/127 (alertas 56) | 2021 1/7 (alertas 23) | 2025 5/45 (alertas 12)
+  [30/abr]
+    duas luzes v2: W1<75% OU SMAP7<20        acende 16.0% | P(q|alerta) 0.36 | P(q|sem) 0.11 | recall 38.8% | 2016 67/127 (alertas 94) | 2021 6/7 (alertas 112) | 2025 22/45 (alertas 49)
+    so IMERG W2 < 75%                        acende 22.3% | P(q|alerta) 0.38 | P(q|sem) 0.08 | recall 57.1% | 2016 113/127 (alertas 164) | 2021 6/7 (alertas 97) | 2025 34/45 (alertas 100)
+    W2<75% OU SMAP7<20                       acende 24.0% | P(q|alerta) 0.37 | P(q|sem) 0.08 | recall 60.8% | 2016 114/127 (alertas 165) | 2021 6/7 (alertas 101) | 2025 34/45 (alertas 101)
+    W2<75% E SMAP7<20                        acende 11.6% | P(q|alerta) 0.41 | P(q|sem) 0.11 | recall 32.5% | 2016 63/127 (alertas 90) | 2021 3/7 (alertas 77) | 2025 21/45 (alertas 45)

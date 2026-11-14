@@ -1,0 +1,134 @@
+=== A. ONI recente (cada mes = trimestre centrado; ex.: ago = JAS, set = ASO) ===
+data
+2026-01-01   -0.39
+2026-02-01   -0.21
+2026-03-01    0.11
+2026-04-01    0.46
+2026-05-01    0.95
+2026-06-01    1.39
+2026-07-01    1.80
+2026-08-01    2.16
+2026-09-01    2.46
+Maximos historicos por mes-centro (ate 2025):
+  JAS: max 1.79 em 1997
+  ASO: max 2.04 em 1997
+  SON: max 2.28 em 2015
+
+Anos El Nino (ONI out-jan >= 1,0): [1998, 2003, 2010, 2016, 2024]
+
+=== B. Falso inicio (>=10 d < 1 mm nos 30 d apos a 1a chuva de 20 mm/3 d) por fase do ENSO ===
+           FI  plantio_jan  FI_jan
+fase                              
+ElNino  0.214        0.952   0.214
+LaNina  0.168        0.845   0.158
+neutro  0.236        0.730   0.165
+Por ano (fracao de municipios):
+        FI  plantio_jan  FI_jan  oni_ondj    fase
+ano                                              
+1998  0.28         1.00    0.28      2.29  ElNino
+1999  0.14         0.87    0.14     -1.35  LaNina
+2000  0.25         1.00    0.25     -1.37  LaNina
+2001  0.28         0.95    0.28     -0.71  LaNina
+2002  0.00         1.00    0.00     -0.26  neutro
+2003  0.01         0.99    0.01      1.04  ElNino
+2004  0.00         1.00    0.00      0.29  neutro
+2005  0.49         0.59    0.42      0.64  neutro
+2006  0.09         0.01    0.01     -0.63  LaNina
+2007  0.11         0.12    0.11      0.77  neutro
+2008  0.16         0.99    0.16     -1.61  LaNina
+2009  0.00         1.00    0.00     -0.65  LaNina
+2010  0.24         1.00    0.24      1.30  ElNino
+2011  0.00         1.00    0.00     -1.47  LaNina
+2012  0.48         0.57    0.47     -0.90  LaNina
+2013  0.74         0.52    0.35      0.04  neutro
+2014  0.40         0.59    0.26     -0.15  neutro
+2015  0.53         0.46    0.36      0.68  neutro
+2016  0.04         1.00    0.04      2.46  ElNino
+2017  0.22         0.78    0.22     -0.36  neutro
+2018  0.12         0.91    0.11     -0.63  LaNina
+2019  0.00         0.98    0.00      0.98  neutro
+2020  0.08         0.99    0.08      0.67  neutro
+2021  0.23         0.86    0.22     -1.04  LaNina
+2022  0.14         1.00    0.14     -0.82  LaNina
+2023  0.10         0.99    0.10     -0.74  LaNina
+2024  0.50         0.77    0.50      1.87  ElNino
+2025  0.02         1.00    0.02     -0.34  neutro
+Spearman ONI out-jan x fracao de municipios com FI apos plantio em janeiro: rho=+0.06 p=0.758 (n=28)
+Spearman ONI out-jan x fracao com FI (qualquer mes): rho=+0.04 p=0.822
+
+Milho: P(quebra >= 50%) por fase x (falso inicio apos plantio em janeiro)
+                mean  size
+fase   FI_jan             
+ElNino 0       0.421   699
+       1       0.365   181
+LaNina 0       0.089  1779
+       1       0.303   333
+neutro 0       0.168  1623
+       1       0.364   313
+  OR(FI_jan)=2.06 [IC95 1.65-2.58] p=0.000
+  OR(elnino)=2.30 [IC95 1.83-2.89] p=0.000
+  OR(FI_jan:elnino)=0.27 [IC95 0.17-0.43] p=0.000
+
+Janeiro >= 150% do normal do municipio: P(FI apos plantio em jan) e P(chuva fev-mai no tercil seco)
+          FI_jan  terc_seco
+jan_alto                   
+0          0.215      0.364
+1          0.060      0.340
+
+=== C. Mandioca x milho x feijao nos 20% anos mais secos de cada municipio (fev-mai IMERG) ===
+cultura                             mandioca    milho   feijao
+n_mun                                 77.000  176.000  177.000
+anom_prod/area_plant (seco)           -0.264   -0.570   -0.378
+anom_rend_oficial/area_colh (seco)    -0.251   -0.550   -0.367
+anom_producao_total (seco)            -0.185   -0.642   -0.460
+frac_colhida/plantada (seco)           1.000    1.000    1.000
+frac_colhida/plantada (demais)         1.000    1.000    1.000
+rho_rp_chuva_t                         0.264    0.529    0.437
+rho_rp_chuva_t-1                      -0.013   -0.084   -0.114
+rho_rp_chuva_t+1                       0.104    0.057    0.104
+
+=== D. Sorgo: balde (ISNA floracao) x PAM ===
+Piores anos (mediana estadual do ISNA na floracao, regra de 20 mm/3 d):
+      isna_flor_milho  isna_flor_caupi  isna_flor_sorgo
+ano                                                    
+2010             0.22             0.28             0.33
+2016             0.46             0.31             0.57
+2012             0.51             0.75             0.62
+2013             0.53             0.33             0.64
+1998             0.69             0.39             0.77
+2022             0.73             0.39             0.83
+  P(ISNA flor < 0,5) milho: 10.1%
+  P(ISNA flor < 0,5) caupi: 23.1%
+  P(ISNA flor < 0,5) sorgo: 6.5%
+Produtos de sorgo no PAM-CE: ['Sorgo (em grão)']
+      area_plantada_ha  producao_t    rend
+ano                                       
+1998             586.0       165.0   282.0
+1999             640.0       863.0  1348.0
+2000            1620.0      5969.0  3685.0
+2001            2235.0      5161.0  2309.0
+2002            3802.0      8269.0  2175.0
+2003            6637.0     14686.0  2213.0
+2004            7137.0     17489.0  2450.0
+2005            5185.0     11620.0  2241.0
+2006            8290.0     18193.0  2195.0
+2007            5893.0     10058.0  1707.0
+2008            5336.0     11457.0  2147.0
+2009            5140.0      7068.0  1375.0
+2010            1880.0      5544.0  2949.0
+2011            2110.0      4895.0  2320.0
+2012             950.0      2315.0  2437.0
+2013             580.0      1270.0  2190.0
+2014             690.0      1685.0  2442.0
+2015             400.0       900.0  2250.0
+2016               0.0         0.0     NaN
+2017               0.0         0.0     NaN
+2018               0.0         0.0     NaN
+2019             400.0      1120.0  2800.0
+2020            1000.0      3500.0  3500.0
+2021            2900.0     10440.0  3600.0
+2022            1050.0      3202.0  3050.0
+2023            1405.0      4528.0  3223.0
+2024              40.0       174.0  4350.0
+2025              15.0         6.0   400.0
+Municipios com sorgo >= 50 ha em algum ano: 21
