@@ -414,3 +414,137 @@ redesenhar o relevo a cada quadro, justamente onde a cena 3D já pausa para poup
 - Cintilar as capitais e o pulso na borda dentro do mapa: obrigaria a redesenhar o relevo a cada quadro. No mapa, a luz é estática.
 - Polígono do município pelo Nominatim (`polygon_geojson`): funciona, mas o IBGE é a fonte oficial e a mesma do contorno do
   Nordeste.
+
+---
+
+## Rodada 2 — Agente Engenharia
+
+Fotos em `C:\Users\netinhoklz\AppData\Local\Temp\claude\88b277d27b184113\309288de-0ee5-4c92-a693-998c35e5936d\scratchpad\agentes\`
+(prefixo `eng_r2_`). A troca foi fotografada com o `chegar` congelado, como na rodada 1, e medida por pixel.
+
+### Resposta ponto a ponto
+
+**1. Nordeste aceso no mapa (contorno, halo, divisas) — aceito com ajustes.**
+- Implementado no estilo, com dados do mesmo `static/data/nordeste.json` do globo 3D. O `carregado` do mapa só resolve
+  com o Nordeste já desenhado, então a troca nunca acontece sem o fio. A ordem ficou como você pediu: `ne-fora` abaixo de
+  `limites`, e `ne-halo/ne-divisas/ne-contorno` acima, antes de `estados`.
+- **Valores na troca, para casar com o globo.**
+  - As divisas do globo são fortes. Com 0,3 de opacidade, no mapa elas sumiam na troca. Ficaram 1 px e opacidade 0,8 em
+    z4,6, descendo para os seus 0,42/0,38 a partir de z6.
+  - O contorno tem 1 px em z4,6. O halo vale 0 na troca e sobe até 0,2 em z5,6.
+  - Medido no mesmo enquadramento, a distância entre o dourado do globo e o do mapa tem **mediana de 0 px e p90 ≤ 2 px**
+    nos dois sentidos. Não há contorno duplo nem salto (`eng_r2_troca_contorno_sobreposto.png`,
+    `eng_r2_troca_lado_a_lado.png`: Terra 3D | cruzamento | mapa).
+- **Contorno e divisas somem até z10.** O arquivo é simplificado a 0,02° (~2 km). Perto do chão, o fio passaria a
+  quilômetros da divisa real e cortaria cidades no lugar errado. De z10 em diante entra o contorno do município (IBGE, fino).
+  Pelo mesmo motivo, o `within` do filtro `limites` só vale abaixo de z10 (`['step', ['zoom'], …, 10, …]`), e acima disso
+  voltam os limites do OpenFreeMap, que são precisos.
+
+**2. As 9 capitais com nome — aceito com ajuste.**
+- Camadas `ne-cap-halo`, `ne-cap` e `ne-cap-nome` no topo da pilha, com os seus valores. Somem de z10,5 em diante.
+- A lista foi para o `nordeste.json` (chave `capitais`, mesma ordem e mesmos valores de `CAPITAIS_NE`). **Coordenador:** o
+  `espaco.js` ainda tem a cópia própria; dá para ler do JSON quando você mexer nele.
+- Na troca, os pontos têm 2 px sem aro e o halo fica em 0,12, para parecerem com os pontinhos do globo. Os seus valores
+  valem a partir de z6.
+- Com movimento contínuo, os 9 nomes dourados aparecem (`eng_r2_afastar_comparacao.png`). Numa foto com `jumpTo` de 5
+  níveis de zoom, nomes e pontos não foram desenhados, embora o `queryRenderedFeatures` contasse 7 capitais colocadas.
+  É coisa do salto de câmera no headless; quem usa o site nunca dá esse salto.
+
+**3. Escurecer fora do Nordeste — aceito como proposto.** `ne-fora` com
+`fill-opacity z(4,6, 0, 5,8, 0,4, 8, 0,32, 9,5, 0)`, zero na troca (`eng_r2_quixada_58s`, `eng_r2_lencois_92s`).
+
+**4. Luz da atmosfera — aceito com `[1.5, 50, 48]`, depois de medir as três.**
+- Perfil de brilho na borda direita do globo, na mesma linha (`eng_r2_atmosfera_comparacao.png`):
+  - Terra 3D: pico de 186, com halo que continua por **60 px fora do disco**;
+  - `[57,37]`: só uma faixa de 1 a 2 px (pico de 194) e o resto escuro;
+  - `[45,60]`: clareia todo o oceano junto à borda (valores de 125 a 216), leitosa;
+  - `[50,48]`: rampa de ~50 px até o pico de 216, a forma mais parecida.
+  Ficou `[50,48]`.
+- **O que não dá para casar:** a atmosfera do MapLibre só é desenhada **dentro** do disco. Fora dele a tela fica 0 (é onde o
+  canvas é transparente para as estrelas). O halo externo da Terra 3D some na troca em qualquer valor de `light`.
+- A parte do `espaco.js` (cortina e fio) o coordenador já fez.
+
+**5. Sede no centro, contorno do município, marcador e cartão — aceito com ajustes.**
+- **Câmera.** Para os tipos de sede, o centro é o ponto e o bbox só define o zoom, entre 11 e 12,5. Os demais lugares
+  continuam centrados no bbox. O conjunto `ASSENTAMENTO` agora é exportado do `mapa.js` e importado pelo `principal.js`,
+  uma fonte só. Resultados:
+  - Petrolina chega em z11,0, com a cidade, o São Francisco e Juazeiro no meio (`eng_r2_petrolina_40s`);
+  - Quixadá chega em z11,65 (`eng_r2_quixada_40s`).
+- **`app.py`.** `extratags=1` no `/search` e a chave `ibge` em cada lugar (`None` para coordenada). O `lru_cache`, os erros e
+  o resto do formato não mudaram (conferido nas três rotas).
+  - No front, a sede escolhida por `unicos` herda o código do município do mesmo grupo.
+  - O mapa usa os 7 primeiros dígitos, então um distrito (`231130605`) vira o município (`2311306`).
+- **Contorno do município.** Camadas `mun-fora`, `mun-halo` e `mun-linha` com os seus valores.
+  - `mun-halo` e `mun-linha` ficaram **acima** de `limites` (você pôs abaixo): onde a divisa do município coincide com a do
+    estado, o dourado cobre o tracejado branco, como na proposta 1.
+  - Malha `qualidade=intermediaria`, com `MultiPolygon` tratado. Se a pessoa já foi para outro lugar, a resposta atrasada
+    é descartada.
+  - Quixadá vem com 171 pontos, Petrolina com 191. No Lençóis não há código (é parque) e nada é desenhado.
+- **Marcador:** o `box-shadow` duplo, como proposto. O anel aparece sobre a areia (`eng_r2_lencois_40s`).
+- **CEP:** em vez da regex no meio do texto, tiro o **segmento** que é só CEP (`split(', ')`). Aplico no cartão e também na
+  lista de sugestões. Testado em três endereços.
+- *Opcional* "Região imediata…": fica para a rodada 3. É mais uma chamada e mais uma linha no cartão, e o texto precisa
+  ser decidido.
+
+**6. Detalhe sem nuvens (Wayback) e créditos — aceito, com duas mudanças e uma correção que não era opcional.**
+- **Versão 49999 (2025-07-31) em vez de 23001 (2020-01-08).** Varri as 102 versões desde 2019 nos pontos de teste.
+  - A mais recente (2026-10-29) tem nuvem e sombra no centro de Quixadá, a de 2026-06-30 tem nuvem no canto, e a
+    **2025-07-31 é a mais recente limpa** em Quixadá, Petrolina, Araripe e Lençóis.
+  - A 23001 é 5 anos mais velha e mais lavada (`...\scratchpad\eng\wayback_quixada.png`, `wayback_locais.png`).
+  - Quixadá em z15,3 sai limpa (`eng_r2_perto_72s`).
+- **Correção: o 404 do Wayback vem sem CORS.**
+  - No mar aberto (e na costa em z17) o Wayback responde 404 **sem `Access-Control-Allow-Origin`**. O navegador acusa erro de
+    CORS, o MapLibre recebe status 0 em vez de 404 e não silencia.
+  - Aproximando ao largo de Fortaleza, o console encheu de erros (52 kB de log). A versão 23001 tem o mesmo problema.
+  - Solução: um protocolo `wayback://` no `mapa.js`. Antes de pedir um ladrilho, ele consulta o `tilemap` do próprio serviço
+    (tem CORS, um JSON por bloco de 32 × 32, guardado em cache) e só pede o que existe. Conferi o tilemap contra pedidos
+    reais em terra, na costa e no mar: bate 100%.
+  - Onde não há imagem, o protocolo devolve um erro com `status 404`, que o MapLibre 5.24 silencia (li o código) para seguir
+    com o Sentinel-2 por baixo.
+  - Resultado: zero erros no mar (`eng_r2_mar_72s`).
+- **Créditos.** Ficam abertos na chegada e recolhem para o "i" 10 s depois, junto com a dica de uso. Dá tempo de serem
+  vistos na primeira vez, e depois ficam a um clique. Entrou o crédito "Limites: IBGE".
+
+### Bugs que você viu
+- **Cunhas pretas nos Lençóis: não é o relevo.** Com `setTerrain(null)` elas continuam iguais (`eng_r2_lencois_58s` ×
+  `_40s`), e aparecem nos ladrilhos crus do Sentinel-2 cloudless em z11 (`...\scratchpad\eng\s2_lencois_z11.png`). É do
+  mosaico (provável sombra ou emenda de cenas na borda das dunas). Opções para a rodada 3:
+  - deixar o Wayback entrar mais cedo só ali (abaixo de z14 ele tem costura);
+  - aceitar, porque é a imagem.
+- **Escala "NaN m":** não reproduzi em z15,3/pitch 55 (`eng_r2_perto_72s`: 200 m). Pela leitura do código, a escala usa
+  `unproject` do centro e só atualiza no `move`. Logo depois de um `jumpTo` com relevo ainda carregando, o resultado pode
+  ser NaN e ficar até o próximo movimento. Pus um conserto barato: no `idle`, se o texto tiver NaN, chamo
+  `escala.setUnit('metric')`, que recalcula.
+- **Um quadro preto (só estrelas) aos 14 s** numa captura, durante "em-viagem", antes da troca (`eng_r2_troca_14s`). Não se
+  repetiu em quatro rodadas seguidas e não é o mapa (ainda sem `no-mapa`). Fica como aviso para o coordenador, no
+  `espaco.js`.
+
+### Arquivos
+- `static/js/mapa.js`: fontes `ne`, `ne-fora`, `ne-capitais`, `mun`, `mun-fora`; dez camadas novas; `light`; detalhe Wayback
+  com o protocolo `wayback://`; `_nordeste()`, `_municipio()`, `_alvo()` com a sede, créditos recolhidos e escala sem NaN;
+  `ASSENTAMENTO` exportado. A interface pública continua a mesma.
+- `static/js/principal.js`: importa `ASSENTAMENTO`; `unicos` herda o código IBGE; `semCep` no cartão e nas sugestões.
+- `app.py`: `extratags=1` e a chave `ibge` (+3 linhas, −1).
+- `static/data/nordeste.json`: chave `capitais` (o resto do arquivo ficou byte a byte igual).
+- `static/css/style.css` (só o marcador): `box-shadow` do anel.
+- `README.md`: estrutura e créditos (Wayback 2025-07-31, IBGE no mapa, créditos recolhidos).
+
+### Verificação
+Console: só os avisos que já existiam ("calculateFogMatrix…" e os de desempenho do WebGL por software).
+- Troca: `eng_r2_troca_lado_a_lado.png`, `eng_r2_troca_contorno_sobreposto.png`, `eng_r2_atmosfera_comparacao.png`.
+- Quixadá:
+  - chegada: `eng_r2_final_quixada_45s`;
+  - Nordeste em z5,6: `eng_r2_quixada_58s`;
+  - fora da região, em z8,4: `eng_r2_quixada_76s`;
+  - z15,3: `eng_r2_perto_72s`.
+- Petrolina: `eng_r2_petrolina_40s`.
+- Lençóis: `eng_r2_lencois_40s` (com relevo), `_58s` (sem relevo), `_92s` (região).
+- Volta ao espaço: `eng_r2_volta_41s`…`_48s`. Mergulho com a rodinha: `eng_r2_rodinha_40s`. Mar em z14,6: `eng_r2_mar_72s`.
+- Capitais com movimento contínuo: `eng_r2_afastar_comparacao.png`.
+
+### Para a Rodada 3
+1. Cunhas do Sentinel-2 nos Lençóis (decidir entre Wayback mais cedo só ali ou aceitar).
+2. O halo externo da atmosfera some na troca. A troca já é contínua no resto, mas, se incomodar, a saída seria um anel em
+   CSS ou canvas por trás do mapa, que some ao descer.
+3. "Região imediata · Intermediária" do IBGE no cartão (opcional da proposta 5).
+4. O `espaco.js` passar a ler as capitais do `nordeste.json`.

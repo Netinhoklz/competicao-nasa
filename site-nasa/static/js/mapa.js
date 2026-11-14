@@ -5,7 +5,8 @@
 const S2 = 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpg';
 // Detalhe de perto: Esri World Imagery Wayback, versao de 2025-07-31. A versao atual tem nuvem e sombra
 // sobre Quixada; esta e a mais recente limpa em Quixada, Petrolina, Araripe e Lencois (conferido)
-const WAYBACK = 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/49999/{z}/{y}/{x}';
+const WAYBACK = 'https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/MapServer';
+const WAYBACK_VERSAO = 49999;
 const TERRENO = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
 const IBGE_MALHA = 'https://servicodados.ibge.gov.br/api/v3/malhas/municipios';
 const EXAGERO = 1.5;
@@ -53,6 +54,35 @@ const TEXTOS = {
 
 const esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
 const limitar = (v, a, b) => Math.min(b, Math.max(a, v));
+
+// Onde o Wayback nao tem imagem (mar aberto, e a costa em z17) ele responde 404 SEM cabecalho CORS: o
+// navegador acusa erro de CORS e o MapLibre nao reconhece o 404. O "tilemap" do servico (com CORS) diz
+// quais ladrilhos existem, em blocos de 32 x 32; so os que existem sao pedidos, os outros viram um 404
+// silencioso (o MapLibre segue com o Sentinel-2 por baixo).
+const BLOCO = 32;
+const blocosWayback = new Map();
+function waybackTem(z, y, x) {
+  const topo = y - (y % BLOCO);
+  const esq = x - (x % BLOCO);
+  const chave = `${z}/${topo}/${esq}`;
+  if (!blocosWayback.has(chave)) {
+    blocosWayback.set(chave, fetch(`${WAYBACK}/tilemap/${WAYBACK_VERSAO}/${chave}/${BLOCO}/${BLOCO}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => d?.data ?? null)
+      .catch(() => null));
+  }
+  return blocosWayback.get(chave).then((d) => d?.[(y - topo) * BLOCO + (x - esq)] === 1);
+}
+const naoHa = (status = 404) => Object.assign(new Error(`Wayback: sem imagem (${status})`), { status });
+function registrarWayback() {
+  maplibregl.addProtocol('wayback', async ({ url }, abortController) => {
+    const [zl, y, x] = url.slice('wayback://'.length).split('/').map(Number);
+    if (!(await waybackTem(zl, y, x))) throw naoHa();
+    const r = await fetch(`${WAYBACK}/tile/${WAYBACK_VERSAO}/${zl}/${y}/${x}`, { signal: abortController.signal });
+    if (!r.ok) throw naoHa(r.status);
+    return { data: await r.arrayBuffer() };
+  });
+}
 
 /**
  * Zoom do MapLibre em que o globo dele aparece do mesmo tamanho que a Terra 3D vista a
@@ -119,7 +149,7 @@ function estilo() {
       // z17 e o ultimo nivel servido (z18 da 404). Em mar aberto o Wayback responde 404 em qualquer zoom
       detalhe: {
         type: 'raster',
-        tiles: [WAYBACK],
+        tiles: ['wayback://{z}/{y}/{x}'],
         tileSize: 256,
         minzoom: 14,
         maxzoom: 17,
@@ -343,6 +373,7 @@ export class Mapa {
   }
 
   _criar(centro, zoom) {
+    registrarWayback();
     this.mapa = new maplibregl.Map({
       container: this.container,
       style: estilo(),
