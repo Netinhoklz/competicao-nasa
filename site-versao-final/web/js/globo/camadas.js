@@ -7,6 +7,8 @@
 // ~150 KB); malha de web/dados/malha_ne.json (a mesma do painel e da busca), desprojetada para lon/lat. Tudo é baixado na
 // primeira vez que a pessoa encosta no controle. A cor vem de feature-state: trocar de mês não refaz a geometria.
 // Perto do chão (zoom > 10) as cores somem e fica a foto; ao escolher uma camada a câmera sobe até ver a região.
+// Rodada 2 (D6): numerosChave(cod) dá ao cartão do lugar (principal.js) os números-chave do município nas mesmas camadas
+// (milho 2027, chuva, solo agora), só com camadas_mun.json; cada número é um botão que liga a camada.
 
 import { IC, esc } from '../comum.js';
 import { carregar } from './busca.js';
@@ -176,9 +178,13 @@ function anel(s) {
   return pts;
 }
 
+// os números (~150 KB) vêm à parte da malha: o cartão do lugar (numerosChave) só precisa deles
+let _mun = null;
+const numerosMun = () => (_mun ??= fetch(DADO('camadas_mun.json')).then(ok).catch((e) => { _mun = null; throw e; }));
+
 let _dados = null;
 function dados() {
-  _dados ??= Promise.all([fetch(DADO('camadas_mun.json')).then(ok), fetch(DADO('malha_ne.json')).then(ok), carregar()])
+  _dados ??= Promise.all([numerosMun(), fetch(DADO('malha_ne.json')).then(ok), carregar()])
     .then(([c, g, b]) => {
       const cods = c.cods.split(',');
       return {
@@ -217,6 +223,34 @@ function tempo(D) {
   }).catch(() => { _tempo = null; return false; });
   return _tempo;
 }
+
+/**
+ * Rodada 2 (D6): os números-chave do município para o cartão do lugar (principal.js), das mesmas camadas do mapa:
+ * [{id, rotulo, valor, selo, fonte, frase}] para o milho em 2027, a chuva típica e o solo de agora (só o que tem dado), ou []
+ * sem o arquivo. Cada um é um botão que liga a camada (Camadas.escolher(id)).
+ */
+export async function numerosChave(cod) {
+  let c;
+  try { c = await numerosMun(); } catch { return []; }
+  const i = c.cods.split(',').indexOf(String(cod));
+  if (i < 0) return [];
+  const D = { quebra: c.quebra, chuva: c.chuva, solo: c.solo }, fim = c.solo.rotulos.length - 1, out = [];
+  const um = (id, rotulo, valor, extra = {}) => {
+    const L = camada(id);
+    out.push({ id, rotulo, valor, selo: L.selo, fonte: L.fonte, frase: L.frase, ...extra });
+  };
+  // "Milho em 2027 · quebra 6 em 10": o ano fica no rótulo, para não parecer os "anos de quebra" do roçado (Plano e painel)
+  if (camada('quebra').classe(D, i) >= 0) um('quebra', 'Milho em 2027', `quebra ${camada('quebra').valor(D, i)}`, { longo: true });
+  if (camada('chuva').classe(D, i) >= 0) um('chuva', 'Chuva típica', camada('chuva').valor(D, i));
+  const k = camada('solo').classe(D, i, fim);
+  if (k >= 0) {
+    const ate = c.solo.fim ? c.solo.fim.split('-').reverse().slice(0, 2).join('/') : '';
+    um('solo', 'Solo agora', SOLO_PALAVRA[k], { frase: 'A terra de agora contra a mesma época dos outros anos.',
+      fonte: `${camada('solo').fonte}; 30 dias${ate ? ` até ${ate}` : ''}` });
+  }
+  return out;
+}
+export const SELO_NOME = SELO;
 
 // confiança: arquivo de outro passo (preparar_confianca.py); só entra se existir
 const URL_CONF = DADO('confianca_mun.json');

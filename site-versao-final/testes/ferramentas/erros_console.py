@@ -1,5 +1,5 @@
 """Abre uma página no Edge sem janela e imprime os erros de JS e do console (para achar por que um passo não desenha).
-Uso: MSYS_NO_PATHCONV=1 python erros_console.py "http://127.0.0.1:8090/roca.html#/2311306/1" [espera_s]"""
+Uso: MSYS_NO_PATHCONV=1 python erros_console.py "http://127.0.0.1:8090/roca.html#/2311306/2" [espera_s]"""
 import json
 import os
 import subprocess

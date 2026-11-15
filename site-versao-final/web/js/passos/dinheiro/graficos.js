@@ -76,7 +76,7 @@ export function barrasAno(porAno, W = 640) {
       if (cls === "plano" || !estreito) s += `<text class="valor" x="${Math.max(x0 + 30, x + bw / 2)}" y="${yv}" text-anchor="middle">${rs(f.p50)}</text>`;
     });
     s += `<text class="rot-x" x="${cx}" y="${H - 16}" text-anchor="middle">${a.ano}</text>` +
-      `<text class="tick" x="${cx}" y="${H - 3}" text-anchor="middle">${en ? `${estreito ? "" : "como "}os ${a.n} El Niños fortes` : `${estreito ? "" : "como "}os ${a.n} anos`}</text>`;
+      `<text class="tick" x="${cx}" y="${H - 3}" text-anchor="middle">${en ? (estreito ? `${a.n} El Niños` : `como os ${a.n} El Niños fortes`) : (estreito ? `${a.n} anos` : `como os ${a.n} anos`)}</text>`;
   });
   return `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sobra por ano, plano e jeito de hoje">${s}</svg>`;
 }

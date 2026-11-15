@@ -1,7 +1,9 @@
 // QUADRA, ponto 16: "Leve para o técnico". 5 a 7 perguntas e confirmações tiradas das respostas e do plano (solo, baixio,
 // faixas, datas, metade guardada e portões, preço da raiz, água, maniva) e dos motivos de confiança do município; a água além da
 // chuva (2 chips, gravam `agua`); a linha do Garantia-Safra; dois botões: imprimir (só a lista, numa folha clara; CSS em
-// css/extras/voce_decide.css) e copiar o texto. compartilhar(ctx) é o botão verde "Mandar no WhatsApp" do passo 5 (roca.js).
+// css/extras/voce_decide.css) e copiar o texto. compartilhar(ctx, { plano, tarefas }) é o botão verde "Mandar no WhatsApp" do
+// Relatório (passo 5): leva o plano escolhido e as próximas tarefas com as datas (relatorio.js) antes das perguntas.
+// As perguntas seguem o plano que o Plano, o Dinheiro e o Relatório mostram (ideal.escolhido; sem o motor, o plano do núcleo).
 import * as U from "../comum.js";
 import { carregar, confiancaDe } from "./confianca.js";
 import { FRASE } from "./voce_decide.js";
@@ -17,7 +19,7 @@ const TERRA = {
 const FICHA = {
   terra: { nao_sei: "terra: não sei", arenosa: "terra arenosa", mista: "terra misturada", barro: "terra de barro" },
   baixio: { nao_sei: "baixio: não sei", nao: "sem baixio", pouco: "baixio pequeno", terco: "baixio de ⅓", metade: "baixio de ½" },
-  agua: { chuva: "só a chuva", cisterna: "cisterna de beber", barreiro: "barreiro ou açude", irriga: "poço ou irrigação" },
+  agua: { chuva: "roça de chuva", cisterna: "cisterna de beber", barreiro: "barreiro ou açude", irriga: "poço ou irrigação" },
 };
 // O que a confiança dos dados pede ao técnico (confianca_mun.json, _textos.<chave>.tecnico), dito como pergunta do agricultor.
 const PERGUNTA_CONF = {
@@ -37,26 +39,39 @@ const PERGUNTA_CONF = {
 const ATER = { MA: "AGERP", PI: "Emater-PI", CE: "Ematerce", RN: "Emater-RN", PB: "Empaer", PE: "IPA", AL: "Emater-AL", SE: "Emdagro", BA: "Bahiater" };
 
 /** A janela de plantar da leguminosa em 2027 (ou da 1ª cultura anual do plano): "11/02 a 20/03". */
-function janela(r) {
-  const ls = (r.agenda?.linhas || []).filter((l) => l.estacao === 2027 && l.parte !== "Bordas" && !/em pé/.test(l.cultura));
-  const l = ls.find((x) => x.cultura === r.plano?.leguminosa) || ls[0];
+function janela(plano, linhas) {
+  const ls = (linhas || []).filter((l) => l.estacao === 2027 && l.parte !== "Bordas" && !/em pé/.test(l.cultura));
+  const l = ls.find((x) => x.cultura === plano?.leguminosa) || ls.find((x) => x.barras?.length) || ls[0];
   const b = l?.barras.find((x) => x.tipo === "plantio" || x.tipo === "estimado");
   return b ? { cultura: curto(l.cultura), txt: `${U.dataBR(b.de, true)} a ${U.dataBR(b.ate, true)}` } : null;
 }
 
-/** As perguntas (até 7): {icone, texto}. conf = confiancaDe(...) ou null. */
-export function perguntas(ctx, conf) {
-  const { r, ef } = ctx, p = r.plano || {}, a = r.agenda || {};
+/** O plano escolhido (ideal.escolhido: o mesmo do Plano, do Dinheiro e do Relatório) e as linhas da agenda dele; sem o motor,
+ *  null (vale o plano do núcleo, r.plano e r.agenda.linhas). */
+async function escolhidoDe(ctx) {
+  try {
+    const m = await import("./ideal.js");
+    const e = m.escolhido(ctx.r, ctx.resp || {}, ctx.ef);
+    return e?.plano ? { plano: e.plano, linhas: e.linhas } : null;
+  } catch (_) { return null; }
+}
+
+/** As perguntas (até 7): {icone, texto}. conf = confiancaDe(...) ou null; base = { plano, linhas } do plano escolhido (padrão:
+ *  r.plano e r.agenda.linhas). */
+export function perguntas(ctx, conf, base = null) {
+  const { r, ef } = ctx, p = base?.plano || r.plano || {}, a = r.agenda || {}, linhas = base?.linhas || a.linhas;
   const cand = [];
   const poe = (prio, icone, texto) => cand.push({ prio, icone, texto });
   const [icT, tT] = TERRA[ef.terra] || TERRA.nao_sei;
   poe(1, icT, tT);
-  const cereal = curto((p.faixas || []).find((f) => f.parte === "Baixio")?.anos?.[0]?.cultura || "milho");
+  const bx = (p.faixas || []).find((f) => f.parte === "Baixio")?.anos?.[0], cereal = curto(bx?.cultura || "milho");
+  // a leguminosa entra no baixio só quando a célula diz revezamento ("solteiro" e "sem revezamento" não põem)
+  const revez = !bx || (/revezamento/i.test(bx.texto || "") && !/sem revezamento/i.test(bx.texto || ""));
   if (ef.tem_baixio === null) poe(2, "gota", "Tenho baixio? Que parte do roçado fica úmida?");
-  else if (ef.tem_baixio) poe(2, "milho", `O baixio (${U.ha(ef.baixio_ha)}) aguenta ${cereal}${p.leguminosa ? ` com ${curto(p.leguminosa)}` : ""}?`);
+  else if (ef.tem_baixio) poe(2, "milho", `O baixio (${U.ha(ef.baixio_ha)}) aguenta ${cereal}${p.leguminosa && revez ? ` com ${curto(p.leguminosa)}` : ""}?`);
   else poe(2, "milho", "Sem baixio, onde o milho tem mais chance?");
   poe(8, "faixas", "As faixas e o espaçamento cabem no meu terreno?");
-  const j = janela(r);
+  const j = janela(p, linhas);
   if (j) poe(3, "calendario", `Plantar ${j.cultura} de ${j.txt} serve à minha semente?`);
   const metade = /metade/i.test(p.interruptor || "");
   if (metade && a.portoes) poe(4, "relogio", "Metade guardada: em 19/mar e 30/abr, decidimos juntos se planto o resto?");
@@ -81,13 +96,21 @@ export function perguntas(ctx, conf) {
 }
 
 /** Resumo da roça (uma linha), para o técnico saber de que roçado se fala. */
-const ficha = (ef) => [U.ha(ef.ha), FICHA.terra[ef.terra], FICHA.baixio[ef.baixio], FICHA.agua[ef.agua]].filter(Boolean).join(" · ");
+const ficha = (ef) => [ef.larg ? `${U.num(ef.larg)} × ${U.num(ef.comp)} m (${U.ha(ef.ha)})` : U.ha(ef.ha), FICHA.terra[ef.terra],
+  FICHA.baixio[ef.baixio], FICHA.agua[ef.agua]].filter(Boolean).join(" · ");
 const NIV = { alta: "alta", media: "média", baixa: "baixa" };
 
-function texto(ctx, itens, conf) {
+/** O texto do WhatsApp e do "Copiar o texto". extra = { plano: "Seu jeito, melhorado", partes: "2027: A e C feijão · B milho · …",
+ *  material: "caupi ≈ 14 kg, …", tarefas: ["21/02/2027 a 28/02/2027 · Plantar milho (Baixio)", …] } (do Relatório): vão antes das
+ *  perguntas. */
+function texto(ctx, itens, conf, extra = {}) {
   const l = ctx.r.local, hoje = U.dataBR(ctx.r.respostas_usadas?.hoje || new Date().toISOString().slice(0, 10));
   const link = /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname) ? `\nO plano: ${location.href}` : "";
-  return `QUADRA · ${l.municipio} (${l.uf}) · ${hoje}\nMeu roçado: ${ficha(ctx.ef)}\n\nPerguntas para o técnico:\n`
+  const plano = extra.plano ? `\nPlano: ${extra.plano}` : "";
+  // o que vai em cada parte em 2027 (com a largura das faixas) e o material: o técnico que recebe sabe o que é a Parte A
+  const partes = extra.partes ? `\n${extra.partes}` : "", material = extra.material ? `\nMaterial: ${extra.material}` : "";
+  const tarefas = extra.tarefas?.length ? `\n\nPróximas tarefas:\n${extra.tarefas.join("\n")}` : "";
+  return `QUADRA · ${l.municipio} (${l.uf}) · ${hoje}\nMeu roçado: ${ficha(ctx.ef)}${plano}${partes}${material}${tarefas}\n\nPerguntas para o técnico:\n`
     + itens.map((x, i) => `${i + 1}. ${x.texto}`).join("\n")
     + (conf ? `\n\nConfiança dos dados aqui: ${NIV[conf.nivel]}.` : "") + `\n${FRASE}${link}`;
 }
@@ -134,11 +157,13 @@ function avisar(msg) {
   aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
-/** "Mandar no WhatsApp" (o botão verde do passo 5): o mesmo texto do "Copiar o texto". Tenta o compartilhar do celular; se não houver,
- *  abre o WhatsApp (wa.me); se a janela for bloqueada, copia. Devolve "share", "cancelou", "wa.me", "copiou" ou "falhou". */
-export async function compartilhar(ctx) {
-  const conf = confiancaDe(await carregar(), ctx.cod || ctx.r.local?.cod, ctx.r);
-  const t = texto(ctx, perguntas(ctx, conf), conf);
+/** "Mandar no WhatsApp" (o botão verde do passo 5): o texto do "Copiar o texto" com, à frente, o plano e as próximas tarefas que o
+ *  Relatório passa em opcoes ({ plano, tarefas }). Tenta o compartilhar do celular; se não houver, abre o WhatsApp (wa.me); se a
+ *  janela for bloqueada, copia. Devolve "share", "cancelou", "wa.me", "copiou" ou "falhou". */
+export async function compartilhar(ctx, opcoes = {}) {
+  const [dados, base] = await Promise.all([carregar(), escolhidoDe(ctx)]);
+  const conf = confiancaDe(dados, ctx.cod || ctx.r.local?.cod, ctx.r);
+  const t = texto(ctx, perguntas(ctx, conf, base), conf, opcoes);
   if (navigator.share) {
     try { await navigator.share({ text: t }); return "share"; } catch (e) { if (e?.name === "AbortError") return "cancelou"; } // fechou: não abre outra
   }
@@ -155,9 +180,9 @@ const AGUA = [["barreiro", "gota", "Barreiro ou açude"], ["irriga", "poco", "Po
 export default {
   id: "leve_ao_tecnico",
   async render(el, ctx, opcoes = {}) {
-    const dados = opcoes.dados || await carregar();
+    const [dados, base] = await Promise.all([opcoes.dados || carregar(), escolhidoDe(ctx)]);
     const conf = confiancaDe(dados, ctx.cod || ctx.r.local?.cod, ctx.r);
-    const itens = perguntas(ctx, conf);
+    const itens = perguntas(ctx, conf, base);
     const pct = ctx.r.padroes?.pct_orientacao_tecnica, k = pct == null ? null : Math.round(pct);
     const uf = ctx.r.local?.uf;
     const sub = k == null ? "" : k === 0 ? "Aqui, quase nenhuma roça de família recebe orientação técnica."
@@ -167,7 +192,7 @@ export default {
     const li = (x) => `<li><label><input type="checkbox" class="lt-marca">${U.ic(x.icone)}<span>${U.esc(x.texto)}</span></label></li>`;
     el.innerHTML = `<section class="painel lt" id="leve-ao-tecnico" aria-label="Leve para o técnico">
       <p class="kicker">Leve para o técnico</p>
-      <details class="ver-mais lt-cab"><summary><b class="lt-tit">${itens.length === 1 ? "Ver a pergunta" : `Ver as ${itens.length} perguntas`}</b></summary>
+      <details class="ver-mais lt-cab"><summary><b class="lt-tit">${itens.length === 1 ? "Ver a pergunta" : `Ver as perguntas (${itens.length})`}</b></summary>
         <ol class="lt-lista">${itens.map(li).join("")}</ol>
         ${sub ? `<p>${U.esc(sub)} ${U.selo("medido", "IBGE, Censo Agropecuário 2017: % dos estabelecimentos familiares com orientação técnica")}</p>` : ""}
         <p>Quem pode conferir: o técnico do órgão de assistência rural do estado${ATER[uf] ? ` (${ATER[uf]})` : ""}, o sindicato dos

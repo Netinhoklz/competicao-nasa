@@ -11,6 +11,7 @@
 
 /* seletor de unidade: 3 botões grandes */
 .ar-unidades { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ar-unidades.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } /* Sua roça: tarefas e passos (os metros já estão à vista) */
 .ar-un { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 12px 8px;
   border: 1px solid var(--border); background: var(--surface); border-radius: 18px; cursor: pointer; color: var(--ink);
   transition: border-color .18s, background .18s, transform .18s var(--ease); }

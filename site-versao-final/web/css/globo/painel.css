@@ -118,3 +118,35 @@ body.com-lado .dica-mapa { left: calc(24px + (100vw - var(--lado) - 72px) / 2); 
 .cartao-decide { display: flex; align-items: center; gap: 8px; margin-top: 12px !important; font-size: 13px; line-height: 1.35; color: var(--ink-2); }
 .cartao-decide svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .cartao-decide b { color: var(--ink); font-weight: 600; }
+
+/* rodada 2 (D6): os números-chave "do espaço" no cartão do lugar (principal.js); cada um liga a camada do mapa */
+.cartao-numeros { margin-top: 12px; }
+.cartao-numeros[hidden] { display: none; }
+.cartao-numeros .cartao-rotulo { margin-bottom: 6px !important; }
+.cn-grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.cn { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 0; min-height: 44px; padding: 7px 8px 8px;
+  border: 1px solid var(--line); border-radius: 9px; background: rgba(255, 255, 255, 0.04); text-align: left; cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease; }
+.cn:hover { border-color: var(--line-2); background: rgba(255, 255, 255, 0.08); }
+.cn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cn-rot { font-size: 11px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.cn b { font-size: 16px; font-weight: 600; line-height: 1.2; white-space: nowrap; }
+/* "Milho em 2027 · quebra 6 em 10": no cartão estreito do celular, o rótulo e o valor quebram a linha em vez de cortar */
+.cn.longo .cn-rot { white-space: normal; }
+.cn.longo b { font-size: 15px; white-space: normal; }
+.cn-selo { margin-top: 4px; padding: 0 5px; border: 1px solid; border-radius: 999px; font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em;
+  line-height: 1.5; white-space: nowrap; }
+.cn-selo.medido { color: #5fd08f; border-color: rgba(95, 208, 143, 0.5); }
+.cn-selo.projecao { color: #8fbcf5; border-color: rgba(143, 188, 245, 0.5); }
+.cn-selo.suposicao { color: #f0b25e; border-color: rgba(240, 178, 94, 0.5); }
+/* com uma camada ligada, a legenda sobe do canto de baixo: o cartão perde as coordenadas e a altitude para não encostar nela */
+body.cam-ligada .cartao-local:has(.cartao-numeros:not([hidden])) :is(.cartao-coords, .cartao-alt) { display: none; }
+/* no celular o mapa é baixo: para caber os números sem cobrir as abas "Ver no mapa" no pé do mapa, o cartão perde as
+   coordenadas, a altitude, o rótulo dos números e a frase do ponto 16 (o painel logo abaixo a mostra embaixo do botão do
+   plano, na mesma tela) */
+@media (max-width: 860px), (max-aspect-ratio: 19/20) {
+  .cartao-local:has(.cartao-numeros:not([hidden])) :is(.cartao-coords, .cartao-alt, .cartao-decide) { display: none; }
+  .cartao-numeros .cartao-rotulo { display: none; }
+  .cn { padding: 5px 7px 6px; }
+  .cn b { font-size: 15px; }
+}

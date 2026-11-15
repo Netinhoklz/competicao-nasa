@@ -4,6 +4,23 @@
 // notebooks/secoes_financeiro/10_familia.py). Ordem das faixas por força bruta nas permutações de A, B e C.
 // Conectividade (ideia de Vicente Lima, PercolaCampo; definições p, S e "atravessa" do MANIFESTO de percolação do José):
 // grade de ~5 m, vizinhança 4, union-find.
+//
+// Rodada 2 (15/11, analise/fluxo2/BRIEFING.md, D4): o roçado pode ser um retângulo larg × comp em metros (as medidas de Sua roça,
+// ctx.ef.larg e ctx.ef.comp, que roca.js já preenche; ou o 3º argumento de montar). comp = no sentido em que a água desce: as faixas
+// ficam em nível, uma embaixo da outra ao longo do comp, cada uma com o comprimento da largura do roçado, e o baixio fica embaixo.
+// Sem medidas, nada muda: o quadrado da área (larg = comp = lado), como antes.
+// Campos novos de montar() (os antigos continuam, com o mesmo sentido):
+//   larg, comp     metros do roçado (com medidas: as da resposta; sem: o lado do quadrado nos dois)
+//   medidas        "resposta" (larg × comp vieram da pessoa) | "quadrado" (suposição: quadrado da área)
+//   profBaixio     metros do baixio no sentido do comp (0 sem baixio); o alto vai de 0 a profAlto e o baixio de profAlto a comp
+//   faixas[i].larguraM, faixas[i].comprimentoM   metros de cada faixa: a largura (no sentido do comp, = larguraFaixa) e o
+//                  comprimento (= larg); y0 e y1 seguem em metros a partir do alto
+//   lado           mantido para quem desenha o quadrado: = comp (as coordenadas y0/y1 vão de 0 a lado). Para desenhar o retângulo,
+//                  use larg na horizontal e comp na vertical (grade() já usa os dois).
+// Com medidas, ha = larg × comp / 10.000 (pode diferir em centésimos do ctx.ef.ha arredondado).
+// Correção Y (15/11): as perenes que ele já tem (plano.fora_do_giro) ganham um pedaço próprio no alto, em escala (reserva = { ha, y0,
+// y1, larguraM, comprimentoM, culturas, porCultura }); as faixas vão de profPer a profAlto e o baixio de profAlto a comp. haGiro =
+// ha − reserva (o mesmo ha_giro da conta de R$). Sem perene fora do giro, reserva = null e nada muda.
 
 export const GRAMINEAS = new Set(["Milho", "Sorgo granífero", "Sorgo forrageiro", "Milheto"]);
 export const ehGram = (cultura) => GRAMINEAS.has(cultura);
@@ -11,8 +28,9 @@ export const LIMIAR_SITIO = 0.5927; // malha quadrada, 4 vizinhos (Alonso-Tlali 
 
 const permutacoes = (v) => (v.length <= 1 ? [v] : v.flatMap((x, i) => permutacoes([...v.slice(0, i), ...v.slice(i + 1)]).map((p) => [x, ...p])));
 
-/** Layout do roçado a partir do plano do motor e das respostas efetivas (ctx.ef). Medidas em metros e hectares. */
-export function montar(plano, ef) {
+/** Layout do roçado a partir do plano do motor e das respostas efetivas (ctx.ef). Medidas em metros e hectares.
+ *  med = { larg, comp } em metros (opcional; sem ele valem ef.larg e ef.comp; sem os dois, o quadrado da área). */
+export function montar(plano, ef, med = null) {
   const partes = plano.faixas.filter((f) => /^Parte /.test(f.parte));
   const bx = plano.faixas.find((f) => f.parte === "Baixio") || null;
   const bordas = plano.faixas.find((f) => f.parte === "Bordas") || null;
@@ -20,12 +38,23 @@ export function montar(plano, ef) {
   const temBaixio = ef.tem_baixio !== false && !!bx;
   const incerto = temBaixio && ef.tem_baixio === null; // "não sei": baixio de 1/3, tracejado
   const frac = temBaixio ? (incerto ? 1 / 3 : ef.baixio_frac) : 0;
-  const ha = ef.ha;
-  const lado = Math.sqrt(ha * 1e4);
-  const haBaixio = ha * frac;
-  const haAlto = ha - haBaixio;
-  const profAlto = lado * (1 - frac);
-  const nFaixas = profAlto / (2 * partes.length) >= 10 ? 2 * partes.length : partes.length;
+  const m = med || { larg: ef.larg, comp: ef.comp };
+  const medidas = m.larg > 0 && m.comp > 0 ? "resposta" : "quadrado";
+  const ha = medidas === "resposta" ? (m.larg * m.comp) / 1e4 : ef.ha;
+  const larg = medidas === "resposta" ? +m.larg : Math.sqrt(ha * 1e4);
+  const comp = medidas === "resposta" ? +m.comp : larg;
+  const lado = comp;
+  // as perenes que ele já tem (plano.fora_do_giro de extras/ideal.js: palma, caju, banana…) ficam num pedaço próprio no alto, em
+  // escala, fora do giro: a conta de R$ usa só o resto (ha_giro), e o desenho e o material também (correção Y, 15/11)
+  const per = (plano.fora_do_giro || []).filter((x) => x.cultura && x.ha > 0);
+  const haPer0 = per.reduce((s, x) => s + x.ha, 0);
+  const fracPer = ef.ha > 0 && haPer0 > 0 && haPer0 < ef.ha - 1e-9 && partes.length ? haPer0 / ef.ha : 0;
+  const haPer = ha * fracPer, haGiro = ha - haPer;
+  const haBaixio = Math.min(ha * frac, haGiro); // a mesma regra de calculo.montar: o baixio guarda o tamanho dele, até o giro todo
+  const haAlto = haGiro - haBaixio;
+  const profPer = comp * fracPer;
+  const profAlto = comp * (1 - haBaixio / ha);
+  const nFaixas = (profAlto - profPer) / (2 * partes.length) >= 10 ? 2 * partes.length : partes.length;
   const rep = nFaixas / partes.length;
 
   const g = (f, k) => ehGram(f.anos[k].cultura);
@@ -46,15 +75,19 @@ export function montar(plano, ef) {
   const pior = Math.max(...opcoes.map((o) => o.contatos));
   const iguais = opcoes.every((o) => o.contatos === melhor.contatos);
 
-  const alt = profAlto / nFaixas;
+  const alt = (profAlto - profPer) / nFaixas;
   const conta = {};
   const faixas = melhor.seq.map((f, i) => {
     const letra = f.parte.replace("Parte ", "");
     conta[letra] = (conta[letra] || 0) + 1;
-    return { id: letra + conta[letra], letra, parte: f.parte, plano: f, y0: i * alt, y1: (i + 1) * alt, ha: haAlto / nFaixas };
+    return { id: letra + conta[letra], letra, parte: f.parte, plano: f, y0: profPer + i * alt, y1: profPer + (i + 1) * alt, ha: haAlto / nFaixas,
+      larguraM: alt, comprimentoM: larg };
   });
+  const reserva = fracPer ? { ha: haPer, y0: 0, y1: profPer, larguraM: profPer, comprimentoM: larg, culturas: per.map((x) => x.cultura),
+    porCultura: per.map((x) => ({ cultura: x.cultura, ha: ha * (x.ha / ef.ha) })) } : null;
   return {
-    ha, lado, frac, temBaixio, incerto, haBaixio, haAlto, profAlto, larguraFaixa: alt, nFaixas,
+    ha, lado, larg, comp, medidas, profBaixio: comp - profAlto, reserva, haGiro, profPer,
+    frac: haBaixio / ha, temBaixio, incerto, haBaixio, haAlto, profAlto, larguraFaixa: alt, nFaixas,
     haParte: haAlto / partes.length, partes, bx: temBaixio ? bx : null, bordas, nAnos, faixas,
     ordem: melhor.perm.map((i) => partes[i].parte.replace("Parte ", "")),
     contatos: melhor.contatos, piorContatos: pior, todasIguais: iguais,
@@ -63,18 +96,23 @@ export function montar(plano, ef) {
 }
 
 /** Grade de ~5 m com a gramínea do ano k, no desenho "faixas" (o do plano) ou "blocos" (A|B|C lado a lado, como se faz hoje).
- *  As linhas da grade seguem as divisas das faixas e do baixio, e as colunas os terços do roçado: a área de cada célula é exata. */
+ *  As linhas da grade seguem as divisas das faixas e do baixio, e as colunas os terços do roçado: a área de cada célula é exata.
+ *  No retângulo, as linhas vão ao longo do comp e as colunas ao longo da larg (largCol em metros da larg). */
 export function grade(lay, k, modo) {
-  const linhas = []; // {y0, y1, i: índice da faixa ou -1 no baixio}
+  const L = lay.larg || lay.lado, C = lay.comp || lay.lado;
+  const linhas = []; // {y0, y1, i: índice da faixa, -1 no baixio, -2 no pedaço das perenes que ele já tem}
   const fatiar = (y0, y1, i) => { const m = Math.max(1, Math.round((y1 - y0) / 5)); for (let j = 0; j < m; j++) linhas.push({ y0: y0 + (y1 - y0) * j / m, y1: y0 + (y1 - y0) * (j + 1) / m, i }); };
+  if (lay.reserva) fatiar(0, lay.reserva.y1, -2);
   lay.faixas.forEach((f, i) => fatiar(f.y0, f.y1, i));
-  if (lay.temBaixio) fatiar(lay.profAlto, lay.lado, -1);
+  if (lay.temBaixio) fatiar(lay.profAlto, C, -1);
   const nl = linhas.length, np = lay.partes.length;
-  const nc = np * Math.max(2, Math.round(lay.lado / 5 / np));
-  const largCol = lay.lado / nc;
+  const r0 = Math.max(0, linhas.findIndex((l) => l.i !== -2)); // "o alto" do giro: a 1ª linha depois do pedaço das perenes
+  const nc = np * Math.max(2, Math.round(L / 5 / np));
+  const largCol = L / nc;
   const gram = new Uint8Array(nl * nc);
   linhas.forEach((ln, r) => {
     for (let c = 0; c < nc; c++) {
+      if (ln.i === -2) { gram[r * nc + c] = 0; continue; } // perene: nunca é gramínea
       const cultura = ln.i < 0 ? lay.bx.anos[k].cultura
         : modo === "faixas" ? lay.faixas[ln.i].plano.anos[k].cultura
           : lay.partes[Math.floor(c / (nc / np))].anos[k].cultura;
@@ -92,7 +130,7 @@ export function grade(lay, k, modo) {
     if (c + 1 < nc && gram[i + 1]) unir(i, i + 1);
     if (r + 1 < nl && gram[i + nc]) unir(i, i + nc);
   }
-  const area = lay.lado * lay.lado;
+  const area = L * C;
   const blocos = new Map(); // raiz → {a: área em m², topo, fundo}
   let total = 0;
   for (let r = 0; r < nl; r++) for (let c = 0; c < nc; c++) {
@@ -104,7 +142,7 @@ export function grade(lay, k, modo) {
     if (!blocos.has(b)) blocos.set(b, { a: 0, topo: false, fundo: false });
     const o = blocos.get(b);
     o.a += a;
-    if (r === 0) o.topo = true;
+    if (r === r0) o.topo = true;
     if (r === nl - 1) o.fundo = true;
   }
   const lista = [...blocos.values()];

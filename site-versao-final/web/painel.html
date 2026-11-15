@@ -2,17 +2,23 @@
 <!-- Origem: João Pedro (branch estudo-jp, 29f81f6), site-nasa/templates/painel.html; adaptado para o site final:
      HTML estático (sem Jinja/url_for; o município vem de ?cod=<IBGE>, e ?embutido=1 é o modo do painel lateral do globo),
      caminhos relativos, fontes locais (vendor/fontes/painel.css), botão "Montar o plano do meu roçado →" (roca.html),
-     fonte sem o SMAP (a aba Alerta saiu) e com a definição de El Niño forte. -->
+     fonte sem o SMAP (a aba Alerta saiu) e com a definição de El Niño forte.
+     Rodada 2 (D6): o antigo passo "Do espaço" da jornada mora aqui, nas abas Solo e clima, E se chover e Os dados
+     (#extras, montadas a partir de /api/local; css/globo/rocacerta_extras.css + os CSS dos extras). -->
 <html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Roça Certa · painel do município</title>
-  <meta name="description" content="Roça Certa: chuva e El Niño do seu município, com dados de satélite da NASA e do IBGE.">
+  <meta name="description" content="Roça Certa: chuva, El Niño, solo e tendências do seu município, com dados de satélite da NASA e do IBGE.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23226B45'/%3E%3Ctext x='16' y='21' font-size='13' font-family='Georgia' font-weight='700' fill='%23fff' text-anchor='middle'%3ERC%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="vendor/fontes/painel.css">
+  <link rel="stylesheet" href="vendor/fontes/globo.css">
   <link rel="preload" href="dados/municipios_ne.json" as="fetch" crossorigin>
   <link rel="stylesheet" href="css/globo/rocacerta.css">
+  <link rel="stylesheet" href="css/globo/rocacerta_extras.css">
+  <link rel="stylesheet" href="css/extras/voce_decide.css">
+  <link rel="stylesheet" href="css/extras/glossario.css">
   <script type="module" src="js/globo/rocacerta.js"></script>
 </head>
 <body>
@@ -45,7 +51,8 @@
     <a class="plano" id="plano" href="roca.html" target="_top">Montar o plano do meu roçado <span aria-hidden="true">→</span></a>
     <p class="decide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>O QUADRA ajuda. <b>Quem decide é você, com o técnico.</b></span></p>
     <section class="indicadores" id="indicadores" aria-label="Indicadores"></section>
-    <div class="dupla">
+    <section class="rc-extras" id="extras" aria-label="Do espaço" hidden></section>
+    <div class="dupla" id="dupla">
       <section class="cartao" aria-labelledby="mapaTitulo">
         <div class="cartao-topo">
           <h2 id="mapaTitulo"></h2>

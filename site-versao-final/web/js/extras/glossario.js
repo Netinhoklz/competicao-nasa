@@ -39,7 +39,7 @@ const TERMOS = {
       const e = r?.este_ano, u = r?.el_nino_uf;
       if (e?.oni == null) return null;
       const forte = e.oni >= 1.5 ? ": passou de +1,5, é El Niño forte" : "";
-      // a perspectiva do município (mesmo texto que o passo 5 lê); sem ela, a do estado
+      // a perspectiva do município (o mesmo texto que a confiança dos dados mostra no "Ver por quê"); sem ela, a do estado
       const p = /nos (\d+) El Niños fortes[^(]*\([^)]*\)[^,]*, (\d+) ficaram no terço mais seco/.exec(e.perspectiva || "");
       const aqui = p ? ` Em ${mun}, ${p[2]} dos ${p[1]} El Niños fortes com dado trouxeram uma estação das mais secas.`
         : u?.media != null ? ` Nos El Niños fortes, a chuva veio fraca em ${Math.round(u.media / 10)} de cada 10 municípios ${U.esc(U.ufDe(u.uf))}.` : "";

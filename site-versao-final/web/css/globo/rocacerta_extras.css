@@ -1,0 +1,130 @@
+/* Painel Roça Certa (painel.html), rodada 2 (D6): o antigo passo "Do espaço" da jornada nas abas da API (#extras).
+   Os extras (js/extras/) foram feitos sobre css/quadra.css, que o painel não carrega (ele tem o próprio topo, as próprias
+   .faixa, .ind e .cartao). Aqui: os tokens que faltam em rocacerta.css (claro e escuro) e só os componentes do quadra.css
+   que os extras usam (painel, kicker, chip, selo, "ver mais", tabela, 10 roças, ícones), presos a .rc-extras com
+   :where() para ter a mesma força que no quadra.css (as regras de cada extra continuam ganhando). */
+
+:root {
+  --surface-3: #e4dfd3;
+  --ink-2: rgba(28, 38, 30, 0.8); --ink-3: rgba(28, 38, 30, 0.62); --ink-4: rgba(28, 38, 30, 0.38);
+  --border-2: rgba(28, 38, 30, 0.22);
+  --green-forte: #1d6a41; --blue: #2a6fc2; --blue-soft: rgba(42, 111, 194, 0.1);
+  --s-medido: #1f7a4a; --s-suposicao: #9a5b0c; --s-projecao: #2a62ad;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+  --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface-3: #2b382f;
+    --ink-2: rgba(238, 242, 238, 0.78); --ink-3: rgba(238, 242, 238, 0.56); --ink-4: rgba(238, 242, 238, 0.34);
+    --border-2: rgba(255, 255, 255, 0.2);
+    --green-forte: #5fd08f; --blue: #7fb2f0; --blue-soft: rgba(127, 178, 240, 0.14);
+    --s-medido: #5fd08f; --s-suposicao: #f0b25e; --s-projecao: #8fbcf5;
+  }
+}
+:root[data-theme="dark"] {
+  --surface-3: #2b382f;
+  --ink-2: rgba(238, 242, 238, 0.78); --ink-3: rgba(238, 242, 238, 0.56); --ink-4: rgba(238, 242, 238, 0.34);
+  --border-2: rgba(255, 255, 255, 0.2);
+  --green-forte: #5fd08f; --blue: #7fb2f0; --blue-soft: rgba(127, 178, 240, 0.14);
+  --s-medido: #5fd08f; --s-suposicao: #f0b25e; --s-projecao: #8fbcf5;
+}
+
+/* o atributo hidden vence o display das seções do painel (.indicadores e .dupla são grid) */
+.conteudo > [hidden] { display: none !important; }
+
+/* ------------------------------------------------------------ selos (também na faixa e nos indicadores do JP) */
+.selo { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .08em; padding: 1px 7px;
+  border-radius: 999px; border: 1px solid; vertical-align: middle; cursor: pointer; white-space: nowrap; opacity: .9; line-height: 1.5; }
+.selo:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+.selo.medido { color: var(--s-medido); border-color: color-mix(in srgb, var(--s-medido) 50%, transparent); }
+.selo.suposicao { color: var(--s-suposicao); border-color: color-mix(in srgb, var(--s-suposicao) 50%, transparent); }
+.selo.projecao { color: var(--s-projecao); border-color: color-mix(in srgb, var(--s-projecao) 50%, transparent); }
+.faixa-lugar .selo { margin-left: 6px; font-weight: 500; letter-spacing: .06em; }
+.ind h3 { flex-wrap: wrap; row-gap: 4px; }   /* o selo desce para a linha de baixo quando não cabe ao lado do rótulo */
+.dica b { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .1em; margin-bottom: 2px; }
+
+/* ------------------------------------------------------------ as abas da API */
+.rc-extras { display: flex; flex-direction: column; gap: 16px; min-width: 0; font-size: 15px; }
+.rc-extras > *, .rc-par > * { min-width: 0; }
+.rc-inds { margin: 0; }
+.rc-par { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.embutido .rc-par { grid-template-columns: 1fr; }
+@media (max-width: 960px) { .rc-par { grid-template-columns: 1fr; } }
+.rc-extras .extra:empty { display: none; }
+/* os 2 números de hoje (a chuva chega, o solo hoje) lado a lado também no celular */
+.rc-inds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 480px) {
+  /* "A cada 100 mm" (aba Plantar) no cartão estreito do iframe: a conta quebra em vez de passar da tela (15 px a 390) */
+  .conta { flex-wrap: wrap; row-gap: 2px; gap: 5px; font-size: 18px; }
+  .conta svg { width: 18px; height: 18px; }
+  .conta .seta { width: 16px; }
+  /* 5 abas em 2 linhas no celular (no tamanho do JP, eram 3) */
+  .abas { gap: 2px; }
+  .abas button, .embutido .abas button { padding: 7px 10px; font-size: 13.5px; gap: 5px; }
+  .embutido .abas { padding: 10px 10px; }
+}
+@media (max-width: 640px) {
+  /* 5 abas: no celular elas quebram em 2 linhas (rolando de lado, "E se chover" e "Os dados" ficavam fora da tela) */
+  .abas { flex-wrap: wrap; row-gap: 4px; }
+  .rc-inds { gap: 10px; }
+  .rc-inds .ind { min-height: 0; padding: 12px 14px; }
+  .rc-inds .ind .valor { font-size: 26px; }
+}
+.rc-de-novo { background: transparent; color: var(--ink); cursor: pointer; }
+.embutido .rc-extras { gap: 12px; font-size: 14px; }
+
+/* ------------------------------------------------------------ componentes do quadra.css usados pelos extras */
+:where(.rc-extras) p { margin: 1em 0; }
+:where(.rc-extras) h3, :where(.rc-extras) h4 { font-family: var(--body); line-height: 1.2; }
+:where(.rc-extras) h4 { margin: 14px 0 6px; font-size: 15px; font-weight: 600; }
+:where(.rc-extras) .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+:where(.rc-extras) .sub { color: var(--muted); }
+:where(.rc-extras) .pequeno { font-size: 13px; }
+:where(.rc-extras) .numero-grande { font-family: var(--display); font-size: 44px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+:where(.rc-extras) .numero-grande small { font-family: var(--body); font-size: 16px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+:where(.rc-extras) .painel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--raio); padding: 20px 22px; margin: 0; }
+:where(.rc-extras) .painel h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .16em;
+  color: var(--muted); margin: 4px 0 10px; }
+:where(.rc-extras) .ic { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  flex: none; display: inline-block; vertical-align: middle; }
+:where(.rc-extras) .ic.g { width: 34px; height: 34px; stroke-width: 1.6; }
+:where(.rc-extras) .ic.gg { width: 48px; height: 48px; stroke-width: 1.4; }
+:where(.rc-extras) .chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 12px; font-size: 13px;
+  background: color-mix(in srgb, var(--ink) 6%, transparent); border: 1px solid var(--border); color: var(--ink-2); }
+:where(.rc-extras) .chip.verde { background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 45%, transparent); color: var(--green-forte); }
+:where(.rc-extras) .chip.ambar { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 45%, transparent); color: var(--amber); }
+:where(.rc-extras) .chip.terra { background: var(--terra-soft); border-color: color-mix(in srgb, var(--terra) 45%, transparent); color: var(--terra); }
+:where(.rc-extras) button.chip { cursor: pointer; min-height: 36px; }
+:where(.rc-extras) details.ver-mais { margin: 14px 0 0; border-top: 1px solid var(--border); padding-top: 10px; }
+:where(.rc-extras) details.ver-mais > summary { margin: 0; cursor: pointer; color: var(--muted); font-size: 14px; list-style: none; display: inline-flex;
+  align-items: center; gap: 6px; min-height: 44px; }
+:where(.rc-extras) details.ver-mais > summary::before { content: "+"; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border-2);
+  display: grid; place-items: center; font-size: 14px; line-height: 1; }
+:where(.rc-extras) details.ver-mais[open] > summary::before { content: "–"; }
+:where(.rc-extras) details.ver-mais > summary::-webkit-details-marker { display: none; }
+:where(.rc-extras) details.ver-mais > :not(summary) { color: var(--ink-2); font-size: 14px; }
+:where(.rc-extras) summary { min-height: 44px; }
+/* um "ver mais" solto entre os blocos (o pesado do iframe: cada ano, as grades; o glossário) vira uma linha de cartão */
+.rc-col { display: flex; flex-direction: column; gap: 16px; }
+.embutido .rc-col { gap: 12px; }
+.rc-extras > details.ver-mais, .rc-par > details.ver-mais, .rc-extras .extra-glossario > details.ver-mais {
+  margin: 0; padding: 4px 16px; border: 1px solid var(--border); border-radius: var(--raio); background: var(--surface); }
+.rc-extras > details.ver-mais > summary, .rc-par > details.ver-mais > summary, .rc-extras .extra-glossario > details.ver-mais > summary {
+  color: var(--ink); font-weight: 600; }
+:where(.rc-extras) table { width: 100%; border-collapse: collapse; font-size: 14px; }
+:where(.rc-extras) th, :where(.rc-extras) td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+:where(.rc-extras) th { color: var(--muted); font-weight: 500; font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+:where(.rc-extras) .dez-rocas { display: inline-grid; grid-template-columns: repeat(10, 16px); gap: 4px; vertical-align: middle; }
+:where(.rc-extras) .dez-rocas i { width: 16px; height: 16px; border-radius: 4px; display: block; }
+/* tema claro (botão do topo): a roça "vazia" do dezRocas vem com branco translúcido no style e sumia no papel claro */
+:root[data-theme="light"] .dez-rocas i[style*="255,255,255"] { background: rgba(28, 38, 30, 0.1) !important; }
+:where(.rc-extras) .aviso { background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: 12px;
+  padding: 10px 14px; font-size: 14px; margin: 10px 0; }
+@media (max-width: 760px) {
+  :where(.rc-extras) table { display: block; overflow-x: auto; }
+  :where(.rc-extras) .painel { padding: 16px 14px; }
+}
+.embutido :where(.rc-extras) .painel { padding: 16px 14px; }
+.embutido :where(.rc-extras) table { display: block; overflow-x: auto; }

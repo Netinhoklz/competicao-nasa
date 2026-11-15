@@ -1,0 +1,184 @@
+/* QUADRA, passo 5 "Relatório" (js/passos/relatorio.js; analise/fluxo2/BRIEFING.md, D7). Só tokens de css/quadra.css: na impressão
+   os tokens viram claros (@media print de quadra.css) e este arquivo só arruma a folha A4 (abre o detalhe, quebras, ≤ 4 páginas).
+   O desenho do roçado usa as classes de css/extras/terreno.css (sob .terreno), que o relatorio.js pede. */
+
+/* ---------------------------------------------------------------- cabeçalho: o roçado em poucas linhas */
+.passo-relatorio .rl-cab { padding-top: 12px; padding-bottom: 16px; }
+.rl-ficha { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0 24px; margin: 0; }
+.rl-ficha > div { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 4px 0; border-bottom: 1px solid var(--border); }
+.rl-ficha dt { flex: none; width: 88px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.rl-ficha dd { margin: 0; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-size: 15px; color: var(--ink); }
+.rl-ficha dd small { font-size: 13px; color: var(--muted); }
+.rl-mudar { display: inline-flex; align-items: center; min-height: 40px; font-size: 13px; font-weight: 600; text-underline-offset: 3px; }
+.rl-acoes { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 0; }
+.rl-acoes .botao { min-height: 48px; }
+
+/* ---------------------------------------------------------------- "O que fazer e quando" */
+.rl-agenda h2, .rl-material h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.rl-legenda { margin: 4px 0 12px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.rl-geral { display: flex; align-items: flex-start; gap: 8px; margin: 6px 0; font-size: 14px; color: var(--ink-2); }
+.rl-geral .ic { width: 20px; height: 20px; color: var(--blue); }
+.rl-avisos { list-style: none; margin: 8px 0 0; padding: 0; }
+.rl-avisos li { display: flex; align-items: flex-start; gap: 8px; margin: 4px 0; font-size: 14px; color: var(--ink-2); }
+.rl-avisos .ic { width: 18px; height: 18px; color: var(--amber); margin-top: 1px; }
+
+.rl-mes { margin: 18px 0 0; }
+.painel .rl-mes-tit { margin: 0; padding: 0 0 6px; border-bottom: 1px solid var(--border-2); color: var(--ink-2); }
+.rl-lista { list-style: none; margin: 0; padding: 0; }
+.rl-lista > li { border-bottom: 1px solid var(--border); }
+
+/* uma tarefa: a data à esquerda (com a cor do tipo de cultura), o quê + onde, o como curto e a condição; o toque abre o detalhe */
+.rl-tarefa { display: block; margin: 0; }
+details.rl-tarefa > summary, div.rl-tarefa { display: grid; grid-template-columns: 100px minmax(0, 1fr) 22px; gap: 10px; align-items: start;
+  margin: 0; padding: 12px 0; min-height: 44px; list-style: none; cursor: pointer; color: var(--ink); font-weight: 400; }
+div.rl-tarefa { grid-template-columns: 100px minmax(0, 1fr); cursor: default; }
+details.rl-tarefa > summary::-webkit-details-marker { display: none; }
+details.rl-tarefa > summary:hover .rl-oque b { text-decoration: underline; text-underline-offset: 3px; }
+.rl-data { display: flex; flex-direction: column; gap: 1px; padding-left: 9px; border-left: 3px solid var(--cor, var(--border-2));
+  font-family: var(--mono); font-size: 13px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.rl-data b { font-weight: 600; color: var(--ink); white-space: nowrap; }
+.rl-data b small { font-size: 11px; font-weight: 400; color: var(--muted); }
+.rl-data > span { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.rl-data em { font-style: normal; font-size: 11px; color: var(--green-forte); }
+.rl-corpo { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.rl-oque { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-size: 16px; line-height: 1.3; }
+.rl-oque .ic { width: 18px; height: 18px; color: var(--cor, var(--ink-2)); }
+.rl-oque b { font-weight: 600; }
+.rl-onde { padding: 1px 9px; border-radius: 999px; border: 1px solid var(--cor, var(--border-2)); background: var(--fundo, var(--surface-3));
+  font-size: 12px; color: var(--ink); white-space: nowrap; }
+.rl-para { font-size: 13px; color: var(--muted); }
+.rl-como { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.rl-cond { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.35; color: var(--amber); }
+.rl-cond .ic { width: 16px; height: 16px; margin-top: 1px; }
+.rl-abre { align-self: center; width: 22px; height: 22px; }
+.rl-abre::before { content: "+"; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border-2);
+  font-size: 14px; line-height: 1; color: var(--muted); }
+details.rl-tarefa[open] .rl-abre::before { content: "–"; }
+.rl-mais { margin: -4px 0 14px 110px; font-size: 14px; line-height: 1.45; color: var(--ink-2); }
+.rl-mais ul { margin: 0; padding-left: 18px; }
+.rl-mais li { margin: 3px 0; }
+.rl-m-risco { margin: 0 0 6px; }
+.rl-fontes { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+/* portões e "hoje": sem cultura, a cor da manchete */
+.rl-marco .rl-data { border-left-color: var(--amber); }
+.rl-marco .rl-oque .ic { color: var(--amber); }
+.rl-hoje .rl-data { border-left-color: var(--green); }
+.rl-hoje .rl-oque .ic { color: var(--green-forte); }
+
+/* depois de 2027, por ano */
+.rl-depois { margin: 22px 0 0; }
+.rl-ano { margin: 12px 0 0; }
+.rl-ano-tit { margin: 0 0 4px; font-family: var(--display); font-size: 22px; font-weight: 700; line-height: 1.1; }
+.rl-ano ul { list-style: none; margin: 0; padding: 0; }
+.rl-ano li { margin: 4px 0; padding: 4px 0 4px 10px; border-left: 3px solid var(--cor, var(--border-2)); font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.rl-ano li b { color: var(--ink); font-weight: 600; }
+.rl-ano li.rl-ano-colhe { display: flex; align-items: flex-start; gap: 6px; border-left-color: var(--amber); }
+.rl-ano-colhe .ic { width: 18px; height: 18px; color: var(--amber); }
+.rl-ano-mat, .rl-nota { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+
+/* "como fazer, cultura por cultura" (fechado na tela; na folha impressa vale pelo detalhe das tarefas) */
+.rl-guia-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 22px; }
+.rl-guia-tit { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 10px 0 4px; font-weight: 600; color: var(--ink); }
+.rl-guia-b ul { margin: 0; padding-left: 18px; }
+.rl-guia-b li { margin: 3px 0; }
+
+/* ---------------------------------------------------------------- o desenho e o material */
+.rl-mat-grade { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 22px; align-items: start; }
+.rl-desenho { margin: 0; }
+.rl-desenho figcaption { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+.rl-mat { list-style: none; margin: 0; padding: 0; }
+.rl-mat li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.rl-mat-q { font-family: var(--display); font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rl-mat-q small { display: block; font-family: var(--body); font-size: 12px; font-weight: 400; color: var(--muted); }
+.rl-mat-c b { font-weight: 600; }
+.rl-mat-c small { display: block; font-size: 12px; color: var(--muted); }
+
+/* a frase do ponto 16: na tela ela já está na barra (computador) e no rodapé do passo (celular); na folha impressa, aqui */
+.rl-frase { display: none; }
+
+@media (max-width: 760px) {
+  .rl-ficha { grid-template-columns: 1fr; }
+  .rl-ficha dt { width: 76px; }
+  details.rl-tarefa > summary { grid-template-columns: 90px minmax(0, 1fr) 20px; gap: 8px; }
+  div.rl-tarefa { grid-template-columns: 90px minmax(0, 1fr); gap: 8px; }
+  .rl-data { font-size: 12.5px; padding-left: 7px; }
+  .rl-data > span { font-size: 11.5px; }
+  .rl-oque { font-size: 15px; }
+  .rl-mais { margin-left: 0; }
+  .rl-mat-grade { grid-template-columns: 1fr; }
+  .rl-mat li { grid-template-columns: 128px minmax(0, 1fr); }
+  .rl-mat-q { font-size: 17px; }
+}
+
+/* ---------------------------------------------------------------- folha impressa (A4, clara: os tokens vêm do quadra.css) */
+@page { size: A4; margin: 10mm 10mm; } /* o relatório cabe em ≤ 4 folhas com a margem de 10 mm */
+@media print {
+  .passo-relatorio { font-size: 9.5pt; line-height: 1.32; }
+  .passo-relatorio .titulo-passo { margin: 0 0 6pt; }
+  .passo-relatorio .titulo-passo h1 { font-size: 18pt; }
+  .passo-relatorio .titulo-passo h1 .eco { display: inline; margin-left: 6pt; }
+  .passo-relatorio .kicker { margin: 0 0 2pt; font-size: 8pt; }
+  .passo-relatorio .painel { margin: 0 0 6pt; padding: 6pt 0 0; border: 0; border-top: 1.5px solid var(--border-2); border-radius: 0; background: none; }
+  .passo-relatorio .rl-agenda { break-inside: auto; } /* o quadra.css não quebra painel; a agenda é longa e começa na 1ª folha */
+  .rl-toque { display: none; }
+  .passo-relatorio h2 { font-size: 13pt; margin: 0 0 3pt; }
+  .passo-relatorio .selo { font-size: 6.5pt; padding: 0 4px; }
+  .rl-acoes, .rl-abre, .rl-mudar, .rl-fontes, .rl-mais ul, .lt-agua, .lt-acoes, .passo-relatorio .lt-cab > summary,
+  .passo-relatorio details.ver-mais > summary::before { display: none !important; }
+  .rl-ficha { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 10pt; }
+  .rl-ficha > div { min-height: 0; padding: 2pt 0; gap: 4pt; flex-direction: column; align-items: flex-start; }
+  .rl-ficha dt { width: auto; font-size: 6.5pt; }
+  .rl-ficha dd { font-size: 9pt; }
+  .rl-legenda { margin: 0 0 3pt; font-size: 8pt; line-height: 1.4; }
+  .rl-geral, .rl-avisos li { margin: 1pt 0; font-size: 8.5pt; }
+  .rl-geral .ic, .rl-avisos .ic { width: 11pt; height: 11pt; }
+  .rl-mes { margin: 5pt 0 0; break-inside: auto; }
+  .painel .rl-mes-tit { margin: 0; padding: 0 0 2pt; font-size: 7.5pt; break-after: avoid; }
+  .rl-lista > li { break-inside: avoid; }
+  details.rl-tarefa > summary, div.rl-tarefa { grid-template-columns: 62pt minmax(0, 1fr); gap: 6pt; padding: 3pt 0; min-height: 0; cursor: default; }
+  .rl-data { font-size: 8pt; padding-left: 5pt; border-left-width: 2.5px; }
+  .rl-data > span, .rl-data b small, .rl-data em { font-size: 7.5pt; }
+  .rl-corpo { gap: 1pt; }
+  .rl-oque { font-size: 9.5pt; gap: 0 5pt; }
+  .rl-oque .ic { width: 10pt; height: 10pt; }
+  .rl-onde { font-size: 7.5pt; padding: 0 5px; }
+  .rl-para { font-size: 8pt; }
+  .rl-como, .rl-cond { font-size: 8.5pt; }
+  .rl-cond .ic { width: 9pt; height: 9pt; }
+  .rl-mais { margin: -2pt 0 3pt 68pt; font-size: 8pt; }
+  .rl-m-risco { margin: 0; }
+  .rl-depois { margin: 6pt 0 0; }
+  .rl-ano { margin: 3pt 0 0; break-inside: avoid; }
+  .rl-ano-tit { font-size: 11pt; }
+  .rl-ano li { margin: 1pt 0; padding: 1pt 0 1pt 6pt; font-size: 8.5pt; }
+  .rl-ano-colhe .ic { width: 10pt; height: 10pt; }
+  .rl-ano-mat, .rl-nota { margin: 2pt 0 0; font-size: 8pt; }
+  .rl-guia { margin: 6pt 0 0; padding: 4pt 0 0; }
+  .rl-guia > summary { display: block; min-height: 0; margin: 0 0 2pt; font-family: var(--font); font-size: 11pt; font-weight: 600; color: var(--ink);
+    break-after: avoid; }
+  .rl-guia-grade { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2pt 10pt; font-size: 7.5pt; line-height: 1.28; }
+  .rl-guia-b { break-inside: avoid; }
+  .rl-guia-tit { margin: 3pt 0 1pt; font-size: 8.5pt; }
+  .rl-guia-b ul { padding-left: 10pt; }
+  .rl-guia-b li { margin: 1pt 0; }
+  .rl-material { break-inside: avoid; }
+  .rl-mat-grade { grid-template-columns: 58mm minmax(0, 1fr); gap: 10pt; }
+  .rl-desenho figcaption { font-size: 7.5pt; }
+  .rl-mat li { grid-template-columns: 30mm minmax(0, 1fr); gap: 6pt; padding: 2pt 0; }
+  .rl-mat-q { font-size: 10pt; }
+  .rl-mat-q small { font-size: 7.5pt; }
+  .rl-mat-c small { font-size: 7.5pt; }
+  /* "Leve para o técnico": só a lista (os chips e os botões ficam na tela) */
+  .passo-relatorio .lt { break-inside: avoid; font-size: 8.5pt; }
+  .passo-relatorio .lt .kicker { font-size: 9pt; color: var(--ink); }
+  .passo-relatorio .lt details.ver-mais { margin: 0; padding: 0; border: 0; }
+  .passo-relatorio .lt-lista { margin: 2pt 0; gap: 0; }
+  .passo-relatorio .lt-lista li { margin: 0; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; background: none; font-size: 9pt; }
+  .passo-relatorio .lt-lista label { min-height: 0; padding: 2pt 0; gap: 6pt; }
+  .passo-relatorio .lt-lista input { display: none; }
+  .passo-relatorio .lt-lista .ic { width: 10pt; height: 10pt; }
+  .passo-relatorio .lt p { margin: 2pt 0; }
+  .passo-relatorio .lt-gs { margin: 2pt 0; font-size: 8.5pt; }
+  .passo-relatorio .lt-gs .ic { width: 10pt; height: 10pt; }
+  .rl-frase { display: block; margin: 6pt 0 0; font-size: 10pt; font-weight: 600; color: var(--ink); }
+}

@@ -1,33 +1,44 @@
 // QUADRA, site final: a jornada (roca.html#/<cod IBGE>/<passo>?respostas).
 // Cada passo é um módulo em js/passos/ com: export default { id, titulo, render(el, ctx) }.
-// Contrato do ctx: ver web/js/passos/LEIA-ME.md. Fluxo: analise/fluxo/00_FLUXO_FINAL.md (o globo entra direto em #/<cod>/2).
+// Contrato do ctx: ver web/js/passos/LEIA-ME.md. Fluxo: analise/fluxo2/BRIEFING.md, D1 (o globo entra direto em #/<cod>/2).
+// No node (testes), importar este arquivo não mexe na página: só PADRAO e efetivas() servem lá.
 import * as U from "./comum.js";
 
-// As rotas #/<cod>/1..5 não mudam; a ordem da jornada é ORDEM (Sua roça → O plano → Quanto rende → Se secar → Do espaço).
+// A jornada é ORDEM: Sua roça (#/<cod>/2) → O plano (3) → Quanto rende (4) → Relatório (5). O antigo "Do espaço" (#/<cod>/1) foi
+// para o mapa e o painel e o link dele abre Sua roça com as mesmas respostas; "Se secar" saiu (seguranca.js fica no disco, sem rota).
 // titulo = pílula no computador; curto = pílula no celular; primario = rótulo do botão verde; volta = rótulo para quem veio de um "mudar".
 // Os passos são carregados só quando abertos: um erro num deles não derruba a jornada inteira.
-const PASSOS = [
-  { id: "lugar", titulo: "Do espaço", curto: "Espaço", primario: "Ver o meu plano →", volta: "Voltar a Do espaço →" },
-  { id: "perguntas", titulo: "Sua roça", curto: "Roça", primario: "Ver o meu plano →" },
-  { id: "plantio", titulo: "O plano", curto: "Plano", primario: "Quanto rende →", volta: "Voltar ao plano →" },
-  { id: "dinheiro", titulo: "Quanto rende", curto: "Dinheiro", primario: "E se secar? →", volta: "Voltar a Quanto rende →" },
-  { id: "seguranca", titulo: "Se secar", curto: "Seca", primario: "Mandar no WhatsApp", volta: "Voltar a Se secar →" },
-];
-const ORDEM = [2, 3, 4, 5, 1];
+const PASSOS = {
+  2: { id: "perguntas", titulo: "Sua roça", curto: "Roça", primario: "Ver o meu plano →" },
+  3: { id: "plantio", titulo: "O plano", curto: "Plano", primario: "Quanto rende →", volta: "Voltar ao plano →" },
+  4: { id: "dinheiro", titulo: "Quanto rende", curto: "Dinheiro", primario: "Ver o relatório →", volta: "Voltar a Quanto rende →" },
+  5: { id: "relatorio", titulo: "Relatório", curto: "Relatório", primario: "Mandar no WhatsApp", volta: "Voltar ao relatório →" },
+};
+const ORDEM = [2, 3, 4, 5];
+const NAVEGADOR = typeof document !== "undefined";
 const modulos = {};
 const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
 // pedido recusado (internet fraca ou servidor ocupado): tenta de novo uma vez, como os extras (comum.js)
 const importar = (url) => import(url).catch(() => espera(400).then(() => import(`${url}?de-novo=1`)));
+// O CSS dos passos vem no roca.html. Um passo novo pode pedir o dele (css/passos/<id>.css) com `css: true` no export default:
+// a casca só desenha depois que ele chega (ou falha), sem piscar sem estilo.
+const cssPasso = (id) => new Promise((ok) => {
+  const href = new URL(`../css/passos/${id}.css`, import.meta.url).href;
+  if ([...document.querySelectorAll("link[rel=stylesheet]")].some((l) => l.href === href)) return ok();
+  document.head.appendChild(Object.assign(document.createElement("link"), { rel: "stylesheet", href, onload: ok, onerror: ok }));
+});
 const carregarPasso = (id) => (modulos[id] ||= importar(`./passos/${id}.js`).then((m) => m.default)
+  .then((m) => (m.css ? cssPasso(id).then(() => m) : m))
   .catch((e) => { delete modulos[id]; throw e; }));
 // o jeito de hoje em 1 linha na ficha (o mesmo módulo do passo 2 e do passo 4); se falhar, a ficha só mostra o tamanho
-const HI = importar("./extras/hoje_ideal.js").catch(() => null);
+const HI = NAVEGADOR ? importar("./extras/hoje_ideal.js").catch(() => null) : null;
 // "o que é?": balão das palavras técnicas (ponto 2); se não carregar, a jornada segue sem ele
-const GLOSSARIO = importar("./extras/glossario.js").catch(() => null);
+const GLOSSARIO = NAVEGADOR ? importar("./extras/glossario.js").catch(() => null) : null;
 
 // Respostas do agricultor. "" = não sei / não respondeu (vale o padrão). Só o que difere do padrão vai para a URL.
 export const PADRAO = { terra: "", ha: "", baixio: "", agua: "", vol: "", maniva: "", criacao: "", prioridade: "", gs: "", raiz: "", custo: "",
-  hoje: "", area_un: "", antes: "", exp: "" }; // jeito de hoje, unidade da área, o que plantou antes e a experiência (não vão para a API)
+  hoje: "", area_un: "", antes: "", exp: "", // jeito de hoje, unidade da área, o que plantou antes e a experiência (não vão para a API)
+  larg: "", comp: "", plano: "" }; // largura e comprimento do roçado (metros) e o lado do Plano ("" = seu jeito melhorado, "ideal")
 const TERRA = { arenosa: { textura: "1", ad: "12" }, mista: { textura: "2", ad: "13" }, barro: { textura: "3", ad: "15" } };
 const BAIXIO_FRAC = { nao: 0, pouco: 0.2, terco: 1 / 3, metade: 0.5, "": 1 / 3 };
 
@@ -49,7 +60,8 @@ function lerHash() {
   const q = new URLSearchParams(busca);
   const resp = { ...PADRAO };
   for (const k of Object.keys(PADRAO)) if (q.has(k)) resp[k] = q.get(k);
-  return { cod: /^\d{7}$/.test(cod || "") ? cod : null, passo: Math.min(5, Math.max(1, +passo || 2)), resp };
+  // o 1 (antigo "Do espaço") e o que não for número de passo caem em Sua roça
+  return { cod: /^\d{7}$/.test(cod || "") ? cod : null, passo: Math.min(5, Math.max(2, +passo || 2)), resp, antigo: passo === "1" };
 }
 
 function escreverHash(e) {
@@ -83,23 +95,45 @@ async function buscar(cod, resp) {
   return cache.get(chave);
 }
 
+const metros = (s) => { const v = Math.round(parseFloat(String(s ?? "").replace(",", "."))); return v > 0 ? v : null; };
+/** Largura × comprimento do roçado em metros: das chaves larg e comp ou, num link antigo, da medida de area_un
+ *  ("medida:<comprimento>x<largura>[:passos]", extras/area.js; passo = 0,8 m). Os dois ou nenhum: { larg, comp, chaves } ou nulls.
+ *  As chaves larg e comp (Sua roça grava as duas junto com o ha) valem sempre, e o ha sai delas: um roçado de 5 × 5 m não vira o
+ *  ha=0.01 arredondado. A medida de um link antigo que não bate com o ha respondido (± 5%) fica de fora: vale o ha. */
+function medidas(resp, haDito) {
+  const larg = metros(resp.larg), comp = metros(resp.comp);
+  if (larg && comp) return { larg, comp, chaves: true };
+  const m = /^medida:([\d.]+)x([\d.]+)(:passos)?$/.exec(resp.area_un || "");
+  if (!m) return { larg: null, comp: null };
+  const k = m[3] ? 0.8 : 1, c = metros(m[1] * k), l = metros(m[2] * k);
+  const bate = !(haDito > 0) || Math.abs((l * c) / 10000 - haDito) <= 0.05 * haDito + 0.005;
+  return l && c && bate ? { larg: l, comp: c } : { larg: null, comp: null };
+}
+/** A área na ficha: abaixo de 0,1 ha em m² e abaixo de 1 ha com 2 casas, como o haTxt de extras/terreno.js (U.ha dá "0 ha"). */
+const areaTxt = (v) => (v < 0.1 ? `${U.num(v * 1e4 >= 100 ? Math.round(v * 1e3) * 10 : Math.round(v * 1e4))} m²`
+  : v < 0.995 ? `${U.num(v, 2).replace(/0$/, "")} ha` : U.ha(v));
+
 /** Respostas com os padrões aplicados (o que os passos devem usar), com a origem de cada valor. */
-function efetivas(resp, r) {
+export function efetivas(resp, r) {
   const pad = r.padroes || {};
   const alerta = r.este_ano?.nivel_alerta === "alerta";
-  const haResp = parseFloat(String(resp.ha).replace(",", "."));
+  const haDito = parseFloat(String(resp.ha).replace(",", "."));
+  const { larg, comp, chaves } = medidas(resp, haDito);
+  const haResp = chaves || !(haDito > 0) ? (larg ? (larg * comp) / 10000 : NaN) : haDito; // com as medidas, o tamanho sai delas
   const padHa = pad.rocado_ha > 0 ? pad.rocado_ha : (pad.rocado_ha_padrao > 0 ? pad.rocado_ha_padrao : null);
   const area = haResp > 0 ? haResp : (padHa || 1);
   const frac = BAIXIO_FRAC[resp.baixio] ?? 1 / 3;
   return {
+    larg, comp, // metros (inteiros) ou null: sem resposta, o desenho usa o quadrado do ha (SUPOSIÇÃO)
+    plano: resp.plano === "ideal" ? "ideal" : "melhor", // o lado do Plano que o Dinheiro e o Relatório seguem
     terra: resp.terra || "nao_sei",
-    ha: Math.round(area * 100) / 100,
+    ha: Math.round(area * 1e4) / 1e4, // 4 casas: 5 × 5 m = 0,0025 ha (2 casas dava 0)
     ha_origem: haResp > 0 ? "resposta" : (pad.rocado_ha > 0 ? "padrão do município (Censo 2017)"
       : padHa ? "padrão da mesorregião (Censo 2017)" : "exemplo (1 ha)"),
     baixio: resp.baixio || "nao_sei",
     tem_baixio: resp.baixio === "nao" ? false : (resp.baixio ? true : null),
     baixio_frac: frac,
-    baixio_ha: Math.round(area * frac * 100) / 100,
+    baixio_ha: area < 0.1 ? Math.round(area * frac * 1e4) / 1e4 : Math.round(area * frac * 100) / 100, // 2 casas, como as contas de R$ usam; 4 num roçado de m²
     agua: resp.agua || "chuva",
     vol_m3: parseFloat(resp.vol) || null,
     maniva: resp.maniva || "tem",
@@ -119,14 +153,14 @@ function culturasTxt(hi, resp, r) {
   return n.length > 1 ? `${n.slice(0, -1).join(", ")} e ${n[n.length - 1]}` : n[0] || "";
 }
 
-/** O botão verde da barra: o rótulo e o que ele faz (o padrão de cada passo; o passo pode trocar com ctx.primario). */
+/** O botão verde da barra: o rótulo e o que ele faz (o padrão de cada passo; o passo pode trocar com ctx.primario).
+ *  No Relatório, o relatorio.js define o "Mandar no WhatsApp"; sem isso, vale o compartilhar(ctx) de leve_ao_tecnico.js. */
 function primarioPadrao(passo) {
-  const p = PASSOS[passo - 1];
-  const rotulo = passo === 2 && volta ? PASSOS[volta - 1].volta : p.primario;
+  const rotulo = passo === 2 && volta ? PASSOS[volta].volta : PASSOS[passo].primario;
   const fn = passo === 2 ? () => { location.hash = escreverHash({ ...estado, passo: volta || 3 }); }
     : passo === 5 ? () => import("./extras/leve_ao_tecnico.js")
       .then((m) => (m.compartilhar ? m.compartilhar(ctxAtual) : rolarAoTecnico()))
-    : () => { location.hash = escreverHash({ ...estado, passo: passo === 1 ? 3 : passo + 1 }); };
+    : () => { location.hash = escreverHash({ ...estado, passo: passo + 1 }); };
   return { rotulo, fn };
 }
 function aplicarPrimario() {
@@ -142,13 +176,14 @@ function desenharCasca(r, ef, hi) {
   // as pílulas fazem o papel de abas: sem número; a atual acesa e as anteriores (na ORDEM) com ✓
   const pos = ORDEM.indexOf(estado.passo);
   document.getElementById("passos-nav").innerHTML = ORDEM.map((n, i) => {
-    const p = PASSOS[n - 1], cls = i === pos ? "atual" : i < pos ? "feito" : "";
+    const p = PASSOS[n], cls = i === pos ? "atual" : i < pos ? "feito" : "";
     return `<button class="passo-pilula ${cls}" data-ir="${n}" type="button"${i === pos ? ' aria-current="step"' : ""}>${i < pos ? '<i aria-hidden="true">✓</i>' : ""}<span class="longo">${U.esc(p.titulo)}</span><span class="curto">${U.esc(p.curto)}</span></button>`;
   }).join("");
-  // ficha em 1 linha nos passos de resultado: "1,0 ha (típico) · milho e feijão · Mudar"
+  // ficha em 1 linha nos passos de resultado: "1 ha (típico) · milho e feijão · Mudar" ou, com as medidas, "40 × 100 m · …"
   const cult = culturasTxt(hi, estado.resp, r);
+  const tam = ef.larg ? `${U.num(ef.larg)} × ${U.num(ef.comp)} m` : `${areaTxt(ef.ha)}${ef.ha_origem === "resposta" ? "" : " (típico)"}`;
   document.getElementById("ficha").innerHTML = estado.passo >= 3 ? `<div class="ficha-linha">
-    <button type="button" data-editar="ha" title="Mudar o tamanho">${U.esc(U.ha(ef.ha))}${ef.ha_origem === "resposta" ? "" : " (típico)"}</button>
+    <button type="button" data-editar="ha" title="Mudar o tamanho">${U.esc(tam)}</button>
     ${cult ? `<span aria-hidden="true">·</span><button type="button" class="ficha-cult" data-editar="hoje" title="Mudar o que planta">${U.esc(cult)}</button>` : ""}
     <span aria-hidden="true">·</span><button type="button" class="ficha-mudar" data-editar="hoje">Mudar</button></div>` : "";
   // no celular a fileira de pílulas pode rolar: a atual fica no meio
@@ -167,6 +202,8 @@ function desenharCasca(r, ef, hi) {
 async function desenhar() {
   const meu = ++pedido;
   const e = lerHash();
+  // link antigo do "Do espaço" (#/<cod>/1): a mesma entrada do histórico passa a ser Sua roça, com as respostas
+  if (e.cod && e.antigo) history.replaceState(null, "", escreverHash(e));
   estado = e;
   if (e.passo !== 2) { volta = null; foco = null; }
   const el = document.getElementById("jornada");
@@ -204,9 +241,10 @@ async function desenhar() {
     },
   };
   gl?.instalar(ctx); // os exemplos do balão passam a usar este município
-  const passo = PASSOS[e.passo - 1];
+  const passo = PASSOS[e.passo];
   const caixa = document.createElement("div");
-  caixa.className = `passo-conteudo passo-${passo.id}`;
+  // só uma resposta nova (ctx.set): sem a animação de entrada, para a tela não pular 10 px a cada toque
+  caixa.className = `passo-conteudo passo-${passo.id}${entrou ? "" : " sem-entrada"}`;
   try {
     const mod = await carregarPasso(passo.id);
     if (meu !== pedido) return;
@@ -226,16 +264,6 @@ async function desenhar() {
   if (entrou) window.scrollTo({ top: 0, behavior: "instant" });
   explicarOlho(caixa);
   if (rolarTecnico) { rolarTecnico = false; rolarAoTecnico(); }
-  if (rolarAcerto) { rolarAcerto = false; abrirAcerto(); }
-}
-
-/** "Quanto o cálculo já acertou" (Do espaço): abre o "ver mais" dos 7 jeitos testados no passo 5 e rola até ele. */
-let rolarAcerto = false;
-function abrirAcerto() {
-  const d = document.getElementById("seg-acerto");
-  if (!d) return;
-  d.open = true;
-  window.scrollTo({ top: d.getBoundingClientRect().top + scrollY - 104, behavior: "instant" }); // abaixo do topo fixo
 }
 
 /** O 1º "seu olho" à vista de cada passo vira "o que é?" (no toque não há title): abre o balão do glossário. */
@@ -247,9 +275,10 @@ function explicarOlho(caixa) {
     .forEach(([k, v]) => rot.setAttribute(k, v));
 }
 
+// a frase do ponto 16 leva ao "Leve para o técnico" do Relatório (U.extra("leve_ao_tecnico") ou o #leve-ao-tecnico que ele desenha)
 let rolarTecnico = false;
 function rolarAoTecnico() {
-  const alvo = document.querySelector('[data-extra="leve_ao_tecnico"]');
+  const alvo = document.querySelector('[data-extra="leve_ao_tecnico"], #leve-ao-tecnico');
   if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -309,41 +338,7 @@ function esconderFonte() {
   const b = document.getElementById("selo-balao");
   if (b) b.hidden = true;
 }
-window.addEventListener("scroll", esconderFonte, { passive: true });
-document.addEventListener("keydown", (ev) => {
-  const s = ev.target.closest?.(".selo");
-  if (s && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); mostrarFonte(s); }
-});
 
-document.addEventListener("click", (ev) => {
-  const s = ev.target.closest(".selo");
-  if (s) {
-    if (s.closest("summary")) ev.preventDefault(); // o toque no selo mostra a fonte, não abre o "ver mais"
-    return mostrarFonte(s);
-  }
-  esconderFonte();
-  if (!estado.cod) return;
-  const ed = ev.target.closest("[data-editar]");
-  if (ed) { // "mudar": abre Sua roça na linha certa e guarda a volta
-    ev.preventDefault();
-    foco = ed.dataset.editar;
-    if (estado.passo === 2) return document.getElementById(`linha-${foco}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    volta = estado.passo;
-    location.hash = escreverHash({ ...estado, passo: 2 });
-    return;
-  }
-  const ac = ev.target.closest("[data-acerto]");
-  if (ac) { ev.preventDefault(); rolarAcerto = true; location.hash = escreverHash({ ...estado, passo: 5 }); return; }
-  const b = ev.target.closest("[data-ir]");
-  if (b) { ev.preventDefault(); volta = null; irCom(+b.dataset.ir); return; }
-  const m = ev.target.closest("#moldura, #decide-fim");
-  if (m) {
-    ev.preventDefault();
-    if (estado.passo === 5) return rolarAoTecnico();
-    rolarTecnico = true;
-    irCom(5);
-  }
-});
 /** Vai a outro passo pela pílula ou pelo rodapé. Saindo de Sua roça, leva junto o que foi tocado (ctx.pendente de perguntas.js):
  *  as pílulas fazem o papel de abas, e o rascunho não pode se perder sem aviso. */
 function irCom(n) {
@@ -352,22 +347,59 @@ function irCom(n) {
   if (Object.keys(p).length) location.replace(escreverHash({ ...estado, resp })); // o voltar reabre Sua roça como ficou
   location.hash = escreverHash({ ...estado, passo: n, resp });
 }
-document.getElementById("voltar").addEventListener("click", () => {
-  if (estado.cod && estado.passo === 2 && volta) { volta = null; history.back(); return; } // veio de um "mudar": volta sem gravar
-  if (!estado.cod || estado.passo === 2) { location.href = "index.html"; return; }
-  volta = null;
-  location.hash = escreverHash({ ...estado, passo: ORDEM[ORDEM.indexOf(estado.passo) - 1] });
-});
 // um toque só: o verde se desliga até a tela mudar (se a tela não mudar, como no WhatsApp, volta a ligar). Com a API em cache a
 // tela nova chega em 20–60 ms e o verde dela já está ligado: o 2º toque de um toque duplo (até 700 ms) é ignorado.
 let ultimoToque = 0;
-document.getElementById("avancar").addEventListener("click", (ev) => {
-  const a = ev.currentTarget, agora = performance.now();
-  if (a.disabled || agora - ultimoToque < 700 || !primario || !estado.cod) return;
-  ultimoToque = agora;
-  a.disabled = true;
-  const antes = location.hash, liga = () => setTimeout(() => { if (location.hash === antes) a.disabled = false; }, 800);
-  Promise.resolve().then(primario.fn).catch((err) => console.error(err)).finally(liga);
-});
-window.addEventListener("hashchange", desenhar);
-desenhar();
+
+// ---------------------------------------------------------------- a página (no node, importar o arquivo não liga nada)
+if (NAVEGADOR) {
+  window.addEventListener("scroll", esconderFonte, { passive: true });
+  document.addEventListener("keydown", (ev) => {
+    const s = ev.target.closest?.(".selo");
+    if (s && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); mostrarFonte(s); }
+  });
+
+  document.addEventListener("click", (ev) => {
+    const s = ev.target.closest(".selo");
+    if (s) {
+      if (s.closest("summary")) ev.preventDefault(); // o toque no selo mostra a fonte, não abre o "ver mais"
+      return mostrarFonte(s);
+    }
+    esconderFonte();
+    if (!estado.cod) return;
+    const ed = ev.target.closest("[data-editar]");
+    if (ed) { // "mudar": abre Sua roça na linha certa e guarda a volta
+      ev.preventDefault();
+      foco = ed.dataset.editar;
+      if (estado.passo === 2) return document.getElementById(`linha-${foco}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      volta = estado.passo;
+      location.hash = escreverHash({ ...estado, passo: 2 });
+      return;
+    }
+    const b = ev.target.closest("[data-ir]");
+    if (b) { ev.preventDefault(); volta = null; irCom(+b.dataset.ir); return; }
+    const m = ev.target.closest("#moldura, #decide-fim");
+    if (m) {
+      ev.preventDefault();
+      if (estado.passo === 5) return rolarAoTecnico();
+      rolarTecnico = true;
+      irCom(5);
+    }
+  });
+  document.getElementById("voltar").addEventListener("click", () => {
+    if (estado.cod && estado.passo === 2 && volta) { volta = null; history.back(); return; } // veio de um "mudar": volta sem gravar
+    if (!estado.cod || estado.passo === 2) { location.href = "index.html"; return; }
+    volta = null;
+    location.hash = escreverHash({ ...estado, passo: ORDEM[ORDEM.indexOf(estado.passo) - 1] });
+  });
+  document.getElementById("avancar").addEventListener("click", (ev) => {
+    const a = ev.currentTarget, agora = performance.now();
+    if (a.disabled || agora - ultimoToque < 700 || !primario || !estado.cod) return;
+    ultimoToque = agora;
+    a.disabled = true;
+    const antes = location.hash, liga = () => setTimeout(() => { if (location.hash === antes) a.disabled = false; }, 800);
+    Promise.resolve().then(primario.fn).catch((err) => console.error(err)).finally(liga);
+  });
+  window.addEventListener("hashchange", desenhar);
+  desenhar();
+}

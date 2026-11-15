@@ -124,6 +124,53 @@
 .passo-dinheiro .faixa28-eixo .leg i.ab { background: var(--terra); }
 .passo-dinheiro .faixa28-eixo .leg i.en-leg { width: 7px; height: 7px; border-radius: 0; background: var(--ink); transform: rotate(45deg); }
 
+/* rodada 2: o plano escolhido no Plano dá a cor dos "ver mais" (melhorado âmbar, ideal azul: as cores do gráfico Hoje → Melhorado → Ideal) */
+.passo-dinheiro .d-sel-melhor { --d-plano: var(--amber); --d-plano-banda: color-mix(in srgb, var(--amber) 18%, transparent); }
+.passo-dinheiro .d-sel-melhor .medidor .trilho { background: var(--amber-soft); }
+
+/* Hoje → Melhorado → Ideal (extras/hoje_ideal.js, modo "comparacao"): o escolhido, a tabela de R$ e as notas */
+.passo-dinheiro .hi-g-sel { fill: color-mix(in srgb, var(--ink) 5%, transparent); stroke: var(--border-2); stroke-dasharray: 4 4; }
+.passo-dinheiro .hi-tag.sel { color: var(--ink); border-color: var(--border-2); }
+.passo-dinheiro .hi-l-desc b, .passo-dinheiro a.hi-mudar b { color: var(--ink); font-weight: 600; }
+.passo-dinheiro .hi-bloco.ideal a.hi-mudar { margin-top: 4px; }
+.passo-dinheiro .hi-tab { margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--border); }
+.passo-dinheiro .hi-tab-cab, .passo-dinheiro .hi-tab-lin { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 4px 10px; align-items: center; }
+.passo-dinheiro .hi-tab-cab span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: right; }
+.passo-dinheiro .hi-tab-col::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+.passo-dinheiro .hi-tab-col.hoje::before { background: var(--hi-hoje); }
+.passo-dinheiro .hi-tab-col.melhor::before { background: var(--hi-melhor); }
+.passo-dinheiro .hi-tab-col.ideal::before { background: var(--hi-ideal); }
+.passo-dinheiro .hi-tab-col.sel { color: var(--ink); font-weight: 600; }
+.passo-dinheiro .hi-tab-lin { padding: 8px 0; border-top: 1px dashed var(--border); }
+.passo-dinheiro .hi-tab-rot { font-size: 14px; line-height: 1.3; color: var(--ink-2); }
+.passo-dinheiro .hi-tab-rot .selo { margin-left: 2px; }
+.passo-dinheiro .hi-tab-val { text-align: right; font-family: var(--display); font-weight: 700; font-size: 17px; white-space: nowrap; color: var(--ink-2);
+  font-variant-numeric: tabular-nums; }
+.passo-dinheiro .hi-tab-val.sel { color: var(--ink); }
+.passo-dinheiro .hi-nm { font-family: var(--body); font-weight: 400; font-size: 12.5px; color: var(--muted); white-space: normal; }
+.passo-dinheiro .hi-notas { margin: 10px 0 0; padding: 0 0 0 18px; font-size: 13.5px; color: var(--ink-2); }
+.passo-dinheiro .hi-notas li { margin: 3px 0; }
+
+/* sem R$ nenhum aqui: o "seu olho" fica solto entre os painéis */
+.passo-dinheiro .d-tela > .olho { margin: 0 0 18px; }
+
+/* ponto 6: "em 8 de 10 anos…" e a grade de 10 roças */
+.passo-dinheiro .d-oito .faixa { margin: 2px 0 6px; }
+.passo-dinheiro .d-oito .frase { margin: 6px 0 0; }
+.passo-dinheiro .d-oito .olho { margin: 10px 0 0; }
+.passo-dinheiro .d-oito details.ver-mais { margin-top: 10px; }
+.passo-dinheiro .d10 { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.passo-dinheiro .d10-linha { display: grid; grid-template-columns: 96px auto minmax(0, 1fr); align-items: center; gap: 6px 14px; font-size: 14px; color: var(--ink-2); }
+.passo-dinheiro .d10-linha > b { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.passo-dinheiro .d10-linha.sel > b { color: var(--ink); }
+.passo-dinheiro .d10-linha span b { color: var(--ink); }
+
+/* a tabela dos 8 números (Ver como calculamos) */
+.passo-dinheiro table.tab-oito { min-width: 520px; }
+.passo-dinheiro table.tab-oito td, .passo-dinheiro table.tab-oito th { white-space: nowrap; }
+.passo-dinheiro table.tab-oito td:first-child { white-space: normal; }
+.passo-dinheiro table.tab-oito .sel { font-weight: 700; color: var(--ink); }
+
 /* agronegócio e o resto */
 .passo-dinheiro .apagado { opacity: .5; filter: saturate(.35); }
 .passo-dinheiro table.tab-cult { min-width: 640px; }
@@ -139,4 +186,25 @@
   .passo-dinheiro .faixa28 { gap: 2px; }
   .passo-dinheiro .faixa28 i { height: 26px; border-radius: 3px; }
   .passo-dinheiro .faixa28-eixo .leg { font-size: 11px; }
+  /* a tabela de R$: o rótulo numa linha, os 3 valores embaixo */
+  .passo-dinheiro .hi-tab-cab, .passo-dinheiro .hi-tab-lin { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; }
+  .passo-dinheiro .hi-tab-cab > span:first-child { display: none; }
+  .passo-dinheiro .hi-tab-rot { grid-column: 1 / -1; }
+  .passo-dinheiro .hi-tab-cab span, .passo-dinheiro .hi-tab-val { text-align: center; }
+  .passo-dinheiro .d10-linha { grid-template-columns: 84px auto; }
+  .passo-dinheiro .d10-linha > span { grid-column: 1 / -1; }
+}
+
+/* ponto 4: os 7 jeitos testados, no "Ver como calculamos" (vinham de seguranca.css, que saiu do roca.html na rodada 2) */
+.passo-dinheiro .seg-metodos { display: grid; gap: 6px; margin: 10px 0; }
+.passo-dinheiro .seg-met { display: grid; grid-template-columns: minmax(0, 17em) minmax(0, 1fr) 2.5em; gap: 10px; align-items: center; font-size: 14px; color: var(--ink-2); }
+.passo-dinheiro .seg-met-trilho { position: relative; height: 10px; border-radius: 5px; background: var(--surface-3); }
+.passo-dinheiro .seg-met-trilho i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--ink-4); }
+.passo-dinheiro .seg-met-meta { position: absolute; left: 80%; top: -4px; bottom: -4px; border-left: 2px dashed var(--ink-2); }
+.passo-dinheiro .seg-met.on { color: var(--ink); font-weight: 600; }
+.passo-dinheiro .seg-met.on .seg-met-trilho i { background: var(--green); }
+.passo-dinheiro .seg-met-val { font-family: var(--mono); text-align: right; }
+@media (max-width: 760px) {
+  .passo-dinheiro .seg-met { grid-template-columns: minmax(0, 1fr) 2.5em; }
+  .passo-dinheiro .seg-met-trilho { grid-column: 1 / -1; grid-row: 2; }
 }

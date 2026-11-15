@@ -214,6 +214,7 @@ body.sem-lugar #avancar, body.sem-lugar .passo-fim { display: none; }
 
 /* entrada suave de cada passo */
 .passo-conteudo { animation: entra .45s var(--ease) both; }
+.passo-conteudo.sem-entrada { animation: none; } /* redesenho por uma resposta nova (roca.js): a tela não pula */
 @keyframes entra { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .passo-conteudo { animation: none; } .carregando::before { animation: none; } }
 
@@ -243,4 +244,25 @@ body.sem-lugar #avancar, body.sem-lugar .passo-fim { display: none; }
   .nav-baixo .botao.primario { min-width: 0; flex: 1; font-size: 17px; }
   table { display: block; overflow-x: auto; }
   .ind .ind-val { font-size: 34px; }
+}
+
+/* ---------------------------------------------------------------- impressão (o "Imprimir / salvar PDF" do Relatório): folha clara A4,
+   sem a moldura da jornada. O conteúdo do passo ajusta o dele no próprio CSS (css/passos/relatorio.css). */
+@page { size: A4; margin: 14mm 12mm; }
+@media print {
+  :root { color-scheme: light;
+    --bg: #fff; --surface: #fff; --surface-2: #f3f5f3; --surface-3: #e7ebe7;
+    --ink: #111; --ink-2: #2b2f2c; --muted: #555b57; --ink-3: #5f6661; --ink-4: #8a908c;
+    --border: #d3d8d4; --border-2: #a9b0ab;
+    --green: #2e7d4f; --green-forte: #1d6a3d; --amber: #9a5a05; --terra: #b0402a; --blue: #2c5f9e;
+    --t-leguminosa: #1f9a68; --t-cereal: #b98300; --t-tampao: #c85a2a; --t-forragem: #2f6fc0; --t-perene: #2e8c43; --t-renda: #6b58c9;
+    --t-pousio: #7c847f;
+    --f-leguminosa: #e3f4ec; --f-cereal: #f8efd6; --f-tampao: #fbe6dc; --f-forragem: #e2ecf8; --f-perene: #e3f2e6; --f-renda: #ebe8f8;
+    --f-pousio: #eef0ee;
+    --s-medido: #1d6a3d; --s-suposicao: #8a5300; --s-projecao: #2c5f9e; }
+  body { background: #fff; color: var(--ink); font-size: 11pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .topo, .ficha, .nav-baixo, .passo-fim, .selo-balao, .gl-balao { display: none !important; }
+  main.jornada { max-width: none; padding: 0; }
+  .passo-conteudo { animation: none; }
+  .cartao, .painel, .ind { break-inside: avoid; box-shadow: none; }
 }

@@ -3,21 +3,24 @@
 // ("Guardar água", "Mais renda", "Cuidar do solo") e o plano do QUADRA como referência, e compara os quatro em 7 pontos
 // (adubo natural, chão coberto, palhada, quebra de praga, uso de água, comida do gado, renda) com 1 a 3 pontinhos.
 // Só entram culturas que o cardápio deixa no município (situação diferente de "fora"); sem maniva, a mandioca sai.
-// No passo 4 o bloco é "O que vale mais para você?": as abas (Água · Renda · Solo · Um pouco de cada, que é o plano) são a pergunta da prioridade e gravam
+// Com as abas, o bloco é "O que vale mais para você?": as abas (Água · Renda · Solo · Um pouco de cada, que é o plano) são a pergunta da prioridade e gravam
 // ctx.ef.prioridade (ctx.set); o jeito aceso é o da prioridade. No celular, a grade e o giro ano a ano ficam em "Ver a comparação".
+// Rodada 2 (15/11): a prioridade passou para o Plano (lado "O ideal"); o passo 4 usa { leitura: true } (só mostra, não grava).
 // Regras de pontuação e evidência no "Ver como pontuamos"; graus e cartões de pesquisa/catalogo_rotacoes.json (ids nos comentários).
 // Uso: import cenarios from "./extras/cenarios.js"; await cenarios.render(el, ctx, { painel: true });
 import * as U from "../comum.js";
 
+// Rodada 2 (15/11): extras/ideal.js reusa calcular() (as rotações em C.J), manchete(), troca(), NOME, INV e DA_PRIORIDADE
+// para montar "O ideal" no formato de r.plano; a interface deste bloco não muda.
 const IDS = ["agua", "renda", "solo", "plano"];
-const NOME = { agua: "Guardar água", renda: "Mais renda", solo: "Cuidar do solo", plano: "Plano do QUADRA" };
+export const NOME = { agua: "Guardar água", renda: "Mais renda", solo: "Cuidar do solo", plano: "Plano do QUADRA" };
 const CURTO = { agua: "Água", renda: "Renda", solo: "Solo", plano: "Plano" };
 // nas abas a pergunta é "O que vale mais para você?": ninguém responde "o plano"; o plano é o equilíbrio
 const ABA = { ...CURTO, plano: "Um pouco de cada" };
 const ICONE = { agua: "gota", renda: "dinheiro", solo: "broto", plano: "faixas" };
 const COR = { agua: "azul", renda: "ambar", solo: "verde", plano: "verde" };
-const DA_PRIORIDADE = { garantir: "agua", vender: "renda", equilibrar: "plano", solo: "solo" };
-const INV = { agua: "garantir", renda: "vender", solo: "solo", plano: "equilibrar" }; // a aba tocada → a prioridade gravada
+export const DA_PRIORIDADE = { garantir: "agua", vender: "renda", equilibrar: "plano", solo: "solo" };
+export const INV = { agua: "garantir", renda: "vender", solo: "solo", plano: "equilibrar" }; // a aba tocada → a prioridade gravada
 
 // Código de cada parte do roçado num ano:
 // L leguminosa de grão · C cereal solteiro (milho ou sorgo de grão) · Z milho com feijão no pé · U milho com mucuna no pé ·
@@ -288,7 +291,7 @@ function oQueMuda(C, id) {
 }
 // a manchete diz só o que entra (e por quê); o que sai vai para a linha "Comparado ao plano"
 const PORQUE = { agua: ["que aguenta a seca", "que aguentam a seca"], renda: ["para vender", "para vender"], solo: ["que alimenta a terra", "que alimentam a terra"] };
-function manchete(C, id) {
+export function manchete(C, id) {
   if (id === "plano") return "Plano do QUADRA: um pouco de cada.";
   const { mais } = oQueMuda(C, id);
   return mais.length ? `${NOME[id]}: mais ${lista(mais)}, ${PORQUE[id][mais.length > 1 ? 1 : 0]}.` : `${NOME[id]}: parecido com o plano.`;
@@ -296,7 +299,7 @@ function manchete(C, id) {
 
 // o que cada jeito promete vem primeiro na frase "ganha em"
 const FOCO = { agua: ["agua", "gado"], renda: ["renda"], solo: ["adubo", "chao", "palha"], plano: [] };
-function troca(C, id) {
+export function troca(C, id) {
   const P = C.pts, ganha = [], perde = [];
   const ordem = [...PONTOS].sort((x, y) => FOCO[id].includes(y.id) - FOCO[id].includes(x.id));
   for (const p of ordem) {
@@ -433,21 +436,26 @@ function desenhar(el, ctx, opcoes) {
     el.innerHTML = caixa(kicker + `<p class="sub">Sem plano para este lugar: não dá para comparar rotações aqui.</p>`);
     return;
   }
-  const esc = DA_PRIORIDADE[ef.prioridade] || "plano";
-  const abas = `<div class="cen-abas" role="group" aria-label="O que vale mais para você">${IDS.map((id) =>
+  // a prioridade que o Plano usa (opcoes.prioridade, do ideal.escolhido: a resposta ou a padrão pelos números); sem ela, a de ef
+  const pri = DA_PRIORIDADE[opcoes.prioridade] || DA_PRIORIDADE[ef.prioridade] || "plano";
+  // opcoes.leitura (passo 4, rodada 2): só leitura, sem as abas; a coluna da prioridade do Plano leva o ponto, e tocar numa coluna só
+  // troca o jeito à vista aqui (nada é gravado: a prioridade muda no Plano, lado "O ideal")
+  const leitura = !!opcoes.leitura, esc = leitura && IDS.includes(opcoes.ver) ? opcoes.ver : pri;
+  const abas = leitura ? "" : `<div class="cen-abas" role="group" aria-label="O que vale mais para você">${IDS.map((id) =>
     `<button type="button" class="cen-aba${id === esc ? " on" : ""}" data-jeito="${id}" aria-pressed="${id === esc}" title="${U.esc(NOME[id])}">
       ${U.ic(ICONE[id])}<span${ABA[id].length > 8 ? ' class="cen-aba-longo"' : ""}>${ABA[id]}</span>${id === esc ? sugerido(ef) : ""}</button>`).join("")}</div>`;
   // a grade de 7 pontos e o giro ano a ano: à vista no computador; no celular passariam de ~700 px, então vão para o "ver mais"
-  // (junto com o "como pontuamos", num "ver mais" só)
-  const corpo = `<div class="cen-corpo">${grade(C, esc, esc)}${giro(C, r, esc)}</div>`;
-  const estreito = (globalThis.innerWidth || 1000) <= 760;
-  el.innerHTML = caixa(`${kicker}${abas}
+  // (junto com o "como pontuamos", num "ver mais" só). Na leitura o bloco já está dentro de um "ver mais" do passo: fica à vista.
+  const corpo = `<div class="cen-corpo">${grade(C, esc, leitura ? pri : esc)}${giro(C, r, esc)}</div>`;
+  const estreito = (globalThis.innerWidth || 1000) <= 760 && !leitura;
+  el.innerHTML = caixa(`${leitura ? "" : kicker}${abas}
     ${U.faixa(ICONE[esc], COR[esc], U.esc(manchete(C, esc)))}
     <p class="cen-troca"><span>${U.esc(troca(C, esc))}</span></p>
     ${estreito ? U.verMais(`${corpo}<h4 class="cen-giro-tit">Como pontuamos</h4>${detalhe(C)}`, "Ver a comparação")
       : `${corpo}${U.verMais(detalhe(C), "Ver como pontuamos")}`}`);
-  // a aba tocada grava a prioridade (o passo redesenha; o número grande do passo 4 não muda)
+  // a aba tocada grava a prioridade (o passo redesenha; o número grande do passo 4 não muda); na leitura, só troca a coluna à vista
   el.querySelectorAll("[data-jeito]").forEach((b) => b.addEventListener("click", () => {
+    if (leitura) return desenhar(el, ctx, { ...opcoes, ver: b.dataset.jeito });
     const p = INV[b.dataset.jeito];
     if (p && p !== ctx.resp?.prioridade) ctx.set({ prioridade: p });
   }));
@@ -455,7 +463,8 @@ function desenhar(el, ctx, opcoes) {
 
 export default {
   id: "cenarios",
-  /** Desenha o bloco dentro de el. opcoes.painel = false tira a moldura .painel (para pôr dentro de outro painel). */
+  /** Desenha o bloco dentro de el. opcoes.painel = false tira a moldura .painel (para pôr dentro de outro painel);
+   *  opcoes.leitura = true: sem as abas e sem gravar nada (o passo 4 mostra os 4 jeitos lado a lado num "ver mais"). */
   async render(el, ctx, opcoes = {}) {
     desenhar(el, ctx, opcoes || {});
   },

@@ -335,7 +335,7 @@ function ladoGeada(ctx, m, geo, cen) {
       variedade), sobre a janela de plantar do calendário (${U.dataBR(flor.plantio.de, true)} a ${U.dataBR(flor.plantio.ate, true)}).` : ""}
       Média de um quadrado de 28 km: no roçado, o termômetro pode marcar mais.</p>
       <p><b>E se esquentar?</b> "+1 °C" e "+2 °C" contam, nos mesmos 42 anos, os dias de 34 °C e de 33 °C ou mais: é o clima medido com todos
-      os dias mais quentes por igual (suposição simples, não um modelo do clima futuro). Desde 1981 a máxima daqui já subiu; Do espaço mostra quanto.</p>
+      os dias mais quentes por igual (suposição simples, não um modelo do clima futuro). Desde 1981 a máxima daqui já subiu; o painel do município, no mapa (aba Solo e clima), mostra quanto.</p>
       <p><b>Veranico.</b> A falta de chuva no meio da estação é o risco que a janela do ZARC já mede: risco de 20 % = até 2 em 10 anos com perda
       por falta de água.</p>`,
   };

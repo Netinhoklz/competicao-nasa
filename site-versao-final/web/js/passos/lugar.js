@@ -1,3 +1,6 @@
+// APOSENTADO na rodada 2 (15/11, D6): #/<cod>/1 redireciona para Sua roça (roca.js) e o conteúdo deste passo mora no painel
+// (painel.html, js/globo/rocacerta.js: abas Solo e clima, E se chover e Os dados) e no cartão do mapa (principal.js + camadas.js).
+// O arquivo (e css/passos/lugar.css) fica no disco só como referência: a casca não o lista mais e nada o importa.
 // Passo "Do espaço" (#/<cod>/1, fora do caminho, pela pílula "Espaço"): o que este município permite, sem perguntar nada. Pouco texto:
 // El Niño, 4 indicadores, as tendências e as 6 primeiras culturas como ícones coloridos. O detalhe técnico fica nos "ver mais".
 // Dados: núcleo do José (ZARC + GAEZ + NASA POWER/IMERG/SMAP + ONI) e a manchete de El Niño do estado (definição única).

@@ -55,8 +55,9 @@ export const UF_DE = { MA: "do Maranhão", PI: "do Piauí", CE: "do Ceará", RN:
   PE: "de Pernambuco", AL: "de Alagoas", SE: "de Sergipe", BA: "da Bahia" };
 export const ufDe = (uf) => UF_DE[uf] || `do ${uf}`;
 
-/** Área: 1 → "1 ha"; 0,5 → "0,5 ha". */
-export const ha = (v) => `${num(v, v < 10 && Math.abs(v - Math.round(v)) >= 0.05 ? 1 : 0)} ha`; // 1,03 → "1 ha" (como o "3 ha" respondido)
+/** Área: 1 → "1 ha"; 0,5 → "0,5 ha"; abaixo de 0,1 ha em m² (5 × 5 m → "25 m²", como o haTxt de extras/terreno.js; antes dava "0 ha"). */
+export const ha = (v) => (v > 0 && v < 0.1 ? `${num(v * 1e4 >= 100 ? Math.round(v * 1e3) * 10 : Math.round(v * 1e4))} m²`
+  : `${num(v, v < 10 && Math.abs(v - Math.round(v)) >= 0.05 ? 1 : 0)} ha`); // 1,03 → "1 ha" (como o "3 ha" respondido)
 
 // ---------------------------------------------------------------- ícones (traço, 24×24)
 // Os 16 primeiros vêm do painel Roça Certa do João Pedro (js/globo/rocacerta.js); os outros foram feitos para a jornada.

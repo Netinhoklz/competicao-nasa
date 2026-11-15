@@ -2,14 +2,18 @@
 // o que ele já faz e entender as suas experiências"). Três modos:
 //   render(el, ctx, { modo: "pergunta" })  até 3 telas curtas: o que plantou em 2026 e 2025; o que deu bem e o que quebrou (motivo e
 //                                          ano); o que já faz. Grava ctx.set({ antes, exp }).
-//   render(el, ctx, { modo: "cartao" })    "Por onde começar o seu giro": 1 a 3 recomendações do histórico + plano (passo 3).
-//   render(el, ctx, { modo: "memoria" })   "A sua memória e os dados": cada quebra que ele lembra contra o que o IBGE anotou (passo 5).
+//   render(el, ctx, { modo: "cartao" })    "Por onde começar o seu giro" (rodada 1; na rodada 2 saiu do Plano: o ano passado é pergunta de Sua roça e o efeito vai no "por quê" das partes).
+//   render(el, ctx, { modo: "memoria" })   "A sua memória e os dados": cada quebra que ele lembra contra o que o IBGE anotou (era do "Se secar", que saiu da jornada na rodada 2: hoje nenhuma tela usa).
 // Conversa com o "Como você planta hoje?" (extras/hoje_ideal.js): 2026 já vem marcado com o jeito de hoje, e "queima" e "semente",
 // que o hoje já pergunta, não são perguntados de novo. Formatos de antes/exp e onde encaixar: integracao/area_historico.md.
 import { lerHoje } from "./hoje_ideal.js";
+import { CULT } from "./culturas.js";
 import { olho } from "./voce_decide.js";
 
 // ------------------------------------------------------------------ vocabulário
+// Rodada 2 (15/11): as culturas novas de extras/culturas.js também valem em `antes` (Sua roça pergunta "o ano passado" com as
+// culturas de hoje); as 8 de antes continuam iguais e na mesma ordem (o texto de `antes` segue a ordem de CULT_H).
+const CAPINS = new Set(["sorgog", "milheto"]); // capins: não quebram o ciclo da lagarta (como milho e sorgo)
 export const CULT_H = {
   milho: { nome: "Milho", icone: "milho", serie: "Milho", gram: true },
   feijao: { nome: "Feijão", icone: "feijao", serie: "Feijão" },
@@ -17,9 +21,15 @@ export const CULT_H = {
   sorgo: { nome: "Sorgo", icone: "milho", gram: true },
   palma: { nome: "Palma", icone: "palma" },
   algodao: { nome: "Algodão", icone: "algodao" },
+  ...Object.fromEntries(Object.keys(CULT).filter((k) => !["milho", "feijao", "mandioca", "sorgo", "palma", "algodao", "outra"].includes(k))
+    .map((k) => [k, { nome: CULT[k].nome, icone: CULT[k].icone, ...(CAPINS.has(k) ? { gram: true } : {}) }])),
   pousio: { nome: "Nada", sub: "pousio", icone: "pousio" },
   outra: { nome: "Outra", icone: "broto" },
 };
+// as telas do modo "pergunta" (páginas de teste, fora da jornada) seguem com as 8 de antes
+const BASE_H = ["milho", "feijao", "mandioca", "sorgo", "palma", "algodao", "pousio", "outra"];
+/** O ano do jeito de hoje (a safra de 2026, a última antes do plano de 2027); "o ano passado" de Sua roça é ANO_HOJE − 1. */
+export const ANO_HOJE = 2026;
 export const MOTIVOS = { seca: ["sol", "Seca"], chuva: ["chuva", "Chuva demais"], praga: ["praga", "Praga"], preco: ["dinheiro", "Preço ruim"], outro: ["interrog", "Outro"] };
 export const PRATICAS = { naoqueima: ["semfogo", "Não queimo"], palha: ["palha", "Deixo a palhada"], faixas: ["faixas", "Planto em faixas"],
   semente: ["semente", "Guardo semente"], esterco: ["esterco", "Aduba com esterco"] };
@@ -96,19 +106,27 @@ function respondidoHoje(txt) {
 /**
  * Tudo o que o histórico sabe, para este módulo, o hoje_ideal e o plano: lerHistorico(ctx.resp, ctx.r.padroes).
  * { anos: {2026: [...], 2025: [...]}, bem, quebras: [{c, ano, mot}], faz, roca, queima (1/0/null), sem (1/0/null),
- *   origem: { queima: "hoje" | "historico" | null, sem: ... }, ultimo, penultimo, repetiu: [culturas nos 2 anos],
+ *   origem: { queima: "hoje" | "historico" | null, sem: ..., anoHoje: "hoje" | null }, ultimo, penultimo, repetiu: [culturas nos 2 anos],
  *   capimRepetiu (milho/sorgo nos 2 anos), mandioca (mandioca no último ano), informado }
+ * Sua roça (15/11) só pergunta "o ano passado" e grava `antes` = "2025:milho": aí o ano de hoje (a0 = 2026) é o jeito de hoje
+ * (`hoje`), e origem.anoHoje = "hoje". Com o ano de hoje escrito em `antes` (formato antigo), vale o escrito.
  */
-export function lerHistorico(resp, padroes = null) {
+export function lerHistorico(resp, padroes = null, a0 = ANO_HOJE) {
   const anos = lerAntes(resp?.antes), e = lerExp(resp?.exp), hj = respondidoHoje(resp?.hoje);
+  const hoje = lerHoje(resp?.hoje || "", padroes);
+  let anoHoje = null;
+  if (!anos[a0] && anos[a0 - 1]) {
+    const ks = Object.keys(hoje.cult).filter((k) => CULT_H[k]);
+    if (ks.length) { anos[a0] = ks; anoHoje = "hoje"; }
+  }
   const queima = hj.queima ?? (e.faz.includes("naoqueima") ? 0 : null);
   const sem = hj.sem ?? (e.faz.includes("semente") ? 1 : null);
   const ys = Object.keys(anos).map(Number).sort((a, b) => b - a), ultimo = ys[0] || null, pen = ys[1] || null;
   const A = ultimo ? anos[ultimo] : [], B = pen && ultimo - pen === 1 ? anos[pen] : [];
-  const hoje = lerHoje(resp?.hoje || "", padroes);
   return {
     anos, bem: e.bem, quebras: e.quebras, faz: e.faz, roca: e.roca, queima, sem,
-    origem: { queima: hj.queima != null ? "hoje" : queima != null ? "historico" : null, sem: hj.sem != null ? "hoje" : sem != null ? "historico" : null },
+    origem: { queima: hj.queima != null ? "hoje" : queima != null ? "historico" : null, sem: hj.sem != null ? "hoje" : sem != null ? "historico" : null,
+      anoHoje },
     ultimo, penultimo: pen,
     repetiu: A.filter((k) => B.includes(k) && k !== "pousio" && k !== "outra"),
     capimRepetiu: A.some((k) => CULT_H[k]?.gram) && B.some((k) => CULT_H[k]?.gram),
@@ -236,7 +254,7 @@ function telaAnos(ctx, U, h) {
   const bloco = (a) => `<div class="hs-ano">
     <p class="hs-ano-rot"><b>${a}</b>${a === a0 && deHoje ? `<span class="chip">do seu jeito de hoje</span>` : ""}
       ${a === a1 && h.anos[a0]?.length ? `<button type="button" class="chip hs-igual" data-igual="${a}">igual a ${a0}</button>` : ""}</p>
-    <div class="hs-ops n8">${Object.keys(CULT_H).map((k) => botaoCult(U, k, (h.anos[a] || []).includes(k), `data-ano="${a}" data-c="${k}"`)).join("")}</div></div>`;
+    <div class="hs-ops n8">${BASE_H.map((k) => botaoCult(U, k, (h.anos[a] || []).includes(k), `data-ano="${a}" data-c="${k}"`)).join("")}</div></div>`;
   return `${topo(U, 0, "O que você plantou", "no roçado nos últimos anos?")}
     <p class="hs-dica">Pode marcar mais de um.</p>${bloco(a0)}${bloco(a1)}`;
 }
@@ -244,7 +262,7 @@ function telaAnos(ctx, U, h) {
 function telaDeu(ctx, U, h) {
   const [a0] = anosPergunta(ctx.r);
   const plantou = new Set(Object.values(h.anos).flat());
-  const ks = Object.keys(CULT_H).filter((k) => k !== "pousio").sort((a, b) => plantou.has(b) - plantou.has(a));
+  const ks = BASE_H.filter((k) => k !== "pousio").sort((a, b) => plantou.has(b) - plantou.has(a));
   const anosQ = [a0, a0 - 1, a0 - 2, a0 - 3];
   const antigos = Array.from({ length: a0 - 4 - 1990 + 1 }, (_, i) => a0 - 4 - i);
   const detalhe = (q) => `<div class="hs-quebra">
@@ -386,7 +404,7 @@ function desenharCartao(el, ctx, opcoes) {
   }));
 }
 
-// ------------------------------------------------------------------ modo "memoria" (passo 5 ou 1)
+// ------------------------------------------------------------------ modo "memoria" (era do "Se secar"; fora da jornada na rodada 2)
 const MEM_CULT = [["milho", "Milho"], ["feijao", "Feijão"]]; // as culturas com chips de ano (série do IBGE)
 
 function desenharMemoria(el, ctx) {

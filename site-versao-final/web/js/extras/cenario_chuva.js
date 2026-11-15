@@ -279,7 +279,7 @@ function desenhaSobre(sec, b, W) {
     ${U.verMais(`<p>Quatro bases de satélite e de campo, cada uma com a sua grade, trazidas para o mesmo município (média das células
       que caem dentro dele) e para o mesmo eixo do tempo, cada uma em % do próprio normal:</p>
       <ul class="cc-lista">
-        <li><b>Chuva</b>: GPM IMERG (NASA, ~11 km), meses ${U.esc(b.m.est || "")} (contados desde o início típico da chuva; o passo "O lugar" mostra os 4 meses mais chuvosos), em % da mediana dos anos sem El Niño forte${b.m.mm ? ` (${U.num(b.m.mm)} mm)` : ""}.</li>
+        <li><b>Chuva</b>: GPM IMERG (NASA, ~11 km), meses ${U.esc(b.m.est || "")} (contados desde o início típico da chuva; a aba Plantar do painel do município mostra os 4 meses mais chuvosos), em % da mediana dos anos sem El Niño forte${b.m.mm ? ` (${U.num(b.m.mm)} mm)` : ""}.</li>
         <li><b>Água no solo</b>: SMAP L4 (NASA, 9 km, zona da raiz), nos meses de roça no campo. É a água útil: 0 é o mais seco e 1 o mais
           úmido já medidos aqui (2015–2025).</li>
         <li><b>Colheita</b>: IBGE PAM, kg por ha plantado, em % da mediana 1998–2025 do município (é a média do município, não de uma roça).

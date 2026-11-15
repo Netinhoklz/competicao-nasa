@@ -3,6 +3,8 @@
 // clique no globo acha o município na malha local no lugar de /api/reverse; sai unicos() (juntava repetidos do
 // Nominatim); nordeste.json por caminho relativo; botão "Montar o plano do meu roçado" no cartão do mapa
 // (roca.html#/<cod>/2, direto em "Sua roça"), visível na chegada até o painel do iframe avisar que desenhou.
+// Rodada 2 (D6): o cartão do lugar mostra os números-chave do município "do espaço" (milho 2027, chuva, solo agora,
+// de camadas.js, com selo); tocar num número liga a camada no mapa.
 // principal.js - liga a interface: busca de lugar, viagem do globo 3D ate o mapa e volta.
 import { Espaco, DIST_TROCA } from './espaco.js';
 import { Mapa, zoomEquivalente, distEquivalente } from './mapa.js';
@@ -10,6 +12,8 @@ import { Painel } from './painel.js';
 import { Ovos } from './ovos.js';
 import { dentroDoNordeste, passoKonami, KONAMI } from './util.js';
 import { procurar, municipioNoPonto, UF_NOME } from './busca.js';
+import { numerosChave, SELO_NOME } from './camadas.js';
+import { esc } from '../comum.js';
 
 const $ = (id) => document.getElementById(id);
 const esperar = (ms) => new Promise((ok) => setTimeout(ok, ms));
@@ -39,6 +43,7 @@ const ui = {
   hero: $('hero'),
   mergulho: $('mergulho'),
   plano: $('planoBotao'),
+  numeros: $('localNumeros'),
 };
 
 // ------------------------------------------------------------------ formatos
@@ -92,7 +97,27 @@ const painel = new Painel($('painel'));
 painel.aoMudar = (cod) => {
   ui.plano.hidden = !cod;
   if (cod) ui.plano.href = `roca.html#/${cod}/2`;
+  numerosDoCartao(cod);
 };
+
+// números-chave do município no cartão do lugar (o resto do antigo "Do espaço" está no painel ao lado)
+let numerosVez = 0;
+async function numerosDoCartao(cod) {
+  const vez = ++numerosVez, caixa = ui.numeros;
+  if (!cod) { caixa.hidden = true; caixa.innerHTML = ''; return; }
+  const ns = await numerosChave(cod);
+  if (vez !== numerosVez) return;
+  caixa.hidden = !ns.length;
+  caixa.innerHTML = !ns.length ? '' : `<p class="cartao-rotulo">Do espaço · toque para ver no mapa</p>
+    <div class="cn-grade">${ns.map((n) => `<button type="button" class="cn${n.longo ? ' longo' : ''}" data-camada="${n.id}"
+      title="${esc(`${n.frase} ${SELO_NOME[n.selo]} · ${n.fonte}. Toque para ver no mapa.`)}">
+      <span class="cn-rot">${esc(n.rotulo)}</span><b>${esc(n.valor)}</b>
+      <span class="cn-selo ${n.selo}">${SELO_NOME[n.selo]}</span></button>`).join('')}</div>`;
+}
+ui.numeros.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-camada]');
+  if (b) mapa.camadas?.escolher(b.dataset.camada);
+});
 // o mapa encolhe para um cartao a esquerda quando o painel abre: o MapLibre precisa saber do novo tamanho
 new ResizeObserver(() => mapa.mapa?.resize()).observe($('mapa'));
 

@@ -120,3 +120,30 @@ vento e declive no desenho do roçado, perguntas da temporada (data de plantio, 
   custo, raiz e arranjo em "Ajustar a conta". Saem água (vai ao "Leve para o técnico"), manejo, "deu bem", "o que já faz" e Garantia-Safra.
 - Um indicador (pílulas Roça · Plano · Dinheiro · Seca · Espaço, ordem [2,3,4,5,1]) e um verde por tela. O passo 1 vira "Do espaço".
 - Conferência: `testes/ferramentas/aceite_fluxo.py` (21 critérios, 7 municípios) e `percorrer_fluxo.py`. Relatórios em `analise/fluxo/implementacao/`.
+
+## Rodada de 15/11 (manhã): o jeito de hoje × o ideal, o terreno em metros e o relatório
+
+- Pedido do José e decisões D1–D8: `analise/fluxo2/BRIEFING.md`. Fluxo colado, os 16 pontos e o aceite: `analise/fluxo2/00_FLUXO_V2.md`.
+  Relatórios dos agentes: `analise/fluxo2/implementacao/`.
+- **Jornada:** Sua roça (`#/<cod>/2`) → O plano (`/3`) → Quanto rende (`/4`) → **Relatório** (`/5`), pílulas Roça · Plano · Dinheiro ·
+  Relatório (`ORDEM = [2, 3, 4, 5]`). O "Se secar" saiu (`seguranca.js` fica no disco). O "Do espaço" foi para o painel (abas Solo e
+  clima, E se chover, Os dados) e para o cartão do mapa (3 números-chave). `#/<cod>/1` abre Sua roça.
+- **Sua roça:** as 18 culturas do cardápio + "Outra" (`extras/culturas.js`, barra "Ver todas as culturas"), o tamanho em metros
+  (`larg`, `comp`), o baixio explicado com um desenho, a maniva e o ano passado (saíram do Plano).
+- **O plano:** abre em "Seu jeito, melhorado" (só as culturas dele, girando). O controle [Seu jeito melhorado | O ideal] grava `plano`;
+  no ideal, "O que vale mais para você?" grava `prioridade`. "O que você ganha" compara Hoje → Melhorado → Ideal com 8 números
+  selados, e "Seu terreno em metros" mostra o espaçamento, as covas, o material e o zoom de 5 × 5 m (`dados/agronomia.json`, ~30
+  publicações da Embrapa e 5 artigos).
+- **Uma fonte só:** `extras/ideal.js` (`escolhido`, `comparar3`, `agendaDe`), sem DOM, roda no node. Plano, Quanto rende e Relatório
+  mostram o mesmo plano e os mesmos números. O Melhorado mudou de definição: Quixadá padrão em 3 anos é Hoje R$ 2.480, Melhorado
+  R$ 2.550 e Ideal (Guardar água) R$ 3.980. O "Um pouco de cada" segue com R$ 4.360. `calculo.js` não mudou.
+- **Revisão e correção (tarde):** os 3 revisores mostraram que o "Guardar água", então padrão de 2027, dava sobra negativa justo no
+  ano de El Niño (Quixadá −R$ 33). Agora a prioridade padrão sai dos números (`ideal.escolhaPadrao`): nunca uma que perde para outra
+  em ano normal, 2027 e quebra; em ano de alerta, a que mais sobra em 2027. Em 6 dos 7 municípios é "Mais renda" (Quixadá: Ideal
+  R$ 6.640 em 3 anos). Em Picos, Arapiraca e Barreiras nenhum ideal rende mais que o jeito de hoje, e a tela diz isso. Também:
+  grão e raiz de mandioca em números separados; mandioca marcada em "O que planta hoje" já está no chão; perenes num pedaço próprio
+  do desenho; palma com 10 t MS/ha/ano (SUPOSIÇÃO); a manchete do ideal compara com o seu jeito (`hoje_ideal.mancheteIdeal`).
+- **Relatório:** datas dd/mm/aaaa só da agenda (ZARC e as regras do núcleo), o "como" de cada tarefa, o material, "Leve para o
+  técnico", WhatsApp com as próximas tarefas e PDF A4 com até 4 páginas.
+- **Conferência:** `testes/ferramentas/aceite_fluxo.py` (node + telas nos 7 municípios + 13 toques + painel + percurso + PDF) e
+  `percorrer_fluxo.py`. Os JSON da API para os testes do node estão em `testes/exemplos/api/`.

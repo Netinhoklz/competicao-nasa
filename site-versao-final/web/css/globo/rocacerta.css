@@ -72,7 +72,8 @@ svg { overflow: visible; }
 .abas button { flex: none; border: 0; background: transparent; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: 14px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 7px; }
 .abas button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .abas button:hover { color: var(--ink); background: var(--surface-2); }
-.abas button[aria-pressed="true"] { background: var(--green); color: #fff; }
+/* a aba acesa: verde translúcido com borda verde (o verde cheio fica só para "Montar o plano do meu roçado") */
+.abas button[aria-pressed="true"] { background: var(--green-soft); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--green); }
 .abas button.vazia { opacity: 0.75; }
 
 /* ------------------------------------------------------------ conteudo */

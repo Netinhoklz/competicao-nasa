@@ -64,6 +64,15 @@ export function haDe(area, uf) {
   return null;
 }
 
+/** Largura e comprimento em metros inteiros de uma medida ("medida:100x40" = comprimento 100 × largura 40; em passos, × 0,8 m).
+ *  Outra unidade ou texto inválido → null. As chaves larg e comp de Sua roça (15/11) saem daqui. */
+export function metrosDe(area) {
+  const a = typeof area === "string" || area == null ? lerArea(area) : area;
+  if (a?.un !== "medida") return null;
+  const k = a.em === "passos" ? PASSO_M : 1;
+  return { larg: Math.max(1, Math.round(a.l * k)), comp: Math.max(1, Math.round(a.c * k)) };
+}
+
 // ------------------------------------------------------------------ estado da tela (não é resposta)
 let un = "ha"; // aba aberta: ha | tarefa | medida
 let rasc = null; // o que está na tela: { n, m2, c, l, em }
@@ -96,16 +105,17 @@ function campos(v) {
   return `${int}${meio} campo${c > 1 ? "s" : ""} de futebol`;
 }
 
-/** Retângulo do terreno visto de cima: muda de forma com comprimento × largura. */
+/** Retângulo do terreno visto de cima: muda de forma com largura × comprimento. Como no desenho do Plano, a largura vai de lado (em
+ *  cima) e o comprimento do alto até embaixo (do lado). */
 function retangulo(U, c, l, em, haV) {
   const W = 200, H = 112, ox = 46, oy = 18;
-  const k = Math.min(W / c, H / l), w = Math.max(10, c * k), h = Math.max(10, l * k);
+  const k = Math.min(W / l, H / c), w = Math.max(10, l * k), h = Math.max(10, c * k);
   const x = ox + (W - w) / 2, y = oy + (H - h) / 2, un = em === "passos" ? "passos" : "m";
   const dentro = w > 70 && h > 30 ? `<text x="${x + w / 2}" y="${y + h / 2 + 6}" class="ar-ret-ha">${fmtHa(U, r2(haV))} ha</text>` : "";
-  return `<svg class="ar-ret" viewBox="0 0 292 150" role="img" aria-label="terreno de ${U.esc(c)} por ${U.esc(l)} ${un}">
+  return `<svg class="ar-ret" viewBox="0 0 292 150" role="img" aria-label="terreno de ${U.esc(l)} de largura por ${U.esc(c)} ${un} de comprimento">
     <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" class="ar-ret-terra"/>
-    <text x="${x + w / 2}" y="${y - 6}" class="ar-ret-rot">${U.num(c, c % 1 ? 1 : 0)} ${un}</text>
-    <text x="${x - 8}" y="${y + h / 2}" class="ar-ret-rot" transform="rotate(-90 ${x - 8} ${y + h / 2})">${U.num(l, l % 1 ? 1 : 0)} ${un}</text>
+    <text x="${x + w / 2}" y="${y - 6}" class="ar-ret-rot">${U.num(l, l % 1 ? 1 : 0)} ${un}</text>
+    <text x="${x - 8}" y="${y + h / 2}" class="ar-ret-rot" transform="rotate(-90 ${x - 8} ${y + h / 2})">${U.num(c, c % 1 ? 1 : 0)} ${un}</text>
     ${dentro}</svg>`;
 }
 
@@ -120,13 +130,25 @@ export default {
   id: "area",
   titulo: "Tamanho do roçado",
   /** opcoes: { semTitulo: true } tira o título, os atalhos ½ · 1 · 2 · 3 · 5 ha e a linha do típico (dentro de Sua roça, que já
-   *  tem os três na própria linha do tamanho). */
+   *  tem os três na própria linha do tamanho). opcoes.abas: as unidades à vista (padrão ["ha", "tarefa", "medida"]); "passos" é a
+   *  medida do terreno só em passos (Sua roça, 15/11, já tem os metros à vista e abre esta tela com ["tarefa", "passos"]). */
   async render(el, ctx, opcoes = {}) {
     const U = ctx.util, uf = ctx.r?.local?.uf, pad = ctx.r?.padroes || {};
     const tipico = pad.rocado_ha > 0 ? pad.rocado_ha : pad.rocado_ha_padrao > 0 ? pad.rocado_ha_padrao : null;
     const respHa = lerNum(ctx.resp?.ha);
     const ha = respHa || ctx.ef?.ha || tipico || 1;
     const chave = `${ctx.resp?.ha || ""}|${ctx.resp?.area_un || ""}`;
+    const ABAS = { ha: [U.ic("faixas", "g"), "Hectares", ""], tarefa: [U.ic("enxada", "g"), "Tarefas", ""],
+      medida: [icRegua("g"), "Medida", "do terreno"], passos: [icRegua("g"), "Passos", "do terreno"] };
+    const abas = (opcoes.abas || ["ha", "tarefa", "medida"]).filter((k) => ABAS[k]);
+    /** A mesma terra na outra medida (metros ↔ passos). */
+    const trocarEm = (em) => {
+      if (em === rasc.em) return;
+      const k = em === "passos" ? 1 / PASSO_M : PASSO_M;
+      rasc.c = Math.max(1, Math.round(rasc.c * k));
+      rasc.l = Math.max(1, Math.round(rasc.l * k));
+      rasc.em = em;
+    };
 
     // ao chegar, ou quando a resposta mudou: reabre na unidade que a pessoa usou (se ela ainda bate com o ha gravado)
     if ((ctx.entrou && !zerados.has(ctx)) || chave !== visto || !rasc) {
@@ -139,16 +161,19 @@ export default {
       if (bate) Object.assign(rasc, a, { m2 });
       un = bate ? a.un : "ha";
     }
+    if (un === "medida" && !abas.includes("medida") && abas.includes("passos")) un = "passos";
+    if (!abas.includes(un)) un = abas[0];
+    if (un === "passos") trocarEm("passos");
 
     const salvar = (haV, area) => ctx.set({ ha: txtNum(Math.max(0.01, haV)), area_un: escreverArea(area, uf) });
     const redesenhar = () => this.render(el, ctx, opcoes);
     const haMedida = () => haDe({ un: "medida", ...rasc }, uf);
     const haTela = un === "ha" ? ha : un === "tarefa" ? haDe({ un: "tarefa", n: rasc.n, m2: rasc.m2 }, uf) : haMedida();
 
-    const abas = [["ha", U.ic("faixas", "g"), "Hectares", ""], ["tarefa", U.ic("enxada", "g"), "Tarefas", ""],
-      ["medida", icRegua("g"), "Medida", "do terreno"]];
-    const seletor = `<div class="ar-unidades" role="tablist" aria-label="unidade">${abas.map(([v, i, t, s]) =>
-      `<button type="button" role="tab" class="ar-un ${un === v ? "marcada" : ""}" data-un="${v}" aria-selected="${un === v}">${i}<b>${t}</b>${s ? `<span>${s}</span>` : ""}</button>`).join("")}</div>`;
+    const seletor = abas.length < 2 ? "" : `<div class="ar-unidades n${abas.length}" role="tablist" aria-label="unidade">${abas.map((v) => {
+      const [i, t, s] = ABAS[v];
+      return `<button type="button" role="tab" class="ar-un ${un === v ? "marcada" : ""}" data-un="${v}" aria-selected="${un === v}">${i}<b>${t}</b>${s ? `<span>${s}</span>` : ""}</button>`;
+    }).join("")}</div>`;
 
     const mm = (alvo, d, rot) => `<button type="button" class="ar-mm" data-alvo="${alvo}" data-d="${d}" aria-label="${rot}">${d > 0 ? "+" : "−"}</button>`;
     let corpo = "", conv = "";
@@ -171,10 +196,10 @@ export default {
       const lado = (k, rot) => `<div class="ar-lado"><span class="ar-rot">${rot}</span><div class="ar-campo">${mm(k, -1, `menos ${rot.toLowerCase()}`)}
         <input type="number" min="1" step="1" inputmode="decimal" data-lado="${k}" value="${U.esc(r2(rasc[k]))}" aria-label="${rot} em ${unTxt}">${mm(k, 1, `mais ${rot.toLowerCase()}`)}</div>
         <small>${unTxt}</small></div>`;
-      corpo = `<div class="ar-em"><button type="button" class="chip ${rasc.em === "m" ? "verde" : ""}" data-em="m">metros</button>
-          <button type="button" class="chip ${rasc.em === "passos" ? "verde" : ""}" data-em="passos">passos</button>
+      corpo = `<div class="ar-em">${un === "passos" ? "" : `<button type="button" class="chip ${rasc.em === "m" ? "verde" : ""}" data-em="m">metros</button>
+          <button type="button" class="chip ${rasc.em === "passos" ? "verde" : ""}" data-em="passos">passos</button>`}
           ${rasc.em === "passos" ? `<span class="ar-em-nota">1 passo ≈ 0,8 m ${U.selo("suposicao", FONTE_PASSO)}</span>` : ""}</div>
-        <div class="ar-medida">${lado("c", "Comprimento")}<span class="ar-vezes">×</span>${lado("l", "Largura")}</div>
+        <div class="ar-medida">${lado("l", "Largura")}<span class="ar-vezes">×</span>${lado("c", "Comprimento, morro abaixo")}</div>
         <div class="ar-prev">${retangulo(U, rasc.c, rasc.l, rasc.em, haTela)}</div>`;
       conv = `<p class="ar-conv"><b>= ${fmtHa(U, r2(haTela))} ha</b></p>`;
     }
@@ -193,7 +218,7 @@ export default {
     </div>`;
 
     const raiz = el.firstElementChild;
-    raiz.querySelectorAll("[data-un]").forEach((b) => b.addEventListener("click", () => { un = b.dataset.un; redesenhar(); }));
+    raiz.querySelectorAll("[data-un]").forEach((b) => b.addEventListener("click", () => { un = b.dataset.un; if (un === "passos") trocarEm("passos"); redesenhar(); }));
     raiz.querySelectorAll("[data-ha]").forEach((b) => b.addEventListener("click", () => salvar(+b.dataset.ha, { un: "ha" })));
     raiz.querySelector("[data-tipico]")?.addEventListener("click", () => ctx.set({ ha: "", area_un: "" }));
     raiz.querySelectorAll("[data-n]").forEach((b) => b.addEventListener("click", () => {
@@ -217,12 +242,8 @@ export default {
       salvar(haMedida(), { un: "medida", ...rasc });
     }));
     raiz.querySelectorAll("[data-em]").forEach((b) => b.addEventListener("click", () => {
-      const em = b.dataset.em;
-      if (em === rasc.em) return;
-      const k = em === "passos" ? 1 / PASSO_M : PASSO_M; // a mesma terra na outra medida
-      rasc.c = Math.max(1, Math.round(rasc.c * k));
-      rasc.l = Math.max(1, Math.round(rasc.l * k));
-      rasc.em = em;
+      if (b.dataset.em === rasc.em) return;
+      trocarEm(b.dataset.em);
       salvar(haMedida(), { un: "medida", ...rasc });
     }));
     // digitando: o desenho e o "= X ha" acompanham; grava ao sair do campo (ou Enter)

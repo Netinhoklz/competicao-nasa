@@ -1,4 +1,4 @@
-/* passo 2, "Sua roça": uma tela só, com 4 linhas já marcadas com o comum daqui (botões de 48–56 px, teto de 1.000 px a 390 px) */
+/* passo 2, "Sua roça": uma tela só, com as linhas já marcadas com o comum daqui (botões de 44–64 px; teto de 1.800 px e 190 palavras a 390 px, D2 da rodada 2) */
 .sua-roca { max-width: 760px; margin: 0 auto; }
 .passo-perguntas .titulo-passo { margin: 6px 0 10px; }
 .passo-perguntas .titulo-passo .kicker { margin-bottom: 6px; }
@@ -59,9 +59,71 @@ details.sr-mais .ar { margin-top: 6px; }
 
 .sua-roca .olho { margin: 8px 0 0; font-size: 13px; padding: 6px 10px; }
 
+/* rodada 2 (15/11): "Ver todas as culturas", em grupos, numa barra larga que abre a lista */
+details.sr-todas-det { margin: 8px 0 0; }
+details.sr-todas-det > summary { display: flex; width: 100%; justify-content: center; min-height: 44px; padding: 0 12px; border: 1px dashed var(--border-2);
+  border-radius: 14px; color: var(--ink-2); font-size: 14.5px; }
+details.sr-todas-det > summary:hover { border-color: var(--green); color: var(--ink); }
+details.sr-todas-det[open] > summary { border-style: solid; }
+.sr-todas { display: grid; gap: 10px; margin: 10px 0 2px; }
+.sr-g-rot { margin: 0 0 6px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.sr-g-ops { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.sr-op.sr-op-lista { justify-content: flex-start; text-align: left; min-height: 48px; }
+.sr-l-nome { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+.sr-l-nome small { font-size: 12px; color: var(--muted); }
+.sr-fora { flex: none; font-style: normal; font-size: 11px; line-height: 1.1; color: var(--amber); }
+/* a cultura marcada fora do zoneamento daqui: um aviso curto (ele planta hoje, então pode marcar) */
+.sr-aviso { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 8px 0 0; font-size: 13.5px; color: var(--ink-2); }
+.sr-aviso .ic { width: 18px; height: 18px; color: var(--amber); }
+
+/* tamanho em metros: largura × comprimento à vista, com o ha e as tarefas ao lado */
+.sr-metros { margin: 10px 0 0; }
+.sr-m-rot { margin: 0 0 4px; font-size: 14px; color: var(--ink-2); }
+.sr-m-linha { display: grid; grid-template-columns: minmax(0, 96px) auto minmax(0, 96px) minmax(0, 1fr); align-items: start; gap: 6px; max-width: 440px; }
+.sr-m-campo { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.sr-m-campo small { display: flex; align-items: flex-start; justify-content: center; gap: 4px; font-size: 12px; line-height: 1.2; color: var(--muted);
+  text-align: center; }
+/* as setinhas dos lados: de lado (âmbar) e do alto até embaixo, para onde a água desce (azul, como no desenho do Plano) */
+.sr-m-seta { flex: none; width: 16px; height: 9px; margin-top: 3px; fill: none; stroke: var(--amber); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.sr-m-seta.desce { width: 8px; height: 16px; margin-top: 0; stroke: var(--blue); }
+.sr-m-caixa { position: relative; display: block; width: 100%; }
+.sr-m-caixa input { width: 100%; height: 48px; padding: 4px 24px 4px 8px; border: 1px solid var(--border-2); border-radius: 14px; background: var(--surface);
+  color: var(--ink); font-family: var(--display); font-size: 21px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield; }
+.sr-m-caixa input::placeholder { color: var(--ink-4); font-family: var(--font); font-size: 14px; font-weight: 400; font-style: italic; } /* "ex.: 101": não parece valor */
+.sr-m-caixa input::-webkit-outer-spin-button, .sr-m-caixa input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.sr-m-caixa input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+.sr-m-caixa::after { content: "m"; position: absolute; right: 9px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); pointer-events: none; } /* fora do innerText: não conta palavra */
+.sr-vezes { align-self: center; margin-top: -16px; font-size: 20px; color: var(--ink-4); }
+.sr-m-conv { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; min-height: 48px; margin: 0; text-align: right; }
+.sr-m-conv b { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--green-forte); white-space: nowrap; }
+.sr-m-conv span { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+
+/* baixio explicado: o roçado de lado, do alto ao baixio */
+.sr-explica { margin: 0 0 8px; }
+.sr-explica p { margin: 4px 0 0; font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+.sr-perfil { display: block; width: 100%; max-width: 400px; height: auto; }
+.sp-terra { fill: var(--surface-3); }
+.sp-umida { fill: rgba(127, 178, 240, .3); }
+.sp-poca { stroke: var(--blue); stroke-width: 3; stroke-linecap: round; fill: none; }
+.sp-agua { stroke: var(--blue); stroke-width: 2; stroke-dasharray: 5 4; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.sp-agua + .sp-agua { stroke-dasharray: none; }
+.sp-chuva { stroke: var(--blue); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: .8; }
+.sp-rot { fill: var(--ink-2); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-anchor: middle; }
+
+/* maniva (4 respostas curtas) e o ano passado (chips das culturas de hoje) */
+.sr-op.sr-maniva b { font-size: 13.5px; line-height: 1.15; }
+.sr-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sr-op.sr-chip { flex: 0 0 auto; min-height: 44px; padding: 6px 12px; gap: 6px; }
+.sr-op.sr-chip .ic { width: 18px; height: 18px; }
+
 @media (max-width: 760px) {
   .sr-op { padding: 6px 8px; }
   .sr-op b { font-size: 14px; }
   .sr-ops.n5 { gap: 6px; }
   .sr-ops.n5 .sr-op { padding: 6px 2px; }
+  .sr-op.sr-maniva { padding: 6px 4px; }
+  .sr-op.sr-maniva b { font-size: 13px; }
+  .sr-g-ops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sr-op.sr-op-lista { padding: 6px 8px; gap: 6px; }
 }

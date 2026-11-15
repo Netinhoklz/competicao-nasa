@@ -1,21 +1,16 @@
 // QUADRA, módulo extra "Hoje → melhor → ideal" (pedido do José, 14/11/2026): a pessoa diz como planta hoje e vê
 // (1) o jeito dela refeito nos anos que já aconteceram no município, (2) o mesmo jeito com ajustes pequenos e
-// (3) o plano completo do QUADRA. Dois modos: render(el, ctx, { modo: "pergunta" }) e render(el, ctx, { modo: "comparacao" }).
+// (3) o plano completo do QUADRA. Dois modos: render(el, ctx, { modo: "pergunta" }) e render(el, ctx, { modo: "comparacao", c3, escolhido })
+// (rodada 2: no passo 4 a comparação desenha os números de extras/ideal.js, comparar3 e escolhido; comparar() abaixo fica para os testes).
 // A conta é a do passo 4 (js/passos/dinheiro/calculo.js, importado sem mudar): R$ de 2025, 2027 entre os 4 El Niños fortes,
 // 2028 e 2029 entre os 28 anos do IBGE, o mesmo ano para todas as culturas (3.136 combinações). Só milho, feijão e mandioca têm R$.
 // Contrato do ctx e regras de visual: js/passos/LEIA-ME.md. Onde encaixar e o formato de ctx.resp.hoje: integracao/hoje_ideal.md.
 import * as C from "../passos/dinheiro/calculo.js";
+import { CULT, opcoesCultura } from "./culturas.js";
 
 // ------------------------------------------------------------------ o jeito de hoje em texto (ctx.resp.hoje)
 // "milho:50,feijao:50|cons=1|1chuva=1|queima=1|sem=1" — culturas:% (soma 100) | chaves 1/0; chave ausente = padrão.
-const CULT = {
-  milho: { nome: "Milho", serie: "Milho", icone: "milho", t: "cereal" },
-  feijao: { nome: "Feijão", serie: "Feijão", icone: "feijao", t: "leguminosa" },
-  mandioca: { nome: "Mandioca", serie: "Mandioca", icone: "mandioca", t: "tampao" },
-  sorgo: { nome: "Sorgo", icone: "milho", t: "forragem", semRs: true },
-  palma: { nome: "Palma", icone: "palma", t: "perene", semRs: true },
-  outra: { nome: "Outra", icone: "broto", t: "pousio", semRs: true },
-};
+// a lista das culturas mora em extras/culturas.js (15/11)
 const CHAVES = { cons: "cons", mbx: "mbx", "1chuva": "chuva1", queima: "queima", sem: "sem" };
 
 /** Ajusta as porcentagens para somar 100 (inteiros; a sobra vai para a maior). */
@@ -68,8 +63,9 @@ function anoCen(sc, k, plantada) {
     mandPlanta: (M + P) / 2, mandColhe: M / 2 + (k === 0 && !plantada ? 0 : P / 2) };
 }
 
-/** Meses de plantio e de colheita do milho e do feijão que o montar() do passo 4 já tirou da agenda (S0), por ano. */
-function mesesS0(m) {
+/** Meses de plantio e de colheita do milho e do feijão que o montar() do passo 4 já tirou da agenda (S0), por ano.
+ *  (Exportadas a partir daqui, 15/11: extras/ideal.js refaz o "Hoje" com a mesma conta.) */
+export function mesesS0(m) {
   return (m?.s0 || []).map((its) => Object.fromEntries(["Milho", "Feijão"].map((s) => {
     const p = its.find((i) => i.cultura === s && i.custo), c = its.find((i) => i.cultura === s && i.serie);
     return [s, p && c ? { pl: p.mes, meses: c.meses } : null];
@@ -77,7 +73,7 @@ function mesesS0(m) {
 }
 
 /** Lançamentos no formato de calculo.js (custo no plantio; receita = série do ano × área). Os meses só servem ao caixa. */
-function itensCen(anosPlano, sc, plantada, meses = []) {
+export function itensCen(anosPlano, sc, plantada, meses = []) {
   return anosPlano.map((est, k) => {
     const c = anoCen(sc, k, plantada), out = [];
     for (const s of ["Milho", "Feijão"]) if (c[s] > 1e-9) {
@@ -97,7 +93,7 @@ function itensCen(anosPlano, sc, plantada, meses = []) {
   });
 }
 
-const seriesDe = (its) => new Set(its.flat().flatMap((i) => [i.serie, i.custo]).filter((s) => s === "Milho" || s === "Feijão" || s === "Mandioca"));
+export const seriesDe = (its) => new Set(its.flat().flatMap((i) => [i.serie, i.custo]).filter((s) => s === "Milho" || s === "Feijão" || s === "Mandioca"));
 
 /** Ajuste "milho só no baixio": o milho da terra alta vira feijão (a conta só vê a troca de cultura). */
 function soBaixio(sc, A) {
@@ -122,7 +118,7 @@ function reserva(sc, A) {
 
 /** Parte da colheita (R$, sem custo) em cada um dos 28 anos, no 3º ano (já rodando). Quebra = ano abaixo da metade do típico
  *  do próprio cenário (a mesma régua do IBGE para uma cultura: rendimento < 0,5 × mediana). */
-function quebra(base, itK, mult) {
+export function quebra(base, itK, mult) {
   const rec = base.anos.map((y) => itK.reduce((s, i) => s + (i.serie ? base.R[i.serie].get(y) * i.fator * (i.serie === "Mandioca" ? mult : 1) : 0), 0));
   const med = C.quantil([...rec].sort((a, b) => a - b), 0.5);
   if (!(med > 0)) return null;
@@ -243,32 +239,6 @@ export function comparar(r, ef, h) {
   return fechar(res, r, ef, h, A, cenM);
 }
 
-/**
- * Para o passo 4: devolve o m de calculo.montar() com o "jeito de hoje" (m.s0) trocado pelo que a pessoa informou em
- * ctx.resp.hoje, com os mesmos meses da agenda. Uso: const m = comHoje(C.montar(r, ef), r, ef, ctx.resp.hoje).
- * Mantém o S0 fixo (milho + feijão) e marca m.hojeFixo com o motivo quando o informado não tem conta aqui.
- */
-export function comHoje(m, r, ef, txt) {
-  if (!m?.ok || !txt) return m;
-  const h = lerHoje(txt, r.padroes), A = areasHoje(h, ef), fin = r.financeiro, H = fin.historico_R_ha;
-  const s0 = itensCen(r.plano?.anos || [2027, 2028, 2029], { ha: { ...A.ha }, milhoAlta: A.milhoAlta, P: 0, fonte: {} }, ef.maniva === "plantada", mesesS0(m));
-  const precisa = [...seriesDe(s0)];
-  if (!precisa.length) return { ...m, hojeFixo: "o que você planta hoje não tem preço no IBGE" };
-  const falta = precisa.filter((s) => !(fin.culturas?.[s] && H?.[s]));
-  if (falta.length) return { ...m, hojeFixo: `${falta.join(" e ").toLowerCase()}: sem série aqui` };
-  const R = { ...m.R }, KG = { ...m.KG }, K = fin.historico_kg_ha || {};
-  for (const s of precisa) if (!R[s]) {
-    R[s] = new Map(H.anos.map((y, i) => [y, H[s][i]]));
-    KG[s] = new Map((K.anos || []).map((y, i) => [y, K[s]?.[i] ?? null]));
-  }
-  const usadas = [...new Set([...m.usadas, ...precisa])];
-  const anos = m.anos.filter((y) => usadas.every((s) => Number.isFinite(R[s].get(y))));
-  const anosEN = m.anosEN.filter((y) => anos.includes(y));
-  if (anos.length < 10 || !anosEN.length) return { ...m, hojeFixo: "anos suficientes com as culturas de hoje no mesmo ano" };
-  return { ...m, s0, R, KG, usadas, anos, anosEN, origens: { ...m.origens, ...Object.fromEntries(precisa.map((s) => [s, H["origem_" + s] || []])) },
-    hoje: h };
-}
-
 /** "cai à metade", "cai a um terço"... (frequência e fração em palavras, sem porcentagem na frente). */
 function fracFala(x) {
   if (x < 0.15) return "a quase nada";
@@ -327,8 +297,6 @@ function rs(v) {
   if (a >= 10000) return `${s}R$ ${n0(a / 1000, 1)} mil`;
   return `${s}R$ ${n0(a >= 1000 ? Math.round(a / 10) * 10 : Math.round(a))}`;
 }
-const mais = (v) => (v >= 0 ? "+" : "") + rs(v);
-const de100 = (p) => { const n = Math.round(p * 100); return n === 100 && p < 1 ? "mais de 99" : n === 0 && p > 0 ? "menos de 1" : String(n); };
 
 let tela = 0; // pergunta atual (0..2; 3 = pronto)
 let rascunho = null, visto = ""; // o jeito em edição (só a 1ª tela edita sem gravar a cada toque) e o último texto lido
@@ -356,12 +324,6 @@ const miniRocado = (tipo) => {
   }[tipo];
   return `<svg class="hi-mini" viewBox="0 0 60 60" aria-hidden="true"><rect x="1.5" y="1.5" width="57" height="57" rx="6" class="hi-mr-borda${tipo === "nao" ? " incerto" : ""}"/>${corpo}</svg>`;
 };
-
-function opcoesCultura(r) {
-  const card = r.cardapio || [];
-  const serve = (re) => card.some((c) => re.test(c.cultura) && c.situacao !== "fora");
-  return ["milho", "feijao", "mandioca", ...(serve(/^Sorgo/) ? ["sorgo"] : []), ...(serve(/^Palma/) ? ["palma"] : []), "outra"];
-}
 
 function topo(U, n, titulo, eco) {
   return `<div class="hi-quiz-topo"><p class="kicker">Seu jeito de hoje · ${n + 1} de 3</p>
@@ -487,13 +449,22 @@ function mexer(cult, k, d) {
   return c;
 }
 
-// ------------------------------------------------------------------ modo "comparacao": hoje → melhor → ideal
+// ------------------------------------------------------------------ modo "comparacao": hoje → melhorado → ideal (passo 4)
+// Rodada 2 (15/11): os números vêm de extras/ideal.js (comparar3, a mesma fonte do "O que você ganha" do Plano). O passo passa
+// opcoes.c3 = comparar3(...) e opcoes.escolhido = escolhido(...): este módulo não importa ideal.js (ideal.js importa este).
+const SERIE_RS = new Set(["Milho", "Feijão-caupi", "Feijão comum", "Mandioca"]); // as que têm R$ (calculo.js)
+const CRIACAO = new Set(["Sorgo forrageiro", "Milheto", "Palma forrageira", "Gliricídia"]); // forragem: comida da criação, fora do R$
+const CURTO = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão",
+  "Palma forrageira": "palma", "Algodão herbáceo": "algodão", "Mucuna-preta": "mucuna", "Cana-de-açúcar": "cana", Gliricídia: "gliricídia" };
+const curto = (n) => CURTO[n] || String(n || "").toLowerCase();
+const listaE = (xs) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} e ${xs[xs.length - 1]}`);
+
 function largura() {
   const w = globalThis.innerWidth || 1000;
   return Math.round(Math.max(280, Math.min(720, Math.min(1120, w) - (w <= 760 ? 66 : 106))));
 }
 
-/** O gráfico: 3 colunas (o típico em 3 anos) com o traço do caso ruim; degraus hoje → melhor → ideal. */
+/** O gráfico: 3 colunas (o típico em 3 anos) com o traço do caso ruim; degraus hoje → melhorado → ideal; o escolhido com fundo. */
 function grafico(cols, W) {
   const H = 196, topo0 = 30, base0 = H - 46;
   const vals = cols.flatMap((c) => (c.f ? [c.f.p50, c.f.p10] : [])).concat(0);
@@ -503,6 +474,7 @@ function grafico(cols, W) {
   let s = `<line class="hi-g-zero" x1="0" x2="${W}" y1="${y(0)}" y2="${y(0)}"/>`;
   cols.forEach((c, i) => {
     const cx = gap * (i + 0.5), x = cx - bw / 2;
+    if (c.sel) s += `<rect class="hi-g-sel" x="${cx - gap / 2 + 4}" y="2" width="${gap - 8}" height="${H - 4}" rx="12"/>`;
     if (c.f) {
       const a = y(Math.max(0, c.f.p50)), b = y(Math.min(0, c.f.p50));
       s += `<g><title>${c.rot}: típico ${rs(c.f.p50)}; caso ruim ${rs(c.f.p10)}</title>
@@ -517,16 +489,10 @@ function grafico(cols, W) {
       <text class="hi-g-sub" x="${cx}" y="${H - 7}" text-anchor="middle">${c.f ? `ruim ${rs(c.f.p10)}` : ""}</text>`;
     if (i < cols.length - 1) s += `<path class="hi-g-seta" d="M${cx + bw / 2 + 12} ${base0 - 14} l${gap - bw - 30} 0 m-6 -5 l6 5 -6 5"/>`;
   });
-  return `<svg class="hi-graf" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Típico em 3 anos: hoje, melhor e ideal, com o caso ruim">${s}</svg>`;
+  return `<svg class="hi-graf" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Sobra em 3 anos: hoje, melhorado e ideal, com o caso ruim">${s}</svg>`;
 }
 
-/** O número de cada linha: o típico em destaque e o caso ruim pequeno (a prioridade não troca o número). */
-function numeros(f) {
-  if (!f) return `<p class="hi-l-num"><b class="vazio">sem conta</b></p>`;
-  return `<p class="hi-l-num"><b>${rs(f.p50)}</b><small>ruim ${rs(f.p10)}</small></p>`;
-}
-
-/** "milho + feijão, tudo junto" (a % só quando a divisão não é igual): a frase do chip "Hoje" do passo 4. */
+/** "milho + feijão, tudo junto" (a % só quando a divisão não é igual): a frase da linha "Hoje". */
 function textoHoje(h) {
   const ks = Object.keys(h.cult), iguais = ks.every((k) => Math.abs(h.cult[k] - 100 / ks.length) <= 1);
   const cs = ks.map((k) => CULT[k].nome.toLowerCase() + (iguais ? "" : ` ${h.cult[k]}%`)).join(" + ");
@@ -541,126 +507,133 @@ export function descHoje(h) {
   return [cs, arr].filter(Boolean).join(" · ");
 }
 
-function planoMini(r, U) {
-  const fx = (r.plano?.faixas || []).filter((f) => f.parte !== "Bordas" && f.anos?.[0]);
-  return `<div class="hi-plano">${fx.map((f) => {
-    const c = f.anos[0].cultura;
-    return `<span class="hi-parte ${U.tipoCss(f.anos[0].tipo)}" title="${U.esc(f.parte)}, 2027: ${U.esc(c)}">${U.ic(U.icCultura(c))}<small>${U.esc(f.parte.replace("Parte ", ""))}</small></span>`;
-  }).join("")}</div>`;
+/** Valor de um item de ideal.beneficios na célula da tabela ("R$ 1.010", "2 em 10"; null = "não medido"). */
+function valorItem(it) {
+  if (!it || it.valor == null) return `<span class="hi-nm">não medido</span>`;
+  return it.unidade === "em 10" ? `${n0(it.valor)} em 10` : rs(it.valor);
 }
 
+/** O que fica fora do R$ (hoje e os planos à vista): forragem → "comida da criação"; o resto → "o IBGE não tem a série aqui". */
+function foraDoRs(h, c3, tipos) {
+  const nomes = new Set();
+  for (const k of Object.keys(h.cult)) { const n = CULT[k]?.motor; if (k === "outra") nomes.add("outra"); else if (n && !SERIE_RS.has(n)) nomes.add(n); }
+  for (const t of tipos) for (const n of c3[t]?.beneficios?.rs?.semRs || []) nomes.add(n);
+  for (const t of tipos) for (const f of c3[t]?.plano?.faixas || []) for (const c of f.anos || []) if (CRIACAO.has(c.cultura) && f.parte !== "Bordas") nomes.add(c.cultura);
+  const cria = [...nomes].filter((n) => CRIACAO.has(n)), sem = [...nomes].filter((n) => !CRIACAO.has(n) && n !== "outra");
+  const out = [];
+  if (cria.length) out.push(`${cap(listaE(cria.map(curto)))}: comida da criação, fora do R$.`);
+  if (sem.length) out.push(`O IBGE não tem a série de ${listaE(sem.map(curto))} aqui: fora do R$.`);
+  if (nomes.has("outra")) out.push("A \"outra\" cultura fica fora do R$.");
+  return out;
+}
+const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+
+/** A mandioca nova do plano custa em 2027 e só colhe em 2028 (por isso 2027 sai abaixo de hoje). */
+const manivaNova = (p) => (p?.faixas || []).some((f) => /^Parte /.test(f.parte) && f.anos?.[0]?.cultura === "Mandioca" && !f.anos[0].ja_no_chao);
+
 /**
- * Modo "comparacao": o gráfico Hoje → Melhor → Ideal e, embaixo, uma linha para cada (o Melhor aberto, com até 3 ajustes).
- * opcoes: semTitulo (o passo já tem o título), linkMudar, ruim (HTML do "1 em 10", para o glossário do passo), olhoAgro (texto do "seu olho"
- * do aviso de lavoura grande) e detalhesEm
- * (elemento onde vai o "como calculamos"; sem ele, o módulo põe o próprio "Ver como calculamos" no fim).
+ * Modo "comparacao": o gráfico Hoje → Melhorado → Ideal (sobra em 3 anos), uma linha para cada (o que é, e o "mudar") e as 3 linhas
+ * de R$ do "O que você ganha" (ano normal, 2027, anos de quebra). opcoes: c3, escolhido (de extras/ideal.js), linkMudar (Sua roça),
+ * linkIdeal (O plano, lado "O ideal", onde a prioridade muda), ruim (HTML do "1 em 10", para o glossário) e olhoAgro (texto do
+ * "seu olho" do aviso de lavoura grande).
  */
 function desenharComparacao(el, ctx, opcoes) {
   const { r, ef, util: U } = ctx;
+  const c3 = opcoes.c3, esc = opcoes.escolhido || {};
+  if (!c3) { el.innerHTML = ""; return; }
   const h = lerHoje(ctx.resp?.hoje || "", r.padroes);
-  const c = comparar(r, ef, h);
+  const B = { hoje: c3.hoje?.beneficios, melhor: c3.melhor?.beneficios, ideal: c3.ideal?.beneficios };
+  const sel = esc.tipo === "ideal" ? "ideal" : "melhor";
+  const pi = c3.ideal?.plano, pm = c3.melhor?.plano;
+  const rsOk = ["hoje", "melhor", "ideal"].map((t) => B[t]?.rs).filter((x) => x?.ok);
+  const info = rsOk[0]?.info;
   const mun = r.local?.municipio || "aqui";
-  const agro = c.agro.length > 0;
-  const FONTE = `${c.base ? `${n0(c.base.n)} combinações de anos já vistos em ${mun} (2027 entre os El Niños fortes ${c.base.anosEN.join(", ")}; 2028 e 2029 entre os ${c.base.anos} anos)` : "IBGE PAM"}; IBGE PAM 1998–2025 em R$ de 2025; custo CONAB (${c.nivel === "desembolso" ? "máquina e insumos" : "só a semente"})`;
-  const linkMudar = opcoes.linkMudar || ctx.link?.(2) || "#";
+  const agro = rsOk.some((x) => x.agro?.length);
+  const FONTE = `${info ? `${n0(info.n)} combinações de anos já vistos em ${mun} (2027 entre os El Niños fortes ${info.anosEN.join(", ")}; 2028 e 2029 entre os ${info.anos} anos)` : "IBGE PAM"}; IBGE PAM 1998–2025 em R$ de 2025; custo CONAB (${ef.custo === "desembolso" ? "máquina e insumos" : "só a semente"}); a mão de obra da família não entra`;
 
-  // abertura
-  const sobe = c.hoje && c.melhor && c.melhor.f.p50 > c.hoje.f.p50;
-  const h1 = c.hoje ? (sobe ? "Dá para tirar mais do mesmo roçado." : "O seu jeito, lado a lado com o plano.") : "Do seu jeito ao máximo.";
-  const abertura = `<div class="titulo-passo"><p class="kicker">Hoje · melhor · ideal</p>
-    <h1>${h1}<span class="eco">Hoje, com ajustes, e o máximo.</span></h1>
-    <p>O seu roçado de ${U.ha(ef.ha)} refeito nos anos que já aconteceram em ${U.esc(mun)}.</p></div>`;
-  const chipHoje = `<a class="hi-mudar" href="${linkMudar}" data-editar="hoje" title="Mudar como você planta hoje">${U.esc(textoHoje(h))}${h.informado ? "" : " (o comum daqui)"} · <u>mudar</u></a>`;
-  const semRs = c.semRs.length ? `<div class="hi-linha-chips"><span class="chip ambar">${U.esc(c.semRs.join(", "))}: ${c.semRs.includes("outra") ? "" : "comida da criação, "}fora do R$</span></div>` : "";
-
-  // gráfico
-  const cols = [{ rot: "Hoje", cls: "hoje", f: c.hoje?.f }, { rot: "Melhor", cls: "melhor", f: c.melhor?.f }, { rot: "Ideal", cls: "ideal", f: c.ideal?.f }];
+  // gráfico (os 3 anos: o número do passo 4)
+  const COLS = [["hoje", "Hoje"], ["melhor", "Melhorado"], ["ideal", "Ideal"]];
+  const cols = COLS.map(([t, rot]) => ({ rot, cls: t, sel: t === sel, f: B[t]?.rs?.ok ? B[t].rs.tres_anos : null }));
   const temNum = cols.some((x) => x.f);
 
-  // avisos de dado (falta uma série ou lavoura grande): com gráfico, numa linha logo abaixo dele, no mesmo painel; sem gráfico, um painel
+  // avisos de dado: sem a série, uma parte sem conta ou lavoura grande
+  const faltas = [...new Set(["hoje", "melhor", "ideal"].flatMap((t) => (B[t]?.rs && !B[t].rs.ok ? B[t].rs.falta || [] : [])))];
   let avTit = "", avCorpo = "";
-  if (!c.fin || c.falta.length) {
-    avTit = !c.fin ? "Sem a série do IBGE daqui, não inventamos R$." : "Uma parte da conta não fecha aqui.";
-    avCorpo = `<div class="hi-linha-chips">${c.falta.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>
-      ${temNum ? "" : `<p class="pequeno sub">Mostramos só o que dá: os alertas e os ajustes valem do mesmo jeito.</p>`}`;
+  if (!r.financeiro || !temNum) {
+    avTit = !r.financeiro ? "Sem a série do IBGE daqui, não inventamos R$." : "Aqui a conta de R$ não fecha.";
+    avCorpo = `<div class="hi-linha-chips">${faltas.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>`;
+  } else if (faltas.length) {
+    avTit = "Uma parte da conta não fecha aqui.";
+    avCorpo = `<div class="hi-linha-chips">${faltas.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>`;
   } else if (agro) {
-    const a = [...c.agro].sort((x, y) => y.kg / y.conab - x.kg / x.conab)[0];
+    const a = rsOk.flatMap((x) => x.agro || []).sort((x, y) => y.kg / y.conab - x.kg / x.conab)[0];
     avTit = "Aqui o IBGE mistura lavoura grande.";
-    // o selo vai no fim da linha de baixo, junto da etiqueta "seu olho" (as duas pequenas cabem numa linha a 390 px)
     const selo = U.selo("medido", `IBGE PAM 1998–2025 (${a.cultura.toLowerCase()} ${n0(a.kg)} kg/ha) e planilhas da agricultura familiar da CONAB (${n0(a.conab)} kg/ha)`);
     avCorpo = `<p class="hi-olho-linha">Os R$ só servem para comparar.${opcoes.olhoAgro ? ` ${U.esc(opcoes.olhoAgro)} <em class="hi-tag olho">${OLHO}seu olho</em>` : ""} ${selo}</p>`;
   }
   const aviso = !avTit ? "" : temNum ? `<div class="hi-aviso-linha">${U.ic("alerta")}<div><b>${avTit}</b>${avCorpo}</div></div>`
     : `<section class="painel alerta hi-aviso">${U.faixa("alerta", "terra", avTit)}${avCorpo}</section>`;
 
+  // uma linha para cada caminho
+  const tag = (t) => (t === sel ? ` <em class="hi-tag sel" title="o lado escolhido em O plano: o Relatório segue este">escolhido</em>` : "");
+  const linha = (t, icone, rot, desc) => `<div class="hi-bloco ${t}"><div class="hi-linha"><div class="hi-l-txt"><p class="hi-l-rot">${U.ic(icone)}${rot}${tag(t)}</p>${desc}</div></div></div>`;
+  const linkMudar = opcoes.linkMudar || ctx.link?.(2) || "#";
+  const chipHoje = `<a class="hi-mudar" href="${linkMudar}" data-editar="hoje" title="Mudar como você planta hoje">${U.esc(textoHoje(h))}${h.informado ? "" : " (o comum daqui)"} · <u>mudar</u></a>`;
+  const descMelhor = pm?.nao_gira ? (pm.notas?.[0] || "Uma cultura só: não dá para girar.") : "Só o que você planta, girando em faixas.";
+  // sem resposta, a prioridade é a padrão pelos números (ideal.escolhaPadrao): "(sugerido: a que mais sobra em 2027)"
+  const sugerido = esc.prioridade_origem && esc.prioridade_origem !== "resposta"
+    ? (/sobra/.test(esc.prioridade_origem) ? ` (sugerido: ${U.esc(esc.prioridade_origem)})` : /El Niño/.test(esc.prioridade_origem) ? " (sugerido: El Niño)" : " (sugerido)") : "";
+  const linkIdeal = opcoes.linkIdeal || ctx.link?.(3) || "#";
+  const descIdeal = `<a class="hi-mudar" href="${linkIdeal}" title="Mudar o que vale mais para você, no plano">O que vale mais: <b>${U.esc(pi?.nome || "")}</b>${sugerido} · <u>mudar</u></a>
+    ${pi?.manchete && pi.jeito !== "plano" ? `<p class="hi-l-desc">${U.esc((mancheteIdeal(pi, pm) || pi.manchete).replace(/^[^:]+:\s*/, "").replace(/^./, (x) => x.toUpperCase()))}</p>` : ""}`;
+  const linhas = linha("hoje", "enxada", "Hoje", chipHoje) + linha("melhor", "ok", "Melhorado", `<p class="hi-l-desc">${U.esc(descMelhor)}</p>`) +
+    linha("ideal", "escudo", "Ideal", descIdeal);
+
+  // as 3 linhas de R$ de "O que você ganha" (a mesma fonte: ideal.beneficios)
+  const item = (t, id) => B[t]?.itens?.find((x) => x.id === id) || null;
+  const tab = !r.financeiro ? "" : `<div class="hi-tab" role="table" aria-label="Sobra e quebra: hoje, melhorado e ideal">
+    <div class="hi-tab-cab" role="row"><span></span>${COLS.map(([t, rot]) => `<span class="hi-tab-col ${t}${t === sel ? " sel" : ""}" role="columnheader">${rot}</span>`).join("")}</div>
+    ${["rs_tipico", "rs_el_nino", "quebra_10"].map((id) => {
+      const ref = item(sel, id) || item("hoje", id);
+      return `<div class="hi-tab-lin" role="row"><span class="hi-tab-rot" role="rowheader">${U.esc(ref?.rotulo || id)} ${ref ? U.selo(ref.selo, ref.fonte) : ""}</span>
+        ${COLS.map(([t]) => { const it = item(t, id); return `<span class="hi-tab-val${t === sel ? " sel" : ""}" role="cell" title="${U.esc(it?.fonte || "")}">${valorItem(it)}</span>`; }).join("")}</div>`;
+    }).join("")}</div>`;
+  const notas = foraDoRs(h, c3, ["melhor", "ideal"]);
+  const v27 = (t) => item(t, "rs_el_nino")?.valor;
+  const caiEm27 = ["melhor", "ideal"].filter((t) => manivaNova(c3[t]?.plano) && v27(t) != null && v27("hoje") != null && v27(t) < v27("hoje"));
+  if (caiEm27.length) notas.unshift("Em 2027 a maniva nova só custa: colhe em 2028.");
+  const chips = notas.length ? `<ul class="hi-notas">${notas.map((n) => `<li>${U.esc(n)}</li>`).join("")}</ul>` : "";
+
   const graf = temNum ? `<section class="painel hi-graf-bloco">
-      <div class="hi-rot">${U.ic("grafico")}<span>Em 3 anos · sobra ${U.selo("projecao", "2027 a 2029. " + FONTE)}</span></div>
+      <div class="hi-rot">${U.ic("grafico")}<span>Em 3 anos (2027 a 2029), sobra ${U.selo("projecao", FONTE)}</span></div>
       <div class="${agro ? "hi-apagado" : ""}"><div class="hi-graf-caixa">${grafico(cols, largura())}</div>
-      <p class="hi-legenda"><i class="hi-leg-bar"></i>típico <i class="hi-leg-ruim"></i>caso ruim: ${opcoes.ruim || "1 em 10"}</p></div>${aviso}</section>` : aviso;
-
-  // uma linha para cada caminho; o Melhor fica aberto com até 3 ajustes (o resto em "Mais N ajustes"). Com o gráfico, os R$ ficam
-  // só nele (não se repetem nos cartões); sem gráfico, cada linha mostra o seu
-  const linha = (icone, rot, desc, f, baixo = "") => `<div class="hi-linha"><div class="hi-l-txt"><p class="hi-l-rot">${U.ic(icone)}${rot}</p>${desc}</div>${temNum ? "" : numeros(f)}${baixo}</div>`;
-  const blocoHoje = `<div class="hi-bloco hoje">${linha("enxada", "Hoje", chipHoje, c.hoje?.f)}${semRs}</div>`;
-
-  const frente3 = c.lista.slice(0, 3), resto = c.lista.slice(3);
-  const item = (a) => `<li class="${a.olho ? "com-olho" : ""}">${U.ic(a.icone)}<span>${U.esc(a.txt)}${a.passo && ctx.link ? ` <a href="${ctx.link(a.passo)}">ver</a>` : ""}
-    ${a.maniva ? `<em class="hi-tag">precisa de maniva</em>` : ""}${a.olho ? `<em class="hi-tag olho">${OLHO}seu olho</em>` : ""}</span>
-    ${a.conta ? `<b class="hi-ganho" title="sozinho, típico em 3 anos">${mais(a.ganho.p50)}</b>` : ""}</li>`;
-  const blocoMelhor = `<div class="hi-bloco melhor">
-    ${linha("ok", `Melhor ${U.selo("suposicao", "ajustes sugeridos no seu jeito; as áreas são suposição; os R$ saem da mesma conta (" + FONTE + ")")}`,
-      `<p class="hi-l-desc">o seu jeito, ${c.melhor?.igual ? "mais protegido" : "com ajustes"}</p>`, c.melhor?.f)}
-    <ol class="hi-ajustes">${frente3.map(item).join("")}</ol>
-    ${resto.length ? U.verMais(`<ol class="hi-ajustes">${resto.map(item).join("")}</ol>`, `Mais ${resto.length} ajuste${resto.length > 1 ? "s" : ""}`) : ""}</div>`;
-
-  const forr = (c.ideal?.it || []).flat().some((i) => i.uso);
-  const atras = c.ideal && c.hoje && c.ideal.f.p50 < Math.max(c.hoje.f.p50, c.melhor?.f.p50 ?? -Infinity);
-  const blocoIdeal = `<div class="hi-bloco ideal">${linha("escudo", "Ideal", `<p class="hi-l-desc">o plano completo</p>`, c.ideal?.f, planoMini(r, U))}
-    ${atras && forr ? `<p class="hi-nota">O sorgo vira comida da criação, fora do R$.</p>` : ""}</div>`;
-
-  // "como calculamos": no passo 4 vai para o "Ver como calculamos" do passo (opcoes.detalhesEm); fora dele, fica aqui (ponto 16 junto)
-  const det = detalhes(c, r, ef, h, U, FONTE);
-  let fecho = "";
-  if (opcoes.detalhesEm) opcoes.detalhesEm.innerHTML = det;
-  else fecho = `<section class="painel hi-fecho">${U.faixa("enxada", "verde", "Quem decide é você, com o técnico.")}
-    ${c.olho ? `<p class="hi-olho">${OLHO}<span>O que mais depende do seu olho: <b>${U.esc(c.olho.txt.replace(/\.$/, ""))}</b></span></p>` : ""}
-    ${U.verMais(det, "Ver como calculamos")}</section>`;
-
-  el.innerHTML = `<div class="hoje-ideal hi-comparacao">${opcoes.semTitulo ? "" : abertura}${graf}
-    <section class="painel hi-tres${agro ? " agro" : ""}">${blocoHoje}${blocoMelhor}${blocoIdeal}</section>${fecho}</div>`;
+      <p class="hi-legenda"><i class="hi-leg-bar"></i>típico <i class="hi-leg-ruim"></i>caso ruim: ${opcoes.ruim || "1 em 10"}</p></div>
+      ${linhas}${tab}${chips}${aviso}</section>` : `${aviso}<section class="painel hi-graf-bloco">${linhas}${chips}</section>`;
+  el.innerHTML = `<div class="hoje-ideal hi-comparacao${agro ? " agro" : ""}">${graf}</div>`;
 }
 
-function detalhes(c, r, ef, h, U, FONTE) {
-  const lin = (rot, x) => (x ? `<tr><td>${rot}</td><td>${rs(x.f.p10)}</td><td><b>${rs(x.f.p50)}</b></td><td>${rs(x.f.p90)}</td>
-    <td>${x.q ? `${x.q.k} de ${x.q.n}` : "—"}</td><td>${x.aFrente == null ? "—" : `${de100(x.aFrente)} de 100`}</td></tr>` : `<tr><td>${rot}</td><td colspan="5">sem conta</td></tr>`);
-  const A = c.A, sc = c.cenM;
-  const areasTxt = (ha, P = 0, fonte = {}) => Object.keys(CULT).filter((k) => (ha[k] || 0) - (fonte[k] || 0) > 0.005 || (k === "mandioca" && (ha[k] || 0) + P > 0.005))
-    .map((k) => `${CULT[k].nome.toLowerCase()} ${haTxt((ha[k] || 0) - (fonte[k] || 0) + (k === "mandioca" ? P : 0))}`).join(", ");
-  const ajustes = c.ajustes.map((a) => `<li>${U.esc(TXT_AJ[a.id](a, ef).txt)} Sozinho: típico ${mais(a.ganho.p50)} em 3 anos (caso ruim ${mais(a.ganho.p10)}),
-    à frente de hoje em ${de100(a.aFrente)} de 100.</li>`).join("");
-  const alertas = c.alertas.map((a) => `<li>${U.esc(a.txt)}${a.medido ? ` ${U.selo("medido", "IBGE PAM 1998–2025")}` : ""}</li>`).join("");
-  return `${alertas ? `<h4>O que pesa no jeito de hoje</h4><ul>${alertas}</ul>` : ""}
-    <h4>Os três caminhos</h4>
-    <div class="hi-rola"><table><thead><tr><th>em 3 anos</th><th>caso ruim</th><th>típico</th><th>caso bom</th><th>anos de quebra</th><th>à frente de hoje</th></tr></thead>
-    <tbody>${lin("Hoje", c.hoje)}${lin("Melhor", c.melhor)}${lin("Ideal", c.ideal)}</tbody></table></div>
-    <p>"Sobra" = valor da colheita (vender ou comer, a preço da região) menos ${c.nivel === "desembolso" ? "máquina, insumos e serviços (CONAB)" : "a semente (CONAB)"}. Nunca é lucro: a mão de obra da família não entra.
-      ${U.selo("projecao", FONTE)} ${c.base ? `${n0(c.base.n)} combinações: 2027 é um dos El Niños fortes (${c.base.anosEN.join(", ")}); 2028 e 2029, qualquer um dos ${c.base.anos} anos de ${c.base.ano0} a ${c.base.ano1}. O mesmo ano vale para todas as culturas e para os três caminhos.` : ""}
-      Caso ruim = 1 em cada 10 combinações; caso bom = 9 em 10.</p>
-    <h4>As áreas ${U.selo("suposicao", "divisão informada; regras de área do módulo")}</h4>
-    <ul><li>Hoje, em ${U.ha(A.T)}${A.b > 0 ? ` (${U.ha(A.b)} de baixio)` : ""}: ${U.esc(areasTxt(A.ha))}. Tudo junto ou em pedaços dá o mesmo R$ por ha: a série do IBGE não separa.
-      A mandioca fica duas estações no chão: por ano, metade colhe e metade planta.</li>
-      ${sc && c.melhor && !c.melhor.igual ? `<li>Melhor${sc.P > 0 ? ", a partir de 2028" : ""}: ${U.esc(areasTxt(sc.ha, sc.P, sc.fonte))}.${sc.P > 0
-        ? ` Em 2027 só metade do pedaço novo de mandioca é plantado, e ele colhe a partir de 2028${ef.maniva === "plantada" ? " (com a maniva já no chão, colhe em 2027)" : ""}.` : ""}</li>` : ""}
-      <li>Ideal: o plano (partes A, B e C do mesmo tamanho, baixio = metade milho e metade ${U.esc((r.plano?.leguminosa || "caupi").toLowerCase())}), com a mesma conta.</li></ul>
-    ${ajustes ? `<h4>Os ajustes que têm conta</h4><ul>${ajustes}</ul>` : ""}
-    <p>"Milho só no baixio": a conta só vê a troca de milho por feijão na terra alta; o ganho do baixio úmido não está medido. Janela, metade guardada, faixas, fogo e semente
-      não têm R$: o IBGE não separa quem faz e quem não faz. ${U.selo("suposicao", "efeito em R$ não medido; as datas são do ZARC 2026/27")}</p>
-    <h4>Quebra</h4>
-    <p>Ano em que a colheita do roçado (já rodando, no 3º ano) vale menos da metade do típico dele mesmo, nos ${c.base?.anos ?? 28} anos do IBGE. É a régua do IBGE para uma cultura
-      (rendimento abaixo de 0,5 × a mediana). ${c.hoje?.q ? `Hoje: ${c.hoje.q.k} de ${c.hoje.q.n} anos; nos El Niños fortes, ${c.hoje.q.enQ} de ${c.hoje.q.nEN}.` : ""}
-      ${U.selo("medido", "IBGE PAM 1998–2025")}</p>
-    ${c.mult !== 1 || (h.cult.mandioca || 0) > 0 || c.ajustes.some((a) => a.id === "reserva") ? `<p>Raiz da mandioca a R$ ${n0(c.preco, 2)}/kg (a mesma de Ajustar a conta). É o número que mais pesa na conta.</p>` : ""}
-    <p>Fora da conta: forragem (sorgo, palma), Garantia-Safra, mão de obra, frete e o ganho da rotação contra o consórcio de hoje (não medido).</p>`;
+/** A manchete do ideal comparada ao SEU JEITO (pi = ideal.planoIdeal, pm = ideal.planoMelhor): o que o ideal tem a mais em partes ×
+ *  anos, fora das bordas (entra o que ganha 2 ou mais; forragem não é "para vender"). Usada no Plano e em Quanto rende. A manchete
+ *  de cenarios.js compara com o plano do núcleo e dizia "Mais renda: mais feijão" com mandioca em 2 das 3 partes (Quixadá, 15/11).
+ *  null = sem diferença clara (fica a manchete de pi). Mora aqui porque ideal.js importa este arquivo (sem ciclo). */
+const PQ_M = { garantir: ["que aguenta a seca", "que aguentam a seca"], vender: ["para vender", "para vender"],
+  solo: ["que cuida da terra", "que cuidam da terra"] };
+const NOME_M = { garantir: "Guardar água", vender: "Mais renda", solo: "Cuidar do solo" };
+const CURTO_M = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão",
+  "Palma forrageira": "palma", "Mucuna-preta": "mucuna", "Algodão herbáceo": "algodão", "Cana-de-açúcar": "cana", "Pousio pastejado": "descanso" };
+const FORRAGEM_M = new Set(["sorgo forrageiro", "palma", "milheto", "gliricídia", "mucuna"]);
+export function mancheteIdeal(pi, pm) {
+  const pri = pi?.prioridade;
+  if (!PQ_M[pri] || !pm) return null;
+  const curto = (c) => { const b = String(c || "").replace(/ no milho em pé$/, "").trim(); return CURTO_M[b] || b.toLowerCase(); };
+  const conta = (p) => { const g = {}; for (const f of p?.faixas || []) if (f.parte !== "Bordas") for (const a of f.anos || [])
+    for (const c of String(a.cultura || "").split(" + ")) { const k = curto(c); g[k] = (g[k] || 0) + 1; } return g; };
+  const ci = conta(pi), cm = conta(pm), dif = (k) => ci[k] - (cm[k] || 0);
+  const mais = Object.keys(ci).filter((k) => k !== "descanso" && dif(k) >= 2 && !(pri === "vender" && FORRAGEM_M.has(k)))
+    .sort((x, y) => dif(y) - dif(x)).slice(0, 2);
+  if (!mais.length) return null;
+  const lista = mais.length > 1 ? `${mais[0]} e ${mais[1]}` : mais[0];
+  return `${NOME_M[pri]}: mais ${lista}, ${PQ_M[pri][mais.length > 1 ? 1 : 0]}.`;
 }
 
 // Peças reaproveitadas pela tela única "Sua roça" (passos/perguntas.js).

@@ -5,11 +5,18 @@
 // ainda não existir) no lugar dos 6 anos com ONI ≥ 0,5; sai a aba Alerta (percentil fixo do SMAP de out/2026);
 // abas vazias (Veranico, Preparo, Entressafra) escondidas; botão "Montar o plano do meu roçado →" (roca.html#/<cod>/2,
 // target=_top); no iframe, avisa a página de cima quando desenhou (postMessage 'painel-pronto').
+// Rodada 2 (D6): o antigo passo "Do espaço" da jornada veio para cá, em 3 abas novas (api: true) que só pedem
+// /api/local?cod= quando abrem (no painel sozinho, um pouco depois de desenhar): "Solo e clima" (a chuva chega, o solo
+// hoje do SMAP e as tendências), "E se chover" (o controle da chuva e, no ver mais do iframe, cada ano) e "Os dados"
+// (confiança, satélite × pluviômetro, as grades de cada satélite e o glossário). Os blocos são os extras da jornada
+// (js/extras/, montados por montarExtras de comum.js com um ctx mínimo: r, cod, util, ef.ha). Todo número leva selo
+// (comum.js), e tocar no selo mostra a fonte por 5 s na dica.
 // rocacerta.js - painel do municipio: abas, faixa de sinal, indicadores, mapa e grafico.
 // Pouco texto: cada informacao e um desenho com um numero. Dados (dados/, gerados por
 // ferramentas/gerar_municipios.py do JP): municipios_ne.json (IMERG, IBGE, ONI) e malha_ne.json (malha IBGE).
 
 import { faixaDe, naEstacao as estacaoTem } from './util.js';
+import * as U from '../comum.js';
 
 // ?embutido=1: dentro do painel lateral do globo (o mapa ja esta a esquerda): sem topo, sem mapa, tema escuro
 const PARAMS = new URLSearchParams(location.search);
@@ -56,6 +63,7 @@ const IC = {
   alerta: '<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16v.5"/>',
   mais: '<path d="M12 5v14M5 12h14"/>',
+  escudo: U.IC.escudo,
 };
 const ic = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 const janela = (m) => (m[F.ini] == null ? '' : `${MES[m[F.ini] - 1]}–${MES[(m[F.ini] + 2) % 12]}`);
@@ -126,9 +134,23 @@ function parte(f) {
   return `<svg viewBox="0 0 ${W} 22" aria-hidden="true"><rect x="0" y="5" width="${W}" height="12" rx="6" fill="var(--surface-2)"/>
     <rect x="0" y="5" width="${Math.max(12, f * W)}" height="12" rx="6" fill="var(--green)"/></svg>`;
 }
-const ind = (icone, titulo, valor, sub, mini) =>
-  `<article class="ind"><h3>${ic(icone)}${titulo}</h3><p class="valor">${valor}</p>${sub ? `<p class="sub">${sub}</p>` : ''}<div class="mini">${mini || ''}</div></article>`;
+// selo (comum.js): MEDIDO / SUPOSIÇÃO / PROJEÇÃO com a fonte curta; a fonte inteira no toque (ligarSelos)
+const ind = (icone, titulo, valor, sub, mini, selo = '') =>
+  `<article class="ind"><h3>${ic(icone)}<span>${titulo}</span>${selo}</h3><p class="valor">${valor}</p>${sub ? `<p class="sub">${sub}</p>` : ''}<div class="mini">${mini || ''}</div></article>`;
+const IMERG = 'NASA GPM IMERG V07, por município, 1998–2025';
+const IMERG_PAM = 'NASA GPM IMERG V07 (chuva da estação) × IBGE PAM (rendimento do milho), por município, 1998–2025; correlação de Spearman';
 const indVazio = () => '<article class="ind vazio">a definir</article>';
+
+// mini-graficos das abas da API (r = /api/local): a janela em que a chuva chega (8 em 10 anos) e o solo de hoje entre os anos
+const SOLO_CURTO = { 'seco para a época': 'Seco', 'úmido para a época': 'Úmido', 'normal para a época': 'Normal' };
+const smapFonte = (sm) => `NASA SMAP L4, umidade da zona da raiz, 30 dias até ${U.dataBR(sm.fim)}; posição ${sm.posto} de ${sm.anos} anos (1 = o mais seco)`;
+function chega(ini) {
+  const mes = (s) => (s ? Number(String(s).split('/')[1]) - 1 : null), a = mes(ini.p10), b = mes(ini.p90);
+  const dentro = (i) => a != null && b != null && (a <= b ? i >= a && i <= b : i >= a || i <= b);
+  return `<div class="meses" aria-hidden="true">${MES.map((x, i) => `<span class="${dentro(i) ? 'on' : ''} ${i === HOJE ? 'hoje' : ''}">${x[0].toUpperCase()}</span>`).join('')}</div>`;
+}
+const postoSolo = (sm) => `<div class="fila" aria-hidden="true">${Array.from({ length: sm.anos }, (_, i) => `<i class="${i + 1 === sm.posto ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="pontas" aria-hidden="true"><span>mais seco</span><span>mais úmido</span></div>`;
 
 // ------------------------------------------------------------------ graficos grandes (SVG)
 
@@ -168,16 +190,20 @@ const ABAS = [
       if (!e) return { tipo: 'idle', icone: 'info', titulo: 'Sem dado de El Niño forte para este estado', pilula: '' };
       // em palavras da roça (como em Do espaço); o "acaso" fica no indicador ao lado
       const frase = `Nos anos de El Niño forte, a chuva veio fraca em ${emDez(e.media)} de 10 municípios ${de}.`;
-      if (e.media < 40) return { tipo: 'info', icone: 'info', titulo: `${frase} É perto do acaso (${emDez(ACASO)} em 10).`, pilula: 'Previsão firma em fevereiro' };
-      return { tipo: 'warn', icone: 'alerta', titulo: frase, pilula: 'Previsão firma em fevereiro' };
+      const selo = U.selo('medido', NINO.definicao || IMERG);
+      if (e.media < 40) return { tipo: 'info', icone: 'info', titulo: `${frase} É perto do acaso (${emDez(ACASO)} em 10).`, pilula: 'Previsão firma em fevereiro', selo };
+      return { tipo: 'warn', icone: 'alerta', titulo: frase, pilula: 'Previsão firma em fevereiro', selo };
     },
     indicadores(m) {
       const e = enso(m), oni = D.oni, titulo = `Terço mais seco ${UF_EM[m[F.uf]]}`;
-      return ind('termo', 'El Niño agora', `${oni.valor > 0 ? '+' : ''}${fmt.format(oni.valor)}<small>°C</small>`, `o mar de ${ONI_TRI} · forte a partir de +1,5`, escalaOni(oni.valor))
-        + (e ? ind('chuva', titulo, `${emDez(e.media)}<small>em 10</small>`, `municípios, por ano de El Niño forte · acaso: ${emDez(ACASO)}`, anosEstado(e))
+      return ind('termo', 'El Niño agora', `${oni.valor > 0 ? '+' : ''}${fmt.format(oni.valor)}<small>°C</small>`, `o mar de ${ONI_TRI} · forte a partir de +1,5`, escalaOni(oni.valor),
+        U.selo('medido', `NOAA/CPC ONI (Niño 3.4), trimestre ${ONI_TRI}`))
+        + (e ? ind('chuva', titulo, `${emDez(e.media)}<small>em 10</small>`, `municípios, por ano de El Niño forte · acaso: ${emDez(ACASO)}`, anosEstado(e),
+          U.selo('medido', NINO.definicao || IMERG))
           : ind('chuva', titulo, '…', NINO ? 'sem dado para este estado' : 'carregando dados', ''))
         + ind('info', 'Previsão firma', 'fev', 'quando sai o prognóstico oficial', regua())
-        + ind('sol', 'Chuva típica da estação', `${fmt.format(m[F.normal] ?? 0)}<small>mm</small>`, `desde o início da chuva · mediana 1998–2025 sem El Niño forte`, meses(m));
+        + ind('sol', 'Chuva típica da estação', `${fmt.format(m[F.normal] ?? 0)}<small>mm</small>`, `desde o início da chuva · mediana 1998–2025 sem El Niño forte`, meses(m),
+          U.selo('medido', `${IMERG}; mediana dos anos sem El Niño forte`));
     },
     mapa: {
       titulo: 'Terço mais seco nos anos de El Niño forte, por estado', valor: (m) => enso(m)?.media, cortes: [45, 55, 65],
@@ -199,16 +225,18 @@ const ABAS = [
     id: 'plantar', nome: 'Plantar', icone: 'broto',
     faixa(m) {
       const l = ligacao(m);
-      return { tipo: 'info', icone: 'broto', titulo: `Estação de chuva: ${janela(m)}`, pilula: l ? `Chuva e milho: ligação ${l.palavra}` : '' };
+      return { tipo: 'info', icone: 'broto', titulo: `Estação de chuva: ${janela(m)}`, pilula: l ? `Chuva e milho: ligação ${l.palavra}` : '',
+        selo: U.selo('medido', `${IMERG}; os 4 meses mais chuvosos`) };
     },
     indicadores(m) {
       const l = ligacao(m), clima = m[F.clima], ano = clima.reduce((a, b) => a + (b ?? 0), 0);
       const est = clima.reduce((a, v, i) => a + (naEstacao(m, i) ? v ?? 0 : 0), 0);
-      return ind('broto', 'Início da estação', MES[(m[F.ini] ?? 1) - 1], '4 meses mais chuvosos', meses(m))
-        + ind('chuva', 'Chuva na estação', `${fmt.format(Math.round((est / Math.max(ano, 1)) * 100))}<small>%</small>`, 'da chuva do ano', parte(est / Math.max(ano, 1)))
-        + (l ? ind('milho', 'Chuva e milho', `ligação ${l.palavra}`, `${fmt.format(l.r)} de correlação`, degraus(l.nivel)) : indVazio())
+      const sImerg = U.selo('medido', IMERG), sPam = U.selo('medido', IMERG_PAM);
+      return ind('broto', 'Início da estação', MES[(m[F.ini] ?? 1) - 1], '4 meses mais chuvosos', meses(m), sImerg)
+        + ind('chuva', 'Chuva na estação', `${fmt.format(Math.round((est / Math.max(ano, 1)) * 100))}<small>%</small>`, 'da chuva do ano', parte(est / Math.max(ano, 1)), sImerg)
+        + (l ? ind('milho', 'Chuva e milho', `ligação ${l.palavra}`, `${fmt.format(l.r)} de correlação`, degraus(l.nivel), sPam) : indVazio())
         + (l && l.nivel === 3 && m[F.pct100] > 0 && m[F.pct100] < 80
-          ? ind('gota', 'A cada 100 mm', `<span class="conta">${ic('gota')}+100<span class="seta"></span>${ic('milho')}+${m[F.pct100]}%</span>`, 'mais chuva, mais milho', '')
+          ? ind('gota', 'A cada 100 mm', `<span class="conta">${ic('gota')}+100<span class="seta"></span>${ic('milho')}+${m[F.pct100]}%</span>`, 'mais chuva, mais milho', '', sPam)
           : ind('gota', 'A cada 100 mm', '–', 'ligação fraca demais para medir', ''));
     },
     mapa: {
@@ -224,6 +252,50 @@ const ABAS = [
         dica: (i) => `<b>${MES[i]}${i === HOJE ? ' · agora' : ''}</b>${fmt.format(vals[i] ?? 0)} mm, média 1998–2025`,
       });
       return [['var(--green)', 'estação de chuva'], ['var(--meio)', 'resto do ano']];
+    },
+  },
+  // rodada 2 (D6): o antigo passo "Do espaço" da jornada. api: true = faixa e corpo vêm de /api/local?cod= (r) e dos
+  // extras da jornada (montarExtras); sem mapa nem gráfico do JP. No iframe do globo o pesado fica num "ver mais".
+  {
+    id: 'clima', nome: 'Solo e clima', icone: 'solo', api: true,
+    faixa(m, r) {
+      const sm = r.este_ano?.smap, ini = r.este_ano?.inicio;
+      const pilula = ini?.mediana ? `A chuva chega ~${U.esc(ini.mediana)}` : '';
+      if (sm?.status !== 'ok') return { tipo: 'info', icone: 'solo', titulo: 'Como o clima daqui está mudando, ano a ano.', pilula };
+      const seco = /seco/.test(sm.classe);
+      return { tipo: seco ? 'warn' : 'info', icone: seco ? 'sol' : 'gota', titulo: `O solo hoje: ${U.esc(sm.classe)}.`, pilula, selo: U.selo('medido', smapFonte(sm)) };
+    },
+    corpo(r) {
+      const e = r.este_ano || {}, ini = e.inicio, sm = e.smap, inds = [];
+      if (ini?.mediana) {
+        inds.push(ind('chuva', 'A chuva chega', `~${U.esc(ini.mediana)}`, `entre ${U.esc(ini.p10)} e ${U.esc(ini.p90)}, em 8 de 10 anos`, chega(ini),
+          U.selo('medido', `NASA GPM IMERG, início da estação por município, ${ini.n_anos || 27} anos até 2025`)));
+      }
+      if (sm?.status === 'ok') {
+        inds.push(ind('solo', 'O solo hoje', SOLO_CURTO[sm.classe] || U.esc(sm.classe), `${sm.posto}º de ${sm.anos} anos · 30 dias até ${U.dataBR(sm.fim, true)}`,
+          postoSolo(sm), U.selo('medido', smapFonte(sm))));
+      }
+      return `${inds.length ? `<div class="indicadores rc-inds">${inds.join('')}</div>` : ''}${U.extra('tendencias')}`;
+    },
+  },
+  {
+    id: 'chuva', nome: 'E se chover', icone: 'chuva', api: true,
+    faixa: () => ({ tipo: 'info', icone: 'chuva', titulo: 'E se chover pouco? Mexa na chuva e veja a colheita.', pilula: 'Não é previsão' }),
+    async corpo(r) {
+      // IBGE daqui com lavoura grande (rendimento típico > 2× o da roça de família da CONAB): a colheita sai só em % do normal
+      const { CONAB_FAMILIAR_KG_HA: K } = await import('../passos/dinheiro/calculo.js');
+      const agro = ['Milho', 'Feijão', 'Mandioca'].some((c) => r.financeiro?.culturas?.[c]?.rend_mediano_kg_ha > 2 * K[c]);
+      const cada = U.extra('cenario_chuva', { partes: ['sobreposicao'] });
+      return `<div class="rc-par">${U.extra('cenario_chuva', { partes: ['cenario'], agro })}${EMB ? U.verMais(cada, 'Ver cada ano: chuva, solo e colheita') : cada}</div>`;
+    },
+  },
+  {
+    id: 'dados', nome: 'Os dados', icone: 'escudo', api: true,
+    faixa: () => ({ tipo: 'info', icone: 'escudo', titulo: 'De onde vem cada número, e quanto dá para confiar.' }),
+    corpo() {
+      const grades = U.extra('harmonizacao', { naTela: ['ndvi', 'grace'] });
+      return `<div class="rc-par"><div class="rc-col">${U.extra('confianca')}${U.extra('glossario')}</div>${U.extra('satelite_chao')}</div>
+        ${EMB ? U.verMais(grades, 'Ver as grades de cada satélite') : grades}`;
     },
   },
   // site final: a aba Alerta (percentil fixo do SMAP de out/2026) saiu; o "agora" do solo vem do motor (roca.html).
@@ -248,7 +320,7 @@ if (!EMB) {
 }
 
 function pintarMapa(aba) {
-  if (EMB) return;
+  if (EMB || aba.api) return;   // as abas da API escondem o mapa e o gráfico
   if (aba.vazia) {
     $('mapaTitulo').textContent = 'Escolha o município';
     for (const p of Object.values(forma)) p.style.fill = 'var(--meio)';
@@ -279,8 +351,8 @@ document.querySelectorAll('[data-zoom]').forEach((b) => b.addEventListener('clic
 gMun.addEventListener('pointermove', (e) => {
   const p = e.target.closest('path'); if (!p) return;
   const m = D.m[p.dataset.c], aba = ABAS.find((a) => a.id === estado.aba);
-  const v = aba.vazia ? null : aba.mapa.valor(m);
-  mostrarDica(`<b>${m[F.nome]} · ${m[F.uf]}</b>${aba.vazia ? '' : v == null ? 'sem dado' : aba.mapa.dica(v)}`, e);
+  const v = aba.mapa ? aba.mapa.valor(m) : null;
+  mostrarDica(`<b>${m[F.nome]} · ${m[F.uf]}</b>${!aba.mapa ? '' : v == null ? 'sem dado' : aba.mapa.dica(v)}`, e);
 });
 gMun.addEventListener('pointerleave', esconderDica);
 gMun.addEventListener('click', (e) => { const p = e.target.closest('path'); if (p) escolher(p.dataset.c); });
@@ -295,6 +367,70 @@ function mostrarDica(html, e) {
   dica.style.top = `${e.clientY + 16}px`;
 }
 function esconderDica() { dica.hidden = true; }
+
+// toque (ou Enter) num selo com fonte: a dica mostra a fonte inteira por 5 s, logo abaixo do selo (como o balão da jornada)
+let tempoFonte = 0;
+function mostrarFonte(s) {
+  const q = s.getBoundingClientRect();
+  dica.innerHTML = `<b>${U.esc(s.textContent.split(' · ')[0])}</b>${U.esc(s.dataset.fonte)}`;
+  dica.hidden = false;
+  const w = dica.offsetWidth, h = dica.offsetHeight;
+  dica.style.left = `${Math.max(8, Math.min(q.left, innerWidth - w - 8))}px`;
+  dica.style.top = `${q.bottom + h + 12 > innerHeight ? Math.max(8, q.top - h - 8) : q.bottom + 8}px`;
+  clearTimeout(tempoFonte);
+  tempoFonte = setTimeout(esconderDica, 5000);
+}
+document.addEventListener('click', (e) => { const s = e.target.closest?.('.selo[data-fonte]'); if (s) mostrarFonte(s); });
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('.selo[data-fonte]')) { e.preventDefault(); mostrarFonte(e.target); }
+});
+addEventListener('scroll', () => { if (tempoFonte) { clearTimeout(tempoFonte); tempoFonte = 0; esconderDica(); } }, { passive: true });
+
+// ------------------------------------------------------------------ abas da API (o antigo "Do espaço")
+
+// um pedido por município (guardado); se o servidor recusar, tenta de novo uma vez depois de 1,5 s
+const API = {};
+const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+const pedirLocal = (cod) => fetch(`/api/local?cod=${cod}`).then(async (r) => {
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const j = await r.json();
+  if (j.erro) throw new Error(j.erro);
+  return j;
+});
+function local(cod) {
+  return (API[cod] ??= pedirLocal(cod).catch(() => espera(1500).then(() => pedirLocal(cod)))
+    .catch((e) => { delete API[cod]; throw e; }));
+}
+// o roçado típico daqui (Censo 2017), para a base "Seu roçado" das grades: o painel não sabe o tamanho do roçado
+const haTipico = (r) => { const p = r.padroes || {}; return p.rocado_ha > 0 ? p.rocado_ha : p.rocado_ha_padrao > 0 ? p.rocado_ha_padrao : 1; };
+
+const faixaHtml = (f, m) => `<span class="sinal">${ic(f.icone || 'info')}</span><div class="faixa-texto"><p class="faixa-lugar">${m[F.nome]} · ${UF_NOME[m[F.uf]]}${f.selo ? ` ${f.selo}` : ''}</p><h1>${f.titulo}</h1></div>${f.pilula ? `<span class="pilula">${f.pilula}</span>` : ''}`;
+
+async function desenharApi(aba, m, minha) {
+  const faixa = $('faixa'), caixa = $('extras'), cod = estado.cod;
+  faixa.className = 'faixa t-idle';
+  faixa.innerHTML = faixaHtml({ icone: aba.icone, titulo: 'Buscando os dados do satélite…' }, m);
+  caixa.innerHTML = '';
+  let r;
+  try {
+    r = await local(cod);
+  } catch (_) {
+    if (minha !== vez) return;
+    faixa.innerHTML = faixaHtml({ icone: 'alerta', titulo: 'Sem sinal para carregar agora.' }, m);
+    caixa.innerHTML = '<button type="button" class="tela-cheia rc-de-novo">Tentar de novo</button>';
+    caixa.querySelector('button').addEventListener('click', desenhar);
+    return;
+  }
+  if (minha !== vez) return;
+  const ctx = { r, cod, util: U, ef: { ha: haTipico(r) }, entrou: true, link: (n) => `roca.html#/${cod}/${n}` };
+  const f = aba.faixa(m, r), corpo = await aba.corpo(r, m);
+  if (minha !== vez) return;
+  faixa.className = `faixa t-${f.tipo}`;
+  faixa.innerHTML = faixaHtml(f, m);
+  caixa.innerHTML = corpo;
+  import('../extras/glossario.js').then((g) => g.instalar(ctx)).catch(() => {});   // o "o que é?" das palavras
+  await U.montarExtras(caixa, ctx);
+}
 
 // ------------------------------------------------------------------ montar
 
@@ -311,11 +447,18 @@ $('abas').addEventListener('click', (e) => {
   desenhar();
 });
 
+let vez = 0;   // cada desenho invalida o anterior (as abas da API respondem depois)
 function desenhar() {
-  const m = D.m[estado.cod], aba = ABAS.find((a) => a.id === estado.aba);
+  const m = D.m[estado.cod], aba = ABAS.find((a) => a.id === estado.aba), minha = ++vez;
   document.querySelectorAll('#abas button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.aba === aba.id)));
   const faixa = $('faixa');
-  if (aba.vazia) {
+  // abas da API: no lugar dos indicadores, do mapa e do gráfico do JP, os blocos do antigo "Do espaço" (#extras)
+  $('indicadores').hidden = $('dupla').hidden = !!aba.api;
+  $('extras').hidden = !aba.api;
+  if (!aba.api) $('extras').innerHTML = '';
+  if (aba.api) {
+    desenharApi(aba, m, minha);
+  } else if (aba.vazia) {
     faixa.className = 'faixa vazio';
     faixa.innerHTML = `<h1>${m[F.nome]} · ${aba.nome}: conteúdo a definir</h1>`;
     $('indicadores').innerHTML = indVazio().repeat(4);
@@ -326,7 +469,7 @@ function desenhar() {
   } else {
     const f = aba.faixa(m);
     faixa.className = `faixa t-${f.tipo}`;
-    faixa.innerHTML = `<span class="sinal">${ic(f.icone || 'info')}</span><div class="faixa-texto"><p class="faixa-lugar">${m[F.nome]} · ${UF_NOME[m[F.uf]]}</p><h1>${f.titulo}</h1></div>${f.pilula ? `<span class="pilula">${f.pilula}</span>` : ''}`;
+    faixa.innerHTML = faixaHtml(f, m);
     $('indicadores').innerHTML = aba.indicadores(m);
     const leg = aba.grafico(m);
     $('graficoLegenda').innerHTML = leg.map(([c, t]) => `<span>${c ? `<i style="background:${c}"></i>` : ''}${t}</span>`).join('');
@@ -381,3 +524,5 @@ if (EMB) {
 desenhar();
 // no painel lateral do globo: avisa a pagina de cima que desenhou (ela tira o botao do plano do cartao do mapa)
 if (EMB && parent !== window) parent.postMessage({ quadra: 'painel-pronto', cod: estado.cod }, location.origin);
+// painel sozinho: já pede os dados das abas da API (abrem na hora); no iframe do globo, só quando uma delas abre
+if (!EMB) setTimeout(() => local(estado.cod).catch(() => {}), 1200);

@@ -3,14 +3,18 @@
 // (janelas de plantio e de colheita) e agenda.agora.
 // No "ver mais": o Gantt do protótipo do José (cartaoCalendario em protótipo/static/app.js, branch estudo-jose, e7a23b5), a lista
 // de marcar, a nota dos portões, os marcos e o passo a passo, com os tokens de quadra.css.
+// Rodada 2 (analise/fluxo2/BRIEFING.md, D3): o Plano mostra "Seu jeito, melhorado" ou "O ideal" (extras/ideal.js, escolhido()). Toda
+// função daqui aceita a agenda do plano à vista no último argumento (a = agendaDoPlano(r.agenda, escolhido(...).linhas)); sem ele,
+// vale ctx.r.agenda, como antes.
 
 const FASES = {
   preparo: "preparo sem fogo", risco: "dá para plantar, com mais risco (até 40%)", plantio: "plantar (janela do ZARC)",
   estimado: "plantar (janela estimada, sem ZARC)", roca: "na roça, crescendo", colheita: "colher", pousio: "pousio pastejado",
 };
 const NOME = { "Feijão-caupi": "caupi", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão",
-  "Palma + gliricídia": "palma", "Feijão-caupi no milho em pé": "caupi" }; // o "onde" do cartão diz o lugar (bordas, baixio)
-const nome = (c) => NOME[c] || String(c || "").toLowerCase();
+  "Palma + gliricídia": "palma", "Palma forrageira": "palma", "Mucuna-preta": "mucuna", "Algodão herbáceo": "algodão",
+  "Cana-de-açúcar": "cana" }; // o "onde" do cartão diz o lugar (bordas, baixio)
+const nome = (c) => { const b = String(c || "").replace(/ no milho em pé$/, ""); return NOME[b] || b.toLowerCase(); };
 const LUGAR = (p) => (p === "Baixio" ? "baixio" : p === "Bordas" ? "bordas" : p);
 const lista = (v) => (v.length <= 1 ? v.join("") : v.slice(0, -1).join(", ") + " e " + v[v.length - 1]);
 
@@ -50,10 +54,47 @@ function iniciosAntes(cod) {
   } catch (_) { return {}; }
 }
 
+const dm = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+const dmy = (iso) => `${dm(iso)}/${iso.slice(0, 4)}`;
+
+/** O "o que fazer agora" de um plano que não é o do núcleo (as linhas de extras/ideal.js agendaDe): os itens do núcleo que citam uma
+ *  parte ("Prepare Mandioca (Parte A): …") são refeitos com as linhas do plano, com as mesmas palavras; os outros ficam só quando a
+ *  cultura deles está no plano (semente de caupi, maniva, mudas de palma); Garantia-Safra e "nada de fogo" ficam sempre. */
+function agoraDoPlano(a, linhas) {
+  const hoje = a.hoje, out = [];
+  const novas = linhas.filter((l) => !/em pé/.test(l.cultura) && l.tipo !== "pousio" && !/^já /.test(l.plantar || ""));
+  const E0 = Math.min(...novas.map((l) => l.estacao).filter(Number.isFinite));
+  for (const l of novas.filter((x) => x.estacao === E0)) {
+    const p1 = (l.barras || []).filter((b) => b.pista === 1 && ["risco", "plantio", "estimado"].includes(b.tipo));
+    const pl = p1.find((b) => b.tipo !== "risco");
+    if (!pl || pl.ate < hoje) continue;
+    const onde = `${l.cultura} (${l.parte})${pl.tipo === "estimado" ? ", janela estimada" : ""}`, ini = p1[0];
+    if (ini.de > hoje) out.push(`Prepare ${onde}: plantar ${String(l.plantar || "").replace(/; ano de alerta.*$/, "")}.`);
+    else if (ini.tipo === "risco" && pl.de > hoje) out.push(`Já dá para plantar ${onde}, com mais risco (até 40%); a janela melhor vai de ${dm(pl.de)} a ${dm(pl.ate)}.`);
+    else out.push(`Janela aberta agora: ${onde}, até ${dmy(pl.ate)}.`);
+  }
+  const tem = (re) => novas.some((l) => re.test(l.cultura));
+  for (const t of a.agora || []) {
+    if (/\((Parte [ABC]|Baixio|Bordas)\)/.test(t)) continue; // por parte: refeito acima com as partes deste plano
+    if (/caupi/i.test(t) && !tem(/caupi/i)) continue;
+    if (/maniva/i.test(t) && !tem(/^Mandioca/)) continue;
+    if (/mudas de palma|gliric/i.test(t) && !tem(/^Palma|^Gliric/)) continue;
+    out.push(t);
+  }
+  return out;
+}
+
+/** A agenda do plano à vista: r.agenda com as linhas do plano (extras/ideal.js, agendaDe ou escolhido().linhas) e o "o que fazer
+ *  agora" refeito para elas. Para as linhas do núcleo (r.agenda.linhas), devolve r.agenda sem mudar. */
+export function agendaDoPlano(a, linhas) {
+  if (!a || !Array.isArray(linhas) || linhas === a.linhas) return a;
+  return { ...a, linhas, agora: agoraDoPlano(a, linhas) };
+}
+
 /** A frase do "Agora", para a faixa sob o título do passo: a janela de plantar que já abriu ou, antes dela, o que juntar
  *  ("junte semente, maniva e mudas; nada de fogo."). Era o 1º cartão da linha do tempo; saiu de lá para não repetir. */
-export function agora(ctx) {
-  const U = ctx.util, a = ctx.r.agenda;
+export function agora(ctx, a = ctx.r.agenda) {
+  const U = ctx.util;
   if (!a) return "";
   const ab = abertas(a, eventos(a));
   if (ab.length) return `já dá para plantar ${lista([...new Set(ab.map((e) => e.nome))])}, até ${U.dataBR(ab.map((e) => e.ate).sort()[0], true)}.`;
@@ -62,8 +103,8 @@ export function agora(ctx) {
 }
 
 /** A linha do tempo "o que fazer e quando": 3 cartões depois do "Agora" (2 plantios e 1 colheita). */
-export function linhaDoTempo(ctx) {
-  const U = ctx.util, esc = U.esc, a = ctx.r.agenda;
+export function linhaDoTempo(ctx, a = ctx.r.agenda) {
+  const U = ctx.util, esc = U.esc;
   if (!a) return "";
   const ev = eventos(a), abertos = abertas(a, ev);
   const cartoes = [];
@@ -104,8 +145,8 @@ export function linhaDoTempo(ctx) {
 }
 
 /** O calendário completo (vai dentro do "ver mais"). */
-export function calendarioCompleto(ctx) {
-  const U = ctx.util, esc = U.esc, a = ctx.r.agenda;
+export function calendarioCompleto(ctx, a = ctx.r.agenda) {
+  const U = ctx.util, esc = U.esc;
   if (!a) return `<p>Sem calendário para este lugar.</p>`;
   const t0 = Date.parse(a.inicio), T = Date.parse(a.fim) + 864e5 - t0;
   const x = (d) => ((Date.parse(d) - t0) / T) * 100;
@@ -158,8 +199,7 @@ export function calendarioCompleto(ctx) {
 }
 
 /** Liga a lista de marcar (guarda o texto de cada item feito, por município). */
-export function ligarCalendario(el, ctx) {
-  const a = ctx.r.agenda;
+export function ligarCalendario(el, ctx, a = ctx.r.agenda) {
   if (!a) return;
   el.querySelectorAll("[data-agora]").forEach((cx) => cx.addEventListener("change", () => {
     const s = lerFeitos(ctx.cod), t = a.agora[+cx.dataset.agora];

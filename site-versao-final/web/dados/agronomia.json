@@ -1,0 +1,331 @@
+{
+  "meta": {
+    "gerado": "2026-11-15 08:48 (agente A1, rodada 2 do fluxo); correção Y 15/11 tarde: palma 10 t MS (referência), caupi no milho, saco de milho, gliricídia em estacas, feijão comum marcado como fonte fraca",
+    "regra": "Espaçamento de sequeiro no Semiárido e da agricultura familiar, lido nas publicações citadas (Embrapa Semiárido, Meio-Norte, Algodão, Milho e Sorgo, Tabuleiros Costeiros, Caprinos e Ovinos, Arroz e Feijão; IPA como coautor). Campo numérico = valor central da faixa da fonte; a faixa vai nas frases do 'como'. 'conta' = número tirado de outros números da mesma fonte (dito como conta). null = a fonte lida não dá o número; não foi inventado.",
+    "campos": {
+      "entre_linhas_m": "distância entre carreiras, em metros (null = uma carreira só, como a cerca da borda)",
+      "entre_covas_m": "distância entre covas (ou entre plantas, no rego corrido) dentro da carreira, em metros (null = rego corrido, como a cana)",
+      "por_cova": "quantas sementes, manivas, raquetes ou mudas vão em cada cova, como a fonte diz; na mucuna e no feijão comum a fonte dá plantas por cova; null = a fonte só diz quantas plantas deixar (ver o 'como')",
+      "plantas_ha": "plantas por hectare depois do desbaste (null = a fonte não dá)",
+      "semente_kg_ha": "kg de semente por hectare; na cana, kg de rebolo por hectare (null = a fonte não dá; use covas × por_cova)",
+      "material": "semente | maniva | muda | raquete | estaca",
+      "material_unidade": "kg | manivas | mudas | raquetes | estacas",
+      "profundidade_cm": "fundura da semente, da maniva ou da cova, em cm (texto)",
+      "ciclo_dias": "dias do plantio à colheita (ou ao primeiro corte), texto; null = a fonte não dá"
+    }
+  },
+  "culturas": {
+    "Feijão-caupi": {
+      "entre_linhas_m": 0.8, "entre_covas_m": 0.5, "por_cova": 3, "plantas_ha": 50000, "semente_kg_ha": 14,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": "3–7", "ciclo_dias": "70–90",
+      "como": [
+        "Carreiras a 80 cm (70 a 100 cm no feijão de rama). Covas a cada 50 cm (40 a 60 cm).",
+        "Ponha 3 sementes por cova; se nascerem todas, deixe 2 plantas.",
+        "Semente a 3–5 cm no barro e a 5–7 cm na areia, onde tiver umidade.",
+        "Junto do milho: covas de caupi no meio da rua do milho, a cada 25 cm (um palmo), 2 sementes por cova."
+      ],
+      "consorcio": { "entre_covas_m": 0.25, "por_cova": 2, "sementes_m": [6, 8], "g_100_sementes": [17, 20],
+        "fonte": "Embrapa Meio-Norte, Feijão-caupi (500 Perguntas), 2017, cap. 12, perguntas 258–260: no meio da rua do milho, covas a 0,25 m; em sulco, 6 a 8 sementes de caupi por metro. 2 por cova a 25 cm = 8 por metro (a ponta alta da faixa); peso de 100 sementes de 17–20 g (Sistemas de Produção 2, 2002, Tab. 2)" },
+      "conta": "50 mil plantas = 25 mil covas (0,8 × 0,5 m) × 2 plantas, na faixa de 50 a 60 mil do feijão de rama (Sistemas de Produção 2, 2002). Semente: 75 mil sementes × 17–20 g por 100 sementes (Tab. 2 da mesma obra) = 13–15 kg/ha. 3 sementes = meio da faixa de 2 a 4 por cova do folder de 2011.",
+      "fonte": "Embrapa Meio-Norte. Feijão-caupi: o produtor pergunta, a Embrapa responde (Coleção 500 Perguntas), 2017, cap. 9 Manejo cultural (espaçamento por porte, covas de 40–60 cm, profundidade, ciclo), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1077927/1/500P500RFeijaocaupiCap9.pdf e cap. 12 Cultivo consorciado (covas a 0,25 m com o milho), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1077971/1/500P500RFeijaocaupiCap12.pdf; Embrapa Meio-Norte. Cultivo do feijão-caupi (Sistemas de Produção 2), 2002, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/66591/1/sistemaproducao2.PDF; Embrapa Meio-Norte. Consórcio de milho e feijão-caupi (folder), 2011, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/905198/1/Milho.pdf"
+    },
+    "Milho": {
+      "entre_linhas_m": 1.0, "entre_covas_m": 0.5, "por_cova": 3, "plantas_ha": 40000, "semente_kg_ha": null,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": "3–7", "ciclo_dias": null,
+      "como": [
+        "Carreiras a 1 m. Covas a cada 50 cm (de 40 a 60 cm).",
+        "Ponha 3 sementes por cova; depois de nascer, deixe as 2 mais fortes.",
+        "Semente a 3–5 cm no barro e a 5–7 cm na areia.",
+        "Onde a chuva é curta, o milho de ciclo curto (superprecoce) arrisca menos."
+      ],
+      "conta": "20 mil covas (1,0 × 0,5 m) × 2 plantas = 40 mil por hectare, o piso de 40 a 50 mil da Embrapa Milho e Sorgo. Semente: 20 mil covas × 3 = 60 mil sementes por hectare (o peso depende da semente; nenhuma fonte lida dá o kg).",
+      "saco_sementes": 60000,
+      "saco_fonte": "Embrapa Milho e Sorgo, Milho (500 Perguntas), 2011, pergunta 138: as firmas vendem o saco de semente com um número de sementes, geralmente 60 mil",
+      "fonte": "Embrapa Milho e Sorgo. Milho: o produtor pergunta, a Embrapa responde (500 Perguntas), 2011, cap. 8 Cultivares e manejo cultural (covas de 40–60 cm, 40–50 mil plantas, profundidade, superprecoce no Nordeste), https://www.alice.cnptia.embrapa.br/alice/bitstream/doc/927292/1/Cultivaresmanejo.pdf; Embrapa Meio-Norte. Feijão-caupi: o produtor pergunta (500 Perguntas), 2017, cap. 12 (milho em covas a 1 m × 0,50 m), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1077971/1/500P500RFeijaocaupiCap12.pdf; Embrapa Tabuleiros Costeiros. Caatingueiro: uma variedade de milho para o Semi-árido nordestino (Comunicado Técnico 29), 2004 (3 sementes por cova, 2 plantas depois do desbaste), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/68212/1/cot29.pdf"
+    },
+    "Feijão comum": {
+      "entre_linhas_m": 0.5, "entre_covas_m": 0.2, "por_cova": 2, "plantas_ha": 200000, "semente_kg_ha": null,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": null,
+      "como": [
+        "Carreiras a 50 cm. Covas a cada 20 cm.",
+        "2 plantas por cova: dá 10 plantas por metro de carreira.",
+        "200 a 240 mil plantas por hectare é o que mais rende no feijão solteiro.",
+        "Esses números vêm de ensaio irrigado em Goiás: no sequeiro daqui, confirme o espaçamento com o técnico."
+      ],
+      "conta": "0,5 × 0,2 m = 100 mil covas × 2 = 200 mil plantas (10 por metro; a fonte dá 10 a 12 por metro a 0,50 m).",
+      "fonte_fraca": "ensaio irrigado (pivô central) em Santo Antônio de Goiás-GO, no Cerrado, não no sequeiro do Semiárido; sem fonte de sequeiro do Nordeste lida (revisão R2, 15/11)",
+      "fonte": "Embrapa Arroz e Feijão. Arranjos espaciais de plantas de feijoeiro comum de diferentes tipos de crescimento (Documentos 236), 2008 (ensaio irrigado no Cerrado, GO; no sequeiro, confirme com o técnico), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/216597/1/doc236.pdf"
+    },
+    "Mandioca": {
+      "entre_linhas_m": 1.2, "entre_covas_m": 0.8, "por_cova": 1, "plantas_ha": 10417, "semente_kg_ha": null,
+      "material": "maniva", "material_unidade": "manivas", "profundidade_cm": "5–10", "ciclo_dias": "420–540",
+      "como": [
+        "Carreiras a 1,2 m e covas a cada 80 cm. Melhor ainda: carreiras duplas a 80 cm, com rua de 1,6 m entre os pares.",
+        "Maniva de 20 cm, com 5 a 8 olhos, cortada reta, de rama madura e sadia; corte no dia do plantio.",
+        "Na areia, deite a maniva a 10 cm de fundo; no barro, a 5–8 cm.",
+        "No sequeiro, colhe com 14 a 18 meses."
+      ],
+      "conta": "1 ÷ (1,2 × 0,8) = 10.417 covas por hectare, uma maniva por cova; a fileira dupla 1,6 × 0,8 × 0,8 m dá o mesmo número.",
+      "fonte": "Embrapa Semi-Árido. Mandioca no Semi-Árido (Instruções Técnicas 27), 2000 (espaçamento, fileira dupla, 14–18 meses no sequeiro), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/134153/1/Mandioca-no-Semi-Arido-Instrucoes-Tecnicas-27.pdf; Embrapa Cerrados. Mandioca no Cerrado: preparo do material para o plantio (folder, 2ª ed.; 1ª ed. 2019) (maniva de 20 cm, 5–8 gemas, corte reto), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1163364/1/Folder-Preparo-de-materiais-2-edicao.pdf; Embrapa Acre. Cultura da mandioca no Acre, cap. 3 Sistemas de cultivo, 2025 (profundidade por textura), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1180613/1/28113.pdf"
+    },
+    "Amendoim": {
+      "entre_linhas_m": 0.7, "entre_covas_m": 0.2, "por_cova": 2, "plantas_ha": 144000, "semente_kg_ha": 70,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": "até 5", "ciclo_dias": "89–90",
+      "como": [
+        "Carreiras a 70 cm e covas a cada 20 cm, com 2 sementes (a 50 cm entre carreiras rende mais e fecha o chão).",
+        "Semente a no máximo 5 cm de fundo.",
+        "Mantenha o mato longe nos primeiros 45 dias.",
+        "Colhe com uns 90 dias: arranque e deixe as vagens 2 dias no sol."
+      ],
+      "fonte": "Embrapa Algodão. Amendoim BR 1 (folder, 4ª ed.), 2009 (0,70 × 0,20 m com 2 sementes, 70 kg/ha, limpo até 45 dias, colheita aos 89 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/578979/1/FolderAmendoimBR14ed.pdf; Embrapa Algodão. Amendoim BR 1 (folder, PDF de 2015) (144 mil plantas a 0,70 × 0,20 m, 200 mil a 0,50 × 0,20 m, semente a no máximo 5 cm), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1027494/1/FolderAmendoimBR1Curvas.pdf"
+    },
+    "Sorgo granífero": {
+      "entre_linhas_m": 0.75, "entre_covas_m": 0.1, "por_cova": 1, "plantas_ha": 133000, "semente_kg_ha": 20,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": "110–120",
+      "como": [
+        "Carreiras a 75 cm e uma planta a cada 10 cm na carreira.",
+        "Plante no começo das chuvas.",
+        "Aguenta mais a seca que o milho e rebrota depois do corte."
+      ],
+      "fonte": "Embrapa Caprinos e Ovinos. Utilização de sorgo para produção de grãos no Semiárido cearense (Comunicado Técnico 195), 2019 (ensaio de sequeiro em Sobral-CE: 0,75 × 0,10 m, ~133 mil plantas, 20 kg de semente/ha), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1117022/1/CNPC2019Cot195.pdf; Embrapa Semiárido e IPA. Sorgo forrageiro: alternativa para a alimentação de rebanhos no Semiárido (Instruções Técnicas 127), 2016 (BRS Ponta Negra: grão maduro aos 110–120 dias; rebrota), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1053786/1/INT127.pdf"
+    },
+    "Guandu": {
+      "entre_linhas_m": 1.0, "entre_covas_m": 0.5, "por_cova": 4, "plantas_ha": 40000, "semente_kg_ha": 7.5,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": "103",
+      "como": [
+        "Carreiras a 1 m e covas a cada 50 cm.",
+        "Ponha 4 sementes por cova para ficar com 2 plantas.",
+        "Mantenha limpo até 30 dias: no começo ele cresce devagar.",
+        "O grão amadurece com uns 100 dias; a rama vai para o gado."
+      ],
+      "fonte": "Embrapa Semi-Árido. Guandu Petrolina (Instruções Técnicas 46), 2001 (1 m × 0,5 m, 4 sementes por cova, 40 mil plantas, 5–10 kg/ha, maturação aos 103 dias, limpo até 30 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/146669/1/INT46.pdf"
+    },
+    "Sorgo forrageiro": {
+      "entre_linhas_m": 0.8, "entre_covas_m": 0.2, "por_cova": 3, "plantas_ha": null, "semente_kg_ha": 8,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": "80–95",
+      "como": [
+        "Carreiras a 80 cm e covas a cada 20 cm, com 3 sementes.",
+        "Gasta de 6 a 10 kg de semente por hectare.",
+        "Para silagem, corte quando o grão estiver pastoso (uns 90 dias).",
+        "Não dê ao gado sorgo com menos de 1 m de altura: pode envenenar."
+      ],
+      "fonte": "Embrapa Semiárido e IPA. Sorgo forrageiro: alternativa para a alimentação de rebanhos no Semiárido (Instruções Técnicas 127), 2016 (0,80 × 0,20 m, 3 sementes por cova, 6–10 kg/ha no sequeiro, silagem aos 85–95 dias na BRS Ponta Negra e 80 dias na IPA 2502, ácido cianídrico abaixo de 1 m), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1053786/1/INT127.pdf"
+    },
+    "Milheto": {
+      "entre_linhas_m": 0.7, "entre_covas_m": 0.07, "por_cova": 1, "plantas_ha": 200000, "semente_kg_ha": 17.5,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": "2–4", "ciclo_dias": "50–60",
+      "como": [
+        "Para forragem: carreiras a 70 cm, com a semente corrida no rego (uns 14 pés por metro).",
+        "Semente miúda: só 2 a 4 cm de fundo.",
+        "Gasta de 15 a 20 kg de semente por hectare.",
+        "Floresce com uns 50 a 60 dias."
+      ],
+      "conta": "entre_covas = 1 ÷ (0,7 m × 200 mil plantas) ≈ 0,07 m, ou 14 plantas por metro de rego.",
+      "fonte": "Embrapa Milho e Sorgo. Cultivo do milheto: plantio (Sistema de Produção 3, 5ª ed.), 2016, Tabela 2 (forragem: 15–20 kg/ha, 70 cm, 200 mil plantas; profundidade 2–4 cm), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/748815/1/Milheto-Plantio.pdf; Embrapa Gado de Leite. BRS 1501, BRS 1502 e BRS 1503: cultivares de milheto (Comunicado Técnico 94), 2022 (florescimento aos 50 e 60 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1141554/1/COT-94-Cultivares-de-milheto-para-uso-forrageiro-producao-graos-e-palha.pdf"
+    },
+    "Palma forrageira": {
+      "entre_linhas_m": 1.0, "entre_covas_m": 0.3, "por_cova": 1, "plantas_ha": 33333, "semente_kg_ha": null,
+      "material": "raquete", "material_unidade": "raquetes", "profundidade_cm": "metade da raquete (rego de ~20)", "ciclo_dias": "540–730",
+      "como": [
+        "Tire a raquete de planta sadia e deixe 5 a 15 dias na sombra para sarar o corte.",
+        "Abra rego de uns 20 cm, em nível. Carreiras a 1 m e raquetes a cada 25 a 50 cm.",
+        "Enterre metade da raquete; ponha 2 a 3 kg de esterco por metro de rego.",
+        "Primeiro corte com 1 ano e meio a 2 anos, na junta, deixando a raquete plantada e as primeiras que saíram dela."
+      ],
+      "conta": "0,30 m está dentro da faixa de 25–50 cm; 1 ÷ (1,0 × 0,30) = 33.333 raquetes por hectare, no meio da faixa de 20 a 40 mil indicada para o Semiárido.",
+      "fonte": "Embrapa Semiárido. Cultivo da palma no Semiárido (Instruções Técnicas 124), 2016 (20–40 mil plantas/ha; adensado 1 m × 25–50 cm; rego de ~20 cm; enterrar até a metade; 2–3 kg de esterco por metro; 1º corte com 1,5–2 anos), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1046559/1/Palma-forrageira.2016.pdf; Embrapa Semiárido e Embrapa Gado de Leite. Plantio e manejo da palma forrageira no Semiárido (cartilha), 2016 (5–15 dias de cura na sombra; covas de 20 × 20 × 20 cm), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1061001/1/Cartilha1.pdf"
+    },
+    "Gliricídia": {
+      "entre_linhas_m": null, "entre_covas_m": 5.0, "por_cova": 1, "plantas_ha": null, "semente_kg_ha": null,
+      "material": "estaca", "material_unidade": "estacas", "profundidade_cm": "30", "ciclo_dias": null,
+      "como": [
+        "Na cerca da borda: estaca de 2 m, grossa de 4 a 10 cm, enterrada 30 cm.",
+        "Uma estaca de gliricídia a cada 4 a 6 m da cerca (ou uma a cada 2 estacas mortas).",
+        "Amarre a estaca no arame e não deixe balançar enquanto pega raiz.",
+        "Comece a podar com 2 a 3 anos; folha e rama verde vão para o gado (verde, silagem ou feno)."
+      ],
+      "conta": "entre_covas = meio da faixa de 4–6 m. Quantidade = perímetro da cerca ÷ 5 m (não é por hectare).",
+      "fonte": "Embrapa Tabuleiros Costeiros. Implantação e manejo da gliricídia (Gliricidia sepium) como mourão vivo em cercas produtivas (Comunicado Técnico 239), 2020, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1129407/1/COT-239-20-Embrapa-Tabuleiros-Costeiros.pdf"
+    },
+    "Mucuna-preta": {
+      "entre_linhas_m": 1.0, "entre_covas_m": 0.5, "por_cova": 3, "plantas_ha": 60000, "semente_kg_ha": null,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": null,
+      "como": [
+        "Plante no meio da rua do milho (carreiras a 1 m), covas a cada 50 cm, 3 plantas por cova.",
+        "Plante uns 85 dias depois do milho, com ele já formado: assim não tira do milho.",
+        "Antes de plantar no ano seguinte, corte a rama e espalhe no chão."
+      ],
+      "fonte": "Melo, R. S. S. et al. Sistemas de culturas com milho sob semeadura direta na região Nordeste do Brasil. Ciência Rural 43:1535–1541, 2013 (Alagoinha-PB, sequeiro, 2000–2008: mucuna em covas a 0,5 m entre as fileiras do milho, 3 plantas por cova, 60 mil plantas/ha, 85 dias após o milho), https://doi.org/10.1590/s0103-84782013005000108"
+    },
+    "Algodão herbáceo": {
+      "entre_linhas_m": 0.9, "entre_covas_m": 0.15, "por_cova": null, "plantas_ha": 74074, "semente_kg_ha": 13.5,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": "135",
+      "como": [
+        "Carreiras a 80–90 cm e 1 planta a cada 15 cm (6 a 7 por metro).",
+        "Com feijão-caupi no meio: carreiras de algodão a 1 m e plantas a 20 cm.",
+        "Use semente sem línter (deslintada): 12 a 15 kg por hectare.",
+        "Mantenha limpo até uns 70 dias."
+      ],
+      "conta": "1 ÷ (0,9 × 0,15) = 74.074 plantas por hectare.",
+      "fonte": "Embrapa Algodão. BRS 201 (folder), 2000 (0,80 ou 0,90 × 0,15 m com 1 planta por cova ou 6–7 por metro; consórcio com caupi a 1,00 × 0,20 m; 12–15 kg/ha de semente deslintada; ciclo de 135 dias; limpo até 70 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/278348/1/FolderBRS201.pdf"
+    },
+    "Mamona": {
+      "entre_linhas_m": 1.0, "entre_covas_m": 1.0, "por_cova": 2, "plantas_ha": 10000, "semente_kg_ha": 8,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": null, "ciclo_dias": "120",
+      "como": [
+        "BRS Energia (ciclo curto): covas a 1 m × 1 m. Nordestina e Paraguaçu (ciclo longo): 2 m × 1 m.",
+        "Ponha 2 sementes por cova; com 10 a 12 cm de altura, deixe 1 planta.",
+        "Mato longe até 60 dias, com 2 a 3 capinas.",
+        "Colha o cacho quando todos os frutos estiverem secos."
+      ],
+      "conta": "Semente: 10 mil covas × 2 sementes × 35–42 g por 100 sementes (BRS Energia) = 7–8 kg/ha.",
+      "fonte": "Embrapa Algodão. BRS Energia (folder), 2016 (1 × 1 m, 2 sementes por cova e desbaste com 10–12 cm, limpo até 60 dias, ciclo de 120 dias, 100 sementes = 35–42 g), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1066766/1/BRSEnergia.pdf; Embrapa Algodão. Tecnologias Embrapa para a cultura da mamoneira (folder), 2011 (Nordestina e Paraguaçu a 2 × 1 m, ciclo de 250 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/921202/1/FolderCultivaresdeMamonadaEmbrapaAlgodao.pdf"
+    },
+    "Girassol": {
+      "entre_linhas_m": 0.7, "entre_covas_m": 0.3, "por_cova": 2, "plantas_ha": 47667, "semente_kg_ha": null,
+      "material": "semente", "material_unidade": "kg", "profundidade_cm": "4–6", "ciclo_dias": "90–130",
+      "como": [
+        "Carreiras a 70 cm e covas a cada 30 cm.",
+        "Ponha 2 a 3 sementes por cova, a 4–6 cm de fundo.",
+        "De 10 a 15 dias depois de nascer, deixe 1 planta por cova.",
+        "Plante no começo das chuvas: o ciclo é de 90 a 130 dias."
+      ],
+      "fonte": "Embrapa Tabuleiros Costeiros. Desempenho de cultivares de girassol nas condições edafoclimáticas de Sergipe e Bahia no ano agrícola 2013 (Comunicado Técnico 163), 2015 (sequeiro; 0,70 × 0,30 m, 1 planta por cova, 47.667 plantas/ha; ciclo de 90–130 dias), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1036149/1/Cot163.pdf; Embrapa Soja. Indicações técnicas para o cultivo do girassol (Documentos 3), 1983 (matraca a 30–35 cm, 2–3 sementes por cova, desbaste aos 10–15 dias, profundidade de 4–6 cm), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/445595/1/Documentos3.pdf"
+    },
+    "Caju": {
+      "entre_linhas_m": 7.0, "entre_covas_m": 7.0, "por_cova": 1, "plantas_ha": 204, "semente_kg_ha": null,
+      "material": "muda", "material_unidade": "mudas", "profundidade_cm": "40 (cova)", "ciclo_dias": null,
+      "como": [
+        "Mudas enxertadas de cajueiro-anão a 7 m × 7 m (204 por hectare).",
+        "Cova de 40 × 40 × 40 cm; no Semiárido, plante no começo das chuvas (janeiro).",
+        "Amarre a muda numa estaca de 0,8 a 1 m e cubra o chão em volta com palha.",
+        "Até o 3º ano, plante feijão-caupi, mandioca ou amendoim nas ruas, a 1 m da carreira do caju."
+      ],
+      "fonte": "Embrapa Meio-Norte. Cajueiro-anão-precoce para a região Meio-Norte do Brasil: clone CCP 76 (folder), 2006 (7 × 7 m no sequeiro, 204 plantas/ha; covas de 40 cm; muda enxertada no início das chuvas; tutor de 0,8–1,0 m; cobertura morta; consórcio até o 3º ano a 1,0 m das linhas),https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/69435/1/ccp76.pdf"
+    },
+    "Banana": {
+      "entre_linhas_m": 3.0, "entre_covas_m": 2.0, "por_cova": 1, "plantas_ha": 1667, "semente_kg_ha": null,
+      "material": "muda", "material_unidade": "mudas", "profundidade_cm": "40 (cova)", "ciclo_dias": null,
+      "como": [
+        "Bananeira alta (Pacovan): 3 m entre carreiras e 2 m entre covas. Nanica: 2 m × 2 m.",
+        "Cova de 40 × 40 × 40 cm; no sequeiro, plante no começo das chuvas.",
+        "Muda de touceira sadia, todas do mesmo tamanho; limpe as raízes do rizoma antes de plantar (tira ovo e larva da broca)."
+      ],
+      "conta": "1 ÷ (3,0 × 2,0) = 1.667 mudas por hectare.",
+      "fonte": "Gonzaga Neto, L. Cultura da bananeira. Embrapa CPATSA (Semi-Árido), Petrolina-PE, 1995 (covas de 40 cm; plantio no início das chuvas; Pacovan a 3,0 × 2,0 m, 3,0 × 2,5 m ou 4,0 × 2,0 × 2,0 m; Nanica a 2,0 × 2,0 m; limpeza do rizoma), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/132125/1/ID7233.pdf"
+    },
+    "Cana-de-açúcar": {
+      "entre_linhas_m": 1.2, "entre_covas_m": null, "por_cova": null, "plantas_ha": null, "semente_kg_ha": 8000,
+      "material": "estaca", "material_unidade": "kg", "profundidade_cm": "25–30 (rego)", "ciclo_dias": null,
+      "como": [
+        "Regos de 25 a 30 cm de fundo, a 1,2–1,3 m um do outro, em nível.",
+        "Rebolo de cana-planta de 8 a 12 meses, com 3 a 4 olhos.",
+        "Deite os rebolos no rego, ponta com pé cruzados, e cubra com pouca terra se o chão estiver úmido.",
+        "Gasta umas 8 toneladas de rebolo por hectare."
+      ],
+      "fonte": "Embrapa e EMATER-PB. Sistema de produção para cana-de-açúcar. João Pessoa-PB, 1976 (fonte antiga, a única do Nordeste lida) (regos a 1,20–1,30 m, rebolos de 3–4 gemas cruzados, 8 t/ha, regos de 25–30 cm), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/903978/1/SIDDOCUMENTOS41SISTEMADEPRODUCAOPARACANADEACUCAR.pdf; Embrapa Semiárido. Instruções Técnicas 114, 2013 (toletes de 3 gemas, 12–15 gemas por metro de rego; cultivo irrigado), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/981777/1/INT114.pdf"
+    }
+  },
+  "operacoes": {
+    "preparo_sem_fogo": {
+      "como": [
+        "Não queime. Limpe com enxada ou foice logo no começo das chuvas.",
+        "Pau e galho grosso vão para a coivara, no canto do roçado, para apodrecer e virar adubo.",
+        "Folha e rama ficam no chão, como cobertura; junte esterco de cabra ou de gado.",
+        "Plante logo depois, até no mesmo dia."
+      ],
+      "fonte": "Mota, N. R.; Mota, D. M.; Mota, N. F. Transição agroecológica do roçado tradicional para a roça sem queima: mudanças no preparo da terra. Revista Brasileira de Agroecologia 12(2):117–125, 2017 (Pentecoste-CE), https://www.alice.cnptia.embrapa.br/alice/bitstream/doc/1076433/1/RBAv12n22017.pdf; Sacramento et al. R. Bras. Ci. Solo 37:784–795, 2013 (Sobral-CE: a roça de broca e queima perdeu mais carbono do solo), https://doi.org/10.1590/s0100-06832013000300025"
+    },
+    "capina": {
+      "como": [
+        "O mato que mais tira é o do começo: limpe até uns 30 a 45 dias (guandu 30, amendoim 45).",
+        "Mamona e algodão pedem o chão limpo por mais tempo: 60 a 70 dias.",
+        "Na mandioca, não passe cultivador nas 3 primeiras semanas nem nos últimos meses, e não deixe o mato florescer.",
+        "O mato cortado fica no chão, como cobertura."
+      ],
+      "fonte": "Embrapa Semi-Árido, Guandu Petrolina (IT 46), 2001, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/146669/1/INT46.pdf; Embrapa Algodão, Amendoim BR 1 (folder, 4ª ed.), 2009, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/578979/1/FolderAmendoimBR14ed.pdf; Embrapa Algodão, BRS Energia (folder), 2016, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1066766/1/BRSEnergia.pdf; Embrapa Algodão, BRS 201 (folder), 2000, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/278348/1/FolderBRS201.pdf; Embrapa Semi-Árido, Mandioca no Semi-Árido (IT 27), 2000, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/134153/1/Mandioca-no-Semi-Arido-Instrucoes-Tecnicas-27.pdf; Mota et al. 2017 (folha e rama como cobertura), https://www.alice.cnptia.embrapa.br/alice/bitstream/doc/1076433/1/RBAv12n22017.pdf"
+    },
+    "cobertura": {
+      "como": [
+        "Deixe a palha no chão, sem fogo: com palha, de 100 litros de chuva escorrem uns 4; no chão nu, uns 14.",
+        "No calor do sertão a palha some rápido (metade em 1 a 2 semanas): não tire toda para o gado.",
+        "Em volta da muda de caju, cubra o chão com palha para guardar a umidade."
+      ],
+      "fonte": "Montenegro et al. Advances in Geosciences 48:19–30, 2019 (Pesqueira-PE, encosta sem lavoura: escoamento ~14% no chão nu e ~4% com palhada), https://doi.org/10.5194/adgeo-48-19-2019; Pacheco et al. Revista Caatinga 30:13–23, 2017 (Bom Jesus-PI: meia-vida da palha de 5,4 a 15,4 dias), https://doi.org/10.1590/1983-21252017v30n102rc; Embrapa Meio-Norte, Cajueiro-anão-precoce CCP 76 (folder), 2006, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/69435/1/ccp76.pdf"
+    },
+    "colheita": {
+      "como": [
+        "Amendoim: com uns 90 dias, arranque e deixe as vagens 2 dias no sol e mais 2 no terreiro.",
+        "Mamona: colha o cacho quando todos os frutos estiverem secos; seque em lugar coberto.",
+        "Sorgo para silagem: corte quando o grão estiver pastoso, uns 90 dias.",
+        "Palma: corte na junta, deixando a raquete plantada e as primeiras que saíram dela."
+      ],
+      "fonte": "Embrapa Algodão, Amendoim BR 1 (folder, 4ª ed.), 2009, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/578979/1/FolderAmendoimBR14ed.pdf; Embrapa Algodão, BRS Energia (folder), 2016, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1066766/1/BRSEnergia.pdf; Embrapa Semiárido e IPA, Sorgo forrageiro (IT 127), 2016, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1053786/1/INT127.pdf; Embrapa Semiárido, Cultivo da palma no Semiárido (IT 124), 2016, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1046559/1/Palma-forrageira.2016.pdf"
+    },
+    "guardar_semente": {
+      "como": [
+        "Amendoim de semente: guarde na casca, em saco.",
+        "Contra o caruncho, misture cal, cinza, terra fina ou óleo no grão.",
+        "Na garrafa ou lata, queime um algodão com álcool dentro e feche logo: acaba o ar e o caruncho ataca menos.",
+        "Guarde em lugar seco e arejado, longe do chão."
+      ],
+      "fonte": "Embrapa Semi-Árido, Guandu Petrolina (IT 46), 2001 (cal, cinzas, terra fina ou óleo; algodão com álcool antes de fechar), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/146669/1/INT46.pdf; Embrapa Algodão, Amendoim BR 1 (folder, 4ª ed.), 2009 (armazenar em casca, em sacos), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/578979/1/FolderAmendoimBR14ed.pdf; Embrapa Algodão, BRS Energia (folder), 2016 (ambiente seco e arejado, longe do chão), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1066766/1/BRSEnergia.pdf"
+    },
+    "adubacao_verde": {
+      "como": [
+        "Mucuna-preta no meio da rua do milho, uns 85 dias depois do plantio do milho: não tira do milho.",
+        "Guandu vai em faixa própria: plantado junto do milho, no mesmo dia, tirou 6% do milho.",
+        "Antes de plantar no ano seguinte, corte a rama e espalhe no chão.",
+        "No milho sem adubo, a mucuna deixou 36% mais palha no chão."
+      ],
+      "fonte": "Melo, R. S. S. et al. Ciência Rural 43:1535–1541, 2013 (Alagoinha-PB, sequeiro, 2000–2008), https://doi.org/10.1590/s0103-84782013005000108"
+    }
+  },
+  "beneficios": {
+    "n_kg_ha": {
+      "Feijão-caupi": [10, 80],
+      "Amendoim": [60, 67],
+      "Guandu": [33, 68],
+      "Mucuna-preta": [19, 86],
+      "Gliricídia": [39, 39],
+      "Feijão comum": null
+    },
+    "palhada_t_ha": {
+      "Milho": [4.1, 4.1],
+      "Mucuna-preta": [1.5, 1.5],
+      "Sorgo granífero": [2.1, 2.1]
+    },
+    "forragem_t_ms_ha": {
+      "Guandu": [1.3, 2.7],
+      "Sorgo forrageiro": [12, 15],
+      "Milheto": [3.8, 3.9],
+      "Palma forrageira": [10, 10]
+    },
+    "fonte": {
+      "n_kg_ha": "Nitrogênio que a leguminosa deixa, em kg de N por hectare dela. Caupi 10–80 e amendoim 60–67: valor de reposição de N para o cereal seguinte, Franke et al. 2018, Agric. Ecosyst. Environ. 261:172–185, Tab. 4 (África Subsaariana), https://doi.org/10.1016/j.agee.2017.09.029. Guandu 33–68: conta (matéria seca de 1.334 a 2.710 kg/ha do Guandu Petrolina, Embrapa Semi-Árido IT 46, 2001 × 25 g de N por kg, média de 5 estudos na Tab. 4 do Comunicado Técnico 196 da Embrapa Tabuleiros Costeiros, 2016). Mucuna 19–86: equivalente em adubo para o milho citado de De-Polli & Chada 1989 e Burle et al. 1990 em Garcia 1997 (Embrapa Meio-Norte, Anais do VII Seminário de Pesquisa Agropecuária do Piauí, p. 133–143), fora do Semiárido. Gliricídia 39: N nas pontas da gliricídia junto da palma, Martins et al. 2015, Pesq. Agropec. Bras. (Taperoá-PB), https://doi.org/10.1590/s0100-204x2015000200010. Feijão comum: sem fonte lida.",
+      "palhada_t_ha": "Palha que fica no chão, em t de matéria seca por hectare. Milho 4,1: fitomassa do milho solteiro em semeadura direta sem adubo; mucuna 1,5: o que o milho + mucuna deixou a mais (5,56 − 4,08), Melo et al. 2013, Ciência Rural 43:1535–1541, Tab. 1 (Alagoinha-PB, sequeiro), https://doi.org/10.1590/s0103-84782013005000108. Sorgo 2,1: restolho de sorgo por ano no consórcio com palma em Pernambuco (Santos et al. 2006, citado em Embrapa/MilkPoint 2013, Palma forrageira: alternativa para a estacionalidade de produção de forragem no semiárido), https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/534153/1/MidiaPalmaForrageira.pdf.",
+      "forragem_t_ms_ha": "Comida do gado, em t de matéria seca por hectare. Guandu 1,3–2,7: média de 3 anos e ano chuvoso, Guandu Petrolina, Embrapa Semi-Árido IT 46, 2001, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/146669/1/INT46.pdf. Sorgo forrageiro 12–15: POTENCIAL da BRS Ponta Negra (não é média de sequeiro), Embrapa Semiárido e IPA IT 127, 2016, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/1053786/1/INT127.pdf. Milheto 3,8–3,9: média de 2 ciclos em Serra Talhada-PE, com irrigação de apoio, Almeida et al. 2025, Revista Brasileira de Geografia Física 18(7):4913–4933, https://periodicos.ufpe.br/revistas/rbgfe/article/download/263988/51041. Palma 10: valor de referência da Tabela 1 (extração de nutrientes 'considerando uma produtividade de 10 toneladas de MS/ha/ano') em Embrapa/MilkPoint 2013, Palma forrageira: alternativa para a estacionalidade de produção de forragem no semiárido, https://www.infoteca.cnptia.embrapa.br/infoteca/bitstream/doc/534153/1/MidiaPalmaForrageira.pdf; a mesma fonte cita 240 a 320 t de massa verde/ha em 2 anos a 20–40 mil plantas, com adubo (Santos et al. 2006). Conta só do 2º ano em diante (1º corte com 1,5 a 2 anos)."
+    },
+    "fonte_cultura": {
+      "n_kg_ha": {
+        "Feijão-caupi": "Franke et al. 2018, Tab. 4; África Subsaariana; vale a ordem, não o número (fora do Semiárido brasileiro).",
+        "Amendoim": "Franke et al. 2018, Tab. 4; África Subsaariana (fora do Semiárido brasileiro).",
+        "Guandu": "Conta com dado do Semiárido (Petrolina-PE, IT 46) e teor de N de 5 estudos (COT 196); confere com da Luz et al. 2023 (Arapiraca-AL): 37 kg de N/ha em 1,2 t/ha aos 60 dias, https://doi.org/10.3390/su152015091.",
+        "Mucuna-preta": "Fonte fraca: citação de segunda mão, fora do Semiárido (clima úmido e Cerrado). Use a ponta baixa ou não mostre; no Semiárido a mucuna entra tarde no milho e faz pouca rama.",
+        "Gliricídia": "Medido em Taperoá-PB (Martins et al. 2015), gliricídia junto da palma; ao lado do milho com caupi ela não fixou.",
+        "Feijão comum": "null: nenhuma fonte lida mede o N que o feijão comum deixa no Semiárido."
+      },
+      "palhada_t_ha": {
+        "Milho": "Medido em Alagoinha-PB, sequeiro (Melo et al. 2013).",
+        "Mucuna-preta": "Medido em Alagoinha-PB, sequeiro: a mais sobre o milho solteiro (Melo et al. 2013).",
+        "Sorgo granífero": "Pernambuco, sorgo em fileira dupla com palma (Santos et al. 2006, via Embrapa/MilkPoint 2013)."
+      },
+      "forragem_t_ms_ha": {
+        "Guandu": "Medido em Petrolina-PE, sequeiro (IT 46).",
+        "Sorgo forrageiro": "Potencial da variedade, não média de sequeiro: mostrar como PROJEÇÃO ou usar com cautela.",
+        "Milheto": "Serra Talhada-PE, com irrigação de apoio fora da estação (Almeida et al. 2025).",
+        "Palma forrageira": "Valor de referência da Tab. 1 (Embrapa/MilkPoint 2013), palmal adubado em Pernambuco; não é medida de sequeiro da família: suposição."
+      }
+    }
+  }
+}

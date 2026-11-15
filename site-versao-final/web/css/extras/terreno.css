@@ -1,0 +1,48 @@
+/* QUADRA, extra "terreno" (js/extras/terreno.js): o roçado em metros, parte por parte e o zoom de 5 × 5 m. Só tokens de quadra.css. */
+.terreno h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.terreno .tr-medidas { margin: 0 0 10px; color: var(--ink-2); font-size: 15px; }
+.terreno .tr-medidas b { color: var(--ink); }
+.terreno .tr-medir { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-underline-offset: 3px; }
+.terreno .tr-fig { margin: 0 0 6px; }
+.terreno .tr-svg, .terreno .tr-zoom-svg { width: 100%; height: auto; display: block; }
+.terreno svg text { fill: var(--ink); font-family: var(--font); }
+.terreno .tr-rot { font-size: 12px; font-weight: 600; }
+.terreno .tr-rot .tr-l { font-weight: 800; }
+.terreno .tr-rot-fundo { fill: var(--bg); opacity: .62; }
+.terreno .tr-rot .tr-m { fill: var(--ink-2); font-weight: 500; }
+.terreno .tr-cota line { stroke: var(--ink-2); stroke-width: 1.2; }
+.terreno .tr-cota-t { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+.terreno svg .tr-eixo { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; fill: var(--muted); }
+.terreno .chao { fill: var(--fundo, var(--f-pousio)); stroke: var(--cor, var(--t-pousio)); stroke-width: 1.5; }
+.terreno .tr-bx.incerto > .chao { stroke-dasharray: 7 5; stroke-width: 2; }
+.terreno .tr-lin line { stroke: var(--cor, var(--t-pousio)); stroke-width: 1.2; opacity: .55; stroke-linecap: round; }
+.terreno .tr-lin.tr-sec line, .terreno .tr-z-lin.tr-sec { stroke-dasharray: 4 4; }
+.terreno .tr-bordas rect { fill: none; stroke: var(--cor); }
+.terreno .tr-bordas .b-fora { stroke-width: 5; stroke-dasharray: 0.1 9; stroke-linecap: round; }
+.terreno .tr-bordas .b-dentro { stroke-width: 4; stroke-dasharray: 7 4; opacity: .75; }
+.terreno .tr-marca { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 3 2; }
+/* zoom */
+.terreno .tr-z-lin { stroke: var(--cor, var(--t-pousio)); stroke-width: 1.4; opacity: .5; }
+.terreno .tr-cova { fill: var(--bg); stroke: var(--cor); stroke-width: 1.6; }
+.terreno .tr-grao { fill: var(--cor); }
+.terreno .tr-muda { fill: var(--cor); }
+.terreno .tr-maniva { stroke: var(--cor); stroke-width: 3.2; stroke-linecap: round; }
+.terreno .tr-zoom { margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--border); }
+.terreno .tr-zoom-tit { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.terreno .tr-zoom-leg { margin: 6px 0 0; font-size: 13px; color: var(--ink-2); }
+/* parte por parte */
+.terreno .tr-h4 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 14px 0 8px; font-family: var(--mono); font-size: 12px;
+  font-weight: 500; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+.terreno .tr-partes { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.terreno .tr-parte { display: grid; gap: 1px; width: 100%; text-align: left; font: inherit; color: var(--ink-2); font-size: 13px; line-height: 1.35;
+  padding: 8px 10px 8px 12px; border: 1px solid var(--border); border-left: 4px solid var(--cor, var(--t-pousio)); border-radius: 10px;
+  background: var(--surface-2); min-height: 44px; }
+.terreno .tr-parte { cursor: pointer; }
+.terreno .tr-parte:hover { border-color: var(--border-2); border-left-color: var(--cor, var(--t-pousio)); }
+.terreno .tr-parte[aria-expanded="true"] { background: var(--fundo, var(--surface-3)); border-color: var(--cor, var(--border-2)); gap: 2px; }
+.terreno .tr-parte.incerto { border-left-style: dashed; }
+.terreno .tr-p-l1 { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 10px; color: var(--ink); font-size: 15px; }
+.terreno .tr-p-leve { color: var(--ink-2); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; margin-left: auto; }
+.terreno .tr-p-med { color: var(--muted); }
+.terreno .tr-p-mat { color: var(--ink); font-weight: 600; }
+.terreno .tr-aviso { margin: 8px 0 0; font-size: 13px; color: var(--amber); }
