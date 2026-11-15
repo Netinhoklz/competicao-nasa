@@ -18,18 +18,27 @@
 .passo-dinheiro .linha-chips, .passo-dinheiro .avisos-linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
 .passo-dinheiro .avisos-linha { margin: -4px 0 16px; }
 .passo-dinheiro .chip .ic { width: 16px; height: 16px; }
-.passo-dinheiro .chip.grande { font-size: 16px; padding: 9px 16px; font-weight: 600; }
-.passo-dinheiro .chip.grande .ic { width: 20px; height: 20px; }
 .passo-dinheiro .chip.mini { font-size: 11px; padding: 2px 9px; letter-spacing: .04em; text-transform: none; font-family: var(--body); }
-.passo-dinheiro .rot-mini { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
-.passo-dinheiro .rot-mini .ic { width: 16px; height: 16px; }
 .passo-dinheiro h4 { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
 
-/* Seu bolso: controles segmentados */
-.passo-dinheiro .bolso { padding: 18px 22px; }
-.passo-dinheiro .bolso-linha { display: grid; grid-template-columns: repeat(2, minmax(0, auto)); gap: 16px 28px; justify-content: start; }
-/* "O que vale mais" tem 4 escolhas (garantir, equilibrar, vender, solo): ocupa a 1ª linha inteira, sem cortar a última */
-.passo-dinheiro .bolso-linha > .ctrl:first-child { grid-column: 1 / -1; }
+/* o que a conta supõe, sob o título ("Conta com: só a semente · raiz a R$ 0,84/kg (comum no CE) · ajustar") */
+.passo-dinheiro .titulo-passo { margin-bottom: 20px; }
+.passo-dinheiro .conta-com { font-size: 15px; color: var(--ink-2); }
+.passo-dinheiro .conta-com .selo { margin-left: 4px; vertical-align: 1px; }
+.passo-dinheiro .link-ajustar { background: none; border: 0; padding: 12px 4px; margin: -12px 0; font: inherit; font-weight: 600; color: var(--green-forte);
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* "Ajustar a conta" e os "ver mais" do passo: uma lista de linhas que abrem, num painel só */
+.passo-dinheiro .mais-conta { padding-top: 4px; padding-bottom: 4px; }
+.passo-dinheiro .mais-conta > details.ver-mais { margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.passo-dinheiro .mais-conta > details.ver-mais:first-child { border-top: 0; }
+.passo-dinheiro .mais-conta > details.ver-mais > summary { display: flex; min-height: 44px; margin: 0; font-size: 16px; color: var(--ink); }
+.passo-dinheiro .mais-conta > details.ver-mais[open] { padding-bottom: 18px; }
+.passo-dinheiro #ajustar-conta { scroll-margin-top: 150px; }
+.passo-dinheiro .ajustar { display: flex; flex-direction: column; gap: 18px; padding-top: 4px; }
+.passo-dinheiro .ajustar .olho { margin: 10px 0 0; }
+.passo-dinheiro .aj-mudar { align-self: flex-start; min-height: 44px; text-decoration: none; color: var(--ink); }
+.passo-dinheiro .aj-mudar:hover { border-color: var(--green); }
 .passo-dinheiro .ctrl .rot-bloco { margin-bottom: 8px; }
 .passo-dinheiro .seg { display: inline-flex; border: 1px solid var(--border-2); border-radius: 14px; overflow: hidden; background: rgba(255, 255, 255, .03); max-width: 100%; }
 .passo-dinheiro .seg button { min-height: 48px; padding: 6px 14px; border: 0; border-left: 1px solid var(--border); background: none; color: var(--ink-2);
@@ -38,25 +47,6 @@
 .passo-dinheiro .seg button:hover { background: var(--green-soft); color: var(--ink); }
 .passo-dinheiro .seg button.on { background: var(--green); color: #04130a; font-weight: 600; }
 .passo-dinheiro .seg button small { display: block; font-size: 11px; font-family: var(--mono); opacity: .75; margin-top: 2px; }
-.passo-dinheiro .seg-vazio { min-height: 48px; display: flex; align-items: center; font-size: 14px; color: var(--muted); }
-.passo-dinheiro .bolso-chips { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
-.passo-dinheiro .bolso-chips a.chip { text-decoration: none; min-height: 36px; }
-.passo-dinheiro .bolso-chips a.chip:hover { border-color: var(--green); color: var(--ink); }
-.passo-dinheiro .gs { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
-.passo-dinheiro .gs .seg button { min-height: 40px; font-size: 14px; padding: 4px 12px; }
-
-/* herói */
-.passo-dinheiro .heroi { background: linear-gradient(135deg, rgba(127, 178, 240, .10), rgba(127, 178, 240, .02)); border-color: rgba(127, 178, 240, .35); }
-.passo-dinheiro .heroi-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 14px; }
-.passo-dinheiro .hn { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; min-width: 0; }
-.passo-dinheiro .hn .chave { grid-row: 1; }
-.passo-dinheiro .hn-rot { font-size: 15px; color: var(--ink-2); }
-.passo-dinheiro .hn-rot small { color: var(--muted); font-size: 13px; }
-.passo-dinheiro .hn-val, .passo-dinheiro .hn-sub { grid-column: 1 / -1; }
-.passo-dinheiro .hn-val { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 5.4vw, 54px); line-height: 1.05; margin-top: 6px; white-space: nowrap; }
-.passo-dinheiro .hn-val.cinza { color: var(--ink-2); }
-.passo-dinheiro .hn-sub { font-size: 14px; color: var(--muted); margin-top: 4px; }
-.passo-dinheiro .graf-h { width: 100%; height: auto; display: block; }
 
 /* chaves de cor */
 .passo-dinheiro .chave { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; flex: none; }
@@ -136,23 +126,12 @@
 
 /* agronegócio e o resto */
 .passo-dinheiro .apagado { opacity: .5; filter: saturate(.35); }
-.passo-dinheiro .como { padding-top: 6px; padding-bottom: 14px; }
-.passo-dinheiro .como details.ver-mais { border-top: 0; margin-top: 0; }
 .passo-dinheiro table.tab-cult { min-width: 640px; }
 .passo-dinheiro details.ver-mais p, .passo-dinheiro details.ver-mais li { max-width: 900px; }
 
-@media (max-width: 980px) {
-  .passo-dinheiro .bolso-linha { grid-template-columns: 1fr 1fr; }
-}
 @media (max-width: 760px) {
-  .passo-dinheiro .bolso { padding: 16px; }
-  .passo-dinheiro .bolso-linha { grid-template-columns: 1fr; }
   .passo-dinheiro .seg { display: flex; width: 100%; }
   .passo-dinheiro .seg button { flex: 1 1 0; white-space: normal; padding: 6px 8px; font-size: 14px; }
-  .passo-dinheiro .gs { width: 100%; }
-  .passo-dinheiro .gs .seg { flex: 1 1 100%; }
-  .passo-dinheiro .heroi-nums { gap: 12px; }
-  .passo-dinheiro .hn-val { font-size: 27px; }
   .passo-dinheiro .en-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .passo-dinheiro .termo-linha { grid-template-columns: 50px 1fr 1fr; gap: 6px 10px; }
   .passo-dinheiro .medidor { flex-direction: column; align-items: flex-start; gap: 4px; }

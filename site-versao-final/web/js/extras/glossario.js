@@ -3,7 +3,8 @@
 //   instalar(ctx)       → liga os ouvintes uma vez só (delegados) e guarda o ctx do passo para os exemplos; pode ser chamado a cada render.
 //   lista(ctx)          → o glossário inteiro, para um verMais.   default.render(el, ctx, opcoes) → a lista dentro de um verMais.
 // Números do exemplo: ctx.r (API) e dados/glossario_mun.json (ferramentas/preparar_glossario.py: ET0 do POWER, veranico do IMERG,
-// noite mais fria do ERA5, verde do MODIS). Sem o JSON, cada termo mostra só a definição.
+// noite mais fria do ERA5, verde do MODIS). O JSON (~90 KB) só é baixado no 1º balão aberto ou quando a lista abre; até lá (ou sem ele),
+// os termos que dependem dele mostram só a definição.
 import * as U from "../comum.js";
 
 const URL_DADOS = new URL("../../dados/glossario_mun.json", import.meta.url); // vale para roca.html e para as páginas de teste
@@ -233,7 +234,6 @@ export function instalar(ctx) {
   if (ctx) ctxAtual = ctx;
   if (instalado || typeof document === "undefined") return;
   instalado = true;
-  carregar();
   document.addEventListener("click", (ev) => {
     const alvo = ev.target.closest?.(".gl-termo");
     if (alvo) { ev.preventDefault(); return aberto === alvo ? fechar(false) : abrir(alvo); }
@@ -259,7 +259,13 @@ export default {
   /** opcoes: { titulo: texto do "ver mais", termos: [chaves] } */
   async render(el, ctx, opcoes = {}) {
     instalar(ctx);
-    await carregar();
-    el.innerHTML = U.verMais(lista(ctx, opcoes.termos || CHAVES), opcoes.titulo || "O que quer dizer cada palavra?");
+    el.innerHTML = U.verMais('<div class="gl-corpo"></div>', opcoes.titulo || "O que quer dizer cada palavra?");
+    const det = el.querySelector("details"), corpo = el.querySelector(".gl-corpo");
+    const encher = () => { corpo.innerHTML = lista(ctx, opcoes.termos || CHAVES); };
+    det.addEventListener("toggle", () => { // a lista só é feita (e o JSON só é pedido) quando a pessoa abre
+      if (!det.open || corpo.childElementCount) return;
+      encher();
+      if (!dados) carregar().then(() => { if (dados) encher(); });
+    });
   },
 };

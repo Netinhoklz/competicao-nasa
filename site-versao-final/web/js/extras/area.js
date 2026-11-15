@@ -22,7 +22,7 @@ const FONTE_TAREFA = "IBGE (1948), Unidades agrárias não decimais em uso no Br
   + "Nordeste; na Bahia, a tarefa baiana de 30 × 30 braças (0,4356 ha), no Ceará chamada cem-passos. Braça = 2,20 m. "
   + "Muda de lugar para lugar.";
 const FONTE_PASSO = "suposição: 1 passo de adulto ≈ 0,8 m; com trena ou corda medida, o número fica certo";
-const FONTE_TIPICO = "IBGE, Censo Agropecuário 2017: área típica de lavoura do estabelecimento familiar";
+const FONTE_TIPICO = "típico do município no Censo Agropecuário 2017 (IBGE: área de lavoura do estabelecimento familiar), aplicado ao seu roçado";
 const CAMPO_HA = 0.714; // campo oficial de futebol, 105 × 68 m
 
 const REGUA = '<rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5"/>';
@@ -119,7 +119,8 @@ function quadrinhos(n) {
 export default {
   id: "area",
   titulo: "Tamanho do roçado",
-  /** opcoes: { semTitulo: true } tira o título (use dentro do quiz do passo 2, que já tem o dele). */
+  /** opcoes: { semTitulo: true } tira o título, os atalhos ½ · 1 · 2 · 3 · 5 ha e a linha do típico (dentro de Sua roça, que já
+   *  tem os três na própria linha do tamanho). */
   async render(el, ctx, opcoes = {}) {
     const U = ctx.util, uf = ctx.r?.local?.uf, pad = ctx.r?.padroes || {};
     const tipico = pad.rocado_ha > 0 ? pad.rocado_ha : pad.rocado_ha_padrao > 0 ? pad.rocado_ha_padrao : null;
@@ -153,7 +154,7 @@ export default {
     let corpo = "", conv = "";
     if (un === "ha") {
       corpo = `<div class="ar-passo">${mm("ha", -1, "menos")}<div class="ar-val"><span class="numero-grande">${fmtHa(U, ha)}</span><small>hectares</small></div>${mm("ha", 1, "mais")}</div>
-        <div class="ar-rapido">${[0.5, 1, 2, 3, 5].map((v) => `<button type="button" class="chip ${Math.abs(ha - v) < 0.005 ? "verde" : ""}" data-ha="${v}">${v === 0.5 ? "½" : v} ha</button>`).join("")}</div>`;
+        ${opcoes.semTitulo ? "" : `<div class="ar-rapido">${[0.5, 1, 2, 3, 5].map((v) => `<button type="button" class="chip ${Math.abs(ha - v) < 0.005 ? "verde" : ""}" data-ha="${v}">${v === 0.5 ? "½" : v} ha</button>`).join("")}</div>`}`;
       const nt = (ha * 10000) / tarefaPadrao(uf);
       conv = `<p class="ar-conv"><span>≈ ${fmtN(U, nt)} tarefa${nt >= 1.05 ? "s" : ""} · ${campos(ha)}</span></p>`;
     } else if (un === "tarefa") {
@@ -187,7 +188,7 @@ export default {
       ${seletor}
       <div class="ar-corpo">${corpo}</div>
       ${conv}
-      ${tip ? `<p class="ar-tipico">${tip} ${U.selo("medido", FONTE_TIPICO)}</p>` : ""}
+      ${tip && !opcoes.semTitulo ? `<p class="ar-tipico">${tip} ${U.selo("suposicao", FONTE_TIPICO)}</p>` : ""}
       ${un === "tarefa" ? olho("A tarefa muda de lugar para lugar: confirme com o técnico.") : ""}
     </div>`;
 

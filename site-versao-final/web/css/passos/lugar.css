@@ -1,13 +1,14 @@
-/* passo 1, "O lugar" */
-.enso { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(220px, 1fr); gap: 20px; align-items: center; }
-.enso-sub { margin: 10px 0 0 62px; font-size: 14px; }
-.enso-barras { width: 100%; max-width: 300px; justify-self: end; }
+/* passo "Do espaço" (#/<cod>/1) */
+.enso-sub { margin: 10px 0 0; font-size: 14px; }
+.enso-barras { display: block; width: 100%; max-width: 300px; margin: 6px 0 4px; }
 .enso-barra { fill: var(--amber); }
 .enso-acaso { stroke: var(--ink-4); stroke-dasharray: 4 4; stroke-width: 1; }
 .enso-val { font-family: var(--mono); font-size: 9.5px; fill: var(--ink); }
 .enso-ano { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
 .painel-fino { padding: 6px 24px 14px; }
 .grade-4 { margin: 0 0 18px; }
+/* o selo com a fonte ("MEDIDO · NASA SMAP") desce para a linha de baixo quando não cabe ao lado do rótulo */
+.passo-lugar .grade-4 .ind-rot { flex-wrap: wrap; row-gap: 4px; }
 
 .regua { position: relative; height: 76px; margin: 26px 0 6px; }
 .regua-chuva { position: absolute; top: 14px; height: 26px; background: rgba(127, 178, 240, .22); border-bottom: 3px solid var(--blue); }
@@ -42,12 +43,21 @@
 .c-apto { --cc: var(--blue); }
 .c-risco { --cc: var(--amber); }
 .c-lit { --cc: #b9a4ff; }
-.cta { margin: 26px 0 8px; }
-.pular { text-align: center; margin: 4px 0 26px; font-size: 14px; }
-.pular a { color: var(--muted); }
+/* linha "Quanto o cálculo já acertou → Se secar" no fim do painel da origem */
+.lugar-acerto { display: flex; align-items: center; gap: 10px; min-height: 48px; margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--border);
+  color: var(--ink-2); text-decoration: none; font-size: 14px; line-height: 1.25; }
+.lugar-acerto > .ic { color: var(--muted); flex: none; }
+.lugar-acerto b { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; color: var(--green-forte); font-weight: 600; white-space: nowrap; }
+.lugar-acerto b .ic { width: 18px; height: 18px; }
+.regua-legenda .selo { align-self: center; }
 @media (max-width: 760px) {
-  .enso { grid-template-columns: 1fr; } .enso-barras { justify-self: start; } .enso-sub { margin-left: 0; }
-  .culturas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .culturas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  /* cartão da cultura em 3 linhas, com o ícone ao lado (as 6 primeiras cabem em 3 fileiras curtas) */
+  .cultura { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 8px; row-gap: 2px; align-content: start; padding: 12px 10px; }
+  .cultura .ic.g { grid-row: span 3; width: 28px; height: 28px; }
+  .cultura b { font-size: 15px; line-height: 1.2; padding-right: 10px; }
+  .cultura::after { top: 12px; right: 10px; width: 8px; height: 8px; }
+  .cultura .c-quando { font-size: 12px; }
   .regua-meses span:nth-child(even) { visibility: hidden; }
   .regua-mediana em { font-size: 10px; }
 }
@@ -59,17 +69,19 @@
 .origem .hz.painel { background: none; border: 0; padding: 0; margin: 8px 0 0; box-shadow: none; }
 .origem .extra-glossario details.ver-mais { margin-top: 0; }
 .origem > details.ver-mais:first-child { border-top: 0; margin-top: 4px; } /* o 1º "ver mais" do painel fino não abre com uma linha vazia */
+/* os "ver mais" deste passo mais juntos (são 7 na tela); o alvo de toque continua com 44 px (summary do quadra.css) */
+.passo-lugar details.ver-mais { margin-top: 8px; padding-top: 0; }
+.passo-lugar details.ver-mais > summary { margin: 0; }
 @media (max-width: 760px) {
   .enso .olho { margin-left: 0; }
-  /* no celular, os 6 mini-gráficos ficam numa fileira só, de deslizar (a página não rola de lado) */
-  .passo-lugar .tend-grade { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 8px;
-    overscroll-behavior-x: contain; scrollbar-width: thin; }
-  .passo-lugar .tend-cartao { flex: 0 0 84%; scroll-snap-align: start; }
   /* os 4 números de hoje em 2 × 2 (cabe numa tela só) */
   .passo-lugar .grade-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .passo-lugar .grade-4 .ind { padding: 14px 12px; }
+  .passo-lugar .grade-4 .ind { padding: 12px 10px; gap: 6px; }
   .passo-lugar .grade-4 .ind-val { font-size: 26px; }
-  .passo-lugar .grade-4 .ind-rot { font-size: 12px; flex-wrap: wrap; }
+  .passo-lugar .grade-4 .ind-rot { font-size: 12px; flex-wrap: wrap; gap: 4px 6px; }
+  .passo-lugar .grade-4 .selo { letter-spacing: .04em; } /* "MEDIDO · NASA SMAP" cabe no cartão estreito */
+  /* confiança: no celular fica o nível e a frase; os motivos estão todos no "Ver por quê" do próprio bloco */
+  .passo-lugar .cf-motivos { display: none; }
   /* rótulo da régua perto da borda: encosta do lado de dentro, sem sair do painel */
   .regua-mediana.esq em, .regua-hoje.esq em { left: -2px; transform: none; }
   .regua-mediana.dir em, .regua-hoje.dir em { left: auto; right: -2px; transform: none; }

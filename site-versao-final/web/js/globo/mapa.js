@@ -389,6 +389,8 @@ export class Mapa {
       attributionControl: { compact: true },
       locale: TEXTOS,
     });
+    // os créditos abertos cobriam a barra "Ver no mapa" e a escala no computador: ficam no botão "i" desde o começo
+    this.mapa.once('load', () => this.container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'));
     this.mapa.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
     this.mapa.addControl(new maplibregl.TerrainControl({ source: 'terreno', exaggeration: EXAGERO }), 'bottom-right');
     const escala = new maplibregl.ScaleControl({ unit: 'metric' });
@@ -520,8 +522,8 @@ export class Mapa {
    * Com `continuar` (a pessoa entrou girando a rodinha) so segue um pouco o zoom dela.
    */
   chegar(lugar, { continuar = false } = {}) {
-    // creditos: abertos na primeira chegada (o MapLibre os abre sozinho uma vez) e recolhidos ao "i"
-    // depois de 10 s, junto com a dica de uso; continuam a um clique
+    // creditos: recolhidos ao "i" desde o load; se o MapLibre os reabrir sozinho, fecham 10 s depois da
+    // chegada, junto com a dica de uso; continuam a um clique
     clearTimeout(this._tCreditos);
     this._tCreditos = setTimeout(() => {
       this.container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');

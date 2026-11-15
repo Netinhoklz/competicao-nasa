@@ -1,5 +1,6 @@
 // QUADRA, passo "Como plantar": o que fazer e quando (hoje até dez/2027).
-// Na frente: uma linha do tempo de até 6 cartões, tirada de agenda.linhas (janelas de plantio e de colheita) e agenda.agora.
+// Na frente: a frase do "Agora" (agora(), vai sob o título do passo) e uma linha do tempo de 3 cartões, tiradas de agenda.linhas
+// (janelas de plantio e de colheita) e agenda.agora.
 // No "ver mais": o Gantt do protótipo do José (cartaoCalendario em protótipo/static/app.js, branch estudo-jose, e7a23b5), a lista
 // de marcar, a nota dos portões, os marcos e o passo a passo, com os tokens de quadra.css.
 
@@ -27,7 +28,7 @@ function eventos(a) {
   let preparo = null;
   for (const l of a.linhas) {
     const pl = l.barras.find((b) => b.tipo === "plantio" || b.tipo === "estimado");
-    if (pl && pl.ate >= hoje) ev.push({ tipo: "plantar", de: pl.de, ate: pl.ate, nome: nome(l.cultura), onde: LUGAR(l.parte), suposto: !/^ZARC/.test(l.fonte || "") });
+    if (pl && pl.ate >= hoje) ev.push({ tipo: "plantar", de: pl.de, ate: pl.ate, nome: nome(l.cultura), cultura: l.cultura, onde: LUGAR(l.parte), suposto: !/^ZARC/.test(l.fonte || "") });
     const co = l.barras.find((b) => b.tipo === "colheita");
     if (co && co.ate >= hoje) ev.push({ tipo: "colher", de: co.de, ate: co.ate, nome: nome(l.cultura), onde: LUGAR(l.parte), suposto: true });
     const pr = l.barras.find((b) => b.tipo === "preparo");
@@ -37,47 +38,68 @@ function eventos(a) {
   return ev.sort((x, y) => (x.de < y.de ? -1 : x.de > y.de ? 1 : 0));
 }
 
-/** A linha do tempo "o que fazer e quando": Agora + os 5 próximos meses com tarefa (com pelo menos uma colheita). */
+const abertas = (a, ev) => ev.filter((e) => e.tipo === "plantar" && e.de <= a.hoje); // janelas de plantar que já abriram
+
+/** Começo da janela de plantar de cada cultura antes da última resposta em Sua roça (sessionStorage["quadra.antes"] =
+ *  {cod, jan: {cultura: "dd/mm a dd/mm"}}, gravado por passos/perguntas.js); {} sem armazenamento ou noutro município. */
+function iniciosAntes(cod) {
+  try {
+    const o = JSON.parse(sessionStorage.getItem("quadra.antes") || "{}") || {};
+    if (o.cod !== cod) return {}; // as janelas de antes são de outro município (ou de um formato velho): não compara
+    return Object.fromEntries(Object.entries(o.jan || {}).map(([c, v]) => [c, String(v).slice(0, 5)]));
+  } catch (_) { return {}; }
+}
+
+/** A frase do "Agora", para a faixa sob o título do passo: a janela de plantar que já abriu ou, antes dela, o que juntar
+ *  ("junte semente, maniva e mudas; nada de fogo."). Era o 1º cartão da linha do tempo; saiu de lá para não repetir. */
+export function agora(ctx) {
+  const U = ctx.util, a = ctx.r.agenda;
+  if (!a) return "";
+  const ab = abertas(a, eventos(a));
+  if (ab.length) return `já dá para plantar ${lista([...new Set(ab.map((e) => e.nome))])}, até ${U.dataBR(ab.map((e) => e.ate).sort()[0], true)}.`;
+  const junta = [["semente", "semente"], ["maniva", "maniva"], ["mudas", "mudas"]].filter(([k]) => a.agora.some((t) => t.toLowerCase().includes(k))).map(([, v]) => v);
+  return `${junta.length ? `junte ${lista(junta)}` : "prepare a semente"}; nada de fogo.`;
+}
+
+/** A linha do tempo "o que fazer e quando": 3 cartões depois do "Agora" (2 plantios e 1 colheita). */
 export function linhaDoTempo(ctx) {
   const U = ctx.util, esc = U.esc, a = ctx.r.agenda;
   if (!a) return "";
-  const ev = eventos(a);
-  const abertos = ev.filter((e) => e.tipo === "plantar" && e.de <= a.hoje);
+  const ev = eventos(a), abertos = abertas(a, ev);
   const cartoes = [];
-  if (abertos.length) {
-    cartoes.push({ quando: "Agora", data: `até ${U.dataBR(abertos.map((e) => e.ate).sort()[0], true)}`, icone: "semente", cor: "verde",
-      frase: `Já dá para plantar ${lista([...new Set(abertos.map((e) => e.nome))])}`, onde: [...new Set(abertos.map((e) => e.onde))], suposto: abertos.some((e) => e.suposto) });
-  } else {
-    const junta = [["semente", "semente"], ["maniva", "maniva"], ["mudas", "mudas"]].filter(([k]) => a.agora.some((t) => t.toLowerCase().includes(k))).map(([, v]) => v);
-    cartoes.push({ quando: "Agora", data: U.dataBR(a.hoje, true), icone: "semente", cor: "verde",
-      frase: junta.length ? `Junte ${lista(junta)}` : "Prepare a semente", onde: ["e nada de fogo"], suposto: false });
-  }
-  // o resto, agrupado por mês e por tipo de tarefa
+  // os próximos, agrupados por mês e por tipo de tarefa (a janela que já abriu está no "Agora")
   const grupos = new Map();
   for (const e of ev) {
     if (abertos.includes(e) || (e.tipo !== "preparo" && e.de <= a.hoje)) continue;
     const k = `${e.de.slice(0, 7)}|${e.tipo}`;
-    if (!grupos.has(k)) grupos.set(k, { tipo: e.tipo, de: e.de, nomes: [], onde: [], suposto: false });
+    if (!grupos.has(k)) grupos.set(k, { tipo: e.tipo, de: e.de, cultura: e.cultura, nomes: [], onde: [], suposto: false }); // cultura: a que dá a data
     const g = grupos.get(k);
     if (e.nome && !g.nomes.includes(e.nome)) g.nomes.push(e.nome);
     if (e.onde && !g.onde.includes(e.onde)) g.onde.push(e.onde);
     g.suposto = g.suposto || e.suposto;
   }
   const todos = [...grupos.values()]; // já em ordem de data
-  let escolha = todos.slice(0, 5);
-  if (!escolha.some((g) => g.tipo === "colher")) { const c = todos.find((g) => g.tipo === "colher"); if (c) escolha = [...escolha.slice(0, 4), c]; }
+  // 3 cartões depois do "Agora": os 2 primeiros plantios do roçado e a 1ª colheita (o preparo e a cerca ficam no calendário completo,
+  // e o "Agora" já diz "nada de fogo"); se faltar, completa pela data
+  const doRocado = (g) => g.tipo !== "preparo" && g.onde.some((o) => o !== "bordas");
+  let escolha = [...todos.filter((g) => g.tipo === "plantar" && doRocado(g)).slice(0, 2), ...todos.filter((g) => g.tipo === "colher" && doRocado(g)).slice(0, 1)];
+  for (const g of todos) if (escolha.length < 3 && !escolha.includes(g)) escolha.push(g);
+  escolha.sort((x, y) => (x.de < y.de ? -1 : x.de > y.de ? 1 : 0));
   const COR = { plantar: ["semente", "verde"], colher: ["celeiro", "ambar"], preparo: ["enxada", ""] };
+  // "era dd/mm" quando a resposta mudou a janela da cultura que dá a data do cartão (as duas pontas tiradas de agenda.culturas)
+  const velho = iniciosAntes(ctx.cod), novo = Object.fromEntries((a.culturas || []).map((c) => [c.cultura, String(c.plantar || "").replace(/^de /, "").slice(0, 5)]));
   for (const g of escolha) {
     const [icone, cor] = COR[g.tipo];
     const frase = g.tipo === "preparo" ? "Prepare a terra, sem fogo" : `${g.tipo === "plantar" ? "Plante" : "Colha"} ${lista(g.nomes)}`;
-    cartoes.push({ quando: U.MESES[+g.de.slice(5, 7) - 1], data: U.dataBR(g.de, true), icone, cor, frase,
+    const antes = g.tipo === "plantar" && velho[g.cultura] && novo[g.cultura] && velho[g.cultura] !== novo[g.cultura] ? velho[g.cultura] : "";
+    cartoes.push({ quando: U.MESES[+g.de.slice(5, 7) - 1], data: U.dataBR(g.de, true), icone, cor, frase, antes,
       onde: g.tipo === "preparo" ? ["palhada no chão"] : g.onde, suposto: g.suposto, colheita: g.tipo === "colher" });
   }
   const fonteSelo = "datas de plantar da tábua oficial do Ministério da Agricultura (ZARC 2026/27); as marcadas como suposição são estimadas " +
     "(início da chuva, ciclo da cultura até a colheita, preparo um mês antes)";
   return `<ol class="tempo" style="--n:${cartoes.length}">${cartoes.map((c) => `<li class="tempo-c${c.colheita ? " colhe" : ""}">
       <span class="bola ${c.cor}">${U.ic(c.icone)}</span>
-      <div class="tempo-q">${esc(c.quando)} <span>${esc(c.data)}</span>${c.suposto ? " " + U.selo("suposicao", fonteSelo) : ""}</div>
+      <div class="tempo-q">${esc(c.quando)} <span>${esc(c.data)}</span>${c.antes ? ` <span class="tempo-antes">· era ${esc(c.antes)}</span>` : ""}${c.suposto ? " " + U.selo("suposicao", fonteSelo) : ""}</div>
       <b>${esc(c.frase)}</b><small>${esc(c.onde.join(" · "))}</small></li>`).join("")}</ol>`;
 }
 

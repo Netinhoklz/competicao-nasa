@@ -110,3 +110,13 @@ vento e declive no desenho do roçado, perguntas da temporada (data de plantio, 
   - GAEZ: banana e cana.
   - Financeiro: série do caju (castanha) por município e banana/cana no CE (`scripts/preparar_perenes_financeiro.py`; rodar depois
     de `ferramentas/preparar_financeiro_site.py`).
+
+## Rodada de 15/11 (madrugada): o fluxo novo
+
+- 10 lentes propuseram e debateram o fluxo (`analise/fluxo/01..10_*.md` e `debate/`); o fechamento está em `analise/fluxo/00_FLUXO_FINAL.md`.
+- O globo leva direto a **Sua roça** (`#/<cod>/2`): uma tela, 4 linhas já marcadas com o comum daqui (o que planta, tamanho, terra, baixio).
+  Do painel ao plano são 2 toques (eram 14); respondendo tudo, 6.
+- O resto é perguntado onde age: maniva no plano, 2025 no giro, o ano que quebrou na memória, prioridade nas abas do dinheiro;
+  custo, raiz e arranjo em "Ajustar a conta". Saem água (vai ao "Leve para o técnico"), manejo, "deu bem", "o que já faz" e Garantia-Safra.
+- Um indicador (pílulas Roça · Plano · Dinheiro · Seca · Espaço, ordem [2,3,4,5,1]) e um verde por tela. O passo 1 vira "Do espaço".
+- Conferência: `testes/ferramentas/aceite_fluxo.py` (21 critérios, 7 municípios) e `percorrer_fluxo.py`. Relatórios em `analise/fluxo/implementacao/`.

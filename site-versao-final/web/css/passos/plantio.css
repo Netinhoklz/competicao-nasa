@@ -46,7 +46,6 @@
 .passo-plantio .bordas.e-plantar .b-dentro, .passo-plantio .bordas.e-risco .b-dentro { stroke-dasharray: 2 6; }
 .passo-plantio .amostra { width: 30px; height: 16px; vertical-align: middle; flex: none; }
 .passo-plantio .amostra .chao { stroke-width: 1; }
-.passo-plantio .amostra-tracejo { width: 26px; height: 12px; border: 2px dashed var(--t-cereal); border-radius: 3px; flex: none; }
 
 /* legenda compacta ao lado do desenho */
 .passo-plantio .vista { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 4px 0 12px; }
@@ -63,15 +62,18 @@
 .passo-plantio .mini-chip { padding: 1px 8px; font-size: 11px; margin-left: 6px; vertical-align: 2px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
 .passo-plantio .leg-partes .leg-nota { display: block; background: none; border: 0; padding: 2px 4px; font-size: 13px; color: var(--muted); }
 .passo-plantio .leg-extra { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 14px; color: var(--ink-2); }
+.passo-plantio .mes-a-mes[open] > .mes-controle { margin-top: 10px; }
+.passo-plantio .mes-a-mes .vista { margin-top: 14px; }
 .passo-plantio .leg-estados { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; font-size: 13px; color: var(--ink-2); }
 .passo-plantio .leg-estados span { display: inline-flex; align-items: center; gap: 6px; }
 
 /* mês a mês */
 .passo-plantio .mes-controle { display: flex; align-items: center; gap: 10px; margin: 18px 0 4px; }
-.passo-plantio .play { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--green); color: var(--bg); cursor: pointer;
-  display: grid; place-items: center; }
+/* o "tocar" não é verde cheio: o verde cheio é só o botão da barra (um primário por tela) */
+.passo-plantio .play { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--surface-3);
+  color: var(--green); cursor: pointer; display: grid; place-items: center; }
 .passo-plantio .play .ic { width: 24px; height: 24px; stroke-width: 2.4; }
-.passo-plantio .play.tocando { background: var(--amber); }
+.passo-plantio .play.tocando { background: var(--amber); border-color: var(--amber); color: var(--bg); }
 .passo-plantio .pausa { width: 14px; height: 16px; border-left: 4px solid currentColor; border-right: 4px solid currentColor; }
 .passo-plantio .mes-trilho { flex: 1 1 auto; min-width: 0; display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 4px; }
 .passo-plantio .mes-b { min-height: 48px; border: 1px solid var(--border); background: rgba(255, 255, 255, .03); border-radius: 10px; cursor: pointer;
@@ -80,7 +82,42 @@
 .passo-plantio .mes-b:hover { border-color: var(--green); }
 .passo-plantio .mes-b.atual { border-color: var(--green); background: var(--green-soft); color: var(--ink); font-weight: 600; }
 .passo-plantio .mes-b.fora { opacity: .45; }
-.passo-plantio .mes-controle .botao-leve { min-height: 48px; }
+
+/* ---------- "Agora" sob o título e a linha da maniva sob o desenho */
+.passo-plantio .plantio-agora { margin: 0 0 14px; }
+.passo-plantio .plantio-agora .faixa p b { color: var(--green-forte); }
+.passo-plantio .plantio-maniva { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 14px; padding: 12px 16px;
+  background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--t-tampao); border-radius: var(--raio); }
+.passo-plantio .plantio-maniva > p { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 16px; color: var(--ink-2); }
+.passo-plantio .plantio-maniva > p .ic { color: var(--t-tampao); }
+.passo-plantio .plantio-maniva > p b { color: var(--ink); }
+.passo-plantio .maniva-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.passo-plantio .maniva-chips .chip { min-height: 44px; padding: 6px 14px; font-size: 15px; cursor: pointer; font-family: inherit; color: var(--ink-2); }
+.passo-plantio .maniva-chips .chip.verde { color: var(--green-forte); font-weight: 600; }
+.passo-plantio .maniva-chips .chip .ic { width: 18px; height: 18px; }
+
+/* ---------- a terra junto das datas: chip "mudar", aviso do "não sei" e a linha fixa de sequeiro */
+.passo-plantio .terra-chip { min-height: 44px; padding: 6px 14px; font-size: 15px; color: var(--ink-2); text-decoration: none; margin: 0 0 10px; }
+.passo-plantio .terra-chip u { color: var(--green-forte); text-underline-offset: 3px; }
+.passo-plantio .terra-chip .ic { width: 18px; height: 18px; color: var(--amber); }
+.passo-plantio .aviso-terra { list-style: none; margin: 0 0 10px; padding: 0; }
+.passo-plantio .aviso-terra li { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--amber); margin: 4px 0; }
+.passo-plantio .aviso-terra .ic { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.passo-plantio .sequeiro { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0 0; font-size: 14px; color: var(--ink-2); }
+.passo-plantio .sequeiro .ic { width: 18px; height: 18px; flex: none; color: var(--blue); margin-top: 1px; }
+
+/* ---------- "ver mais" mais baixos (o alvo de 44 px fica no summary) e o 1º rótulo de cada painel sem a margem de cima */
+.passo-plantio details.ver-mais { margin-top: 6px; padding-top: 2px; }
+.passo-plantio details.ver-mais > summary { margin: 2px 0; }
+.passo-plantio #plantio-tempo > h3 { margin-top: 0; }
+
+/* ---------- por que este plano: 3 "ver mais" com a manchete no título */
+.passo-plantio .plantio-porque h3 { margin-top: 0; }
+.passo-plantio .plantio-porque > details.ver-mais { margin-top: 0; padding-top: 2px; }
+.passo-plantio .plantio-porque > details.ver-mais:first-of-type { border-top: 0; }
+.passo-plantio .plantio-porque > details.ver-mais > summary { min-height: 44px; font-size: 15.5px; font-weight: 600; color: var(--ink); }
+.passo-plantio .plantio-porque > details.ver-mais > .extra { margin-top: 8px; }
+.passo-plantio .plantio-porque .vz-topo h3 { display: none; } /* a manchete já está no "ver mais" */
 
 /* ---------- o que fazer e quando: linha do tempo */
 .passo-plantio .tempo { list-style: none; margin: 6px 0 4px; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr));
@@ -95,6 +132,7 @@
 .passo-plantio .tempo-c b { font-size: 16px; font-weight: 600; line-height: 1.28; }
 .passo-plantio .tempo-c small { font-size: 13px; color: var(--muted); }
 .passo-plantio .tempo-c:first-child .tempo-q { color: var(--green-forte); }
+.passo-plantio .tempo-q .tempo-antes { color: var(--amber); margin-left: 6px; } /* a data de antes da última resposta */
 
 /* ---------- por que em faixas */
 .passo-plantio .faixas-frase { margin: 0 0 16px; font-size: 18px; color: var(--ink-2); }
@@ -122,8 +160,6 @@
 .passo-plantio .aviso-gram .faixa p { font-size: 19px; }
 .passo-plantio .aviso-gram > p { margin: 10px 0 0 62px; color: var(--ink-2); }
 .passo-plantio .rodape-faixas { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
-
-.passo-plantio .cta { margin-top: 6px; }
 
 /* ---------- o que fica no "ver mais" */
 .passo-plantio details.ver-mais h4 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
@@ -205,18 +241,33 @@
   .passo-plantio .heroi-grade { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
-  .passo-plantio .bloco-topo { flex-direction: column; align-items: stretch; }
+  .passo-plantio .bloco-topo { flex-direction: column; align-items: stretch; gap: 8px; margin-bottom: 12px; }
   .passo-plantio .anos { display: flex; }
   .passo-plantio .ano-b { flex: 1; padding: 0 8px; }
-  .passo-plantio .mes-controle { flex-wrap: wrap; }
-  .passo-plantio .mes-trilho { order: 3; flex-basis: 100%; grid-template-columns: repeat(7, minmax(0, 1fr)); }
-  .passo-plantio .mes-controle .botao-leve { margin-left: auto; }
-  /* a linha do tempo fica em pé */
-  .passo-plantio .tempo { grid-template-columns: 1fr; gap: 16px; }
-  .passo-plantio .tempo::before { left: 22px; right: auto; top: 23px; bottom: 23px; width: 2px; height: auto;
+  /* o play fica à esquerda das 2 fileiras de meses (o "ano todo" é o botão do ano) */
+  .passo-plantio .mes-controle { align-items: flex-start; gap: 8px; }
+  .passo-plantio .play { width: 44px; height: 92px; border-radius: 14px; }
+  .passo-plantio .mes-trilho { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .passo-plantio .mes-b { min-height: 44px; font-size: 11px; letter-spacing: 0; }
+  /* legenda mais baixa: o desenho já tem o nome de cada faixa */
+  .passo-plantio .vista { margin: 0 0 8px; }
+  .passo-plantio .leg-partes li { grid-template-columns: 32px 14px minmax(0, 1fr) auto; gap: 8px; padding: 5px 10px 5px 6px; margin: 0 0 6px; }
+  .passo-plantio .leg-ic { width: 32px; height: 32px; }
+  .passo-plantio .leg-ic .ic { width: 18px; height: 18px; }
+  .passo-plantio .leg-t b { font-size: 15px; }
+  .passo-plantio .leg-sub { font-size: 12.5px; }
+  /* maniva: 3 botões iguais numa fileira */
+  .passo-plantio .plantio-maniva { padding: 12px; }
+  .passo-plantio .maniva-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
+  .passo-plantio .maniva-chips .chip { justify-content: center; text-align: center; border-radius: 14px; padding: 6px 8px; font-size: 14px; line-height: 1.2; }
+  .passo-plantio .maniva-chips .chip .ic { display: none; }
+  /* a linha do tempo fica em pé (bolas de 40 px) */
+  .passo-plantio .tempo { grid-template-columns: 1fr; gap: 12px; }
+  .passo-plantio .tempo::before { left: 19px; right: auto; top: 20px; bottom: 20px; width: 2px; height: auto;
     background: linear-gradient(180deg, var(--green), var(--border-2)); }
-  .passo-plantio .tempo-c { display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 14px; row-gap: 2px; }
-  .passo-plantio .tempo-c .bola { grid-row: 1 / span 3; margin: 0; }
+  .passo-plantio .tempo-c { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; }
+  .passo-plantio .tempo-c .bola { grid-row: 1 / span 3; margin: 0; width: 40px; height: 40px; }
+  .passo-plantio .tempo-c .bola .ic { width: 20px; height: 20px; }
   .passo-plantio .mini-par { gap: 12px; }
   .passo-plantio .mini figcaption b { font-size: 16px; }
   .passo-plantio .mini figcaption span { display: block; margin: 2px 0 0; }
@@ -238,11 +289,6 @@
   .passo-plantio .fx > .chao, .passo-plantio .lin line { transition: none; }
 }
 
-/* extras do passo 3 (js/extras/: vulnerabilidade logo abaixo do roçado, saúde do solo depois das faixas) */
+/* extras do passo 3 (js/extras/, dentro dos "ver mais" de "Por que este plano"; a grade 2×2 do solo está em css/extras/saude_solo.css) */
 .extra-vulnerabilidade .painel, .extra-saude_solo .painel { margin-top: 0; }
-@media (max-width: 560px) {
-  /* no celular, os 4 cartões do solo ficam numa fileira só, de deslizar (a página não rola de lado) */
-  .passo-plantio .ss-cartoes { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 8px;
-    overscroll-behavior-x: contain; scrollbar-width: thin; align-items: stretch; }
-  .passo-plantio .ss-cartao { flex: 0 0 86%; scroll-snap-align: start; }
-}
+.passo-plantio .plantio-porque .extra-saude_solo .ss.painel { background: none; border: 0; padding: 0; margin: 0; }

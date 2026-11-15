@@ -198,11 +198,11 @@ const zerados = new WeakSet();
 export default {
   id: "historico",
   titulo: "O que você já plantou",
-  /** opcoes: { modo: "pergunta" | "cartao" | "memoria", tela, aoTerminar(H), aoVoltar(), linkSeguir, linkPergunta } */
+  /** opcoes: { modo: "pergunta" | "cartao" | "memoria", tela, aoTerminar(H), aoVoltar(), linkSeguir, olho (cartão: false = sem "seu olho") } */
   async render(el, ctx, opcoes = {}) {
     const modo = ["cartao", "memoria"].includes(opcoes.modo) ? opcoes.modo : "pergunta";
     if (modo === "cartao") return desenharCartao(el, ctx, opcoes);
-    if (modo === "memoria") return desenharMemoria(el, ctx, opcoes);
+    if (modo === "memoria") return desenharMemoria(el, ctx);
     if (ctx.entrou && !zerados.has(ctx)) { zerados.add(ctx); tela = Number.isInteger(opcoes.tela) ? opcoes.tela : 0; rasc = null; }
     return desenharPergunta(el, ctx, opcoes, this);
   },
@@ -356,25 +356,42 @@ function desenharPergunta(el, ctx, opcoes, mod) {
 }
 
 // ------------------------------------------------------------------ modo "cartao" (passo 3)
+// Sem resposta: supõe 2026 e 2025 iguais ao jeito de hoje e mostra o giro com "Se em 2025 também foi assim"; 2 chips gravam ali mesmo.
 function desenharCartao(el, ctx, opcoes) {
-  const U = ctx.util, H = lerHistorico(ctx.resp, ctx.r?.padroes), recs = recomendacoes(ctx.r, ctx.ef, H);
-  const link = opcoes.linkPergunta || ctx.link?.(2) || "#";
-  const corpo = recs.length ? `<ul class="hs-recs">${recs.map((x) => `<li><span class="bola ${x.cor}">${icon(U, x.icone)}</span>
+  const U = ctx.util, [a0, a1] = anosPergunta(ctx.r);
+  const ks = Object.keys(lerHoje(ctx.resp?.hoje || "", ctx.r?.padroes).cult).filter((k) => CULT_H[k]);
+  const mesmo = escreverAntes({ [a0]: ks, [a1]: ks }), mudei = escreverAntes({ [a0]: ks });
+  const suposto = !ctx.resp?.antes;
+  // com a maniva já no chão, a linha da mandioca do plano (logo acima) já diz isso: o cartão não repete
+  const H = lerHistorico(suposto ? { ...ctx.resp, antes: mesmo } : ctx.resp, ctx.r?.padroes),
+    recs = recomendacoes(ctx.r, ctx.ef, H).filter((x) => !(x.id === "mandioca" && ctx.ef?.maniva === "plantada"));
+  const marcado = ctx.resp?.antes === mesmo ? "mesmo" : ctx.resp?.antes === mudei ? "mudei" : "";
+  const nomes = ks.map((k) => CULT_H[k].nome.toLowerCase());
+  const se = suposto && recs.length ? `<p class="hs-se">Se em ${a1} também foi assim (${U.esc(nomes.length > 1 ? nomes.slice(0, -1).join(", ") + " e " + nomes.at(-1) : nomes[0])}):</p>` : "";
+  const lista = recs.length ? `<ul class="hs-recs">${recs.map((x) => `<li><span class="bola ${x.cor}">${icon(U, x.icone)}</span>
       <div><b>${U.esc(x.frase)}</b><span>${U.esc(x.sub)}</span>
-      ${x.acao ? `<button type="button" class="chip verde hs-acao" data-acao='${U.esc(JSON.stringify(x.acao))}'>${U.ic("ok")} Já está plantada: avisar o plano</button>` : ""}</div></li>`).join("")}</ul>`
-    : `<p class="hs-vazio">${U.ic("calendario")}<span>Conte o que você plantou em ${anosPergunta(ctx.r).reverse().join(" e ")}: o giro começa por aí.</span></p>
-      <a class="botao secundario" href="${link}">${U.ic("seta")} Contar</a>`;
+      ${x.acao ? `<button type="button" class="chip verde hs-acao" data-acao='${U.esc(JSON.stringify(x.acao))}'>${U.ic("ok")} Já está plantada: avisar o plano</button>` : ""}</div></li>`).join("")}</ul>` : "";
+  const chips = ks.length ? `<p class="hs-giro-q">Em ${a1}, plantou no mesmo chão de ${a0}?</p>
+    <div class="hs-giro-chips" role="group" aria-label="Onde plantou em ${a1}">${[["mesmo", mesmo, "Sim, no mesmo chão"], ["mudei", mudei, "Não, mudei"]]
+    .map(([id, v, t]) => `<button type="button" class="chip${marcado === id ? " verde" : ""}" data-antes="${U.esc(v)}" aria-pressed="${marcado === id}">
+      ${marcado === id ? U.ic("ok") : ""}${t}</button>`).join("")}</div>` : "";
+  const fonte = FONTE_REGRA + (suposto ? `; ${a0} e ${a1} supostos iguais ao jeito de hoje até você responder` : "");
   el.innerHTML = `<div class="hs hs-cartao painel">
-    <p class="hs-rot">${U.ic("faixas")}<span>Por onde começar o seu giro</span>${recs.length ? U.selo("suposicao", FONTE_REGRA) : ""}</p>
-    ${corpo}
-    ${recs.length ? olho("Você conhece a sua terra: se não bater, vale a sua experiência.") : ""}</div>`;
+    <p class="hs-rot">${U.ic("faixas")}<span>Por onde começar o seu giro</span>${recs.length ? U.selo("suposicao", fonte) : ""}</p>
+    ${se}${lista}${chips}
+    ${recs.length && opcoes.olho !== false ? olho("Você conhece a sua terra: se não bater, vale a sua experiência.") : ""}</div>`;
   el.querySelectorAll("[data-acao]").forEach((b) => b.addEventListener("click", () => ctx.set(JSON.parse(b.dataset.acao))));
+  el.querySelectorAll("[data-antes]").forEach((b) => b.addEventListener("click", () => {
+    if (ctx.resp?.antes !== b.dataset.antes) ctx.set({ antes: b.dataset.antes });
+  }));
 }
 
 // ------------------------------------------------------------------ modo "memoria" (passo 5 ou 1)
-function desenharMemoria(el, ctx, opcoes) {
+const MEM_CULT = [["milho", "Milho"], ["feijao", "Feijão"]]; // as culturas com chips de ano (série do IBGE)
+
+function desenharMemoria(el, ctx) {
   const U = ctx.util, r = ctx.r, H = lerHistorico(ctx.resp, r?.padroes), ms = memorias(r, H), fin = r?.financeiro;
-  const mun = r?.local?.municipio || "aqui", link = opcoes.linkPergunta || ctx.link?.(2) || "#";
+  const mun = r?.local?.municipio || "aqui";
   const fmt = (serie, kg) => { const u = emUn(serie, kg); return `${U.num(u.v, u.v < 10 ? u.casas : 0)} ${u.un}`; };
   const fmtV = (serie, kg) => { const u = emUn(serie, kg); return U.num(u.v, u.v < 10 ? u.casas : 0); };
   const pioresTxt = (m) => m.piores.map((p) => `${p.ano} (${fmtV(m.serie, p.kg)})`).join(", ");
@@ -385,9 +402,10 @@ function desenharMemoria(el, ctx, opcoes) {
     return m.nivel === "quebra" ? "Bate: o município todo quebrou nesse ano." : m.nivel === "caiu" ? "Bate em parte: o município caiu, mas menos."
       : "Aqui o dado não mostra quebra: a sua roça pode ser diferente da média. Vale a sua experiência.";
   };
-  const item = (m) => {
+  const item = (m, i) => {
     const q = m.q, mot = q.mot ? ` <span class="hs-mot-tag">${icon(U, MOTIVOS[q.mot][0])}${MOTIVOS[q.mot][1].toLowerCase()}</span>` : "";
-    const voce = `<p class="hs-mem-voce">${icon(U, CULT_H[q.c].icone)}<span>Você lembra: <b>${U.esc(m.nome.toLowerCase())} quebrou${q.ano ? ` em ${q.ano}` : ""}</b>${mot}</span></p>`;
+    const voce = `<p class="hs-mem-voce">${icon(U, CULT_H[q.c].icone)}<span>Você lembra: <b>${U.esc(m.nome.toLowerCase())} quebrou${q.ano ? ` em ${q.ano}` : ""}</b>${mot}</span>
+      <button type="button" class="hs-tirar" data-tirar="${i}">desfazer</button></p>`;
     if (m.caso === "dado") {
       const w = Math.min(100, (m.rel / 1.5) * 100);
       return `<div class="hs-mem ${cores[m.nivel]}">${voce}
@@ -408,30 +426,50 @@ function desenharMemoria(el, ctx, opcoes) {
       `<button type="button" class="chip" data-mem-c="${q.c}" data-mem-ano="${p.ano}">foi em ${p.ano}</button>`).join("")}</div>` : "";
     return `<div class="hs-mem neutro">${voce}<p class="hs-mem-dado">${nota}</p>${escolher}</div>`;
   };
+  // por cultura ainda sem quebra contada: os 3 piores anos daqui no IBGE e "outro ano"; o toque grava ali mesmo (sem sair do passo)
+  const contadas = new Set(H.quebras.map((q) => q.c));
+  const ss = MEM_CULT.filter(([k, s]) => fin?.historico_kg_ha?.[s] && !contadas.has(k));
+  const anosSerie = [...(fin?.historico_kg_ha?.anos || [])].reverse();
+  const linhaAnos = ([k, s]) => `<div class="hs-mem-linha"><p>${U.ic(CULT_H[k].icone)}<b>${CULT_H[k].nome}</b></p>
+    <div class="hs-anos">${piores(fin, s).map((p) => `<button type="button" class="chip" data-quebrou="${k}" data-quebrou-ano="${p.ano}">${p.ano}</button>`).join("")}
+      <select class="hs-sel" data-quebrou="${k}" aria-label="Outro ano em que o ${CULT_H[k].nome.toLowerCase()} quebrou"><option value="">outro ano</option></select>
+    </div></div>`;
+  const pergunta = ss.length ? `<p class="hs-vazio">${U.ic("calendario")}<span>${ms.length ? "Lembra de outro ano ruim?" : "Lembra de um ano que quebrou?"}</span></p>
+    <div class="hs-mem-anos">${ss.map(linhaAnos).join("")}</div>` : "";
   let corpo;
-  if (ms.length) corpo = `<div class="hs-mems">${ms.map(item).join("")}</div>`;
+  if (ms.length) corpo = `<div class="hs-mems">${ms.map(item).join("")}</div>${pergunta}`;
   else {
-    // sem quebra contada: os piores anos do milho e do feijão aqui, para puxar a memória
-    const ss = ["Milho", "Feijão"].filter((s) => fin?.historico_kg_ha?.[s]);
-    corpo = `<p class="hs-vazio">${U.ic("calendario")}<span>Lembra de um ano que quebrou? O IBGE anotou estes, os piores daqui:</span></p>
-      ${ss.length ? `<div class="hs-piores">${ss.map((s) => { const m = { serie: s, piores: piores(fin, s) };
-        return `<p>${U.ic(U.icCultura(s))}<b>${s}</b><span>${pioresTxt(m)} <span class="sub">${emUn(s, 1).un}</span></span></p>`; }).join("")}</div>` : `<p class="sub">Sem série do IBGE para este município.</p>`}
-      ${ss.some((s) => fin.culturas?.[s]?.rend_mediano_kg_ha > 2 * FAMILIAR_KG_HA[s]) ? `<p class="hs-mem-nota">Aqui o IBGE mistura lavoura grande: a média fica acima da roça de família.</p>` : ""}
-      <a class="botao secundario" href="${link}">${U.ic("seta")} Contar o meu ano ruim</a>`;
+    const so = MEM_CULT.map(([, s]) => s).filter((s) => fin?.historico_kg_ha?.[s]);
+    corpo = (pergunta || `<p class="sub">Sem série do IBGE para este município.</p>`)
+      + (so.some((s) => fin.culturas?.[s]?.rend_mediano_kg_ha > 2 * FAMILIAR_KG_HA[s]) ? `<p class="hs-mem-nota">Aqui o IBGE mistura lavoura grande: a média fica acima da roça de família.</p>` : "");
   }
   const discorda = ms.some((m) => m.caso === "dado" && m.nivel === "normal" && m.q.mot !== "preco");
   el.innerHTML = `<div class="hs hs-memoria painel">
     <p class="hs-rot">${U.ic("calendario")}<span>A sua memória e os dados</span>${fin ? U.selo("medido", FONTE_IBGE) : ""}</p>
     ${corpo}
-    ${olho(discorda ? "O roçado da sua família pode ser diferente da média daqui." : "A sua memória conta: o IBGE só vê a média do município.")}
+    ${olho(discorda ? "O roçado da sua família pode ser diferente da média daqui." : "Vale a sua memória: o IBGE só vê a média.")}
     ${U.verMais(`<p>O número do IBGE é a média do município inteiro, de quem planta muito e de quem planta pouco (Produção Agrícola Municipal,
       1998–${fin?.ultimo_ano_medido || 2025}). Milho e feijão em sacos de 60 kg por hectare; mandioca em toneladas por hectare. "Normal" é a
-      mediana dos anos da série. Abaixo da metade do normal chamamos de quebra (a mesma régua do passo 4); entre metade e 80%, o ano caiu;
+      mediana dos anos da série. Abaixo da metade do normal chamamos de quebra (a mesma régua de Quanto rende); entre metade e 80%, o ano caiu;
       acima disso, foi normal. Lavoura grande: a mediana daqui passa do dobro do rendimento da lavoura familiar da CONAB.
       ${fin?.culturas?.["Feijão"]?.aviso ? `Feijão: ${U.esc(fin.culturas["Feijão"].aviso)}.` : ""} Quando a sua lembrança e o dado discordam,
-      vale a sua: a roça de uma família pode quebrar num ano em que o município foi bem.</p>`)}</div>`;
+      vale a sua: a roça de uma família pode quebrar num ano em que o município foi bem.</p>`, "O que o IBGE chama de quebra")}</div>`;
   el.querySelectorAll("[data-mem-ano]").forEach((b) => b.addEventListener("click", () => {
     const e = lerExp(ctx.resp?.exp), q = e.quebras.find((x) => x.c === b.dataset.memC);
     if (q) { q.ano = +b.dataset.memAno; ctx.set({ exp: escreverExp(e) }); }
+  }));
+  const quebrou = (c, ano) => { const e = lerExp(ctx.resp?.exp); ctx.set({ exp: escreverExp({ ...e, quebras: [...e.quebras, { c, ano }] }) }); };
+  el.querySelectorAll("button[data-quebrou-ano]").forEach((b) => b.addEventListener("click", () => quebrou(b.dataset.quebrou, +b.dataset.quebrouAno)));
+  el.querySelectorAll("select[data-quebrou]").forEach((s) => {
+    // os 28 anos entram só no toque: fora dele não pesam no texto da tela
+    const encher = () => { if (s.options.length < 2) s.insertAdjacentHTML("beforeend", anosSerie.map((a) => `<option value="${a}">${a}</option>`).join("")); };
+    s.addEventListener("pointerdown", encher);
+    s.addEventListener("focus", encher);
+    s.addEventListener("change", () => { if (s.value) quebrou(s.dataset.quebrou, +s.value); });
+  });
+  el.querySelectorAll("[data-tirar]").forEach((b) => b.addEventListener("click", () => {
+    const e = lerExp(ctx.resp?.exp);
+    e.quebras.splice(+b.dataset.tirar, 1);
+    ctx.set({ exp: escreverExp(e) });
   }));
 }

@@ -1,73 +1,67 @@
-/* passo 2, "Sua roça": uma pergunta por tela */
-.quiz { max-width: 920px; margin: 10px auto 0; text-align: center; }
-.quiz-topo { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 18px 0 26px; }
-.quiz-topo .kicker { margin: 0; }
-.quiz-barra { display: flex; gap: 6px; }
-.quiz-barra i { width: 46px; height: 4px; border-radius: 2px; background: var(--border-2); }
-.quiz-barra i.feito { background: var(--green); }
-.quiz-barra i.atual { background: var(--ink); }
-.quiz-titulo { font-family: var(--font); font-weight: 300; font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.025em; line-height: 1.06; margin: 0 0 34px; }
-.quiz-titulo .eco { display: block; color: var(--ink-4); }
-.opcoes { display: grid; gap: 14px; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); }
-.opcoes.n3 { --n: 3; } .opcoes.n4 { --n: 4; } .opcoes.n5 { --n: 5; }
-.opcao { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 176px; padding: 22px 14px;
-  border: 1px solid var(--border); background: var(--surface); border-radius: 20px; cursor: pointer; text-align: center;
-  transition: transform .18s var(--ease), border-color .18s, background .18s; }
-.opcao .ic.gg { color: var(--ink-2); transition: color .18s; }
-.opcao b { font-size: 18px; font-weight: 600; }
-.opcao span { font-size: 13px; color: var(--muted); }
-.opcao:hover { transform: translateY(-3px); border-color: var(--border-2); }
-.opcao:hover .ic.gg { color: var(--green-forte); }
-.opcao.marcada { border-color: var(--green); background: linear-gradient(160deg, rgba(76, 178, 124, .22), var(--surface) 75%); box-shadow: 0 0 0 4px var(--green-soft); }
-.opcao.marcada .ic.gg { color: var(--green-forte); }
-.mini-rocado { width: 58px; height: 58px; }
-.mr-terra { fill: var(--surface-3); stroke: var(--t-perene); stroke-width: 2.5; }
+/* passo 2, "Sua roça": uma tela só, com 4 linhas já marcadas com o comum daqui (botões de 48–56 px, teto de 1.000 px a 390 px) */
+.sua-roca { max-width: 760px; margin: 0 auto; }
+.passo-perguntas .titulo-passo { margin: 6px 0 10px; }
+.passo-perguntas .titulo-passo .kicker { margin-bottom: 6px; }
+.passo-perguntas .titulo-passo h1 { font-size: clamp(27px, 4.2vw, 46px); }
+
+/* faixa de 1 linha: El Niño de 2027 e o solo de hoje */
+.sr-faixa { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 12px; padding: 6px 10px; border-radius: 12px;
+  border: 1px solid rgba(232, 161, 74, .45); background: var(--amber-soft); font-size: 13.5px; line-height: 1.3; color: var(--ink); }
+.sr-faixa .ic { color: var(--amber); width: 20px; height: 20px; }
+.sr-faixa.azul { border-color: rgba(127, 178, 240, .4); background: var(--blue-soft); }
+.sr-faixa.azul .ic { color: var(--blue); }
+
+/* cada linha: rótulo + botões */
+.sr-linha { margin: 0 0 12px; scroll-margin-top: 104px; border-radius: 16px; transition: box-shadow .5s var(--ease), background .5s; }
+.sr-linha.em-foco { box-shadow: 0 0 0 2px var(--green), 0 0 0 8px var(--green-soft); background: rgba(76, 178, 124, .06); }
+.sr-rot { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 6px; font-family: var(--font); font-weight: 500;
+  font-size: 17px; letter-spacing: 0; line-height: 1.25; }
+.sr-rot b { font-weight: 700; }
+.sr-rot .eco { color: var(--ink-3); font-weight: 400; }
+.sr-lado { margin-left: auto; font-size: 13px; font-weight: 400; color: var(--muted); }
+.sr-ops { display: grid; gap: 8px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+.sr-ops.n2 { --n: 2; } .sr-ops.n3 { --n: 3; } .sr-ops.n4 { --n: 4; } .sr-ops.n5 { --n: 5; }
+.sr-op { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 46px; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--ink-2); cursor: pointer; text-align: center;
+  line-height: 1.15; transition: border-color .15s, background .15s; }
+.sr-op b { font-size: 15px; font-weight: 600; min-width: 0; }
+.sr-op .ic { color: var(--ink-2); }
+.sr-op:hover { border-color: var(--border-2); }
+.sr-op.marcada { border-color: var(--green); color: var(--ink); background: linear-gradient(160deg, rgba(76, 178, 124, .22), var(--surface) 75%);
+  box-shadow: 0 0 0 3px var(--green-soft); }
+.sr-op.marcada .ic { color: var(--green-forte); }
+.sr-op.sr-ha b { font-family: var(--display); font-size: 19px; }
+.sr-op.sugerida { border: 1px dashed var(--green); } /* o típico daqui, sem resposta: só a cara, não grava */
+.sr-op.alto { flex-direction: column; gap: 4px; min-height: 64px; padding: 6px 4px; }
+.sr-op.alto b { font-size: 13.5px; line-height: 1.15; }
+
+/* a divisão do roçado (cores do tipo de cultura) e os "+" fechados */
+.sr-divisao { height: 30px; border-radius: 10px; }
+.sr-divisao span { font-size: 12px; padding: 0 4px; }
+.sr-divisao .ic { width: 14px; height: 14px; margin: 0 3px 0 0; vertical-align: -2px; }
+.sr-so-barra { margin: 8px 0 0; }
+.sr-so-barra .sr-divisao { display: flex; }
+details.sr-mais { margin: 4px 0 0; border-top: 0; padding-top: 0; }
+details.sr-mais > summary { min-height: 44px; margin: 0; }
+details.sr-mais > summary .sr-lado { margin: 0; }
+/* "+ [barra da divisão] quanto de cada": a barra fica à vista e abre o ajuste */
+details.sr-mais-barra > summary { display: flex; width: 100%; gap: 8px; }
+details.sr-mais-barra > summary .sr-divisao { flex: 1 1 auto; min-width: 0; }
+details.sr-mais-barra > summary small { flex: none; font-size: 13px; }
+details.sr-mais .hi-quanto { margin-top: 4px; }
+details.sr-mais .ar { margin-top: 6px; }
+
+/* mini-desenho do baixio */
+.mini-rocado { width: 30px; height: 30px; }
+.mr-terra { fill: var(--surface-3); stroke: var(--t-perene); stroke-width: 3; }
 .mr-baixio { fill: rgba(242, 182, 48, .55); }
-.mr-baixio.incerto { fill: none; stroke: var(--t-cereal); stroke-width: 1.6; stroke-dasharray: 3 3; }
-.quiz-muda { margin: 22px 0 0; color: var(--muted); font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
-.quiz-muda .ic { width: 16px; height: 16px; }
-.quiz-nav { display: flex; justify-content: space-between; gap: 12px; margin: 26px 0 10px; }
-.quiz-nav .ic { width: 18px; height: 18px; }
-.area { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 6px 0 18px; }
-.area-mais { width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--border-2); background: var(--surface); font-size: 30px; cursor: pointer; color: var(--ink); }
-.area-mais:hover { border-color: var(--green); color: var(--green-forte); }
-.area-val { display: flex; flex-direction: column; align-items: center; min-width: 160px; }
-.area-val .numero-grande { font-size: 86px; }
-.area-val small { font-family: var(--mono); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; font-size: 12px; }
-.area-rapido { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
-.area-rapido .chip { cursor: pointer; font-size: 15px; padding: 8px 16px; }
-.centro { text-align: center; }
-.campo { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; color: var(--ink-2); }
-.campo input { width: 110px; padding: 10px 12px; border: 1px solid var(--border-2); border-radius: 12px; font-size: 18px; background: var(--surface); color: var(--ink); text-align: center; }
+.mr-baixio.incerto { fill: none; stroke: var(--t-cereal); stroke-width: 2.5; stroke-dasharray: 4 4; }
 
-/* resumo */
-.pronto { max-width: 980px; margin: 0 auto; }
-.fichas { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 0 0 20px; }
-.ficha-r { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 10px; border-radius: 18px; border: 1px solid var(--border);
-  background: var(--surface); cursor: pointer; text-align: center; }
-.ficha-r .ic.g { color: var(--green-forte); }
-.ficha-r span { font-size: 15px; font-weight: 600; }
-.ficha-r em { font-style: normal; font-size: 12px; color: var(--muted); font-family: var(--mono); }
-.ficha-r:hover { border-color: var(--green); }
-.datas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
-.data { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto auto; column-gap: 12px; align-items: center; padding: 12px 14px;
-  border-radius: 14px; background: rgba(0, 0, 0, .25); }
-.data .ic.g { grid-row: span 3; color: var(--green-forte); }
-.data b { font-size: 15px; }
-.data span { font-family: var(--display); font-size: 20px; font-weight: 700; }
-.data em { font-style: normal; font-size: 12px; color: var(--muted); text-decoration: line-through; }
+.sua-roca .olho { margin: 8px 0 0; font-size: 13px; padding: 6px 10px; }
+
 @media (max-width: 760px) {
-  .opcoes, .opcoes.n3, .opcoes.n4, .opcoes.n5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .opcao { min-height: 140px; padding: 16px 10px; }
-  .quiz-barra i { width: 32px; }
-  .area-val .numero-grande { font-size: 64px; }
-  .fichas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sr-op { padding: 6px 8px; }
+  .sr-op b { font-size: 14px; }
+  .sr-ops.n5 { gap: 6px; }
+  .sr-ops.n5 .sr-op { padding: 6px 2px; }
 }
-
-/* "seu olho" (ponto 16) no centro da pergunta, logo acima de "muda …" */
-.quiz .olho { margin: 18px auto 0; text-align: left; }
-.quiz .olho + .quiz-muda { margin-top: 12px; }
-.pronto .olho { margin: 16px 0 0; }
-
-/* no celular, durante as perguntas, a barra de baixo fica só com a frase do "quem decide" (Anterior e Próxima já estão na tela) */
-@media (max-width: 760px) { body:has(.passo-perguntas .quiz) .nav-baixo .botao { display: none; } }

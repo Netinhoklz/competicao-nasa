@@ -6,19 +6,21 @@ import * as C from "./dinheiro/calculo.js";
 import * as G from "./dinheiro/graficos.js";
 import { termo } from "../extras/glossario.js";
 import { olho, OLHOS } from "../extras/voce_decide.js";
-// "Hoje → melhor → ideal" (extras/hoje_ideal.js): o jeito de hoje informado no passo 2 entra no lugar do milho + feijão fixo
-import HI, { comHoje } from "../extras/hoje_ideal.js";
-// Extra (js/extras/cenarios.js, montado por U.montarExtras): "Outros jeitos de girar o roçado", que acende o jeito da prioridade escolhida
-// no "Seu bolso" (pontos 8 e 9; "Cuidar do solo" acende o jeito do solo). "Seu olho" (ponto 16): o preço da raiz e, sempre, a conta da família
-// (com lavoura grande no IBGE, ele vai no aviso).
+// "Hoje → melhor → ideal" (extras/hoje_ideal.js): o jeito de hoje informado em "Sua roça" entra no lugar do milho + feijão fixo
+import HI, { comHoje, lerHoje } from "../extras/hoje_ideal.js";
+// Extra (js/extras/cenarios.js, montado por U.montarExtras): "O que vale mais para você?", as abas dos jeitos de girar o roçado, que
+// gravam a prioridade (pontos 8 e 9). Ordem (analise/fluxo/00_FLUXO_FINAL.md, 3.1): título + o que a conta supõe → Hoje, melhor e ideal →
+// prioridade → "Ajustar a conta" e os "ver mais" (El Niño, caixa, paga o gasto, como calculamos). Nenhum controle antes do número.
+// "Seu olho" (ponto 16): o preço da raiz e a conta da família ficam no "Ajustar a conta"; com lavoura grande no IBGE, à vista.
 
 const { rs, faixaRs } = G;
 const SEQ = "3.136 combinações de anos já vistos aqui (2027 entre os 4 El Niños fortes; 2028 e 2029 entre os 28 anos do IBGE), todas contadas";
 const FONTE_PAM = "IBGE PAM 1998–2025: rendimento por ha plantado × preço de referência do município, em R$ de 2025 (IPCA)";
 const FONTE_CONAB = "CONAB, custos de produção do NE (semente e desembolso), R$ de 2025";
 const SUP_AREA = "Partes A, B e C do mesmo tamanho; bordas não tiram área; baixio = metade milho + metade caupi; forragem sem R$";
+const CUSTO_TXT = { semente: "só a semente", desembolso: "semente, trator, adubo e diária" };
+const raizTxt = (uf) => ({ municipio: "daqui", uf_mediana: `comum no ${uf}`, uf_p25: `baixo no ${uf}` });
 
-const kg = (v) => `${(v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v)).toLocaleString("pt-BR")} kg`;
 const vezes = (k, n, unid = "") => `${k} de ${n}${unid ? " " + unid : ""}`;
 /** Largura útil do painel (px): os gráficos desenham 1:1 e só rolam de lado quando não cabem (celular). */
 const largura = (min) => {
@@ -37,6 +39,7 @@ export default {
   async render(el, ctx) {
     const { r, ef, util: U } = ctx;
     const fin = r.financeiro, mun = r.local.municipio;
+    const abertos = abertosAntes(el, ctx);
     const jeitos = r.plano ? U.extra("cenarios") : "";
     const m = comHoje(C.montar(r, ef), r, ef, ctx.resp.hoje || "");
     const pr = fin?.precos_raiz || {};
@@ -45,91 +48,109 @@ export default {
     if (!(preco > 0)) { raiz = "municipio"; preco = pr.municipio ?? m.precoRefMand; }
     const mult = m.precoRefMand && preco ? preco / m.precoRefMand : 1;
     const nivel = ef.custo === "desembolso" ? "desembolso" : "semente";
-    const bolso = bolsoHtml(ctx, m, pr, raiz, nivel, temMand);
-    const apoio = `O seu roçado de ${U.ha(ef.ha)} refeito nos anos que já aconteceram em ${U.esc(mun)}.`;
-
-    if (!m.ok) {
-      el.innerHTML = abertura("Ainda não dá para fazer a conta aqui.", "Falta a série do IBGE.",
-        `O IBGE não tem anos suficientes das culturas do plano em ${U.esc(mun)}.`) + `<div class="hi-slot"></div>` + semConta(m, fin, U) + jeitos;
-      ligar(el, ctx);
-      await HI.render(el.querySelector(".hi-slot"), ctx, { modo: "comparacao", linkMudar: ctx.link(2), semTitulo: true });
+    // a linha do que a conta supõe (à vista, sob o título); "ajustar" abre o "Ajustar a conta"
+    const raizVis = temMand && preco > 0 && !m.falta?.includes("Mandioca"); // sem a série da mandioca, o preço da raiz não pesa
+    const supoe = `<span class="conta-com">Conta com: ${CUSTO_TXT[nivel]}${raizVis ? ` · raiz a R$ ${U.num(preco, 2)}/kg (${raizTxt(r.local.uf)[raiz]})` : ""} ·
+      <button type="button" class="link-ajustar" data-abrir="ajustar-conta">ajustar</button>
+      ${U.selo("suposicao", `o que a conta supõe quando você não diz: custo da CONAB${raizVis ? "; preço da raiz do IBGE (2016–2025)" : ""}`)}</span>`;
+    const ajustar = `<details class="ver-mais" id="ajustar-conta"><summary>Ajustar a conta</summary>${ajustarHtml(ctx, pr, raiz, nivel, raizVis)}</details>`;
+    const hiOp = { modo: "comparacao", linkMudar: ctx.link(2), semTitulo: true, ruim: termo("em_dez", "1 em 10"), olhoAgro: OLHOS.agro };
+    const desenharHi = async () => {
+      await HI.render(el.querySelector(".hi-slot"), ctx, { ...hiOp, detalhesEm: el.querySelector(".hi-detalhes") });
       await U.montarExtras(el, ctx);
+      reabrir(el, abertos);
+    };
+
+    // sem a série do plano: o Hoje → melhor → ideal mostra o que dá (com o aviso dele) e o resto vai para o "ver como calculamos"
+    if (!m.ok) {
+      const [h1, eco, apoio] = fin ? ["Hoje, melhor e ideal.", "Do seu jeito ao plano completo.", supoe]
+        : ["Ainda não dá para fazer a conta aqui.", "Falta a série do IBGE.", `O IBGE não tem anos suficientes das culturas do plano em ${U.esc(mun)}.`];
+      el.innerHTML = abertura(h1, eco, apoio) + `<div class="hi-slot"></div>` + jeitos +
+        `<section class="painel mais-conta">${fin ? ajustar : ""}${U.verMais(`<div class="hi-detalhes hoje-ideal"></div>${semConta(m, fin, U)}`, "Ver como calculamos")}</section>`;
+      ligar(el, ctx);
+      await desenharHi();
       return;
     }
 
     const t = C.calcular(m, nivel, mult);
     const tS = nivel === "semente" ? t : C.calcular(m, "semente", mult);
     const tD = nivel === "desembolso" ? t : C.calcular(m, "desembolso", mult);
-    const agro = m.agro.length > 0;
-    const ganha = t.ganho.p50 > 0;
-    const caro27 = t.porAno[0].plano.p50 < t.porAno[0].s0.p50;
-    const [h1, eco] = agro ? ["Aqui o IBGE mistura lavoura grande.", "Os R$ não são de roça de família."]
-      : ganha ? ["Em 3 anos, o plano rende mais.", caro27 ? "2027 é o ano mais apertado." : "Já em 2027 ele fica à frente."]
-        : ["Em dinheiro, o plano rende menos.", "O ganho dele é comida da criação e solo."];
-
-    const blocos = {
-      // os 28 anos refeitos ficam no "ver mais" do herói (repetiam o "plano à frente")
-      heroi: heroiHtml(ctx, m, t, nivel, pr, temMand, replayHtml(ctx, m, nivel, mult, preco, temMand)),
-      elnino: elNinoHtml(ctx, m, t, nivel, mult),
-      caixa: caixaHtml(ctx, m, t),
-      termo: termoHtml(ctx, tS, tD),
-    };
-    const ordem = ef.prioridade === "garantir" ? ["heroi", "elnino", "caixa", "termo"] : ["heroi", "caixa", "elnino", "termo"];
-    const corpo = ordem.map((k) => blocos[k]).join("");
-    const ag = agro ? [...m.agro].sort((x, y) => y.kg / y.conab - x.kg / x.conab) : [];
-    const aviso = agro ? `<section class="painel alerta">${U.faixa("alerta", "terra",
-      `${ag[0].cultura} daqui: ${U.num(ag[0].kg)} kg/ha, ${U.num(ag[0].kg / ag[0].conab, 1)}× a roça de família.`)}
-      <p class="pequeno sub">${ag.slice(1).map((x) => `${x.cultura}: ${U.num(x.kg / x.conab, 1)}×. `).join("")}Os números abaixo servem só para comparar o plano com o jeito de hoje.
-      ${U.selo("medido", "IBGE PAM 1998–2025 e planilhas da agricultura familiar da CONAB (2015+)")}</p>${olho(OLHOS.agro)}</section>` : "";
-    el.innerHTML = abertura(h1, eco, apoio) + bolso + `<div class="hi-slot"></div>` + avisosHtml(ctx, m) + aviso + (agro ? `<div class="apagado">${corpo}</div>` : corpo) + jeitos +
-      `<section class="painel como">${U.verMais(detalhesHtml(ctx, m, fin, t, nivel, mult, preco), "Ver como calculamos")}</section>`;
+    const ap = (html) => (m.agro.length ? `<div class="apagado">${html}</div>` : html);
+    const mais = `<section class="painel mais-conta">${ajustar}
+      ${U.verMais(ap(elNinoHtml(ctx, m, t, nivel, mult)), "Se 2027 for como os El Niños fortes")}
+      ${U.verMais(ap(caixaHtml(ctx, m, t)), "Quando o dinheiro entra")}
+      ${U.verMais(ap(termoHtml(ctx, tS, tD)), "A colheita paga o gasto?")}
+      ${U.verMais(`<div class="hi-detalhes hoje-ideal"></div>${replayHtml(ctx, m, nivel, mult, preco, temMand)}${detalhesHtml(ctx, m, fin, t, nivel, mult, preco)}`, "Ver como calculamos")}
+    </section>`;
+    el.innerHTML = abertura("Hoje, melhor e ideal.", "Do seu jeito ao plano completo.", supoe) + `<div class="hi-slot"></div>` +
+      avisosHtml(ctx, m) + jeitos + mais;
     ligar(el, ctx);
     ligarCaixa(el, t);
-    await HI.render(el.querySelector(".hi-slot"), ctx, { modo: "comparacao", linkMudar: ctx.link(2), semTitulo: true });
-    await U.montarExtras(el, ctx);
+    await desenharHi();
   },
 };
 
-const abertura = (h1, eco, apoio) => `<div class="titulo-passo"><p class="kicker">Passo 4 · quanto rende</p>
+const abertura = (h1, eco, apoio) => `<div class="titulo-passo"><p class="kicker">Quanto rende</p>
   <h1>${h1}<span class="eco">${eco}</span></h1><p>${apoio}</p></div>`;
+
+/** Os "ver mais" que estavam abertos antes de um redesenho por resposta nova (tocar num ajuste não fecha o bloco nem pula a tela). */
+function abertosAntes(el, ctx) {
+  if (ctx.entrou) return [];
+  const velho = [...document.querySelectorAll(".passo-dinheiro")].find((x) => x !== el);
+  return velho ? [...velho.querySelectorAll("details[open] > summary")].map((s) => s.textContent) : [];
+}
+function reabrir(el, titulos) {
+  if (!titulos.length) return;
+  for (const s of el.querySelectorAll("details > summary")) if (titulos.includes(s.textContent)) s.parentElement.open = true;
+}
 
 function ligar(el, ctx) {
   el.addEventListener("click", (ev) => {
+    const ab = ev.target.closest("[data-abrir]");
+    if (ab) {
+      const d = el.querySelector(`#${ab.dataset.abrir}`);
+      if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "start" }); }
+      return;
+    }
     const b = ev.target.closest("[data-set]");
-    if (!b) return;
+    if (!b || b.classList.contains("on")) return;
     const [k, v] = b.dataset.set.split("=");
+    if (k === "arr") return ctx.set({ hoje: comArranjo(ctx.resp.hoje || "", v) });
     ctx.set({ [k]: v });
   });
 }
 
-// ---------- Seu bolso: 3 controles e uma linha de chips ----------
-function bolsoHtml(ctx, m, pr, raiz, nivel, temMand) {
+// ---------- Ajustar a conta (fechado): custo, preço da raiz e como fica no roçado ----------
+/** Arranjo de hoje ("junto" | "pedacos" | "baixio") no texto de ctx.resp.hoje. Troca só o arranjo (cons/mbx) e deixa as culturas e
+ *  as outras chaves como vieram: sem culturas respondidas, elas continuam "o comum daqui" (o padrão não vira resposta).
+ *  "Tudo junto" é o padrão: sem mais nada, a URL volta a ficar limpa. */
+function comArranjo(txt, v) {
+  const [cs = "", ...kv] = String(txt || "").split("|");
+  const resto = kv.filter((p) => p && !/^(cons|mbx)=/.test(p));
+  const arr = v === "junto" ? [] : v === "baixio" ? ["cons=0", "mbx=1"] : ["cons=0"];
+  const s = [cs, ...arr, ...resto].join("|");
+  return /^\|*$/.test(s) ? "" : s;
+}
+
+function ajustarHtml(ctx, pr, raiz, nivel, temMand) {
   const { ef, r, util: U } = ctx;
-  const uf = r.local.uf;
-  const temB = m.temBaixio ?? ef.tem_baixio !== false, b = m.b ?? ef.baixio_ha;
-  const area = `${U.ha(ef.ha)}${temB && b > 0 ? ` · ${U.ha(b)} de baixio${ef.tem_baixio === null ? "?" : ""}` : " · sem baixio"}`;
-  const sug = ef.prioridade_origem === "resposta" ? "" : ef.prioridade_origem.includes("alerta")
-    ? `<span class="chip ambar" title="Padrão em ano de alerta de El Niño: mude se quiser">${U.ic("alerta")}sugerido: garantir (El Niño)</span>`
-    : `<span class="chip" title="Padrão: mude se quiser">sugerido: equilibrar</span>`;
-  const raizOps = [["municipio", pr.municipio, "daqui"], ["uf_mediana", pr.uf_mediana, `comum ${uf}`], ["uf_p25", pr.uf_p25, `baixo ${uf}`]]
-    .filter(([, p]) => p > 0).map(([v, p, s]) => [v, `R$ ${U.num(p, 2)}`, s]);
-  const gs = ef.gs === "sim" || ef.gs === "nao" ? ef.gs : "nao_sei", cabe = ef.ha <= 5;
-  const gsChip = gs === "sim" ? `<span class="chip verde">paga se perder 40% ou mais</span>`
-    : cabe ? `<span class="chip verde">${U.ic("ok")}você cabe: até 5 ha</span>` : `<span class="chip terra">acima de 5 ha: não cabe</span>`;
-  return `<section class="painel bolso" aria-label="Seu bolso">
-    <div class="bolso-linha">
-      <div class="ctrl">${rotulo(U, "escudo", "O que vale mais")}${seg("prioridade", ef.prioridade, [["garantir", "Garantir comida"], ["equilibrar", "Equilibrar"], ["vender", "Vender mais"], ["solo", "Cuidar do solo"]])}</div>
-      <div class="ctrl">${rotulo(U, "mandioca", "Preço da raiz (kg)", temMand ? U.selo("medido", "mediana 2016–2025 do preço do IBGE no município e na UF; escolher é suposição") : "")}
-        ${temMand ? seg("raiz", raiz, raizOps) : `<div class="seg-vazio">o plano daqui não tem mandioca</div>`}</div>
-      <div class="ctrl">${rotulo(U, "dinheiro", "O que você paga")}${seg("custo", nivel, [["semente", "Só a semente"], ["desembolso", "Máquina e insumos"]])}</div>
-    </div>
-    ${temMand ? olho(OLHOS.preco_raiz) : ""}
-    <div class="bolso-chips">
-      <a class="chip" href="${ctx.link(2)}" title="Mudar no passo 2">${U.ic("faixas")}${area} · mudar</a>${sug}
-      <span class="gs" title="Garantia-Safra: o valor do benefício não entra na conta">${U.ic("escudo")}Garantia-Safra
-        ${seg("gs", gs, [["sim", "sim"], ["nao", "não"], ["nao_sei", "não sei"]])}${gsChip}</span>
-    </div>
-  </section>`;
+  const uf = r.local.uf, rt = raizTxt(uf);
+  const linhas = [`<div class="ctrl">${rotulo(U, "dinheiro", "O que entra na conta", U.selo("medido", FONTE_CONAB))}
+    ${seg("custo", nivel, [["semente", "Só a semente"], ["desembolso", "Semente, trator, adubo e diária", "CONAB"]])}</div>`];
+  if (temMand) {
+    const ops = ["municipio", "uf_mediana", "uf_p25"].filter((v) => pr[v] > 0).map((v) => [v, `R$ ${U.num(pr[v], 2)}`, rt[v]]);
+    linhas.push(`<div class="ctrl">${rotulo(U, "mandioca", "Preço da raiz (kg)", U.selo("medido", "mediana 2016–2025 do preço do IBGE no município e na UF; escolher é suposição"))}
+      ${seg("raiz", raiz, ops)}${olho(OLHOS.preco_raiz)}</div>`);
+  }
+  const h = lerHoje(ctx.resp.hoje || "", r.padroes);
+  if (Object.keys(h.cult).length > 1) {
+    const temB = ef.tem_baixio !== false && (h.cult.milho || 0) > 0;
+    const atual = h.cons === 0 && h.mbx === 1 ? "baixio" : h.cons === 0 ? "pedacos" : "junto";
+    linhas.push(`<div class="ctrl">${rotulo(U, "faixas", "Como fica no roçado")}
+      ${seg("arr", atual, [["junto", "Tudo junto"], ["pedacos", "Em pedaços"], ...(temB ? [["baixio", "Milho no baixio"]] : [])])}</div>`);
+  }
+  return `<div class="ajustar">${linhas.join("")}${temMand ? "" : olho(OLHOS.agro)}
+    <a class="chip aj-mudar" href="${ctx.link(2)}" data-editar="hoje">${U.ic("milho")}Mudar o que planta ou quanto de cada</a></div>`;
 }
 
 function avisosHtml(ctx, m) {
@@ -137,59 +158,8 @@ function avisosHtml(ctx, m) {
   const out = [];
   if (ef.maniva === "plantada" && m.itens[0].some((i) => i.plantada)) out.push(`<span class="chip verde">${U.ic("mandioca")}mandioca já plantada: a Parte A colhe em 2027</span>`);
   for (const a of m.avisos) out.push(`<span class="chip ambar">${U.esc(a)}</span>`);
-  if (m.semRs.length) out.push(`<span class="chip ambar">${U.esc(m.semRs.join(", "))}: sem preço aqui, fica fora da conta</span>`);
+  if (m.semRs.length) out.push(`<span class="chip ambar">${U.esc(m.semRs.join(", "))}: comida da criação, fora do R$</span>`);
   return out.length ? `<div class="avisos-linha">${out.join("")}</div>` : "";
-}
-
-// ---------- herói: os dois números ----------
-function heroiHtml(ctx, m, t, nivel, pr, temMand, anos28 = "") {
-  const { ef, util: U } = ctx;
-  const garantir = ef.prioridade === "garantir";
-  const num = (f) => (garantir ? f.p10 : f.p50);
-  const sub = (f) => (garantir ? `típico ${rs(f.p50)}` : `caso ruim ${rs(f.p10)} · bom ${rs(f.p90)}`);
-  const N = Math.round(t.aFrente * 100);
-  const frente = t.aFrente >= 0.5
-    ? `<span class="chip verde grande">${U.ic("ok")}plano à frente em ${N === 100 && t.aFrente < 1 ? "mais de 99" : N} de 100</span>`
-    : `<span class="chip terra grande">${U.ic("alerta")}jeito de hoje à frente em ${100 - N} de 100</span>`;
-  let extra = "";
-  if (garantir) {
-    const com = C.comida2027(m);
-    const g = com.map((x) => x.graoPlano), g0 = com.map((x) => x.graoS0), rz = com.map((x) => x.raizPlano);
-    const rng = (a) => `${kg(Math.min(...a))} a ${kg(Math.max(...a))}`;
-    extra = `<div class="linha-chips"><span class="chip">${U.ic("feijao")}grão em 2027, se for El Niño: plano ${rng(g)} · hoje ${rng(g0)}</span>` +
-      (Math.max(...rz) > 0 ? `<span class="chip">${U.ic("mandioca")}raiz em 2027: ${rng(rz)}</span>` : "") + `</div>`;
-  } else if (ef.prioridade === "vender" && temMand) {
-    const ops = [["municipio", "daqui"], ["uf_mediana", "comum"], ["uf_p25", "baixo"]].filter(([k]) => pr[k] > 0)
-      .map(([k]) => ({ k, p: pr[k], g: C.totais(m, nivel, pr[k] / m.precoRefMand).ganho.p50 }));
-    const emp = C.precoEmpate(m, nivel);
-    extra = `<div class="linha-chips"><span class="rot-mini">${U.ic("mandioca")}se a raiz valer</span>${ops.map((o) =>
-      `<span class="chip${o.k === ef.raiz ? " verde" : ""}">R$ ${U.num(o.p, 2)} → ${o.g >= 0 ? "+" : ""}${rs(o.g)}</span>`).join("")}` +
-      (emp ? `<span class="chip ambar">empata com a raiz a R$ ${U.num(emp, 2)}</span>` : "") + `</div>`;
-  }
-  const motivo = ganhaOuMotivo(m, t);
-  return `<section class="painel heroi">
-    ${rotulo(U, "dinheiro", `${garantir ? `No caso ruim (${termo("em_dez", "1 em cada 10")})` : "Típico"}, em 3 anos · ${nivel === "semente" ? "sobra depois da semente" : "sobra depois de máquina e insumos"}`,
-      U.selo("projecao", `${SEQ}. ${FONTE_PAM}. ${FONTE_CONAB}`))}
-    <div class="heroi-nums">
-      <div class="hn">${chave("plano")}<span class="hn-rot">O plano</span><div class="hn-val">${rs(num(t.plano))}</div><div class="hn-sub">${sub(t.plano)}</div></div>
-      <div class="hn">${chave("s0")}<span class="hn-rot">Jeito de hoje <small>${U.esc(m.hojeDesc || "milho + feijão")}</small></span><div class="hn-val cinza">${rs(num(t.s0))}</div><div class="hn-sub">${sub(t.s0)}</div></div>
-    </div>
-    ${G.barrasH([{ rot: "o plano", cls: "plano", f: t.plano }, { rot: "jeito de hoje", cls: "s0", f: t.s0 }], largura(280))}
-    <div class="linha-chips">${frente}${motivo}</div>${extra}
-    ${m.agro.length ? "" : olho(OLHOS.agro)}
-    ${anos28 ? U.verMais(anos28, "Ver os 28 anos") : ""}
-  </section>`;
-}
-
-/** Quando o plano perde em R$: o porquê em uma linha. */
-function ganhaOuMotivo(m, t) {
-  if (t.ganho.p50 > 0) return "";
-  const uso = [...new Set([0, 1, 2].flatMap((k) => m.itens[k].filter((i) => i.uso).map((i) => i.cultura.toLowerCase())))];
-  const p = [];
-  if (!m.usadas.includes("Mandioca")) p.push("sem mandioca");
-  if (uso.length) p.push(`${uso.join(" e ")} sem preço`);
-  if (m.agro.length) p.push("IBGE de lavoura grande");
-  return p.length ? `<span class="chip">por quê: ${p.join(" · ")}</span>` : "";
 }
 
 // ---------- 2027: os El Niños fortes ----------
@@ -204,29 +174,26 @@ function elNinoHtml(ctx, m, t, nivel, mult) {
   const depois = t.porAno[1].plano.p50 < t.porAno[1].s0.p50 && t.porAno[2].plano.p50 < t.porAno[2].s0.p50;
   const frase = atras === 0 ? `Nos ${n}, o plano já fica à frente em 2027.`
     : depois ? `Em ${vezes(atras, n)} o plano fica atrás em 2027, e continua atrás depois.`
-      : `Em ${vezes(atras, n)} o plano fica atrás em 2027${semVenda.length ? `: ${semVenda.join(" e ")} ainda não ${semVenda.length > 1 ? "vendem" : "vende"}` : ""}.`;
+      : `Em ${vezes(atras, n)} o plano fica atrás em 2027${semVenda.length ? `: ${semVenda.join("; ")}` : ""}.`;
   const q = C.ano2027Qualquer(m, nivel, mult);
-  return `<section class="painel">
-    ${rotulo(U, "onda", "Se 2027 for como…", `<span class="chip terra mini">El Niño muito forte</span>${U.selo("medido", FONTE_PAM + "; anos com ONI ≥ 1,5 em out–dez/nov–jan")}`)}
+  return `<div class="legenda"><span>${chave("plano")}plano</span><span>${chave("s0")}jeito de hoje</span>
+      <span class="chip terra mini">El Niño forte</span>${U.selo("medido", FONTE_PAM + "; anos com ONI ≥ 1,5 em out–dez/nov–jan")}</div>
     <div class="en-grade">${cards}</div>
     <p class="frase">${frase}</p>
-    ${U.verMais(`<p>O Pacífico de hoje está como nos ${n} El Niños fortes da série (${m.anosEN.join(", ")}). Cada cartão é o que o plano e o jeito de hoje
-      teriam deixado em 2027 aqui, naquele ano. São só ${n} anos: não é previsão.</p>
-      <p>Se 2027 for um ano qualquer (os ${q.n} anos): plano típico ${rs(q.plano.p50)}, jeito de hoje ${rs(q.s0.p50)}.</p>`, "Ver mais")}
-  </section>`;
+    <p class="pequeno sub">O Pacífico de hoje está como nos ${n} El Niños fortes da série (${m.anosEN.join(", ")}). Cada cartão é o que o plano e o jeito de hoje
+      teriam deixado em 2027 aqui, naquele ano. São só ${n} anos: não é previsão. Se 2027 for um ano qualquer (os ${q.n} anos): plano típico ${rs(q.plano.p50)},
+      jeito de hoje ${rs(q.s0.p50)}.</p>`;
 }
 
-/** Partes do roçado que no ano k só têm custo: "a maniva (Parte A) e o sorgo forrageiro (Partes B e C)". */
+/** Partes do roçado que no ano k só têm custo: "a maniva ainda não colhe", "o sorgo vira comida da criação (fora do R$)". */
 function semVendaEm(m, k) {
-  const g = new Map();
+  const g = new Set();
   for (const i of m.itens[k]) {
     if (!i.custo || m.itens[k].some((j) => j.serie && j.parte === i.parte)) continue;
-    const nome = i.cultura === "Mandioca" ? "a maniva" : `o ${i.cultura.toLowerCase()}`;
-    const ps = g.get(nome) || [];
-    if (!ps.includes(i.parte)) ps.push(i.parte);
-    g.set(nome, ps);
+    g.add(i.cultura === "Mandioca" ? "a maniva ainda não colhe"
+      : `o ${i.cultura.toLowerCase().replace(" forrageiro", "")} vira comida da criação (fora do R$)`);
   }
-  return [...g].map(([nome]) => nome);
+  return [...g];
 }
 
 // ---------- caixa mês a mês ----------
@@ -243,17 +210,14 @@ function caixaHtml(ctx, m, t) {
   const fundo = t.caixaPlano[iMin].p50;
   const partes = [fundo < 0 ? `Mais apertado: <b>${rs(fundo)}</b> em ${C.rotMes(iMin)}.` : "O caixa do plano não fica negativo.",
     ultimoAtras === -1 ? "Fica à frente desde o começo." : volta ? `Passa o jeito de hoje em <b>${volta}</b>.` : "Termina atrás do jeito de hoje."];
-  return `<section class="painel">
-    ${rotulo(U, "calendario", "Quando o dinheiro entra", U.selo("projecao", SEQ))}
-    <div class="legenda"><span>${chave("plano")}plano</span><span>${chave("s0")}jeito de hoje</span>
-      <span>${U.ic("semente")}sai (plantio)</span><span>${U.ic("dinheiro")}entra (colheita)</span></div>
+  return `<div class="legenda"><span>${chave("plano")}plano</span><span>${chave("s0")}jeito de hoje</span>
+      <span>${U.ic("semente")}sai (plantio)</span><span>${U.ic("dinheiro")}entra (colheita)</span>${U.selo("projecao", SEQ)}</div>
     <div class="rola"><div class="rola-dentro caixa-wrap" style="min-width:${W}px">${svg}<div class="dica" hidden></div></div></div>
     <p class="frase">${partes.join(" ")}</p>
-    ${U.verMais(`<p>A linha é o caminho típico; a faixa vai do caso ruim (1 em 10) ao bom (9 em 10). O custo entra no mês do plantio e a colheita
-      no meio da colheita, com os meses do calendário do passo 3 (2028 e 2029 repetem os meses). A mandioca entra aos poucos nos meses de colheita.</p>
-      <h4>Ano a ano</h4>${rolar(G.barrasAno(t.porAno, largura(320)), largura(320))}
-      <p class="pequeno sub">A coluna é o ano típico; o traço vai do ano ruim ao bom. Em 2027, do pior ao melhor dos ${t.porAno[0].n} El Niños fortes.</p>`, "Ver mais")}
-  </section>`;
+    <p class="pequeno sub">A linha é o caminho típico; a faixa vai do caso ruim (1 em 10) ao bom (9 em 10). O custo entra no mês do plantio e a colheita
+      no meio da colheita, com os meses do calendário do plano (2028 e 2029 repetem os meses). A mandioca entra aos poucos nos meses de colheita.</p>
+    <h4>Ano a ano</h4>${rolar(G.barrasAno(t.porAno, largura(320)), largura(320))}
+    <p class="pequeno sub">A coluna é o ano típico; o traço vai do ano ruim ao bom. Em 2027, do pior ao melhor dos ${t.porAno[0].n} El Niños fortes.</p>`;
 }
 
 function ligarCaixa(el, t) {
@@ -289,11 +253,8 @@ function termoHtml(ctx, tS, tD) {
       <span class="trilho"><span class="cheio" style="width:${((a.pagaPlano / a.n) * 100).toFixed(1)}%"></span><span class="marca-s0" style="left:${((a.pagaS0 / a.n) * 100).toFixed(1)}%"></span></span>
       <b>${a.pagaPlano} de ${a.n}</b></div>`;
   const linhas = [0, 1, 2].map((k) => `<div class="termo-linha"><b class="ano">${2027 + k}</b>${cel(tS.porAno[k])}${cel(tD.porAno[k])}</div>`).join("");
-  return `<section class="painel">
-    ${rotulo(U, "escudo", "A colheita paga o gasto do ano?", U.selo("projecao", `${SEQ}. ${FONTE_CONAB}`))}
-    <div class="termo"><div class="termo-linha cab"><span></span><span>só a semente</span><span>máquina e insumos</span></div>${linhas}</div>
-    <p class="frase pequeno sub">Barra = plano; risco cinza = jeito de hoje. Em 2027, entre os ${tS.porAno[0].n} El Niños fortes; depois, entre os ${tS.porAno[1].n} anos.</p>
-  </section>`;
+  return `<div class="termo"><div class="termo-linha cab"><span></span><span>${CUSTO_TXT.semente}</span><span>${CUSTO_TXT.desembolso}</span></div>${linhas}</div>
+    <p class="frase pequeno sub">${U.selo("projecao", `${SEQ}. ${FONTE_CONAB}`)} Barra = plano; risco cinza = jeito de hoje. Em 2027, entre os ${tS.porAno[0].n} El Niños fortes; depois, entre os ${tS.porAno[1].n} anos.</p>`;
 }
 
 // ---------- replay de 28 anos ----------
@@ -309,7 +270,7 @@ function replayHtml(ctx, m, nivel, mult, preco, temMand) {
     return `${f.parte === "Baixio" ? "baixio" : f.parte}: ${tx}`;
   }).join("; ");
   // o plano nunca esteve no chão: a conta é refeita com as colheitas medidas (por isso SUPOSIÇÃO, não MEDIDO)
-  return `${rotulo(U, "grafico", "Se o plano estivesse no chão desde 1998", U.selo("suposicao", `refeito com as colheitas medidas do ${FONTE_PAM}`))}
+  return `<h4>Os 28 anos: se o plano estivesse no chão desde 1998 ${U.selo("suposicao", `refeito com as colheitas medidas do ${FONTE_PAM}`)}</h4>
     <div class="faixa28">${tiles}</div>
     <div class="faixa28-eixo"><span>${rows[0].ano}</span><span class="leg"><i class="ac"></i>plano acima <i class="ab"></i>abaixo <i class="en-leg"></i>El Niño forte</span><span>${rows[rows.length - 1].ano}</span></div>
     <p class="frase">O plano ficou acima do jeito de hoje em <b>${acima} de ${rows.length} anos</b>.</p>
@@ -379,12 +340,10 @@ function detalhesHtml(ctx, m, fin, t, nivel, mult, preco) {
     ${avisos.length ? `<h4>Avisos dos dados</h4><ul>${avisos.map((a) => `<li>${U.esc(a)}</li>`).join("")}</ul>` : ""}`;
 }
 
-// ---------- sem série ----------
+// ---------- sem série (vai no "Ver como calculamos": o aviso à vista é o do Hoje → melhor → ideal) ----------
 function semConta(m, fin, U) {
-  const falta = !fin ? ["sem dados do IBGE para este município"]
-    : m.falta.map((s) => (["Milho", "Feijão", "Mandioca"].includes(s) ? `${s.toLowerCase()}: menos de 10 anos no IBGE` : s));
-  return `<section class="painel alerta">${U.faixa("alerta", "terra", "Sem a série do IBGE, não inventamos número.")}
-    <div class="linha-chips">${falta.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>
-    ${fin ? U.verMais(`<p>Para comparar o plano com o jeito de hoje no mesmo ano, cada cultura do plano precisa de 10 anos ou mais com 10 ha plantados ou mais
-      (IBGE, 1998–2025). Abaixo, só o que existe daqui, por ha plantado.</p>${culturaTabela(fin, U)}`, "Ver o que existe aqui") : ""}</section>`;
+  if (!fin) return `<p>Sem dados do IBGE para este município: não inventamos número.</p>`;
+  const falta = m.falta.map((s) => (["Milho", "Feijão", "Mandioca"].includes(s) ? `${s.toLowerCase()}: menos de 10 anos no IBGE` : s));
+  return `<h4>O que falta aqui</h4><p>${U.esc(falta.join("; "))}. Para comparar o plano com o jeito de hoje no mesmo ano, cada cultura do plano precisa
+    de 10 anos ou mais com 10 ha plantados ou mais (IBGE, 1998–2025). Abaixo, só o que existe daqui, por ha plantado.</p>${culturaTabela(fin, U)}`;
 }

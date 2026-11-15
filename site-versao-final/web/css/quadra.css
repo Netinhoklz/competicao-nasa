@@ -6,6 +6,7 @@
   color-scheme: dark;
   --bg: #040605; --surface: #101612; --surface-2: #18211b; --surface-3: #212c24;
   --ink: #f2f4f7; --ink-2: rgba(242, 244, 247, 0.78); --muted: rgba(242, 244, 247, 0.58); --ink-4: rgba(242, 244, 247, 0.34);
+  --ink-3: rgba(242, 244, 247, 0.52); /* 2º tom das manchetes (.eco): contraste ≥ 4,5:1 sobre --bg */
   --border: rgba(255, 255, 255, 0.10); --border-2: rgba(255, 255, 255, 0.22);
   --green: #4cb27c; --green-forte: #5fd08f; --green-soft: rgba(76, 178, 124, 0.16);
   --amber: #e8a14a; --amber-soft: rgba(232, 161, 74, 0.15);
@@ -44,37 +45,43 @@ button { font: inherit; color: inherit; }
 svg { overflow: visible; }
 
 /* ---------------------------------------------------------------- moldura */
-.topo { display: flex; align-items: center; gap: 16px; padding: 18px 28px; position: sticky; top: 0; z-index: 50;
-  background: linear-gradient(to bottom, rgba(4, 6, 5, .95), rgba(4, 6, 5, .75)); backdrop-filter: blur(10px); flex-wrap: wrap; }
+.topo { position: sticky; top: 0; z-index: 50; background: linear-gradient(to bottom, rgba(4, 6, 5, .96), rgba(4, 6, 5, .82));
+  backdrop-filter: blur(10px); }
+.topo-linha { display: flex; align-items: center; gap: 16px; padding: 14px 28px 6px; }
 .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--mono);
   font-weight: 600; letter-spacing: .32em; font-size: 14px; }
 .marca-selo { width: 16px; height: 16px; border: 2px solid var(--ink); border-radius: 50%; display: grid; place-items: center; }
 .marca-selo::after { content: ""; width: 6px; height: 6px; background: var(--ink); border-radius: 50%; }
-.topo-lugar { flex: 1 1 200px; min-width: 0; text-align: center; font-size: 15px; color: var(--ink-2); }
+.topo-lugar { flex: 1 1 200px; min-width: 0; text-align: center; font-size: 15px; color: var(--ink-2); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
 .topo-lugar b { color: var(--ink); font-weight: 600; }
 .topo-acoes { display: flex; gap: 8px; }
 .botao-leve { border: 1px solid var(--border-2); background: rgba(255, 255, 255, .04); border-radius: 999px; padding: 8px 16px; cursor: pointer;
   font-size: 14px; text-decoration: none; color: var(--ink); white-space: nowrap; transition: border-color .2s, background .2s; }
 .botao-leve:hover { border-color: var(--green); background: var(--green-soft); }
 
-/* passo a passo: bolinhas ligadas por uma linha */
-.passos-nav { display: flex; justify-content: center; gap: 0; padding: 4px 28px 14px; overflow-x: auto; }
-.passo-pilula { display: flex; align-items: center; gap: 10px; border: 0; background: none; cursor: pointer; padding: 6px 4px; color: var(--muted);
-  font-size: 14px; white-space: nowrap; position: relative; }
-.passo-pilula + .passo-pilula::before { content: ""; width: 34px; height: 1px; background: var(--border-2); margin-right: 6px; }
-.passo-pilula i { font-style: normal; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--border-2);
-  font-family: var(--mono); font-size: 13px; color: var(--ink-2); flex: none; }
-.passo-pilula.atual { color: var(--ink); font-weight: 600; }
-.passo-pilula.atual i { background: var(--green); border-color: var(--green); color: #04130a; box-shadow: 0 0 0 5px var(--green-soft); }
-.passo-pilula.feito i { border-color: var(--green); color: var(--green-forte); }
+/* pílulas do topo: fazem o papel de abas (sem número; a atual acesa e as anteriores com ✓) */
+.passos-nav { display: flex; justify-content: center; gap: 6px; padding: 2px 28px 10px; overflow-x: auto; scrollbar-width: none; }
+.passos-nav::-webkit-scrollbar { display: none; }
+.passos-nav:empty { display: none; }
+.passo-pilula { display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 34px; padding: 4px 14px; border: 1px solid transparent;
+  border-radius: 999px; background: none; cursor: pointer; color: var(--muted); font-size: 14px; white-space: nowrap; }
+.passo-pilula:hover { color: var(--ink); border-color: var(--border); }
+.passo-pilula i { font-style: normal; color: var(--green-forte); font-size: 12px; }
+.passo-pilula.feito { color: var(--ink-2); }
+.passo-pilula.atual { color: var(--ink); font-weight: 600; border-color: rgba(76, 178, 124, .6); background: var(--green-soft); }
+.passo-pilula .curto { display: none; }
 
-/* respostas da roça como selos editáveis */
-.ficha { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 28px 6px; font-size: 13px; color: var(--muted); }
-.ficha button { border: 1px solid var(--border); background: rgba(255, 255, 255, .03); border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: 13px;
-  color: var(--ink-2); }
-.ficha button:hover { border-color: var(--green); color: var(--ink); }
+/* a roça em 1 linha nos passos de resultado: "1,0 ha (típico) · milho e feijão · Mudar" */
+.ficha { max-width: 1120px; margin: 0 auto; padding: 8px 28px 0; }
+.ficha:empty { display: none; }
+.ficha-linha { display: flex; align-items: center; gap: 4px; min-width: 0; font-size: 14px; color: var(--muted); white-space: nowrap; }
+.ficha button { border: 0; background: none; padding: 4px 6px; min-height: 36px; cursor: pointer; font-size: 14px; color: var(--ink-2); border-radius: 8px; }
+.ficha button:hover { color: var(--ink); background: rgba(255, 255, 255, .05); }
+.ficha .ficha-cult { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.ficha .ficha-mudar { flex: none; color: var(--green-forte); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
-main.jornada { max-width: 1120px; margin: 0 auto; padding: 18px 28px 120px; }
+main.jornada { max-width: 1120px; margin: 0 auto; padding: 18px 28px 24px; }
 .carregando { padding: 120px 0; text-align: center; color: var(--muted); font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
 .carregando::before { content: ""; display: block; width: 46px; height: 46px; margin: 0 auto 18px; border-radius: 50%;
   border: 2px solid var(--border-2); border-top-color: var(--green); animation: gira 1s linear infinite; }
@@ -84,10 +91,10 @@ main.jornada { max-width: 1120px; margin: 0 auto; padding: 18px 28px 120px; }
 /* ---------------------------------------------------------------- tipografia da tela inicial */
 .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
 .manchete { font-family: var(--font); font-weight: 300; font-size: clamp(34px, 5.2vw, 58px); letter-spacing: -0.025em; line-height: 1.04; margin: 0; }
-.manchete .eco { display: block; color: var(--ink-4); }
+.manchete .eco { display: block; color: var(--ink-3); }
 .titulo-passo { margin: 26px 0 28px; }
 .titulo-passo h1 { font-family: var(--font); font-weight: 300; font-size: clamp(32px, 4.6vw, 52px); letter-spacing: -0.025em; line-height: 1.05; }
-.titulo-passo h1 .eco { display: block; color: var(--ink-4); }
+.titulo-passo h1 .eco { display: block; color: var(--ink-3); }
 .titulo-passo p { margin: 12px 0 0; color: var(--ink-2); max-width: 680px; font-size: 17px; }
 .sub { color: var(--muted); }
 .pequeno { font-size: 13px; }
@@ -107,7 +114,7 @@ main.jornada { max-width: 1120px; margin: 0 auto; padding: 18px 28px 120px; }
 
 /* indicador: ícone + rótulo curto + número grande + 1 linha (igual aos cartões do painel do JP) */
 .ind { background: var(--surface); border: 1px solid var(--border); border-radius: var(--raio); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.ind .ind-rot { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); }
+.ind .ind-rot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px; color: var(--ink-2); } /* o selo com a fonte é comprido: o rótulo quebra em vez de espremer */
 .ind .ind-val { font-family: var(--display); font-size: 40px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
 .ind .ind-val small { font-family: var(--body); font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 4px; }
 .ind .ind-sub { font-size: 13px; color: var(--muted); }
@@ -139,17 +146,20 @@ main.jornada { max-width: 1120px; margin: 0 auto; padding: 18px 28px 120px; }
 .botao.primario { background: var(--green); color: #04130a; font-family: var(--display); font-weight: 700; font-size: 18px; }
 .botao.secundario { background: rgba(255, 255, 255, .07); color: var(--ink); border: 1px solid var(--border-2); }
 .botao:disabled { opacity: .35; cursor: default; }
+.botao.primario:disabled { opacity: .55; cursor: progress; }
 .cta { display: flex; width: 100%; padding: 20px 26px; font-size: 21px; border-radius: var(--raio); justify-content: space-between; }
 
 /* "ver como calculamos": o detalhe técnico fica escondido */
 details.ver-mais { margin: 14px 0 0; border-top: 1px solid var(--border); padding-top: 10px; }
-details.ver-mais > summary { cursor: pointer; color: var(--muted); font-size: 14px; list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+details.ver-mais > summary { margin: 0; cursor: pointer; color: var(--muted); font-size: 14px; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; }
 details.ver-mais > summary::before { content: "+"; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border-2); display: grid;
   place-items: center; font-size: 14px; line-height: 1; }
 details.ver-mais[open] > summary::before { content: "–"; }
 details.ver-mais > summary::-webkit-details-marker { display: none; }
 details.ver-mais > :not(summary) { color: var(--ink-2); font-size: 14px; }
 details > summary { cursor: pointer; color: var(--green-forte); font-weight: 600; margin: 8px 0; }
+summary { min-height: 44px; } /* alvo de toque dos "ver mais" */
 
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -159,8 +169,16 @@ th { color: var(--muted); font-weight: 500; font-size: 12px; font-family: var(--
 .aviso.vermelho { background: var(--terra-soft); border-color: rgba(236, 122, 99, .35); }
 
 /* selos MEDIDO / SUPOSIÇÃO / PROJEÇÃO (pequenos: não podem roubar a cena) */
-.selo { display: inline-block; font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: .1em; padding: 1px 6px; border-radius: 999px;
-  border: 1px solid; vertical-align: middle; cursor: help; white-space: nowrap; opacity: .85; }
+.selo { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .08em; padding: 1px 7px; border-radius: 999px;
+  border: 1px solid; vertical-align: middle; cursor: pointer; white-space: nowrap; opacity: .9; line-height: 1.5; }
+.selo:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+/* toque no selo: balão com a fonte por 5 s (roca.js) */
+.selo-balao { position: fixed; z-index: 90; width: max-content; max-width: min(320px, calc(100vw - 24px)); padding: 10px 12px; border-radius: 12px;
+  background: var(--surface-2); border: 1px solid var(--border-2); box-shadow: 0 12px 30px rgba(0, 0, 0, .55); font-size: 13px; line-height: 1.4;
+  color: var(--ink-2); }
+.selo-balao[hidden] { display: none; }
+.selo-balao b { display: block; margin: 0 0 4px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); }
 .selo.medido { color: var(--s-medido); border-color: rgba(95, 208, 143, .5); }
 .selo.suposicao { color: var(--s-suposicao); border-color: rgba(240, 178, 94, .5); }
 .selo.projecao { color: var(--s-projecao); border-color: rgba(143, 188, 245, .5); }
@@ -182,8 +200,17 @@ th { color: var(--muted); font-weight: 500; font-size: 12px; font-family: var(--
 
 /* rodapé de navegação */
 .nav-baixo { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  padding: 14px 28px; background: linear-gradient(to top, rgba(4, 6, 5, .97), rgba(4, 6, 5, .8)); backdrop-filter: blur(10px); border-top: 1px solid var(--border); }
+  padding: 10px 28px; background: linear-gradient(to top, rgba(4, 6, 5, .97), rgba(4, 6, 5, .8)); backdrop-filter: blur(10px); border-top: 1px solid var(--border); }
+.nav-baixo .botao { min-height: 48px; padding: 10px 20px; }
 .nav-baixo .botao.primario { min-width: 240px; }
+body.sem-lugar #avancar, body.sem-lugar .passo-fim { display: none; }
+
+/* fim de cada passo: a frase do ponto 16 (no celular; no computador ela fica na barra). Outro lugar: o "Trocar" do topo */
+.passo-fim { max-width: 1120px; margin: 0 auto; padding: 0 28px 104px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.decide-fim { display: none; align-items: center; justify-content: center; gap: 8px; min-height: 44px; font-size: 13px; color: var(--ink-2);
+  text-align: center; text-decoration: none; }
+.decide-fim .ic { color: var(--blue); width: 18px; height: 18px; }
+.decide-fim b { color: var(--ink); font-weight: 600; }
 
 /* entrada suave de cada passo */
 .passo-conteudo { animation: entra .45s var(--ease) both; }
@@ -192,15 +219,28 @@ th { color: var(--muted); font-weight: 500; font-size: 12px; font-family: var(--
 
 @media (max-width: 760px) {
   .grade-2, .grade-3, .grade-4 { grid-template-columns: 1fr; }
-  .topo { padding: 12px 16px; } .topo-lugar { order: 3; flex-basis: 100%; text-align: left; }
-  .passos-nav { justify-content: flex-start; padding: 0 16px 10px; }
-  .passo-pilula span { display: none; } .passo-pilula.atual span { display: inline; }
-  .passo-pilula + .passo-pilula::before { width: 14px; }
-  .ficha { justify-content: flex-start; padding: 0 16px 6px; }
-  .ficha button { min-height: 44px; padding: 10px 14px; } .botao-leve { min-height: 44px; display: inline-flex; align-items: center; }
-  main.jornada { padding: 10px 16px 110px; }
+  /* topo fixo ≤ 96 px: marca + lugar (≤ 52) e pílulas (≤ 40) */
+  .topo-linha { gap: 10px; padding: 2px 16px 0; min-height: 48px; }
+  .marca { letter-spacing: .2em; gap: 8px; }
+  .topo-lugar { text-align: left; font-size: 14px; }
+  .topo-lugar .ic { width: 18px; height: 18px; }
+  .botao-leve { min-height: 44px; display: inline-flex; align-items: center; padding: 6px 14px; }
+  .topo .longo, .nav-baixo .longo { display: none; }
+  .passos-nav { justify-content: flex-start; gap: 4px; padding: 2px 16px 6px; }
+  .passo-pilula { min-height: 32px; padding: 3px 10px; font-size: 13px; }
+  .passo-pilula .curto { display: inline; }
+  .ficha { padding: 4px 16px 0; }
+  .ficha-linha { font-size: 13px; gap: 2px; }
+  .ficha button { min-height: 44px; padding: 4px 6px; font-size: 13px; }
+  main.jornada { padding: 10px 16px 8px; }
+  .passo-fim { padding: 0 16px 68px; }
+  .decide-fim { display: flex; }
+  /* barra de baixo em 1 linha ≤ 64 px: só "←" e o primário (a frase vira o rodapé do passo) */
+  .nav-baixo { padding: 7px 16px; gap: 10px; }
+  .nav-baixo .moldura-decide { display: none; }
+  .nav-baixo #voltar { flex: none; padding: 10px 16px; }
   .cartao, .painel { padding: 18px 16px; }
-  .nav-baixo { padding: 12px 16px; } .nav-baixo .botao.primario { min-width: 0; flex: 1; }
+  .nav-baixo .botao.primario { min-width: 0; flex: 1; font-size: 17px; }
   table { display: block; overflow-x: auto; }
   .ind .ind-val { font-size: 34px; }
 }

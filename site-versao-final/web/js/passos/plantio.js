@@ -3,10 +3,12 @@
 // em faixas do Vicente Lima (PercolaCampo, branch estudo-vicente, 18fd0e3). Desenho e algoritmo: analise/distribuicao.md;
 // o que do PercolaCampo é defensável: analise/vicente.md. Contrato do ctx e regras de texto: js/passos/LEIA-ME.md.
 import { montar, grade, espalhar, ehGram, LIMIAR_SITIO } from "./plantio/desenho.js";
-import { linhaDoTempo, calendarioCompleto, ligarCalendario } from "./plantio/calendario.js";
+import { linhaDoTempo, calendarioCompleto, ligarCalendario, agora } from "./plantio/calendario.js";
 import { olho, OLHOS } from "../extras/voce_decide.js";
-// Extras (js/extras/, montados por U.montarExtras): "Onde o seu roçado sofre mais" logo abaixo do roçado e "O que cada planta faz pelo
-// seu solo" depois das faixas. "Seu olho" (ponto 16) no roçado, no calendário (metade guardada) e nas faixas.
+import { lerHoje } from "../extras/hoje_ideal.js";
+// Ordem (analise/fluxo/00_FLUXO_FINAL.md, seção 3, tela 2): título → "Agora" → roçado → maniva → o que fazer e quando → giro (extra
+// historico) → "Por que este plano", com 3 "ver mais": vulnerabilidade, por que em faixas e saude_solo (extras montados ao abrir).
+// "Seu olho" (ponto 16) à vista: o da metade guardada (calendário) e o do giro; o das faixas fica no "ver mais" da rotação.
 
 // estado de tela (não é resposta): ano escolhido, vista por ano ou mês a mês, mês, relógios das animações
 const est = { cod: null, ano: 0, modo: "ano", mes: null, relogio: null, foco: null, compacto: false };
@@ -60,15 +62,16 @@ const haTxt = (U, v) => (v >= 10 ? U.num(v, 0) : v >= 1 ? U.num(v, 1).replace(/,
 const botoesAno = (p) => `<div class="anos" role="group" aria-label="Ano do plano">${p.anos.map((ano, k) =>
   `<button type="button" class="ano-b" data-ano="${k}">${ano}</button>`).join("")}</div>`;
 
-// ------------------------------------------------------------------ abertura
-function abertura(ctx) {
-  const U = ctx.util, ef = ctx.ef;
-  const BX = { pouco: "pequeno", terco: "de ⅓", metade: "de metade" };
-  const tam = haTxt(U, ef.ha) + (ef.ha_origem === "resposta" ? "" : " (padrão daqui)");
-  const bx = ef.tem_baixio === false ? "sem baixio" : ef.tem_baixio === null ? "baixio de ⅓, se tiver" : `baixio ${BX[ef.baixio] || ""} embaixo`;
-  return `<div class="titulo-passo"><p class="kicker">Passo 3 · como plantar</p>
-    <h1>Plante em faixas.<span class="eco">Cada ano, cada cultura muda de lugar.</span></h1>
-    <p>Seu roçado de ${tam}, ${bx}, desenhado em escala. <a href="${ctx.link(2)}">Mudar</a></p></div>`;
+// ------------------------------------------------------------------ abertura (a ficha da casca mostra o tamanho e o "Mudar")
+function abertura() {
+  return `<div class="titulo-passo"><p class="kicker">Como plantar</p>
+    <h1>Plante em faixas.<span class="eco">Cada ano, cada cultura muda de lugar.</span></h1></div>`;
+}
+
+/** A faixa "Agora: …" sob o título (agora() de plantio/calendario.js; a linha do tempo começa depois dela, sem repetir). */
+function faixaAgora(ctx) {
+  const U = ctx.util, t = agora(ctx);
+  return t ? `<div class="plantio-agora">${U.faixa("semente", "verde", `<b>Agora:</b> ${U.esc(t)}`)}</div>` : "";
 }
 
 // ------------------------------------------------------------------ o roçado visto de cima (SVG em escala)
@@ -164,26 +167,33 @@ function heroi(ctx, lay, meses, W) {
     ${U.selo("medido", "ZARC 2026/27 e portarias plurianuais do MAPA")}; crescendo e colher vêm da janela mais o ciclo da cultura
     ${U.selo("suposicao", "ciclos da cultura; alguns sem fonte")}. O calendário só vai até dez/2027: 2028 e 2029 aparecem só por ano
     ${U.selo("projecao", "a rotação segue; as datas repetem o ZARC 2026/27")}.</p>`;
-  return `<section class="painel heroi" id="plantio-rocado">
-    <div class="bloco-topo"><h3>Seu roçado visto de cima <span data-selo-heroi></span></h3>${botoesAno(p)}</div>
+  const legenda = `<p class="vista" data-vista></p>
+    <ul class="leg-partes" data-lista></ul>
+    <div class="leg-estados" data-legenda-mes hidden>${Object.keys(ESTADO).map((e) => `<span>${amostra(e)}${ESTADO[e]}</span>`).join("")}</div>`;
+  const cerca = `<p class="leg-extra"><svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="bordas t-perene"><line class="b-fora" x1="2" y1="4" x2="28" y2="4"/>
+    <line class="b-dentro" x1="2" y1="12" x2="28" y2="12"/></g></svg>Cerca viva: palma e gliricídia</p>`;
+  const mesCtl = a ? `<div class="mes-controle">
+      <button type="button" class="play" data-play aria-label="Passar os meses">${U.ic("tocar")}</button>
+      <div class="mes-trilho" role="group" aria-label="Mês a mês em 2027">${chips}</div></div>` : "";
+  const anos = `${p.anos[0]}–${p.anos[p.anos.length - 1]}`;
+  const rotHtml = `${olho(OLHOS.faixas)}<h4>Por que esta ordem das faixas</h4>${ordem}<h4>Parte por parte</h4>${rotacao(ctx, lay)}`;
+  const topo = `<div class="bloco-topo"><h3>Seu roçado visto de cima <span data-selo-heroi></span></h3>${botoesAno(p)}</div>`;
+  // no celular o desenho já traz o nome de cada faixa: o mês a mês, a lista das partes e a rotação ficam num "ver mais" só
+  // (aberto quando o mês a mês está ligado, para o redesenho não esconder o controle)
+  if (est.compacto) {
+    return `<section class="painel heroi" id="plantio-rocado">${topo}
+      <figure class="rocado-fig">${svgRocado(U, lay, W)}</figure>${cerca}
+      <details class="ver-mais mes-a-mes"${est.modo === "mes" ? " open" : ""}><summary>${a ? `Ver mês a mês e a rotação ${anos}` : `Ver as partes e a rotação ${anos}`}</summary>
+        ${mesCtl}${legenda}${U.verMais(rotHtml, `A rotação ${anos}, parte por parte`)}</details></section>`;
+  }
+  const rot = U.verMais(rotHtml, `Ver a rotação ${anos}, parte por parte`);
+  return `<section class="painel heroi" id="plantio-rocado">${topo}
     <div class="heroi-grade">
       <figure class="rocado-fig">${svgRocado(U, lay, W)}</figure>
-      <div class="heroi-lado">
-        <p class="vista" data-vista></p>
-        <ul class="leg-partes" data-lista></ul>
-        <p class="leg-extra"><svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="bordas t-perene"><line class="b-fora" x1="2" y1="4" x2="28" y2="4"/>
-          <line class="b-dentro" x1="2" y1="12" x2="28" y2="12"/></g></svg>Cerca viva: palma por dentro, gliricídia por fora</p>
-        ${lay.incerto ? `<p class="leg-extra"><span class="amostra-tracejo"></span>Tracejado: o baixio, se você tiver</p>` : ""}
-        <div class="leg-estados" data-legenda-mes hidden>${Object.keys(ESTADO).map((e) => `<span>${amostra(e)}${ESTADO[e]}</span>`).join("")}</div>
-      </div>
+      <div class="heroi-lado">${legenda}${cerca}</div>
     </div>
-    ${a ? `<div class="mes-controle">
-      <button type="button" class="play" data-play aria-label="Passar os meses">${U.ic("seta")}</button>
-      <div class="mes-trilho" role="group" aria-label="Mês a mês em 2027">${chips}</div>
-      <button type="button" class="botao-leve" data-ano-todo>Ano todo</button></div>` : ""}
-    ${olho(OLHOS.faixas)}
-    ${U.verMais(ordem, "Por que esta ordem das faixas")}
-    ${U.verMais(rotacao(ctx, lay), `Ver a rotação ${p.anos[0]}–${p.anos[p.anos.length - 1]}, parte por parte`)}
+    ${mesCtl}
+    ${rot}
   </section>`;
 }
 
@@ -250,7 +260,7 @@ function pintarRocado(el, ctx, lay, meses) {
   for (const q of p.faixas) {
     if (q.parte === "Baixio" && !lay.temBaixio) continue;
     const L = /^Parte/.test(q.parte) ? q.parte.replace("Parte ", "") : "";
-    let cultura, tipo, direita, extra = q.parte === "Baixio" ? `<span class="leg-sub">no baixio</span>` : "";
+    let cultura, tipo, direita, extra = q.parte === "Baixio" ? `<span class="leg-sub">no baixio${lay.incerto ? ", se tiver (tracejado)" : ""}</span>` : "";
     if (mes) {
       const e = estadoMes(a, q.parte, mes);
       cultura = e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : e.cultura;
@@ -304,14 +314,57 @@ function pintarRocado(el, ctx, lay, meses) {
   }
 }
 
+// ------------------------------------------------------------------ a maniva (sob o desenho): muda o plano no núcleo
+function linhaManiva(ctx) {
+  const U = ctx.util, p = ctx.r.plano;
+  if (ctx.ef.maniva === "nao") {
+    return `<div class="plantio-maniva" id="plantio-maniva"><p>${U.ic("mandioca")}<span>Sem maniva: a mandioca saiu do plano.</span></p>
+      <div class="maniva-chips"><button type="button" class="chip" data-maniva="">${U.ic("volta")} voltar</button></div></div>`;
+  }
+  const temM = (f) => f.anos.some((c) => c.cultura === "Mandioca");
+  const f = p.faixas.find((x) => /^Parte/.test(x.parte) && x.anos[0].cultura === "Mandioca") || p.faixas.find(temM);
+  if (!f) return "";
+  const atual = ctx.resp.maniva === "plantada" ? "plantada" : "";
+  const ops = [["", "Consigo maniva"], ["plantada", "Já tenho no chão"], ["nao", "Não consigo"]];
+  return `<div class="plantio-maniva" id="plantio-maniva"><p>${U.ic("mandioca")}<span><b>Mandioca</b> (${U.esc(f.parte)}): tem maniva?</span></p>
+    <div class="maniva-chips" role="group" aria-label="Maniva para a mandioca">${ops.map(([v, t]) => `<button type="button"
+      class="chip${atual === v ? " verde" : ""}" data-maniva="${v}" aria-pressed="${atual === v}">${atual === v ? U.ic("ok") : ""}${t}</button>`).join("")}</div></div>`;
+}
+
 // ------------------------------------------------------------------ o que fazer e quando
+const TERRA_ROT = { nao_sei: "não sei", arenosa: "de areia", mista: "misturada", barro: "de barro" };
+const HOJE_ZARC = { milho: "Milho", feijao: "Feijão comum", mandioca: "Mandioca" }; // o jeito de hoje no cardápio do ZARC
+const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const artigo = (c) => (/^(mandioca|palma|mamona|mucuna|gliric)/.test(norm(c)) ? "a" : "o");
+
+/** Terra "não sei": as datas são as que servem nos solos zoneados. Para cada cultura do plano (e do jeito de hoje) sem janela na areia
+ *  (cardapio[].por_solo sem o solo 1 ou o AD2, cód. 12), uma linha honesta. Ex.: feijão comum em Quixadá; milho em Piritiba. */
+function avisoTerra(ctx) {
+  if (ctx.ef.terra !== "nao_sei") return "";
+  const U = ctx.util, card = ctx.r.cardapio || [], nomes = new Set();
+  for (const f of ctx.r.plano?.faixas || []) for (const c of f.anos) for (const n of String(c.cultura).split(/\s*\+\s*/)) nomes.add(norm(n));
+  for (const k of Object.keys(lerHoje(ctx.resp.hoje || "", ctx.r.padroes).cult)) if (HOJE_ZARC[k]) nomes.add(norm(HOJE_ZARC[k]));
+  const temAreia = (c) => c.por_solo.some((s) => [1, 12].includes(+s.cod_solo) && [s.risco20, s.risco30, s.risco40].some((x) => x && x !== "nenhum"));
+  const sem = card.filter((c) => Array.isArray(c.por_solo) && c.por_solo.length && !temAreia(c)
+    && [...nomes].some((n) => norm(c.cultura) === n || norm(c.cultura).startsWith(n + " ")));
+  // sem a sigla na frente (o ZARC fica no selo do bloco) e com o que fazer
+  return sem.length ? `<ul class="aviso-terra">${sem.map((c) => `<li>${U.ic("areia")}<span>Em terra de areia, ${artigo(c.cultura)} ${U.esc(c.cultura.toLowerCase())}
+    não tem data segura aqui: pergunte ao técnico.</span></li>`).join("")}</ul>` : "";
+}
+
+const temMetade = (ctx) => !!ctx.r.agenda && /metade/i.test(ctx.r.plano?.interruptor || ""); // o "seu olho" da metade guardada
+
 function blocoTempo(ctx) {
   const U = ctx.util;
   if (!ctx.r.agenda) return "";
   return `<section class="painel" id="plantio-tempo">
     <h3>O que fazer e quando ${U.selo("medido", "datas de plantar da tábua oficial (ZARC 2026/27); os cartões marcados como suposição são estimados")}</h3>
+    <a class="chip terra-chip" href="${ctx.link(2)}" data-editar="terra">${U.ic(ctx.ef.terra === "barro" ? "barro" : "areia")}<span>Sua terra:
+      ${TERRA_ROT[ctx.ef.terra] || "não sei"} · <u>mudar</u></span></a>
+    ${avisoTerra(ctx)}
     ${linhaDoTempo(ctx)}
-    ${/metade/i.test(ctx.r.plano?.interruptor || "") ? olho(OLHOS.metade) : ""}
+    <p class="sequeiro">${U.ic("chuva")}<span>Datas para roça de chuva. Molha a roça? Fale com o técnico.</span></p>
+    ${temMetade(ctx) ? olho(OLHOS.metade) : ""}
     ${U.verMais(calendarioCompleto(ctx), "Ver o calendário completo")}
   </section>`;
 }
@@ -340,10 +393,10 @@ function blocoFaixas(ctx, lay) {
       <li>O simulador do Vicente calcula outros números (R<sub>eff</sub>, plantas protegidas) com constantes que ainda não têm fonte nos artigos
       da pasta dele (grau D). Eles ficam no simulador, fora do plano, até a calibração.</li>
     </ul>`;
-  return `<section class="painel faixas-bloco" id="plantio-faixas">
-    <div class="bloco-topo"><h3>Por que em faixas ${U.selo("suposicao", "calculado no navegador sobre o desenho (" + SUPOE_LAYOUT + "); grade de ~5 m, 4 vizinhos")}</h3>
-      ${botoesAno(p)}</div>
-    <p class="faixas-frase">Doença de chão e de água passa de planta em planta da mesma família.</p>
+  return `<div class="faixas-bloco" id="plantio-faixas">
+    <p class="faixas-frase">Doença de chão e de água passa de planta em planta da mesma família.
+      ${U.selo("suposicao", "calculado no navegador sobre o desenho (" + SUPOE_LAYOUT + "); grade de ~5 m, 4 vizinhos")}</p>
+    <div class="bloco-topo">${botoesAno(p)}</div>
     <div class="mini-par">${fig("blocos", "Em blocos", "como se faz hoje")}${fig("faixas", "Em faixas", "este plano")}</div>
     <div class="mini-leg"><span><i class="q g1"></i>milho e sorgo</span><span><i class="q g0"></i>outras plantas</span><span><i class="q g2"></i>onde a praga chegou</span></div>
     <div class="foco-linha"><button type="button" class="botao secundario" data-foco>${U.ic("seta")} Ver a praga andar</button>
@@ -353,6 +406,16 @@ function blocoFaixas(ctx, lay) {
       <a href="modulos/percolacampo/index.html" target="_blank" rel="noopener">simulador do Vicente (modelo teórico)</a></p>
     ${olho(OLHOS.vizinhos)}
     ${U.verMais(detalhe)}
+  </div>`;
+}
+
+// ------------------------------------------------------------------ por que este plano: 3 "ver mais" com a manchete no título
+function porQue(ctx, lay) {
+  const U = ctx.util;
+  return `<section class="painel plantio-porque" id="plantio-porque"><h3>Por que este plano</h3>
+    ${U.verMais(U.extra("vulnerabilidade", { vista: "agua", painel: false }), "Onde o seu roçado sofre mais")}
+    ${U.verMais(blocoFaixas(ctx, lay), "Por que em faixas: a praga anda menos")}
+    ${U.verMais(U.extra("saude_solo", { titulo: false }), "O que cada planta faz pelo solo")}
   </section>`;
 }
 
@@ -485,7 +548,7 @@ export default {
     const U = ctx.util, r = ctx.r;
     if (est.cod !== ctx.cod) Object.assign(est, { cod: ctx.cod, ano: 0, modo: "ano", mes: null });
     if (!r.plano) {
-      el.innerHTML = abertura(ctx) + `<section class="painel"><p>Sem plano para este ponto (sem dado de terra).</p></section>`;
+      el.innerHTML = abertura() + `<section class="painel"><p>Sem plano para este ponto (sem dado de terra).</p></section>`;
       return;
     }
     const lay = montar(r.plano, ctx.ef);
@@ -498,19 +561,19 @@ export default {
     const conect = r.plano.anos.map((_, k) => ({ blocos: { ...grade(lay, k, "blocos"), modo: "blocos" }, faixas: { ...grade(lay, k, "faixas"), modo: "faixas" } }));
     const W = Math.round(Math.min(640, Math.max(300, (window.innerWidth || 800) - 66)));
     est.compacto = W < 420;
-    el.innerHTML = abertura(ctx) + heroi(ctx, lay, meses, W)
-      + U.extra("historico", { modo: "cartao", linkPergunta: ctx.link(2) }) // "Por onde começar o seu giro" (o que plantou antes)
-      + U.extra("vulnerabilidade", { vista: "agua" }) + blocoTempo(ctx)
-      + blocoFaixas(ctx, lay) + U.extra("saude_solo")
-      + `<a class="botao primario cta" href="${ctx.link(4)}"><span>Ver quanto rende</span>${U.ic("seta")}</a>`;
+    el.innerHTML = abertura() + faixaAgora(ctx) + heroi(ctx, lay, meses, W) + linhaManiva(ctx) + blocoTempo(ctx)
+      + U.extra("historico", { modo: "cartao", olho: !temMetade(ctx) }) // "Por onde começar o seu giro" (2025 com 1 toque); 1 "seu olho" à vista
+      + porQue(ctx, lay);
     el.querySelector("[data-aviso-gram]").innerHTML = avisoGramineas(ctx, lay, conect);
+    el.querySelectorAll("[data-maniva]").forEach((b) => b.addEventListener("click", () => {
+      if ((ctx.resp.maniva || "") !== b.dataset.maniva) ctx.set({ maniva: b.dataset.maniva });
+    }));
 
     const pintar = () => { pintarRocado(el, ctx, lay, meses); pintarFaixas(el, ctx, lay, conect); };
     const play = el.querySelector("[data-play]");
-    const parar = () => { clearInterval(est.relogio); est.relogio = null; if (play) { play.innerHTML = U.ic("seta"); play.classList.remove("tocando"); } };
+    const parar = () => { clearInterval(est.relogio); est.relogio = null; if (play) { play.innerHTML = U.ic("tocar"); play.classList.remove("tocando"); } };
     el.querySelectorAll("[data-ano]").forEach((b) => b.addEventListener("click", () => { parar(); est.ano = +b.dataset.ano; est.modo = "ano"; pintar(); }));
     el.querySelectorAll("[data-mes]").forEach((b) => b.addEventListener("click", () => { parar(); est.ano = 0; est.modo = "mes"; est.mes = +b.dataset.mes; pintar(); }));
-    el.querySelector("[data-ano-todo]")?.addEventListener("click", () => { parar(); est.modo = "ano"; pintar(); });
     play?.addEventListener("click", () => {
       if (est.relogio) return parar();
       est.ano = 0;

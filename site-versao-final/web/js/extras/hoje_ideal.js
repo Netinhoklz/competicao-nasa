@@ -37,9 +37,9 @@ export function lerHoje(txt, padroes) {
   const [cs = "", ...kv] = String(txt).split("|");
   const cult = {};
   for (const p of cs.split(",")) { const [k, v] = p.split(":"); if (CULT[k] && +v > 0) cult[k] = +v; }
-  if (Object.keys(cult).length) h.cult = normal(cult);
+  // "informado" = a pessoa disse o que planta; só o arranjo ("|cons=0") deixa as culturas no comum daqui
+  if (Object.keys(cult).length) { h.cult = normal(cult); h.informado = true; }
   for (const p of kv) { const [k, v] = p.split("="); if (CHAVES[k]) h[CHAVES[k]] = v === "1" ? 1 : v === "0" ? 0 : null; }
-  h.informado = true;
   return h;
 }
 
@@ -266,7 +266,7 @@ export function comHoje(m, r, ef, txt) {
   const anosEN = m.anosEN.filter((y) => anos.includes(y));
   if (anos.length < 10 || !anosEN.length) return { ...m, hojeFixo: "anos suficientes com as culturas de hoje no mesmo ano" };
   return { ...m, s0, R, KG, usadas, anos, anosEN, origens: { ...m.origens, ...Object.fromEntries(precisa.map((s) => [s, H["origem_" + s] || []])) },
-    hoje: h, hojeDesc: descHoje(h) };
+    hoje: h };
 }
 
 /** "cai à metade", "cai a um terço"... (frequência e fração em palavras, sem porcentagem na frente). */
@@ -286,7 +286,7 @@ function fechar(res, r, ef, h, A, cenM) {
   const txtAg = [...(r.agenda?.linhas || []), ...(r.agenda?.culturas || [])].map((x) => x.plantar || "").join(" ");
   const inter = String(r.plano?.interruptor || "");
   const ate = (txtAg.match(/guarde a outra até ([^\s;,)]+)/) || inter.match(/guardada até ([^\s;,)]+?)\.?(?:\s|$)/))?.[1];
-  if (ate || /metade/.test(inter)) semConta.push({ id: "metade", icone: "semente", txt: `El Niño: plante metade e guarde metade${ate ? ` até ${ate}` : ""}.` });
+  if (ate || /metade/.test(inter)) semConta.push({ id: "metade", icone: "semente", txt: `El Niño: plante metade e guarde metade${ate ? ` até ${ate.replace(/^~/, "por volta de ")}` : ""}.` });
   else if (r.este_ano?.nivel_alerta === "alerta" || /escalon/.test(inter)) semConta.push({ id: "metade", icone: "semente", txt: "Escalone: plante em 2 ou 3 vezes, não tudo no mesmo dia." });
   if (h.chuva1 !== 0) {
     const jf = temFeijao ? janela(r, leg) : null, jm = temMilho ? janela(r, "Milho") : null;
@@ -297,7 +297,7 @@ function fechar(res, r, ef, h, A, cenM) {
   if (h.queima === 1) semConta.push({ id: "fogo", icone: "broto", txt: "Sem fogo: a palhada no chão guarda a umidade." });
   if (h.sem === 0) semConta.push({ id: "semente", icone: "semente", txt: "Garanta a semente até dezembro: o plantio não espera." });
   if (!res.hoje && A.b > 0 && A.milhoAlta > 0.02) {
-    semConta.unshift({ id: "baixio", icone: "milho", txt: "Milho só no baixio; em cima, feijão." }); // sem série: o ajuste fica sem R$
+    semConta.unshift({ id: "baixio", icone: "milho", txt: TXT_AJ.baixio(null, ef).txt }); // sem série: o ajuste fica sem R$
   }
   const comConta = res.ajustes.map((a) => ({ ...a, ...TXT_AJ[a.id](a, ef) }));
   res.lista = [...comConta, ...semConta];
@@ -310,8 +310,10 @@ function fechar(res, r, ef, h, A, cenM) {
 }
 
 const haTxt = (v) => `${(Math.round(v * 10) / 10).toLocaleString("pt-BR")} ha`;
+const TXT_BAIXIO = "Em cima, feijão no lugar do milho (o milho fica no baixio).";
 const TXT_AJ = {
-  baixio: () => ({ icone: "milho", txt: "Milho só no baixio; em cima, feijão." }),
+  // baixio "não sei": a conta supõe o baixio do padrão, e a frase diz que é condicional
+  baixio: (a, ef) => ({ icone: "milho", txt: ef?.tem_baixio == null ? "Se tiver baixio: o milho lá embaixo e feijão em cima." : TXT_BAIXIO }),
   reserva: (a, ef) => ({ icone: "mandioca", txt: `Um pedaço de mandioca (${haTxt(a.sc.P)}) de reserva.`, maniva: ef.maniva === "nao" }),
 };
 
@@ -370,7 +372,7 @@ function topo(U, n, titulo, eco) {
 function telaCulturas(ctx, U, h) {
   const ops = opcoesCultura(ctx.r), ks = Object.keys(h.cult);
   const botoes = ops.map((k) => `<button type="button" class="hi-opcao ${ks.includes(k) ? "marcada" : ""}" data-c="${k}" aria-pressed="${ks.includes(k)}">
-    ${U.ic(CULT[k].icone, "gg")}<b>${CULT[k].nome}</b>${CULT[k].semRs ? `<span>sem preço aqui</span>` : ""}</button>`).join("");
+    ${U.ic(CULT[k].icone, "gg")}<b>${CULT[k].nome}</b>${CULT[k].semRs ? `<span>fora do R$</span>` : ""}</button>`).join("");
   const barra = `<div class="hi-divisao" role="img" aria-label="divisão do roçado">${ks.map((k) =>
     `<i class="${"t-" + CULT[k].t}" style="flex:${h.cult[k]}"><span>${h.cult[k] >= 18 ? `${CULT[k].nome} ` : ""}${h.cult[k]}%</span></i>`).join("")}</div>`;
   const linhas = ks.length > 1 ? `<div class="hi-quanto">${ks.map((k) => `<div class="hi-q-linha">${U.ic(CULT[k].icone)}<b>${CULT[k].nome}</b>
@@ -399,7 +401,7 @@ const PARES = [
   ["sem", "A semente", [[1, "semente", "Guardo a minha"], [0, "dinheiro", "Compro ou recebo"]]],
 ];
 function telaManejo(ctx, U, h) {
-  return `${topo(U, 2, "E na hora de plantar?", "Só o que muda a conta.")}
+  return `${topo(U, 2, "E na hora de plantar?", "Toque no que você faz.")}
     <div class="hi-pares">${PARES.map(([k, rot, ops]) => `<div class="hi-par"><p class="hi-rot">${U.esc(rot)}</p><div class="hi-par-ops">${ops.map(([v, i, t]) =>
       `<button type="button" class="hi-opcao baixa ${h[k] === v ? "marcada" : ""}" data-k="${k}" data-v="${v}" aria-pressed="${h[k] === v}">${U.ic(i, "g")}<b>${t}</b></button>`).join("")}</div></div>`).join("")}</div>`;
 }
@@ -493,7 +495,7 @@ function largura() {
 
 /** O gráfico: 3 colunas (o típico em 3 anos) com o traço do caso ruim; degraus hoje → melhor → ideal. */
 function grafico(cols, W) {
-  const H = 210, topo0 = 30, base0 = H - 46;
+  const H = 196, topo0 = 30, base0 = H - 46;
   const vals = cols.flatMap((c) => (c.f ? [c.f.p50, c.f.p10] : [])).concat(0);
   const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
   const y = (v) => topo0 + ((hi - v) / span) * (base0 - topo0);
@@ -518,19 +520,19 @@ function grafico(cols, W) {
   return `<svg class="hi-graf" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Típico em 3 anos: hoje, melhor e ideal, com o caso ruim">${s}</svg>`;
 }
 
-function numeros(U, f, garantir) {
-  if (!f) return `<div class="hi-num vazio">sem conta</div>`;
-  return garantir
-    ? `<div class="hi-num">${rs(f.p10)}</div><p class="hi-num-sub">no caso ruim (1 em 10) · típico ${rs(f.p50)}</p>`
-    : `<div class="hi-num">${rs(f.p50)}</div><p class="hi-num-sub">típico · caso ruim ${rs(f.p10)}</p>`;
+/** O número de cada linha: o típico em destaque e o caso ruim pequeno (a prioridade não troca o número). */
+function numeros(f) {
+  if (!f) return `<p class="hi-l-num"><b class="vazio">sem conta</b></p>`;
+  return `<p class="hi-l-num"><b>${rs(f.p50)}</b><small>ruim ${rs(f.p10)}</small></p>`;
 }
-function quebraHtml(U, q) {
-  if (!q) return "";
-  return `<div class="hi-quebra">${U.dezRocas(q.p, "var(--terra)", "anos de quebra")}<span>quebra em <b>${Math.round(q.p * 10)} de 10</b> anos</span></div>`;
+
+/** "milho + feijão, tudo junto" (a % só quando a divisão não é igual): a frase do chip "Hoje" do passo 4. */
+function textoHoje(h) {
+  const ks = Object.keys(h.cult), iguais = ks.every((k) => Math.abs(h.cult[k] - 100 / ks.length) <= 1);
+  const cs = ks.map((k) => CULT[k].nome.toLowerCase() + (iguais ? "" : ` ${h.cult[k]}%`)).join(" + ");
+  const arr = ks.length < 2 ? "" : h.cons === 1 ? "tudo junto" : h.cons === 0 && h.mbx === 1 ? "milho no baixio" : h.cons === 0 ? "em pedaços" : "";
+  return [cs, arr].filter(Boolean).join(", ");
 }
-const frente = (U, p) => (p === null || p === undefined ? ""
-  : p >= 0.5 ? `<span class="chip verde">${U.ic("ok")}à frente de hoje em ${de100(p)} de 100</span>`
-    : `<span class="chip terra">${U.ic("alerta")}atrás de hoje em ${de100(1 - p)} de 100</span>`);
 
 /** "milho 50% + feijão 50% · tudo junto" (para rótulos, como o "Jeito de hoje" do passo 4). */
 export function descHoje(h) {
@@ -547,11 +549,16 @@ function planoMini(r, U) {
   }).join("")}</div>`;
 }
 
+/**
+ * Modo "comparacao": o gráfico Hoje → Melhor → Ideal e, embaixo, uma linha para cada (o Melhor aberto, com até 3 ajustes).
+ * opcoes: semTitulo (o passo já tem o título), linkMudar, ruim (HTML do "1 em 10", para o glossário do passo), olhoAgro (texto do "seu olho"
+ * do aviso de lavoura grande) e detalhesEm
+ * (elemento onde vai o "como calculamos"; sem ele, o módulo põe o próprio "Ver como calculamos" no fim).
+ */
 function desenharComparacao(el, ctx, opcoes) {
   const { r, ef, util: U } = ctx;
   const h = lerHoje(ctx.resp?.hoje || "", r.padroes);
   const c = comparar(r, ef, h);
-  const garantir = ef.prioridade === "garantir", vender = ef.prioridade === "vender";
   const mun = r.local?.municipio || "aqui";
   const agro = c.agro.length > 0;
   const FONTE = `${c.base ? `${n0(c.base.n)} combinações de anos já vistos em ${mun} (2027 entre os El Niños fortes ${c.base.anosEN.join(", ")}; 2028 e 2029 entre os ${c.base.anos} anos)` : "IBGE PAM"}; IBGE PAM 1998–2025 em R$ de 2025; custo CONAB (${c.nivel === "desembolso" ? "máquina e insumos" : "só a semente"})`;
@@ -563,64 +570,64 @@ function desenharComparacao(el, ctx, opcoes) {
   const abertura = `<div class="titulo-passo"><p class="kicker">Hoje · melhor · ideal</p>
     <h1>${h1}<span class="eco">Hoje, com ajustes, e o máximo.</span></h1>
     <p>O seu roçado de ${U.ha(ef.ha)} refeito nos anos que já aconteceram em ${U.esc(mun)}.</p></div>`;
-  const chipHoje = `<div class="hi-linha-chips"><a class="chip" href="${linkMudar}" title="Mudar como você planta hoje">${U.ic("faixas")}${U.esc(descHoje(h))}${h.informado ? "" : " (o mais comum)"} · mudar</a>
-    ${c.semRs.length ? `<span class="chip ambar">${U.esc(c.semRs.join(", "))}: sem preço aqui, fora da conta</span>` : ""}</div>`;
-
-  // avisos de dado
-  let aviso = "";
-  if (!c.fin || c.falta.length) {
-    aviso = `<section class="painel alerta hi-aviso">${U.faixa("alerta", "terra", !c.fin ? "Sem a série do IBGE daqui, não inventamos R$." : "Uma parte da conta não fecha aqui.")}
-      <div class="hi-linha-chips">${c.falta.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>
-      <p class="pequeno sub">Mostramos só o que dá: os alertas e os ajustes valem do mesmo jeito.</p></section>`;
-  } else if (agro) {
-    const a = [...c.agro].sort((x, y) => y.kg / y.conab - x.kg / x.conab)[0];
-    aviso = `<section class="painel alerta hi-aviso">${U.faixa("alerta", "terra", `Aqui o IBGE mistura lavoura grande: ${a.cultura.toLowerCase()} ${n0(a.kg)} kg/ha.`)}
-      <p class="pequeno sub">Os R$ servem só para comparar os três caminhos ${U.selo("medido", "IBGE PAM 1998–2025 e planilhas da agricultura familiar da CONAB")}</p></section>`;
-  }
+  const chipHoje = `<a class="hi-mudar" href="${linkMudar}" data-editar="hoje" title="Mudar como você planta hoje">${U.esc(textoHoje(h))}${h.informado ? "" : " (o comum daqui)"} · <u>mudar</u></a>`;
+  const semRs = c.semRs.length ? `<div class="hi-linha-chips"><span class="chip ambar">${U.esc(c.semRs.join(", "))}: ${c.semRs.includes("outra") ? "" : "comida da criação, "}fora do R$</span></div>` : "";
 
   // gráfico
   const cols = [{ rot: "Hoje", cls: "hoje", f: c.hoje?.f }, { rot: "Melhor", cls: "melhor", f: c.melhor?.f }, { rot: "Ideal", cls: "ideal", f: c.ideal?.f }];
   const temNum = cols.some((x) => x.f);
-  const graf = temNum ? `<section class="painel hi-graf-bloco${agro ? " hi-apagado" : ""}">
-      <div class="hi-rot">${U.ic("grafico")}<span>Em 3 anos (2027 a 2029) · sobra depois ${c.nivel === "desembolso" ? "de máquina e insumos" : "da semente"} ${U.selo("projecao", FONTE)}</span></div>
-      <div class="hi-graf-caixa">${grafico(cols, largura())}</div>
-      <p class="hi-legenda"><i class="hi-leg-bar"></i>típico <i class="hi-leg-ruim"></i>caso ruim (1 em 10)</p></section>` : "";
 
-  // colunas
-  const alertas = c.alertas.map((a) => `<li>${U.ic(a.icone)}<span>${U.esc(a.txt)}</span></li>`).join("");
-  const colHoje = `<section class="painel hi-col hoje">
-    <div class="hi-rot">${U.ic("enxada")}<span>Hoje ${U.selo("projecao", `o seu jeito (${descHoje(h)}) refeito nos anos já vistos; ${FONTE}`)}</span></div>
-    <p class="hi-desc">${U.esc(descHoje(h))}</p>
-    <div class="${agro ? "hi-apagado" : ""}">${numeros(U, c.hoje?.f, garantir)}${quebraHtml(U, c.hoje?.q)}</div>
-    ${alertas ? `<p class="hi-mini-rot">o que pesa</p><ul class="hi-alertas">${alertas}</ul>` : ""}</section>`;
+  // avisos de dado (falta uma série ou lavoura grande): com gráfico, numa linha logo abaixo dele, no mesmo painel; sem gráfico, um painel
+  let avTit = "", avCorpo = "";
+  if (!c.fin || c.falta.length) {
+    avTit = !c.fin ? "Sem a série do IBGE daqui, não inventamos R$." : "Uma parte da conta não fecha aqui.";
+    avCorpo = `<div class="hi-linha-chips">${c.falta.map((f) => `<span class="chip terra">${U.esc(f)}</span>`).join("")}</div>
+      ${temNum ? "" : `<p class="pequeno sub">Mostramos só o que dá: os alertas e os ajustes valem do mesmo jeito.</p>`}`;
+  } else if (agro) {
+    const a = [...c.agro].sort((x, y) => y.kg / y.conab - x.kg / x.conab)[0];
+    avTit = "Aqui o IBGE mistura lavoura grande.";
+    // o selo vai no fim da linha de baixo, junto da etiqueta "seu olho" (as duas pequenas cabem numa linha a 390 px)
+    const selo = U.selo("medido", `IBGE PAM 1998–2025 (${a.cultura.toLowerCase()} ${n0(a.kg)} kg/ha) e planilhas da agricultura familiar da CONAB (${n0(a.conab)} kg/ha)`);
+    avCorpo = `<p class="hi-olho-linha">Os R$ só servem para comparar.${opcoes.olhoAgro ? ` ${U.esc(opcoes.olhoAgro)} <em class="hi-tag olho">${OLHO}seu olho</em>` : ""} ${selo}</p>`;
+  }
+  const aviso = !avTit ? "" : temNum ? `<div class="hi-aviso-linha">${U.ic("alerta")}<div><b>${avTit}</b>${avCorpo}</div></div>`
+    : `<section class="painel alerta hi-aviso">${U.faixa("alerta", "terra", avTit)}${avCorpo}</section>`;
 
-  const frente4 = c.lista.slice(0, 4), resto = c.lista.slice(4);
-  const item = (a) => `<li class="${a.olho ? "olho" : ""}">${U.ic(a.icone)}<span>${U.esc(a.txt)}${a.passo && ctx.link ? ` <a href="${ctx.link(a.passo)}">ver</a>` : ""}</span>
-    ${a.conta ? `<b class="hi-ganho" title="sozinho, típico em 3 anos; à frente de hoje em ${de100(a.aFrente)} de 100">${mais(a.ganho.p50)}</b>` : ""}
-    ${a.maniva ? `<em class="hi-tag">precisa de maniva</em>` : ""}${a.olho ? `<em class="hi-tag olho">${OLHO}seu olho</em>` : ""}</li>`;
-  const colMelhor = `<section class="painel hi-col melhor">
-    <div class="hi-rot">${U.ic("ok")}<span>Melhor ${U.selo("suposicao", "ajustes sugeridos no seu jeito; as áreas são suposição; os R$ saem da mesma conta (" + FONTE + ")")}</span></div>
-    <p class="hi-desc">o seu jeito, com ajustes</p>
-    <div class="${agro ? "hi-apagado" : ""}">${numeros(U, c.melhor?.f, garantir)}${c.melhor && !c.melhor.igual ? `<p class="hi-dif">${mais(c.melhor.ganho.p50)} no típico</p>` : c.melhor ? `<p class="hi-dif">mesmo R$: os ajustes protegem</p>` : ""}
-    ${quebraHtml(U, c.melhor?.q)}<div class="hi-linha-chips">${frente(U, c.melhor?.aFrente)}</div></div>
-    <ol class="hi-ajustes">${frente4.map(item).join("")}</ol>
-    ${resto.length ? U.verMais(`<ol class="hi-ajustes">${resto.map(item).join("")}</ol>`, `Mais ${resto.length} ajuste${resto.length > 1 ? "s" : ""}`) : ""}</section>`;
+  const graf = temNum ? `<section class="painel hi-graf-bloco">
+      <div class="hi-rot">${U.ic("grafico")}<span>Em 3 anos · sobra ${U.selo("projecao", "2027 a 2029. " + FONTE)}</span></div>
+      <div class="${agro ? "hi-apagado" : ""}"><div class="hi-graf-caixa">${grafico(cols, largura())}</div>
+      <p class="hi-legenda"><i class="hi-leg-bar"></i>típico <i class="hi-leg-ruim"></i>caso ruim: ${opcoes.ruim || "1 em 10"}</p></div>${aviso}</section>` : aviso;
+
+  // uma linha para cada caminho; o Melhor fica aberto com até 3 ajustes (o resto em "Mais N ajustes"). Com o gráfico, os R$ ficam
+  // só nele (não se repetem nos cartões); sem gráfico, cada linha mostra o seu
+  const linha = (icone, rot, desc, f, baixo = "") => `<div class="hi-linha"><div class="hi-l-txt"><p class="hi-l-rot">${U.ic(icone)}${rot}</p>${desc}</div>${temNum ? "" : numeros(f)}${baixo}</div>`;
+  const blocoHoje = `<div class="hi-bloco hoje">${linha("enxada", "Hoje", chipHoje, c.hoje?.f)}${semRs}</div>`;
+
+  const frente3 = c.lista.slice(0, 3), resto = c.lista.slice(3);
+  const item = (a) => `<li class="${a.olho ? "com-olho" : ""}">${U.ic(a.icone)}<span>${U.esc(a.txt)}${a.passo && ctx.link ? ` <a href="${ctx.link(a.passo)}">ver</a>` : ""}
+    ${a.maniva ? `<em class="hi-tag">precisa de maniva</em>` : ""}${a.olho ? `<em class="hi-tag olho">${OLHO}seu olho</em>` : ""}</span>
+    ${a.conta ? `<b class="hi-ganho" title="sozinho, típico em 3 anos">${mais(a.ganho.p50)}</b>` : ""}</li>`;
+  const blocoMelhor = `<div class="hi-bloco melhor">
+    ${linha("ok", `Melhor ${U.selo("suposicao", "ajustes sugeridos no seu jeito; as áreas são suposição; os R$ saem da mesma conta (" + FONTE + ")")}`,
+      `<p class="hi-l-desc">o seu jeito, ${c.melhor?.igual ? "mais protegido" : "com ajustes"}</p>`, c.melhor?.f)}
+    <ol class="hi-ajustes">${frente3.map(item).join("")}</ol>
+    ${resto.length ? U.verMais(`<ol class="hi-ajustes">${resto.map(item).join("")}</ol>`, `Mais ${resto.length} ajuste${resto.length > 1 ? "s" : ""}`) : ""}</div>`;
 
   const forr = (c.ideal?.it || []).flat().some((i) => i.uso);
   const atras = c.ideal && c.hoje && c.ideal.f.p50 < Math.max(c.hoje.f.p50, c.melhor?.f.p50 ?? -Infinity);
-  const colIdeal = `<section class="painel hi-col ideal${garantir || vender ? " destaque" : ""}">
-    <div class="hi-rot">${U.ic("escudo")}<span>Ideal ${U.selo("projecao", "o plano completo do QUADRA (passo 3) na conta do passo 4; " + FONTE)}</span></div>
-    <p class="hi-desc">o plano completo do QUADRA</p>${planoMini(r, U)}
-    <div class="${agro ? "hi-apagado" : ""}">${numeros(U, c.ideal?.f, garantir)}${quebraHtml(U, c.ideal?.q)}
-    <div class="hi-linha-chips">${frente(U, c.ideal?.aFrente)}${!c.ideal ? "" : garantir ? `<span class="chip">${U.ic("escudo")}garantir: vale o caso ruim</span>` : vender ? `<span class="chip">${U.ic("dinheiro")}vender: vale o típico</span>` : ""}</div>
-    ${atras && forr ? `<p class="hi-nota">Em R$ fica atrás: o sorgo vira comida da criação, sem preço aqui.</p>` : ""}</div></section>`;
+  const blocoIdeal = `<div class="hi-bloco ideal">${linha("escudo", "Ideal", `<p class="hi-l-desc">o plano completo</p>`, c.ideal?.f, planoMini(r, U))}
+    ${atras && forr ? `<p class="hi-nota">O sorgo vira comida da criação, fora do R$.</p>` : ""}</div>`;
 
-  // fecho (ponto 16)
-  const fecho = `<section class="painel hi-fecho">${U.faixa("enxada", "verde", "Quem decide é você, com o técnico.")}
+  // "como calculamos": no passo 4 vai para o "Ver como calculamos" do passo (opcoes.detalhesEm); fora dele, fica aqui (ponto 16 junto)
+  const det = detalhes(c, r, ef, h, U, FONTE);
+  let fecho = "";
+  if (opcoes.detalhesEm) opcoes.detalhesEm.innerHTML = det;
+  else fecho = `<section class="painel hi-fecho">${U.faixa("enxada", "verde", "Quem decide é você, com o técnico.")}
     ${c.olho ? `<p class="hi-olho">${OLHO}<span>O que mais depende do seu olho: <b>${U.esc(c.olho.txt.replace(/\.$/, ""))}</b></span></p>` : ""}
-    ${U.verMais(detalhes(c, r, ef, h, U, FONTE), "Ver como calculamos")}</section>`;
+    ${U.verMais(det, "Ver como calculamos")}</section>`;
 
-  el.innerHTML = `<div class="hoje-ideal hi-comparacao">${opcoes.semTitulo ? "" : abertura}${chipHoje}${aviso}${graf}<div class="hi-cols">${colHoje}${colMelhor}${colIdeal}</div>${fecho}</div>`;
+  el.innerHTML = `<div class="hoje-ideal hi-comparacao">${opcoes.semTitulo ? "" : abertura}${graf}
+    <section class="painel hi-tres${agro ? " agro" : ""}">${blocoHoje}${blocoMelhor}${blocoIdeal}</section>${fecho}</div>`;
 }
 
 function detalhes(c, r, ef, h, U, FONTE) {
@@ -631,7 +638,9 @@ function detalhes(c, r, ef, h, U, FONTE) {
     .map((k) => `${CULT[k].nome.toLowerCase()} ${haTxt((ha[k] || 0) - (fonte[k] || 0) + (k === "mandioca" ? P : 0))}`).join(", ");
   const ajustes = c.ajustes.map((a) => `<li>${U.esc(TXT_AJ[a.id](a, ef).txt)} Sozinho: típico ${mais(a.ganho.p50)} em 3 anos (caso ruim ${mais(a.ganho.p10)}),
     à frente de hoje em ${de100(a.aFrente)} de 100.</li>`).join("");
-  return `<h4>Os três caminhos</h4>
+  const alertas = c.alertas.map((a) => `<li>${U.esc(a.txt)}${a.medido ? ` ${U.selo("medido", "IBGE PAM 1998–2025")}` : ""}</li>`).join("");
+  return `${alertas ? `<h4>O que pesa no jeito de hoje</h4><ul>${alertas}</ul>` : ""}
+    <h4>Os três caminhos</h4>
     <div class="hi-rola"><table><thead><tr><th>em 3 anos</th><th>caso ruim</th><th>típico</th><th>caso bom</th><th>anos de quebra</th><th>à frente de hoje</th></tr></thead>
     <tbody>${lin("Hoje", c.hoje)}${lin("Melhor", c.melhor)}${lin("Ideal", c.ideal)}</tbody></table></div>
     <p>"Sobra" = valor da colheita (vender ou comer, a preço da região) menos ${c.nivel === "desembolso" ? "máquina, insumos e serviços (CONAB)" : "a semente (CONAB)"}. Nunca é lucro: a mão de obra da família não entra.
@@ -642,7 +651,7 @@ function detalhes(c, r, ef, h, U, FONTE) {
       A mandioca fica duas estações no chão: por ano, metade colhe e metade planta.</li>
       ${sc && c.melhor && !c.melhor.igual ? `<li>Melhor${sc.P > 0 ? ", a partir de 2028" : ""}: ${U.esc(areasTxt(sc.ha, sc.P, sc.fonte))}.${sc.P > 0
         ? ` Em 2027 só metade do pedaço novo de mandioca é plantado, e ele colhe a partir de 2028${ef.maniva === "plantada" ? " (com a maniva já no chão, colhe em 2027)" : ""}.` : ""}</li>` : ""}
-      <li>Ideal: o plano do passo 3 (partes A, B e C do mesmo tamanho, baixio = metade milho e metade ${U.esc((r.plano?.leguminosa || "caupi").toLowerCase())}), com a conta do passo 4.</li></ul>
+      <li>Ideal: o plano (partes A, B e C do mesmo tamanho, baixio = metade milho e metade ${U.esc((r.plano?.leguminosa || "caupi").toLowerCase())}), com a mesma conta.</li></ul>
     ${ajustes ? `<h4>Os ajustes que têm conta</h4><ul>${ajustes}</ul>` : ""}
     <p>"Milho só no baixio": a conta só vê a troca de milho por feijão na terra alta; o ganho do baixio úmido não está medido. Janela, metade guardada, faixas, fogo e semente
       não têm R$: o IBGE não separa quem faz e quem não faz. ${U.selo("suposicao", "efeito em R$ não medido; as datas são do ZARC 2026/27")}</p>
@@ -650,6 +659,9 @@ function detalhes(c, r, ef, h, U, FONTE) {
     <p>Ano em que a colheita do roçado (já rodando, no 3º ano) vale menos da metade do típico dele mesmo, nos ${c.base?.anos ?? 28} anos do IBGE. É a régua do IBGE para uma cultura
       (rendimento abaixo de 0,5 × a mediana). ${c.hoje?.q ? `Hoje: ${c.hoje.q.k} de ${c.hoje.q.n} anos; nos El Niños fortes, ${c.hoje.q.enQ} de ${c.hoje.q.nEN}.` : ""}
       ${U.selo("medido", "IBGE PAM 1998–2025")}</p>
-    ${c.mult !== 1 || (h.cult.mandioca || 0) > 0 || c.ajustes.some((a) => a.id === "reserva") ? `<p>Raiz da mandioca a R$ ${n0(c.preco, 2)}/kg (a mesma escolha do passo 4). É o número que mais pesa na conta.</p>` : ""}
+    ${c.mult !== 1 || (h.cult.mandioca || 0) > 0 || c.ajustes.some((a) => a.id === "reserva") ? `<p>Raiz da mandioca a R$ ${n0(c.preco, 2)}/kg (a mesma de Ajustar a conta). É o número que mais pesa na conta.</p>` : ""}
     <p>Fora da conta: forragem (sorgo, palma), Garantia-Safra, mão de obra, frete e o ganho da rotação contra o consórcio de hoje (não medido).</p>`;
 }
+
+// Peças reaproveitadas pela tela única "Sua roça" (passos/perguntas.js).
+export { CULT, igual, mexer, opcoesCultura };

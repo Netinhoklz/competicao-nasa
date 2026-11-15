@@ -20,10 +20,24 @@ export const pct = (v, casas = 0) => (v === null || v === undefined ? "—" : nu
 /** Frequência natural: 0,68 → "7 em 10". */
 export const emDez = (p) => (p === null || p === undefined ? "—" : `${Math.round(p * 10)} em 10`);
 
-/** Selo MEDIDO / SUPOSIÇÃO / PROJEÇÃO com a fonte ao passar o mouse (decisão 9 do plano). */
+// Fonte curta do selo ("MEDIDO · NASA SMAP"), tirada do próprio texto da fonte. As missões da NASA vêm antes (vale a que aparece
+// primeiro no texto; 3 ou mais citadas viram só "NASA"); sem NASA, vale a 1ª das outras que aparecer no texto.
+const CURTA_NASA = [[/\bSMAP\b/, "NASA SMAP"], [/\b(GPM|IMERG)\b/, "NASA GPM"], [/\bPOWER\b/, "NASA POWER"], [/\bGRACE\b/, "NASA GRACE"],
+  [/\bMODIS\b/, "NASA MODIS"], [/\bVIIRS\b/, "NASA VIIRS"], [/\bECOSTRESS\b/, "ECOSTRESS"], [/\bNASADEM\b/, "NASADEM"]];
+const CURTA_OUTRAS = [[/\b(ONI|NOAA)\b/, "NOAA"], [/\bZARC\b/, "ZARC"], [/\bCONAB\b/, "CONAB"], [/\b(PAM|IBGE|Censo)\b/, "IBGE"], [/\bGAEZ\b/, "FAO"]];
+const primeira = (lista, s) => lista.map(([re, c]) => [s.search(re), c]).filter(([i]) => i >= 0).sort((a, b) => a[0] - b[0]);
+export const fonteCurta = (fonte) => {
+  const s = String(fonte || ""), nasa = primeira(CURTA_NASA, s);
+  if (nasa.length >= 3) return "NASA";
+  return (nasa[0] || primeira(CURTA_OUTRAS, s)[0] || [0, ""])[1];
+};
+
+/** Selo MEDIDO / SUPOSIÇÃO / PROJEÇÃO com a fonte curta no rótulo; a fonte inteira em title e data-fonte (o toque mostra; roca.js). */
 export const selo = (tipo, fonte = "") => {
   const t = { medido: ["medido", "MEDIDO"], suposicao: ["suposicao", "SUPOSIÇÃO"], projecao: ["projecao", "PROJEÇÃO"] }[tipo] || ["suposicao", tipo];
-  return `<span class="selo ${t[0]}" title="${esc(fonte)}">${t[1]}</span>`;
+  const curta = t[0] !== "suposicao" ? fonteCurta(fonte) : "";
+  const f = esc(fonte);
+  return `<span class="selo ${t[0]}" title="${f}"${f ? ` data-fonte="${f}" tabindex="0"` : ""}>${t[1]}${curta ? ` · ${curta}` : ""}</span>`;
 };
 
 const MES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -42,7 +56,7 @@ export const UF_DE = { MA: "do Maranhão", PI: "do Piauí", CE: "do Ceará", RN:
 export const ufDe = (uf) => UF_DE[uf] || `do ${uf}`;
 
 /** Área: 1 → "1 ha"; 0,5 → "0,5 ha". */
-export const ha = (v) => `${num(v, v < 10 && v % 1 ? 1 : 0)} ha`;
+export const ha = (v) => `${num(v, v < 10 && Math.abs(v - Math.round(v)) >= 0.05 ? 1 : 0)} ha`; // 1,03 → "1 ha" (como o "3 ha" respondido)
 
 // ---------------------------------------------------------------- ícones (traço, 24×24)
 // Os 16 primeiros vêm do painel Roça Certa do João Pedro (js/globo/rocacerta.js); os outros foram feitos para a jornada.
@@ -75,6 +89,7 @@ export const IC = {
   semente: '<path d="M12 21c-4-2-6-5.5-6-9.5C6 7 9 4 12 3c3 1 6 4 6 8.5 0 4-2 7.5-6 9.5z"/><path d="M12 7v11"/>',
   palma: '<ellipse cx="12" cy="16" rx="4" ry="5"/><ellipse cx="8" cy="8" rx="3" ry="4" transform="rotate(-20 8 8)"/><ellipse cx="16" cy="8" rx="3" ry="4" transform="rotate(20 16 8)"/>',
   seta: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  tocar: '<path d="M8 5.5v13l10.5-6.5z"/>',
   volta: '<path d="M19 12H5M11 6l-6 6 6 6"/>',
   relogio: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   lupa: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',

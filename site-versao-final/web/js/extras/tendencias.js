@@ -8,8 +8,13 @@ import * as U from "../comum.js";
 import { termo } from "./glossario.js"; // integração: "o que é?" nas palavras evaporação e verde do satélite
 
 const CACHE = {};
-const carregar = (uf) => (CACHE[uf] ??= fetch(new URL(`../../dados/tendencias/${uf}.json`, import.meta.url))
-  .then((r) => (r.ok ? r.json() : null)).catch(() => null));
+// o servidor às vezes recusa um pedido no meio de uma rajada: tenta de novo uma vez; sem dado, não guarda a falha
+const pedir = (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))));
+const carregar = (uf) => {
+  const url = new URL(`../../dados/tendencias/${uf}.json`, import.meta.url);
+  return (CACHE[uf] ??= pedir(url).catch(() => new Promise((ok) => setTimeout(ok, 400)).then(() => pedir(url)))
+    .catch(() => { delete CACHE[uf]; return null; }));
+};
 
 const A0 = 2000, A1 = 2026, AGORA = 2027; // AGORA = posição "mais recente" do controle
 const sinal = (v, casas = 0) => (v > 0 ? "+" : v < 0 ? "−" : "") + U.num(Math.abs(v), casas);
@@ -89,7 +94,7 @@ function chipTendencia(def, s, desde) {
   if (inc == null || !sig) return "";
   const tit = `${sinal(inc, def.ct)}${def.un} por década (${desde}–2025)`;
   const pior = Math.sign(inc) === def.ruim;
-  return `<span class="chip tend-chip ${pior ? "ambar" : "verde"}" title="${U.esc(tit)}">desde ${desde}: ${inc > 0 ? "↑" : "↓"} ${inc > 0 ? def.sobe : def.desce}</span>`;
+  return `<span class="chip tend-chip ${pior ? "ambar" : "verde"}" title="${U.esc(tit)}"><span class="tend-desde">desde ${desde}: </span>${inc > 0 ? "↑" : "↓"} ${inc > 0 ? def.sobe : def.desce}</span>`;
 }
 
 // mini-gráfico: viewBox esticado (preserveAspectRatio none) com traço que não estica; os pontos são traços de comprimento 0
@@ -129,7 +134,7 @@ function cursor(k, s) {
 function textoCartao(k, s) {
   const def = SERIES[k], ano = anoDe(s), v = ano == null ? null : valor(s, ano);
   if (v == null) return { val: "—", sub: !ano ? "sem dado" : ano < s.ini ? `o satélite começa em ${s.ini}` : `sem dado em ${ano}` };
-  const quando = `em ${ano}${s.prelim === ano ? " (preliminar)" : ""}`;
+  const quando = `${ano}${s.prelim === ano ? " (preliminar)" : ""}`;
   return { val: def.val(v), sub: `${quando} · ${def.sub(v, s.t[0])}`, lado: lado(def, s, v) };
 }
 
@@ -146,6 +151,12 @@ function cartao(k, s, d, enso) {
     <div class="tend-sub">${tx.sub}</div>
     <p class="tend-frase"${tx.lado === "pior" ? "" : " hidden"}>${U.esc(def.frase)}</p>
   </div>`;
+}
+
+/** No celular, 1 frase só para o bloco: a da 1ª série do lado ruim no ano mostrado (na ordem da manchete). */
+function fraseBloco(S, ks) {
+  const k = MANCHETE.map(([k]) => k).find((k) => ks.includes(k) && textoCartao(k, S[k]).lado === "pior");
+  return k ? `${U.ic(SERIES[k].icone)}<span>${U.esc(SERIES[k].frase)}</span>` : "";
 }
 
 function manchete(r, S, ks) {
@@ -191,9 +202,10 @@ export default {
           <p class="tend-manchete">${manchete(r, S, ks)}</p></div>
       </div>
       <div class="tend-grade">${ks.map((k) => cartao(k, S[k], d, enso)).join("")}</div>
+      <p class="tend-frase-bloco"></p>
       <p class="tend-legenda"><i class="tend-l-normal"></i>normal <i class="tend-l-enso"></i>El Niño forte
-        <span>Toque num gráfico para ver o ano.</span></p>
-      <p class="tend-local">${U.ic("info")} O satélite vê a região. O que você vê na sua terra confirma ou corrige.</p>
+        <span>Toque para ver o ano.</span></p>
+      <p class="tend-local">${U.ic("info")} O satélite vê a região; a sua roça confirma ou corrige.</p>
       ${U.verMais(detalhe(d, S, ks, r), "Ver de onde vêm as séries")}
     </div>`;
 
@@ -208,6 +220,9 @@ export default {
         c.querySelector(".tend-frase").hidden = tx.lado !== "pior";
         c.querySelector(".tend-cursor").innerHTML = cursor(k, s);
       });
+      const fb = el.querySelector(".tend-frase-bloco");
+      fb.innerHTML = fraseBloco(S, ks);
+      fb.hidden = !fb.innerHTML;
     };
     const anoDoPonteiro = (ev) => {
       const svg = ev.target.closest?.("svg.tend-linha");

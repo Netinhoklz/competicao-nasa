@@ -6,7 +6,7 @@
 //    descoberto, quando aperta).
 // Dados: web/dados/chuva_resposta.json e web/dados/chuva_sobreposicao/<UF>.json (ferramentas/preparar_chuva_resposta.py).
 // Uso: await modulo.render(div, ctx, { partes: ["cenario", "sobreposicao"], agro })  (padrão: as duas, nessa ordem).
-// O controle abre na chuva típica dos anos de El Niño forte daqui (a mesma conversa do passo); "normal" fica a um toque.
+// O controle abre em 100% (a chuva normal); a chuva típica dos anos de El Niño forte daqui fica a um toque (chip).
 // agro = true (o IBGE daqui mistura lavoura grande): a colheita sai só em % do normal, sem sacos/ha.
 import * as U from "../comum.js";
 
@@ -111,9 +111,9 @@ function blocoCenario(ctx, cur, m, agro) {
       <div class="cc-marcas"><span>pouca</span><span>normal</span><span>muita</span></div>
     </div>
     <div class="cc-atalhos" role="group" aria-label="Atalhos da chuva">
-      ${xEN != null ? `<button type="button" class="chip" data-x="${xEN}">${U.ic("onda")}como nos anos de El Niño daqui</button>` : ""}
+      ${xEN != null ? `<button type="button" class="chip" data-x="${xEN}" title="como nos anos de El Niño forte daqui">${U.ic("onda")}anos de El Niño</button>` : ""}
       <button type="button" class="chip" data-x="100">${U.ic("chuva")}chuva normal</button></div>
-    ${anos.length ? `<div class="cc-pontos-leg"><span><i class="cc-ponto quebra"></i>ano daqui em que o ${principal.nome} quebrou</span>
+    ${anos.length ? `<div class="cc-pontos-leg" title="cada ponto é um ano daqui (1998–2025)"><span><i class="cc-ponto quebra"></i>${principal.nome} quebrou</span>
       <span><i class="cc-ponto ok"></i>não quebrou</span><span><i class="cc-ponto ok forte"></i>El Niño forte</span></div>` : ""}
     <div class="cc-culturas">${linhas}</div>
     <p class="cc-frase" data-cc="frase"></p>
@@ -128,7 +128,7 @@ function blocoCenario(ctx, cur, m, agro) {
       ${a.Mandioca ? `<p>A mandioca mal responde à chuva do mesmo ano (fica 1 a 2 anos no chão; o IBGE repete o número em muitos anos): ganho de ${U.num(a.Mandioca.ganho * 100)}%.</p>` : ""}
       <p>Não é previsão da chuva de 2027: é "se chover assim". A roça da sua família varia mais que a média do município, e o seu
       pluviômetro e o que você vê na roça valem mais que esta conta.${leste ? " No litoral leste o satélite capta só 39–72% da chuva medida no chão." : ""}</p>
-      <p class="pequeno">Fonte: ${U.esc(cur.meta?.script || "ferramentas/preparar_chuva_resposta.py")}, gerado em ${U.esc(cur.meta?.gerado || "—")}.</p>`)}
+      <p class="pequeno">Fonte: ${U.esc(cur.meta?.script || "ferramentas/preparar_chuva_resposta.py")}, gerado em ${U.esc(cur.meta?.gerado || "—")}.</p>`, "De onde vem esta conta")}
   </section>`;
   return { html, cv, culturas, principal, normal, m, anos, agro, xEN };
 }
@@ -152,14 +152,17 @@ function ligarCenario(sec, b) {
       $(`q-${k.c}`).innerHTML = n === 0 ? "quase nenhuma quebra" : `<b>${n} em 10</b> quebram`;
     }
     const p = b.principal, n = dez(interp(b.cv.d[p.c].q, x));
-    const com = x === b.xEN ? `Com a chuva dos anos de El Niño daqui (${x}%)` : x === 100 ? "Com a chuva normal" : `Com ${x}% da chuva`;
-    $("frase").textContent = n === 0 ? `${com}, quase nenhuma roça de ${p.nome} ${b.cv.curto} quebra.`
+    const com = x === 100 ? "Com a chuva normal" : x === b.xEN ? `Com a chuva dos anos de El Niño daqui (${x}%)` : `Com ${x}% da chuva`;
+    // em 100% os cartões já dizem quantas quebram: a frase diz que isto não é 2027 (as linhas de 2027 ficam logo acima)
+    $("frase").textContent = x === 100 ? (b.xEN != null && b.xEN < 100 ? `${com}. Em 2027 tende a chover menos: toque em “anos de El Niño”.`
+      : `${com}: não é a previsão de 2027.`)
+      : n === 0 ? `${com}, quase nenhuma roça de ${p.nome} ${b.cv.curto} quebra.`
       : `${com}, ${n} em 10 roças de ${p.nome} ${b.cv.curto} quebram.`;
     const viz = b.anos.filter((a) => Math.abs(a.v - x) <= 10 && (a.q === "0" || a.q === "1"));
     const k = viz.filter((a) => a.q === "1").length;
     $("local").innerHTML = !b.anos.length ? "" : !viz.length ? `Aqui, nenhum ano de 1998 a 2025 teve chuva assim ${U.selo("medido", "IMERG e IBGE PAM do município")}`
-      : `Aqui, em ${viz.length} ${viz.length === 1 ? "ano" : "anos"} com chuva assim (${Math.max(0, x - 10)}% a ${x + 10}%), o ${p.nome} quebrou em <b>${k}</b>
-        ${U.selo("medido", `anos: ${viz.map((a) => `${a.ano} (${a.v}%)`).join(", ")}`)}`;
+      : `Aqui, de ${viz.length} ${viz.length === 1 ? "ano" : "anos"} com chuva assim, o ${p.nome} quebrou em <b>${k}</b>
+        ${U.selo("medido", `chuva GPM IMERG e colheita IBGE PAM do município; anos com ${Math.max(0, x - 10)}% a ${x + 10}% da chuva: ${viz.map((a) => `${a.ano} (${a.v}%)`).join(", ")}`)}`;
     sec.querySelectorAll(".cc-ponto[data-v]").forEach((el) => el.classList.toggle("perto", Math.abs(+el.dataset.v - x) <= 10));
   };
   range.addEventListener("input", atualiza);
@@ -303,7 +306,7 @@ export default {
     el.innerHTML = `<div class="cc-carregando sub">Juntando chuva, solo e colheita…</div>`;
     const [cur, uf] = await Promise.all([pega("chuva_resposta.json"), loc.uf ? pega(`chuva_sobreposicao/${loc.uf}.json`) : null]);
     const m = uf?.mun?.[cod] || null;
-    tela.x ??= chuvaElNino(m) ?? 100; // abre na chuva dos anos de El Niño daqui (2027 é um deles)
+    tela.x ??= 100; // abre na chuva normal; "como nos anos de El Niño daqui" fica a um toque
     el.innerHTML = `<div class="cc">${partes.map((p) => `<div data-parte="${p}"></div>`).join("")}</div>`;
     if (partes.includes("cenario")) {
       const alvo = el.querySelector('[data-parte="cenario"]');

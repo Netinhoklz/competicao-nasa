@@ -43,11 +43,18 @@
 
 @media (max-width: 1060px) { .ss-cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) {
-  .ss-cartoes { grid-template-columns: 1fr; gap: 12px; }
-  .ss-cartao { gap: 8px; }
-  .ss-corpo { display: grid; grid-template-columns: minmax(64px, auto) 1fr; gap: 12px; align-items: center; }
-  .ss-val { font-size: 34px; }
+  /* grade 2×2 (sem fileira de deslizar): cartão estreito, em pé */
+  .ss-cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .ss-cartao { gap: 8px; padding: 12px 12px 10px; }
+  .ss-topo { flex-wrap: wrap; gap: 6px 8px; }
+  .ss-bola { width: 32px; height: 32px; }
+  .ss-bola .ic { width: 18px; height: 18px; }
+  .ss-kicker { flex: 1 1 60%; font-size: 10.5px; letter-spacing: .08em; }
+  .ss-corpo { gap: 6px; }
+  .ss-val { font-size: 30px; }
   .ss-val small { display: block; margin: 4px 0 0; font-size: 12px; }
+  .ss-sub { font-size: 13px; }
+  .ss-chips .chip { font-size: 12px; }
   .ss-mat { grid-template-columns: 4.6em repeat(3, minmax(0, 1fr)); gap: 8px 6px; }
   .ss-cab { flex-direction: column; gap: 4px; font-size: 10px; letter-spacing: .06em; }
   .ss-pips { gap: 4px; }

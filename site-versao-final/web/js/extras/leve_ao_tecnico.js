@@ -1,6 +1,7 @@
 // QUADRA, ponto 16: "Leve para o técnico". 5 a 7 perguntas e confirmações tiradas das respostas e do plano (solo, baixio,
-// faixas, datas, metade guardada e portões, preço da raiz, água, maniva) e dos motivos de confiança do município, com dois
-// botões: imprimir (só a lista, numa folha clara; CSS em css/extras/voce_decide.css) e copiar o texto (para o WhatsApp).
+// faixas, datas, metade guardada e portões, preço da raiz, água, maniva) e dos motivos de confiança do município; a água além da
+// chuva (2 chips, gravam `agua`); a linha do Garantia-Safra; dois botões: imprimir (só a lista, numa folha clara; CSS em
+// css/extras/voce_decide.css) e copiar o texto. compartilhar(ctx) é o botão verde "Mandar no WhatsApp" do passo 5 (roca.js).
 import * as U from "../comum.js";
 import { carregar, confiancaDe } from "./confianca.js";
 import { FRASE } from "./voce_decide.js";
@@ -62,8 +63,11 @@ export function perguntas(ctx, conf) {
   else if (a.portoes) poe(4, "relogio", "Em 19/mar e 30/abr, olhamos juntos a chuva e a terra?");
   else if (a.portoes === false) poe(4, "relogio", "Que datas de troca valem na minha estação?");
   const temMand = (p.faixas || []).some((f) => f.anos.some((x) => x.cultura === "Mandioca"));
-  const pr = r.financeiro?.precos_raiz || {}, preco = pr[ef.raiz] ?? pr.municipio;
-  if (temMand && preco > 0) poe(5, "mandioca", `A raiz vale R$ ${U.num(preco, 2)}/kg na casa de farinha daqui?`);
+  const pr = r.financeiro?.precos_raiz || {}, kr = pr[ef.raiz] != null ? ef.raiz : "municipio", preco = pr[kr];
+  // o rótulo da opção escolhida em "Ajustar a conta" (o padrão é o comum do estado, não o preço daqui)
+  const comum = `comum no ${r.local?.uf || "estado"}`;
+  const rotRaiz = { municipio: pr.origem_municipio === "UF" ? comum : "daqui", uf_mediana: comum, uf_p25: `baixo no ${r.local?.uf || "estado"}` }[kr];
+  if (temMand && preco > 0) poe(5, "mandioca", `A raiz vale R$ ${U.num(preco, 2)}/kg (${rotRaiz}) na casa de farinha?`);
   if (ef.agua === "irriga") poe(6, "poco", "Com poço ou irrigação, que datas e culturas mudam?");
   else if (ef.agua === "barreiro") poe(6, "gota", `O barreiro${ef.vol_m3 ? ` de ${U.num(ef.vol_m3)} m³` : ""} salva o milho na floração?`);
   if (ef.maniva === "nao") poe(7, "semente", "Onde consigo maniva sadia para plantar?");
@@ -122,6 +126,32 @@ async function copiar(t) {
   return ok;
 }
 
+/** O aviso do bloco (se ele está na tela) e o rolar até ele, para quem tocou o botão de baixo. */
+function avisar(msg) {
+  const aviso = document.querySelector("#leve-ao-tecnico .lt-aviso");
+  if (!aviso) return;
+  aviso.textContent = msg;
+  aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+/** "Mandar no WhatsApp" (o botão verde do passo 5): o mesmo texto do "Copiar o texto". Tenta o compartilhar do celular; se não houver,
+ *  abre o WhatsApp (wa.me); se a janela for bloqueada, copia. Devolve "share", "cancelou", "wa.me", "copiou" ou "falhou". */
+export async function compartilhar(ctx) {
+  const conf = confiancaDe(await carregar(), ctx.cod || ctx.r.local?.cod, ctx.r);
+  const t = texto(ctx, perguntas(ctx, conf), conf);
+  if (navigator.share) {
+    try { await navigator.share({ text: t }); return "share"; } catch (e) { if (e?.name === "AbortError") return "cancelou"; } // fechou: não abre outra
+  }
+  const w = window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, "_blank");
+  if (w) { w.opener = null; return "wa.me"; }
+  const ok = await copiar(t);
+  avisar(ok ? "Copiado. Cole no WhatsApp." : "Não deu para copiar aqui.");
+  return ok ? "copiou" : "falhou";
+}
+
+// água além da chuva (a cisterna de beber não molha a roça e saiu); tocar de novo no chip aceso volta para "só a chuva"
+const AGUA = [["barreiro", "gota", "Barreiro ou açude"], ["irriga", "poco", "Poço ou irrigação"]];
+
 export default {
   id: "leve_ao_tecnico",
   async render(el, ctx, opcoes = {}) {
@@ -132,24 +162,32 @@ export default {
     const uf = ctx.r.local?.uf;
     const sub = k == null ? "" : k === 0 ? "Aqui, quase nenhuma roça de família recebe orientação técnica."
       : `Aqui, ${k < 30 ? "só " : ""}${k} de 100 roças de família recebem orientação técnica.`;
+    // à vista, um "ver mais" com cara de botão e o número no texto; as perguntas e quem confere ficam dentro (imprimir, copiar e o
+    // WhatsApp levam todas)
+    const li = (x) => `<li><label><input type="checkbox" class="lt-marca">${U.ic(x.icone)}<span>${U.esc(x.texto)}</span></label></li>`;
     el.innerHTML = `<section class="painel lt" id="leve-ao-tecnico" aria-label="Leve para o técnico">
       <p class="kicker">Leve para o técnico</p>
-      <div class="lt-cab"><span class="numero-grande">${itens.length}</span><div><b class="lt-tit">perguntas para a próxima conversa</b>
-        ${sub ? `<p class="lt-sub">${U.esc(sub)} ${U.selo("medido", "IBGE, Censo Agropecuário 2017: % dos estabelecimentos familiares com orientação técnica")}</p>` : ""}</div></div>
-      <ol class="lt-lista">${itens.map((x) => `<li><label><input type="checkbox" class="lt-marca">${U.ic(x.icone)}<span>${U.esc(x.texto)}</span></label></li>`).join("")}</ol>
+      <details class="ver-mais lt-cab"><summary><b class="lt-tit">${itens.length === 1 ? "Ver a pergunta" : `Ver as ${itens.length} perguntas`}</b></summary>
+        <ol class="lt-lista">${itens.map(li).join("")}</ol>
+        ${sub ? `<p>${U.esc(sub)} ${U.selo("medido", "IBGE, Censo Agropecuário 2017: % dos estabelecimentos familiares com orientação técnica")}</p>` : ""}
+        <p>Quem pode conferir: o técnico do órgão de assistência rural do estado${ATER[uf] ? ` (${ATER[uf]})` : ""}, o sindicato dos
+        trabalhadores rurais, a secretaria de agricultura do município, a casa de farinha (preço da raiz) e o vizinho que planta há anos.</p>
+        <p>As perguntas saem das suas respostas e do plano. O QUADRA não vê do espaço a sua terra, o seu baixio nem a sua semente.</p></details>
+      <div class="lt-agua" role="group" aria-label="Água além da chuva"><span class="lt-agua-rot">Além da chuva, tem:</span>
+        ${AGUA.map(([k, ic, rot]) => `<button type="button" class="chip${ctx.ef.agua === k ? " verde" : ""}" data-agua="${k}" aria-pressed="${ctx.ef.agua === k}">${U.ic(ic)}${rot}</button>`).join("")}</div>
+      <p class="lt-gs">${U.ic("escudo")}<span><b>Garantia-Safra:</b> paga com perda de 40% ou mais; ${ctx.ef.ha > 5 ? "acima de 5 ha não cabe" : "até 5 ha cabe"};
+        renda e adesão do município: confira no sindicato.</span></p>
       <div class="lt-acoes">
         <button type="button" class="botao secundario" data-lt="imprimir">${U.ic("faixas")}Imprimir</button>
-        <button type="button" class="botao primario" data-lt="copiar">${U.ic("seta")}Copiar para o WhatsApp</button>
+        <button type="button" class="botao secundario" data-lt="copiar">${U.ic("seta")}Copiar o texto</button>
         <span class="lt-aviso" role="status" aria-live="polite"></span></div>
-      ${U.verMais(`<p>Quem pode conferir: o técnico do órgão de assistência rural do estado${ATER[uf] ? ` (${ATER[uf]})` : ""}, o sindicato dos
-        trabalhadores rurais, a secretaria de agricultura do município, a casa de farinha (preço da raiz) e o vizinho que planta há anos.</p>
-        <p>As perguntas saem das suas respostas e do plano. O QUADRA não vê do espaço a sua terra, o seu baixio nem a sua semente.</p>`, "Onde achar quem confira")}
     </section>`;
     const aviso = el.querySelector(".lt-aviso");
     el.querySelector('[data-lt="imprimir"]').addEventListener("click", () => imprimir(papel(ctx, itens, conf)));
     el.querySelector('[data-lt="copiar"]').addEventListener("click", async () => {
       aviso.textContent = (await copiar(texto(ctx, itens, conf))) ? "Copiado. Cole no WhatsApp." : "Não deu para copiar aqui.";
     });
+    el.querySelectorAll("[data-agua]").forEach((b) => b.addEventListener("click", () => ctx.set({ agua: ctx.ef.agua === b.dataset.agua ? "" : b.dataset.agua })));
   },
   // para o teste (web/teste/voce_decide.html): a folha de impressão e o texto, sem abrir a impressão
   _papel: papel, _texto: texto,

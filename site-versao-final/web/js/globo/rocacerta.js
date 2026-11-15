@@ -3,7 +3,7 @@
 // aba Inverno 2027 com a definição única de El Niño do plano (dados/el_nino_uf.json: ONI ≥ 1,5, quadras de 1998,
 // 2010, 2016 e 2024; manchete do estado em frequência, barras por ano forte; "carregando dados" se o arquivo
 // ainda não existir) no lugar dos 6 anos com ONI ≥ 0,5; sai a aba Alerta (percentil fixo do SMAP de out/2026);
-// abas vazias (Veranico, Preparo, Entressafra) escondidas; botão "Montar o plano do meu roçado →" (roca.html#/<cod>/1,
+// abas vazias (Veranico, Preparo, Entressafra) escondidas; botão "Montar o plano do meu roçado →" (roca.html#/<cod>/2,
 // target=_top); no iframe, avisa a página de cima quando desenhou (postMessage 'painel-pronto').
 // rocacerta.js - painel do municipio: abas, faixa de sinal, indicadores, mapa e grafico.
 // Pouco texto: cada informacao e um desenho com um numero. Dados (dados/, gerados por
@@ -166,13 +166,14 @@ const ABAS = [
       const e = enso(m), de = UF_DE[m[F.uf]];
       if (!NINO) return { tipo: 'idle', icone: 'info', titulo: 'El Niño forte no estado: carregando dados…', pilula: '' };
       if (!e) return { tipo: 'idle', icone: 'info', titulo: 'Sem dado de El Niño forte para este estado', pilula: '' };
-      const frase = `Em ${emDez(e.media)} de cada 10 municípios ${de}, a estação ficou no terço mais seco nos anos de El Niño forte.`;
+      // em palavras da roça (como em Do espaço); o "acaso" fica no indicador ao lado
+      const frase = `Nos anos de El Niño forte, a chuva veio fraca em ${emDez(e.media)} de 10 municípios ${de}.`;
       if (e.media < 40) return { tipo: 'info', icone: 'info', titulo: `${frase} É perto do acaso (${emDez(ACASO)} em 10).`, pilula: 'Previsão firma em fevereiro' };
-      return { tipo: 'warn', icone: 'alerta', titulo: `${frase} O acaso daria ${emDez(ACASO)} em 10.`, pilula: 'Previsão firma em fevereiro' };
+      return { tipo: 'warn', icone: 'alerta', titulo: frase, pilula: 'Previsão firma em fevereiro' };
     },
     indicadores(m) {
       const e = enso(m), oni = D.oni, titulo = `Terço mais seco ${UF_EM[m[F.uf]]}`;
-      return ind('termo', 'El Niño agora', `${oni.valor > 0 ? '+' : ''}${fmt.format(oni.valor)}<small>°C</small>`, `ONI ${ONI_TRI} · forte a partir de +1,5`, escalaOni(oni.valor))
+      return ind('termo', 'El Niño agora', `${oni.valor > 0 ? '+' : ''}${fmt.format(oni.valor)}<small>°C</small>`, `o mar de ${ONI_TRI} · forte a partir de +1,5`, escalaOni(oni.valor))
         + (e ? ind('chuva', titulo, `${emDez(e.media)}<small>em 10</small>`, `municípios, por ano de El Niño forte · acaso: ${emDez(ACASO)}`, anosEstado(e))
           : ind('chuva', titulo, '…', NINO ? 'sem dado para este estado' : 'carregando dados', ''))
         + ind('info', 'Previsão firma', 'fev', 'quando sai o prognóstico oficial', regua())
@@ -184,7 +185,7 @@ const ABAS = [
       dica: (v) => `${emDez(v)} em 10 municípios do estado`,
     },
     grafico(m) {
-      $('graficoTitulo').textContent = `Chuva da estação em ${m[F.nome]}, ano a ano (desde o início da chuva; IMERG)`;
+      $('graficoTitulo').textContent = `Chuva da estação em ${m[F.nome]}, ano a ano (desde o início da chuva)`;
       const vals = m[F.serie], an = (i) => FORTES.includes(D.anos[i]);
       barras({
         vals, rotulos: D.anos.map((a, i) => (an(i) || i === 0 || i === D.anos.length - 1 ? a : '')), linha100: true, teto: 180, eixo: [0, 50, 100, 150],
@@ -330,7 +331,7 @@ function desenhar() {
     const leg = aba.grafico(m);
     $('graficoLegenda').innerHTML = leg.map(([c, t]) => `<span>${c ? `<i style="background:${c}"></i>` : ''}${t}</span>`).join('');
   }
-  $('plano').href = `roca.html#/${estado.cod}/1`;
+  $('plano').href = `roca.html#/${estado.cod}/2`;
   pintarMapa(aba);
   if (forma[estado.cod]) {
     for (const p of gMun.querySelectorAll('.on')) p.classList.remove('on');

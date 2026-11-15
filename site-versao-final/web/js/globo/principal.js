@@ -2,7 +2,7 @@
 // busca local nos 1.794 municípios do Nordeste (busca.js) no lugar de /api/geocode (Nominatim pelo Flask), e o
 // clique no globo acha o município na malha local no lugar de /api/reverse; sai unicos() (juntava repetidos do
 // Nominatim); nordeste.json por caminho relativo; botão "Montar o plano do meu roçado" no cartão do mapa
-// (roca.html#/<cod>/1), visível na chegada até o painel do iframe avisar que desenhou.
+// (roca.html#/<cod>/2, direto em "Sua roça"), visível na chegada até o painel do iframe avisar que desenhou.
 // principal.js - liga a interface: busca de lugar, viagem do globo 3D ate o mapa e volta.
 import { Espaco, DIST_TROCA } from './espaco.js';
 import { Mapa, zoomEquivalente, distEquivalente } from './mapa.js';
@@ -91,7 +91,7 @@ const painel = new Painel($('painel'));
 // botao do plano no cartao do mapa: entra com o municipio e sai quando o painel do iframe desenha (painel.css)
 painel.aoMudar = (cod) => {
   ui.plano.hidden = !cod;
-  if (cod) ui.plano.href = `roca.html#/${cod}/1`;
+  if (cod) ui.plano.href = `roca.html#/${cod}/2`;
 };
 // o mapa encolhe para um cartao a esquerda quando o painel abre: o MapLibre precisa saber do novo tamanho
 new ResizeObserver(() => mapa.mapa?.resize()).observe($('mapa'));

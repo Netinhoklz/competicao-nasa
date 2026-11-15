@@ -1,13 +1,33 @@
 /* passo seguranca (versão 2, tema escuro): hoje, cartão por cultura (2027 · 2028 · 2029), quadro dos 28 anos, portões.
    Só tokens de quadra.css. */
 .passo-seguranca .seg-bloco { margin: 0 0 34px; }
-.passo-seguranca .seg-h2 { font-family: var(--font); font-weight: 300; font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.02em; margin: 0 0 6px; }
-.passo-seguranca .seg-h2 b { font-weight: 600; color: var(--green-forte); }
-.passo-seguranca .seg-apoio { margin: 0 0 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .passo-seguranca .kicker .selo { margin-left: 6px; }
 .seg-lista { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; }
 
-/* hoje */
+/* 2027, cada cultura: 1 linha por cultura (nome + "quebra em X de 10" à esquerda, grade de 10 roças à direita) */
+.seg-27-linhas { display: grid; gap: 8px; }
+.seg-27-linha { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 56px;
+  padding: 8px 14px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface-2); }
+.seg-27-linha > .ic { color: var(--ink-2); }
+.seg-27-nome { display: grid; gap: 2px; min-width: 0; font-size: 15px; }
+.seg-27-nome > b { font-weight: 600; font-size: 17px; }
+.seg-27-nome > span { color: var(--ink-2); }
+.seg-27-nome > span b { color: var(--terra); }
+.seg-27-nota { margin: 10px 0 0; }
+.seg-27 .seg-semserie { margin-top: 10px; }
+/* os "ver mais" do passo: a linha de cima e o alvo de 44 px ficam; sai o respiro extra (o passo tem muitos) */
+.passo-seguranca details.ver-mais { margin-top: 6px; padding-top: 2px; }
+.passo-seguranca details.ver-mais > summary { margin: 0; }
+.passo-seguranca .seg-bloco > details.ver-mais:first-child { border-top: 0; }
+@media (max-width: 400px) {
+  .passo-seguranca .seg-bloco { margin-bottom: 20px; }
+  .seg-27-linha { gap: 10px; padding: 6px 10px; min-height: 48px; }
+  .seg-27-linha > .ic { width: 28px; height: 28px; }
+  .seg-27-linha .dez-rocas { grid-template-columns: repeat(10, 12px); gap: 3px; }
+  .seg-27-linha .dez-rocas i { width: 12px; height: 12px; border-radius: 3px; }
+}
+
+/* hoje (no ver mais "Ver os detalhes de hoje") */
 .seg-hoje .ind-sub { line-height: 1.35; }
 .seg-naosabe { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
 .seg-naosabe .ic { width: 16px; height: 16px; color: var(--amber); }

@@ -8,7 +8,7 @@
   font-size: 14px; line-height: 1.35; color: var(--ink-2); }
 .olho .ic { color: var(--blue); width: 20px; height: 20px; }
 .olho-rot { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
-.olho-txt { flex: 1 1 200px; min-width: 0; }
+.olho-txt { flex: 1 1 160px; min-width: 0; } /* num painel estreito (390 px) o texto fica ao lado do rótulo */
 
 /* ---------------------------------------------------------------- frase fixa da moldura (dentro de .nav-baixo, entre os botões) */
 .moldura-decide { flex: 1 1 auto; min-width: 0; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -39,11 +39,13 @@ a.moldura-decide:hover b, a.moldura-decide:focus-visible b { text-decoration: un
 .cf-todos { padding-left: 18px; } .cf-todos li { margin: 0 0 8px; }
 
 /* ---------------------------------------------------------------- leve para o técnico */
-.lt-cab { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; }
-.lt-cab .numero-grande { color: var(--green-forte); }
-.lt-tit { font-family: var(--font); font-weight: 400; font-size: 21px; letter-spacing: -0.01em; }
-.lt-sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
-.lt-lista { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 8px; }
+/* as perguntas são o recado do bloco: o "ver mais" tem cara de botão ("Ver as N perguntas para o técnico") e abre a lista e quem confere */
+details.lt-cab { margin: 0 0 4px; padding-top: 0; border-top: 0; }
+details.lt-cab > summary { display: flex; align-items: center; gap: 10px; min-height: 52px; margin: 0; padding: 0 14px; color: var(--ink); font-weight: 400;
+  border: 1px solid var(--border-2); border-radius: 14px; background: var(--surface-2); }
+.lt-tit { font-family: var(--font); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; }
+.lt-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.lt details.ver-mais .lt-lista { margin-top: 10px; }
 .lt-lista li { border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); font-size: 15px; }
 /* a linha inteira marca: o agricultor risca o que já conversou com o técnico */
 .lt-lista label { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 14px; cursor: pointer; }
@@ -53,6 +55,15 @@ a.moldura-decide:hover b, a.moldura-decide:focus-visible b { text-decoration: un
 .lt-lista li:has(.lt-marca:checked) { border-color: rgba(76, 178, 124, .45); background: var(--green-soft); }
 .lt-lista li:has(.lt-marca:checked) span { color: var(--muted); text-decoration: line-through; }
 .lt-caixa { width: 18px; height: 18px; border: 1.5px solid var(--border-2); border-radius: 5px; flex: none; }
+/* água além da chuva (2 chips) e a linha do Garantia-Safra */
+.lt-agua { display: grid; grid-template-columns: repeat(2, max-content); align-items: center; gap: 8px; margin: 14px 0 12px; }
+.lt-agua-rot { grid-column: 1 / -1; font-size: 14px; color: var(--ink-2); }
+.lt-agua .chip { min-height: 44px; padding: 8px 14px; font: inherit; font-size: 14px; cursor: pointer; color: var(--ink); }
+.lt-agua .chip.verde { color: var(--green-forte); }
+.lt-agua .chip .ic { width: 18px; height: 18px; }
+.lt-gs { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 16px; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.lt-gs .ic { flex: none; width: 20px; height: 20px; color: var(--amber); }
+.lt-gs b { color: var(--ink); font-weight: 600; }
 .lt-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .lt-acoes .botao { min-height: 48px; }
 .lt-aviso { font-size: 14px; color: var(--green-forte); }
@@ -61,12 +72,12 @@ a.moldura-decide:hover b, a.moldura-decide:focus-visible b { text-decoration: un
 @media (max-width: 760px) {
   .cf .cf-grade { grid-template-columns: 1fr; }
   .cf-nivel { font-size: 32px; }
-  .lt-acoes .botao { flex: 1 1 100%; }
+  .lt-acoes .botao { flex: 1 1 0; min-width: 0; padding: 12px 10px; white-space: nowrap; font-size: 15px; gap: 8px; }
+  .lt-agua { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lt-agua .chip { justify-content: center; padding: 6px 8px; gap: 5px; font-size: 13.5px; line-height: 1.2; }
   .lt-lista li { font-size: 14px; } .lt-lista label { padding: 10px 12px; }
-  /* a frase da moldura vira a 1ª linha da barra de baixo, acima de Voltar e Próximo */
-  .nav-baixo:has(.moldura-decide) { flex-wrap: wrap; row-gap: 6px; }
-  .moldura-decide { order: -1; flex: 1 0 100%; font-size: 13px; }
-  a.moldura-decide { min-height: 32px; }
+  /* no celular a frase sai da barra de baixo (a barra fica em 1 linha) e vira o rodapé de cada passo (roca.js / quadra.css) */
+  .nav-baixo .moldura-decide { display: none; }
 }
 
 /* ---------------------------------------------------------------- impressão: só a folha "Perguntas para o técnico" */

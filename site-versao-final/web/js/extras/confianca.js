@@ -38,7 +38,9 @@ export function confiancaDe(dados, cod, r = null) {
   const ordem = Object.keys(T);
   const chaves = [...m].filter((k) => T[k]).sort((a, b) => T[b].peso - T[a].peso || ordem.indexOf(a) - ordem.indexOf(b));
   const soma = chaves.reduce((s, k) => s + T[k].peso, 0);
-  const texto = (k) => (k === "estimada" && est?.length ? `Data de plantar ${est.length > 1 ? "de" : "da"} ${lista(est)} estimada pela chuva.` : T[k].texto);
+  // "ciclo": o texto do JSON ("O zoneamento não conferiu o ciclo da semente.") é jargão na frente; aqui vai em palavras da roça
+  const texto = (k) => (k === "estimada" && est?.length ? `Data de plantar ${est.length > 1 ? "de" : "da"} ${lista(est)} estimada pela chuva.`
+    : k === "ciclo" ? "As datas de plantio não olham o ciclo da sua semente: confira com o técnico." : T[k].texto);
   return {
     nivel: soma <= 1 ? "alta" : soma <= 3 ? "media" : "baixa",
     motivos: chaves.map((k) => ({ chave: k, texto: texto(k), peso: T[k].peso, tecnico: T[k].tecnico })),
@@ -55,8 +57,8 @@ const NIVEL = {
 // o detalhe de cada motivo (vai no "ver mais"), com a fonte
 const DETALHE = {
   leste: "A até ~20 km da costa leste, o satélite de chuva (GPM IMERG) capta só 39–72% da chuva medida no chão, mais no outono e no inverno. Aqui as datas vêm do zoneamento (ZARC) e o pluviômetro vale mais que o satélite.",
-  agro: "O rendimento típico do IBGE (PAM 1998–2025) passa de 2 vezes o da roça de família da CONAB (milho 1.800, feijão 800, mandioca 17.400 kg/ha): a série mistura lavoura grande. Os R$ do passo 4 servem só para comparar.",
-  pam_curta: "Milho ou feijão têm menos de 10 anos com 10 ha ou mais no IBGE (PAM 1998–2025): sem série, o passo 4 não faz a conta do dinheiro.",
+  agro: "O rendimento típico do IBGE (PAM 1998–2025) passa de 2 vezes o da roça de família da CONAB (milho 1.800, feijão 800, mandioca 17.400 kg/ha): a série mistura lavoura grande. Os R$ de Quanto rende servem só para comparar.",
+  pam_curta: "Milho ou feijão têm menos de 10 anos com 10 ha ou mais no IBGE (PAM 1998–2025): sem série, Quanto rende não faz a conta do dinheiro.",
   mandioca_sem_serie: "A mandioca entra no plano, mas o IBGE não tem série dela aqui: sem projeção nem R$ da mandioca.",
   mandioca_repete: "Em 30% dos anos ou mais, o IBGE repete aqui o rendimento da mandioca do ano anterior: o leque dela parece mais seguro do que é.",
   estimada: "Sem zoneamento (ZARC) desta cultura aqui, a data de plantar vai do início típico da chuva (IMERG, 1998–2025) a 40 dias depois. É suposição.",

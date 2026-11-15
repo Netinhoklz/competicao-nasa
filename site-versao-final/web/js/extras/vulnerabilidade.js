@@ -237,7 +237,7 @@ function ladoAgua(ctx, m) {
       ${medido ? "No Ceará, medido a 90 m." : `Fora do Ceará só temos a grade de 1 km, que achata as ladeiras (no CE, a 90 m o declive dá cerca de 3 vezes o
       de 1 km). Ajustamos com a relação medida nos 184 municípios do CE (R² 0,88; erro típico 11 %; 1 em 10 municípios erra mais de 35 %). Aqui é estimativa.`}</p>
       <p>Classes da Embrapa: até 3 % plano, 3–8 % suave, 8–20 % ondulado, acima de 20 % forte. O desenho muda com a classe.</p>
-      <p><b>O desenho é suposição.</b> O roçado do passo 3, alto em cima e faixas em nível. A água desce, junta força e leva a terra fina do alto;
+      <p><b>O desenho é suposição.</b> O roçado do plano, alto em cima e faixas em nível. A água desce, junta força e leva a terra fina do alto;
       o baixio recebe terra e água. Faixa em nível, palhada no chão e cerca viva cortam a enxurrada.</p>
       <p><b>O que o dado não vê.</b> O seu roçado pode ser mais plano ou mais inclinado que o típico (por isso a escolha "O seu é"). Serrote e lajedo
       entram no declive do município. A força de cada chuva não está na conta.</p>`,
@@ -335,7 +335,7 @@ function ladoGeada(ctx, m, geo, cen) {
       variedade), sobre a janela de plantar do calendário (${U.dataBR(flor.plantio.de, true)} a ${U.dataBR(flor.plantio.ate, true)}).` : ""}
       Média de um quadrado de 28 km: no roçado, o termômetro pode marcar mais.</p>
       <p><b>E se esquentar?</b> "+1 °C" e "+2 °C" contam, nos mesmos 42 anos, os dias de 34 °C e de 33 °C ou mais: é o clima medido com todos
-      os dias mais quentes por igual (suposição simples, não um modelo do clima futuro). Desde 1981 a máxima daqui já subiu; o passo 1 mostra quanto.</p>
+      os dias mais quentes por igual (suposição simples, não um modelo do clima futuro). Desde 1981 a máxima daqui já subiu; Do espaço mostra quanto.</p>
       <p><b>Veranico.</b> A falta de chuva no meio da estação é o risco que a janela do ZARC já mede: risco de 20 % = até 2 em 10 anos com perda
       por falta de água.</p>`,
   };

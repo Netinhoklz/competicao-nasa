@@ -3,19 +3,21 @@
 // ("Guardar água", "Mais renda", "Cuidar do solo") e o plano do QUADRA como referência, e compara os quatro em 7 pontos
 // (adubo natural, chão coberto, palhada, quebra de praga, uso de água, comida do gado, renda) com 1 a 3 pontinhos.
 // Só entram culturas que o cardápio deixa no município (situação diferente de "fora"); sem maniva, a mandioca sai.
-// A prioridade (ctx.ef.prioridade) acende o jeito recomendado; o agricultor pode acender outro no próprio bloco (estado de tela).
+// No passo 4 o bloco é "O que vale mais para você?": as abas (Água · Renda · Solo · Um pouco de cada, que é o plano) são a pergunta da prioridade e gravam
+// ctx.ef.prioridade (ctx.set); o jeito aceso é o da prioridade. No celular, a grade e o giro ano a ano ficam em "Ver a comparação".
 // Regras de pontuação e evidência no "Ver como pontuamos"; graus e cartões de pesquisa/catalogo_rotacoes.json (ids nos comentários).
 // Uso: import cenarios from "./extras/cenarios.js"; await cenarios.render(el, ctx, { painel: true });
 import * as U from "../comum.js";
 
-const est = { cod: null, escolha: null };
-
 const IDS = ["agua", "renda", "solo", "plano"];
 const NOME = { agua: "Guardar água", renda: "Mais renda", solo: "Cuidar do solo", plano: "Plano do QUADRA" };
 const CURTO = { agua: "Água", renda: "Renda", solo: "Solo", plano: "Plano" };
+// nas abas a pergunta é "O que vale mais para você?": ninguém responde "o plano"; o plano é o equilíbrio
+const ABA = { ...CURTO, plano: "Um pouco de cada" };
 const ICONE = { agua: "gota", renda: "dinheiro", solo: "broto", plano: "faixas" };
 const COR = { agua: "azul", renda: "ambar", solo: "verde", plano: "verde" };
 const DA_PRIORIDADE = { garantir: "agua", vender: "renda", equilibrar: "plano", solo: "solo" };
+const INV = { agua: "garantir", renda: "vender", solo: "solo", plano: "equilibrar" }; // a aba tocada → a prioridade gravada
 
 // Código de cada parte do roçado num ano:
 // L leguminosa de grão · C cereal solteiro (milho ou sorgo de grão) · Z milho com feijão no pé · U milho com mucuna no pé ·
@@ -284,7 +286,7 @@ function oQueMuda(C, id) {
   const menos = dif.filter(([, d]) => d <= -lim).sort((x, y) => x[1] - y[1]).slice(0, 2).map(([k]) => k);
   return { mais, menos };
 }
-// a manchete diz só o que entra (e por quê); o que sai vai para a linha "Contra o plano"
+// a manchete diz só o que entra (e por quê); o que sai vai para a linha "Comparado ao plano"
 const PORQUE = { agua: ["que aguenta a seca", "que aguentam a seca"], renda: ["para vender", "para vender"], solo: ["que alimenta a terra", "que alimentam a terra"] };
 function manchete(C, id) {
   if (id === "plano") return "Plano do QUADRA: um pouco de cada.";
@@ -303,15 +305,15 @@ function troca(C, id) {
     if (id === "plano") { if (x === 3) ganha.push(p.curto); else if (x === 1) perde.push(p.curto); }
     else if (x > y) ganha.push(p.curto); else if (x < y) perde.push(p.curto);
   }
-  const g = lista(ganha.slice(0, 3)), q = lista(perde.slice(0, 3));
+  const g = lista(ganha.slice(0, 3)), q = lista(perde.slice(0, id === "plano" ? 3 : 2));
   if (id === "plano") {
     const f = [g && `mais forte em ${g}`, q && `mais fraco em ${q}`].filter(Boolean).join("; ");
     return f ? f[0].toUpperCase() + f.slice(1) + "." : "Empata com os outros jeitos.";
   }
   const { menos } = oQueMuda(C, id);
   const sai = menos.length ? `menos ${lista(menos)}` : "";
-  if (!g && !q) return `Contra o plano: ${sai ? sai + "; " : ""}empata nos 7 pontos.`;
-  return "Contra o plano: " + [sai, g && `ganha em ${g}`, q && `perde em ${q}`].filter(Boolean).join("; ") + ".";
+  if (!g && !q) return `Comparado ao plano: ${sai ? sai + "; " : ""}empata nos 7 pontos.`;
+  return "Comparado ao plano: " + [sai, g && `ganha em ${g}`, q && `perde em ${q}`].filter(Boolean).join("; ") + ".";
 }
 
 const CURTO_CULT = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", Amendoim: "amendoim", Milho: "milho", "Sorgo granífero": "sorgo de grão",
@@ -409,44 +411,45 @@ function detalhe(C) {
       <li><b>Renda.</b> Valor típico por ha (mediana do IBGE PAM 1998–2025, em R$ de 2025) menos ${nivelTxt} (CONAB), somado nos 3 anos. Mandioca
         no preço da raiz que você escolheu${rs?.preco ? ` (R$ ${U.num(rs.preco, 2)}/kg)` : ""}, colhida uma vez a cada 2 anos; milho com feijão no pé =
         metade de cada; forragem, sorgo de grão e palma sem R$ (vão para o gado ou não têm série). A soma das medianas só compara os 4: a conta do
-        plano ano a ano, com os anos ruins, está no passo 4.</li>
+        plano ano a ano, com os anos ruins, está no Hoje, melhor e ideal, acima.</li>
     </ul>
     ${tNum}
     <ul class="cen-regras">${notas.map((n) => `<li>${n}</li>`).join("")}</ul>`;
 }
 
-// as mesmas palavras do "O que vale mais" do passo 4
-const PRI_TXT = { garantir: "garantir comida na seca", equilibrar: "equilibrar", vender: "vender mais", solo: "cuidar do solo" };
-function chipPrioridade(ef) {
-  const p = ef.prioridade || "equilibrar";
+// sem resposta, a prioridade é um padrão: a aba acesa diz "sugerido" (em ano de alerta, pelo El Niño)
+function sugerido(ef) {
   const o = ef.prioridade_origem || "resposta";
-  const quem = o === "resposta" ? "Sua prioridade" : /alerta|El Niño/i.test(o) ? "Sugerido no El Niño" : "Sugerido";
-  return `<span class="chip verde">${U.ic("ok")}${quem}: ${PRI_TXT[p] || U.esc(p)}</span>`;
+  if (o === "resposta") return "";
+  return `<small class="cen-sug" title="${/alerta|El Niño/i.test(o) ? "sugerido no ano de El Niño: toque em outro se quiser" : "sugerido: toque em outro se quiser"}">sugerido</small>`;
 }
 
 function desenhar(el, ctx, opcoes) {
   const { r, ef } = ctx;
   const C = calcular(r, ef);
   const caixa = (html) => (opcoes.painel === false ? `<div class="cen">${html}</div>` : `<section class="painel cen">${html}</section>`);
-  const kicker = `<p class="kicker">Outros jeitos de girar o roçado ${U.selo("suposicao", "regras de pontuação do QUADRA sobre o cardápio (ZARC + GAEZ), o IBGE PAM e a CONAB do município; evidência do catálogo de rotações")}</p>`;
+  const kicker = `<p class="kicker">O que vale mais para você? ${U.selo("suposicao", "regras de pontuação do QUADRA sobre o cardápio (ZARC + GAEZ), o IBGE PAM e a CONAB do município; evidência do catálogo de rotações")}</p>`;
   if (!C) {
     el.innerHTML = caixa(kicker + `<p class="sub">Sem plano para este lugar: não dá para comparar rotações aqui.</p>`);
     return;
   }
-  const rec = DA_PRIORIDADE[ef.prioridade] || "plano";
-  const esc = IDS.includes(est.escolha) ? est.escolha : rec;
-  const frase = manchete(C, esc);
-  const aberto = !!el.querySelector(".cen details.ver-mais[open]");
-  el.innerHTML = caixa(`${kicker}
-    ${U.faixa(ICONE[esc], COR[esc], U.esc(frase))}
-    <p class="cen-troca">${esc === rec ? chipPrioridade(ef) : ""}<span>${U.esc(troca(C, esc))}</span></p>
-    <div class="cen-corpo">${grade(C, esc, rec)}${giro(C, r, esc)}</div>
-    ${U.verMais(detalhe(C), "Ver como pontuamos")}`);
-  if (aberto) el.querySelector(".cen details.ver-mais")?.setAttribute("open", "");
+  const esc = DA_PRIORIDADE[ef.prioridade] || "plano";
+  const abas = `<div class="cen-abas" role="group" aria-label="O que vale mais para você">${IDS.map((id) =>
+    `<button type="button" class="cen-aba${id === esc ? " on" : ""}" data-jeito="${id}" aria-pressed="${id === esc}" title="${U.esc(NOME[id])}">
+      ${U.ic(ICONE[id])}<span${ABA[id].length > 8 ? ' class="cen-aba-longo"' : ""}>${ABA[id]}</span>${id === esc ? sugerido(ef) : ""}</button>`).join("")}</div>`;
+  // a grade de 7 pontos e o giro ano a ano: à vista no computador; no celular passariam de ~700 px, então vão para o "ver mais"
+  // (junto com o "como pontuamos", num "ver mais" só)
+  const corpo = `<div class="cen-corpo">${grade(C, esc, esc)}${giro(C, r, esc)}</div>`;
+  const estreito = (globalThis.innerWidth || 1000) <= 760;
+  el.innerHTML = caixa(`${kicker}${abas}
+    ${U.faixa(ICONE[esc], COR[esc], U.esc(manchete(C, esc)))}
+    <p class="cen-troca"><span>${U.esc(troca(C, esc))}</span></p>
+    ${estreito ? U.verMais(`${corpo}<h4 class="cen-giro-tit">Como pontuamos</h4>${detalhe(C)}`, "Ver a comparação")
+      : `${corpo}${U.verMais(detalhe(C), "Ver como pontuamos")}`}`);
+  // a aba tocada grava a prioridade (o passo redesenha; o número grande do passo 4 não muda)
   el.querySelectorAll("[data-jeito]").forEach((b) => b.addEventListener("click", () => {
-    est.escolha = b.dataset.jeito;
-    desenhar(el, ctx, opcoes);
-    el.querySelector(`[data-jeito="${est.escolha}"]`)?.focus();
+    const p = INV[b.dataset.jeito];
+    if (p && p !== ctx.resp?.prioridade) ctx.set({ prioridade: p });
   }));
 }
 
@@ -454,7 +457,6 @@ export default {
   id: "cenarios",
   /** Desenha o bloco dentro de el. opcoes.painel = false tira a moldura .painel (para pôr dentro de outro painel). */
   async render(el, ctx, opcoes = {}) {
-    if (est.cod !== ctx.cod || ctx.entrou) { est.cod = ctx.cod; est.escolha = null; }
     desenhar(el, ctx, opcoes || {});
   },
 };

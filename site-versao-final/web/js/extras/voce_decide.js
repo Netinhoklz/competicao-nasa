@@ -20,15 +20,15 @@ export const moldura = () => `<p class="moldura-decide">${icOlho()}<span>O QUADR
 
 /** Os momentos em que o julgamento humano pesa mais (cada texto com até 12 palavras). Condições: integracao/voce_decide.md. */
 export const OLHOS = {
-  el_nino: "Os anos de El Niño discordam: olhe a chuva de fevereiro.",
+  el_nino: "Nem todo El Niño seca igual: olhe a chuva de fevereiro.",
   sem_zarc: "Sem zoneamento, a data é estimada: confirme com quem já planta.",
   leste: "Perto do mar, o pluviômetro da comunidade vale mais que o satélite.",
-  terra: "Na dúvida, aperte um torrão úmido: areia esfarela, barro gruda.",
+  terra: "Na dúvida, aperte um torrão molhado: areia esfarela, barro gruda.", // 10 palavras: vai na tela única (Sua roça)
   tarefa: "A tarefa muda de lugar para lugar: confira a medida daqui.",
   baixio: "Ande no roçado depois de uma chuva: onde a água para?",
   irrigacao: "Com irrigação, as datas mudam: combine com o técnico.",
   faixas: "Faixas e espaçamento se acertam no chão, em curva de nível.",
-  metade: "Metade guardada: só plante se a terra estiver molhada na mão.",
+  metade: "Guarde metade da semente; plante quando a terra molhar a mão.",
   vizinhos: "Contra praga que voa, combine o plantio com os vizinhos.",
   preco_raiz: "Pergunte o preço da raiz na casa de farinha daqui.",
   agro: "Faça a conta com o que a sua família colhe.",

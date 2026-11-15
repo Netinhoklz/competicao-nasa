@@ -167,7 +167,13 @@
 .hs-acao .ic { width: 16px; height: 16px; }
 .hs-vazio { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-size: 15px; color: var(--ink-2); }
 .hs-vazio .ic { color: var(--blue); }
-.hs .olho { margin: 16px 0 0; }
+.hs .olho { margin: 12px 0 0; }
+.hs-se { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+.hs-giro-q { margin: 12px 0 0; font-size: 15px; color: var(--ink); } /* a pergunta dos 2 chips */
+.hs-giro-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; }
+.hs-giro-chips .chip { cursor: pointer; min-height: 44px; padding: 6px 12px; font-family: inherit; font-size: 14.5px; color: var(--ink-2); gap: 4px; }
+.hs-giro-chips .chip.verde { color: var(--green-forte); }
+.hs-giro-chips .chip .ic { width: 16px; height: 16px; }
 
 /* ================================================================ histórico: modo "memoria" (passo 5) */
 .hs-mems { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
@@ -187,9 +193,16 @@
 .hs-mem-ver { margin: 8px 0 0; font-size: 15px; font-weight: 600; color: var(--ink); }
 .hs-mem-nota { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
 .hs-mem .hs-anos .chip { min-height: 36px; }
-.hs-piores { display: grid; gap: 6px; margin: 0 0 14px; }
-.hs-piores p { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0; font-size: 15px; color: var(--ink-2); }
-.hs-piores b { color: var(--ink); min-width: 60px; }
+.hs-tirar { margin-left: auto; flex: none; border: 0; background: none; padding: 2px 4px; font: inherit; font-size: 12px; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+/* sem quebra contada: uma linha por cultura com os piores anos do IBGE e "outro ano" */
+.hs-mems + .hs-vazio { margin-top: 16px; }
+.hs-mem-anos { display: grid; gap: 10px; margin: 0 0 4px; }
+.hs-mem-linha { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.hs-mem-linha > p { display: flex; align-items: center; gap: 6px; margin: 0; min-width: 84px; font-size: 15px; }
+.hs-mem-linha > p .ic { width: 20px; height: 20px; color: var(--ink-2); }
+.hs-mem-linha .hs-anos { margin: 0; }
+.hs-mem-linha .hs-anos .chip, .hs-mem-linha .hs-sel { min-height: 44px; font-family: inherit; color: var(--ink-2); }
 
 @media (max-width: 760px) {
   .ar-un { min-height: 84px; }
@@ -215,4 +228,5 @@
 }
 @media (max-width: 420px) {
   .hs-pular-txt { display: none; }
+  .hs-cartao .hs-rot, .hs-memoria .hs-rot { font-size: 11px; letter-spacing: .05em; gap: 6px; }
 }
