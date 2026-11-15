@@ -11,7 +11,10 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-RAIZ = Path("E:/campeonato-nasa")
+# No pacote de entrega (site-versao-final/ferramentas/montar_entrega.py), os dados de execucao vao em <pacote>/dados, ao lado
+# de scripts/: a raiz passa a ser o proprio pacote. No repositorio de trabalho nao existe essa pasta e vale o E:.
+_LOCAL = Path(__file__).resolve().parents[1]
+RAIZ = _LOCAL if (_LOCAL / "dados").is_dir() else Path("E:/campeonato-nasa")
 DADOS = RAIZ / "dados"
 DERIV = DADOS / "derivados"      # series/tabelas tratadas para cruzar bases
 REF = DADOS / "referencia"        # limites (IBGE, Natural Earth)
@@ -20,9 +23,10 @@ ESTUDO_CDL = RAIZ / "estudo_cdl"  # CDL fica fora de DADOS (so EUA, estudo)
 
 # Certificados: o repositorio do Windows nao confia em algumas raizes; o pacote do Git confia.
 CA_BUNDLE = "C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt"
-os.environ.setdefault("SSL_CERT_FILE", CA_BUNDLE)
-os.environ.setdefault("REQUESTS_CA_BUNDLE", CA_BUNDLE)
-os.environ.setdefault("CURL_CA_BUNDLE", CA_BUNDLE)
+if os.path.exists(CA_BUNDLE):  # em outra maquina (pacote de entrega) vale o certificado padrao do Python
+    os.environ.setdefault("SSL_CERT_FILE", CA_BUNDLE)
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", CA_BUNDLE)
+    os.environ.setdefault("CURL_CA_BUNDLE", CA_BUNDLE)
 
 # Ceara (limite IBGE: -41.414..-37.253 lon, -7.846..-2.784 lat) com folga
 BBOX_CE = (-41.5, -8.0, -37.0, -2.5)

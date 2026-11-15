@@ -21,8 +21,9 @@ Uso:
 import calendar
 import json
 import sys
+from pathlib import Path
 
-sys.path.insert(0, r"c:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\scripts")
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # a pasta deste arquivo (scripts/), em qualquer máquina
 import pandas as pd  # noqa: E402
 import rasterio  # noqa: E402
 

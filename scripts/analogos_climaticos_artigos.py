@@ -12,8 +12,9 @@ import json
 import math
 import sys
 import time
+from pathlib import Path
 
-sys.path.insert(0, r"c:\Users\netinhoklz\Projetos pessoais\campeonato-nasa\scripts")
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # a pasta deste arquivo (scripts/), em qualquer máquina
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 

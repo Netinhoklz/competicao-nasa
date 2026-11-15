@@ -22,6 +22,20 @@ E:/campeonato-nasa/venv/Scripts/python.exe -X utf8 servidor.py      # http://loc
 - Para regerar os JSON: `ferramentas/preparar_financeiro_site.py`, `preparar_projecao.py`, `preparar_padroes_censo.py` e
   `preparar_el_nino_uf.py` (cada um diz no topo o que lê e o que grava).
 
+## Pacote de entrega (rodar em outra máquina)
+
+Só esta pasta não roda sozinha: o núcleo importa 3 módulos de `scripts/`, lê `pesquisa/catalogo_rotacoes.json` e os dados do `E:`.
+O pacote que roda em qualquer máquina é montado por `ferramentas/montar_entrega.py` (da raiz do repositório):
+
+```bash
+E:/campeonato-nasa/venv/Scripts/python.exe -X utf8 site-versao-final/ferramentas/montar_entrega.py   # -> E:/campeonato-nasa/entrega/QUADRA
+```
+
+A pasta sai com cerca de 120 MB: o site, os 3 módulos, o catálogo, os ~75 MB de dados que o núcleo lê, `requirements.txt`,
+o `README.md` de quem recebe e o `app.py` da raiz. Lá, a partida é `pip install -r requirements.txt` e `python app.py`.
+No lugar dos rasters do GAEZ (2,3 GB) e da série diária do SMAP (584 MB) vão a aptidão já amostrada nos 1.794 municípios e a
+janela de 30 dias já calculada; o núcleo usa esses caches quando a fonte falta.
+
 ## Pastas
 
 | Pasta | O que tem |

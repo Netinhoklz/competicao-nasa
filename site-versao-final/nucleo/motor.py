@@ -337,6 +337,11 @@ def _prepara_smap():
     import xarray as xr
     fonte = DADOS / "smap" / "smap_l4_diario_ne.nc"
     arq = CACHE / "smap_janela_30d.nc"
+    if not fonte.exists() and arq.exists():  # pacote de entrega: sem a série diária (584 MB), vale a janela de 30 dias já calculada
+        c = xr.open_dataset(arq).load()
+        c.close()
+        _SMAP.update(ds=c, fim=pd.Timestamp(c.attrs["fim"]))
+        return
     assinatura_fonte = f"{fonte.stat().st_mtime_ns}:{fonte.stat().st_size}"  # revisão M27
     ds = xr.open_dataset(fonte)
     fim = pd.Timestamp(ds.time.values.max())
@@ -430,7 +435,10 @@ def aptidao(lat, lon):
     cache = _cache("cache_gaez_v3.json")
     chave = f"{math.floor((90 - lat) * 12)},{math.floor((lon + 180) * 12)}"
     if chave not in cache:
-        si = GZ.aptidao([(lon, lat)])
+        try:
+            si = GZ.aptidao([(lon, lat)])
+        except FileNotFoundError:  # pacote de entrega: sem os rasters do GAEZ (2,3 GB); o cache já traz os 1.794 municípios
+            return {}
         _grava_cache("cache_gaez_v3.json", chave, {f"{c}|{i}": v[0] for (c, i), v in si.items()})
     return {tuple(k.split("|")): v for k, v in cache[chave].items()}
 
