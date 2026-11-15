@@ -11,10 +11,13 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-# No pacote de entrega (site-versao-final/ferramentas/montar_entrega.py), os dados de execucao vao em <pacote>/dados, ao lado
-# de scripts/: a raiz passa a ser o proprio pacote. No repositorio de trabalho nao existe essa pasta e vale o E:.
+# Na maquina de trabalho valem os dados completos do E: (~11 GB). Em qualquer outra (clone do GitHub ou pacote de entrega),
+# valem os dados de execucao que vem em <raiz>/dados, ao lado de scripts/ (site-versao-final/ferramentas/montar_entrega.py).
+# QUADRA_DADOS=local forca os locais tambem aqui, para testar o clone e o pacote.
 _LOCAL = Path(__file__).resolve().parents[1]
-RAIZ = _LOCAL if (_LOCAL / "dados").is_dir() else Path("E:/campeonato-nasa")
+_E = Path("E:/campeonato-nasa")
+_USA_LOCAL = (_LOCAL / "dados").is_dir() and (os.environ.get("QUADRA_DADOS") == "local" or not (_E / "dados").is_dir())
+RAIZ = _LOCAL if _USA_LOCAL else _E
 DADOS = RAIZ / "dados"
 DERIV = DADOS / "derivados"      # series/tabelas tratadas para cruzar bases
 REF = DADOS / "referencia"        # limites (IBGE, Natural Earth)

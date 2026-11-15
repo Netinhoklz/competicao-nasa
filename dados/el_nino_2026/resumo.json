@@ -1,0 +1,88 @@
+{
+ "ONI_ultimo": [
+  "2026-09",
+  2.46
+ ],
+ "TNA_ultimo": [
+  "2026-09",
+  0.64
+ ],
+ "TSA_ultimo": [
+  "2026-09",
+  0.57
+ ],
+ "eventos_fortes": [
+  {
+   "data": 1957,
+   "ONI_OND_NDJ": 1.62,
+   "quadra_afetada": 1958,
+   "categoria": "forte",
+   "dipolo_FMA_quadra": 1.46
+  },
+  {
+   "data": 1965,
+   "ONI_OND_NDJ": 1.82,
+   "quadra_afetada": 1966,
+   "categoria": "forte",
+   "dipolo_FMA_quadra": 0.79
+  },
+  {
+   "data": 1972,
+   "ONI_OND_NDJ": 1.84,
+   "quadra_afetada": 1973,
+   "categoria": "forte",
+   "dipolo_FMA_quadra": -0.82
+  },
+  {
+   "data": 1982,
+   "ONI_OND_NDJ": 2.12,
+   "quadra_afetada": 1983,
+   "categoria": "muito forte",
+   "dipolo_FMA_quadra": 0.44
+  },
+  {
+   "data": 1997,
+   "ONI_OND_NDJ": 2.37,
+   "quadra_afetada": 1998,
+   "categoria": "muito forte",
+   "dipolo_FMA_quadra": 0.19
+  },
+  {
+   "data": 2009,
+   "ONI_OND_NDJ": 1.5,
+   "quadra_afetada": 2010,
+   "categoria": "moderado",
+   "dipolo_FMA_quadra": 0.65
+  },
+  {
+   "data": 2015,
+   "ONI_OND_NDJ": 2.59,
+   "quadra_afetada": 2016,
+   "categoria": "muito forte",
+   "dipolo_FMA_quadra": 0.01
+  },
+  {
+   "data": 2023,
+   "ONI_OND_NDJ": 1.99,
+   "quadra_afetada": 2024,
+   "categoria": "forte",
+   "dipolo_FMA_quadra": 0.07
+  }
+ ],
+ "grace": {
+  "GRACE_CE_2015": -16.7,
+  "GRACE_CE_2023": -3.5,
+  "GRACE_CE_2026": -9.7,
+  "GRACE_NE_2015": -16.9,
+  "GRACE_NE_2023": -2.0,
+  "GRACE_NE_2026": -7.2
+ },
+ "ndvi": {
+  "NDVI_CE_2015": 0.344,
+  "NDVI_CE_2023": 0.399,
+  "NDVI_CE_2026": 0.403,
+  "NDVI_CE_climatologia": 0.393
+ },
+ "smap_data_final": "2026-11-10",
+ "imerg_data_final": "2026-11-13"
+}

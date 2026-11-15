@@ -1,0 +1,33 @@
+ponto,lat,lon,grupo,artigos,chuva_anual_mm,sazonalidade_walsh,meses_umidos,aridez_P_ET0,tmax_estacao_umida,tmax_mes_mais_quente,et0_anual_mm,altitude_m
+Petrolina-PE,-9.39,-40.5,Nordeste (artigos),"Souza 2011; Souza 2015 (milho-caupi, Kc)",429.0,0.71,0,0.18,35.8,35.8,2382.0,446.0
+Serra Talhada-PE,-7.99,-38.3,Nordeste (artigos),Diniz 2017; Lima 2018 (palma-sorgo),670.0,0.6,4,0.31,32.7,36.6,2169.0,540.0
+Esperança-PB (Agreste),-7.02,-35.86,Nordeste (artigos),Pérez-Marin 2006 (gliricídia),932.0,0.51,7,0.53,30.1,34.2,1744.0,280.0
+Sobral-CE,-3.69,-40.35,Nordeste (artigos),Sacramento 2013 (carbono do solo medido: agrossilvipastoril × broca e queima),958.0,0.94,5,0.49,30.9,38.1,1962.0,191.0
+Teresina-PI,-5.09,-42.8,Nordeste (artigos),Santos 2026 (caupi sob déficit),1201.0,0.86,5,0.67,30.5,38.1,1806.0,136.0
+"Cerrado piauiense (Bom Jesus-PI, aprox.)",-9.07,-44.36,Nordeste (artigos),"Pacheco 2011/2013/2017 (coberturas, MATOPIBA)",806.0,0.77,5,0.36,32.2,37.2,2219.0,440.0
+"Zona sudano-saheliana (Niamey, aprox.)",13.51,2.11,África (Franke 2018),Franke 2018 (zona sudano-saheliana),546.0,1.14,3,0.21,32.7,41.1,2647.0,242.0
+"Savana da Guiné (Tamale, aprox.)",9.4,-0.85,África (Franke 2018),Franke 2018 (savana da Guiné),1074.0,0.7,6,0.61,31.1,37.1,1760.0,158.0
+"África Austral (Chitedze-Malawi, aprox.)",-13.97,33.65,África (Franke 2018),Franke 2018 (África Austral); Mudare 2022,1047.0,1.08,4,0.66,26.2,31.5,1580.0,1168.0
+"África Austral (Harare, aprox.)",-17.83,31.05,África (Franke 2018),Franke 2018 (África Austral),789.0,0.93,5,0.47,27.9,30.8,1693.0,1433.0
+"Planalto da África Oriental (Embu, aprox.)",-0.53,37.45,África (Franke 2018),Franke 2018 (planalto da África Oriental),978.0,0.44,9,0.68,27.1,29.6,1443.0,1439.0
+"Floresta úmida da África Ocidental (Ibadan, aprox.)",7.38,3.93,África (Franke 2018),Franke 2018 (floresta úmida),1673.0,0.63,9,1.42,29.0,31.2,1177.0,189.0
+"Semiárido da Índia (Patancheru, aprox.)",17.51,78.27,Ásia,"referência de semiárido tropical (sorgo, milheto, caupi)",815.0,0.91,5,0.43,30.2,39.5,1904.0,565.0
+Iowa (Ames),42.03,-93.62,"EUA/Canadá/Europa/China (Kluger, Bowles)",Kluger 2025; Bowles 2020; CDL,866.0,0.44,12,0.97,15.5,29.8,892.0,310.0
+Kansas sudoeste,37.6,-100.9,"EUA/Canadá/Europa/China (Kluger, Bowles)",Kluger 2025; CDL (Ogallala),550.0,0.52,1,0.36,8.5,35.0,1549.0,851.0
+Texas (Lubbock),33.6,-101.85,"EUA/Canadá/Europa/China (Kluger, Bowles)",CDL: algodão contínuo semiárido,488.0,0.43,0,0.27,34.9,34.9,1793.0,977.0
+Ontário (Elora),43.64,-80.41,"EUA/Canadá/Europa/China (Kluger, Bowles)",Renwick 2021 (rotação e seca),762.0,0.14,12,1.06,12.7,27.3,719.0,358.0
+"França (Beauce, aprox.)",48.2,1.8,"EUA/Canadá/Europa/China (Kluger, Bowles)",Kluger 2025,665.0,0.12,11,1.01,15.4,25.5,658.0,122.0
+"Nordeste da China (Harbin, aprox.)",45.75,126.65,"EUA/Canadá/Europa/China (Kluger, Bowles)",Kluger 2025,577.0,0.82,8,0.74,8.6,28.5,774.0,139.0
+Planície do Norte da China (aprox.),36.2,116.9,"EUA/Canadá/Europa/China (Kluger, Bowles)",Yang 2024,774.0,0.77,5,0.76,27.3,33.1,1014.0,119.0
+CE: Quixadá (Sertão Central),-4.97,-39.02,Ceará (alvo),,779.0,0.79,5,0.35,32.6,38.3,2211.0,155.0
+CE: Tauá (Inhamuns),-6.0,-40.29,Ceará (alvo),,693.0,0.85,5,0.32,30.7,36.6,2171.0,461.0
+CE: Crateús,-5.18,-40.67,Ceará (alvo),,742.0,0.91,5,0.34,31.4,37.4,2201.0,390.0
+CE: Iguatu (Centro-Sul),-6.36,-39.3,Ceará (alvo),,756.0,0.85,5,0.33,31.8,38.0,2273.0,296.0
+CE: Juazeiro do Norte (Cariri),-7.21,-39.32,Ceará (alvo),,901.0,0.84,5,0.43,30.6,37.0,2088.0,461.0
+CE: Limoeiro do Norte (Jaguaribe),-5.15,-38.1,Ceará (alvo),,713.0,0.83,4,0.3,32.7,38.2,2363.0,84.0
+CE: Sobral (Norte),-3.69,-40.35,Ceará (alvo),,958.0,0.94,5,0.49,30.9,38.1,1962.0,191.0
+CE: Tianguá (Ibiapaba),-3.73,-40.99,Ceará (alvo),,1108.0,0.89,5,0.58,30.1,36.8,1926.0,278.0
+CE: Itapipoca (Litoral Oeste),-3.49,-39.58,Ceará (alvo),,950.0,0.9,5,0.49,30.3,34.6,1932.0,111.0
+CE: Fortaleza (Litoral),-3.73,-38.53,Ceará (alvo),,1083.0,0.83,6,0.58,29.0,30.4,1864.0,21.0
+CE: Russas (Baixo Jaguaribe),-4.94,-37.98,Ceará (alvo),,713.0,0.83,4,0.3,32.7,38.2,2363.0,84.0
+CE: Baturité (serra úmida),-4.33,-38.88,Ceará (alvo),,943.0,0.78,6,0.47,31.5,37.3,2004.0,162.0

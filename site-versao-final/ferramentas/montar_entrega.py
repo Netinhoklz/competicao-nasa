@@ -8,14 +8,16 @@ O que entra (o mínimo para rodar e analisar):
   scripts/                     os 3 módulos que o núcleo importa (comum, analogos_climaticos_artigos, gaez_zarc_municipio)
   pesquisa/                    o catálogo de rotações (JSON que o núcleo lê e o .md para quem analisa)
   dados/                       só os arquivos que o núcleo lê ao rodar (~70 MB dos ~11 GB do E:/campeonato-nasa/dados)
-  app.py                       a partida (python app.py), cópia do app.py da raiz do repositório
-  requirements.txt, README.md  a documentação: como instalar, dar a partida, como funciona e o que fazer se algo falhar
+  app.py, requirements.txt     a partida (python app.py) e os pacotes, cópias dos arquivos da raiz do repositório
+  README.md                    a documentação: como instalar, dar a partida, como funciona e o que fazer se algo falhar
 
 O que não entra e por quê:
   - os rasters do GAEZ (2,3 GB): o cache do GAEZ vai aquecido com o ponto interno dos 1.794 municípios (o site só pede por
     município); fora deles o núcleo responde "sem camada" (motor.aptidao);
   - a série diária do SMAP (584 MB): vai a janela de 30 dias já calculada (motor._prepara_smap usa o cache quando a fonte falta).
-O scripts/comum.py acha <pacote>/dados sozinho (a raiz vira o pacote quando a pasta dados/ existe ao lado de scripts/).
+O scripts/comum.py acha <pacote>/dados sozinho: fora da máquina de trabalho (sem o E:/campeonato-nasa/dados), a raiz vira a pasta
+que tem dados/ ao lado de scripts/. O mesmo dados/ é gravado na raiz do repositório, para o clone do GitHub rodar sem o E:.
+Para testar o pacote ou o clone nesta máquina: QUADRA_DADOS=local.
 """
 import json
 import math
@@ -46,19 +48,6 @@ ARQUIVOS = [
 ]
 MODULOS = ["comum.py", "analogos_climaticos_artigos.py", "gaez_zarc_municipio.py"]
 PESQUISA = ["catalogo_rotacoes.json", "catalogo_rotacoes_comprovadas.md"]
-
-REQUISITOS = """# QUADRA: o que o servidor precisa (testado com Python 3.13 no Windows)
-numpy==2.5.4
-pandas==3.1.1
-geopandas==1.2.0
-shapely==2.2.0
-pyproj==3.8.0
-pyogrio==0.13.0
-xarray==2026.9.0
-netCDF4
-rasterio==1.5.2
-requests==2.34.2
-"""
 
 LEIAME = """# QUADRA: delivery package (pacote de entrega)
 
@@ -207,20 +196,26 @@ def cache_gaez():
     return cache, len(faltam)
 
 
+def dados_de_execucao(destino, cache):
+    """Os arquivos que o núcleo lê ao rodar, mais o cache do GAEZ aquecido."""
+    for a in ARQUIVOS:
+        copiar(DADOS / a, destino / a)
+    (destino / "prototipo" / "cache_gaez_v3.json").write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+
+
 def main():
+    cache, novos = cache_gaez()
+    dados_de_execucao(PROJ / "dados", cache)  # o dados/ da raiz do repositório: é com ele que o clone do GitHub roda
     DEST.mkdir(parents=True, exist_ok=True)
     shutil.copytree(SITE, DEST / "site-versao-final", dirs_exist_ok=True,
                     ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.bak"))
     copiar(PROJ / "app.py", DEST / "app.py")  # a partida: python app.py
+    copiar(PROJ / "requirements.txt", DEST / "requirements.txt")
     for m in MODULOS:
         copiar(PROJ / "scripts" / m, DEST / "scripts" / m)
     for p in PESQUISA:
         copiar(PROJ / "pesquisa" / p, DEST / "pesquisa" / p)
-    for a in ARQUIVOS:
-        copiar(DADOS / a, DEST / "dados" / a)
-    cache, novos = cache_gaez()
-    (DEST / "dados" / "prototipo" / "cache_gaez_v3.json").write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
-    (DEST / "requirements.txt").write_text(REQUISITOS, encoding="utf-8", newline="\n")
+    dados_de_execucao(DEST / "dados", cache)
     (DEST / "README.md").write_text(LEIAME, encoding="utf-8", newline="\n")
     tam = sum(f.stat().st_size for f in DEST.rglob("*") if f.is_file())
     print(f"pacote em {DEST}: {sum(1 for f in DEST.rglob('*') if f.is_file())} arquivos, {tam / 1e6:.0f} MB; "

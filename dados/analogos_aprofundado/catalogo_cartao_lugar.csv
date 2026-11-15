@@ -1,0 +1,148 @@
+id,lugar
+ne_s0_para_rotacao_tempo,
+ne_lg_cereal_sequeiro_quente,
+zhao_leg_global,
+zhao_leg_milho,
+zhao_leg_sorgo,
+zhao_caupi,
+mudare_caupi_milho,
+franke_caupi_cereal,
+mudare_caupi_milheto,
+zhao_amendoim,
+franke_amendoim_cereal,
+mudare_amendoim_milho_ns,
+zhao_feijao_comum,
+zhao_soja,
+mudare_soja_milho_sorgo,
+franke_soja_cereal,
+zhao_guandu,
+zhao_leg_algodao_nulo,
+mudare_rotacao_geral,
+mudare_africa_leg_naoleg,
+mudare_classes_chuva,
+mudare_moduladores_agua_solo,
+franke_global,
+franke_sahel,"Sahel (Niamey, aprox.)"
+franke_guine,"Savana da Guiné (Tamale, aprox.)"
+franke_austral,"África Austral (Harare, aprox.)"
+franke_por_cereal,
+franke_dose_n_ciclo,
+mudare_pousio_milho,
+mudare_sorgo_milho,
+mudare_algodao_milho,
+mudare_sequencia_inteira,
+mudare_neg_cereal_para_leg_cereal,
+mudare_neg_sorgo_para_milho_sorgo,
+mudare_neg_trigo_europa,"Europa temperada (Beauce, aprox.)"
+mudare_ganha_ganha,
+mudare_economia_n,
+mudare_estabilidade_lncv,
+mudare_mistura_forrageira,
+mudare_naoleg_grupos_cereal,
+rusinamhodzi_pd_rotacao,
+yang_nao_cereal_trigo_milho,Luancheng-China
+yang_comparador_cereal,Luancheng-China
+kluger_soja_milho,"Corn Belt (Ames, aprox.)"
+kluger_milho_soja,"Corn Belt (Ames, aprox.)"
+seifert_soja_continua,"Corn Belt (Ames, aprox.)"
+seifert_milho_continuo,"Corn Belt (Ames, aprox.)"
+beal_cohen_milho_satelite,"Corn Belt (Ames, aprox.)"
+kluger_leg_trigo_primavera,"Pradarias (Regina, aprox.)"
+kluger_pousio_trigo,"Pradarias (Regina, aprox.)"
+kluger_neg_soja_trigo_inverno,"Corn Belt (Ames, aprox.)"
+kluger_outros_pares_temperados,"Corn Belt (Ames, aprox.)"
+zhou_corn_belt,"Corn Belt (Ames, aprox.)"
+bowles_media,
+bowles_seca,
+bowles_akron_pousio,Akron-EUA
+bowles_pior_ambiente,Elora-Ontário
+bowles_tendencia_risco,
+renwick_seca_imposta,Elora-Ontário
+gaudin_elora,Elora-Ontário
+smith_milho_diversidade,
+smith_graos_pequenos,"Europa temperada (Beauce, aprox.)"
+marini_europa,"Europa temperada (Beauce, aprox.)"
+pacheco17_soja_milho_nulo,Bom Jesus-PI
+neves_sucessao_sal,Pentecoste-CE
+zhao_adubo_verde_milho,
+mudare_crotalaria_mucuna_milho,
+luz_crotalaria_fp_60d_milho,Arapiraca-AL
+luz_guandu_lablab_milheto_nulo,Arapiraca-AL
+luz_economia_semente,Arapiraca-AL
+luz_solo_cot_p,Arapiraca-AL
+souza24_fp_milho_verde,Arapiraca-AL
+nascimento_cobertura_caupi_nulo,Crato-CE
+andneto_adubo_verde_sorgo,Mossoró-RN
+miranda_fotoperiodo,Mossoró-RN
+montenegro_palhada_barreira,Pesqueira-PE
+melo_fitomassa_leguminosas,Alagoinha-PB
+pacheco17_soja_apos_braquiaria,Bom Jesus-PI
+pacheco13_sobressemeadura_massa,Bom Jesus-PI
+pacheco13_milheto_pos_colheita_falha,Bom Jesus-PI
+pacheco13_milheto_pre_safra_nulo,Bom Jesus-PI
+pacheco11_milheto_arroz,Rio Verde-GO
+andrade25_entressafra_soja,Brejo-MA
+silva22_laminas_massa,Planaltina-DF
+palhada_meia_vida,Bom Jesus-PI
+gaudin_trevo_revezamento,Elora-Ontário
+king_blesh_carbono,
+mudare22_milho_caupi,
+mudare22_milho_feijao,
+mudare22_milho_amendoim,
+mudare22_milho_soja,
+mudare22_arranjos,
+souza11_milho_caupi_laminas,Petrolina-PE
+souza15_kc_consorcio,Petrolina-PE
+limafilho_milho_caupi,Petrolina-PE
+melo_relay_mucuna,Alagoinha-PB
+melo_fava_mucuna,Alagoinha-PB
+melo_guandu_mesmo_dia,Alagoinha-PB
+diniz_palma_sorgo_ler,Serra Talhada-PE
+lima18a_palma_sorgo_aguas,Serra Talhada-PE
+lima18a_palma_sorgo_bc,Serra Talhada-PE
+lima18b_palma_sorgo_eua,Serra Talhada-PE
+jardim_clones_palma,Serra Talhada-PE
+perez_aleia_gliricidia_grao,Esperança-PB
+perez_aleia_servicos,Esperança-PB
+martins_aleia_milho_caupi,Taperoá-PB
+martins_gliricidia_forrageira,Taperoá-PB
+sacramento_agrossilvi,Sobral-CE
+sacramento_silvipastoril,Sobral-CE
+primo_century,
+pinheiro_manejo_caatinga,
+pinheiro_cobertura_morta,
+menezes_arvores_pasto,
+zonta_ilp_lanco,Lagoa Seca-PB
+zonta_ilp_capins_vigorosos,Lagoa Seca-PB
+zonta_ilp_entrelinha_seco,Lagoa Seca-PB
+rasmussen_gado,
+vazio_algodao_oeste_ba,Oeste da Bahia (aprox.)
+plano_goias_soqueira,Goiás (aprox.)
+destruicao_restos_soqueira_isca,
+consorcio_algodao_milho_nulo,
+epoca_semeadura_algodao,
+hospedeiro_bicudo_adulto,
+faustino_gotejo_aspersao,Barbalha-CE
+catacao_poda_tubos_isca,
+mip_rotacao_ms,Mato Grosso do Sul (aprox.)
+mattos_consorcio_algodao_faixas,
+moco_perene_sem_vazio,
+nematoides_amendoim_caupi,
+striga_principio,Manica-Moçambique
+push_pull_lagarta,"África Oriental seca (Machakos, aprox.)"
+abobora_lagarta,"África Austral (Harare, aprox.)"
+palhada_paisagem_lagarta,
+percolacao_ponte_verde,
+mod_n_fertilizante,
+mod_diversidade_controle,
+mod_produtividade,
+mod_regiao,
+mod_aridez_relativo,
+mod_temperatura,
+mod_chuva_estacao,"Corn Belt (Ames, aprox.)"
+mod_retornos_decrescentes,"Corn Belt (Ames, aprox.)"
+mod_maclaren_n_leguminosa,
+mod_raveloaritiana,
+mod_rasmussen_temporal,
+mod_beillouin,
+mod_rusinamhodzi_ac,
