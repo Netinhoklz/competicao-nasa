@@ -2,6 +2,8 @@
 python cdp_print.py saida.png largura "hash" [espera_s] [tema]"""
 import base64
 import json
+import os
+import random
 import subprocess
 import sys
 import time
@@ -9,12 +11,13 @@ import urllib.request
 
 import websocket
 
+import shutil
 import tempfile
-D = tempfile.gettempdir()  # perfil temporário do Edge
+D = os.environ.get("QUADRA_PERFIS", "E:/campeonato-nasa/tmp/edge_perfis")  # perfis do Edge no E: (o C: vive cheio)
+os.makedirs(D, exist_ok=True)
 saida, larg, hash_ = sys.argv[1], int(sys.argv[2]), sys.argv[3]
 espera = float(sys.argv[4]) if len(sys.argv) > 4 else 8
 tema = sys.argv[5] if len(sys.argv) > 5 else None
-import os, random
 PORTA = random.randint(9400, 9900)
 PERFIL = f"{D}/edge_cdp_{os.getpid()}"
 edge = subprocess.Popen([r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe", "--headless=new", "--disable-gpu",
@@ -61,3 +64,8 @@ try:
     print("ok", saida)
 finally:
     edge.terminate()
+    try:
+        edge.wait(timeout=10)
+    except Exception:
+        pass
+    shutil.rmtree(PERFIL, ignore_errors=True)  # o perfil do Edge (~65 MB) não fica para trás

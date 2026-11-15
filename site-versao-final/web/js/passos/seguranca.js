@@ -2,6 +2,13 @@
 // em anos parecidos (2027 com o El Niño medido; 2028–29 só com o clima). Método: analise/projecao.md ("C + D + conforme");
 // dados: ctx.r.projecao (dados/projecao_mun.json), ctx.r.financeiro (dados/financeiro_mun.json); acerto: dados/projecao_metricas.txt.
 import { leque, legendaLeque, eixoBom, anosParecidos, quadro28 } from "./seguranca/graficos.js";
+import { termo } from "../extras/glossario.js";
+import { olho, OLHOS } from "../extras/voce_decide.js";
+import { ufDe } from "../comum.js";
+import { CONAB_FAMILIAR_KG_HA } from "./dinheiro/calculo.js";
+// Extras (js/extras/, montados por U.montarExtras): "Leve para o técnico" logo depois dos portões, "E se chover…" (controle de 50% a 150% da
+// chuva) depois dele e a sobreposição chuva × solo × colheita no ver mais do "E se chover…". "Seu olho" (ponto 16) nos anos parecidos e nos
+// portões; onde o IBGE mistura lavoura grande, o mesmo aviso do passo 4 vem antes dos cartões das culturas.
 
 const SERIE = [["Milho", /^milho/i, "cereal"], ["Feijão", /^feij/i, "leguminosa"], ["Mandioca", /^mandioca/i, "tampão"]];
 const serieDe = (nome) => (SERIE.find(([, re]) => re.test(nome || "")) || [null])[0];
@@ -17,6 +24,11 @@ const CALIB = {
   wf_media: 0.793, wf_pior: 0.622, wf_en_cob: 0.675, wf_en_piso: 0.843, wf_en_prev: 0.34, wf_en_obs: 0.25,
   milho: [["2010", 0.57, 0.38], ["2016", 0.42, 0.49], ["2024", 0.48, 0.11]], // WF, milho, quebra prevista × observada
 };
+// Os 7 jeitos testados (analise/projecao.md, seção 3, linha "WF, todos · média por ano"; milho: linha "WF, milho · cobertura").
+const METODOS = [
+  ["F", "região + El Niño, alargado pelo teste (o escolhido)", 78], ["C", "município puxado para a região", 69], ["A", "só o município", 67],
+  ["D", "só os anos de El Niño", 65], ["B", "tirando a tendência", 61], ["D2", "El Niño + tendência", 60], ["E", "regressão por quantis, tudo junto", 56],
+];
 // Portões (analise/projecao.md, seção 4 e achados; portoes_precos.py): milho no semiárido de CE, RN, PB, PI e PE, 1998–2025,
 // razão ao normal do município por classe da chuva IMERG desde 1/fev (meses inteiros: fev–mar ≈ 19/mar, fev–abr ≈ 30/abr).
 const PORTOES = {
@@ -129,7 +141,7 @@ function cultura(r, ef, c) {
     const pr = fin.precos_raiz[ef.raiz] ?? fin.precos_raiz[fin.precos_raiz.padrao];
     if (pr > 0) {
       fator = pr / p.preco_r2025_kg;
-      precoTxt = { preco: pr, origem: { municipio: "o preço daqui", uf_mediana: `a mediana do ${r.local.uf}`, uf_p25: `o preço baixo do ${r.local.uf}` }[ef.raiz] || "a referência" };
+      precoTxt = { preco: pr, origem: { municipio: "o preço daqui", uf_mediana: `a mediana ${ufDe(r.local.uf)}`, uf_p25: `o preço baixo ${ufDe(r.local.uf)}` }[ef.raiz] || "a referência" };
     }
   }
   const custo = p.custo_r2025_ha || fin?.culturas?.[c]?.custo_ha || {};
@@ -175,18 +187,9 @@ function abertura(U, r, dados) {
 
 function blocoHoje(U, r) {
   const e = r.este_ano || {}, u = r.el_nino_uf, pm = perspectiva(e.perspectiva);
-  const inds = [U.ind({ icone: "onda", rot: "O mar", val: `${e.oni > 0 ? "+" : ""}${U.num(e.oni, 2)}`,
-    sub: "mais quente que qualquer ago–out já medido", selo: U.selo("medido", e.texto_oni || "NOAA ONI") })];
-  if (u && u.media != null) {
-    inds.push(U.ind({ icone: "chuva", rot: `No ${u.uf}`, val: `${U.num(u.media / 10)} em 10`,
-      sub: `municípios com estação seca nos anos de mar assim (o acaso daria ${U.num((u.acaso_pct ?? 33) / 10)})`, selo: U.selo("medido", u.definicao || "") }));
-  }
-  if (pm) {
-    inds.push(U.ind({ icone: "pino", rot: "Aqui", val: `${pm.secos} de ${pm.n}`, sub: "anos de mar assim com estação seca aqui",
-      selo: U.selo("medido", e.perspectiva) }));
-  } else if (e.smap?.status === "ok") {
-    inds.push(U.ind({ icone: "solo", rot: "O solo agora", val: `${e.smap.posto} de ${e.smap.anos}`, sub: U.esc(e.smap.classe), selo: U.selo("medido", e.smap.texto) }));
-  }
+  // o mar e o estado já estão no passo 1: aqui fica só o que é deste município
+  const aqui = pm ? [`Aqui, <b>${pm.secos} de ${pm.n}</b> anos de mar assim trouxeram estação seca.`, e.perspectiva]
+    : e.smap?.status === "ok" ? [`O solo agora está <b>${U.esc(e.smap.classe)}</b>.`, e.smap.texto] : null;
   const reg = e.regime;
   const naoSabe = [reg && reg.quadra === false ? `a chuva da estação (${reg.estacao})` : "o Atlântico de fev–abr", "quanto vai chover em 2027", "o preço da colheita"];
   const ufAnos = u?.pct_terco_seco ? (u.anos || Object.keys(u.pct_terco_seco)).map((a) => {
@@ -194,12 +197,12 @@ function blocoHoje(U, r) {
     return `${a}: ${v == null ? "sem dado (o satélite começa em jan/1998)" : `${U.num(v / 10)} em 10`}`;
   }).join(" · ") : "";
   return `<section class="seg-bloco">
-    <p class="kicker">Hoje</p>
-    <div class="grade-3 seg-hoje">${inds.join("")}</div>
+    <p class="kicker">Hoje${aqui ? U.selo("medido", aqui[1] || "") : ""}</p>
+    ${aqui ? U.faixa("pino", pm && pm.secos * 2 > pm.n ? "ambar" : "azul", aqui[0]) : ""}
     <div class="seg-naosabe"><span class="sub">Ainda não sabemos:</span>${naoSabe.map((t) => `<span class="chip">${U.ic("interrog")}${U.esc(t)}</span>`).join("")}</div>
     ${U.verMais(`<ul class="seg-lista">
       <li><b>O mar:</b> ${U.esc(e.texto_oni || "")}</li>
-      ${u ? `<li><b>No ${U.esc(u.uf)}, por ano:</b> ${U.esc(ufAnos)}. ${U.esc(u.definicao || "")}</li>` : ""}
+      ${u ? `<li><b>Nos municípios ${U.esc(ufDe(u.uf))}, por ano:</b> ${U.esc(ufAnos)}. ${U.esc(u.definicao || "")}</li>` : ""}
       ${e.perspectiva ? `<li><b>Aqui:</b> ${U.esc(e.perspectiva)}</li>` : ""}
       ${e.smap?.status === "ok" ? `<li><b>O solo agora:</b> ${U.esc(e.smap.texto)}</li>` : ""}
       ${e.chuva_recente ? `<li><b>A chuva recente:</b> ${U.esc(e.chuva_recente)}</li>` : ""}
@@ -282,8 +285,7 @@ function cartaoCultura(U, r, ef, d, cics) {
     <div class="seg-cult-pe">
       <div class="seg-pe-medido"><div class="seg-pe-rot">Aqui, nos anos de mar assim ${U.selo("medido", "IBGE PAM, rendimento por ha plantado nos anos de El Niño forte")}</div>
         ${anosParecidos(d.medido, d.normal, UN[k])}<div class="seg-pe-leg"><i></i>normal ${fmtUn(U, d.normal)} ${U.esc(UN[k])}<b></b>quebra (menos da metade)</div></div>
-      ${pg != null ? `<div class="seg-pe-rs">${U.ic("dinheiro", "g")}<p><b>2027:</b> ${fraseNaoPaga(pg, usaDes ? "o custo todo" : "a semente")}
-        ${U.selo("projecao", `valor = colheita × R$ ${U.num(d.preco, 2)}/kg; custo CONAB`)}</p></div>` : ""}
+      ${pg != null ? `<div class="seg-pe-rs" title="${U.esc(`valor = colheita × R$ ${U.num(d.preco, 2)}/kg; custo CONAB`)}">${U.ic("dinheiro", "g")}<p><b>2027:</b> ${fraseNaoPaga(pg, usaDes ? "o custo todo" : "a semente")}</p></div>` : ""}
     </div>
     ${detalheCultura(U, r, ef, d, cics, eixoCultura(d))}
   </section>`;
@@ -315,7 +317,7 @@ function blocoQuadro(U, r, ef, culturas) {
       ${quadro28(h.anos, R, h["origem_" + c], custo, fortes)}</div>`;
   });
   if (!linhas.length) return "";
-  return `<section class="painel seg-quadro-cartao">
+  return `<div class="seg-quadro-cartao">
     <p class="kicker">28 anos que já aconteceram aqui ${U.selo("medido", `${f.base || "IBGE PAM 1998–2025; CONAB"} · ${f.moeda || "R$ de 2025"}`)}</p>
     <div class="seg-legenda-q"><span><i class="q-verde"></i>pagou o custo todo</span><span><i class="q-ambar"></i>só a semente</span>
       <span><i class="q-vermelho"></i>nem a semente</span><span><i class="q-forte-sw"></i>mar quente</span></div>
@@ -323,33 +325,52 @@ function blocoQuadro(U, r, ef, culturas) {
     ${U.verMais(`<p>Valor da colheita de 1 ha (vender ou comer, a preço da região, R$ de 2025) contra o custo da CONAB
       (${U.esc(f.culturas?.Milho?.custo_ha?.origem || "custos do NE")}). Anos de mar quente (El Niño forte): ${fortes.join(", ")}.
       É o que já aconteceu, não uma previsão.</p>${notas.length ? `<ul class="seg-lista">${notas.map((n) => `<li>${U.esc(n)}</li>`).join("")}</ul>` : ""}`)}
-  </section>`;
+  </div>`;
 }
 
 function blocoPortoes(U, r, dados) {
   const ag = r.agenda || {}, m = dados.Milho;
   const vale = ag.portoes !== false; // fora do sertão: em fração do normal, sem virar sacos do município
-  const cards = PORTOES.linhas.map((l) => `<div class="painel ${l.cor} seg-portao">
-      <div class="seg-portao-cab">${U.ic("chuva", "g")}<div><b>${l.nome}</b><span>${l.faixa} desde 1/fev</span></div></div>
-      <div class="seg-portao-num">${freq(l.q_abr)}<small>quebram</small></div>
-      ${U.dezRocas(l.q_abr, l.cq, "roças de milho quebram")}
-      <div class="seg-portao-tip">milho típico${vale ? "" : " no sertão"}: <b>${vale && m ? `${fmtUn(U, l.p50 * m.normal)} sacos/ha` : `${U.num(l.p50 * 100)}% do normal`}</b></div>
-    </div>`).join("");
+  const cab = vale
+    ? `<p class="kicker">O que vamos olhar ${U.selo("medido", PORTOES.fonte)}</p>
+      <h2 class="seg-h2">Vamos olhar de novo em <b>19/mar</b> e <b>30/abr</b>.</h2>
+      <p class="sub seg-apoio">A chuva que cair desde 1º de fevereiro diz qual ano é este.</p>`
+    : `<p class="kicker">O que vamos olhar ${U.selo("suposicao", ag.nota_portoes || "as datas de troca foram medidas só no sertão de CE, RN, PB, PI e PE")}</p>
+      <h2 class="seg-h2">Aqui, a data de olhar de novo ainda não foi medida.</h2>`;
   return `<section class="seg-bloco">
-    <p class="kicker">O que vamos olhar ${U.selo("medido", PORTOES.fonte)}</p>
-    <h2 class="seg-h2">Vamos olhar de novo em <b>19/mar</b> e <b>30/abr</b>.</h2>
-    <p class="sub seg-apoio">A chuva que cair desde 1º de fevereiro diz qual ano é este.${vale ? "" : ` <span class="chip ambar">${U.ic("alerta")}aqui a estação é outra: datas ainda não medidas</span>`}</p>
-    <div class="grade-3">${cards}</div>
-    ${U.verMais(`<p>${U.esc(PORTOES.fonte)}. Quebra do milho em 30/abr (chuva de fev a abr): ${PORTOES.linhas.map((l) => `${l.nome.toLowerCase()} ${freq(l.q_abr)}`).join("; ")}.
+    ${cab}
+    ${olho(vale ? OLHOS.portoes : OLHOS.portoes_fora)}
+    ${U.verMais(`<p>${U.esc(PORTOES.fonte)}. Quebra do milho em 30/abr (chuva de fev a abr): ${PORTOES.linhas.map((l) => `${l.nome.toLowerCase()} ${freq(l.q_abr)}`).join("; ")};
+      milho típico: ${PORTOES.linhas.map((l) => `${l.nome.toLowerCase()} ${U.num(l.p50 * 100)}% do normal`).join("; ")}.
       Em 19/mar (chuva de fev a meados de mar) já se separa: ${PORTOES.linhas.map((l) => freq(l.q_mar)).join(", ")}. Hoje, só com o mar,
       ${m ? `a quebra do milho daqui é ${freq(m.anos["2027"]?.quebra)}` : "a conta é a do clima"}. No feijão, a quebra vai de 5 em 10 (chuva fraca) a menos de 1 em 10
       (chuva boa). Os portões são decêndios do ZARC; a conta usa meses inteiros (fev–mar e fev–abr), então é aproximação.
-      ${vale ? "No litoral leste o satélite capta pouca chuva: lá a tabela não vale." : U.esc(ag.nota_portoes || "")}</p>`)}
+      ${vale ? "No litoral leste o satélite capta pouca chuva: lá a tabela não vale." : U.esc(ag.nota_portoes || "")}</p>`, "Ver como medimos os portões")}
   </section>`;
 }
 
-function blocoLimites(U) {
+/** "E se chover…" (os 3 cartões fixos de chuva fraca, no meio e boa viraram este controle, com a mesma quebra) e, no ver mais, cada ano. */
+function blocoCenario(U, agro) {
+  return `<section class="seg-bloco">
+    ${U.extra("cenario_chuva", { partes: ["cenario"], agro })}
+    ${U.verMais(U.extra("cenario_chuva", { partes: ["sobreposicao"] }), "Ver a chuva, o solo e a colheita de cada ano")}
+  </section>`;
+}
+
+/** Os 7 jeitos testados, em barras de "acerto em 100" (ponto 4: comparar abordagens). */
+function metodos(U) {
+  return `<h4>Testamos 7 jeitos de ler o passado ${U.selo("medido", "analise/projecao.md, seção 3: teste só com o passado (walk-forward 2008–2025), 1.783 municípios; média por ano da cobertura da faixa de 8 em 10")}</h4>
+    <p>Ficou o que mais acertou. A regressão por quantis falhou no milho: 26 em 100.</p>
+    <div class="seg-metodos" role="list">${METODOS.map(([k, rot, v]) => `<div class="seg-met${k === "F" ? " on" : ""}" role="listitem">
+      <span class="seg-met-rot">${U.esc(rot)}</span><span class="seg-met-trilho"><i style="width:${v}%"></i><b class="seg-met-meta" title="meta: 80"></b></span>
+      <span class="seg-met-val">${v}</span></div>`).join("")}</div>
+    <p class="pequeno sub">Acerto em 100 casos: o ano real caiu dentro da faixa de 8 em 10 (meta: 80, o risco). Nesta 1ª rodada o escolhido deu 78;
+      refeito com a definição única de El Niño, deu ${U.num(CALIB.wf_media * 100)}.</p>`;
+}
+
+function blocoLimites(U, quadro) {
   return `<section class="seg-bloco seg-limites">
+    ${quadro ? U.verMais(quadro, "Ver os 28 anos, cultura por cultura") : ""}
     ${U.verMais(`<ul class="seg-lista">${NAO_PROJETA.map(([t, d]) => `<li><b>${U.esc(t)}</b>: ${U.esc(d)}</li>`).join("")}</ul>`, "Ver o que não dá para projetar")}
     ${U.verMais(`<p>Num teste feito só com o passado (cada ano de 2008 a 2025 projetado com os anos anteriores; milho, feijão e mandioca; municípios
       com 20 anos ou mais de série):</p>
@@ -362,30 +383,39 @@ function blocoLimites(U) {
       </ul>
       <p>Método "C + D + conforme": quantis do município encolhidos para a mesorregião (peso n/(n+10)); 2027 só com os anos de El Niño forte
       (ONI out–dez/nov–jan ≥ 1,5: 1998, 2010, 2016, 2024); depois o leque é alargado pelo que faltou no teste. Os fatores foram calibrados
-      nos mesmos dados, então o acerto real tende a ser um pouco menor. Fonte: ${U.esc(CALIB.fonte)}.</p>`, "Ver quanto este cálculo já acertou")}
+      nos mesmos dados, então o acerto real tende a ser um pouco menor. Fonte: ${U.esc(CALIB.fonte)}.</p>
+      ${metodos(U)}`, "Ver quanto este cálculo já acertou")}
   </section>`;
 }
 
 export default {
   id: "seguranca",
   titulo: "Segurança",
-  render(el, ctx) {
+  async render(el, ctx) {
     const U = ctx.util, r = ctx.r, ef = ctx.ef;
     const lista = ciclos(U, r);
     const nomes = new Set(lista.map((c) => serieDe(c.cultura)).filter(Boolean));
     const ordem = SERIE.map(([k]) => k).filter((k) => nomes.has(k));
     const dados = Object.fromEntries(ordem.map((k) => [k, cultura(r, ef, k)]).filter(([, d]) => d));
-    const cartoes = Object.values(dados).map((d) => cartaoCultura(U, r, ef, d, lista.filter((c) => serieDe(c.cultura) === d.c))).join("");
+    const cartoes = Object.values(dados).map((d) => cartaoCultura(U, r, ef, d, lista.filter((c) => serieDe(c.cultura) === d.c))).join("")
+      .replace(">em 8 de 10 anos parecidos<", `>${termo("em_dez", "em 8 de 10")} anos parecidos<`); // "o que é?" só na 1ª vez
+    // lavoura grande no IBGE (mesma regra do passo 4): os sacos/ha não são de roça de família
+    const agro = ["Milho", "Feijão", "Mandioca"].filter((c) => r.financeiro?.culturas?.[c]?.rend_mediano_kg_ha > 2 * CONAB_FAMILIAR_KG_HA[c]);
+    const avisoAgro = agro.length ? `<div class="painel alerta seg-agro">${U.faixa("alerta", "terra", "Aqui o IBGE mistura lavoura grande: os sacos/ha não são de roça de família.")}
+      ${olho(OLHOS.agro)}</div>` : "";
     el.innerHTML = `${abertura(U, r, dados)}
       ${blocoHoje(U, r)}
       <section class="seg-bloco">
         <p class="kicker">Cada cultura do plano</p>
+        ${avisoAgro}
         ${!r.plano ? `<p class="sub">Sem plano para este lugar.</p>` : !cartoes ? `<p class="sub">O IBGE não tem série suficiente deste município para projetar.</p>`
-          : `${reguaAnos(U, r, dados)}${cartoes}`}
+          : `${reguaAnos(U, r, dados)}${U.extra("historico", { modo: "memoria", linkPergunta: ctx.link(2) })}${cartoes}`}
         ${semSerie(U, lista)}
       </section>
-      ${blocoQuadro(U, r, ef, ordem.length ? ordem : ["Milho", "Feijão", "Mandioca"])}
       ${blocoPortoes(U, r, dados)}
-      ${blocoLimites(U)}`;
+      ${U.extra("leve_ao_tecnico")}
+      ${blocoCenario(U, agro.length > 0)}
+      ${blocoLimites(U, blocoQuadro(U, r, ef, ordem.length ? ordem : ["Milho", "Feijão", "Mandioca"]))}`;
+    await U.montarExtras(el, ctx);
   },
 };

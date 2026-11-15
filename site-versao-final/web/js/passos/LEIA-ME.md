@@ -28,11 +28,11 @@ mês do controle deslizante, aba) fica numa variável do módulo.
 | `ctx.r.projecao` | por município: contrato da seção 7 de `analise/projecao.md` (quantis por cultura e ano 2027/2028/2029, chance de quebra, anos parecidos medidos). Pode ser `null` |
 | `ctx.r.padroes` | padrões do Censo 2017 (`rocado_ha`, `pct_irrig`, …). Pode ser `null` |
 | `ctx.r.el_nino_uf` | manchete do estado: `{definicao, anos, acaso_pct, uf, pct_terco_seco: {ano: %}, media, n_mun}`. Pode ser `null` |
-| `ctx.ef` | respostas com os padrões aplicados: `terra` (nao_sei/arenosa/mista/barro), `ha`, `ha_origem`, `baixio` (nao_sei/nao/pouco/terco/metade), `tem_baixio` (true/false/null), `baixio_frac`, `baixio_ha`, `agua` (chuva/cisterna/barreiro/irriga), `vol_m3`, `maniva` (tem/nao/plantada), `criacao`, `prioridade` (garantir/equilibrar/vender), `prioridade_origem`, `gs`, `raiz` (municipio/uf_mediana/uf_p25), `custo` (semente/desembolso) |
+| `ctx.ef` | respostas com os padrões aplicados: `terra` (nao_sei/arenosa/mista/barro), `ha`, `ha_origem`, `baixio` (nao_sei/nao/pouco/terco/metade), `tem_baixio` (true/false/null), `baixio_frac`, `baixio_ha`, `agua` (chuva/cisterna/barreiro/irriga), `vol_m3`, `maniva` (tem/nao/plantada), `criacao`, `prioridade` (garantir/equilibrar/vender/solo), `prioridade_origem`, `gs`, `raiz` (municipio/uf_mediana/uf_p25), `custo` (semente/desembolso) |
 | `ctx.entrou` | true quando a pessoa acabou de chegar a este passo (ou mudou de município); false quando só mudou uma resposta |
 | `ctx.set(patch)` | muda respostas (chaves de `PADRAO` em roca.js; valores em texto) e redesenha; se a resposta muda o núcleo, busca de novo |
 | `ctx.ir(n)` / `ctx.link(n, patch)` | vai ao passo n / devolve o href do passo n |
-| `ctx.util` | `js/comum.js`: `esc, num, brl, brlMil, pct, emDez, selo(tipo, fonte), dataBR, mesAno, MESES, tipoCss, ha` |
+| `ctx.util` | `js/comum.js`: `esc, num, brl, brlMil, pct, emDez, selo(tipo, fonte), dataBR, mesAno, MESES, tipoCss, ha`, `extra`, `montarExtras` (seção "Extras") |
 
 ## Visual e texto (versão 2: para o agricultor, no estilo da tela inicial)
 
@@ -77,3 +77,44 @@ Tokens: `--bg --surface --surface-2 --surface-3 --ink --ink-2 --muted --ink-4 --
 - Todo número leva `ctx.util.selo("medido" | "suposicao" | "projecao", fonte)`.
 - Linguagem do agricultor (frases curtas, "em 7 de 10 anos"), com o detalhe técnico em `<details>`.
 - Funciona a 390 px de largura (rolagem horizontal só dentro de um gráfico, nunca da página).
+
+## Extras (js/extras/): blocos prontos dentro dos passos
+
+Cada extra é um módulo `js/extras/<id>.js` com `export default { id, async render(el, ctx, opcoes) }`, que desenha dentro do próprio `<div>`.
+O passo põe o div com `U.extra(id, opcoes)` no HTML e, no fim do `render` (que vira `async`), chama `await U.montarExtras(el, ctx)`.
+
+- `montarExtras` importa cada extra uma vez só e pede o CSS dele (`css/extras/<id>.css`) só quando ele aparece; o extra desenha depois que o
+  CSS chegou. `voce_decide.css` e `glossario.css` valem na jornada toda e já vêm no `roca.html`.
+- Um extra dentro de um `verMais` fechado só é montado quando a pessoa abre (nada é baixado antes).
+- Espera no máximo 700 ms: com os dados em cache (redesenho por resposta nova) tudo entra antes de o passo ir para a tela, sem a página pular.
+- Se um extra falha, o div some e o passo segue. Pedido recusado pelo servidor (JS ou CSS): tenta de novo uma vez.
+
+**Regra do enxuto:** no máximo 2 blocos visíveis novos por passo; o resto vai para `verMais` ou para um toque. Um "seu olho" por bloco, no máximo.
+
+| Passo | Visível | No "ver mais" (montado ao abrir) |
+|---|---|---|
+| 1 O lugar | `tendencias` (depois da régua da chuva; no celular, fileira de deslizar), `confianca` (antes do botão das 5 perguntas) | `satelite_chao` (`{painel:false}`, dentro da régua: "O satélite acerta aqui?"), `harmonizacao` (`{naTela:["ndvi","grace"]}`, "De onde vêm os dados"), `glossario` (a lista, "O que quer dizer cada palavra?") |
+| 3 Como plantar | `vulnerabilidade` (`{vista:"agua"}`, logo abaixo do roçado; a aba "Geada e calor" tem o "E se esquentar?" hoje/+1 °C/+2 °C, com `dados/calor_cenario.json` baixado só no toque), `saude_solo` (depois das faixas; no celular, fileira de deslizar) | — |
+| 4 Quanto rende | `cenarios` ("Outros jeitos de girar o roçado", depois dos blocos do dinheiro; acende o jeito da prioridade do "Seu bolso": garantir → água, vender → renda, solo → solo, equilibrar → plano) | — |
+| 5 Segurança | `leve_ao_tecnico` (logo depois dos portões), `cenario_chuva` `{partes:["cenario"], agro}` ("E se chover…", abre na chuva dos anos de El Niño daqui; com `agro`, só "% do normal") | `cenario_chuva` `{partes:["sobreposicao"]}` ("Ver a chuva, o solo e a colheita de cada ano"); no fim, "Ver os 28 anos", "o que não dá para projetar" e "quanto já acertou" (com os 7 jeitos testados) |
+
+**Ponto 16 em toda a jornada** (`js/extras/voce_decide.js`, lista e condições em `integracao/voce_decide.md`):
+- a frase fixa "O QUADRA ajuda. Quem decide é você, com o técnico." está na barra de baixo do `roca.html` e é um link: leva ao
+  "Leve para o técnico" do passo 5 (`roca.js`); a mesma frase está no cartão do lugar do globo (`index.html`) e embaixo do botão do
+  plano no painel (`painel.html`);
+- o 1º "seu olho" à vista de cada passo vira "o que é?" (termo `seu_olho` do glossário; `roca.js`, `explicarOlho`): no toque não há title;
+- `olho(OLHOS.<chave>)` ("seu olho") entra no texto do passo: El Niño (com o mês em que a estação daqui começa), litoral leste, cultura sem
+  zoneamento, terra, baixio, tarefa, irrigação, faixas, metade guardada, vizinhos, preço da raiz, lavoura grande (no passo 4 sempre, no
+  herói; no passo 5, com o aviso de lavoura grande, quando o IBGE daqui passa de 2× a roça de família da CONAB), anos de El Niño e portões
+  (onde os portões não valem, a manchete não dá data e o selo é SUPOSIÇÃO). Todo passo tem pelo menos 1;
+- `confianca` no passo 1 e `leve_ao_tecnico` no passo 5.
+
+**Glossário** (`js/extras/glossario.js`): `roca.js` chama `instalar(ctx)` a cada passo; o texto usa `termo(chave, "palavra")` só na 1ª
+aparição de cada passo, nunca dentro de `<button>`, `<a>`, `<summary>` ou de `ind({rot})`. Ligados hoje: `el_nino`, `em_dez`, `umidade_solo`,
+`zarc` (passo 1), `em_dez` (passos 4 e 5), `evapotranspiracao` e `ndvi` (cartões das tendências), `geada`, `veranico` e
+`balanco_hidrico` (vulnerabilidade) e `seu_olho` (o 1º "seu olho" de cada passo).
+
+O mapa do globo tem as próprias camadas (`js/globo/camadas.js`, ligado em `js/globo/mapa.js`), fora da jornada: Foto, Milho, Chuva,
+Solo (mês a mês desde 2015), Calor (2000–2025, NASA POWER) e Água guardada (2002–2026, GRACE por mesorregião), as três com controle de
+tempo e "tocar", e Confiança. Calor e Água vêm de `dados/camadas_tempo.json` (`ferramentas/preparar_camadas_tempo.py`, ~90 KB, baixado só
+quando uma das duas abas abre).

@@ -91,7 +91,8 @@ function anosEstado(e) {
     const x = i * passo + (passo - larg) / 2;
     if (v != null) {
       s += `<rect x="${x}" y="${y(v)}" width="${larg}" height="${Math.max(2, base - y(v))}" rx="3" fill="${v >= 50 ? 'var(--amber)' : 'var(--meio)'}"/>`;
-      s += `<text x="${x + larg / 2}" y="${y(v) - 3}" font-size="10" font-weight="700" text-anchor="middle" fill="var(--ink)">${Math.round(v)}%</text>`;
+      // frequência natural, como no passo 1 ("7 em 10"), e não "71%"
+      s += `<text x="${x + larg / 2}" y="${y(v) - 3}" font-size="9.5" font-weight="700" text-anchor="middle" fill="var(--ink)">${emDez(v)} em 10</text>`;
     } else {
       s += `<text x="${x + larg / 2}" y="${base - 1}" font-size="10" text-anchor="middle" fill="var(--muted)">s/ dado</text>`;
     }
@@ -180,7 +181,7 @@ const ABAS = [
     mapa: {
       titulo: 'Terço mais seco nos anos de El Niño forte, por estado', valor: (m) => enso(m)?.media, cortes: [45, 55, 65],
       cores: ['#9ec5f4', '#f0b9ad', '#d96c5a', '#a8322a'], rotulos: ['até 4 em 10 (acaso: 3)', '5 em 10', '6 em 10', '7 ou mais em 10'],
-      dica: (v) => `${fmt.format(Math.round(v))}% dos municípios do estado (${emDez(v)} em 10)`,
+      dica: (v) => `${emDez(v)} em 10 municípios do estado`,
     },
     grafico(m) {
       $('graficoTitulo').textContent = `Chuva da estação em ${m[F.nome]}, ano a ano (desde o início da chuva; IMERG)`;

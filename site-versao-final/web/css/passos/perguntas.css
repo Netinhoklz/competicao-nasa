@@ -63,3 +63,11 @@
   .area-val .numero-grande { font-size: 64px; }
   .fichas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* "seu olho" (ponto 16) no centro da pergunta, logo acima de "muda …" */
+.quiz .olho { margin: 18px auto 0; text-align: left; }
+.quiz .olho + .quiz-muda { margin-top: 12px; }
+.pronto .olho { margin: 16px 0 0; }
+
+/* no celular, durante as perguntas, a barra de baixo fica só com a frase do "quem decide" (Anterior e Próxima já estão na tela) */
+@media (max-width: 760px) { body:has(.passo-perguntas .quiz) .nav-baixo .botao { display: none; } }

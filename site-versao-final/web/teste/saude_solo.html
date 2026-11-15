@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · saúde do solo</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/saude_solo.css">
+</head>
+<body>
+  <!-- Teste do módulo js/extras/saude_solo.js com um ctx mínimo.
+       Uso: teste/saude_solo.html?cod=2311306 (outros parâmetros vão para a /api/local, ex.: &baixio=0 ou &maniva=nao) -->
+  <main class="jornada"><div class="passo-conteudo"><div id="alvo"><div class="carregando">Carregando</div></div></div></main>
+  <script type="module">
+    import * as U from "../js/comum.js";
+    import modulo from "../js/extras/saude_solo.js";
+    const q = new URLSearchParams(location.search);
+    const cod = q.get("cod") || "2311306";
+    q.set("cod", cod);
+    const alvo = document.getElementById("alvo");
+    try {
+      const r = await (await fetch("/api/local?" + q.toString())).json();
+      const ctx = {
+        r, cod,
+        ef: { ha: 3, baixio_ha: 1, baixio_frac: 1 / 3, tem_baixio: q.get("baixio") !== "0", terra: "nao_sei", agua: "chuva", maniva: q.get("maniva") || "tem",
+          prioridade: "garantir", raiz: "uf_mediana", custo: "semente" },
+        resp: {}, util: U, set() {}, ir() {}, link() { return "#"; },
+      };
+      document.title = `Teste · saúde do solo · ${r.local.municipio}`;
+      await modulo.render(alvo, ctx, { titulo: q.get("titulo") !== "0", longo: q.get("longo") !== "0" });
+    } catch (e) {
+      alvo.innerHTML = `<p class="erro">${U.esc(e.message)}</p>`;
+      throw e;
+    }
+  </script>
+</body>
+</html>

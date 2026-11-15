@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · Três jeitos de girar</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/cenarios.css">
+</head>
+<body>
+  <!-- Teste do bloco extra "cenarios" (pontos 8 e 9). Parâmetros: ?cod=2311306 &prio=garantir|equilibrar|vender &baixio=0
+       &maniva=nao|plantada &raiz=municipio|uf_mediana|uf_p25 &custo=semente|desembolso &ha=3 -->
+  <main class="jornada"><div id="alvo" class="passo-conteudo"><div class="carregando">Carregando</div></div></main>
+  <script type="module">
+    import * as U from "../js/comum.js";
+    import mod from "../js/extras/cenarios.js";
+    const q = new URLSearchParams(location.search);
+    const cod = q.get("cod") || "2311306";
+    const api = new URLSearchParams({ cod });
+    const semBaixio = q.get("baixio") === "0";
+    if (semBaixio) api.set("baixio", "0");
+    if (q.get("maniva")) api.set("maniva", q.get("maniva"));
+    const el = document.getElementById("alvo");
+    try {
+      const r = await (await fetch("/api/local?" + api)).json();
+      const ha = parseFloat(q.get("ha")) || 3;
+      const ef = { ha, baixio_ha: semBaixio ? 0 : ha / 3, baixio_frac: semBaixio ? 0 : 1 / 3, tem_baixio: !semBaixio, terra: "nao_sei", agua: "chuva",
+        maniva: q.get("maniva") || "tem", prioridade: q.get("prio") || "garantir", raiz: q.get("raiz") || "uf_mediana", custo: q.get("custo") || "semente" };
+      const ctx = { r, cod, ef, resp: {}, util: U, set() {}, ir() {}, link() { return "#"; } };
+      await mod.render(el, ctx, {});
+    } catch (e) {
+      el.innerHTML = `<div class="erro">${U.esc(e.message)}</div>`;
+    }
+  </script>
+</body>
+</html>

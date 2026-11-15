@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · satélite × pluviômetro</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/satelite_chao.css">
+</head>
+<body>
+  <!-- Uso: teste/satelite_chao.html?cod=2311306 ou ?cods=2311306,2700300,2903201 (um bloco por município). -->
+  <main class="jornada" id="jornada"><div class="carregando">Carregando</div></main>
+  <script type="module">
+    import * as U from "../js/comum.js";
+    import extra from "../js/extras/satelite_chao.js";
+    const q = new URLSearchParams(location.search);
+    const cods = (q.get("cods") || q.get("cod") || "2311306").split(",");
+    const main = document.getElementById("jornada");
+    main.innerHTML = "";
+    for (const cod of cods) {
+      const r = await fetch(`/api/local?cod=${cod}`).then((x) => x.json());
+      const ctx = { r, cod, ef: { ha: 3, baixio_ha: 1, baixio_frac: 1 / 3, tem_baixio: true, terra: "nao_sei", agua: "chuva", maniva: "tem",
+        prioridade: "garantir", raiz: "uf_mediana", custo: "semente" }, resp: {}, util: U, set() {}, ir() {}, link() { return "#"; } };
+      const h = document.createElement("p");
+      h.className = "kicker";
+      h.textContent = `${r.local.municipio}/${r.local.uf} · ${cod}`;
+      const el = document.createElement("div");
+      main.append(h, el);
+      await extra.render(el, ctx, {});
+    }
+    document.body.dataset.pronto = "1";
+  </script>
+</body>
+</html>

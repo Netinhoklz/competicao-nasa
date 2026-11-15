@@ -1,0 +1,71 @@
+/* Ponto 7, "Do satélite ao seu município" (js/extras/harmonizacao.js). Só tokens de css/quadra.css. */
+.hz-corpo { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 22px; align-items: center; }
+.hz-mapa { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 8px; min-width: 0; }
+.hz-svg { display: block; width: 100%; height: auto; }
+.hz-svg * { vector-effect: non-scaling-stroke; }
+.hz-sem { padding: 40px 12px; text-align: center; }
+
+/* município, grades e marcas */
+.hz-fundo { fill: var(--green-soft); }
+.hz-contorno { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.hz-grade { fill: none; stroke: var(--border-2); stroke-width: 1; }
+.hz-grade.fina { stroke: var(--border); stroke-width: .6; }
+.hz-nevoa { fill: var(--border); }
+.hz-cel { fill: var(--blue); }
+.hz-cel.perto { stroke: var(--blue); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.hz-centro { fill: var(--ink); }
+.hz-usada { fill: var(--green-soft); stroke: var(--green-forte); stroke-width: 2.5; }
+.hz-ponto { fill: var(--amber); stroke: var(--bg); stroke-width: 2; }
+.hz-escala path { stroke: var(--ink-2); stroke-width: 2; }
+.hz-escala text { fill: var(--ink-2); font-family: var(--mono); }
+
+/* zoom no roçado */
+.hz-grade.l30 { stroke: var(--border-2); stroke-width: .8; }
+.hz-grade.e70 { stroke: var(--amber); stroke-width: 1.2; stroke-dasharray: 5 4; opacity: .6; }
+.hz-gedi { fill: none; stroke: var(--blue); stroke-width: 1.5; }
+.hz-roca { fill: var(--green-soft); stroke: var(--green-forte); stroke-width: 2.5; }
+
+/* lado direito: escolha, número e frase */
+.hz-lado { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.hz-bases { display: flex; flex-wrap: wrap; gap: 6px; }
+.hz-bases button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border-2); background: var(--surface-2); color: var(--ink-2); font-size: 14px; }
+.hz-bases button .ic { width: 18px; height: 18px; }
+.hz-bases button:hover { border-color: var(--green); color: var(--ink); }
+.hz-bases button[aria-pressed="true"] { background: var(--green-soft); border-color: var(--green); color: var(--green-forte); font-weight: 600; }
+.hz-num { display: flex; flex-direction: column; gap: 4px; }
+.hz-num .numero-grande { font-size: 46px; }
+.hz-frase { margin: 0; font-size: 17px; color: var(--ink); line-height: 1.35; }
+.hz-legenda { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); align-items: center; }
+.hz-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.hz-legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.hz-legenda .hz-rampa i { width: 44px; background: linear-gradient(to right, var(--blue-soft), var(--blue)); }
+.hz-legenda i.hz-ch-centro { background: var(--ink); border-radius: 50%; width: 7px; height: 7px; }
+.hz-legenda i.hz-ch-perto { border: 1.5px dashed var(--blue); background: var(--blue-soft); }
+.hz-legenda i.hz-ch-usada { border: 2px solid var(--green-forte); background: var(--green-soft); }
+.hz-legenda i.hz-ch-ponto { background: var(--amber); border-radius: 50%; }
+.hz-legenda i.hz-ch-roca { border: 2px solid var(--green-forte); background: var(--green-soft); }
+.hz-legenda i.hz-ch-l30 { border: 1px solid var(--border-2); }
+.hz-legenda i.hz-ch-e70 { border: 1px dashed var(--amber); }
+.hz-legenda i.hz-ch-gedi { border: 1.5px solid var(--blue); border-radius: 50%; }
+.hz-aviso { color: var(--amber); }
+.hz-aviso .ic { width: 16px; height: 16px; }
+.hz-junta { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; color: var(--muted); font-size: 14px; }
+.hz-junta .ic { width: 18px; height: 18px; }
+
+/* ver mais */
+.hz-tabela { list-style: none; padding: 0; margin: 12px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.hz-tabela li { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; font-size: 13px;
+  display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hz-b-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; color: var(--ink); font-size: 14px; }
+.hz-b-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.hz-tabela .chip { padding: 1px 8px; font-size: 12px; flex: none; }
+.hz-notas { padding-left: 18px; margin: 12px 0 0; }
+.hz-notas li { margin: 0 0 8px; }
+
+@media (max-width: 760px) {
+  .hz-corpo { grid-template-columns: 1fr; gap: 14px; }
+  .hz-tabela { grid-template-columns: 1fr; }
+  .hz-num .numero-grande { font-size: 38px; }
+  .hz-frase { font-size: 16px; }
+}

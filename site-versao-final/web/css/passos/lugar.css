@@ -51,3 +51,26 @@
   .regua-meses span:nth-child(even) { visibility: hidden; }
   .regua-mediana em { font-size: 10px; }
 }
+
+/* extras do passo 1 (js/extras/: tendências, confiança, satélite × pluviômetro, grades, glossário) */
+.enso .olho { margin-left: 62px; }
+.extra-tendencias .painel, .extra-confianca .painel { margin-top: 0; }
+.regua-legenda + .olho, .culturas + .olho { margin-top: 14px; }
+.origem .hz.painel { background: none; border: 0; padding: 0; margin: 8px 0 0; box-shadow: none; }
+.origem .extra-glossario details.ver-mais { margin-top: 0; }
+.origem > details.ver-mais:first-child { border-top: 0; margin-top: 4px; } /* o 1º "ver mais" do painel fino não abre com uma linha vazia */
+@media (max-width: 760px) {
+  .enso .olho { margin-left: 0; }
+  /* no celular, os 6 mini-gráficos ficam numa fileira só, de deslizar (a página não rola de lado) */
+  .passo-lugar .tend-grade { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 8px;
+    overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .passo-lugar .tend-cartao { flex: 0 0 84%; scroll-snap-align: start; }
+  /* os 4 números de hoje em 2 × 2 (cabe numa tela só) */
+  .passo-lugar .grade-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .passo-lugar .grade-4 .ind { padding: 14px 12px; }
+  .passo-lugar .grade-4 .ind-val { font-size: 26px; }
+  .passo-lugar .grade-4 .ind-rot { font-size: 12px; flex-wrap: wrap; }
+  /* rótulo da régua perto da borda: encosta do lado de dentro, sem sair do painel */
+  .regua-mediana.esq em, .regua-hoje.esq em { left: -2px; transform: none; }
+  .regua-mediana.dir em, .regua-hoje.dir em { left: auto; right: -2px; transform: none; }
+}

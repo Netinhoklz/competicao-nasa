@@ -1,0 +1,204 @@
+/* Origem: novo no site final. Controle de camadas do mapa do globo (js/globo/camadas.js): abas no canto de baixo à
+   esquerda do mapa, legenda curta acima delas e a dica ao tocar num município. Tintas de style.css (a página do globo);
+   as cores dos selos são as de quadra.css (--s-medido, --s-suposicao, --s-projecao), repetidas aqui porque index.html
+   não carrega quadra.css. As cores dos municípios vêm do JS (o MapLibre não lê variáveis CSS). */
+
+.cam {
+  --s-medido: #5fd08f;
+  --s-suposicao: #f0b25e;
+  --s-projecao: #8fbcf5;
+  width: min(340px, calc(100vw - 64px)); /* 7 abas (Foto, Milho, Chuva, Solo, Calor, Água, Confiança) */
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow: hidden;
+}
+.maplibregl-ctrl-bottom-left .cam { margin: 0 0 8px 0; }
+.cam p { margin: 0; }
+.cam svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ------------------------------------------------------------ abas */
+/* convite curto em cima das abas, só enquanto o mapa mostra a foto */
+.cam-convite { padding: 8px 12px 0; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.cam.cam-ligada .cam-convite { display: none; }
+.cam-abas { display: flex; }
+.cam-abas button {
+  flex: 1 1 auto; /* largura pelo rótulo: "Confiança" não corta ao lado de "Solo" */
+  min-width: 0;
+  min-height: 48px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  padding: 6px 0 5px;
+  border: 0;
+  border-top: 2px solid transparent;
+  background: none;
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.cam-abas button[hidden] { display: none; }
+.cam-abas button svg { width: 20px; height: 20px; }
+.cam-abas button span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cam-abas button:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+.cam-abas button[aria-checked="true"] { color: var(--ink); background: rgba(255, 255, 255, 0.09); border-top-color: var(--accent); }
+.cam-abas button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ------------------------------------------------------------ legenda */
+.cam-legenda { display: grid; gap: 7px; padding: 11px 13px 10px; border-bottom: 1px solid var(--line); }
+.cam-legenda[hidden] { display: none; }
+.cam-carregando { font-size: 13px; color: var(--ink-2); }
+.cam-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cam-kicker { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+.cam .cam-selo {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  cursor: help;
+}
+.cam-selo.medido { color: var(--s-medido); }
+.cam-selo.projecao { color: var(--s-projecao); }
+.cam-selo.suposicao { color: var(--s-suposicao); }
+
+.cam-valor { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; row-gap: 0; }
+.cam-nome { flex-basis: 100%; font-size: 12px; color: var(--ink-3); }
+.cam-valor b { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.15; }
+.cam-valor small { font-size: 13px; color: var(--ink-2); }
+.cam-nota { font-size: 12.5px; line-height: 1.35; color: var(--ink-2); }
+.cam-nota[hidden] { display: none; }
+.cam-frase { font-size: 12.5px; line-height: 1.35; color: var(--ink-2); }
+.cam-aviso-chao { display: none; font-size: 12.5px; color: var(--accent); }
+.cam.cam-chao .cam-aviso-chao { display: block; }
+
+/* escala de cores: quadradinhos com o rótulo embaixo */
+.cam-escala { display: flex; align-items: flex-start; gap: 2px; }
+.cam-escala span { flex: 1 1 0; display: grid; gap: 3px; min-width: 0; }
+.cam-escala i { display: block; height: 9px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.cam-escala small { font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+.cam-escala em { flex: none; align-self: flex-end; margin-left: 4px; font-style: normal; font-size: 10.5px; color: var(--ink-3); }
+.cam-escala.diverge span:last-child small { justify-self: end; }
+.cam-escala.diverge span:nth-child(3) small { justify-self: center; }
+
+/* ------------------------------------------------------------ tempo do solo */
+.cam-tempo { display: flex; align-items: flex-start; gap: 8px; }
+.cam-tocar {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  cursor: pointer;
+}
+.cam-tocar svg { width: 14px; height: 14px; fill: currentColor; stroke-width: 1.4; }
+.cam-tocar:hover { border-color: rgba(255, 255, 255, 0.55); }
+.cam-tocar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cam-trilho { position: relative; flex: 1 1 auto; min-width: 0; padding-top: 6px; }
+.cam .cam-faixa { display: block; width: 100%; height: 18px; border-radius: 3px; background: rgba(255, 255, 255, 0.06); stroke: none; }
+.cam-trilho input[type="range"] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+.cam-trilho input[type="range"]::-webkit-slider-runnable-track { height: 30px; background: transparent; }
+.cam-trilho input[type="range"]::-moz-range-track { height: 30px; background: transparent; }
+.cam-trilho input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 4px;
+  height: 26px;
+  margin-top: 2px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.75);
+}
+.cam-trilho input[type="range"]::-moz-range-thumb {
+  width: 4px;
+  height: 26px;
+  border: 0;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.75);
+}
+.cam-trilho input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.cam-anos { position: relative; height: 14px; margin-top: 3px; }
+.cam-anos span { position: absolute; top: 0; font-family: var(--mono); font-size: 10px; color: var(--ink-3); transform: translateX(-50%); }
+.cam-anos span:first-child { transform: none; }
+.cam-anos span:last-child { transform: translateX(-100%); }
+
+/* ------------------------------------------------------------ ver como lemos */
+.cam-mais summary { font-size: 11.5px; color: var(--ink-3); cursor: pointer; list-style-position: inside; }
+.cam-mais summary:hover { color: var(--ink-2); }
+.cam-mais p { margin-top: 6px; font-size: 12px; line-height: 1.45; color: var(--ink-2); }
+.cam-mais .cam-fonte { margin-top: 4px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); }
+
+/* ------------------------------------------------------------ dica ao passar ou tocar */
+.cam-dica {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  gap: 2px;
+  max-width: 240px;
+  padding: 7px 11px 8px;
+  border-radius: 9px;
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--ink);
+  pointer-events: none;
+}
+.cam-dica[hidden] { display: none; }
+.cam-dica b { font-weight: 600; }
+.cam-dica span { color: var(--ink-2); }
+.cam-dica small { font-size: 12px; color: var(--ink-3); }
+
+/* ------------------------------------------------------------ telas estreitas: o mapa fica em cima e é baixo */
+/* A legenda encolhe (sem o rótulo de cima e sem a frase; o selo vai para o canto) e, com uma camada ligada, o cartão do
+   lugar e a escala recolhem (o nome do município já está na legenda) e o mapa cresce de 45% para 58% da altura, com o
+   painel do município embaixo (painel.css) encolhendo junto. */
+@media (max-width: 860px), (max-aspect-ratio: 19/20) {
+  .cam-legenda { position: relative; gap: 5px; padding: 8px 11px 7px; }
+  .cam-topo { display: contents; }
+  .cam-kicker, .cam-frase { display: none; }
+  .cam .cam-selo { position: absolute; top: 9px; right: 11px; }
+  .cam-valor { padding-right: 84px; }
+  .cam-nome { flex-basis: auto; }
+  .cam-valor b { font-size: 17px; }
+  .cam-legenda.tempo .cam-valor small { display: none; }
+  .cam-convite { display: none; }
+  .cam-abas button { min-height: 46px; font-size: 10px; letter-spacing: -0.01em; }
+  .cam-abas button svg { width: 18px; height: 18px; }
+  body.cam-ligada .cartao-local, body.cam-ligada .maplibregl-ctrl-scale { display: none; }
+  .lado { transition: opacity 0.5s ease, transform 0.7s var(--ease), height 0.8s var(--ease); }
+  body.cam-ligada .lado { height: 42vh; }
+  body.cam-ligada.com-lado.no-mapa:not(.em-viagem) #mapa { bottom: 42vh; }
+}

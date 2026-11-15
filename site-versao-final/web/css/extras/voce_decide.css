@@ -1,0 +1,85 @@
+/* QUADRA, ponto 16 ("Você decide"): "seu olho", a frase da moldura, a confiança dos dados aqui e "Leve para o técnico".
+   Só tokens de css/quadra.css; na impressão, a folha clara redefine os tokens dentro de body.imprime-tecnico.
+   Módulos: js/extras/voce_decide.js, confianca.js, leve_ao_tecnico.js. Onde cada peça entra: integracao/voce_decide.md. */
+
+/* ---------------------------------------------------------------- "seu olho": 1 linha, azul (observação), sem roubar a cena */
+.olho { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: fit-content; max-width: 100%; margin: 12px 0 0;
+  padding: 7px 12px; border-radius: 12px; border: 1px dashed var(--border-2); background: var(--blue-soft);
+  font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+.olho .ic { color: var(--blue); width: 20px; height: 20px; }
+.olho-rot { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
+.olho-txt { flex: 1 1 200px; min-width: 0; }
+
+/* ---------------------------------------------------------------- frase fixa da moldura (dentro de .nav-baixo, entre os botões) */
+.moldura-decide { flex: 1 1 auto; min-width: 0; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 13px; color: var(--ink-2); text-align: center; }
+.moldura-decide .ic { color: var(--blue); width: 18px; height: 18px; flex: none; }
+.moldura-decide b { color: var(--ink); font-weight: 600; }
+a.moldura-decide { text-decoration: none; border-radius: 10px; min-height: 44px; }
+a.moldura-decide:hover b, a.moldura-decide:focus-visible b { text-decoration: underline; text-underline-offset: 3px; }
+.olho-rot.gl-termo { cursor: pointer; border-bottom: 1px dotted currentColor; }
+
+/* ---------------------------------------------------------------- confiança dos dados aqui */
+.cf .cf-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 18px 28px; align-items: center; }
+.cf .cf-linha { display: flex; align-items: center; gap: 18px; }
+.cf-sinal { display: inline-flex; align-items: flex-end; gap: 5px; height: 46px; flex: none; }
+.cf-sinal i { display: block; width: 12px; border-radius: 4px; background: var(--surface-3); }
+.cf-sinal i:nth-child(1) { height: 16px; } .cf-sinal i:nth-child(2) { height: 30px; } .cf-sinal i:nth-child(3) { height: 46px; }
+.cf-alta .cf-sinal i.on { background: var(--green); }
+.cf-media .cf-sinal i.on { background: var(--amber); }
+.cf-baixa .cf-sinal i.on { background: var(--terra); }
+.cf-nivel { font-family: var(--display); font-size: 36px; font-weight: 700; line-height: 1; }
+.cf-alta .cf-nivel { color: var(--green-forte); } .cf-media .cf-nivel { color: var(--amber); } .cf-baixa .cf-nivel { color: var(--terra); }
+.cf-frase { margin: 6px 0 0; font-size: 15px; color: var(--ink-2); }
+.cf-motivos { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.cf-motivos li { display: flex; gap: 10px; align-items: baseline; font-size: 14px; color: var(--ink-2); }
+.cf-motivos li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none; transform: translateY(-1px); background: var(--ink-4); }
+.cf-motivos li.p2::before { background: var(--terra); } .cf-motivos li.p1::before { background: var(--amber); }
+.cf-motivos-vazio { margin: 0; }
+.cf-todos { padding-left: 18px; } .cf-todos li { margin: 0 0 8px; }
+
+/* ---------------------------------------------------------------- leve para o técnico */
+.lt-cab { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; }
+.lt-cab .numero-grande { color: var(--green-forte); }
+.lt-tit { font-family: var(--font); font-weight: 400; font-size: 21px; letter-spacing: -0.01em; }
+.lt-sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+.lt-lista { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 8px; }
+.lt-lista li { border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); font-size: 15px; }
+/* a linha inteira marca: o agricultor risca o que já conversou com o técnico */
+.lt-lista label { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 14px; cursor: pointer; }
+.lt-lista label .ic { color: var(--ink-2); flex: none; }
+.lt-lista label > span { min-width: 0; }
+.lt-marca { width: 22px; height: 22px; flex: none; margin: 0; accent-color: var(--green); cursor: pointer; }
+.lt-lista li:has(.lt-marca:checked) { border-color: rgba(76, 178, 124, .45); background: var(--green-soft); }
+.lt-lista li:has(.lt-marca:checked) span { color: var(--muted); text-decoration: line-through; }
+.lt-caixa { width: 18px; height: 18px; border: 1.5px solid var(--border-2); border-radius: 5px; flex: none; }
+.lt-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.lt-acoes .botao { min-height: 48px; }
+.lt-aviso { font-size: 14px; color: var(--green-forte); }
+.lt-papel { display: none; }
+
+@media (max-width: 760px) {
+  .cf .cf-grade { grid-template-columns: 1fr; }
+  .cf-nivel { font-size: 32px; }
+  .lt-acoes .botao { flex: 1 1 100%; }
+  .lt-lista li { font-size: 14px; } .lt-lista label { padding: 10px 12px; }
+  /* a frase da moldura vira a 1ª linha da barra de baixo, acima de Voltar e Próximo */
+  .nav-baixo:has(.moldura-decide) { flex-wrap: wrap; row-gap: 6px; }
+  .moldura-decide { order: -1; flex: 1 0 100%; font-size: 13px; }
+  a.moldura-decide { min-height: 32px; }
+}
+
+/* ---------------------------------------------------------------- impressão: só a folha "Perguntas para o técnico" */
+@media print {
+  body.imprime-tecnico { --ink: #111; --ink-2: #222; --muted: #555; --border: #999; --border-2: #555; --bg: #fff; --surface: #fff;
+    background: var(--bg) !important; color: var(--ink); }
+  body.imprime-tecnico > :not(#lt-impressao) { display: none !important; }
+  body.imprime-tecnico .lt-papel { display: block; font-family: var(--body); font-size: 13pt; line-height: 1.5; color: var(--ink); }
+  .lt-papel h1 { font-family: var(--font); font-weight: 600; font-size: 20pt; margin: 4pt 0 6pt; }
+  .lt-papel-marca { font-family: var(--mono); font-size: 9pt; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  .lt-papel ol { padding-left: 22pt; margin: 10pt 0; }
+  .lt-papel li { margin: 0 0 10pt; padding-bottom: 10pt; border-bottom: 1px solid var(--border); }
+  .lt-papel .lt-caixa { display: inline-block; vertical-align: -3pt; margin-right: 8pt; border-color: var(--border-2); }
+  .lt-papel-notas { margin-top: 14pt; min-height: 90pt; border-bottom: 1px solid var(--border); }
+  .lt-papel-frase { margin-top: 12pt; font-weight: 600; }
+}

@@ -1,0 +1,60 @@
+/* extra "O satélite e o pluviômetro" (ponto 3): js/extras/satelite_chao.js. Só tokens de css/quadra.css. */
+.ex-satelite-chao .sc-tit { margin: 0 0 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--mono);
+  font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); }
+
+/* os dois lados, frente a frente */
+.ex-satelite-chao .sc-par { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 14px; align-items: stretch; }
+.ex-satelite-chao .sc-lado { background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ex-satelite-chao .sc-lado.sat .ic { color: var(--blue); }
+.ex-satelite-chao .sc-lado.plu .ic { color: var(--amber); }
+.ex-satelite-chao .sc-rot { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+.ex-satelite-chao .sc-num { font-family: var(--display); font-size: 40px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.ex-satelite-chao .sc-num small { font-family: var(--body); font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+.ex-satelite-chao .sc-lado p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.ex-satelite-chao .sc-lado .chip { align-self: flex-start; }
+.ex-satelite-chao .sc-fraco { font-size: 13px; color: var(--muted); }
+.ex-satelite-chao .sc-meio { align-self: center; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--display); font-size: 24px; font-weight: 700; background: var(--surface-3); color: var(--ink-2); }
+.ex-satelite-chao .sc-meio.igual { background: var(--green-soft); color: var(--green-forte); }
+.ex-satelite-chao .sc-meio.dif { background: var(--terra-soft); color: var(--terra); }
+.ex-satelite-chao .sc-frase { margin: 14px 0 0; font-size: 17px; }
+
+/* juntando os dois: barras de erro (menor é melhor) */
+.ex-satelite-chao .sc-juntos { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.ex-satelite-chao .sc-juntos h4 { margin: 0 0 12px; font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: .16em; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ex-satelite-chao .sc-barras { display: grid; gap: 8px; }
+.ex-satelite-chao .sc-barra { display: grid; grid-template-columns: minmax(0, 13em) minmax(0, 1fr) 4.2em; gap: 12px; align-items: center; font-size: 14px; }
+.ex-satelite-chao .sc-b-rot { color: var(--ink-2); }
+.ex-satelite-chao .sc-b-trilho { height: 12px; border-radius: 6px; background: rgba(255, 255, 255, .06); overflow: hidden; }
+.ex-satelite-chao .sc-b-trilho i { display: block; height: 100%; border-radius: 6px; background: var(--ink-4); }
+.ex-satelite-chao .sc-barra.sat i { background: var(--blue); }
+.ex-satelite-chao .sc-barra.plu i { background: var(--amber); }
+.ex-satelite-chao .sc-barra.jun i { background: var(--green); }
+.ex-satelite-chao .sc-barra.jun .sc-b-rot { color: var(--ink); font-weight: 600; }
+.ex-satelite-chao .sc-barra b { font-family: var(--display); font-size: 18px; text-align: right; font-variant-numeric: tabular-nums; }
+.ex-satelite-chao .sc-barra b small { font-family: var(--body); font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 2px; }
+.ex-satelite-chao .sc-leg { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+
+/* convite: anote a chuva */
+.ex-satelite-chao .sc-convite { margin-top: 16px; display: flex; gap: 12px; align-items: center; background: var(--blue-soft);
+  border: 1px solid var(--border); border-radius: 14px; padding: 12px 16px; }
+.ex-satelite-chao .sc-convite .ic { color: var(--blue); }
+.ex-satelite-chao .sc-convite p { margin: 0; font-size: 15px; }
+.ex-satelite-chao .sc-convite span { display: block; color: var(--ink-2); font-size: 14px; }
+
+.ex-satelite-chao details.ver-mais table { margin: 6px 0 12px; }
+.ex-satelite-chao details.ver-mais p { margin: 8px 0; }
+
+@media (max-width: 560px) {
+  .ex-satelite-chao .sc-par { gap: 8px; }
+  .ex-satelite-chao .sc-lado { padding: 12px; }
+  .ex-satelite-chao .sc-rot { font-size: 14px; gap: 6px; }
+  .ex-satelite-chao .sc-rot .ic.g { width: 26px; height: 26px; }
+  .ex-satelite-chao .sc-num { font-size: 32px; }
+  .ex-satelite-chao .sc-lado p { font-size: 14px; }
+  .ex-satelite-chao .sc-meio { width: 30px; height: 30px; font-size: 18px; }
+  .ex-satelite-chao .sc-barra { grid-template-columns: minmax(0, 1fr) 3.8em; gap: 4px 10px; }
+  .ex-satelite-chao .sc-b-rot { grid-column: 1 / -1; }
+}

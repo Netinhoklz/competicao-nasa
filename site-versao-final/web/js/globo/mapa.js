@@ -1,7 +1,9 @@
-// Origem: João Pedro (branch estudo-jp, 29f81f6), site-nasa/static/js/mapa.js; adaptado para o site final: nordeste.json por caminho relativo ao módulo; 'municipio' (lugar da busca local, busca.js) entra em ASSENTAMENTO, para a chegada centrar no ponto do município com o zoom tirado da caixa dele. MapLibre local (vendor/); ladrilhos, relevo e limite do IBGE continuam online.
+// Origem: João Pedro (branch estudo-jp, 29f81f6), site-nasa/static/js/mapa.js; adaptado para o site final: nordeste.json por caminho relativo ao módulo; 'municipio' (lugar da busca local, busca.js) entra em ASSENTAMENTO, para a chegada centrar no ponto do município com o zoom tirado da caixa dele. MapLibre local (vendor/); ladrilhos, relevo e limite do IBGE continuam online. Camadas de dados sobre os 1.794 municípios (camadas.js): ligadas depois do 'load', avisadas do município escolhido e desligadas a cada nova viagem e na subida.
 // mapa.js - mapa interativo (MapLibre GL, projecao de globo): imagem Sentinel-2 sem nuvens,
 // detalhe Maxar ao aproximar, relevo 3D, rotulos vetoriais em portugues, o Nordeste aceso em
 // dourado (contorno, divisas e capitais), o limite do municipio escolhido e o marcador do lugar.
+
+import { Camadas } from './camadas.js';
 
 const S2 = 'https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpg';
 // Detalhe de perto: Esri World Imagery Wayback, versao de 2025-07-31. A versao atual tem nuvem e sombra
@@ -396,9 +398,14 @@ export class Mapa {
     this.mapa.on('idle', () => {
       if (this.container.querySelector('.maplibregl-ctrl-scale')?.textContent.includes('NaN')) escala.setUnit('metric');
     });
+    // camadas de dados (camadas.js): a aba Foto volta para a camera da chegada ao municipio
+    this.camadas = new Camadas(this.mapa, { perto: () => this._lugar && this._alvo(this._lugar) });
     // so conta como carregado com o Nordeste ja desenhado: a troca precisa do fio no mesmo lugar do globo
     this.carregado = Promise.all([new Promise((ok) => this.mapa.once('load', ok)), NORDESTE])
-      .then(([, d]) => d && this._nordeste(d));
+      .then(([, d]) => {
+        if (d) this._nordeste(d);
+        this.camadas.ligar();
+      });
   }
 
   /** Contorno, divisas, mascara e capitais do Nordeste (static/data/nordeste.json, IBGE). */
@@ -422,6 +429,7 @@ export class Mapa {
   async _municipio(lugar) {
     const cod = String(lugar.ibge || '').slice(0, 7);   // distrito tem 9 digitos: os 7 primeiros sao o municipio
     this._codMun = cod;
+    this.camadas.municipio(/^\d{7}$/.test(cod) ? cod : null);
     this.mapa.getSource('mun').setData(VAZIO);
     this.mapa.getSource('mun-fora').setData(VAZIO);
     if (!/^\d{7}$/.test(cod)) return;
@@ -457,6 +465,8 @@ export class Mapa {
       this.mapa.jumpTo(troca);
     }
     await this.carregado;
+    this._lugar = lugar;
+    this.camadas.desligar();   // cada viagem chega na foto
     this._marcar(centro);
     this._municipio(lugar);
     await this._ocioso(2000);
@@ -544,6 +554,7 @@ export class Mapa {
     const c = this.mapa.getCenter();
     const zoom = Math.min(this.mapa.getZoom(), zoomDe(c.lat));
     this.mapa.stop();
+    this.camadas.desligar();   // o globo 3D nao tem as cores: sobe so com a foto
     const longe = this.mapa.getZoom() - zoom > 0.05;
     this.mapa.flyTo({
       center: c, zoom, pitch: 0, bearing: 0, duration: longe ? 1900 : 700, curve: 1.2, essential: true,

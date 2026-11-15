@@ -36,6 +36,11 @@ export const mesAno = (iso) => { if (!iso) return "—"; const [a, m] = iso.spli
 /** Classe CSS do tipo de cultura do motor ("tampão" → "t-tampao"). */
 export const tipoCss = (t) => "t-" + String(t || "pousio").normalize("NFD").replace(/[̀-ͯ]/g, "");
 
+/** Estado com o artigo certo: UF_DE.BA → "da Bahia" ("municípios da Bahia", nunca "do BA"). */
+export const UF_DE = { MA: "do Maranhão", PI: "do Piauí", CE: "do Ceará", RN: "do Rio Grande do Norte", PB: "da Paraíba",
+  PE: "de Pernambuco", AL: "de Alagoas", SE: "de Sergipe", BA: "da Bahia" };
+export const ufDe = (uf) => UF_DE[uf] || `do ${uf}`;
+
 /** Área: 1 → "1 ha"; 0,5 → "0,5 ha". */
 export const ha = (v) => `${num(v, v < 10 && v % 1 ? 1 : 0)} ha`;
 
@@ -79,6 +84,10 @@ export const IC = {
   barro: '<path d="M3 15c2 0 2.5-2 4.5-2s2.5 2 4.5 2 2.5-2 4.5-2 2.5 2 4.5 2"/><path d="M5 19h14M8 9c0-2 2-4 4-6 2 2 4 4 4 6a4 4 0 0 1-8 0z"/>',
   nuvem: '<path d="M7 18a4.5 4.5 0 0 1 .6-8.96A5.5 5.5 0 0 1 18 10.5a3.75 3.75 0 0 1-.5 7.5H7z"/>',
   interrog: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17v.5"/>',
+  // perenes (caju, banana e cana entraram em 14/11)
+  caju: '<path d="M8 9.5C8 6.4 10.2 4 13 4s5 2.4 5 5.5c0 3.6-2.2 7-5 7.8-2.8-.8-5-4.2-5-7.8z"/><path d="M11.5 17c-1.8.9-2.6 2.5-2.2 4 1.7.6 3.4-.1 4.4-1.7"/><path d="M13 4c0-1 .6-1.8 1.6-2.3"/>',
+  banana: '<path d="M5 5.5c-.7 6.6 3.4 12.5 10.4 13.4 2.1.3 3.9-.3 4.9-1.5-6.2-.8-10.3-4.9-11.3-11.6"/><path d="M5 5.5 4 3.5M5 5.5c1-.5 2-.5 3 .2"/>',
+  cana: '<path d="M12 22V3M9.5 8h5M9.5 13h5M9.5 18h5"/><path d="M12 6c2-2 4.2-3 7-3-1 3-3.2 5-7 5M12 10.5c-2-2-4.2-3-7-3 1 3 3.2 5 7 5"/>',
 };
 /** Ícone em SVG: ic("milho"), ic("gota", "g") (classes: "" 22px, "g" 34px, "gg" 48px). */
 export const ic = (nome, tam = "") => `<svg class="ic ${tam}" viewBox="0 0 24 24" aria-hidden="true">${IC[nome] || IC.info}</svg>`;
@@ -86,6 +95,9 @@ export const ic = (nome, tam = "") => `<svg class="ic ${tam}" viewBox="0 0 24 24
 /** Ícone por cultura (para blocos e listas). */
 export const icCultura = (c) => {
   const s = String(c || "").toLowerCase();
+  if (s.includes("caju")) return "caju";
+  if (s.includes("banana")) return "banana";
+  if (s.startsWith("cana")) return "cana";
   if (s.includes("milho") || s.includes("sorgo") || s.includes("milheto")) return "milho";
   if (s.includes("feij") || s.includes("caupi") || s.includes("amendoim") || s.includes("guandu") || s.includes("mucuna")) return "feijao";
   if (s.includes("mandioca")) return "mandioca";
@@ -111,3 +123,57 @@ export const dezRocas = (p, cor = "var(--terra)", rotulo = "") => {
   return `<div class="dez-rocas" role="img" aria-label="${k} em 10 ${esc(rotulo)}">${Array.from({ length: 10 }, (_, i) =>
     `<i style="background:${i < k ? cor : "rgba(255,255,255,.08)"}"></i>`).join("")}</div>`;
 };
+
+// ---------------------------------------------------------------- extras (js/extras/<id>.js)
+// O passo põe <div data-extra="<id>" data-opcoes='{...}'></div> no HTML e, depois do innerHTML, chama montarExtras(el, ctx).
+// Cada extra é importado uma vez só e desenha dentro do próprio div (render(div, ctx, opcoes)). Dentro de um "ver mais" fechado,
+// o extra só é montado quando a pessoa abre (não baixa nada antes). Se um extra falha, o div some e o resto do passo segue.
+// Devolve uma promessa que resolve quando todos terminam ou depois de `limite` ms: o passo não fica preso a um JSON lento, e quando
+// os dados já estão em cache (redesenho por resposta nova) tudo entra antes de o passo ir para a tela, sem a página pular.
+// O CSS de cada extra (css/extras/<id>.css) também só é pedido quando ele aparece, e o extra só desenha depois que o CSS chegou (sem piscar
+// sem estilo). Os dois CSS que valem na jornada toda (voce_decide e glossario) já vêm no roca.html. Se o servidor recusar um pedido no
+// meio de uma rajada, tenta de novo uma vez.
+const EXTRAS = {}, CSS_EXTRAS = {};
+const CSS_PROPRIO = new Set(["tendencias", "satelite_chao", "harmonizacao", "vulnerabilidade", "saude_solo", "cenarios", "cenario_chuva"]);
+const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+const importarExtra = (id) => (EXTRAS[id] ||= import(`./extras/${id}.js`)
+  .catch(() => espera(400).then(() => import(`./extras/${id}.js?de-novo=1`)))
+  .then((m) => m.default)
+  .catch((e) => { delete EXTRAS[id]; throw e; }));
+function cssExtra(id) {
+  if (!CSS_PROPRIO.has(id)) return Promise.resolve();
+  const href = new URL(`../css/extras/${id}.css`, import.meta.url).href;
+  return (CSS_EXTRAS[id] ||= new Promise((ok) => {
+    if ([...document.querySelectorAll("link[rel=stylesheet]")].some((l) => l.href === href)) return ok();
+    const pedir = (tentativa) => {
+      const l = document.createElement("link");
+      l.rel = "stylesheet";
+      l.href = tentativa ? `${href}?de-novo=1` : href;
+      l.onload = () => ok();
+      l.onerror = () => { l.remove(); if (tentativa) ok(); else setTimeout(() => pedir(1), 400); };
+      document.head.appendChild(l);
+    };
+    pedir(0);
+  }));
+}
+
+export function montarExtras(el, ctx, limite = 700) {
+  const tarefas = [];
+  for (const div of el.querySelectorAll("[data-extra]")) {
+    const id = div.dataset.extra;
+    let op = {};
+    try { op = div.dataset.opcoes ? JSON.parse(div.dataset.opcoes) : {}; } catch (_) { op = {}; }
+    const montar = () => Promise.all([importarExtra(id), cssExtra(id)]).then(([m]) => m.render(div, ctx, op))
+      .catch((e) => { console.error(`extra "${id}":`, e); div.remove(); });
+    const det = div.closest("details");
+    if (det && !det.open) {
+      const abriu = () => { if (!det.open) return; det.removeEventListener("toggle", abriu); montar(); };
+      det.addEventListener("toggle", abriu);
+    } else tarefas.push(montar());
+  }
+  return Promise.race([Promise.all(tarefas), espera(limite)]);
+}
+
+/** O div de um extra: extra("tendencias") ou extra("cenario_chuva", { partes: ["cenario"] }). */
+export const extra = (id, opcoes = null, cls = "") =>
+  `<div class="extra extra-${id}${cls ? " " + cls : ""}" data-extra="${id}"${opcoes ? ` data-opcoes='${esc(JSON.stringify(opcoes))}'` : ""}></div>`;

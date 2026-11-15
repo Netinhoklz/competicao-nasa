@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · o que é?</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/glossario.css">
+</head>
+<body>
+  <!-- Teste do extra "o que é?" (js/extras/glossario.js). Parâmetros: ?cod=<IBGE> (padrão Quixadá) &abrir=<chave> (abre o balão)
+       &lista=1 (abre o "ver mais"). Os trechos abaixo imitam a frente do passo 1 com as palavras ligadas. -->
+  <main class="jornada" id="jornada"><div class="carregando">Carregando</div></main>
+  <nav class="nav-baixo" aria-label="Avançar e voltar">
+    <button class="botao secundario" type="button">← Voltar</button>
+    <button class="botao primario" type="button">Próximo →</button>
+  </nav>
+  <script type="module">
+    import * as U from "../js/comum.js";
+    import G, { termo, instalar } from "../js/extras/glossario.js";
+
+    const q = new URLSearchParams(location.search), cod = q.get("cod") || "2311306";
+    const el = document.getElementById("jornada");
+    try {
+      const r = await (await fetch(`/api/local?cod=${cod}`)).json();
+      const ctx = {
+        r, cod, resp: {}, util: U, set() {}, ir() {}, link() { return "#"; },
+        ef: { ha: 3, baixio_ha: 1, baixio_frac: 1 / 3, tem_baixio: true, terra: "nao_sei", agua: "chuva", maniva: "tem", prioridade: "garantir",
+          raiz: "uf_mediana", custo: "semente" },
+      };
+      instalar(ctx);
+      const u = r.el_nino_uf || {}, n = Math.round((u.media ?? 0) / 10), sm = r.este_ano?.smap;
+      el.innerHTML = `<div class="titulo-passo"><p class="kicker">Teste · o que é?</p>
+          <h1>${U.esc(r.local.municipio)}, ${U.esc(r.local.uf)}.<span class="eco">Toque numa palavra sublinhada.</span></h1></div>
+        <div class="painel destaque">${U.faixa("onda", "ambar", `2027 é ano de ${termo("el_nino", "El Niño forte")}. Nos anos assim, a chuva veio fraca em
+          ${termo("em_dez", `${n} de cada 10`)} municípios do ${U.esc(u.uf || "")}.`)}</div>
+        <div class="grade-4">
+          ${U.ind({ icone: "solo", rot: "O solo hoje", val: U.esc(sm?.classe?.split(" ")[0] || "—"), sub: `${termo("umidade_solo", "umidade da raiz")} vista do satélite`,
+            selo: U.selo("medido", "NASA SMAP L4") })}
+          ${U.ind({ icone: "sol", rot: "O ar puxa", val: "—", sub: `${termo("evapotranspiracao", "evapotranspiração")} e ${termo("balanco_hidrico", "balanço da água")}` })}
+          ${U.ind({ icone: "broto", rot: "O verde", val: "—", sub: termo("ndvi", "verde do satélite") })}
+          ${U.ind({ icone: "termo", rot: "O frio", val: "—", sub: `${termo("geada", "geada")} e ${termo("veranico", "veranico")}` })}
+        </div>
+        <div class="painel"><h3>O que dá para plantar aqui</h3>
+          <div class="legenda-cult"><span class="chip verde">● Recomendado</span><span class="chip">● Dá, sem ${termo("zarc", "zoneamento")}</span></div></div>
+        <div class="painel" id="lista"></div>`;
+      await G.render(document.getElementById("lista"), ctx, {});
+      if (q.get("lista")) el.querySelector("#lista details").open = true;
+      const abrir = q.get("abrir");
+      if (abrir) { const alvo = document.querySelector(`[data-gl="${abrir}"]`); alvo?.scrollIntoView({ block: "center" }); alvo?.click(); }
+    } catch (err) {
+      console.error(err);
+      el.innerHTML = `<div class="erro">Falhou: ${U.esc(err.message)}</div>`;
+    }
+    window.__pronto = true;
+  </script>
+</body>
+</html>

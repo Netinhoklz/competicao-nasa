@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+import shutil
 import tempfile
 import time
 import urllib.request
@@ -13,7 +14,7 @@ import websocket
 url = sys.argv[1]
 espera = float(sys.argv[2]) if len(sys.argv) > 2 else 8
 porta = 9300 + os.getpid() % 500
-perfil = os.path.join(tempfile.gettempdir(), f"quadra-erros-{os.getpid()}")
+perfil = os.path.join(os.environ.get("QUADRA_PERFIS", "E:/campeonato-nasa/tmp/edge_perfis"), f"quadra-erros-{os.getpid()}")
 edge = subprocess.Popen([r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe", "--headless=new", "--disable-gpu",
                          f"--remote-debugging-port={porta}", f"--user-data-dir={perfil}", "about:blank"],
                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -59,3 +60,8 @@ try:
             break
 finally:
     edge.terminate()
+    try:
+        edge.wait(timeout=10)
+    except Exception:
+        pass
+    shutil.rmtree(perfil, ignore_errors=True)  # o perfil do Edge (~65 MB) não fica para trás

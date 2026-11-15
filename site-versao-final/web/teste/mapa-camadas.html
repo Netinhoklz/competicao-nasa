@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- Teste das camadas do mapa (js/globo/camadas.js) sem o mergulho do globo: cria o mapa do index.html (mapa.js), chega ao
+     município de ?lugar= (padrão Quixadá) e deixa window.teste para escolher camadas no console ou num print automático.
+     ?lado=1 imita o painel aberto ao lado (o mapa encolhe para um cartão à esquerda). O fluxo real é index.html?lugar=Quixadá. -->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · camadas do mapa</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="../css/globo/style.css">
+  <link rel="stylesheet" href="../css/globo/painel.css">
+  <script src="../vendor/maplibre-gl.js"></script>
+  <style>.lado-falso { position: fixed; top: 76px; right: 24px; bottom: 24px; width: var(--lado); border-radius: 14px; background: #121814; border: 1px solid var(--line-2); }
+    @media (max-width: 860px), (max-aspect-ratio: 19/20) { .lado-falso { top: auto; left: 0; right: 0; bottom: 0; width: auto; height: 55vh; } }</style>
+</head>
+<body class="no-mapa">
+  <div id="mapa"></div>
+  <script type="module">
+    import { Mapa } from '../js/globo/mapa.js';
+    import { procurar } from '../js/globo/busca.js';
+    const q = new URLSearchParams(location.search);
+    if (q.get('lado')) {
+      document.body.classList.add('com-lado');
+      document.body.insertAdjacentHTML('beforeend', '<div class="lado-falso"></div>');
+    }
+    const [lugar] = await procurar(q.get('lugar') || 'Quixadá, CE');
+    const m = new Mapa(document.getElementById('mapa'));
+    new ResizeObserver(() => m.mapa?.resize()).observe(document.getElementById('mapa'));
+    await m.preparar(lugar, 8);
+    m.chegar(lugar);
+    window.teste = { m, lugar, camadas: m.camadas };
+  </script>
+</body>
+</html>

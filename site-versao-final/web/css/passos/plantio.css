@@ -237,3 +237,12 @@
 @media (prefers-reduced-motion: reduce) {
   .passo-plantio .fx > .chao, .passo-plantio .lin line { transition: none; }
 }
+
+/* extras do passo 3 (js/extras/: vulnerabilidade logo abaixo do roçado, saúde do solo depois das faixas) */
+.extra-vulnerabilidade .painel, .extra-saude_solo .painel { margin-top: 0; }
+@media (max-width: 560px) {
+  /* no celular, os 4 cartões do solo ficam numa fileira só, de deslizar (a página não rola de lado) */
+  .passo-plantio .ss-cartoes { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 8px;
+    overscroll-behavior-x: contain; scrollbar-width: thin; align-items: stretch; }
+  .passo-plantio .ss-cartao { flex: 0 0 86%; scroll-snap-align: start; }
+}

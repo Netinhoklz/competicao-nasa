@@ -1,0 +1,38 @@
+/* QUADRA, extra "o que é?" (js/extras/glossario.js): a palavra com sublinhado pontilhado, o balão pequeno e a lista do "ver mais".
+   Só tokens de css/quadra.css. */
+.gl-termo { cursor: pointer; border-bottom: 1px dotted var(--ink-4); border-radius: 2px; -webkit-tap-highlight-color: transparent;
+  transition: border-color .15s, color .15s; }
+.gl-termo:hover, .gl-termo[aria-expanded="true"] { border-bottom: 1px solid var(--green-forte); }
+.gl-termo:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+/* o balão: fica no fim do <body>, em coordenadas da página (rola junto com o texto) */
+.gl-vivo { position: absolute; top: 0; left: 0; width: 0; height: 0; z-index: 70; }
+.gl-balao { position: absolute; background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 14px; padding: 10px 14px 12px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .55); font-family: var(--body); font-size: 14px; line-height: 1.45; color: var(--ink-2); text-align: left;
+  animation: gl-entra .16s var(--ease) both; }
+.gl-balao::before { content: ""; position: absolute; left: var(--seta, 50%); top: -6px; width: 10px; height: 10px; background: var(--surface-2);
+  border-left: 1px solid var(--border-2); border-top: 1px solid var(--border-2); transform: translateX(-50%) rotate(45deg); }
+.gl-balao.acima::before { top: auto; bottom: -6px; transform: translateX(-50%) rotate(225deg); }
+.gl-cab { display: flex; align-items: center; gap: 8px; color: var(--ink); margin-bottom: 4px; }
+.gl-cab b { flex: 1; font-family: var(--font); font-weight: 600; font-size: 15px; }
+.gl-cab .ic, .gl-lista dt .ic { width: 18px; height: 18px; color: var(--green-forte); }
+.gl-fechar { border: 0; background: none; color: var(--muted); font-size: 20px; line-height: 1; min-width: 36px; min-height: 36px; margin: -6px -8px -6px 0;
+  border-radius: 10px; cursor: pointer; }
+.gl-fechar:hover { color: var(--ink); background: rgba(255, 255, 255, .06); }
+.gl-def { margin: 0; }
+.gl-ex { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid var(--border); display: flex; gap: 8px; color: var(--ink); }
+.gl-ex .ic { width: 16px; height: 16px; margin-top: 2px; color: var(--amber); }
+.gl-balao .dez-rocas, .gl-lista .dez-rocas { grid-template-columns: repeat(10, 12px); gap: 3px; margin-top: 8px; }
+.gl-balao .dez-rocas i, .gl-lista .dez-rocas i { width: 12px; height: 12px; border-radius: 3px; }
+@keyframes gl-entra { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gl-balao { animation: none; } }
+
+/* a lista inteira (dentro de um "ver mais") */
+.gl-lista { margin: 12px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.gl-item { padding: 12px 0; border-top: 1px solid var(--border); min-width: 0; }
+.gl-lista dt { display: flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 600; }
+.gl-lista dd { margin: 4px 0 0 26px; }
+@media (max-width: 760px) {
+  .gl-lista { grid-template-columns: 1fr; }
+  .gl-lista dd { margin-left: 0; }
+}

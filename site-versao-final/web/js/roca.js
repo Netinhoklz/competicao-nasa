@@ -2,6 +2,7 @@
 // Cada passo é um módulo em js/passos/ com: export default { id, titulo, curto, render(el, ctx) }.
 // Contrato do ctx: ver web/js/passos/LEIA-ME.md.
 import * as U from "./comum.js";
+import { instalar as instalarGlossario } from "./extras/glossario.js"; // "o que é?": balão das palavras técnicas (ponto 2)
 
 // Os passos são carregados só quando abertos: um erro num deles não derruba a jornada inteira.
 const PASSOS = [
@@ -13,7 +14,8 @@ const carregarPasso = (id) => (modulos[id] ||= import(`./passos/${id}.js`).then(
   .catch((e) => { delete modulos[id]; throw e; }));
 
 // Respostas do agricultor. "" = não sei / não respondeu (vale o padrão). Só o que difere do padrão vai para a URL.
-export const PADRAO = { terra: "", ha: "", baixio: "", agua: "", vol: "", maniva: "", criacao: "", prioridade: "", gs: "", raiz: "", custo: "" };
+export const PADRAO = { terra: "", ha: "", baixio: "", agua: "", vol: "", maniva: "", criacao: "", prioridade: "", gs: "", raiz: "", custo: "",
+  hoje: "", area_un: "", antes: "", exp: "" }; // jeito de hoje, unidade da área, o que plantou antes e a experiência (não vão para a API)
 const TERRA = { arenosa: { textura: "1", ad: "12" }, mista: { textura: "2", ad: "13" }, barro: { textura: "3", ad: "15" } };
 const BAIXIO_FRAC = { nao: 0, pouco: 0.2, terco: 1 / 3, metade: 0.5, "": 1 / 3 };
 
@@ -109,6 +111,11 @@ function desenharCasca(r, ef) {
   ficha.innerHTML = estado.passo >= 3 ? [
     ROT.terra[ef.terra], U.ha(ef.ha), ROT.baixio[ef.baixio], ROT.agua[ef.agua], ROT.maniva[ef.maniva],
   ].map((t) => `<button type="button" data-ir="2" title="Mudar a resposta">${U.esc(t)}</button>`).join("") : "";
+  // no celular a fileira de passos rola: o passo atual fica no meio (não corta "Segurança" na borda)
+  const nav = document.getElementById("passos-nav"), pil = nav.querySelector(".passo-pilula.atual");
+  if (pil && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = pil.offsetLeft - (nav.clientWidth - pil.offsetWidth) / 2;
+  // a frase da moldura (ponto 16) leva às perguntas para o técnico, no passo 5
+  document.getElementById("moldura").href = escreverHash({ ...estado, passo: 5 });
   const v = document.getElementById("voltar"), a = document.getElementById("avancar");
   v.disabled = estado.passo === 1;
   a.textContent = estado.passo < 5 ? `${PASSOS[estado.passo].titulo} →` : "Outro lugar →";
@@ -138,6 +145,7 @@ async function desenhar() {
     ir: (n) => { location.hash = escreverHash({ ...estado, passo: n }); },
     link: (n, patch = {}) => escreverHash({ ...estado, passo: n, resp: { ...estado.resp, ...patch } }),
   };
+  instalarGlossario(ctx); // os exemplos do balão passam a usar este município
   const passo = PASSOS[e.passo - 1];
   const caixa = document.createElement("div");
   caixa.className = `passo-conteudo passo-${passo.id}`;
@@ -155,6 +163,23 @@ async function desenhar() {
   el.dataset.passo = String(e.passo);
   el.dataset.cod = e.cod;
   if (mudouPasso) window.scrollTo({ top: 0, behavior: "instant" });
+  explicarOlho(caixa);
+  if (rolarTecnico) { rolarTecnico = false; rolarAoTecnico(); }
+}
+
+/** O 1º "seu olho" à vista de cada passo vira "o que é?" (no toque não há title): abre o balão do glossário. */
+function explicarOlho(caixa) {
+  const rot = [...caixa.querySelectorAll(".olho-rot")].find((e) => !e.closest("details:not([open]), button, a, summary"));
+  if (!rot) return;
+  rot.classList.add("gl-termo");
+  Object.entries({ role: "button", tabindex: "0", "data-gl": "seu_olho", "aria-expanded": "false", "aria-controls": "gl-balao", title: "O que é?" })
+    .forEach(([k, v]) => rot.setAttribute(k, v));
+}
+
+let rolarTecnico = false;
+function rolarAoTecnico() {
+  const alvo = document.querySelector('[data-extra="leve_ao_tecnico"]');
+  if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 async function escolherLugar(el) {
@@ -188,6 +213,13 @@ async function escolherLugar(el) {
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-ir]");
   if (b && estado.cod) { ev.preventDefault(); location.hash = escreverHash({ ...estado, passo: +b.dataset.ir }); }
+});
+document.getElementById("moldura").addEventListener("click", (ev) => {
+  if (!estado.cod) return;
+  ev.preventDefault();
+  if (estado.passo === 5) return rolarAoTecnico();
+  rolarTecnico = true;
+  location.hash = escreverHash({ ...estado, passo: 5 });
 });
 document.getElementById("voltar").addEventListener("click", () => estado.passo > 1 && (location.hash = escreverHash({ ...estado, passo: estado.passo - 1 })));
 document.getElementById("avancar").addEventListener("click", () => {

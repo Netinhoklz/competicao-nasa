@@ -27,7 +27,9 @@
 
 /* Seu bolso: controles segmentados */
 .passo-dinheiro .bolso { padding: 18px 22px; }
-.passo-dinheiro .bolso-linha { display: grid; grid-template-columns: repeat(3, minmax(0, auto)); gap: 16px 28px; justify-content: start; }
+.passo-dinheiro .bolso-linha { display: grid; grid-template-columns: repeat(2, minmax(0, auto)); gap: 16px 28px; justify-content: start; }
+/* "O que vale mais" tem 4 escolhas (garantir, equilibrar, vender, solo): ocupa a 1ª linha inteira, sem cortar a última */
+.passo-dinheiro .bolso-linha > .ctrl:first-child { grid-column: 1 / -1; }
 .passo-dinheiro .ctrl .rot-bloco { margin-bottom: 8px; }
 .passo-dinheiro .seg { display: inline-flex; border: 1px solid var(--border-2); border-radius: 14px; overflow: hidden; background: rgba(255, 255, 255, .03); max-width: 100%; }
 .passo-dinheiro .seg button { min-height: 48px; padding: 6px 14px; border: 0; border-left: 1px solid var(--border); background: none; color: var(--ink-2);

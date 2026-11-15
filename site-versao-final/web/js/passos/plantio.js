@@ -4,6 +4,9 @@
 // o que do PercolaCampo é defensável: analise/vicente.md. Contrato do ctx e regras de texto: js/passos/LEIA-ME.md.
 import { montar, grade, espalhar, ehGram, LIMIAR_SITIO } from "./plantio/desenho.js";
 import { linhaDoTempo, calendarioCompleto, ligarCalendario } from "./plantio/calendario.js";
+import { olho, OLHOS } from "../extras/voce_decide.js";
+// Extras (js/extras/, montados por U.montarExtras): "Onde o seu roçado sofre mais" logo abaixo do roçado e "O que cada planta faz pelo
+// seu solo" depois das faixas. "Seu olho" (ponto 16) no roçado, no calendário (metade guardada) e nas faixas.
 
 // estado de tela (não é resposta): ano escolhido, vista por ano ou mês a mês, mês, relógios das animações
 const est = { cod: null, ano: 0, modo: "ano", mes: null, relogio: null, foco: null, compacto: false };
@@ -178,6 +181,7 @@ function heroi(ctx, lay, meses, W) {
       <button type="button" class="play" data-play aria-label="Passar os meses">${U.ic("seta")}</button>
       <div class="mes-trilho" role="group" aria-label="Mês a mês em 2027">${chips}</div>
       <button type="button" class="botao-leve" data-ano-todo>Ano todo</button></div>` : ""}
+    ${olho(OLHOS.faixas)}
     ${U.verMais(ordem, "Por que esta ordem das faixas")}
     ${U.verMais(rotacao(ctx, lay), `Ver a rotação ${p.anos[0]}–${p.anos[p.anos.length - 1]}, parte por parte`)}
   </section>`;
@@ -208,7 +212,7 @@ function pintarRocado(el, ctx, lay, meses) {
   caixa.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(!mes && +b.dataset.ano === k)));
   caixa.querySelectorAll("[data-mes]").forEach((b) => { b.classList.toggle("atual", !!mes && +b.dataset.mes === est.mes); b.classList.toggle("fora", est.ano !== 0 && !mes); });
   caixa.querySelector("[data-selo-heroi]").innerHTML = mes
-    ? U.selo("medido", "datas de plantar do ZARC 2026/27; crescendo e colher = janela + ciclo da cultura (suposição); desenho = suposição")
+    ? U.selo("suposicao", "desenho = suposição; datas de plantar do ZARC 2026/27 (medidas); crescendo e colher = janela + ciclo da cultura")
     : k === 0 ? U.selo("suposicao", SUPOE_LAYOUT + "; culturas do plano para 2027")
       : U.selo("projecao", `${p.anos[k]}: a rotação segue o plano; desenho = suposição`);
   caixa.querySelector("[data-vista]").textContent = mes ? `${U.MESES[mes.m - 1]}/${mes.y} · mês a mês` : `${p.anos[k]} · o ano todo`;
@@ -307,6 +311,7 @@ function blocoTempo(ctx) {
   return `<section class="painel" id="plantio-tempo">
     <h3>O que fazer e quando ${U.selo("medido", "datas de plantar da tábua oficial (ZARC 2026/27); os cartões marcados como suposição são estimados")}</h3>
     ${linhaDoTempo(ctx)}
+    ${/metade/i.test(ctx.r.plano?.interruptor || "") ? olho(OLHOS.metade) : ""}
     ${U.verMais(calendarioCompleto(ctx), "Ver o calendário completo")}
   </section>`;
 }
@@ -346,6 +351,7 @@ function blocoFaixas(ctx, lay) {
     <div data-aviso-gram></div>
     <p class="rodape-faixas">Não segura praga que voa longe, como a lagarta-do-cartucho. Ideia de Vicente Lima (PercolaCampo) ·
       <a href="modulos/percolacampo/index.html" target="_blank" rel="noopener">simulador do Vicente (modelo teórico)</a></p>
+    ${olho(OLHOS.vizinhos)}
     ${U.verMais(detalhe)}
   </section>`;
 }
@@ -474,7 +480,7 @@ function rotacao(ctx, lay) {
 export default {
   id: "plantio",
   titulo: "Como plantar",
-  render(el, ctx) {
+  async render(el, ctx) {
     pararTudo();
     const U = ctx.util, r = ctx.r;
     if (est.cod !== ctx.cod) Object.assign(est, { cod: ctx.cod, ano: 0, modo: "ano", mes: null });
@@ -492,7 +498,10 @@ export default {
     const conect = r.plano.anos.map((_, k) => ({ blocos: { ...grade(lay, k, "blocos"), modo: "blocos" }, faixas: { ...grade(lay, k, "faixas"), modo: "faixas" } }));
     const W = Math.round(Math.min(640, Math.max(300, (window.innerWidth || 800) - 66)));
     est.compacto = W < 420;
-    el.innerHTML = abertura(ctx) + heroi(ctx, lay, meses, W) + blocoTempo(ctx) + blocoFaixas(ctx, lay)
+    el.innerHTML = abertura(ctx) + heroi(ctx, lay, meses, W)
+      + U.extra("historico", { modo: "cartao", linkPergunta: ctx.link(2) }) // "Por onde começar o seu giro" (o que plantou antes)
+      + U.extra("vulnerabilidade", { vista: "agua" }) + blocoTempo(ctx)
+      + blocoFaixas(ctx, lay) + U.extra("saude_solo")
       + `<a class="botao primario cta" href="${ctx.link(4)}"><span>Ver quanto rende</span>${U.ic("seta")}</a>`;
     el.querySelector("[data-aviso-gram]").innerHTML = avisoGramineas(ctx, lay, conect);
 
@@ -519,6 +528,7 @@ export default {
     el.querySelector("[data-foco]").addEventListener("click", () => animarFoco(el, ctx, lay, conect));
     ligarCalendario(el, ctx);
     pintar();
+    await U.montarExtras(el, ctx);
     requestAnimationFrame(() => fundosRotulos(el)); // roca.js põe o passo na tela logo depois do render: aí o texto já tem medida
   },
 };

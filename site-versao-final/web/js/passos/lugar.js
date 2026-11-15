@@ -1,6 +1,10 @@
 // Passo 1, "O lugar": o que este município permite, sem perguntar nada. Pouco texto: manchete, 4 indicadores, a régua da chuva e as
 // culturas como ícones coloridos. O detalhe técnico fica em "ver como calculamos".
 // Dados: núcleo do José (ZARC + GAEZ + NASA POWER/IMERG/SMAP + ONI) e a manchete de El Niño do estado (definição única).
+// Extras (js/extras/, montados por U.montarExtras): tendências (visível), confiança dos dados (visível), satélite × pluviômetro (no ver mais
+// da régua), as grades de cada satélite e o glossário (no ver mais do fim). "Seu olho" e "o que é?" entram no próprio texto.
+import { termo } from "../extras/glossario.js";
+import { olho, OLHOS } from "../extras/voce_decide.js";
 const SIT = {
   "indicada": ["ok", "Recomendado"],
   "só aptidão": ["apto", "Dá, sem zoneamento"],
@@ -31,14 +35,16 @@ function regua(r, U) {
     if (p10 && p90) (p10 <= p90 ? [[p10, p90]] : [[p10, 366], [1, p90]]).forEach(([a, b]) => {
       marcas += `<i class="regua-inicio" style="left:${a * w}%;width:${(b - a) * w}%"></i>`;
     });
-    if (med) marcas += `<b class="regua-mediana" style="left:${med * w}%"><em>chuva chega ~${U.esc(ini.mediana)}</em></b>`;
+    if (med) marcas += `<b class="regua-mediana${med * w < 15 ? " esq" : med * w > 85 ? " dir" : ""}" style="left:${med * w}%"><em>chuva chega ~${U.esc(ini.mediana)}</em></b>`;
   }
   const hoje = r.agenda?.hoje ? doy(U.dataBR(r.agenda.hoje, true)) : null;
-  if (hoje) marcas += `<b class="regua-hoje" style="left:${hoje * w}%"><em>hoje</em></b>`;
+  if (hoje) marcas += `<b class="regua-hoje${hoje * w < 15 ? " esq" : hoje * w > 85 ? " dir" : ""}" style="left:${hoje * w}%"><em>hoje</em></b>`;
   return `<div class="painel"><h3>O ano da chuva aqui ${U.selo("medido", "GPM IMERG via NASA POWER, 1998–2025")}</h3>
     <div class="regua" role="img" aria-label="Meses de chuva e quando ela costuma chegar">${faixa}${marcas}<div class="regua-meses">${meses}</div></div>
     <div class="regua-legenda"><span><i class="ch-chuva"></i>meses de chuva: <b>${U.esc(reg.estacao)}</b></span>
-      ${ini ? `<span><i class="ch-inicio"></i>a chuva chega entre ${U.esc(ini.p10)} e ${U.esc(ini.p90)} (8 em 10 anos)</span>` : ""}</div></div>`;
+      ${ini ? `<span><i class="ch-inicio"></i>a chuva chega entre ${U.esc(ini.p10)} e ${U.esc(ini.p90)} (8 em 10 anos)</span>` : ""}</div>
+    ${/litoral leste/.test(reg.texto || "") ? olho(OLHOS.leste) : ""}
+    ${U.verMais(U.extra("satelite_chao", { painel: false }), "O satélite acerta aqui? Compare com o pluviômetro")}</div>`;
 }
 
 function elNino(r, U) {
@@ -56,13 +62,21 @@ function elNino(r, U) {
     <text x="218" y="${95 - acaso}" text-anchor="end" class="enso-ano">acaso</text></svg>`;
   return `<div class="painel ${e.alerta ? "destaque" : ""} enso-painel">
     <div class="enso">
-      <div>${U.faixa("onda", e.alerta ? "ambar" : "azul", `2027 é ano de El Niño forte. Nos anos assim, a chuva veio fraca em ${n} de cada 10 municípios do ${U.esc(u.uf)}.`)}
-        <p class="sub enso-sub">Pelo acaso seriam 3 em 10. Os anos discordam: 2024 foi forte e choveu bem. ${U.selo("medido", u.definicao || "")}</p></div>
+      <div>${U.faixa("onda", e.alerta ? "ambar" : "azul", `2027 é ano de ${termo("el_nino", "El Niño forte")}. Nos anos assim, a chuva veio fraca em ${termo("em_dez", `${n} de cada 10`)} municípios ${U.esc(U.ufDe(u.uf))}.`)}
+        <p class="sub enso-sub">Pelo acaso seriam 3 em 10; 2024 foi forte e choveu bem. ${U.selo("medido", u.definicao || "")}</p>
+        ${olhoElNino(e.regime, U)}</div>
       ${barras}
     </div>
     ${U.verMais(`<p>${U.esc(e.texto_oni)}</p>${e.perspectiva ? `<p><b>Neste município</b> (não é previsão): ${U.esc(e.perspectiva)}</p>` : ""}
       <p>${U.esc(u.definicao || "")}${comDado.length < anos.length ? " " + U.esc((u.avisos || [])[0] || "") : ""}</p>`, "Ver os detalhes")}
   </div>`;
+}
+
+/** "Seu olho" do El Niño com o mês em que a estação daqui começa (fevereiro na quadra do norte). */
+function olhoElNino(reg, U) {
+  if (!reg || reg.quadra !== false) return olho(OLHOS.el_nino);
+  const MES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  return olho(`Os anos de El Niño discordam: olhe a chuva de ${MES[(reg.mes_inicio || 2) - 1]}.`);
 }
 
 function indicadores(r, U) {
@@ -73,9 +87,9 @@ function indicadores(r, U) {
       selo: U.selo("medido", "NOAA/CPC ONI, ago–out/2026") })}
     ${ini ? U.ind({ icone: "chuva", rot: "A chuva chega", val: U.esc(ini.mediana), sub: `em geral; entre ${U.esc(ini.p10)} e ${U.esc(ini.p90)}`,
       selo: U.selo("medido", "IMERG, 27 estações até 2025") }) : ""}
-    ${reg ? U.ind({ icone: "sol", rot: "Meses de chuva", val: U.esc(reg.estacao), sub: `${U.num(reg.chuva_mm)} mm no ano típico`,
+    ${reg ? U.ind({ icone: "sol", rot: "Meses de chuva", val: U.esc(reg.estacao), sub: `${U.num(reg.chuva_mm)} mm nesses meses, num ano típico`,
       selo: U.selo("medido", "IMERG, 4 meses mais chuvosos") }) : ""}
-    ${U.ind({ icone: "solo", rot: "O solo hoje", val: U.esc(soloTxt), sub: sm?.status === "ok" ? "umidade da raiz vista do satélite" : U.esc(sm?.status || ""),
+    ${U.ind({ icone: "solo", rot: "O solo hoje", val: U.esc(soloTxt), sub: sm?.status === "ok" ? `${termo("umidade_solo", "umidade da raiz")} nos últimos 30 dias` : U.esc(sm?.status || ""),
       selo: U.selo("medido", sm?.status === "ok" ? `NASA SMAP L4, 30 dias até ${sm.fim}; posição ${sm.posto} de ${sm.anos} anos` : "NASA SMAP L4") })}
   </div>`;
 }
@@ -94,9 +108,10 @@ function culturas(r, U) {
   const n = servem.filter((i) => ["ok", "apto"].includes(SIT[i.situacao][0])).length;
   return `<div class="painel"><h3>O que dá para plantar aqui ${U.selo("medido", "ZARC/MAPA 2026/27 e FAO GAEZ v4")}</h3>
     <p class="culturas-manchete"><span class="numero-grande">${n}</span> culturas servem em ${U.esc(r.local.municipio)}.</p>
-    <div class="legenda-cult"><span class="chip verde">● Recomendado</span><span class="chip">● Dá, sem zoneamento</span><span class="chip ambar">● Com mais risco</span></div>
+    <div class="legenda-cult"><span class="chip verde">● Recomendado</span><span class="chip">● Dá, sem ${termo("zarc", "zoneamento")}</span><span class="chip ambar">● Com mais risco</span></div>
     <div class="culturas">${servem.map(bloco).join("")}</div>
     ${fora.length ? `<p class="sub pequeno">Não servem aqui: ${fora.map((i) => U.esc(i.cultura)).join(", ")}.</p>` : ""}
+    ${servem.some((i) => SIT[i.situacao][0] === "apto") ? olho(OLHOS.sem_zarc) : ""}
     ${U.verMais(`<p>Onde a cultura tem zoneamento (ZARC 2026/27, MAPA), ele decide; senão, a aptidão do FAO GAEZ v4 com pouco insumo (acima de 40).
       As datas valem para qualquer terra; no passo 2 elas se ajustam à sua.</p>
       <table><tr><th>Cultura</th><th>Aptidão GAEZ</th><th>Risco 20%</th><th>Até 40%</th><th>Solo × ciclo</th><th>Fonte</th></tr>
@@ -105,18 +120,20 @@ function culturas(r, U) {
       </table>`, "Ver a tabela técnica")}</div>`;
 }
 
-function evidencia(r, U) {
+function origem(r, U) {
   const c = r.clima, a = r.analogos?.[0];
-  if (!a) return "";
-  return `<div class="painel painel-fino">${U.verMais(`<p>O clima daqui (chuva ${U.num(c.chuva_anual_mm)} mm/ano, ${U.num(c.meses_umidos)} meses úmidos) é mais
+  const estudos = a ? `<h4>As regras da rotação</h4><p>O clima daqui (chuva ${U.num(c.chuva_anual_mm)} mm/ano, ${U.num(c.meses_umidos)} meses úmidos) é mais
     parecido com <b>${U.esc(a.lugar)}</b> (${U.esc(a.artigos)}), peso ${U.num(a.w, 2)}: ${U.esc(r.confianca.texto)}. As regras da rotação vêm de estudos em
-    lugares assim. ${U.selo("medido", c.fonte)}</p>`, "De onde vêm as regras (estudos de clima parecido, NASA POWER)")}</div>`;
+    lugares assim. ${U.selo("medido", c.fonte)}</p>` : "";
+  return `<div class="painel painel-fino origem">
+    ${U.verMais(`${U.extra("harmonizacao", { naTela: ["ndvi", "grace"] })}${estudos}`, "De onde vêm os dados: cada satélite e os estudos")}
+    ${U.extra("glossario")}</div>`;
 }
 
 export default {
   id: "lugar",
   titulo: "O lugar",
-  render(el, ctx) {
+  async render(el, ctx) {
     const { r, util: U } = ctx;
     const aberta = (r.agenda?.agora || []).find((t) => t.startsWith("Janela aberta agora"));
     el.innerHTML = `<div class="titulo-passo"><p class="kicker">Passo 1 · o seu lugar, visto do espaço</p>
@@ -125,9 +142,12 @@ export default {
       ${indicadores(r, U)}
       ${aberta ? `<div class="painel verde">${U.faixa("semente", "verde", U.esc(aberta.replace("Janela aberta agora: ", "Dá para plantar agora: ")))}</div>` : ""}
       ${regua(r, U)}
+      ${U.extra("tendencias")}
       ${culturas(r, U)}
+      ${U.extra("confianca")}
       <a class="botao primario cta" href="${ctx.link(2)}"><span>Responder 5 perguntas sobre a sua roça</span>${U.ic("seta")}</a>
       <p class="pular"><a href="${ctx.link(3)}">Pular e ver o plano com os padrões</a></p>
-      ${evidencia(r, U)}`;
+      ${origem(r, U)}`;
+    await U.montarExtras(el, ctx);
   },
 };

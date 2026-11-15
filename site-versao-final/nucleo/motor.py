@@ -5,7 +5,9 @@ Origem: José (branch estudo-jose, commit e7a23b5), protótipo/motor.py. Mudanç
 - solo "não sei" = a janela que vale em todos os solos (interseção), não o melhor caso (proposta v3, regra 3.5; revisão A7);
 - perguntas ao agricultor: maniva (nao → plano sem mandioca), baixio (0 → sem a linha do baixio), ad_baixio (AD do baixio);
 - parâmetro hoje (para fixar a data do calendário);
-- a resposta traz financeiro, projecao, padroes e el_nino_uf, lidos dos JSON pré-calculados de site-versao-final/dados/.
+- a resposta traz financeiro, projecao, padroes e el_nino_uf, lidos dos JSON pré-calculados de site-versao-final/dados/;
+- perenes caju, banana e cana-de-açúcar (ZARC dos perenes do NE, scripts/zarc_perenes_ne.py, + GAEZ), fora do giro A/B/C;
+  cache do GAEZ por pixel passa a cache_gaez_v3.json (o protótipo segue no v2).
 
 Dado um ponto (lat, lon), junta o que os dados dizem sobre o que plantar, quando e em que ordem.
 
@@ -71,12 +73,17 @@ CARDAPIO = [
     ("Algodão herbáceo", "renda", "algodão", "Algodão Herbáceo", "renda; só com vazio do bicudo"),
     ("Mamona", "renda", None, "Mamona", "renda"),
     ("Girassol", "renda", "girassol", "Girassol", "renda"),
+    # perenes: não giram nas partes A/B/C; ZARC pela tábua dos perenes do NE (PEREN, abaixo), fora da tábua aberta anual
+    ("Caju", "perene", None, None, "perene de renda: castanha e caju, nas bordas"),
+    ("Banana", "perene", "banana", None, "perene de renda; só com água: baixio úmido ou irrigação"),
+    ("Cana-de-açúcar", "perene", "cana", None, "semiperene (5–6 anos): forragem do gado ou venda"),
 ]
 ZARC_MENU = [c[3] for c in CARDAPIO if c[3]]
 TIPO_ROT = {"Feijão-caupi": "leguminosa", "Feijão comum": "leguminosa", "Amendoim": "leguminosa", "Guandu": "perene",
             "Mucuna-preta": "leguminosa", "Milho": "cereal", "Sorgo granífero": "cereal", "Sorgo forrageiro": "forragem",
             "Milheto": "forragem", "Palma forrageira": "perene", "Gliricídia": "perene", "Mandioca": "tampão",
-            "Algodão herbáceo": "renda", "Mamona": "renda", "Girassol": "renda"}
+            "Algodão herbáceo": "renda", "Mamona": "renda", "Girassol": "renda", "Caju": "perene", "Banana": "perene",
+            "Cana-de-açúcar": "perene"}
 SO_LITERATURA = {"Palma forrageira": "Diniz 2017; Lima 2018a", "Gliricídia": "Martins 2015; Pérez-Marin 2006",
                  "Mucuna-preta": "Melo 2013"}
 # no CE, estas culturas têm ZARC em portaria plurianual que não está na tábua aberta (revisão A1/C5; vigência a conferir)
@@ -173,6 +180,13 @@ ZSEQ = _zarc_cardapio()
 PLUR = pd.read_csv(DADOS / "complementares" / "zarc_plurianual_ce" / "tabua_plurianual_ce.csv", sep=";")
 PLUR["geocodigo"] = PLUR.geocodigo.astype(str)
 PLUR_NOME = {"Mandioca": "Mandioca", "Milheto": "Milheto", "Palma forrageira": "Palma Forrageira"}
+# ZARC dos perenes do NE (scripts/zarc_perenes_ne.py), vigentes pelas páginas "Safra vigente" do MAPA (05–06/11/2026):
+# caju Port. 403–411/2020 (PDF = DOU nos 9 estados), cana Port. 5/2026 (outros fins, sequeiro) e banana Port. 260–268/2019
+# (sequeiro em AL, BA, MA, PB, PE e SE), estas duas pela tábua aberta perene do MAPA. Caju e banana têm duas tabelas: a da
+# implantação dá as janelas de plantio; a do ciclo de produção, o risco do município.
+PEREN = pd.read_csv(DADOS / "complementares" / "zarc_perenes_ne" / "tabua_perenes_ne.csv", sep=";", dtype={"geocodigo": str})
+PEREN_NOME = {"Caju": "Caju", "Banana": "Banana", "Cana-de-açúcar": "Cana-de-açúcar"}
+PROD = " (ciclo de produção)"
 
 
 def janelas_circ(decs):
@@ -194,20 +208,45 @@ def janelas_circ(decs):
     return GZ.janelas(decs)
 
 
+def _linhas_plur(cod, nome):
+    """Linhas do ZARC plurianual da cultura no município (janelas de plantio) e, para caju e banana, as do ciclo de produção
+    (None nas demais): mandioca, milheto e palma no CE (PLUR); caju, banana e cana no NE (PEREN)."""
+    if nome in PLUR_NOME:
+        return PLUR[(PLUR.geocodigo == cod) & (PLUR.Nome_cultura == PLUR_NOME[nome])], None
+    if nome in PEREN_NOME:
+        q = PEREN[PEREN.geocodigo == cod]
+        prod = q[q.Nome_cultura == PEREN_NOME[nome] + PROD]
+        return q[q.Nome_cultura == PEREN_NOME[nome]], (prod if nome in ("Caju", "Banana") else None)
+    return PLUR.iloc[0:0], None
+
+
+def _menor_risco(g):
+    v = g[GZ.D].to_numpy().ravel()
+    v = v[v > 0]
+    return int(v.min()) if len(v) else None
+
+
 def zarc_plurianual(cod, nome):
-    """Janela e situação de mandioca, milheto ou palma no CE pela portaria plurianual (mesma regra do ZARC)."""
-    if nome not in PLUR_NOME:
-        return None
-    q = PLUR[(PLUR.geocodigo == cod) & (PLUR.Nome_cultura == PLUR_NOME[nome])]
+    """Janela e situação pela portaria plurianual (mesma regra do ZARC): mandioca, milheto ou palma no CE; caju, banana ou
+    cana no NE. Caju e banana: o município é classificado pelo ciclo de produção (o menor risco em algum decêndio, nota
+    técnica das portarias) e a janela vem da implantação do pomar; a classe de cada grupo é o pior dos dois."""
+    q, prod = _linhas_plur(cod, nome)
     if not len(q):
         return None
     d = lambda vals, g=q: [i + 1 for i, c in enumerate(GZ.D) if g[c].isin(vals).any()]  # noqa: E731
     n20 = d([20])
     por_solo = [{"cod_solo": int(s), "solo": SOLOS.get(int(s), str(s)), "risco20": janelas_circ(d([20], g)),
                  "risco30": janelas_circ(d([20, 30], g)), "risco40": janelas_circ(d([20, 30, 40], g))} for s, g in q.groupby("Cod_Solo")]
+    situacao = "indicada" if n20 else ("com risco" if d([20, 30, 40]) else "fora")
+    classe_prod = None
+    if prod is not None:  # caju e banana (banana: um grupo por variedade, Cod_Ciclo 31–33)
+        classes = [max(a, b) for ciclo, gi in q.groupby("Cod_Ciclo")
+                   if (a := _menor_risco(gi)) and (b := _menor_risco(prod[prod.Cod_Ciclo == ciclo]))]
+        classe_prod = _menor_risco(prod)
+        situacao = "indicada" if min(classes, default=None) == 20 else ("com risco" if classes else "fora")
     return {"risco20": janelas_circ(n20), "risco30": janelas_circ(d([20, 30])), "risco40": janelas_circ(d([20, 30, 40])),
             "solo_ciclo": f"{int((q[GZ.D] == 20).any(axis=1).sum())} de {len(q)}", "por_solo": por_solo,
-            "situacao": "indicada" if n20 else ("com risco" if d([20, 30, 40]) else "fora"),
+            "situacao": situacao, "classe_producao": classe_prod,
             "portaria": q.Portaria.iloc[0].replace("Port.", "Port. ").replace("_de_", " de ").replace("-", "/")}
 
 
@@ -388,11 +427,11 @@ def assinatura(lat, lon, cod=None):
 
 def aptidao(lat, lon):
     """Aptidão do GAEZ no pixel de 5' do ponto (chave = pixel, revisão A4)."""
-    cache = _cache("cache_gaez_v2.json")
+    cache = _cache("cache_gaez_v3.json")
     chave = f"{math.floor((90 - lat) * 12)},{math.floor((lon + 180) * 12)}"
     if chave not in cache:
         si = GZ.aptidao([(lon, lat)])
-        _grava_cache("cache_gaez_v2.json", chave, {f"{c}|{i}": v[0] for (c, i), v in si.items()})
+        _grava_cache("cache_gaez_v3.json", chave, {f"{c}|{i}": v[0] for (c, i), v in si.items()})
     return {tuple(k.split("|")): v for k, v in cache[chave].items()}
 
 
@@ -421,16 +460,25 @@ def cardapio(loc, si):
                         por_solo=janelas_por_solo(cod, z),
                         situacao=r.situacao, base=f"ZARC {SAFRA} ({uf})" + (" + GAEZ" if g else "")
                         + ("" if r.get("ciclos_conferidos", False) else "; grupos de ciclo sem conferência de cultivar"))
-        elif uf == "CE" and zarc_plurianual(cod, nome):
+        elif cod and zarc_plurianual(cod, nome):  # PLUR só tem o CE; PEREN, o NE inteiro
             p = zarc_plurianual(cod, nome)
+            if nome in PLUR_NOME:
+                base = (f"ZARC plurianual do CE ({p['portaria']}; vigente pela página do MAPA de 05/11/2026; fora da tábua aberta)"
+                        + (" + GAEZ" if g else "") + ("; grupos de ciclo I–III juntos" if nome == "Milheto" else ""))
+            else:
+                base = (f"ZARC perene do NE ({p['portaria']}; vigente pela página do MAPA de nov/2026; fora da tábua aberta anual)"
+                        + (" + GAEZ" if g else "")
+                        + (f"; janelas = implantação do pomar; ciclo de produção: risco de {p['classe_producao']}%"
+                           if p["classe_producao"] else "; janelas = implantação; sem ciclo de produção zoneado aqui"
+                           if nome in ("Caju", "Banana") else "; outros fins (forragem, rapadura, cachaça), AD1–AD6")
+                        + ("; variedades Maçã, Prata e Cavendish juntas" if nome == "Banana" else ""))
             item.update(risco20=p["risco20"], risco30=p["risco30"], risco40=p["risco40"], solo_ciclo=p["solo_ciclo"],
-                        por_solo=p["por_solo"], situacao=p["situacao"],
-                        base=(f"ZARC plurianual do CE ({p['portaria']}; vigente pela página do MAPA de 05/11/2026; fora da tábua aberta)"
-                              + (" + GAEZ" if g else "") + ("; grupos de ciclo I–III juntos" if nome == "Milheto" else "")))
+                        por_solo=p["por_solo"], situacao=p["situacao"], base=base)
         elif nome in SO_LITERATURA and not (uf == "CE" and nome in PLURIANUAL_CE):
             item.update(situacao="literatura", base=f"sem camada GAEZ/ZARC; {SO_LITERATURA[nome]} (grau C)")
         elif cod:  # no NE, sem ZARC neste município: o GAEZ decide
-            plur = f"; este município não está na portaria plurianual do CE ({PLURIANUAL_CE[nome]})" if (uf == "CE" and nome in PLURIANUAL_CE) else ""
+            plur = (f"; este município não está na portaria plurianual do CE ({PLURIANUAL_CE[nome]})" if (uf == "CE" and nome in PLURIANUAL_CE)
+                    else f"; sem ZARC de {nome.lower()} neste município" if nome in PEREN_NOME else "")
             if g:
                 item.update(situacao="só aptidão" if (s_baixo or 0) > GZ.APTA else "fora", base=f"GAEZ (sem ZARC na tábua aqui){plur}")
             else:
@@ -559,6 +607,12 @@ CICLO = {
     "Girassol": (90, 120, "suposição"),
     "Mandioca": (365, 548, "a CONAB usa 18 meses"),
     "Palma forrageira": (540, 730, "1º corte; suposição"),
+    # perenes: até a 1ª colheita. Embrapa: cajueiro-anão produz já no 2º ano num sistema irrigado e consorciado (comunicado
+    # técnico da Embrapa Agroindústria Tropical); bananal bem conduzido, 1º corte aos 11–13 meses (Embrapa, Fruticultura
+    # Irrigada, 2011, p. 140–155); cana, 1º corte aos 12 (cana de ano) a 18 meses (cana de ano e meio) (Embrapa, Dourados).
+    "Caju": (730, 1095, "1ª safra do cajueiro-anão no 2º–3º ano; Embrapa: 2º ano no irrigado; sequeiro: suposição"),
+    "Banana": (365, 450, "1º cacho; Embrapa: 11–13 meses no irrigado; 12–15 no sequeiro: suposição"),
+    "Cana-de-açúcar": (365, 540, "1º corte aos 12 (cana de ano) a 18 meses (cana de ano e meio); Embrapa"),
 }
 EST = 2027  # estação chuvosa de 2027 = safra 2026/27 do ZARC
 VIS_INI, VIS_FIM = date(2026, 11, 1), date(2027, 12, 31)  # o que o calendário mostra
@@ -598,8 +652,8 @@ def _decs(cod, item, textura=None, ad=None):
     """Decêndios do ZARC da cultura no município por nível de risco; com o solo escolhido, só as linhas dele.
     None quando a cultura não tem ZARC aqui (aí o calendário estima pelo início da chuva)."""
     base = item.get("base", "")
-    if base.startswith("ZARC plurianual"):
-        q = PLUR[(PLUR.geocodigo == cod) & (PLUR.Nome_cultura == PLUR_NOME[item["cultura"]])]
+    if base.startswith(("ZARC plurianual", "ZARC perene")):
+        q = _linhas_plur(cod, item["cultura"])[0]
     elif base.startswith("ZARC") and cod in ZSEQ.index:
         z = next(c[3] for c in CARDAPIO if c[0] == item["cultura"])
         q = ZSEQ.loc[[cod]]
@@ -723,7 +777,8 @@ def plano(itens, nivel_alerta, reg, no_ne, cod=None, inicio=None, textura=None, 
          "anos": [cel(cereal_baixio or seco, baixio_txt, "cereal" if cereal_baixio else None)] * 3},
         {"parte": "Bordas", "por_que": ("Forragem perene e banco de proteína, em curva de nível, longe do grão (só NE)." if no_ne
                                         else "Perene local a definir (palma e gliricídia são do semiárido do NE)."),
-         "anos": ([cel("Palma + gliricídia", "em nível, sem fogo", "perene")] + [cel("Palma + gliricídia", "permanecem", "perene")] * 2)
+         "anos": ([cel("Palma + gliricídia", "em nível, sem fogo" + ("; o caju também cabe aqui" if "Caju" in ok else ""), "perene")]
+                  + [cel("Palma + gliricídia", "permanecem", "perene")] * 2)
          if no_ne else [cel("Perene local", "a definir", "perene")] * 3},
     ]
     if not baixio:  # resposta "não tenho baixio": o cereal sai do roçado (no sertão o milho precisa do baixio)
@@ -779,8 +834,14 @@ def _fonte_janela(j, item, est, inicio):
     if not j["zarc"]:
         return (f"estimado: do início típico da chuva no IMERG ({inicio['mediana']}) a 40 dias depois; sem ZARC aqui (suposição)")
     nivel = {20: "risco 20%", 30: "risco até 30%", 40: "risco até 40%"}[j["nivel"]]
-    s = (f"ZARC plurianual do CE ({PLURIANUAL_CE[item['cultura']]}), {nivel}" if "plurianual" in item.get("base", "")
-         else f"ZARC {SAFRA}, {nivel}")
+    base = item.get("base", "")
+    if "plurianual" in base:
+        s = f"ZARC plurianual do CE ({PLURIANUAL_CE[item['cultura']]}), {nivel}"
+    elif base.startswith("ZARC perene"):
+        port = re.search(r"\((Port\. [^;]+);", base).group(1)
+        s = f"ZARC perene ({port}" + ("; implantação do pomar" if item["cultura"] in ("Caju", "Banana") else "") + f"), {nivel}"
+    else:
+        s = f"ZARC {SAFRA}, {nivel}"
     if j["solo"]:
         s += f", solo {j['solo']}"
     elif j.get("comum"):

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUADRA · Vitrine dos módulos</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <style>
+    body { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: 100vh; }
+    nav { padding: 22px 18px; border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    nav h1 { font-family: var(--font); font-weight: 300; font-size: 28px; margin: 6px 0 18px; }
+    nav button { display: block; width: 100%; text-align: left; border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+      border-radius: 12px; padding: 10px 12px; margin: 0 0 8px; cursor: pointer; font-size: 14px; }
+    nav button small { display: block; color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; margin-top: 2px; }
+    nav button.atual { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+    iframe { width: 100%; height: 100vh; border: 0; background: var(--bg); }
+    @media (max-width: 760px) { body { grid-template-columns: 1fr; } nav { position: static; height: auto; } iframe { height: 80vh; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <p class="kicker">Vitrine · em construção</p>
+    <h1>Módulos novos</h1>
+    <div id="menu"></div>
+    <p class="sub pequeno">Cada módulo ainda está separado. A integração vai encaixá-los nos 5 passos da jornada.</p>
+  </nav>
+  <iframe id="tela" title="Módulo"></iframe>
+  <script>
+    const M = [
+      ["voce_decide", "Você decide", "ponto 16"], ["hoje_ideal", "Hoje → melhor → ideal", "pedido novo"], ["glossario", "O que é?", "ponto 2"],
+      ["tendencias", "Como o lugar está mudando", "pontos 1 e 11"], ["satelite_chao", "Satélite × pluviômetro", "ponto 3"],
+      ["harmonizacao", "Do pixel ao município", "ponto 7"], ["cenarios", "Três jeitos de girar", "pontos 8 e 9"], ["saude_solo", "O que a planta faz pelo solo", "ponto 10"],
+      ["mapa-camadas", "Camadas no mapa", "ponto 11"], ["vulnerabilidade", "Onde o roçado sofre", "ponto 12"], ["cenario_chuva", "E se chover…", "pontos 13 e 5"],
+    ];
+    const menu = document.getElementById("menu"), tela = document.getElementById("tela");
+    const abrir = (id) => {
+      tela.src = id + ".html";
+      menu.querySelectorAll("button").forEach((b) => b.classList.toggle("atual", b.dataset.id === id));
+      history.replaceState(null, "", "#" + id);
+    };
+    menu.innerHTML = M.map(([id, t, p]) => `<button data-id="${id}">${t}<small>${p}</small></button>`).join("");
+    menu.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) abrir(b.dataset.id); });
+    abrir(location.hash.slice(1) || "voce_decide");
+  </script>
+</body>
+</html>

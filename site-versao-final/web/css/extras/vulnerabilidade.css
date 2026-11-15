@@ -1,0 +1,89 @@
+/* QUADRA, extra "Onde o seu roçado sofre mais" (ponto 12; js/extras/vulnerabilidade.js). Só tokens de css/quadra.css. */
+.vz .vz-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px 18px; flex-wrap: wrap; margin-bottom: 16px; }
+.vz .vz-topo h3 { margin: 0; }
+.vz .vz-botoes { display: inline-grid; grid-template-columns: repeat(3, auto); border: 1px solid var(--border-2); border-radius: 999px; padding: 3px;
+  background: rgba(255, 255, 255, .03); }
+.vz .vz-b { border: 0; background: transparent; min-height: 46px; padding: 0 16px; border-radius: 999px; cursor: pointer; font-size: 15px; font-weight: 600;
+  color: var(--ink-2); display: inline-flex; align-items: center; justify-content: center; gap: 7px; transition: background .2s, color .2s; }
+.vz .vz-b .ic { width: 18px; height: 18px; }
+.vz .vz-b[aria-pressed="true"] { background: var(--green); color: var(--bg); }
+.vz .vz-b:not([aria-pressed="true"]):hover { background: var(--green-soft); color: var(--ink); }
+
+.vz .vz-grade { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 26px; align-items: start; }
+.vz .vz-fig { margin: 0; }
+.vz .vz-carregando { aspect-ratio: 1; border-radius: 12px; background: var(--surface-2); }
+.vz .vz-svg { width: 100%; height: auto; display: block; }
+.vz .vz-lado { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.vz .vz-lado .ind { background: var(--surface-2); }
+.vz .vz-frase { margin: 0; font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.3; color: var(--ink); }
+.vz .vz-confira { margin: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--ink-2); border-left: 2px solid var(--green);
+  padding: 2px 0 2px 12px; }
+.vz .vz-confira .ic { color: var(--green-forte); width: 20px; height: 20px; }
+.vz .vz-confira b { color: var(--ink); }
+.vz .vz-segura { display: flex; gap: 8px; flex-wrap: wrap; }
+.vz .vz-segura .ic { width: 16px; height: 16px; }
+.vz .vz-terrenos { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.vz .vz-terreno { border: 1px solid var(--border-2); background: rgba(255, 255, 255, .03); border-radius: 999px; min-height: 40px; padding: 0 14px;
+  cursor: pointer; font-size: 14px; color: var(--ink-2); }
+.vz .vz-terreno[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); color: var(--ink); font-weight: 600; }
+.vz .vz-calor-caixa { display: flex; flex-direction: column; gap: 6px; }
+.vz .vz-calor-caixa p { margin: 0; }
+.vz .vz-graf { width: 100%; max-width: 320px; height: auto; display: block; }
+.vz .vz-graf-rot { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.vz .vz-flor-txt { font-size: 15px; color: var(--ink-2); }
+.vz .vz-flor-txt b { color: var(--ink); }
+.vz details.ver-mais table { margin: 6px 0 10px; }
+
+/* desenho: roçado visto de cima */
+.vz .vz-svg text { font-family: var(--font); }
+.vz .vz-eixo { font-family: var(--mono) !important; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); }
+.vz .vz-t { font-size: 12px; font-weight: 600; fill: var(--ink-2); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
+.vz .vz-t.forte { fill: var(--ink); }
+.vz .vz-t.terra { fill: var(--terra); }
+.vz .vz-t.ambar { fill: var(--amber); }
+.vz .vz-t.azul { fill: var(--blue); }
+.vz .vz-t.verde { fill: var(--green-forte); stroke-width: 0; font-size: 10px; font-family: var(--mono); letter-spacing: .08em; }
+.vz .vz-t.fundo { fill: var(--ink-2); }
+.vz .vz-cerca { fill: none; stroke: var(--t-perene); stroke-width: 4; stroke-dasharray: 7 4; opacity: .55; }
+.vz .vz-fx { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.vz .vz-bx { fill: var(--blue-soft); stroke: var(--blue); stroke-width: 1.2; }
+.vz .vz-bx.incerto { stroke-dasharray: 6 4; }
+.vz .vz-ic { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vz .vz-ic.ambar { stroke: var(--amber); }
+.vz .vz-ic.azul { stroke: var(--blue); }
+
+/* água e erosão */
+.vz .vz-perde { fill: var(--terra); }
+.vz .vz-perde.n1 { opacity: .10; } .vz .vz-perde.n2 { opacity: .16; } .vz .vz-perde.n3 { opacity: .22; } .vz .vz-perde.n4 { opacity: .30; }
+.vz .vz-nivel { stroke: var(--green); stroke-width: 1.4; stroke-dasharray: 3 4; opacity: .7; }
+.vz .vz-escorre { fill: none; stroke: var(--blue); stroke-linecap: round; stroke-linejoin: round; }
+.vz .vz-escorre.n1 { stroke-width: 1.4; opacity: .55; } .vz .vz-escorre.n2 { stroke-width: 1.8; opacity: .7; }
+.vz .vz-escorre.n3 { stroke-width: 2.3; opacity: .85; } .vz .vz-escorre.n4 { stroke-width: 2.8; opacity: .95; }
+.vz .vz-terrinha { fill: var(--amber); opacity: .55; }
+
+/* seca primeiro */
+.vz .vz-g0 { stop-color: var(--amber); stop-opacity: .5; }
+.vz .vz-g1 { stop-color: var(--amber); stop-opacity: .04; }
+.vz .vz-grao { fill: var(--amber); opacity: .8; }
+.vz .vz-areia { stroke: var(--amber); stroke-width: 1; stroke-dasharray: 3 3; }
+
+/* geada e calor */
+.vz .vz-calor { fill: var(--amber-soft); }
+.vz .vz-quente { fill: var(--terra); }
+.vz .vz-flor { fill: var(--green-soft); stroke: var(--green); stroke-width: 1; stroke-dasharray: 3 3; }
+.vz .vz-mes { font-family: var(--mono); font-size: 9px; fill: var(--muted); }
+
+@media (max-width: 760px) {
+  .vz .vz-grade { grid-template-columns: 1fr; gap: 18px; }
+  .vz .vz-fig { max-width: 360px; width: 100%; margin: 0 auto; }
+  .vz .vz-botoes { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 16px; }
+  .vz .vz-b { flex-direction: column; gap: 2px; padding: 6px 4px; border-radius: 12px; font-size: 13px; min-height: 52px; line-height: 1.15; }
+  .vz .vz-frase { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .vz .vz-b { transition: none; } }
+
+/* "E se esquentar?": hoje · +1 °C · +2 °C (o de hoje fica em contorno atrás das barras do cenário) */
+.vz .vz-esquenta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 2px 0 4px; }
+.vz .vz-esquenta .chip { min-height: 40px; padding: 6px 14px; cursor: pointer; font: inherit; font-size: 14px; font-weight: 600; }
+.vz .vz-hoje { fill: none; stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 2 2; }
+.vz .vz-hoje-leg { text-transform: none; letter-spacing: 0; }

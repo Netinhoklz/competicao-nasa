@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste · tendências</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/tendencias.css">
+</head>
+<body>
+  <main class="jornada"><div id="alvo"><div class="carregando">Carregando</div></div></main>
+  <script type="module">
+    // Teste isolado do extra "tendencias": teste/tendencias.html?cod=2311306
+    import T from "../js/extras/tendencias.js";
+    import * as U from "../js/comum.js";
+    const cod = new URLSearchParams(location.search).get("cod") || "2311306";
+    const r = await fetch(`/api/local?cod=${cod}`).then((x) => x.json());
+    const ctx = { r, cod, ef: { ha: 3, baixio_ha: 1, baixio_frac: 1 / 3, tem_baixio: true, terra: "nao_sei", agua: "chuva", maniva: "tem",
+      prioridade: "garantir", raiz: "uf_mediana", custo: "semente" }, resp: {}, util: U, set() {}, ir() {}, link() { return "#"; } };
+    await T.render(document.getElementById("alvo"), ctx, {});
+    document.body.dataset.pronto = "1";
+  </script>
+</body>
+</html>

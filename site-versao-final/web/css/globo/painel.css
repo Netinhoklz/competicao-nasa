@@ -113,3 +113,8 @@ body.com-lado .dica-mapa { left: calc(24px + (100vw - var(--lado) - 72px) / 2); 
   .lado, .ovo { transition: opacity 0.2s ease; transform: none; }
   .ovo.visivel { transform: translate(-50%, 0); }
 }
+
+/* ponto 16: o lembrete "quem decide é você" no cartão do lugar (o mesmo da barra de baixo da jornada) */
+.cartao-decide { display: flex; align-items: center; gap: 8px; margin-top: 12px !important; font-size: 13px; line-height: 1.35; color: var(--ink-2); }
+.cartao-decide svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.cartao-decide b { color: var(--ink); font-weight: 600; }

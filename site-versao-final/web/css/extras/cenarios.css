@@ -1,0 +1,75 @@
+/* QUADRA, extra "Três jeitos de girar o roçado" (js/extras/cenarios.js). Só tokens de css/quadra.css. */
+.cen .kicker { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cen .faixa { margin: 2px 0 8px; }
+.cen-troca { margin: 0 0 20px 62px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; color: var(--ink-2); font-size: 15px; }
+.cen-troca .chip .ic { width: 15px; height: 15px; }
+
+.cen-corpo { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+
+/* grade: 7 pontos × 4 jeitos; o cabeçalho de cada coluna é o botão que acende o jeito */
+.cen-grade { --cols: minmax(96px, 1.45fr) repeat(4, minmax(0, 1fr)); }
+.cen-cab, .cen-linha { display: grid; grid-template-columns: var(--cols); }
+.cen-canto { align-self: end; padding: 0 8px 10px 0; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); line-height: 1.3; }
+.cen-jeito { position: relative; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 2px; border: 1px solid transparent; border-bottom: 0; border-radius: 14px 14px 0 0; background: none; color: var(--ink-2);
+  font-size: 13px; cursor: pointer; transition: background .15s, color .15s; }
+.cen-jeito:hover { background: var(--surface-2); color: var(--ink); }
+.cen-jeito:focus-visible { outline: 2px solid var(--green-forte); outline-offset: -2px; }
+.cen-jeito.on { background: var(--green-soft); border-color: var(--green); color: var(--ink); font-weight: 600; }
+.cen-jeito.on .ic { color: var(--green-forte); }
+.cen-jeito.rec::after { content: ""; position: absolute; top: 7px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+.cen-rot { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 9px 6px 9px 0; border-top: 1px solid var(--border);
+  font-size: 14px; line-height: 1.15; color: var(--ink-2); }
+.cen-rot .ic { width: 18px; height: 18px; color: var(--muted); }
+.cen-cel { display: grid; place-items: center; border-top: 1px solid var(--border); border-left: 1px solid transparent; border-right: 1px solid transparent; }
+.cen-cel.on { background: var(--green-soft); border-left-color: var(--green); border-right-color: var(--green); }
+.cen-linha:last-child .cen-cel.on { border-bottom: 1px solid var(--green); border-radius: 0 0 14px 14px; }
+.cen-pts { display: inline-flex; gap: 4px; }
+.cen-pts i { display: block; width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--border-2); }
+.cen-pts i.on { background: var(--ink-2); box-shadow: none; }
+.cen-cel.on .cen-pts i.on { background: var(--green-forte); }
+.cen-sem { color: var(--ink-4); font-size: 13px; }
+
+/* o jeito aceso, ano a ano */
+.cen-giro-tit { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.cen-giro-cab, .cen-giro-linha { display: grid; grid-template-columns: 46px repeat(3, minmax(0, 1fr)); gap: 6px; }
+.cen-giro-cab span { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: center; }
+.cen-giro-linha { margin-top: 6px; }
+.cen-parte { align-self: center; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+.cen-c { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 48px; padding: 6px 8px; border-left: 3px solid var(--cor);
+  border-radius: 10px; background: var(--fundo); font-size: 13px; color: var(--ink); }
+.cen-c .ic { width: 18px; height: 18px; color: var(--cor); }
+.cen-c span { min-width: 0; line-height: 1.15; overflow-wrap: break-word; }
+.cen-c small { display: block; margin-top: 1px; font-size: 11px; color: var(--muted); }
+.cen-bordas { display: flex; align-items: center; gap: 6px; margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.cen-bordas .ic { width: 16px; height: 16px; }
+
+/* ver mais */
+.cen .cen-tab { margin: 12px 0; }
+.cen .cen-tab th, .cen .cen-tab td { font-size: 13px; padding: 6px 8px; }
+.cen .cen-tab td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cen .cen-tab tbody th { font-family: var(--body); text-transform: none; letter-spacing: 0; color: var(--ink-2); font-size: 13px; }
+.cen .cen-tab small { color: var(--muted); font-size: 11px; }
+.cen-regras { margin: 10px 0; padding-left: 18px; }
+.cen-regras li { margin: 6px 0; }
+
+@media (max-width: 760px) {
+  .cen-corpo { grid-template-columns: 1fr; gap: 22px; }
+  .cen-troca { margin-left: 0; font-size: 14px; }
+}
+@media (max-width: 420px) {
+  .cen-grade { --cols: minmax(88px, 1.35fr) repeat(4, minmax(0, 1fr)); }
+  .cen-canto { font-size: 10px; letter-spacing: .08em; }
+  .cen-jeito { font-size: 12px; min-height: 54px; }
+  .cen-jeito.rec::after { top: 5px; right: 5px; }
+  .cen-rot { font-size: 13px; gap: 6px; }
+  .cen-rot .ic { width: 16px; height: 16px; }
+  .cen-pts { gap: 3px; }
+  .cen-pts i { width: 8px; height: 8px; }
+  .cen-giro-cab, .cen-giro-linha { grid-template-columns: 40px repeat(3, minmax(0, 1fr)); gap: 5px; }
+  .cen-c { padding: 5px 6px; font-size: 12.5px; }
+  .cen-c .ic { display: none; } /* no celular a cor da borda já diz o tipo; o nome precisa do espaço */
+  .cen .cen-tab th, .cen .cen-tab td { padding: 5px 4px; font-size: 12px; }
+  .cen .cen-tab small { display: block; }
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#040605">
+  <title>QUADRA · teste tamanho do roçado</title>
+  <link rel="stylesheet" href="../vendor/fontes/globo.css">
+  <link rel="stylesheet" href="../vendor/fontes/painel.css">
+  <link rel="stylesheet" href="../css/quadra.css">
+  <link rel="stylesheet" href="../css/extras/voce_decide.css">
+  <link rel="stylesheet" href="../css/extras/area_historico.css">
+  <style>
+    .teste-barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 14px 28px; font-size: 13px; color: var(--muted); }
+    .teste-barra a { color: var(--ink-2); }
+    .teste-resp { font-family: var(--mono); font-size: 12px; color: var(--ink-4); text-align: center; margin: 26px 0 0; word-break: break-all; }
+    @media (max-width: 760px) { .teste-barra { padding: 10px 16px; } }
+  </style>
+</head>
+<body>
+  <!-- Teste do módulo js/extras/area.js, fora da jornada. Parâmetros: ?cod=<IBGE>&ha=<hectares>&area_un=<texto>
+       (ex.: area_un=tarefa:4, tarefa:4:4356, medida:100x50, medida:125x60:passos; sem ha, o ha sai do area_un) -->
+  <div class="teste-barra" id="barra"></div>
+  <main class="jornada">
+    <div id="area"></div>
+    <p class="teste-resp" id="resp"></p>
+  </main>
+  <script type="module">
+    import * as U from "../js/comum.js";
+    import mod, { haDe } from "../js/extras/area.js";
+
+    const q = new URLSearchParams(location.search);
+    const cod = q.get("cod") || "2311306";
+    const resp = { ha: q.get("ha") || "", area_un: q.get("area_un") || "" };
+    const ef = { ha: 3, baixio_ha: 1, baixio_frac: 1 / 3, tem_baixio: true, terra: "nao_sei", agua: "chuva", maniva: "tem",
+      prioridade: "garantir", raiz: "uf_mediana", custo: "semente" };
+    const ex = [["2311306", "Quixadá"], ["2700300", "Arapiraca"], ["2903201", "Barreiras"]];
+    const presets = [["", "", "padrão"], ["", "tarefa:4", "4 tarefas"], ["", "medida:100x50", "100 × 50 m"], ["", "medida:125x60:passos", "125 × 60 passos"]];
+    const url = (p) => { const n = new URLSearchParams(q); for (const [k, v] of Object.entries(p)) v === "" ? n.delete(k) : n.set(k, v); return "?" + n; };
+    document.getElementById("barra").innerHTML = `<b>teste área</b> ${ex.map(([c, n]) => `<a href="${url({ cod: c })}">${n}</a>`).join(" · ")}
+      · ${presets.map(([h, a, n]) => `<a href="${url({ ha: h, area_un: a })}">${n}</a>`).join(" · ")}`;
+
+    let r = null, primeira = true;
+    const efetivo = () => { // como o efetivas() do roca.js: resposta > típico do Censo > 1 ha
+      const pad = r.padroes || {}, v = parseFloat(String(resp.ha).replace(",", "."));
+      ef.ha = Math.round((v > 0 ? v : pad.rocado_ha > 0 ? pad.rocado_ha : pad.rocado_ha_padrao > 0 ? pad.rocado_ha_padrao : 1) * 100) / 100;
+      ef.ha_origem = v > 0 ? "resposta" : "padrão do município (Censo 2017)";
+      ef.baixio_ha = Math.round(ef.ha * ef.baixio_frac * 100) / 100;
+    };
+    const ctx = () => ({ r, cod, ef, resp: { ...resp }, util: U, entrou: primeira,
+      set(p) { Object.assign(resp, p); history.replaceState(null, "", url(resp)); setTimeout(desenhar, 0); },
+      ir() {}, link() { return "#"; } });
+    async function desenhar() {
+      efetivo();
+      await mod.render(document.getElementById("area"), ctx(), {});
+      document.getElementById("resp").textContent = `ctx.resp.ha = "${resp.ha}" · ctx.resp.area_un = "${resp.area_un}" · ef.ha = ${ef.ha}`;
+      primeira = false;
+    }
+    try {
+      const resp0 = await fetch(`/api/local?cod=${cod}`);
+      r = await resp0.json();
+      if (r.erro) throw new Error(r.erro);
+      if (!resp.ha && resp.area_un) { const h = haDe(resp.area_un, r.local?.uf); if (h) resp.ha = String(Math.round(h * 100) / 100); }
+      await desenhar();
+    } catch (e) {
+      document.querySelector("main").innerHTML = `<div class="erro">Não consegui carregar: ${U.esc(e.message)}. O servidor está rodando (porta 8090)?</div>`;
+      console.error(e);
+    }
+  </script>
+</body>
+</html>

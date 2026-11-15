@@ -90,6 +90,10 @@ svg { overflow: visible; }
   font-size: 20px; text-decoration: none; text-align: center; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); }
 .plano:hover { filter: brightness(1.08); }
 .plano span { font-size: 24px; line-height: 1; }
+/* ponto 16: logo abaixo do botão do plano, o mesmo lembrete da jornada */
+.decide { display: flex; align-items: center; justify-content: center; gap: 8px; margin: -4px 0 0; font-size: 13px; color: var(--muted); text-align: center; }
+.decide svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--green); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.decide b { color: var(--ink); font-weight: 600; }
 .faixa .pilula { flex: none; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 14px; }
 .t-bad { background: var(--terra-soft); border-color: var(--terra); } .t-bad .sinal { background: var(--terra); } .t-bad .pilula { background: var(--terra); color: #fff; }
 .t-warn { background: var(--amber-soft); border-color: var(--amber); } .t-warn .sinal { background: var(--amber); } .t-warn .pilula { background: var(--amber); color: #fff; }

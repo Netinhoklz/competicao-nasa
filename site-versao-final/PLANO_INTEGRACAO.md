@@ -91,3 +91,22 @@ vento e declive no desenho do roçado, perguntas da temporada (data de plantio, 
   e ausentes do branch. Até lá, o "AUC ≈ 0,5" não aparece no site.
 - Vicente: dizer de onde vêm as constantes do PercolaCampo (k das faixas e do xadrez, χc 0,88–0,92, q, α, d0) e conferir o DOI do
   González-Martínez 2026. Até lá, esses números não aparecem.
+
+## Rodada de 14/11 (noite): os 16 pontos, o jeito de hoje e as perenes
+
+- **16 pontos do desafio:** 10 módulos em `web/js/extras/`, um por ponto, encaixados nos passos por um integrador e conferidos por
+  dois revisores. Relatórios em `integracao/*.md`.
+  - Ponto 16: frase fixa na barra de baixo, "seu olho" nos momentos de decisão, confiança dos dados e "Leve para o técnico".
+  - Mapa: camadas leves no zoom do globo, entre elas quebra 2027, solo, calor, água guardada e confiança.
+- **O jeito de hoje e a experiência** (pedido do José): `extras/hoje_ideal.js`, `extras/historico.js` e `extras/area.js`.
+  - Passo 2: começa por "Como você planta hoje?" e "O que plantou e o que deu certo". A área aceita hectares, tarefas ou a medida
+    do terreno.
+  - Passo 3: "Por onde começar o seu giro".
+  - Passo 4: Hoje → Melhor → Ideal. O "jeito de hoje" da conta passa a ser o informado.
+  - Passo 5: "A sua memória e os dados".
+- **Perenes: caju, banana e cana** (a jaca fica de fora, sem dado). Não giram nas partes A/B/C; ficam nas bordas ou num pedaço fixo.
+  - ZARC dos perenes do NE em `scripts/zarc_perenes_ne.py`: caju Port. 403–411/2020 (9 UFs); banana de sequeiro Port. 260–268/2019
+    (AL, BA, MA, PB, PE, SE); cana "outros fins" Port. 5/2026.
+  - GAEZ: banana e cana.
+  - Financeiro: série do caju (castanha) por município e banana/cana no CE (`scripts/preparar_perenes_financeiro.py`; rodar depois
+    de `ferramentas/preparar_financeiro_site.py`).

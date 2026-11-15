@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QUADRA · teste Você decide</title>
+  <!-- base = web/: os caminhos e o fetch dos módulos ficam iguais aos de roca.html -->
+  <base href="/">
+  <link rel="stylesheet" href="vendor/fontes/globo.css">
+  <link rel="stylesheet" href="vendor/fontes/painel.css">
+  <link rel="stylesheet" href="css/quadra.css">
+  <link rel="stylesheet" href="css/extras/voce_decide.css">
+</head>
+<body>
+  <main class="jornada" id="jornada"><div class="carregando">Carregando</div></main>
+  <nav class="nav-baixo" aria-label="Avançar e voltar">
+    <button class="botao secundario" type="button">← Voltar</button>
+    <div id="moldura" style="display:contents"></div>
+    <button class="botao primario" type="button">Quanto rende →</button>
+  </nav>
+  <script type="module">
+    // Teste do ponto 16: ?cod=2311306&terra=nao_sei&agua=chuva&baixio=terco&maniva=tem&tem_baixio=1
+    import * as U from "./js/comum.js";
+    import VD, { olho, OLHOS } from "./js/extras/voce_decide.js";
+    import CF from "./js/extras/confianca.js";
+    import LT from "./js/extras/leve_ao_tecnico.js";
+    const q = new URLSearchParams(location.search), cod = q.get("cod") || "2311306";
+    const r = await (await fetch(`/api/local?cod=${cod}`)).json();
+    const tb = q.get("tem_baixio");
+    const ef = { ha: 3, baixio_ha: tb === "0" ? 0 : 1, baixio_frac: tb === "0" ? 0 : 1 / 3, tem_baixio: tb === "0" ? false : tb === "?" ? null : true,
+      baixio: tb === "0" ? "nao" : tb === "?" ? "nao_sei" : (q.get("baixio") || "terco"), terra: q.get("terra") || "nao_sei", agua: q.get("agua") || "chuva",
+      vol_m3: +q.get("vol") || null, maniva: q.get("maniva") || "tem", prioridade: "garantir", raiz: "uf_mediana", custo: "semente" };
+    const ctx = { r, cod, ef, resp: {}, util: U, set() {}, ir() {}, link() { return "#"; } };
+    const el = document.getElementById("jornada");
+    el.innerHTML = `<div class="titulo-passo"><p class="kicker">Teste · ponto 16 · ${U.esc(r.local.municipio)} (${U.esc(r.local.uf)})</p>
+      <h1>Quem decide é você.<span class="eco">O QUADRA ajuda; o técnico confere.</span></h1></div>
+      <div id="t-confianca"></div>
+      <section class="painel"><h3>Exemplo: painel do El Niño (passo 1)</h3>
+        ${U.faixa("onda", "ambar", "2027 é ano de El Niño forte.")}<div id="t-olho"></div></section>
+      <section class="painel"><h3>Todos os "seu olho" (texto e tamanho)</h3>${Object.entries(OLHOS).map(([k, t]) =>
+        `<div class="pequeno sub" style="margin-top:10px">${k} · ${t.split(/\s+/).length} palavras</div>${olho(t)}`).join("")}</section>
+      <div id="t-tecnico"></div>`;
+    const dados = await (await import("./js/extras/confianca.js")).carregar();
+    await CF.render(document.getElementById("t-confianca"), ctx, { dados });
+    await VD.render(document.getElementById("t-olho"), ctx, { olho: "el_nino" });
+    await LT.render(document.getElementById("t-tecnico"), ctx, { dados });
+    await VD.render(document.getElementById("moldura"), ctx);
+    // para os prints: a folha de impressão sem abrir a caixa de impressão, e o texto do WhatsApp
+    const { confiancaDe } = await import("./js/extras/confianca.js");
+    const { perguntas } = await import("./js/extras/leve_ao_tecnico.js");
+    const conf = confiancaDe(dados, cod, r), itens = perguntas(ctx, conf);
+    window.__texto = LT._texto(ctx, itens, conf);
+    window.__papel = () => {
+      const d = Object.assign(document.createElement("div"), { id: "lt-impressao", className: "lt-papel", innerHTML: LT._papel(ctx, itens, conf) });
+      document.body.append(d); document.body.classList.add("imprime-tecnico");
+    };
+    document.body.dataset.pronto = "1";
+  </script>
+</body>
+</html>

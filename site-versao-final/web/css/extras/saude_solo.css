@@ -1,0 +1,54 @@
+/* QUADRA, módulo extra "O que cada planta faz pelo seu solo" (js/extras/saude_solo.js). Só tokens de css/quadra.css.
+   A cor de cada cartão vem da classe de tipo (.t-leguminosa, .t-cereal, .t-tampao, .t-forragem): --cor (traço) e --fundo. */
+.ss .ss-titulo { margin-top: 0; }
+.ss-cartoes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: start; }
+.ss-cartao { background: var(--surface-2); border: 1px solid var(--border); border-top: 3px solid var(--cor); border-radius: 14px;
+  padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.ss-topo { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.ss-bola { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--fundo); color: var(--cor); }
+.ss-kicker { flex: 1; min-width: 0; font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.ss-corpo { display: flex; flex-direction: column; gap: 9px; }
+.ss-val { font-family: var(--display); font-size: 38px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); }
+.ss-val small { font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 6px; }
+.ss-sub { margin: 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.ss-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ss-chips .chip { font-size: 12.5px; padding: 3px 10px 3px 7px; }
+.ss-chips .chip .ic { width: 16px; height: 16px; color: var(--cor); }
+.ss-rot { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-4); margin-right: 2px; }
+.ss-nada { font-size: 13px; color: var(--muted); }
+.ss-prova { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.ss-prova .ic { width: 16px; height: 16px; color: var(--cor); }
+.ss-grau { display: inline-flex; gap: 2px; flex: none; }
+.ss-grau i { width: 5px; height: 12px; border-radius: 2px; background: var(--border-2); }
+.ss-grau i.on { background: var(--cor); }
+.ss-cartao details.ver-mais { margin-top: 2px; padding-top: 8px; }
+.ss details.ver-mais { overflow-wrap: anywhere; }
+.ss-fonte { margin: 10px 0; }
+.ss-fonte code { font-family: var(--mono); font-size: 11.5px; color: var(--ink-2); }
+.ss-decide { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0 2px; color: var(--ink); }
+.ss-decide .ic { width: 18px; height: 18px; color: var(--green-forte); margin-top: 1px; }
+
+/* em 3 anos, parte por parte */
+.ss-longo { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.ss-longo > .ss-topo .ic { color: var(--muted); }
+.ss-frase { font-family: var(--display); font-weight: 700; font-size: clamp(17px, 2vw, 21px); line-height: 1.25; margin: 10px 0 14px; max-width: 640px; }
+.ss-mat { display: grid; grid-template-columns: 5em repeat(3, minmax(0, 1fr)); gap: 9px 12px; align-items: center; max-width: 520px; }
+.ss-cab { display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ss-cab i { width: 9px; height: 9px; border-radius: 3px; background: var(--cor); flex: none; }
+.ss-parte { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+.ss-pips { display: flex; justify-content: center; gap: 6px; }
+.ss-pips i { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--border-2); }
+.ss-pips i.on { background: var(--cor); border-color: var(--cor); }
+
+@media (max-width: 1060px) { .ss-cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  .ss-cartoes { grid-template-columns: 1fr; gap: 12px; }
+  .ss-cartao { gap: 8px; }
+  .ss-corpo { display: grid; grid-template-columns: minmax(64px, auto) 1fr; gap: 12px; align-items: center; }
+  .ss-val { font-size: 34px; }
+  .ss-val small { display: block; margin: 4px 0 0; font-size: 12px; }
+  .ss-mat { grid-template-columns: 4.6em repeat(3, minmax(0, 1fr)); gap: 8px 6px; }
+  .ss-cab { flex-direction: column; gap: 4px; font-size: 10px; letter-spacing: .06em; }
+  .ss-pips { gap: 4px; }
+}

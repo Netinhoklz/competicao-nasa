@@ -109,16 +109,6 @@
 .q-forte i { outline: 2px solid var(--ink); outline-offset: 1px; }
 .q-forte span { color: var(--ink); font-weight: 600; }
 
-/* portões */
-.seg-portao { margin: 0; display: grid; gap: 10px; align-content: start; }
-.seg-portao-cab { display: flex; gap: 12px; align-items: center; }
-.seg-portao-cab > div { display: grid; gap: 1px; font-size: 13px; color: var(--ink-2); }
-.seg-portao-cab b { font-size: 17px; color: var(--ink); }
-.seg-portao.alerta .ic { color: var(--terra); } .seg-portao.destaque .ic { color: var(--amber); } .seg-portao.verde .ic { color: var(--green-forte); }
-.seg-portao-num { font-family: var(--display); font-weight: 700; font-size: 38px; line-height: 1; }
-.seg-portao-num small { font-family: var(--body); font-size: 15px; font-weight: 500; color: var(--ink-2); margin-left: 6px; }
-.seg-portao-tip { font-size: 14px; color: var(--ink-2); }
-
 .seg-limites details.ver-mais { margin-top: 6px; }
 
 @media (max-width: 760px) {
@@ -128,4 +118,31 @@
   .seg-cult-pe { grid-template-columns: 1fr; }
   .seg-quadro { grid-template-columns: repeat(14, minmax(0, 1fr)); }
   .seg-piso-val { font-size: 36px; }
+}
+
+/* extras do passo 5 (js/extras/: "E se chover…" no lugar dos 3 cartões fixos e "Leve para o técnico"); "seu olho" com respiro */
+.seg-bloco > .olho { margin: 12px 0 14px; }
+.seg-bloco .extra-cenario_chuva .painel { margin-top: 0; }
+
+/* lavoura grande no IBGE: o mesmo aviso do passo 4, antes dos cartões das culturas */
+.seg-agro { margin: 0 0 16px; }
+.seg-agro .olho { margin-top: 10px; }
+
+/* os 7 jeitos testados (ver mais "Ver quanto este cálculo já acertou") */
+.seg-metodos { display: grid; gap: 6px; margin: 10px 0; }
+.seg-met { display: grid; grid-template-columns: minmax(0, 17em) minmax(0, 1fr) 2.5em; gap: 10px; align-items: center; font-size: 14px; color: var(--ink-2); }
+.seg-met-trilho { position: relative; height: 10px; border-radius: 5px; background: var(--surface-3); }
+.seg-met-trilho i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--ink-4); }
+.seg-met-meta { position: absolute; left: 80%; top: -4px; bottom: -4px; border-left: 2px dashed var(--ink-2); }
+.seg-met.on { color: var(--ink); font-weight: 600; }
+.seg-met.on .seg-met-trilho i { background: var(--green); }
+.seg-met-val { font-family: var(--mono); text-align: right; }
+
+@media (max-width: 760px) {
+  /* 2027 · 2028 · 2029 numa fileira de deslizar (o cartão não fica 3 vezes mais alto) */
+  .seg-cols { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 0; margin: 0 -4px; padding: 0 4px 6px; }
+  .seg-col, .seg-col:first-child { flex: 0 0 82%; scroll-snap-align: start; border-top: 0; border-left: 1px solid var(--border); padding: 2px 14px 6px; }
+  .seg-col:first-child { border-left: 0; padding-left: 0; }
+  .seg-met { grid-template-columns: minmax(0, 1fr) 2.5em; }
+  .seg-met-trilho { grid-column: 1 / -1; grid-row: 2; }
 }
