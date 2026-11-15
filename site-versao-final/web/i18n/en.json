@@ -1,4 +1,5 @@
 {
+ "_meta": {"ai_disclosure": "English strings generated with AI (Claude, Anthropic) from the Portuguese source text of the site, under the team's direction. Municipality and state names are never translated. Coverage is measured by testes/ferramentas/i18n_cobertura.py."},
  "textos": {
   "QUADRA · Dá órbita pro campo": "QUADRA · Farming from orbit",
   "Nordeste do Brasil · Dá órbita pro campo": "Northeast Brazil · Farming from orbit",

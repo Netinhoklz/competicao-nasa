@@ -40,4 +40,12 @@ CONAB (custos de produção), OpenStreetMap e OpenFreeMap (mapa), EOX Sentinel-2
 
 ## Uso de IA
 
-O código, as análises e os textos foram feitos com ajuda de IA (Claude), como as regras do Space Apps pedem que se declare.
+O código, a tradução para o inglês, os desenhos feitos por código, o resumo dos artigos e os textos de análise foram feitos com
+ajuda de IA (Claude, da Anthropic) pelos três membros da equipe, como as regras do Space Apps pedem que se declare. Os dados
+medidos e as imagens de satélite são reais, não gerados por IA; não há imagem, áudio nem vídeo gerado por IA.
+
+- **Onde e como, em detalhe:** `README.md` da raiz, seção "AI use (uso de IA)".
+- **No site:** a declaração fica no código, sem aparecer na tela (pedido do José, 15/11): cada página leva a tag
+  `<meta name="ai-disclosure">`.
+- **Nos dados gerados com IA:** campo `_meta.ai_disclosure` em `web/i18n/en.json` e `uso_de_ia` em
+  `pesquisa/catalogo_rotacoes.json`.

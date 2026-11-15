@@ -4,6 +4,7 @@
  "corrigido_em": "2026-11-14 13:12",
  "correcao": "conselho/analises/v4_integrador_correcao_verificador.py (conferência: conselho/analises/v4_verificador_catalogo_conferencias.py)",
  "fonte": "conselho/analises/v4_integrador_catalogo_dados.py",
+ "uso_de_ia": "Cartões extraídos dos artigos por agentes de IA (Claude, Anthropic) sob a direção da equipe; os números foram conferidos contra o texto, a Source Data ou o XML de cada artigo (scripts de conferência e verificação adversária em conselho/analises/). AI use: evidence cards extracted from the papers by AI agents (Claude) under the team's direction; numbers checked against each paper's text or source data.",
  "convencoes": {
   "efeito.unidade": "lnRR quando o original e %; pct guarda [central, baixo, alto] em %; null = nao publicado",
   "intervalos_calculados": "em t/ha e LER, baixo/alto = +-1,96*EP calculado pelo conselho quando o artigo publica so o EP; em pares agrupados (Kluger) baixo/alto e a faixa entre pares, nao IC",
