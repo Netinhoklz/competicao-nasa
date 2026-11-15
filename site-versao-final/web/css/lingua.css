@@ -1,0 +1,83 @@
+/* QUADRA, site final: o seletor de língua (js/i18n.js). Página inicial: "English | Português" no topo, à direita; jornada
+   (roca.html) e painel: o botão EN/PT do cabeçalho. A língua marcada vem do <html lang>, que o i18n.js define antes de desenhar.
+   Usa as tintas de cada página (style.css do globo, quadra.css da jornada, rocacerta.css do painel, com o tema claro/escuro). */
+
+/* ------------------------------------------------------------ página inicial (globo) */
+.topo > .selo { margin-left: auto; } /* o selo da NASA encosta no seletor (no celular ele some) */
+.lingua {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  margin-left: 20px;
+  padding: 0 2px 0 13px;
+  border-radius: 999px;
+  background: rgba(8, 9, 12, 0.62);
+  box-shadow: inset 0 0 0 1px var(--line-2); /* o contorno sem ocupar lugar: os botões têm os 44 px inteiros */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.lingua-icone {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin-right: 3px;
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lingua button {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.lingua button span {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-3);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.lingua button:hover span { color: var(--ink); }
+.lingua button:focus-visible { outline: none; }
+.lingua button:focus-visible span { box-shadow: 0 0 0 2px var(--accent); }
+.lingua-sep { width: 1px; height: 16px; background: var(--line-2); }
+html[lang="en"] .lingua [data-lingua="en"] span,
+html[lang="pt-BR"] .lingua [data-lingua="pt"] span {
+  background: var(--ink);
+  color: #000;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------ jornada e painel: EN/PT no cabeçalho */
+.lingua-mini {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.lingua-mini span { color: var(--ink-4, var(--muted)); }
+.lingua-mini span[aria-hidden] { margin: 0 3px; }
+html[lang="en"] .lingua-mini .l-en,
+html[lang="pt-BR"] .lingua-mini .l-pt { color: var(--ink); font-weight: 700; }
+.topo-acoes .lingua-mini { padding-left: 12px; padding-right: 12px; }
+.ferramentas .lingua-mini { width: auto; padding: 0 11px; display: inline-flex; align-items: center; }
+/* no celular o topo da jornada é apertado: o EN/PT fica estreito e o nome do lugar não some */
+@media (max-width: 760px) {
+  .topo-acoes { gap: 6px; }
+  .topo-acoes .lingua-mini, .ferramentas .lingua-mini { padding: 0 8px; font-size: 12px; letter-spacing: 0; }
+  .lingua-mini span[aria-hidden] { margin: 0 1px; }
+  .ferramentas, .ferramentas .busca { min-width: 0; } /* painel: a busca encolhe para caber o EN/PT (sem rolagem de lado) */
+}
+@media (max-width: 500px) { .topo-linha > .ferramentas { flex-basis: 100%; } } /* painel no celular: a busca na linha de baixo, como antes */

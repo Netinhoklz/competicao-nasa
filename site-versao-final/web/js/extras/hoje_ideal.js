@@ -579,7 +579,8 @@ function desenharComparacao(el, ctx, opcoes) {
   const linha = (t, icone, rot, desc) => `<div class="hi-bloco ${t}"><div class="hi-linha"><div class="hi-l-txt"><p class="hi-l-rot">${U.ic(icone)}${rot}${tag(t)}</p>${desc}</div></div></div>`;
   const linkMudar = opcoes.linkMudar || ctx.link?.(2) || "#";
   const chipHoje = `<a class="hi-mudar" href="${linkMudar}" data-editar="hoje" title="Mudar como você planta hoje">${U.esc(textoHoje(h))}${h.informado ? "" : " (o comum daqui)"} · <u>mudar</u></a>`;
-  const descMelhor = pm?.nao_gira ? (pm.notas?.[0] || "Uma cultura só: não dá para girar.") : "Só o que você planta, girando em faixas.";
+  const entrou = (pm?.notas || []).find((n) => /^Entr(ou|aram) /.test(n)); // a planta que entrou para não ficar uma cultura só
+  const descMelhor = pm?.nao_gira ? (pm.notas?.[0] || "Uma cultura só: não dá para girar.") : entrou || "Só o que você planta, girando em faixas.";
   // sem resposta, a prioridade é a padrão pelos números (ideal.escolhaPadrao): "(sugerido: a que mais sobra em 2027)"
   const sugerido = esc.prioridade_origem && esc.prioridade_origem !== "resposta"
     ? (/sobra/.test(esc.prioridade_origem) ? ` (sugerido: ${U.esc(esc.prioridade_origem)})` : /El Niño/.test(esc.prioridade_origem) ? " (sugerido: El Niño)" : " (sugerido)") : "";
@@ -619,7 +620,7 @@ function desenharComparacao(el, ctx, opcoes) {
 const PQ_M = { garantir: ["que aguenta a seca", "que aguentam a seca"], vender: ["para vender", "para vender"],
   solo: ["que cuida da terra", "que cuidam da terra"] };
 const NOME_M = { garantir: "Guardar água", vender: "Mais renda", solo: "Cuidar do solo" };
-const CURTO_M = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão",
+const CURTO_M = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão",
   "Palma forrageira": "palma", "Mucuna-preta": "mucuna", "Algodão herbáceo": "algodão", "Cana-de-açúcar": "cana", "Pousio pastejado": "descanso" };
 const FORRAGEM_M = new Set(["sorgo forrageiro", "palma", "milheto", "gliricídia", "mucuna"]);
 export function mancheteIdeal(pi, pm) {

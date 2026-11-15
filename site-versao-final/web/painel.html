@@ -8,6 +8,8 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="utf-8">
+  <!-- inglês (padrão) ou português: antes de tudo, para não piscar o português (js/i18n.js); no iframe do globo segue o globo -->
+  <script src="js/i18n.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Roça Certa · painel do município</title>
   <meta name="description" content="Roça Certa: chuva, El Niño, solo e tendências do seu município, com dados de satélite da NASA e do IBGE.">
@@ -19,6 +21,7 @@
   <link rel="stylesheet" href="css/globo/rocacerta_extras.css">
   <link rel="stylesheet" href="css/extras/voce_decide.css">
   <link rel="stylesheet" href="css/extras/glossario.css">
+  <link rel="stylesheet" href="css/lingua.css">
   <script type="module" src="js/globo/rocacerta.js"></script>
 </head>
 <body>
@@ -38,6 +41,7 @@
         <a class="botao-icone" id="noGlobo" href="index.html" aria-label="Ver no globo" title="Ver no globo">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5s1.3-6.1 3.9-8.5z"/></svg>
         </a>
+        <button class="botao-icone lingua-mini" type="button" data-lingua="trocar" translate="no"><span class="l-en">EN</span><span aria-hidden="true">/</span><span class="l-pt">PT</span></button>
         <button class="botao-icone" id="tema" type="button" aria-label="Trocar claro e escuro" title="Claro / escuro">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
         </button>

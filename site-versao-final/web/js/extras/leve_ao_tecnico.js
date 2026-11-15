@@ -8,7 +8,7 @@ import * as U from "../comum.js";
 import { carregar, confiancaDe } from "./confianca.js";
 import { FRASE } from "./voce_decide.js";
 
-const NOME = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", Amendoim: "amendoim" };
+const NOME = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", Amendoim: "amendoim" };
 const curto = (c) => NOME[c] || String(c || "").toLowerCase();
 const TERRA = {
   nao_sei: ["solo", "Minha terra é areia, misturada ou barro?"],
@@ -163,7 +163,8 @@ function avisar(msg) {
 export async function compartilhar(ctx, opcoes = {}) {
   const [dados, base] = await Promise.all([carregar(), escolhidoDe(ctx)]);
   const conf = confiancaDe(dados, ctx.cod || ctx.r.local?.cod, ctx.r);
-  const t = texto(ctx, perguntas(ctx, conf, base), conf, opcoes);
+  const pt = texto(ctx, perguntas(ctx, conf, base), conf, opcoes);
+  const t = globalThis.QUADRA_I18N?.t?.(pt) ?? pt; // em inglês, o texto sai traduzido (js/i18n.js; não passa pelo DOM)
   if (navigator.share) {
     try { await navigator.share({ text: t }); return "share"; } catch (e) { if (e?.name === "AbortError") return "cancelou"; } // fechou: não abre outra
   }

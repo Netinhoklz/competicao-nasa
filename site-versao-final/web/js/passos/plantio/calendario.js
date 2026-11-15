@@ -11,7 +11,7 @@ const FASES = {
   preparo: "preparo sem fogo", risco: "dá para plantar, com mais risco (até 40%)", plantio: "plantar (janela do ZARC)",
   estimado: "plantar (janela estimada, sem ZARC)", roca: "na roça, crescendo", colheita: "colher", pousio: "pousio pastejado",
 };
-const NOME = { "Feijão-caupi": "caupi", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão",
+const NOME = { "Feijão-caupi": "feijão", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão comum",
   "Palma + gliricídia": "palma", "Palma forrageira": "palma", "Mucuna-preta": "mucuna", "Algodão herbáceo": "algodão",
   "Cana-de-açúcar": "cana" }; // o "onde" do cartão diz o lugar (bordas, baixio)
 const nome = (c) => { const b = String(c || "").replace(/ no milho em pé$/, ""); return NOME[b] || b.toLowerCase(); };

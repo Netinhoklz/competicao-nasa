@@ -352,7 +352,7 @@ gMun.addEventListener('pointermove', (e) => {
   const p = e.target.closest('path'); if (!p) return;
   const m = D.m[p.dataset.c], aba = ABAS.find((a) => a.id === estado.aba);
   const v = aba.mapa ? aba.mapa.valor(m) : null;
-  mostrarDica(`<b>${m[F.nome]} · ${m[F.uf]}</b>${!aba.mapa ? '' : v == null ? 'sem dado' : aba.mapa.dica(v)}`, e);
+  mostrarDica(`<b translate="no">${m[F.nome]} · ${m[F.uf]}</b>${!aba.mapa ? '' : v == null ? 'sem dado' : aba.mapa.dica(v)}`, e);
 });
 gMun.addEventListener('pointerleave', esconderDica);
 gMun.addEventListener('click', (e) => { const p = e.target.closest('path'); if (p) escolher(p.dataset.c); });
@@ -404,7 +404,7 @@ function local(cod) {
 // o roçado típico daqui (Censo 2017), para a base "Seu roçado" das grades: o painel não sabe o tamanho do roçado
 const haTipico = (r) => { const p = r.padroes || {}; return p.rocado_ha > 0 ? p.rocado_ha : p.rocado_ha_padrao > 0 ? p.rocado_ha_padrao : 1; };
 
-const faixaHtml = (f, m) => `<span class="sinal">${ic(f.icone || 'info')}</span><div class="faixa-texto"><p class="faixa-lugar">${m[F.nome]} · ${UF_NOME[m[F.uf]]}${f.selo ? ` ${f.selo}` : ''}</p><h1>${f.titulo}</h1></div>${f.pilula ? `<span class="pilula">${f.pilula}</span>` : ''}`;
+const faixaHtml = (f, m) => `<span class="sinal">${ic(f.icone || 'info')}</span><div class="faixa-texto"><p class="faixa-lugar"><span translate="no">${m[F.nome]} · ${UF_NOME[m[F.uf]]}</span>${f.selo ? ` ${f.selo}` : ''}</p><h1>${f.titulo}</h1></div>${f.pilula ? `<span class="pilula">${f.pilula}</span>` : ''}`;
 
 async function desenharApi(aba, m, minha) {
   const faixa = $('faixa'), caixa = $('extras'), cod = estado.cod;

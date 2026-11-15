@@ -181,7 +181,7 @@ export function contas(lay, k, agro, plano = null) {
 }
 
 // ------------------------------------------------------------------ texto (puro)
-const CURTO = { "Feijão-caupi": "caupi", "Sorgo granífero": "sorgo de grão", "Sorgo forrageiro": "sorgo forrageiro", "Palma forrageira": "palma",
+const CURTO = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo granífero": "sorgo de grão", "Sorgo forrageiro": "sorgo forrageiro", "Palma forrageira": "palma",
   "Pousio pastejado": "descanso", "Palma + gliricídia": "palma e gliricídia" };
 export const curto = (c) => CURTO[c] || (ehPousio(c) ? "descanso" : String(c || "").toLowerCase());
 export const metros = (U, m) => `${U.num(m, m >= 100 || Math.abs(m - Math.round(m)) < 0.05 ? 0 : 1)} m`; // 16,7 m (6 × 16,7 = 100)

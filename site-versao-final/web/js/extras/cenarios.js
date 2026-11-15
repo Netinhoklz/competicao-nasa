@@ -51,7 +51,9 @@ const ENRAIZADA = new Set(["M2", "P", "G"]); // já no chão desde o ano anterio
 // cardápio ou sem maniva). Cada código passa por celula(), que troca o que não serve aqui pelo parecido que serve.
 const MODELOS = {
   agua: { com: ["M1 M2 L", "P1 P P", "F M1 M2", "S L S"], sem: ["F L F", "P1 P P", "L S F", "S L S"] },
-  renda: { com: ["M1 M2 L", "L M1 M2", "M1 M2 L", "L Z L"], sem: ["L F L", "L S L", "L F L", "L Z L"] },
+  // sem monocultura (pedido do José, 15/11): nenhum ano com as 3 partes na mesma planta (antes: mandioca nas 3 em 2028; feijão nas 3 em
+  // 2027 e 2029), mesmo sem baixio. A renda segue na mandioca e no feijão, com o sorgo de grão ao lado.
+  renda: { com: ["M1 M2 L", "L M1 M2", "L S L", "L Z L"], sem: ["L F L", "S L S", "L F L", "L Z L"] },
   solo: { com: ["L S L", "F L S", "G1 G G", "U L U"] },
 };
 
@@ -108,14 +110,18 @@ function celula(cod, R) {
 
 /** O plano do motor (ctx.r.plano.faixas, sem as bordas) nos mesmos códigos. */
 function linhasDoPlano(r) {
-  const leg = r.plano?.leguminosa || "Feijão-caupi";
-  return (r.plano?.faixas || []).filter((f) => f.parte !== "Bordas").map((f) => {
+  return linhasDe(r.plano?.faixas || [], r.plano?.leguminosa);
+}
+/** Faixas no formato de r.plano (sem as bordas) → linhas nos códigos (exportada: ideal.js confere a monocultura do plano final). */
+export function linhasDe(faixas, legPlano) {
+  const leg = legPlano || "Feijão-caupi";
+  return faixas.filter((f) => f.parte !== "Bordas").map((f) => {
     let ant = null;
     const cels = f.anos.map((a) => {
       const c = a.cultura || "", t = a.tipo || "", tx = a.texto || "";
       let cel;
       if (/mandioca/i.test(c)) cel = { k: ant === "M1" ? "M2" : "M1", nome: "Mandioca" };
-      else if (/pousio/i.test(c) || t === "pousio") cel = { k: "O", nome: c };
+      else if (/pousio/i.test(c) || t === "pousio") cel = { k: "O", nome: c, ...(/milho/i.test(tx) ? { vaga: true } : {}) }; // "em ano bom: milho…"
       else if (t === "leguminosa" && !/guandu/i.test(c)) cel = { k: "L", nome: c };
       else if (t === "forragem") cel = { k: "F", nome: c };
       else if (/palma/i.test(c)) cel = { k: ant === "P1" || ant === "P" ? "P" : "P1", nome: "Palma forrageira" };
@@ -130,6 +136,62 @@ function linhasDoPlano(r) {
   });
 }
 
+// ---------------------------------------------------------------- sem monocultura
+// Pedido do José (15/11): nenhum jeito recomendado com monocultura. Em cada ano, ao menos 2 plantas entre as partes plantadas (pousio
+// não conta; sorgo de grão e sorgo do gado são a mesma planta); nenhuma parte com a mesma anual sozinha nos 3 anos
+// (mandioca de 2 anos, palma e gliricídia não contam; milho com feijão ou mucuna no pé já são 2 plantas).
+const grupo = (n) => (/^Sorgo/.test(n || "") ? "Sorgo" : n || "");
+export const plantasCel = (c) => (c.k === "O" ? [] : c.k === "M1" || c.k === "M2" ? ["Mandioca"] : c.k === "P1" || c.k === "P" ? ["Palma"]
+  : c.k === "Z" || c.k === "U" ? ["Milho", grupo(c.par)] : [grupo(c.nome)]);
+/** Troca o mínimo de células (marcadas mudou: true) pelo que o cardápio daqui deixa; só olha as partes com área.
+ *  evita0(célula) = true: não serve no 1º ano (o ano passado repetiu aquela planta no chão; ideal.js passa). */
+export function semMono(linhas, R, evita0 = () => false) {
+  // a 2ª leguminosa (amendoim, senão feijão comum), para o ano em que o feijão já está no roçado e o milho ou o sorgo não servem
+  // (ex.: o ano passado foi milho) ou viriam depois de outra gramínea
+  const leg2 = ["Amendoim", "Feijão comum"].find((n) => n !== R.leg && R.card.get(n) && R.card.get(n).situacao !== "fora");
+  const opc = [R.leg && { k: "L", nome: R.leg }, R.milho ? { k: "C", nome: "Milho" } : R.sorgo && { k: "C", nome: R.sorgo }, R.forr && { k: "F", nome: R.forr },
+    leg2 && { k: "L", nome: leg2 }].filter(Boolean);
+  const L = linhas.map((l) => ({ ...l, cels: [...l.cels] })), vivas = L.filter((l) => l.area > 0);
+  const mesma = (x, y) => !!x && !!y && x.k !== "O" && plantasCel(x).join() === plantasCel(y).join();
+  const gram = (c) => !!NIVEL[c.k]?.gram;
+  // a troca na parte l, ano k: planta nova (fora de `evita`) que não repete o ano antes nem o depois; leguminosa ao lado de gramínea e
+  // gramínea ao lado de leguminosa primeiro; o pousio que o núcleo marcou "em ano bom: milho" (vaga) e a parte ainda sem troca antes
+  // o sorgo de grão ao lado do milho, só quando nada de opc serve (ex.: Picos, ano passado feijão: o milho já está no ano e o feijão
+  // e o amendoim repetiriam o chão; auditoria a8, 15/11)
+  const opc2 = R.milho && R.sorgo ? [{ k: "C", nome: R.sorgo }] : [];
+  const melhor = (l, k, evita) => melhorDe(opc, l, k, evita) || melhorDe(opc2, l, k, evita);
+  const melhorDe = (lst, l, k, evita) => lst.filter((a) => !plantasCel(a).some((p) => evita.includes(p)) && !mesma(a, l.cels[k - 1]) && !mesma(a, l.cels[k + 1])
+    && !(k === 0 && evita0(a)))
+    .map((a) => ({ a, s: [l.cels[k - 1], l.cels[k + 1]].filter((v) => v && (gram(v) || v.k === "L")).reduce((s, v) => s + (gram(v) !== gram(a) ? 1 : -1), 0)
+      + (l.cels[k].vaga && a.k === "C" ? 1.5 : 0) - (l.cels.some((c) => c.mudou) ? 0.5 : 0) }))
+    .sort((x, y) => y.s - x.s)[0] || null;
+  const trocar = (l, k, a) => { l.cels[k] = { ...a, mudou: true }; };
+  // no tempo: a mesma anual sozinha nos 3 anos → o ano do meio troca
+  for (const l of vivas) {
+    const c = l.cels;
+    if (["L", "C", "F"].includes(c[0].k) && mesma(c[0], c[1]) && mesma(c[1], c[2])) { const m = melhor(l, 1, plantasCel(c[1])); if (m) trocar(l, 1, m.a); }
+  }
+  // no espaço: um ano com uma planta só (ou só pousio) → uma parte troca por vez, até 2 plantas (de preferência uma parte do alto já
+  // plantada; o pousio e o baixio por último)
+  for (let k = 0; k < 3; k++) {
+    for (let vez = 0; vez < 2; vez++) {
+      const ps = new Set(vivas.flatMap((l) => plantasCel(l.cels[k])));
+      if (ps.size >= 2) break;
+      // a maniva do último ano (a colheita dela fica fora do plano) também pode trocar, só quando nenhuma outra parte serve (ex.: o ano
+      // passado foi mandioca e a parte copiou o giro de outra: 2029 com mandioca nas 3 partes; auditoria a8, 15/11)
+      const cand = vivas.filter((l) => !/^(M2|P1|P|G1|G)$/.test(l.cels[k].k) && (l.cels[k].k !== "M1" || k === l.cels.length - 1)).map((l) => {
+        const resto = new Set(vivas.filter((o) => o !== l).flatMap((o) => plantasCel(o.cels[k])));
+        const m = melhor(l, k, [...resto]);
+        return m && { l, a: m.a, s: m.s - (l.cels[k].k === "O" ? 1 : 0) - (l.parte === "Baixio" ? 2 : 0) - (l.cels[k].k === "M1" ? 100 : 0),
+          n: new Set([...resto, ...plantasCel(m.a)]).size };
+      }).filter((x) => x && x.n > ps.size).sort((x, y) => y.s - x.s);
+      if (!cand[0]) break;
+      trocar(cand[0].l, k, cand[0].a);
+    }
+  }
+  return L;
+}
+
 function montarJeitos(r, ef, R) {
   const plano = linhasDoPlano(r);
   const temBx = plano.some((l) => l.parte === "Baixio");
@@ -138,10 +200,11 @@ function montarJeitos(r, ef, R) {
   const a = (T - b) / 3;
   const area = (p) => (p === "Baixio" ? b : a);
   const partes = ["Parte A", "Parte B", "Parte C"].concat(temBx ? ["Baixio"] : []);
-  const J = { plano: plano.map((l) => ({ ...l, area: area(l.parte) })) };
+  // o plano do núcleo também passa pelo sem monocultura (ex.: baixio só de sorgo nos 3 anos em Caicó): ideal.js refaz as células trocadas
+  const J = { plano: semMono(plano.map((l) => ({ ...l, area: area(l.parte) })), R) };
   for (const id of ["agua", "renda", "solo"]) {
     const m = MODELOS[id][R.mand ? "com" : "sem"] || MODELOS[id].com;
-    J[id] = partes.map((p, i) => ({ parte: p, area: area(p), cels: m[i].split(" ").map((c) => celula(c, R)) }));
+    J[id] = semMono(partes.map((p, i) => ({ parte: p, area: area(p), cels: m[i].split(" ").map((c) => celula(c, R)) })), R);
   }
   return { J, T, a, b, temBx };
 }
@@ -319,7 +382,7 @@ export function troca(C, id) {
   return "Comparado ao plano: " + [sai, g && `ganha em ${g}`, q && `perde em ${q}`].filter(Boolean).join("; ") + ".";
 }
 
-const CURTO_CULT = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", Amendoim: "amendoim", Milho: "milho", "Sorgo granífero": "sorgo de grão",
+const CURTO_CULT = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", Amendoim: "amendoim", Milho: "milho", "Sorgo granífero": "sorgo de grão",
   "Sorgo forrageiro": "sorgo", Milheto: "milheto", "Mucuna-preta": "mucuna" };
 const nomeCult = (n) => CURTO_CULT[n] || String(n || "").toLowerCase();
 /** [nome, estado] de uma célula para o desenho e a tabela. */

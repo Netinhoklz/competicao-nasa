@@ -21,8 +21,38 @@ const OURO = '#ffcb7d';     // o mesmo dourado do fio do Nordeste no globo 3D
 // (site final: + 'municipio', o tipo dos lugares da busca local em busca.js)
 export const ASSENTAMENTO = new Set(['city', 'town', 'village', 'hamlet', 'suburb', 'neighbourhood', 'quarter', 'district', 'municipio']);
 
-// O contorno do Nordeste chega junto com o mapa (o mesmo arquivo que o globo 3D usa)
-const NORDESTE = fetch(new URL('../../dados/nordeste.json', import.meta.url)).then((r) => r.json()).catch(() => null);
+// O contorno do Nordeste chega junto com o mapa (o mesmo arquivo que o globo 3D usa; principal.js reaproveita este pedido)
+export const NORDESTE = fetch(new URL('../../dados/nordeste.json', import.meta.url)).then((r) => r.json()).catch(() => null);
+
+// O MapLibre (1 MB) e o CSS dele (70 KB) não precisam estar na abertura: chegam na primeira vez que o mapa nasce.
+// O CSS entra antes de css/globo/style.css, na mesma ordem de antes (o tema dos controles sobrescreve o do MapLibre).
+// Se o index.html já trouxer as duas tags, nada é baixado de novo.
+const VENDOR = (arq) => new URL(`../../vendor/${arq}`, import.meta.url).href;
+let maplibrePronto = null;
+function carregarMaplibre() {
+  maplibrePronto ??= new Promise((ok, falhou) => {
+    let falta = 2;
+    const um = () => { if (--falta === 0) ok(); };
+    if (document.querySelector('link[href$="maplibre-gl.css"]')) um();
+    else {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = VENDOR('maplibre-gl.css');
+      css.onload = um;
+      css.onerror = um;   // sem o CSS o mapa ainda funciona (só os controles ficam crus)
+      document.head.insertBefore(css, document.querySelector('link[href$="css/globo/style.css"]'));
+    }
+    if (window.maplibregl) um();
+    else {
+      const js = document.createElement('script');
+      js.src = VENDOR('maplibre-gl.js');
+      js.onload = um;
+      js.onerror = () => { maplibrePronto = null; js.remove(); falhou(new Error('O mapa não carregou. Confira a internet.')); };
+      document.head.appendChild(js);
+    }
+  });
+  return maplibrePronto;
+}
 const MUNDO = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
 const area = (anel) => anel.reduce((s, p, i) => { const q = anel[(i + 1) % anel.length]; return s + p[0] * q[1] - q[0] * p[1]; }, 0);
 /** Poligono do mundo com os aneis como furos (sentido oposto ao do mundo): a mascara "fora daqui". */
@@ -376,7 +406,14 @@ export class Mapa {
     this.alvo = null;
   }
 
+  /** Cria o mapa assim que o MapLibre chegar; this.carregado resolve com o estilo e o Nordeste prontos. */
   _criar(centro, zoom) {
+    this.carregado = carregarMaplibre().then(() => this._montar(centro, zoom));
+    this.carregado.catch(() => { this.carregado = null; });   // a próxima viagem tenta de novo
+    return this.carregado;
+  }
+
+  _montar(centro, zoom) {
     registrarWayback();
     this.mapa = new maplibregl.Map({
       container: this.container,
@@ -403,7 +440,7 @@ export class Mapa {
     // camadas de dados (camadas.js): a aba Foto volta para a camera da chegada ao municipio
     this.camadas = new Camadas(this.mapa, { perto: () => this._lugar && this._alvo(this._lugar) });
     // so conta como carregado com o Nordeste ja desenhado: a troca precisa do fio no mesmo lugar do globo
-    this.carregado = Promise.all([new Promise((ok) => this.mapa.once('load', ok)), NORDESTE])
+    return Promise.all([new Promise((ok) => this.mapa.once('load', ok)), NORDESTE])
       .then(([, d]) => {
         if (d) this._nordeste(d);
         this.camadas.ligar();
@@ -449,7 +486,7 @@ export class Mapa {
 
   /** Cria o mapa escondido enquanto a pessoa ainda esta no inicio, para a viagem nao esperar. */
   precarregar() {
-    if (!this.mapa) this._criar([-40, -8], 3);
+    if (!this.carregado) this._criar([-40, -8], 3).catch(() => {});
   }
 
   /**
@@ -460,13 +497,15 @@ export class Mapa {
   async preparar(lugar, zoom, { continuar = false, ate = null } = {}) {
     const centro = [lugar.lon, lugar.lat];
     const troca = { center: centro, zoom, pitch: 0, bearing: 0 };
-    if (!this.mapa) {
+    const naPrecarga = !!this.carregado && !this.mapa;   // a pré-carga ainda espera o MapLibre chegar
+    if (!this.carregado) {
       this._criar(centro, zoom);
-    } else {
+    } else if (this.mapa) {
       this.mapa.stop();
       this.mapa.jumpTo(troca);
     }
     await this.carregado;
+    if (naPrecarga) this.mapa.jumpTo(troca);
     this._lugar = lugar;
     this.camadas.desligar();   // cada viagem chega na foto
     this._marcar(centro);

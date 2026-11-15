@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <!-- inglês (padrão) ou português: antes de tudo, para não piscar o português (js/i18n.js) -->
+  <script src="js/i18n.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#040605">
   <title>QUADRA · Seu roçado</title>
@@ -16,14 +18,15 @@
   <link rel="stylesheet" href="css/extras/glossario.css">
   <link rel="stylesheet" href="css/extras/hoje_ideal.css">
   <link rel="stylesheet" href="css/extras/area_historico.css">
+  <link rel="stylesheet" href="css/lingua.css">
 </head>
 <body>
   <!-- topo fixo: marca + lugar e as pílulas (fazem o papel de abas, na ordem Sua roça → O plano → Quanto rende → Relatório) -->
   <header class="topo">
     <div class="topo-linha">
       <a class="marca" href="index.html" title="Voltar ao globo"><span class="marca-selo"></span>QUADRA</a>
-      <div class="topo-lugar" id="topo-lugar"></div>
-      <div class="topo-acoes"><a class="botao-leve" href="index.html">Trocar<span class="longo"> o lugar</span></a></div>
+      <div class="topo-lugar" id="topo-lugar" translate="no"></div>
+      <div class="topo-acoes"><a class="botao-leve" href="index.html">Trocar<span class="longo"> o lugar</span></a><button type="button" class="botao-leve lingua-mini" data-lingua="trocar" translate="no"><span class="l-en">EN</span><span aria-hidden="true">/</span><span class="l-pt">PT</span></button></div>
     </div>
     <nav class="passos-nav" id="passos-nav" aria-label="Passos"></nav>
   </header>
@@ -31,11 +34,11 @@
   <main class="jornada" id="jornada"><div class="carregando">Olhando o seu lugar lá de cima</div></main>
   <!-- ponto 16 no fim de cada passo (no celular; no computador a frase fica na barra de baixo) -->
   <footer class="passo-fim">
-    <a class="decide-fim" id="decide-fim" href="#" title="Ver as perguntas para levar ao técnico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>O QUADRA ajuda. <b>Quem decide é você, com o técnico.</b></span></a>
+    <a class="decide-fim" id="decide-fim" href="#" title="Ver o relatório do seu plano"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>O QUADRA ajuda. <b>Quem decide é você, com o técnico.</b></span></a>
   </footer>
   <nav class="nav-baixo" aria-label="Avançar e voltar">
     <button class="botao secundario" id="voltar" type="button" aria-label="Voltar">←</button>
-    <a class="moldura-decide" id="moldura" href="#" title="Ver as perguntas para levar ao técnico"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>O QUADRA ajuda. <b>Quem decide é você, com o técnico.</b></span></a>
+    <a class="moldura-decide" id="moldura" href="#" title="Ver o relatório do seu plano"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>O QUADRA ajuda. <b>Quem decide é você, com o técnico.</b></span></a>
     <button class="botao primario" id="avancar" type="button">Ver o meu plano →</button>
   </nav>
   <script type="module" src="js/roca.js"></script>

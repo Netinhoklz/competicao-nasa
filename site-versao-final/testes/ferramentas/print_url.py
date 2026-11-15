@@ -40,6 +40,8 @@ try:
 
     cmd("Emulation.setDeviceMetricsOverride", width=larg, height=900, deviceScaleFactor=1, mobile=larg < 600)
     cmd("Page.enable")
+    # o site abre em inglês por padrão (js/i18n.js): o print sai em português; ?lang=en na URL sai em inglês
+    cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
     cmd("Page.navigate", url=url)
     time.sleep(espera)
     if js:

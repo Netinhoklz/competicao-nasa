@@ -147,3 +147,23 @@ vento e declive no desenho do roçado, perguntas da temporada (data de plantio, 
   técnico", WhatsApp com as próximas tarefas e PDF A4 com até 4 páginas.
 - **Conferência:** `testes/ferramentas/aceite_fluxo.py` (node + telas nos 7 municípios + 13 toques + painel + percurso + PDF) e
   `percorrer_fluxo.py`. Os JSON da API para os testes do node estão em `testes/exemplos/api/`.
+
+## Rodada de 15/11 (fim da tarde): sem monocultura, inglês, relatório escuro e página inicial leve
+
+- **Nunca monocultura** (pedido do José): nenhum plano recomendado (o melhorado e os 4 ideais) tem a mesma cultura em todas as
+  partes num ano, a mesma anual sozinha no mesmo lugar nos 3 anos, ou uma cultura só. Quem planta uma só ganha a leguminosa do
+  lugar girando com ela (`extras/ideal.js` fazerMelhor, `extras/cenarios.js` MODELOS). Auditoria em 39.424 respostas: 0 casos. Custo:
+  Quixadá, Ideal Mais renda em 3 anos cai de R$ 6.640 para R$ 5.220 (ainda acima dos R$ 2.480 de hoje).
+- **Sua roça:** 6 cartões numerados com ícone grande e cor por assunto; respostas em imagem (textura da terra, baixio de lado, rama da
+  maniva); "comum daqui" vira ✓ quando respondida; sem "fora daqui" e sem "em tarefas ou passos"; o "Outra" do ano passado abre o leque
+  das culturas.
+- **O plano:** toda faixa do desenho diz parte + cultura; destaque dourado no botão "O ideal"; "Por que este plano" é um trecho curto,
+  com os 3 detalhes num "Ver os detalhes".
+- **Relatório:** sem "Leve para o técnico"; cartões e cores do site, ficha alinhada em grade; o PDF sai escuro como o site.
+- **Inglês (padrão) e português:** camada de tradução no DOM (`web/js/i18n.js` + `web/i18n/en.json`, ~3.600 entradas); seletor
+  "English | Português" na página inicial e "EN/PT" no topo da jornada e do painel; nomes de município e estado nunca mudam
+  (`web/i18n/lugares.json`). Guia, coleta e cobertura: `testes/i18n/LEIA-ME.md`. Os testes rodam em português (gravam `quadra-lingua=pt`).
+- **Página inicial:** 7 satélites (10% do tamanho), a ISS e estrelas cadentes (`web/js/globo/ovos.js`); texturas da Terra em 4K
+  (as 8K seguem no disco); texturas decodificadas fora da thread principal e enviadas em pedaços; MapLibre só quando o mapa vai
+  nascer. Abertura sem quadro acima de 50 ms (antes, 5 no computador e 8 no celular); 8,4 → 4,7 MB baixados no computador.
+- **servidor.py:** gzip + ETag para texto, cache de 7 dias só em `/vendor/`, HTTP/1.1 e fila de 64 conexões (a de 5 recusava pedidos).

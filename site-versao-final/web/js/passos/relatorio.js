@@ -2,7 +2,11 @@
 // (analise/fluxo2/BRIEFING.md, D7; agente C4, 15/11/2026). O plano é o que o Plano mostra (ideal.escolhido: chaves `plano` e
 // `prioridade`). De cima para baixo: o cabeçalho (lugar, hoje, tamanho, terra, baixio, plano e prioridade); "O que fazer e quando"
 // (uma linha por tarefa, por mês, de hoje a dez/2027; 2028 e 2029 resumidos por ano); o desenho pequeno do roçado e o material
-// (extras/terreno.js, do C1); "Leve para o técnico" (extras/leve_ao_tecnico.js) e a frase do ponto 16 (na folha impressa).
+// (extras/terreno.js, do C1); o "como fazer, cultura por cultura" (depois do material: na folha impressa o texto longo, que pode
+// partir, fecha a última folha); o fim com o "Imprimir / salvar PDF" e a frase do ponto 16 (na folha impressa). O bloco "Leve para o
+// técnico" saiu do Relatório (pedido do José, 15/11): fica só o relatório e a geração dele (PDF e WhatsApp).
+// Visual (pedido do José, 15/11): os cartões de Sua roça (ícone grande na cor do assunto + título curto), a ficha numa grade de 3
+// colunas (ícone + rótulo | valor | "Mudar") e, no PDF, os mesmos cartões na folha clara, com a faixa do QUADRA no alto.
 // Regras: datas SÓ de escolhido().linhas (ideal.agendaDe, as barras de/ate e o rótulo sem corte) e de r.agenda.marcos; o "como"
 // SÓ de dados/agronomia.json (A1), por cultura e por operação; nada inventado (sem dado, "com o técnico").
 // Verde: "Mandar no WhatsApp" (compartilhar de leve_ao_tecnico.js, com as próximas 5 tarefas); secundário: "Imprimir / salvar PDF"
@@ -16,7 +20,7 @@ import { FRASE, olho, OLHOS } from "../extras/voce_decide.js";
 
 // ------------------------------------------------------------------ vocabulário
 const MES_LONGO = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
-const FALA = { "Feijão-caupi": "caupi", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão",
+const FALA = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão",
   "Palma forrageira": "palma", "Palma + gliricídia": "palma e gliricídia", "Pousio pastejado": "descanso", "Mucuna-preta": "mucuna",
   "Algodão herbáceo": "algodão", "Cana-de-açúcar": "cana" };
 const fala = (c) => FALA[c] || String(c || "").toLowerCase();
@@ -29,8 +33,17 @@ const ORD_TIPO = { hoje: 0, marco: 1, preparo: 2, plantio: 3, colheita: 4, pousi
 const GRAO = new Set(["Feijão-caupi", "Feijão comum", "Milho", "Amendoim", "Sorgo granífero", "Guandu"]); // guardar semente
 const baseCult = (c) => String(c || "").replace(/ no milho em pé$/, "");
 const PLURAL = { semente: "sementes", maniva: "manivas", raquete: "raquetes", muda: "mudas", estaca: "estacas" };
-const TERRA = { nao_sei: "não sei", arenosa: "arenosa (seca rápido)", mista: "misturada", barro: "de barro (encharca)" };
-const BAIXIO = { nao_sei: "não sei", nao: "não tem", pouco: "pequeno", terco: "⅓ do roçado", metade: "metade do roçado" };
+// a terra e o baixio com as palavras de Sua roça (perguntas.js): o nome e, embaixo, o que a terra faz na chuva
+const TERRA = { nao_sei: ["Não sei", ""], arenosa: ["Areia", "seca rápido"], mista: ["Misturada", "segura água"], barro: ["Barro", "encharca"] };
+const BAIXIO = { nao_sei: "Não sei", nao: "Não tenho", pouco: "Pequeno", terco: "Um terço", metade: "Grande" };
+// ícones de Sua roça que não estão em comum.js (o mesmo desenho de perguntas.js): o terreno com as duas medidas e o baixio de lado
+const ICR = {
+  terreno: '<rect x="7" y="8" width="14" height="13" rx="1.5"/><path d="M7 4h14M7 2.6v2.8M21 2.6v2.8M3 8v13M1.6 21h2.8M1.6 8h2.8"/>',
+  baixio: '<path d="M2 7c5 0 7 1.8 9 5.8S15 18 17 18h5"/><path d="M14.5 21h7.5M5 2.5l-.8 2M9 2l-.8 2"/>',
+};
+const icr = (nome) => (ICR[nome] ? `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICR[nome]}</svg>` : U.ic(nome));
+// a prioridade do ideal com o ícone do Plano (plantio.js, PRIO) e a cor do assunto: água azul, renda âmbar, solo cor de barro
+const PRIO_COR = { garantir: ["gota", "agua"], vender: ["dinheiro", "tamanho"], solo: ["broto", "terra"], equilibrar: ["faixas", "planta"] };
 
 /** "Parte A", "Partes A e B", "Parte B e baixio", "Bordas". */
 export function ondeTxt(partes) {
@@ -164,7 +177,7 @@ const SEM_JARGAO = [[/Palhada em vez de fogo, fenação do excedente, aceiro, pe
   [/O solo do SMAP volta a responder/g, "A umidade da terra, vista do satélite, volta a subir"],
   [/; anote a data e confira com o ZARC/g, "; anote a data e confira com o técnico a data do zoneamento"], [/lê a chuva desde/g, "olhe a chuva desde"],
   [/Luz acesa:/g, "Chuva fraca:"], [/Luz verde:/g, "Chuva boa:"], [/Luz vermelha ou amarela:/g, "Chuva fraca:"],
-  [/fenação do excedente/g, "feno do que sobrar"], [/o oceano e o banco de água/g, "olhe o mar e a água guardada"], [/caupi precoce/g, "caupi de ciclo curto"]];
+  [/fenação do excedente/g, "feno do que sobrar"], [/o oceano e o banco de água/g, "olhe o mar e a água guardada"], [/caupi precoce/g, "feijão de ciclo curto"]];
 const semJargao = (s) => SEM_JARGAO.reduce((a, [re, b]) => a.replace(re, b), String(s || ""));
 
 /**
@@ -416,14 +429,15 @@ function listaHtml(d) {
 
 function anosHtml(d) {
   if (!d.anos.length) return "";
-  return `<div class="rl-depois"><h3 class="rl-mes-tit">Depois: ${d.anos.map((a) => a.ano).join(" e ")}</h3>
+  // cada ano num cartão (lado a lado no computador e na folha); a parte numa coluna de largura fixa e o que vai nela ao lado
+  return `<div class="rl-depois"><h3 class="rl-mes-tit">Depois: ${d.anos.map((a) => a.ano).join(" e ")}</h3><div class="rl-anos">
     ${d.anos.map((a) => {
       const mat = a.mat.itens.map((y) => `${fala(y.cultura)} ${qtd(y)}${y.se ? " (se tiver baixio)" : ""}`);
       return `<div class="rl-ano"><p class="rl-ano-tit">${a.ano}</p><ul>
-        ${a.partes.map((p) => `<li class="${U.tipoCss(p.cor)}"><b>${U.esc(ondeTxt([p.parte]))}</b> · ${U.esc(fala(p.cultura))}${p.txt ? `: ${U.esc(p.txt)}` : ""}</li>`).join("")}
+        ${a.partes.map((p) => `<li class="${U.tipoCss(p.cor)}"><b>${U.esc(ondeTxt([p.parte]))}</b><span>${U.esc(fala(p.cultura))}${p.txt ? `: ${U.esc(p.txt)}` : ""}</span></li>`).join("")}
         ${a.colher.map((c) => `<li class="rl-ano-colhe">${U.ic("celeiro")}<span>Colher ${U.esc(fala(c.cultura))} (${U.esc(ondeTxt(c.partes))}): ${U.esc(c.txt)}</span></li>`).join("")}</ul>
         ${mat.length ? `<p class="rl-ano-mat">Material novo: ${U.esc(mat.join("; "))}.</p>` : ""}</div>`;
-    }).join("")}
+    }).join("")}</div>
     <p class="rl-nota">As datas de ${d.anos.map((a) => a.ano).join(" e ")} repetem as janelas de 2027 (o zoneamento novo ainda não saiu): confira com o técnico no fim de 2027.</p></div>`;
 }
 
@@ -443,28 +457,47 @@ function guiaHtml(d, agro) {
     if (entra && como.length) blocos.push({ tit, como, fonte: fonteOp(agro, id) });
   }
   if (!blocos.length) return "";
-  return `<details class="ver-mais rl-guia"><summary>Como fazer, cultura por cultura</summary><div class="rl-guia-grade">
+  // o alto do cartão é o próprio "abrir" (o + à direita, como o das tarefas)
+  return `<details class="rl-guia"><summary class="rl-c-cab"><span class="rl-c-ic" aria-hidden="true">${U.ic("enxada")}</span>
+    <h2 class="rl-c-tit">Como fazer, cultura por cultura</h2><span class="rl-abre" aria-hidden="true"></span></summary><div class="rl-guia-grade">
     ${blocos.map((b) => `<div class="rl-guia-b"><p class="rl-guia-tit">${U.esc(b.tit)} ${b.fonte ? U.selo("medido", b.fonte) : ""}</p>
       <ul>${b.como.map((s) => `<li>${U.esc(s)}</li>`).join("")}</ul></div>`).join("")}</div></details>`;
 }
 
+/** A ficha do roçado: uma linha por dado, numa grade de 3 colunas (ícone + rótulo | valor | "Mudar"); o "Mudar" vai num <dd> próprio
+ *  (a coluna da direita, do mesmo tamanho em todas as linhas; "Hoje" fica com a célula vazia). No computador e na folha, 2 colunas. */
 function cabecalho(ctx, d) {
   const { r, ef } = ctx, l = r.local || {}, e = d.esc;
-  const tam = ef.larg ? `${U.num(ef.larg)} × ${U.num(ef.comp)} m · ${U.ha(ef.ha)}` :`${U.ha(ef.ha)}${ef.ha_origem === "resposta" ? "" : " (o típico daqui)"}`;
-  const selTam = ef.ha_origem === "resposta" ? "" : ` ${U.selo("suposicao", `tamanho: ${ef.ha_origem}; ponha as suas medidas em Sua roça`)}`;
-  const bx = BAIXIO[ef.baixio] || "não sei";
-  const link = (n, campo, rot = "Mudar") => `<a class="rl-mudar" href="${ctx.link ? ctx.link(n) : "#"}"${campo ? ` data-editar="${campo}"` : ""}>${rot}</a>`;
-  const pri = e.tipo === "ideal" ? `<div><dt>Prioridade</dt><dd>${U.esc(NOME_PRIORIDADE[e.prioridade] || e.prioridade)}
-      <small>(${U.esc(e.prioridade_origem === "resposta" ? "você escolheu" : e.prioridade_origem)})</small></dd></div>` : "";
-  return `<dl class="rl-ficha">
-      <div><dt>Lugar</dt><dd>${U.esc(l.municipio || "")} (${U.esc(l.uf || "")})</dd></div>
-      <div><dt>Hoje</dt><dd>${dmy(d.hoje)}</dd></div>
-      <div><dt>Tamanho</dt><dd>${U.esc(tam)}${selTam} ${link(2, "ha")}</dd></div>
-      <div><dt>Terra</dt><dd>${U.esc(TERRA[ef.terra] || "não sei")} ${link(2, "terra")}</dd></div>
-      <div><dt>Baixio</dt><dd>${U.esc(bx)}${ef.tem_baixio ? ` · ${U.esc(haTxt(U, ef.baixio_ha))}` : ""} ${link(2, "baixio")}</dd></div>
-      <div><dt>Plano</dt><dd>${U.esc(e.tipo === "ideal" ? "O ideal" : e.nome)} ${link(3, null)}</dd></div>${pri}
+  const tam = ef.larg ? [`${U.num(ef.larg)} × ${U.num(ef.comp)} m`, U.ha(ef.ha)] : [U.ha(ef.ha), ef.ha_origem === "resposta" ? "" : "(o típico daqui)"];
+  const selTam = ef.ha_origem === "resposta" ? "" : U.selo("suposicao", `tamanho: ${ef.ha_origem}; ponha as suas medidas em Sua roça`);
+  const [terra, terraSub] = TERRA[ef.terra] || TERRA.nao_sei;
+  const mudar = (href, campo) => `<a class="rl-mudar" href="${href}"${campo ? ` data-editar="${campo}"` : ""}>Mudar</a>`;
+  const link = (n, campo) => mudar(ctx.link ? ctx.link(n) : "#", campo);
+  // [cor do assunto, ícone, rótulo, valor, embaixo do valor, "Mudar", selo]; o lugar muda no globo (o "Trocar" do topo)
+  const linhas = [
+    ["lugar", "pino", "Lugar", `${l.municipio || ""} (${l.uf || ""})`, "", mudar("index.html")],
+    ["tempo", "calendario", "Hoje", dmy(d.hoje), "", ""],
+    ["tamanho", "terreno", "Tamanho", tam[0], tam[1], link(2, "ha"), selTam],
+    ["terra", "solo", "Terra", terra, terraSub, link(2, "terra")],
+    ["agua", "baixio", "Baixio", BAIXIO[ef.baixio] || BAIXIO.nao_sei, ef.tem_baixio ? haTxt(U, ef.baixio_ha) : "", link(2, "baixio")],
+    ["planta", "faixas", "Plano", e.tipo === "ideal" ? "O ideal" : e.nome, "", link(3)],
+  ];
+  if (e.tipo === "ideal") {
+    const [icone, cor] = PRIO_COR[e.prioridade] || PRIO_COR.equilibrar;
+    linhas.push([cor, icone, "Prioridade", NOME_PRIORIDADE[e.prioridade] || e.prioridade,
+      `(${e.prioridade_origem === "resposta" ? "você escolheu" : e.prioridade_origem})`, link(3)]);
+  }
+  const n = Math.ceil(linhas.length / 2); // linhas por coluna no computador (a 2ª coluna começa na linha n)
+  return `<dl class="rl-ficha" style="--linhas: ${n}">${linhas.map(([cor, icone, rot, val, sub, acao, selo = ""], i) => `
+      <div class="rl-f rl-cor-${cor}${i === n ? " rl-f-col2" : ""}"><dt><span class="rl-f-ic" aria-hidden="true">${icr(icone)}</span><span>${rot}</span></dt>
+        <dd class="rl-f-val"><b${cor === "lugar" ? ' translate="no"' : ""}>${U.esc(val)}</b>${sub || selo ? `<small>${U.esc(sub)}${selo ? ` ${selo}` : ""}</small>` : ""}</dd>
+        <dd class="rl-f-acao">${acao}</dd></div>`).join("")}
     </dl>`;
 }
+
+/** O alto de um cartão, como em Sua roça: o ícone grande na cor do assunto e o título curto (e o selo, quando há). */
+const cabCartao = (icone, titulo, selo = "") => `<div class="rl-c-cab"><span class="rl-c-ic" aria-hidden="true">${U.ic(icone)}</span>
+    <h2 class="rl-c-tit">${titulo}</h2>${selo}</div>`;
 
 function materialHtml(ctx, d, agro) {
   const its = d.mat?.itens || [];
@@ -477,8 +510,8 @@ function materialHtml(ctx, d, agro) {
   const semDado = (d.mat?.semDado || []).map((y) => `${fala(y.cultura)} (${ondeTxt([y.parte])})`);
   const semJanela = (d.mat?.semJanela || []).map((y) => `${fala(y.cultura)} (${ondeTxt([y.parte])})`);
   const nada = (d.mat?.nada || []).map((y) => `${ondeTxt([y.parte])}: ${y.txt}`);
-  return `<section class="painel rl-material" aria-label="O que juntar para ${d.plano.anos?.[0] || 2027}">
-    <h2>O que juntar para ${d.plano.anos?.[0] || 2027} ${fontes.length ? U.selo("suposicao", `quantidades contadas sobre o desenho do seu roçado${d.lay?.medidas === "resposta" ? " (as suas medidas)" : " (quadrado do tamanho, sem as suas medidas)"}, sem sobra para replantio; espaçamento: ${fontes.join("; ")}`) : ""}</h2>
+  return `<section class="painel rl-cartao rl-cor-planta rl-material" aria-label="O que juntar para ${d.plano.anos?.[0] || 2027}">
+    ${cabCartao("semente", `O que juntar para ${d.plano.anos?.[0] || 2027}`, fontes.length ? U.selo("suposicao", `quantidades contadas sobre o desenho do seu roçado${d.lay?.medidas === "resposta" ? " (as suas medidas)" : " (quadrado do tamanho, sem as suas medidas)"}, sem sobra para replantio; espaçamento: ${fontes.join("; ")}`) : "")}
     <div class="rl-mat-grade">
       ${svg ? `<figure class="terreno rl-desenho">${svg}<figcaption>O seu roçado em ${d.plano.anos?.[0] || 2027}${d.lay.medidas === "resposta" ? "" : " (quadrado do tamanho; sem as suas medidas)"}.</figcaption></figure>` : ""}
       <div>${lin ? `<ul class="rl-mat">${lin}</ul>` : `<p class="rl-nota">Material: com o técnico (os dados de espaçamento não carregaram agora).</p>`}
@@ -491,27 +524,37 @@ function materialHtml(ctx, d, agro) {
 }
 
 function html(ctx, d, agro) {
-  const cab = `<div class="titulo-passo"><p class="kicker">Relatório</p>
+  // a faixa escura do QUADRA no alto da 1ª folha (só na impressão: na tela o topo já tem a marca); o nome do município e a UF
+  // não passam pela tradução (translate="no", como na ficha)
+  const l = ctx.r.local || {};
+  const marca = `<div class="rl-marca"><span class="rl-marca-nome" translate="no"><span class="marca-selo"></span>QUADRA</span>
+      <span class="rl-marca-lugar" translate="no">${U.esc(l.municipio || "")} (${U.esc(l.uf || "")}) · ${dmy(d.hoje)}</span></div>`;
+  const cab = `${marca}<div class="titulo-passo"><p class="kicker">Relatório</p>
       <h1>O plano do seu roçado<span class="eco">O que fazer e quando.</span></h1></div>`;
   if (!d.plano) return `${cab}<div class="painel"><p>Ainda não há plano para este lugar. Volte ao Plano ou fale com o técnico.</p></div>`;
   const avisos = [...d.avisos, ...d.semData.map((s) => `${cap(fala(s.cultura))} (${ondeTxt([s.parte])}): ${s.txt}`)];
+  const guia = guiaHtml(d, agro);
+  const pdf = `<button type="button" class="botao secundario rl-pdf" data-rl="imprimir">${U.ic("faixas")}Imprimir / salvar PDF</button>`;
   return `${cab}
-    <section class="painel rl-cab" aria-label="O seu roçado">${cabecalho(ctx, d)}
-      <div class="rl-acoes"><button type="button" class="botao secundario" data-rl="imprimir">${U.ic("faixas")}Imprimir / salvar PDF</button></div></section>
-    <section class="painel rl-agenda" aria-label="O que fazer e quando">
-      <h2>O que fazer e quando</h2>
+    <section class="painel rl-cartao rl-cab" aria-label="O seu roçado">${cabecalho(ctx, d)}
+      <div class="rl-acoes">${pdf}</div></section>
+    <section class="painel rl-cartao rl-cor-tempo rl-agenda" aria-label="O que fazer e quando">
+      ${cabCartao("calendario", "O que fazer e quando")}
       <p class="rl-legenda">Plantar: ${U.selo("medido", "datas de plantar: ZARC (zoneamento agrícola de risco climático do MAPA) para este município, como na agenda do Plano")}
         · Colher: ${U.selo("suposicao", "datas de colher: pela duração do ciclo de cada cultura, contada do plantio")}
 <span class="rl-toque"> · Toque numa tarefa para ver como fazer.</span></p>
       <p class="rl-geral">${U.ic("gota")}<span>Plante com a terra úmida, depois que a chuva firmar.</span></p>
-      ${d.notaPortoes ? `<p class="rl-geral">${U.ic("alerta")}<span>Aqui as datas de troca e de salvar ainda não foram medidas: combine com o técnico. ${U.selo("suposicao", d.notaPortoes)}</span></p>` : ""}
+      ${d.notaPortoes ? `<p class="rl-geral ambar">${U.ic("alerta")}<span>Aqui as datas de troca e de salvar ainda não foram medidas: combine com o técnico. ${U.selo("suposicao", d.notaPortoes)}</span></p>` : ""}
       ${avisos.length ? `<ul class="rl-avisos">${avisos.map((a) => `<li>${U.ic("alerta")}<span>${U.esc(a)}</span></li>`).join("")}</ul>` : ""}
       ${listaHtml(d)}
       ${anosHtml(d)}
-      ${guiaHtml(d, agro)}
     </section>
     ${materialHtml(ctx, d, agro)}
-    ${U.extra("leve_ao_tecnico")}
+    ${guia ? `<section class="painel rl-cartao rl-cor-terra rl-guia-sec" aria-label="Como fazer">${guia}</section>` : ""}
+    <section class="painel verde rl-fim" aria-label="Guardar o relatório">
+      <p class="rl-fim-tit">${U.ic("ok")}<b>Pronto: este é o seu plano.</b></p>
+      <p class="rl-fim-sub">Imprima, salve em PDF ou mande no WhatsApp.</p>
+      <div class="rl-acoes">${pdf}<span class="rl-aviso" role="status" aria-live="polite"></span></div></section>
     <p class="rl-frase">${U.esc(FRASE)}</p>`;
 }
 
@@ -550,10 +593,17 @@ export default {
     await cssTerreno();
     el.innerHTML = html(ctx, d, agro);
     ligarImpressao();
-    el.querySelector('[data-rl="imprimir"]')?.addEventListener("click", () => { abrirTudo(); window.print(); });
+    el.querySelectorAll('[data-rl="imprimir"]').forEach((b) => b.addEventListener("click", () => { abrirTudo(); window.print(); }));
+    // sem o bloco do técnico, o aviso do "copiou" (quando o WhatsApp não abre) fica no fim do relatório
+    const avisar = (res) => {
+      const a = el.querySelector(".rl-aviso");
+      if (!a || (res !== "copiou" && res !== "falhou")) return;
+      a.textContent = res === "copiou" ? "Copiado. Cole no WhatsApp." : "Não deu para copiar aqui.";
+      a.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
     ctx.primario("Mandar no WhatsApp", () => import("../extras/leve_ao_tecnico.js")
       .then((m) => m.compartilhar(ctx, { plano: d.plano ? d.esc.nome : "", partes: d.plano ? resumoPartes(d) : "",
-        material: d.plano ? materialCurto(d) : "", tarefas: d.plano ? proximas(d, 5) : [] })));
+        material: d.plano ? materialCurto(d) : "", tarefas: d.plano ? proximas(d, 5) : [] })).then(avisar));
     await U.montarExtras(el, ctx);
   },
   // para o teste no node (testes/ferramentas/teste_relatorio.mjs): o HTML sem a página

@@ -28,7 +28,7 @@ import websocket
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.dirname(os.path.dirname(AQUI))  # site-versao-final/
-BASE = "http://127.0.0.1:8090"
+BASE = os.environ.get("QUADRA_BASE", "http://127.0.0.1:8090")
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 PY = sys.executable
 MUNS = {"2311306": "Quixadá", "2304103": "Crateús", "2208007": "Picos", "2402006": "Caicó", "2611101": "Petrolina",
@@ -46,10 +46,14 @@ SECAO8 = r"""(() => {
   const vis = (e) => (e.offsetWidth || e.offsetHeight) && !e.closest("details:not([open])");
   const txt = j.innerText, tudo = j.textContent;
   const ban = %s;
+  // as palavras à vista contam o texto corrido, não os rótulos dos desenhos (SVG): o José pediu (15/11) toda faixa do roçado com
+  // parte + cultura ("A · feijão"), o que soma dezenas de rótulos ao Plano sem ser texto para ler
+  const visSvg = (s) => { const b = s.getBoundingClientRect(); return (b.width || b.height) && !s.closest("details:not([open])"); }; // SVG não tem offsetWidth
+  const nSvg = [...j.querySelectorAll("svg")].filter(visSvg).reduce((n, s) => n + ((s.textContent || "").trim() ? s.textContent.trim().split(/\s+/).length : 0), 0);
   return {
     hash: location.hash,
     altura: document.documentElement.scrollHeight,
-    palavras: txt.trim().split(/\s+/).length,
+    palavras: txt.trim().split(/\s+/).length - nSvg,
     primarios: [...document.querySelectorAll(".botao.primario")].filter(vis).length,
     contadores: document.querySelectorAll(".quiz-barra,.hi-barra,.hs-barra").length,
     nDeM: /\b\d+ de \d+\b/i.test(document.querySelector(".kicker")?.innerText || ""),
@@ -154,6 +158,8 @@ class Edge:
         self.n, self.erros = 0, []
         for m in ("Runtime.enable", "Log.enable", "Page.enable"):
             self.cmd(m)
+        # o site abre em inglês por padrão (js/i18n.js): os testes rodam em português; ?lang=en na URL abre em inglês
+        self.cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
         self.cmd("Emulation.setDeviceMetricsOverride", width=larg, height=alt, deviceScaleFactor=1, mobile=larg < 600)
         self.cmd("Emulation.setTouchEmulationEnabled", enabled=larg < 600)
 
@@ -342,8 +348,9 @@ def falhas_tela(passo, suf, s8, ex, lat, erros):
         if not ex["hiTab"]:
             f.append("sem tabela Hoje → Melhorado → Ideal")
     if passo == 5:
-        if ex["tarefas"] < 1 or ex["datasRel"] < 2 or not ex["tecnico"] or ex["avancar"] != "Mandar no WhatsApp":
-            f.append(f"relatório: tarefas {ex['tarefas']} datas {ex['datasRel']} técnico {ex['tecnico']} verde '{ex['avancar']}'")
+        # o "Leve para o técnico" saiu do Relatório (pedido do José, 15/11): o bloco não pode aparecer
+        if ex["tarefas"] < 1 or ex["datasRel"] < 2 or ex["tecnico"] or ex["avancar"] != "Mandar no WhatsApp":
+            f.append(f"relatório: tarefas {ex['tarefas']} datas {ex['datasRel']} bloco do técnico {ex['tecnico']} (deve sumir) verde '{ex['avancar']}'")
     if erros:
         f.append(f"{len(erros)} erro(s) no console")
     return f
@@ -388,12 +395,14 @@ def parte_toques(ed):
     res["C1"] = (h3 == f"#/{q}/3" and "(típico)" in ficha and "(o comum daqui)" in texto(), f"{h3} | ficha '{ficha.strip()}'")
 
     # C2: os R$ de Quixadá em 3 anos na URL padrão do passo 4. Desde a correção Y (15/11) o ideal padrão sai dos números
-    # (ideal.escolhaPadrao): Hoje 2.480 · Melhorado 2.550 · Ideal Mais renda 6.640; com prioridade=garantir, o Guardar água dá 3.980
+    # (ideal.escolhaPadrao): Hoje 2.480 · Melhorado 2.550 · Ideal Mais renda 5.220; com prioridade=garantir, o Guardar água dá 3.980.
+    # O Mais renda era 6.640 até o pedido do José de nunca recomendar monocultura (15/11, tarde): em 2028 as 3 partes eram só
+    # mandioca; agora a mandioca gira com outra cultura (extras/cenarios.js) e o ideal cai para 5.220, ainda bem acima de hoje
     ed.abrir(f"#/{q}/4")
     vals = ed.js("[...document.querySelectorAll('.hi-graf .hi-g-val')].map((t) => t.textContent.trim())") or []
     ed.abrir(f"#/{q}/4?prioridade=garantir")
     vals_g = ed.js("[...document.querySelectorAll('.hi-graf .hi-g-val')].map((t) => t.textContent.trim())") or []
-    res["C2"] = (all(any(v in x for x in vals) for v in ("2.480", "2.550", "6.640")) and any("3.980" in x for x in vals_g),
+    res["C2"] = (all(any(v in x for x in vals) for v in ("2.480", "2.550", "5.220")) and any("3.980" in x for x in vals_g),
                  " | ".join(vals) + " · garantir: " + " | ".join(vals_g))
 
     # C3: o controle de 2 lados e as 4 prioridades mudam o desenho e os números do Plano; voltar ao seu jeito desenha igual
@@ -510,11 +519,12 @@ def parte_toques(ed):
     t9 = texto()
     res["C9"] = ("antes=2025:milho" in hash_() and "ali teve milho em 2025 e 2026" in t9, f"{hash_()} | {'por quê à vista' if 'ali teve milho' in t9 else 'sem o por quê'}")
 
-    # C10: Relatório (Seu Antônio, ideal com Água): toda data dd/mm/aaaa existe na agenda; WhatsApp leva o plano; nenhum verde no técnico
+    # C10: Relatório (Seu Antônio, ideal com Água): toda data dd/mm/aaaa existe na agenda; WhatsApp leva o plano; sem o bloco do técnico
+    # (saiu do Relatório) e com o "Imprimir / salvar PDF"
     ed.abrir(f"#/{q}/5{hs}")
     d10 = ed.js(DATAS_RELATORIO) or {}
     ed.js("navigator.share = async (d) => { window.__share = d; }; window.open = (u) => { window.__aberto = u; return {}; }")
-    verde = ed.js("document.querySelectorAll('[data-extra=leve_ao_tecnico] .botao.primario').length")
+    verde = ed.js("document.querySelectorAll('#jornada [data-extra=leve_ao_tecnico], #leve-ao-tecnico').length + (document.querySelector('#jornada [data-rl=imprimir]') ? 0 : 100)")
     rot = ed.js("document.getElementById('avancar').innerText")
     ed.depois_de(clicar("#avancar"), 1.5)
     share = ed.js("window.__share?.text || ''") or ""
@@ -524,7 +534,7 @@ def parte_toques(ed):
     wa = ed.js("window.__aberto || ''") or ""
     res["C10"] = (d10.get("datas", 0) >= 10 and not d10.get("fora") and rot == "Mandar no WhatsApp" and len(share) > 100 and "Próximas tarefas" in share
                   and re.search(r"\d{2}/\d{2}/\d{4}", share) and wa.startswith("https://wa.me/?text=") and verde == 0,
-                  f"{d10.get('nome')}: {d10.get('datas')} datas ({d10.get('unicas')} diferentes), fora da agenda {d10.get('fora')} | '{rot}' share {len(share)} letras | wa.me {wa[:22]} | verdes no técnico {verde}")
+                  f"{d10.get('nome')}: {d10.get('datas')} datas ({d10.get('unicas')} diferentes), fora da agenda {d10.get('fora')} | '{rot}' share {len(share)} letras | wa.me {wa[:22]} | técnico/sem PDF {verde} (deve ser 0)")
 
     # C11: selo "MEDIDO · NASA …" à vista em Sua roça e o toque mostra a fonte
     ed.abrir(f"#/{q}/2")
@@ -544,13 +554,18 @@ def parte_toques(ed):
     res["C12"] = (h1.startswith(f"#/{q}/2?") and "ha=2" in h1 and "terra=barro" in h1 and (k1 or "").lower() == "sua roça" and (k5 or "").lower() == "relatório" and ok3
                   and not e1 and not ed.erros, f"/1 → {h1} ({k1}) | /5: {k5} | ⅓: desenho {ok3} | erros {len(e1) + len(ed.erros)}")
 
-    # C13: a frase do ponto 16 (rodapé) leva ao "Leve para o técnico" do Relatório: o bloco fica à vista (perto do fim da página ele
-    # não sobe até o topo, porque a página acaba)
+    # C13: a frase do ponto 16 (rodapé) leva ao topo do Relatório: do Plano, abre o passo 5 no topo; já no fim do Relatório, sobe ao topo
     ed.abrir(f"#/{q}/3")
     ed.js(clicar("#decide-fim"))
     ed.dormir(5)
-    topo = ed.js("(() => { const e = document.querySelector('[data-extra=leve_ao_tecnico], #leve-ao-tecnico'); return e ? Math.round(e.getBoundingClientRect().top) : null; })()")
-    res["C13"] = (hash_().startswith(f"#/{q}/5") and topo is not None and -5 <= topo <= 844 - 200, f"{hash_()} | técnico a {topo} px do topo da tela")
+    y1, k13 = ed.js("Math.round(scrollY)"), ed.js("document.querySelector('.kicker')?.innerText || ''")
+    ed.js("window.scrollTo(0, document.documentElement.scrollHeight)")
+    ed.dormir(0.5)
+    ed.js(clicar("#decide-fim"))
+    ed.dormir(2)
+    y2 = ed.js("Math.round(scrollY)")
+    res["C13"] = (hash_().startswith(f"#/{q}/5") and (k13 or "").lower() == "relatório" and y1 is not None and y1 <= 5 and y2 is not None and y2 <= 5,
+                  f"{hash_()} | {k13} | do Plano: topo a {y1} px | do fim do Relatório: {y2} px")
 
     for k in sorted(res, key=lambda x: int(x[1:])):
         ok, det = res[k]
@@ -612,7 +627,7 @@ def parte_fim():
         if os.path.exists(arq):
             os.remove(arq)
         subprocess.run([EDGE, "--headless", "--disable-gpu", f"--user-data-dir={perfil}", "--no-pdf-header-footer", "--virtual-time-budget=20000",
-                        f"--print-to-pdf={arq}", f"{BASE}/roca.html{hs}"], timeout=180, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        f"--print-to-pdf={arq}", f"{BASE}/roca.html{hs}&lang=pt"], timeout=180, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         shutil.rmtree(perfil, ignore_errors=True)
         dados = open(arq, "rb").read() if os.path.exists(arq) else b""
         pag = len(re.findall(rb"/Type\s*/Page[^s]", dados))

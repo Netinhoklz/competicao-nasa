@@ -10,7 +10,7 @@
 import { montar, grade, espalhar, ehGram, LIMIAR_SITIO } from "./plantio/desenho.js";
 import { linhaDoTempo, calendarioCompleto, ligarCalendario, agora, agendaDoPlano } from "./plantio/calendario.js";
 import { olho, OLHOS } from "../extras/voce_decide.js";
-import { escolhido, comparar3, NOME_PRIORIDADE, textoItem, falaTexto, agronomia } from "../extras/ideal.js";
+import { escolhido, comparar3, NOME_PRIORIDADE, textoItem, falaTexto, agronomia, agendaLonga } from "../extras/ideal.js";
 import { contas as contasTerreno } from "../extras/terreno.js";
 import { mancheteIdeal } from "../extras/hoje_ideal.js";
 // Ordem (D3): título → "Agora" → o roçado (controle de 2 lados, prioridade no lado ideal, desenho, "por quê" de cada parte, "Seu terreno
@@ -21,7 +21,7 @@ import { mancheteIdeal } from "../extras/hoje_ideal.js";
 // aberto e o controle tocado (para ele ficar no mesmo lugar da tela depois do redesenho)
 const est = { cod: null, ano: 0, modo: "ano", mes: null, relogio: null, foco: null, compacto: false, terreno: false, terrenoTocado: false, ancora: null };
 
-const CURTO = { "Feijão-caupi": "caupi", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão",
+const CURTO = { "Feijão-caupi": "feijão", "Sorgo forrageiro": "sorgo forrageiro", "Sorgo granífero": "sorgo de grão", "Feijão comum": "feijão comum",
   "Palma + gliricídia": "palma + gliricídia", "Palma forrageira": "palma", "Mucuna-preta": "mucuna", "Algodão herbáceo": "algodão",
   "Cana-de-açúcar": "cana", "Pousio pastejado": "descanso" };
 const curto = (c) => { const b = String(c || "").replace(/ no milho em pé$/, ""); return CURTO[b] || b.toLowerCase(); };
@@ -46,16 +46,21 @@ function pararTudo() {
   clearInterval(est.foco); est.foco = null;
 }
 
-/** Meses do calendário (agenda.inicio a agenda.fim). */
-function listaMeses(a) {
+/** Meses do calendário (agenda.inicio a agenda.fim; o mês a mês passa o fim dele: dez do último ano do plano). */
+function listaMeses(a, fim = a?.fim) {
   const out = [];
   if (!a) return out;
-  for (let y = +a.inicio.slice(0, 4), m = +a.inicio.slice(5, 7); `${y}-${String(m).padStart(2, "0")}` <= a.fim.slice(0, 7); m = m % 12 + 1, y += m === 1 ? 1 : 0) {
+  for (let y = +a.inicio.slice(0, 4), m = +a.inicio.slice(5, 7); `${y}-${String(m).padStart(2, "0")}` <= fim.slice(0, 7); m = m % 12 + 1, y += m === 1 ? 1 : 0) {
     const mm = String(m).padStart(2, "0"), dias = new Date(y, m, 0).getDate();
     out.push({ ini: `${y}-${mm}-01`, fim: `${y}-${mm}-${dias}`, m, y, dias });
   }
   return out;
 }
+/** O ano do plano (índice em plano.anos) de um mês do mês a mês: nov e dez/2026 contam como o 1º ano (2027). */
+const anoDoMes = (p, mes) => Math.max(0, Math.min(p.anos.length - 1, mes.y - p.anos[0]));
+/** A agenda que vale no mês: até agenda.fim (dez/2027), a do plano à vista; depois, a longa (extras/ideal.js, agendaLonga: 2028 e
+ *  2029 repetem as datas do ZARC 2026/27 na rotação do plano). */
+const agDoMes = (V, mes) => (V.agLonga && mes.ini > V.ag.fim ? V.agLonga : V.ag);
 
 /** O que a parte está fazendo no mês, pelas barras da agenda do plano à vista (revez = a linha da leguminosa no milho em pé do baixio). */
 function estadoMes(a, parte, mes, revez = false) {
@@ -70,6 +75,9 @@ function estadoMes(a, parte, mes, revez = false) {
     if (l) return { estado: "crescendo", cultura: l.cultura, tipo: l.tipo, linha: l };
     return null;
   }
+  // a perene (palma, caju…) fica no chão depois do 1º corte: segue crescendo, não vira palhada
+  const perene = linhas.find((l) => l.tipo === "perene" && l.barras.some((b) => b.ate < mes.ini));
+  if (perene) return { estado: "crescendo", cultura: perene.cultura, tipo: perene.tipo, linha: perene };
   const colhida = linhas.flatMap((l) => l.barras.filter((b) => b.tipo === "colheita" && b.ate < mes.ini).map((b) => ({ l, b })))
     .sort((p, q) => (p.b.ate < q.b.ate ? 1 : -1))[0];
   return { estado: "descanso", cultura: colhida ? colhida.l.cultura : null, tipo: "pousio", palhada: !!colhida };
@@ -111,15 +119,16 @@ function controle(ctx, V) {
   const nomes = (ns) => [...new Set(ns.map((n) => curto(n).replace(/^sorgo .*/, "sorgo").replace(/ \+ .*/, "")))];
   const resumo = (ns, n) => { const v = nomes(ns); return listaE([...v.slice(0, n), ...(v.length > n ? [`mais ${v.length - n}`] : [])]); };
   const acr = pm?.acrescenta || [];
-  const botao = (lado, titulo, sub) => `<button type="button" class="lado" data-lado="${lado}" aria-pressed="${(lado === "ideal") === ideal}">
-      <b>${titulo}</b><small>${esc(sub)}</small></button>`;
+  // `selo`: o chamariz do "O ideal" quando ele não está à vista (borda, etiqueta e 2 pulsos ao chegar; css/passos/plantio.css)
+  const botao = (lado, titulo, sub, selo = "") => `<button type="button" class="lado${selo ? " chama" : ""}" data-lado="${lado}" aria-pressed="${(lado === "ideal") === ideal}">
+      <b>${titulo}</b><small>${esc(sub)}</small>${selo ? `<span class="lado-selo">${selo}</span>` : ""}</button>`;
   // o seu jeito: rótulo fixo de 1 linha (a ficha da casca, no topo, já lista as culturas); o ideal já diz o que acrescenta (convida a
   // tocar) e, do lado ideal, a prioridade que vale. Os 2 botões ficam com 3 linhas.
   // o ganho de cada lado já no botão (o melhor do produto sem rolar): "+R$ 99 por ano", "+R$ 2.170 por ano, quebra de 2 para 1 em 10"
   const H = V.c3?.hoje?.beneficios, gM = ganhoCurto(U, H, V.c3?.melhor?.beneficios), gI = ganhoCurto(U, H, V.c3?.ideal?.beneficios);
   const subIdeal = ideal ? `${NOME_PRIORIDADE[V.E.prioridade]}${gI ? ` · ${gI}` : ""}` : gI || (acr.length ? `com ${resumo(acr, 2)}` : "tudo o que sabemos");
   let h = `<div class="lados" role="group" aria-label="Qual plano ver">${botao("melhor", "Seu jeito, melhorado", gM || "só o que você planta")}
-    ${botao("ideal", "O ideal", subIdeal)}</div>`;
+    ${botao("ideal", "O ideal", subIdeal, ideal ? "" : /R\$/.test(gI) ? "Recomendado" : "Toque e veja")}</div>`;
   if (!ideal) return h;
   const pri = V.E.prioridade, origem = V.E.prioridade_origem;
   const bts = PRIO.map(([k, p, nome, icone]) => `<button type="button" class="chip prio-b${p === pri ? " verde" : ""}" data-prio="${k}"
@@ -147,18 +156,22 @@ function svgRocado(U, lay, W) {
   const pad = 24, topo = 18, Sx = W - 2 * pad, Hmax = Math.max(Sx, Math.min(460, Math.round(Sx * 1.5)));
   const s = Math.min(Sx / lay.larg, Hmax / lay.comp), w = lay.larg * s, hT = lay.comp * s;
   const x0 = pad + (Sx - w) / 2, y0 = pad + topo;
-  const H = y0 + hT + pad + 16, fs = W < 420 ? 12 : 14, tx = x0 + 12 + fs + 8;
-  const rotulos = (y, hh, i) => {
-    const dois = hh >= fs * 2.6;
-    const yr = dois ? y + hh / 2 - 2 : y + hh / 2 + fs * 0.36, yf = yr - fs * 0.95 - 3;
-    return `<rect class="rot-fundo" x="${(x0 + 6).toFixed(1)}" y="${yf.toFixed(1)}" width="0" height="${(fs * 1.35 + 6).toFixed(1)}" rx="7"
-        data-h1="${(fs * 1.35 + 6).toFixed(1)}" data-h2="${(y + hh / 2 + fs - 1 + 6 - yf).toFixed(1)}" data-x="${(tx - x0 - 6).toFixed(1)}"/>
-      <g class="rot-ic" transform="translate(${(x0 + 12).toFixed(1)},${(yr - fs * 0.95).toFixed(1)}) scale(${((fs + 2) / 24).toFixed(3)})"></g>
-      <text class="rot" x="${tx.toFixed(1)}" y="${yr.toFixed(1)}" style="font-size:${fs}px"></text>
-      <text class="rot2" x="${tx.toFixed(1)}" y="${(y + hh / 2 + fs - 1).toFixed(1)}" style="font-size:${fs - 2}px"${dois ? "" : ' display="none"'}></text>
-      <text class="tag" x="${(x0 + w - 10).toFixed(1)}" y="${yr.toFixed(1)}" text-anchor="end" style="font-size:${fs - 2}px" data-tag="${i}"></text>`;
+  const H = y0 + hT + pad + 16, fs = W < 420 ? 12 : 14;
+  // toda faixa leva o nome (pedido do José, 15/11): na faixa fina, letra menor (até 9 px), o fundo do tamanho da faixa e os rótulos
+  // alternando entre a esquerda e a direita (data-dir, posto por fundosRotulos), um sem cobrir o do vizinho
+  const rotulos = (y, hh, i, n = 0, txt = "", ic = "") => {
+    const f = hh >= fs + 4 ? fs : Math.max(9, Math.min(fs - 1, Math.floor(hh - 3))), dois = hh >= f * 2.6, tx = x0 + 20 + f;
+    const yr = dois ? y + hh / 2 - 2 : y + hh / 2 + f * 0.36, h1 = Math.min(f * 1.35 + 6, Math.max(hh, f * 1.3));
+    const yf = dois ? yr - f * 0.95 - 3 : y + (hh - h1) / 2;
+    return `<g class="rot-g"${hh < fs + 4 && n % 2 ? ` data-dir="${(x0 + w - 4).toFixed(1)}"` : ""}><rect class="rot-fundo" x="${(x0 + 6).toFixed(1)}" y="${yf.toFixed(1)}" width="0"
+        height="${h1.toFixed(1)}" rx="${Math.min(7, h1 / 2).toFixed(1)}" data-h1="${h1.toFixed(1)}" data-h2="${(y + hh / 2 + f - 1 + 6 - yf).toFixed(1)}" data-x="${(tx - x0 - 6).toFixed(1)}"/>
+      <g class="rot-ic" transform="translate(${(x0 + 12).toFixed(1)},${(yr - f * 0.95).toFixed(1)}) scale(${((f + 2) / 24).toFixed(3)})">${ic}</g>
+      <text class="rot" x="${tx.toFixed(1)}" y="${yr.toFixed(1)}" style="font-size:${f}px">${txt}</text>
+      <text class="rot2" x="${tx.toFixed(1)}" y="${(y + hh / 2 + f - 1).toFixed(1)}" style="font-size:${f - 2}px"${dois ? "" : ' display="none"'}></text></g>
+      <text class="tag" x="${(x0 + w - 10).toFixed(1)}" y="${yr.toFixed(1)}" text-anchor="end" style="font-size:${f - 2}px" data-tag="${i}"></text>`;
   };
-  const fino = (hh) => (hh < fs + 4 ? ' data-fino="1"' : ""); // faixa fina demais para o nome: o nome fica na lista
+  const fino = (hh) => (hh < fs + 4 ? ' data-fino="1"' : ""); // faixa fina: o nome curto (sem metros), em letra menor
+  const nR = lay.reserva ? 1 : 0; // a ordem de cima para baixo (a esquerda/direita das faixas finas)
   let h = `<svg class="rocado-svg" viewBox="0 0 ${W} ${H.toFixed(0)}" role="img" aria-label="O roçado visto de cima, em escala: ${U.esc(medidasTxt(U, lay))}">
     <g class="bordas t-perene" data-bordas>
       <rect class="b-fora" x="${(x0 - 15).toFixed(1)}" y="${y0 - 15}" width="${(w + 30).toFixed(1)}" height="${(hT + 30).toFixed(1)}" rx="8"/>
@@ -166,19 +179,21 @@ function svgRocado(U, lay, W) {
   if (lay.reserva) { // as perenes que ele já tem: o pedaço delas, no alto, fora do giro
     const hh = lay.reserva.y1 * s, nomes = listaE(lay.reserva.culturas.map(curto));
     h += `<g class="fx t-perene e-ano per" data-per><rect class="chao" x="${x0.toFixed(1)}" y="${y0.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}"/>
-      ${hh >= fs + 4 ? `<text class="rot" x="${(x0 + 12).toFixed(1)}" y="${(y0 + hh / 2 + fs * 0.36).toFixed(1)}" style="font-size:${fs}px">Já plantado · ${U.esc(nomes)} · ${U.esc(metros(U, lay.reserva.larguraM))}</text>` : ""}</g>`;
+      ${rotulos(y0, hh, "per", 0, `Já plantado · ${U.esc(nomes)}${hh >= fs + 4 ? ` · ${U.esc(metros(U, lay.reserva.larguraM))}` : ""}`, U.IC[U.icCultura(lay.reserva.culturas[0])] || "")}</g>`;
   }
   lay.faixas.forEach((f, i) => {
     const y = y0 + f.y0 * s, hh = (f.y1 - f.y0) * s;
     h += `<g class="fx" data-fx="${i}"${fino(hh)}><rect class="chao" x="${x0.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}"/>
-      ${linhasFaixa(x0, y, w, hh)}${rotulos(y, hh, i)}</g>`;
+      ${linhasFaixa(x0, y, w, hh)}${rotulos(y, hh, i, i + nR)}</g>`;
   });
   if (lay.temBaixio) {
     const y = y0 + lay.profAlto * s, hh = hT - lay.profAlto * s;
     h += `<g class="fx bx${lay.incerto ? " incerto" : ""}" data-bx data-y="${y.toFixed(1)}" data-h="${hh.toFixed(1)}" data-x="${x0.toFixed(1)}" data-w="${w.toFixed(1)}"${fino(hh)}>
       <rect class="chao" x="${x0.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${hh.toFixed(1)}"/>
-      <g class="lin" data-milho></g><g class="lin caupi t-leguminosa" data-caupi></g>${rotulos(y, hh, "bx")}</g>`;
+      <g class="lin" data-milho></g><g class="lin caupi t-leguminosa" data-caupi></g>${rotulos(y, hh, "bx", lay.faixas.length + nR)}</g>`;
   }
+  // o nome das bordas, na faixa de baixo da cerca (o texto vem de pintarRocado)
+  h += `<g class="t-perene" data-bordas-rot>${rotulos(y0 + hT + 3, 15, "bd")}</g>`;
   // escala: barra de 5/10/20/25/50/100/200 m com pelo menos 50 unidades; as medidas do roçado à direita
   const L = [5, 10, 20, 25, 50, 100, 200, 500].find((m) => m * s >= 50) || 500;
   const yb = y0 + hT + 32;
@@ -191,8 +206,11 @@ function svgRocado(U, lay, W) {
 }
 
 /** Fundo atrás dos rótulos de cada faixa (as linhas de plantio não cortam o texto). Mede o texto quando a página já está na tela. */
+// em inglês, a camada de tradução (js/i18n.js) troca os rótulos do desenho DEPOIS de as caixas serem medidas em português: ela avisa
+// e as caixas são medidas de novo, para conter o texto em inglês
+document.addEventListener("quadra:traduzido", () => fundosRotulos(document));
 function fundosRotulos(raiz) {
-  raiz.querySelectorAll(".rocado-svg .fx").forEach((g) => {
+  raiz.querySelectorAll(".rocado-svg .fx, .rocado-svg [data-bordas-rot]").forEach((g) => {
     const f = g.querySelector(".rot-fundo");
     if (!f) return;
     const r1 = g.querySelector(".rot"), r2 = g.querySelector(".rot2");
@@ -205,6 +223,15 @@ function fundosRotulos(raiz) {
     }
     f.setAttribute("width", r1.textContent ? (w + +f.dataset.x + 12).toFixed(1) : "0");
     f.setAttribute("height", usa2 ? f.dataset.h2 : f.dataset.h1);
+    // à direita (faixa fina, uma sim, uma não) e nunca passando da borda do desenho
+    const rg = g.querySelector(".rot-g"), x = +f.getAttribute("x"), pw = w + +f.dataset.x + 12;
+    const W = rg.ownerSVGElement?.viewBox.baseVal.width || Infinity;
+    const dx = Math.max(2 - x, Math.min(rg.dataset.dir ? +rg.dataset.dir - x - pw : 0, W - 2 - x - pw));
+    rg.setAttribute("transform", r1.textContent && dx ? `translate(${dx.toFixed(1)},0)` : "");
+    // o selo "reserva" (à direita) some quando o nome chega nele, num roçado estreito: a lista embaixo já diz
+    const tg = g.querySelector(".tag");
+    if (tg) { let tw = 0; try { tw = tg.getComputedTextLength(); } catch (_) { /* fora da tela */ }
+      tg.setAttribute("display", tg.textContent && x + dx + pw + 6 > +tg.getAttribute("x") - (tw || tg.textContent.length * 6) ? "none" : "inline"); }
   });
 }
 
@@ -237,7 +264,8 @@ function notasDoLado(ctx, V) {
   const U = ctx.util, esc = U.esc, p = V.plano;
   if (V.E.tipo === "ideal") return "";
   const notas = p.notas || [];
-  const frase = notas.find((n) => /não dá para girar|não quebra a lagarta|^Sem cultura conhecida/.test(n));
+  // "Entrou o feijão…": a planta que entrou para ele não ficar com uma cultura só (ideal.planoMelhor, pedido do José 15/11)
+  const frase = notas.filter((n) => /não dá para girar|não quebra a lagarta|^Sem cultura conhecida|^Entr(ou|aram) /.test(n)).slice(0, 2).join(" ");
   const avisos = [...(p.avisos || []).map((a) => a.txt), ...notas.filter((n) => /"outra"/.test(n))];
   return (frase ? `<p class="lado-frase">${esc(frase)}</p>` : "")
     + avisos.map((t) => `<p class="lado-aviso">${U.ic("alerta")}<span>${esc(t)}</span></p>`).join("");
@@ -276,7 +304,7 @@ function ligarTerreno(el, ctx, V) {
   const desenhar = () => {
     const meu = ++pedido;
     return import("../extras/terreno.js")
-      .then((m) => (meu === pedido ? m.default.render(caixa, ctx, { plano: V.plano, ano: est.modo === "mes" ? 0 : est.ano }) : null))
+      .then((m) => (meu === pedido ? m.default.render(caixa, ctx, { plano: V.plano, ano: est.ano }) : null))
       .catch((e) => { console.error("extra \"terreno\":", e); caixa.innerHTML = `<p class="pequeno">O desenho em metros não carregou agora.</p>`; });
   };
   det.addEventListener("toggle", () => {
@@ -291,7 +319,8 @@ function ligarTerreno(el, ctx, V) {
 
 function heroi(ctx, V, lay, meses, W) {
   const U = ctx.util, p = V.plano, a = V.ag;
-  const chips = meses.map((mes, i) => `<button type="button" class="mes-b" data-mes="${i}" title="${U.MESES[mes.m - 1]}/${mes.y}">
+  // a trilha mostra os meses do ano à vista (data-jan = o ano do plano; o 1º leva nov e dez/2026): pintarRocado esconde os outros
+  const chips = meses.map((mes, i) => `<button type="button" class="mes-b" data-mes="${i}" data-jan="${anoDoMes(p, mes)}" title="${U.MESES[mes.m - 1]}/${mes.y}">
       ${U.MESES[mes.m - 1]}${mes.m === 1 || i === 0 ? `<small>${String(mes.y).slice(2)}</small>` : ""}</button>`).join("");
   const amostra = (e) => `<svg class="amostra" viewBox="0 0 30 16" aria-hidden="true"><g class="fx t-leguminosa e-${e}"><rect class="chao" x="1" y="1" width="28" height="14"/>
     <g class="lin e-${e}"><line x1="4" y1="5.5" x2="26" y2="5.5"/><line x1="4" y1="10.5" x2="26" y2="10.5"/></g></g></svg>`;
@@ -305,7 +334,7 @@ function heroi(ctx, V, lay, meses, W) {
     o tamanho de cada faixa e o solo do baixio se confirmam com o técnico.</p>
     <p>No mês a mês, cada faixa mostra o que o calendário manda fazer: plantar e "pode plantar, com mais risco" vêm das janelas do ZARC
     ${U.selo("medido", "ZARC 2026/27 e portarias plurianuais do MAPA")}; crescendo e colher vêm da janela mais o ciclo da cultura
-    ${U.selo("suposicao", "ciclos da cultura; alguns sem fonte")}. O calendário só vai até dez/2027: 2028 e 2029 aparecem só por ano
+    ${U.selo("suposicao", "ciclos da cultura; alguns sem fonte")}. O calendário do ZARC vai até dez/2027: em 2028 e 2029 o mês a mês repete as mesmas datas, na rotação do plano
     ${U.selo("projecao", "a rotação segue; as datas repetem o ZARC 2026/27")}.</p>`;
   const legenda = `<p class="vista" data-vista></p>
     <ul class="leg-partes" data-lista></ul>
@@ -329,7 +358,7 @@ function heroi(ctx, V, lay, meses, W) {
   // (aberto quando o mês a mês está ligado, para o redesenho não esconder o controle)
   if (est.compacto) {
     return `<section class="painel heroi" id="plantio-rocado">${controle(ctx, V)}${topo}
-      <figure class="rocado-fig">${svgRocado(U, lay, W)}</figure>${cerca}${depois}
+      <figure class="rocado-fig">${svgRocado(U, lay, W)}</figure>${/^Cerca viva/.test(cercaTxt) ? "" : cerca}${depois}
       <details class="ver-mais mes-a-mes"${est.modo === "mes" ? " open" : ""}><summary>${a ? `Ver mês a mês e a rotação ${anos}` : `Ver as partes e a rotação ${anos}`}</summary>
         ${mesCtl}${legenda}${U.verMais(rotHtml, `A rotação ${anos}, parte por parte`)}</details></section>`;
   }
@@ -365,13 +394,17 @@ function fraseOrdem(U, lay) {
 }
 
 function pintarRocado(el, ctx, V, lay, meses) {
-  const U = ctx.util, esc = U.esc, a = V.ag, p = V.plano;
-  const mes = est.modo === "mes" ? meses[est.mes] : null, k = mes ? 0 : est.ano;
+  const U = ctx.util, esc = U.esc, p = V.plano;
+  // no mês a mês, o ano à vista é o do mês (est.ano anda junto: render, irAoMes) e a agenda é a que vale nele
+  const mes = est.modo === "mes" ? meses[est.mes] : null, k = mes ? anoDoMes(p, mes) : est.ano, a = mes ? agDoMes(V, mes) : V.ag;
+  const projetado = !!mes && a !== V.ag; // depois de dez/2027: as datas repetem o ZARC 2026/27
   const caixa = el.querySelector("#plantio-rocado");
   caixa.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(!mes && +b.dataset.ano === k)));
-  caixa.querySelectorAll("[data-mes]").forEach((b) => { b.classList.toggle("atual", !!mes && +b.dataset.mes === est.mes); b.classList.toggle("fora", est.ano !== 0 && !mes); });
+  caixa.querySelectorAll("[data-mes]").forEach((b) => { b.classList.toggle("atual", !!mes && +b.dataset.mes === est.mes); b.hidden = +b.dataset.jan !== k; });
+  caixa.querySelector(".mes-trilho")?.setAttribute("aria-label", `Mês a mês em ${p.anos[k]}`);
   caixa.querySelector("[data-selo-heroi]").innerHTML = mes
-    ? U.selo("suposicao", "desenho = suposição; datas de plantar do ZARC 2026/27 (medidas); crescendo e colher = janela + ciclo da cultura")
+    ? projetado ? U.selo("projecao", "a rotação segue; as datas repetem o ZARC 2026/27")
+      : U.selo("suposicao", "desenho = suposição; datas de plantar do ZARC 2026/27 (medidas); crescendo e colher = janela + ciclo da cultura")
     : k === 0 ? U.selo("suposicao", supoe(U, lay) + "; culturas do plano para 2027")
       : U.selo("projecao", `${p.anos[k]}: a rotação segue o plano; desenho = suposição`);
   caixa.querySelector("[data-vista]").textContent = mes ? `${U.MESES[mes.m - 1]}/${mes.y} · mês a mês` : `${p.anos[k]} · o ano todo`;
@@ -379,6 +412,8 @@ function pintarRocado(el, ctx, V, lay, meses) {
   let temReserva = false;
   lay.faixas.forEach((f, i) => {
     const g = caixa.querySelector(`[data-fx="${i}"]`);
+    // toda faixa diz a parte e a cultura, com o ícone (pedido do José, 15/11); os metros e o "antes" só na 1ª faixa de cada parte
+    const primeira = lay.faixas.findIndex((x) => x.letra === f.letra) === i;
     let tipo, estado = "ano", rot, rot2 = "", tag = "", icone;
     if (mes) {
       const e = estadoMes(a, f.parte, mes);
@@ -389,17 +424,15 @@ function pintarRocado(el, ctx, V, lay, meses) {
       const c = f.plano.anos[k];
       tipo = c.tipo;
       icone = U.icCultura(c.cultura);
-      rot = `${f.letra} · ${curto(c.cultura)} · ${metros(U, f.larguraM)}`;
+      rot = `${f.letra} · ${curto(c.cultura)}${primeira ? ` · ${metros(U, f.larguraM)}` : ""}`;
       if (k > 0) {
         const antes = f.plano.anos[k - 1].cultura;
         if (antes === c.cultura && c.cultura === "Mandioca") { tag = "reserva"; temReserva = true; }
         const de = antes === c.cultura ? null : lay.partes.find((q) => q.anos[k - 1].cultura === c.cultura);
-        rot2 = `antes: ${curto(antes)}${de && !est.compacto ? ` · ${curto(c.cultura)} vem da ${de.parte.replace("Parte ", "")}` : ""}`;
+        if (primeira) rot2 = `antes: ${curto(antes)}${de && !est.compacto ? ` · ${curto(c.cultura)} vem da ${de.parte.replace("Parte ", "")}` : ""}`;
       }
     }
-    // A B C A B C: a 2ª faixa de cada parte só leva a letra (a cor e o ícone já dizem a cultura)
-    if (lay.faixas.findIndex((x) => x.letra === f.letra) !== i) { rot = f.letra; rot2 = ""; }
-    if (g.dataset.fino) { rot = ""; rot2 = ""; tag = ""; icone = ""; }
+    if (g.dataset.fino) tag = ""; // faixa fina: só o nome, em letra menor
     g.setAttribute("class", `fx ${U.tipoCss(tipo)} e-${estado}`);
     g.querySelector(".lin").setAttribute("class", `lin e-${estado}`);
     g.querySelector(".rot-ic").innerHTML = icone ? U.IC[icone] : "";
@@ -421,7 +454,7 @@ function pintarRocado(el, ctx, V, lay, meses) {
       if (e.estado !== "descanso") extra += `<span class="leg-sub leg-faz">${ESTADO[e.estado]}${e.barra && e.estado !== "crescendo" ? ` · ${U.dataBR(e.barra.de, true)} a ${U.dataBR(e.barra.ate, true)}` : ""}</span>`;
       if (q.parte === "Baixio") { const rz = estadoMes(a, "Baixio", mes, true); if (rz) extra += `<span class="leg-sub">${esc(curto(rz.cultura))} no meio do milho: ${ESTADO[rz.estado]}</span>`; }
       if (q.parte === "Bordas") extra += `<span class="leg-sub">na cerca</span>`;
-      if (e.linha && e.linha.estacao > 2027) extra += `<span class="leg-sub">já é a safra ${e.linha.estacao}</span>`;
+      if (e.linha && e.linha.estacao > Math.max(2027, mes.y)) extra += `<span class="leg-sub">já é a safra ${e.linha.estacao}</span>`;
     } else {
       const c = q.anos[k], seg = q.parte === "Baixio" ? segundaBaixio(c, p) : null;
       cultura = seg ? `${c.cultura} + ${seg}` : c.cultura;
@@ -447,8 +480,9 @@ function pintarRocado(el, ctx, V, lay, meses) {
     if (mes) {
       const e = estadoMes(a, "Baixio", mes), rz = estadoMes(a, "Baixio", mes, true);
       tipo = e.tipo; estado = e.estado; duas = !!rz;
-      rot = `Baixio · ${e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : `${curto(e.cultura)} · ${ESTADO[e.estado]}`}`;
-      rot2 = rz ? `${curto(rz.cultura)} no meio do milho: ${ESTADO[rz.estado]}` : "";
+      const EST = est.compacto ? ESTADO_CURTO : ESTADO; // no celular, o estado curto: o nome não passa da borda do desenho
+      rot = `Baixio · ${e.estado === "descanso" ? (e.palhada ? `palhada do ${curto(e.cultura)}` : "descanso") : `${curto(e.cultura)} · ${EST[e.estado]}`}`;
+      rot2 = rz ? `${curto(rz.cultura)} no meio do milho: ${EST[rz.estado]}` : "";
       gb.querySelector("[data-milho]").setAttribute("class", `lin e-${estado}`);
       gb.querySelector("[data-caupi]").setAttribute("class", `lin caupi t-leguminosa e-${rz ? rz.estado : "ano"}`);
       gb.querySelector(".rot-ic").innerHTML = e.estado === "descanso" ? "" : U.IC[e.estado === "preparo" ? "enxada" : U.icCultura(e.cultura)];
@@ -459,11 +493,20 @@ function pintarRocado(el, ctx, V, lay, meses) {
       gb.querySelector("[data-caupi]").setAttribute("class", "lin caupi t-leguminosa e-ano");
       gb.querySelector(".rot-ic").innerHTML = U.IC[U.icCultura(c.cultura)];
     }
-    if (gb.dataset.fino) { rot = ""; rot2 = ""; gb.querySelector(".rot-ic").innerHTML = ""; }
     gb.setAttribute("class", `fx bx ${U.tipoCss(tipo)} e-${estado}${lay.incerto ? " incerto" : ""}`);
     linhasBaixio(gb, k, duas);
     gb.querySelector(".rot").textContent = rot;
     gb.querySelector(".rot2").textContent = rot2;
+  }
+  // o nome das bordas no desenho: "Cerca: palma e gliricídia" (ou as perenes dele); no mês a mês, com o que fazer
+  const gbr = caixa.querySelector("[data-bordas-rot]");
+  if (gbr) {
+    const c = lay.bordas && (lay.bordas.anos[k] || lay.bordas.anos[0]), e = c && mes ? estadoMes(a, "Bordas", mes) : null;
+    const nome = c ? curto(c.cultura).replace(" + ", " e ") : "";
+    gbr.style.display = c ? "" : "none";
+    gbr.querySelector(".rot").textContent = c ? `${/palma|gliric/i.test(nome) ? "Cerca" : "Bordas"}: ${nome}${e && e.estado !== "descanso"
+      ? ` · ${(est.compacto ? ESTADO_CURTO : ESTADO)[e.estado]}` : ""}` : "";
+    gbr.querySelector(".rot-ic").innerHTML = c ? U.IC[U.icCultura(c.cultura)] || "" : "";
   }
   fundosRotulos(caixa);
   const gbord = caixa.querySelector("[data-bordas]");
@@ -490,7 +533,7 @@ const GANHO_NOME = { quebra_10: "menos quebra", forragem_t: "comida do gado", po
 function ganhoCurto(U, H, B) {
   const t0 = valorDe(H, "rs_tipico"), t1 = valorDe(B, "rs_tipico"), q0 = valorDe(H, "quebra_10"), q1 = valorDe(B, "quebra_10");
   const out = [];
-  if (t0 != null && t1 != null && t1 - t0 >= 50) out.push(`+${U.brl(t1 - t0)} por ano`);
+  if (t0 != null && t1 != null && t1 - t0 >= 50) out.push(`+${U.brl(t1 - t0).replace("R$ ", "R$ ")} por ano`); // "+R$" não quebra longe do número
   else if (q0 != null && q1 != null && q1 < q0) out.push(`quebra de ${q0} para ${q1} em 10`);
   return out[0] || ""; // uma linha só: o botão não cresce (o desenho fica no alto da tela)
 }
@@ -594,7 +637,7 @@ function blocoGanha(ctx, V) {
   const comoHoje = informado ? "o que você marcou em Sua roça (a mandioca já no chão, metade colhendo por ano)"
     : "o jeito comum daqui (milho e feijão), porque você não marcou o que planta";
   const agro = (B?.rs?.agro || []).length > 0;
-  const detalhe = `<p><b>Hoje</b> = ${comoHoje}. <b>Melhorado</b> = só as suas culturas, em faixas que giram. <b>Ideal</b> = ${esc(nomeIdeal)},
+  const detalhe = `<p><b>Hoje</b> = ${comoHoje}. <b>Melhorado</b> = as suas culturas, em faixas que giram (com uma só, entra outra para girar). <b>Ideal</b> = ${esc(nomeIdeal)},
       com tudo o que sabemos do lugar.</p>
     <p>As 3 colunas usam a mesma conta e os mesmos anos${info ? ` do IBGE (${info.ano0}–${info.ano1})` : ""}: a sobra é a colheita a preço da região menos
       a semente; a mão de obra da família não entra. O ano normal é a média de 2028 e 2029 (a mandioca fica 2 anos no chão); 2027 é o que
@@ -703,13 +746,28 @@ function blocoFaixas(ctx, V, lay) {
   </div>`;
 }
 
-// ------------------------------------------------------------------ por que este plano: 3 "ver mais" com a manchete no título
+// ------------------------------------------------------------------ por que este plano: um trecho curto e direto, tirado do plano à
+// vista (pedido do José, 15/11); os 3 detalhes (onde sofre mais, faixas, solo: pontos 1, 10 e 12 do desafio) num "ver mais" só
+const LEG_PQ = /feij|amendoim|mucuna|guandu|glirc/i, GRAM_PQ = /milho|sorgo|milheto/i;
+const artPQ = (n) => (/^(mucuna|mandioca|palma|gliric|cana|mamona)/i.test(n) ? "a" : "o");
+function frasePorQue(V, lay) {
+  const cs = [];
+  for (const f of V.plano?.faixas || []) if (f.parte !== "Bordas") for (const a of f.anos || [])
+    for (const c of String(a.cultura || "").split(" + ")) { const b = c.replace(/ no milho em pé$/, "").trim(); if (b && !cs.includes(b)) cs.push(b); }
+  const leg = cs.find((c) => LEG_PQ.test(c)), gram = cs.find((c) => GRAM_PQ.test(c));
+  const bx = lay.temBaixio ? lay.bx?.anos?.[0]?.cultura : null;
+  const f = ["Cada ano, cada parte muda de planta: a praga e a doença do chão não acham a mesma comida."];
+  if (leg) { const l = curto(leg), a = artPQ(l); f.push(`${a.toUpperCase()} ${l} deixa adubo na terra para ${gram ? `${artPQ(curto(gram))} ${curto(gram)}` : "a planta"} que vem depois.`); }
+  else if (bx && !/pousio|descanso/i.test(bx)) { const b = curto(bx); f.push(`${artPQ(b).toUpperCase()} ${b} fica no baixio, onde a água dura mais.`); }
+  return f.join(" ");
+}
 function porQue(ctx, V, lay) {
   const U = ctx.util;
   return `<section class="painel plantio-porque" id="plantio-porque"><h3>Por que este plano</h3>
-    ${U.verMais(U.extra("vulnerabilidade", { vista: "agua", painel: false }), "Onde o seu roçado sofre mais")}
-    ${U.verMais(blocoFaixas(ctx, V, lay), "Por que em faixas: a praga anda menos")}
-    ${U.verMais(U.extra("saude_solo", { titulo: false }), "O que cada planta faz pelo solo")}
+    <p class="porque-curto">${U.esc(frasePorQue(V, lay))}</p>
+    ${U.verMais(`<h4 class="porque-sub">Onde o seu roçado sofre mais</h4>${U.extra("vulnerabilidade", { vista: "agua", painel: false })}
+      <h4 class="porque-sub">Por que em faixas: a praga anda menos</h4>${blocoFaixas(ctx, V, lay)}
+      <h4 class="porque-sub">O que cada planta faz pelo solo</h4>${U.extra("saude_solo", { titulo: false })}`, "Ver os detalhes")}
   </section>`;
 }
 
@@ -747,7 +805,7 @@ function veredito(U, lay, g) {
 
 function pintarFaixas(el, ctx, V, lay, conect) {
   const U = ctx.util, p = V.plano;
-  const k = est.modo === "mes" ? 0 : est.ano;
+  const k = est.ano;
   clearInterval(est.foco); est.foco = null;
   const caixa = el.querySelector("#plantio-faixas");
   caixa.querySelectorAll("[data-ano]").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.ano === k)));
@@ -790,7 +848,7 @@ function avisoGramineas(ctx, V, lay, conect) {
 }
 
 function animarFoco(el, ctx, lay, conect) {
-  const U = ctx.util, k = est.modo === "mes" ? 0 : est.ano;
+  const U = ctx.util, k = est.ano;
   clearInterval(est.foco);
   const caixa = el.querySelector("#plantio-faixas");
   const al = { blocos: espalhar(conect[k].blocos), faixas: espalhar(conect[k].faixas) };
@@ -857,16 +915,20 @@ export default {
     const plano = E.plano, ag = agendaDoPlano(r.agenda, E.linhas);
     let c3 = null;
     try { c3 = comparar3(r, ctx.resp, ctx.ef, E.prioridade); } catch (e) { console.error("comparar3:", e); }
-    const V = { E, plano, ag, c3, olhoFaixas: false, redesenharTerreno: null };
+    const V = { E, plano, ag, agLonga: null, c3, olhoFaixas: false, redesenharTerreno: null };
     V.olhoFaixas = !temMetade(V); // 1 "seu olho" à vista sempre: o da metade guardada (calendário) ou o das faixas (sob o desenho)
     const lay = montar(plano, ctx.ef);
-    const meses = listaMeses(ag);
-    if (est.mes === null || est.mes >= meses.length) {
-      const hoje = ag ? ag.hoje : "";
-      est.mes = Math.max(0, meses.findIndex((m) => hoje >= m.ini && hoje <= m.fim));
-    }
+    // o mês a mês vai de agenda.inicio até dez do último ano do plano (2029): depois de agenda.fim, com o calendário longo
+    let linhasLongas = [];
+    try { linhasLongas = ag ? agendaLonga(r, plano) : []; } catch (e) { console.error("agendaLonga:", e); }
+    const fimPlano = `${plano.anos[plano.anos.length - 1]}-12-31`;
+    if (linhasLongas.length && fimPlano > ag.fim) V.agLonga = { ...ag, linhas: linhasLongas };
+    const meses = listaMeses(ag, V.agLonga ? fimPlano : ag?.fim);
+    const mesHoje = Math.max(0, meses.findIndex((m) => ag && ag.hoje >= m.ini && ag.hoje <= m.fim));
+    if (est.mes === null || est.mes >= meses.length) est.mes = mesHoje;
     if (!ag) est.modo = "ano";
     if (est.ano >= plano.anos.length) est.ano = 0;
+    if (est.modo === "mes") est.ano = anoDoMes(plano, meses[est.mes]);
     const conect = plano.anos.map((_, k) => ({ blocos: { ...grade(lay, k, "blocos"), modo: "blocos" }, faixas: { ...grade(lay, k, "faixas"), modo: "faixas" } }));
     const W = Math.round(Math.min(640, Math.max(300, (window.innerWidth || 800) - 66)));
     est.compacto = W < 420;
@@ -894,21 +956,23 @@ export default {
     el.querySelectorAll("[data-ano]").forEach((b) => b.addEventListener("click", () => {
       parar(); est.ano = +b.dataset.ano; est.modo = "ano"; pintar(); V.redesenharTerreno?.();
     }));
-    el.querySelectorAll("[data-mes]").forEach((b) => b.addEventListener("click", () => {
-      parar(); const mudouAno = est.ano !== 0; est.ano = 0; est.modo = "mes"; est.mes = +b.dataset.mes; pintar(); if (mudouAno) V.redesenharTerreno?.();
-    }));
+    // o mês à vista leva junto o ano dele: virou o ano (ou entrou no mês a mês), as faixas por ano e o terreno em metros acompanham
+    const irAoMes = (i) => {
+      const ano = anoDoMes(plano, meses[i]), mudouAno = est.ano !== ano, entrou = est.modo !== "mes";
+      est.modo = "mes"; est.mes = i; est.ano = ano;
+      if (entrou || mudouAno) pintar(); else pintarRocado(el, ctx, V, lay, meses);
+      if (mudouAno) V.redesenharTerreno?.();
+    };
+    el.querySelectorAll("[data-mes]").forEach((b) => b.addEventListener("click", () => { parar(); irAoMes(+b.dataset.mes); }));
     play?.addEventListener("click", () => {
       if (est.relogio) return parar();
-      est.ano = 0;
-      if (est.modo !== "mes" || est.mes >= meses.length - 1) est.mes = 0;
-      est.modo = "mes";
-      pintar();
+      // do mês de hoje até dez do último ano do plano (2029), um mês por vez; parado no meio do caminho, segue de onde parou
+      irAoMes(est.modo !== "mes" || est.mes >= meses.length - 1 ? mesHoje : est.mes);
       play.innerHTML = `<span class="pausa" aria-hidden="true"></span>`;
       play.classList.add("tocando");
       est.relogio = setInterval(() => {
         if (est.mes >= meses.length - 1) return parar();
-        est.mes++;
-        pintarRocado(el, ctx, V, lay, meses);
+        irAoMes(est.mes + 1);
       }, 1100);
     });
     el.querySelector("[data-foco]").addEventListener("click", () => animarFoco(el, ctx, lay, conect));

@@ -27,7 +27,7 @@ saida = sys.argv[1]
 larg = int(sys.argv[2]) if len(sys.argv) > 2 else 390
 cod = sys.argv[3] if len(sys.argv) > 3 else "2311306"
 nome_globo = sys.argv[4] if len(sys.argv) > 4 else "Quixadá"
-BASE = "http://127.0.0.1:8090"
+BASE = os.environ.get("QUADRA_BASE", "http://127.0.0.1:8090")
 ALT = 844
 os.makedirs(saida, exist_ok=True)
 porta = 9300 + os.getpid() % 90
@@ -118,6 +118,8 @@ try:
     cmd("Emulation.setDeviceMetricsOverride", width=larg, height=ALT, deviceScaleFactor=1, mobile=larg < 600)
     cmd("Emulation.setTouchEmulationEnabled", enabled=larg < 600)
     cmd("Page.enable")
+    # o site abre em inglês por padrão (js/i18n.js): o percurso roda em português; ?lang=en na URL abre em inglês
+    cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
 
     # 1. do globo ao plano: 2 toques
     cmd("Page.navigate", url=f"{BASE}/index.html?lugar={urllib.parse.quote(nome_globo)}")

@@ -22,6 +22,8 @@ ws.addEventListener("message", (ev) => { const m = JSON.parse(ev.data); if (m.id
 const cmd = (method, params = {}) => new Promise((r) => { const k = ++id; pend.set(k, r); ws.send(JSON.stringify({ id: k, method, params })); });
 await cmd("Emulation.setDeviceMetricsOverride", { width: +largura, height: 900, deviceScaleFactor: 1, mobile: false });
 if (process.env.ESCURO) await cmd("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
+// o site abre em inglês por padrão (js/i18n.js): o print sai em português; ?lang=en na URL sai em inglês
+await cmd("Page.addScriptToEvaluateOnNewDocument", { source: "try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}" });
 await cmd("Page.navigate", { url });
 await espera(6000);
 const r = await cmd("Runtime.evaluate", { expression: expr, returnByValue: true, awaitPromise: true });

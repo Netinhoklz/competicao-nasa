@@ -5,39 +5,74 @@
 .passo-perguntas .titulo-passo h1 { font-size: clamp(27px, 4.2vw, 46px); }
 
 /* faixa de 1 linha: El Niño de 2027 e o solo de hoje */
-.sr-faixa { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 12px; padding: 6px 10px; border-radius: 12px;
+.sr-faixa { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin: 0 0 18px; padding: 6px 10px; border-radius: 12px;
   border: 1px solid rgba(232, 161, 74, .45); background: var(--amber-soft); font-size: 13.5px; line-height: 1.3; color: var(--ink); }
 .sr-faixa .ic { color: var(--amber); width: 20px; height: 20px; }
 .sr-faixa.azul { border-color: rgba(127, 178, 240, .4); background: var(--blue-soft); }
 .sr-faixa.azul .ic { color: var(--blue); }
 
-/* cada linha: rótulo + botões */
-.sr-linha { margin: 0 0 12px; scroll-margin-top: 104px; border-radius: 16px; transition: box-shadow .5s var(--ease), background .5s; }
+/* cada pergunta é um cartão (fundo, borda e sombra suave), com a cor do assunto em --cor: plantas, tamanho, terra, água, rama, tempo */
+.sr-linha { --cor: var(--green); position: relative; margin: 0 0 16px; padding: 12px 12px 12px; scroll-margin-top: 104px;
+  border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 10px 26px rgba(0, 0, 0, .34);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cor) 8%, var(--surface)), var(--surface) 64px);
+  transition: box-shadow .5s var(--ease), background .5s; }
+#linha-hoje { --cor: var(--t-leguminosa); } #linha-ha { --cor: var(--amber); } #linha-terra { --cor: var(--terra); }
+#linha-baixio { --cor: var(--blue); } #linha-maniva { --cor: var(--t-perene); } #linha-antes { --cor: var(--t-renda); }
 .sr-linha.em-foco { box-shadow: 0 0 0 2px var(--green), 0 0 0 8px var(--green-soft); background: rgba(76, 178, 124, .06); }
-.sr-rot { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 0 0 6px; font-family: var(--font); font-weight: 500;
-  font-size: 17px; letter-spacing: 0; line-height: 1.25; }
-.sr-rot b { font-weight: 700; }
-.sr-rot .eco { color: var(--ink-3); font-weight: 400; }
+/* o alto do cartão, numa linha e num eixo só (o centro dos 40 px do ícone): o número, o ícone e a pergunta curta. A ajuda curta (.eco) fica
+   embaixo da pergunta, no mesmo recuo dela; as opções começam na borda de dentro do cartão. Na borda de cima, ✓ (respondida) ou a
+   etiqueta "comum daqui" (o padrão), no mesmo lugar em todos os cartões. Grade de 4 px: cartão 12, entre os blocos 8 */
+.sr-cab { display: flex; align-items: flex-start; gap: 8px; min-height: 40px; margin: 0 0 8px; }
+.sr-linha.tem-ajuda .sr-cab { padding-right: 40px; } /* lugar do "?" (32 px + 8) */
+.sr-n { flex: none; display: grid; place-items: center; width: 24px; height: 24px; margin-top: 8px; border-radius: 50%; background: var(--cor);
+  color: #06110b; font: 700 13px/1 var(--font); font-variant-numeric: tabular-nums; }
+.sr-num { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px;
+  background: color-mix(in srgb, var(--cor) 18%, transparent); border: 1px solid color-mix(in srgb, var(--cor) 45%, transparent); }
+.sr-num .ic { width: 24px; height: 24px; color: var(--cor); }
+.sr-rot { flex: 1 1 auto; min-width: 0; margin: 0 0 0 4px; padding-top: 8px; font: 600 18px/24px var(--font); letter-spacing: -.005em; text-wrap: balance; }
+.sr-rot .eco { display: block; color: var(--muted); font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0; text-wrap: balance; }
+.sr-estado { position: absolute; top: 0; right: 12px; transform: translateY(-50%); } /* centrado na borda, alinhado à direita das opções */
+.sr-padrao { padding: 0 8px; border: 1px dashed var(--border-2); border-radius: 999px; background: var(--surface-2); font-size: 12px; line-height: 20px;
+  color: var(--ink-2); white-space: nowrap; }
+.sr-feito { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 0 3px var(--bg); }
+.sr-feito .ic { width: 16px; height: 16px; stroke-width: 3; color: #04130a; }
 .sr-lado { margin-left: auto; font-size: 13px; font-weight: 400; color: var(--muted); }
 .sr-ops { display: grid; gap: 8px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
 .sr-ops.n2 { --n: 2; } .sr-ops.n3 { --n: 3; } .sr-ops.n4 { --n: 4; } .sr-ops.n5 { --n: 5; }
-.sr-op { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 46px; padding: 6px 10px;
+/* 3 por fileira numa grade de 6: a última fileira incompleta enche a largura (2 sobras → metade cada; 1 → inteira; 4 opções → 2 × 2) */
+.sr-ops.n3 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.sr-ops.n3 > * { grid-column: span 2; }
+.sr-ops.n3 > :nth-child(3n+1):nth-last-child(2), .sr-ops.n3 > :nth-child(3n+1):nth-last-child(2) + * { grid-column: span 3; }
+.sr-ops.n3 > :nth-child(3n+1):last-child { grid-column: span 6; }
+.sr-ops.n3 > :first-child:nth-last-child(4), .sr-ops.n3 > :first-child:nth-last-child(4) ~ * { grid-column: span 3; }
+.sr-op { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 48px; padding: 4px 8px;
   border: 1px solid var(--border); border-radius: 14px; background: var(--surface); color: var(--ink-2); cursor: pointer; text-align: center;
-  line-height: 1.15; transition: border-color .15s, background .15s; }
-.sr-op b { font-size: 15px; font-weight: 600; min-width: 0; }
-.sr-op .ic { color: var(--ink-2); }
+  line-height: 1.2; transition: border-color .15s, background .15s; }
+/* o rótulo: palavra inteira (nunca parte no meio), quebra equilibrada quando precisa de 2 linhas */
+.sr-op b { min-width: 0; font-size: 15px; font-weight: 600; line-height: 20px; overflow-wrap: normal; word-break: normal; hyphens: manual; text-wrap: balance; }
+.sr-op .ic { flex: none; width: 20px; height: 20px; color: var(--ink-2); }
 .sr-op:hover { border-color: var(--border-2); }
 .sr-op.marcada { border-color: var(--green); color: var(--ink); background: linear-gradient(160deg, rgba(76, 178, 124, .22), var(--surface) 75%);
   box-shadow: 0 0 0 3px var(--green-soft); }
 .sr-op.marcada .ic { color: var(--green-forte); }
+/* a resposta marcada leva um ✓ no canto (o ✓ é do CSS: não é palavra) */
+.sr-op.marcada::after { content: "✓"; position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: var(--green);
+  color: #04130a; font: 800 12px/20px var(--font); text-align: center; box-shadow: 0 0 0 2px var(--surface); pointer-events: none; }
 .sr-op.sr-ha b { font-family: var(--display); font-size: 19px; }
 .sr-op.sugerida { border: 1px dashed var(--green); } /* o típico daqui, sem resposta: só a cara, não grava */
-.sr-op.alto { flex-direction: column; gap: 4px; min-height: 64px; padding: 6px 4px; }
-.sr-op.alto b { font-size: 13.5px; line-height: 1.15; }
+/* as respostas em bloco de imagem: o desenho em cima e 1 ou 2 palavras embaixo, presos ao alto do bloco (numa fileira, os desenhos e
+   os nomes ficam na mesma altura, com ou sem a palavrinha de baixo) */
+.sr-op.alto { flex-direction: column; justify-content: flex-start; gap: 4px; min-height: 64px; padding: 8px 4px; }
+.sr-op.alto b { font-size: 13.5px; line-height: 16px; }
+.sr-op.alto small { margin-top: -4px; font-size: 12px; line-height: 16px; color: var(--muted); text-wrap: balance; }
+.sr-img { display: grid; place-items: center; height: 28px; }
+.sr-img .ic { width: 28px; height: 28px; stroke-width: 1.6; }
+.sr-op.marcada small { color: var(--ink-2); }
 
 /* a divisão do roçado (cores do tipo de cultura) e os "+" fechados */
 .sr-divisao { height: 30px; border-radius: 10px; }
-.sr-divisao span { font-size: 12px; padding: 0 4px; }
+.sua-roca .sr-divisao span { font-size: 12px; padding: 0 4px; } /* .sua-roca: o hoje_ideal.css chega depois e pisava nesta */
 .sr-divisao .ic { width: 14px; height: 14px; margin: 0 3px 0 0; vertical-align: -2px; }
 .sr-so-barra { margin: 8px 0 0; }
 .sr-so-barra .sr-divisao { display: flex; }
@@ -47,17 +82,39 @@ details.sr-mais > summary .sr-lado { margin: 0; }
 /* "+ [barra da divisão] quanto de cada": a barra fica à vista e abre o ajuste */
 details.sr-mais-barra > summary { display: flex; width: 100%; gap: 8px; }
 details.sr-mais-barra > summary .sr-divisao { flex: 1 1 auto; min-width: 0; }
-details.sr-mais-barra > summary small { flex: none; font-size: 13px; }
+details.sr-mais-barra > summary small { flex: none; width: 54px; font-size: 12px; line-height: 1.15; } /* "quanto / de cada" em 2 linhas: a barra ganha lugar */
 details.sr-mais .hi-quanto { margin-top: 4px; }
 details.sr-mais .ar { margin-top: 6px; }
 
-/* mini-desenho do baixio */
-.mini-rocado { width: 30px; height: 30px; }
-.mr-terra { fill: var(--surface-3); stroke: var(--t-perene); stroke-width: 3; }
-.mr-baixio { fill: rgba(242, 182, 48, .55); }
-.mr-baixio.incerto { fill: none; stroke: var(--t-cereal); stroke-width: 2.5; stroke-dasharray: 4 4; }
+/* as texturas da terra: grãos soltos (areia), grãos e torrões (misturada), barro com rachas e água em cima */
+.sr-tx { width: 48px; height: 28px; }
+.tx-fundo { stroke-width: 1; }
+.tx-fundo.areia { fill: rgba(242, 182, 48, .16); stroke: rgba(242, 182, 48, .45); }
+.tx-fundo.mista { fill: rgba(236, 122, 99, .13); stroke: rgba(236, 122, 99, .4); }
+.tx-fundo.barro { fill: rgba(236, 122, 99, .38); stroke: rgba(236, 122, 99, .7); }
+.tx-grao { fill: var(--t-cereal); }
+.tx-torrao { fill: rgba(236, 122, 99, .7); }
+.tx-racha { fill: none; stroke: rgba(4, 6, 5, .6); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.tx-agua { fill: none; stroke: var(--blue); stroke-width: 2.6; stroke-linecap: round; }
+/* o baixio de cada resposta: o roçado de lado (as cores do desenho grande, mais abaixo) */
+.sr-pf { width: 56px; height: 28px; }
+.sr-pf .sp-terra { fill: var(--surface-3); stroke: color-mix(in srgb, var(--t-perene) 55%, transparent); stroke-width: 1; }
+.sr-pf .sp-poca { stroke-width: 2.4; }
+.sr-op.marcada .sr-pf .sp-terra { fill: color-mix(in srgb, var(--t-perene) 22%, var(--surface-3)); }
 
-.sua-roca .olho { margin: 8px 0 0; font-size: 13px; padding: 6px 10px; }
+/* o "?" no canto do cartão: abre o desenho e o "seu olho" (fechado não ocupa lugar). O círculo de 32 px fica no eixo do cabeçalho
+   (12 + 20 px do alto) e encosta na mesma direita das opções; o toque tem 44 px */
+details.sr-ajuda > summary { position: absolute; top: 10px; right: 6px; display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px;
+  margin: 0; list-style: none; color: var(--ink-2); }
+details.sr-ajuda > summary::-webkit-details-marker { display: none; }
+details.sr-ajuda > summary span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-2);
+  background: rgba(255, 255, 255, .04); font: 700 15px/1 var(--font); }
+details.sr-ajuda > summary:hover span, details.sr-ajuda[open] > summary span { border-color: var(--cor); color: var(--ink); background: color-mix(in srgb, var(--cor) 18%, transparent); }
+.sr-ajuda-corpo { margin: 0 0 8px; padding: 12px; border-radius: 14px; background: var(--surface-2); }
+.sr-ajuda-corpo p { margin: 8px 0 0; font-size: 14px; line-height: 20px; color: var(--ink-2); }
+.sr-ajuda-corpo .olho { margin: 8px 0 0; }
+.sua-roca .olho { margin: 8px 0 0; font-size: 13px; padding: 8px 12px; }
+.sua-roca .olho-txt { text-wrap: balance; } /* sem palavra sozinha na última linha */
 
 /* rodada 2 (15/11): "Ver todas as culturas", em grupos, numa barra larga que abre a lista */
 details.sr-todas-det { margin: 8px 0 0; }
@@ -65,27 +122,38 @@ details.sr-todas-det > summary { display: flex; width: 100%; justify-content: ce
   border-radius: 14px; color: var(--ink-2); font-size: 14.5px; }
 details.sr-todas-det > summary:hover { border-color: var(--green); color: var(--ink); }
 details.sr-todas-det[open] > summary { border-style: solid; }
-.sr-todas { display: grid; gap: 10px; margin: 10px 0 2px; }
-.sr-g-rot { margin: 0 0 6px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.sr-todas { display: grid; gap: 12px; margin: 8px 0 0; }
+.sr-g-rot { margin: 0 0 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .sr-g-ops { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 .sr-op.sr-op-lista { justify-content: flex-start; text-align: left; min-height: 48px; }
 .sr-l-nome { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
-.sr-l-nome small { font-size: 12px; color: var(--muted); }
-.sr-fora { flex: none; font-style: normal; font-size: 11px; line-height: 1.1; color: var(--amber); }
+.sr-l-nome small { font-size: 12px; line-height: 16px; color: var(--muted); text-wrap: balance; }
 /* a cultura marcada fora do zoneamento daqui: um aviso curto (ele planta hoje, então pode marcar) */
 .sr-aviso { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin: 8px 0 0; font-size: 13.5px; color: var(--ink-2); }
 .sr-aviso .ic { width: 18px; height: 18px; color: var(--amber); }
 
 /* tamanho em metros: largura × comprimento à vista, com o ha e as tarefas ao lado */
-.sr-metros { margin: 10px 0 0; }
-.sr-m-rot { margin: 0 0 4px; font-size: 14px; color: var(--ink-2); }
-.sr-m-linha { display: grid; grid-template-columns: minmax(0, 96px) auto minmax(0, 96px) minmax(0, 1fr); align-items: start; gap: 6px; max-width: 440px; }
-.sr-m-campo { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
-.sr-m-campo small { display: flex; align-items: flex-start; justify-content: center; gap: 4px; font-size: 12px; line-height: 1.2; color: var(--muted);
-  text-align: center; }
+.sr-metros { margin: 8px 0 0; }
+/* "ou em metros": uma linha fina de cada lado, como um divisor */
+.sr-m-rot { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 13px; line-height: 16px; color: var(--muted); }
+.sr-m-rot::before, .sr-m-rot::after { content: ""; flex: 1 1 auto; height: 1px; background: var(--border); }
+/* a linha dos metros (desenho + largura × comprimento) fica no CENTRO do cartão, a pedido do José (15/11): manter centrada */
+.sr-m-linha { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto minmax(0, 1fr); align-items: start; gap: 6px 8px; max-width: 420px;
+  margin-inline: auto; }
+.sr-metros .sr-m-rot { max-width: 420px; margin-inline: auto; }
+/* o desenho do terreno: o roçado de cima, com a largura (âmbar) e o comprimento (azul) até a água */
+.sr-terreno { width: 40px; height: 48px; } /* a altura das caixas dos metros */
+.td-rocado { fill: var(--surface-3); stroke: color-mix(in srgb, var(--t-perene) 60%, transparent); stroke-width: 1.5; }
+.td-agua { fill: rgba(127, 178, 240, .4); }
+.td-l, .td-c { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.td-l { stroke: var(--amber); } .td-c { stroke: var(--blue); }
+.sr-m-campo { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+/* o nome do lado, centrado embaixo da caixa, com a setinha na 1ª linha, colada no texto ("↓ comprimento, / morro abaixo") */
+.sr-m-campo small { display: block; font-size: 12px; line-height: 16px; color: var(--muted); text-align: center; text-wrap: balance; }
 /* as setinhas dos lados: de lado (âmbar) e do alto até embaixo, para onde a água desce (azul, como no desenho do Plano) */
-.sr-m-seta { flex: none; width: 16px; height: 9px; margin-top: 3px; fill: none; stroke: var(--amber); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.sr-m-seta.desce { width: 8px; height: 16px; margin-top: 0; stroke: var(--blue); }
+.sr-m-seta { display: inline-block; width: 16px; height: 9px; margin-right: 4px; vertical-align: 0; fill: none; stroke: var(--amber); stroke-width: 2.2;
+  stroke-linecap: round; stroke-linejoin: round; }
+.sr-m-seta.desce { width: 8px; height: 14px; vertical-align: -3px; stroke: var(--blue); }
 .sr-m-caixa { position: relative; display: block; width: 100%; }
 .sr-m-caixa input { width: 100%; height: 48px; padding: 4px 24px 4px 8px; border: 1px solid var(--border-2); border-radius: 14px; background: var(--surface);
   color: var(--ink); font-family: var(--display); font-size: 21px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums;
@@ -94,14 +162,14 @@ details.sr-todas-det[open] > summary { border-style: solid; }
 .sr-m-caixa input::-webkit-outer-spin-button, .sr-m-caixa input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .sr-m-caixa input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
 .sr-m-caixa::after { content: "m"; position: absolute; right: 9px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); pointer-events: none; } /* fora do innerText: não conta palavra */
-.sr-vezes { align-self: center; margin-top: -16px; font-size: 20px; color: var(--ink-4); }
-.sr-m-conv { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; min-height: 48px; margin: 0; text-align: right; }
-.sr-m-conv b { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--green-forte); white-space: nowrap; }
-.sr-m-conv span { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.sr-vezes { display: grid; place-items: center; height: 48px; font-size: 20px; color: var(--ink-4); } /* no meio das duas caixas */
+/* o tamanho de agora, embaixo da pergunta: "= 1 ha ≈ 3 tarefas" (acompanha os metros enquanto ele digita) */
+.sr-m-conv { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.sr-m-conv b { font-family: var(--display); font-size: 18px; font-weight: 700; color: var(--green-forte); white-space: nowrap; }
+.sr-m-conv span { font-size: 13px; color: var(--muted); white-space: nowrap; }
+.sr-m-conv .selo { align-self: center; }
 
-/* baixio explicado: o roçado de lado, do alto ao baixio */
-.sr-explica { margin: 0 0 8px; }
-.sr-explica p { margin: 4px 0 0; font-size: 14px; line-height: 1.35; color: var(--ink-2); }
+/* baixio explicado (no "?"): o roçado de lado, do alto ao baixio */
 .sr-perfil { display: block; width: 100%; max-width: 400px; height: auto; }
 .sp-terra { fill: var(--surface-3); }
 .sp-umida { fill: rgba(127, 178, 240, .3); }
@@ -111,19 +179,23 @@ details.sr-todas-det[open] > summary { border-style: solid; }
 .sp-chuva { stroke: var(--blue); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: .8; }
 .sp-rot { fill: var(--ink-2); font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-anchor: middle; }
 
-/* maniva (4 respostas curtas) e o ano passado (chips das culturas de hoje) */
-.sr-op.sr-maniva b { font-size: 13.5px; line-height: 1.15; }
-.sr-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.sr-op.sr-chip { flex: 0 0 auto; min-height: 44px; padding: 6px 12px; gap: 6px; }
-.sr-op.sr-chip .ic { width: 18px; height: 18px; }
+/* maniva (a rama em desenho + 1 ou 2 palavras) e o ano passado (as culturas com ícone, na mesma grade de "O que você planta?") */
+.sr-maniva .sr-img .ic { color: var(--t-perene); }
+/* "Outra" abre o leque com todas as culturas (os grupos de "Ver todas") logo abaixo dos chips */
+.sr-op.sr-chip .sr-seta { font-size: 11px; color: var(--muted); }
+.sr-op.sr-chip.aberta { border-color: var(--green); border-style: dashed; }
+.sr-leque-antes { padding: 12px; border: 1px dashed var(--green); border-radius: 14px; }
 
 @media (max-width: 760px) {
-  .sr-op { padding: 6px 8px; }
   .sr-op b { font-size: 14px; }
-  .sr-ops.n5 { gap: 6px; }
-  .sr-ops.n5 .sr-op { padding: 6px 2px; }
-  .sr-op.sr-maniva { padding: 6px 4px; }
-  .sr-op.sr-maniva b { font-size: 13px; }
+  .sr-ops.n5 .sr-op { padding: 4px; }
+  /* as culturas (o que planta e o ano passado): o ícone em cima e o nome embaixo, centrados; "Mandioca" e "Descansou" cabem inteiros */
+  .sr-ops.n3 > .sr-op:not(.alto) { flex-direction: column; gap: 4px; padding: 4px; }
+  .sr-ops.n3 > .sr-op:not(.alto) b { line-height: 16px; }
+  .sr-op.sr-chip .sr-seta { position: absolute; right: 8px; bottom: 4px; line-height: 16px; } /* na linha do nome ("Outra") */
+  /* os blocos de 3 e 4 por fileira: o nome cabe inteiro de 360 a 760 px ("Misturada", "Não tenho") */
+  .sr-op.alto b { font-size: clamp(12px, 3.3vw, 13.5px); }
+  .sr-op.alto small { font-size: 11px; line-height: 14px; }
   .sr-g-ops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sr-op.sr-op-lista { padding: 6px 8px; gap: 6px; }
+  .sr-op.sr-op-lista { padding: 4px 8px; gap: 8px; }
 }

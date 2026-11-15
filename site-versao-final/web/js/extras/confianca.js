@@ -14,7 +14,7 @@ export function carregar() {
   return promessa;
 }
 
-const NOME = { "Feijão-caupi": "caupi", "Feijão comum": "feijão", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão" };
+const NOME = { "Feijão-caupi": "feijão", "Feijão comum": "feijão comum", "Sorgo forrageiro": "sorgo", "Sorgo granífero": "sorgo de grão" };
 const lista = (v) => (v.length <= 1 ? v.join("") : v.slice(0, -1).join(", ") + " e " + v[v.length - 1]);
 
 /** Culturas anuais do plano com a data de plantar estimada pela chuva (sem ZARC), pela agenda da API. */

@@ -6,6 +6,19 @@ import * as THREE from 'three';
 
 const GRAU = Math.PI / 180;
 const DIR_TEX = new URL('../../texturas/', import.meta.url).href;   // relativo ao modulo (site estatico)
+// As imagens sao decodificadas fora da thread principal (createImageBitmap), ja viradas como a GPU espera: o envio
+// para a GPU fica ~4x mais curto e a cena nao trava. Safari < 17 e Firefox < 98 viram a imagem errado (o mesmo
+// criterio do GLTFLoader do three.js): neles fica o <img> de antes. Na tela, o resultado e o mesmo.
+const UA = navigator.userAgent;
+const SAFARI = /^((?!chrome|android).)*safari/i.test(UA) ? Number((UA.match(/Version\/(\d+)/) || [0, 0])[1]) : null;
+const FIREFOX = UA.includes('Firefox') ? Number((UA.match(/Firefox\/(\d+)/) || [0, 0])[1]) : null;
+const BITMAP = typeof createImageBitmap === 'function' && !(SAFARI !== null && SAFARI < 17) && !(FIREFOX !== null && FIREFOX < 98);
+const OPCOES_BITMAP = { imageOrientation: 'flipY', premultiplyAlpha: 'none', colorSpaceConversion: 'none' };
+const FAIXA = 512;               // linhas por pedaco no envio das texturas 4K (um pedaco por quadro)
+// teto 4K (pedido do José, 15/11): dia e noite sao a 8K reamostrada em luz linear (Lanczos, WebP q85;
+// ferramentas/preparar_texturas_4k.py)
+const ALTAS = [['dia', 'earth_day_4k.webp'], ['noite', 'earth_night_4k.webp'], ['nuvens', 'earth_clouds_4k.webp']];
+const quadro = () => new Promise((ok) => requestAnimationFrame(ok));
 
 export const FOV = 36.87;        // mesmo campo de visao padrao do MapLibre: a troca globo -> mapa casa
 export const DIST_TROCA = 2.1;   // distancia camera-centro (em raios) em que o mapa assume
@@ -476,32 +489,33 @@ export class Espaco {
 
     const gerente = new THREE.LoadingManager();
     this.pronto = new Promise((ok) => {
-      gerente.onLoad = ok;
+      gerente.onLoad = () => { this._subirTexturas(); ok(); };
       gerente.onError = () => {};   // a cena segue mesmo se uma textura falhar
     });
     gerente.onProgress = (_u, feitos, total) => aoProgresso(feitos / total);
-    const carregador = new THREE.TextureLoader(gerente);
-    const aniso = this.renderer.capabilities.getMaxAnisotropy();
-    const carregar = (nome, srgb) => {
-      const t = carregador.load(DIR_TEX + nome);
-      if (srgb) t.colorSpace = THREE.SRGBColorSpace;
-      t.anisotropy = aniso;
-      return t;
-    };
-    // Abre com texturas leves em WebP (~1,7 MB no total, contra ~6,8 MB das JPG 8K) e, no computador
-    // (GPU com folga), troca por 8K e nuvens 4K em segundo plano depois que a abertura termina.
+    this._carregadores = this._novosCarregadores(gerente);
+    // Abre com texturas leves em WebP (~1,7 MB no total) e, no computador (GPU com folga), troca dia, noite e nuvens
+    // pelas 4K em segundo plano depois que a abertura e a revelacao do Nordeste terminam.
+    // canal: o shader so le o vermelho (mascaras e nuvens); na GPU fica 1 canal em vez de 4, com os mesmos valores
     this.k8 = this.renderer.capabilities.maxTextureSize >= 8192 && Math.min(screen.width, screen.height) >= 700;
     this.tex = {
-      dia: carregar('earth_day.webp', true),
-      noite: carregar('earth_night.webp', true),
-      oceano: carregar('earth_ocean_mask.webp', false),
-      normal: carregar('earth_normal.webp', false),
-      nuvens: carregar('earth_clouds_2k.webp', false),   // tons de cinza = densidade da nuvem
-      nordeste: carregar('nordeste_mascara.png', false),
-      lua: carregar('moon.webp', true),
+      dia: this._carregar('earth_day.webp', { srgb: true }),
+      noite: this._carregar('earth_night.webp', { srgb: true }),
+      oceano: this._carregar('earth_ocean_mask.webp', { canal: true }),
+      normal: this._carregar('earth_normal.webp'),
+      nuvens: this._carregar('earth_clouds_2k.webp', { canal: true, repetir: true }),   // tons de cinza = densidade da nuvem
+      nordeste: this._carregar('nordeste_mascara.png', { canal: true }),
+      lua: this._carregar('moon.webp', { srgb: true }),
     };
-    this.tex.nuvens.wrapS = THREE.RepeatWrapping;
-    this.pronto.then(() => setTimeout(() => this._melhorarTexturas(), 5000));
+    // os arquivos altos ja vem pela rede durante a abertura; decodificar e subir para a GPU fica para a cena calma.
+    // this.altas resolve quando a revelacao do Nordeste e a troca das texturas terminaram (so depois disso a pagina
+    // deixa o ponteiro no cartao da busca criar o mapa escondido: nada disputa a abertura)
+    this.altas = new Promise((ok) => { this._altasOk = ok; });
+    this._arquivosAltos = this.k8
+      ? this.pronto.then(() => ALTAS.map(([, arq]) => fetch(DIR_TEX + arq).then((r) => (r.ok ? r.blob() : null)).catch(() => null)))
+      : null;
+    // a GPU pode perder o contexto (driver, celular sem memoria): as imagens ja foram soltas, entao baixa de novo
+    canvas.addEventListener('webglcontextrestored', () => this._recarregarTexturas());
 
     this._criarCeu();
     this._criarTerra();
@@ -520,18 +534,117 @@ export class Espaco {
     this._quadro = this._quadro.bind(this);
   }
 
-  /** Troca as texturas leves pelas de alta resolucao sem recriar materiais (mesmo objeto Texture). */
-  _melhorarTexturas() {
-    if (!this.k8) return;
-    const carregador = new THREE.TextureLoader();
-    const trocar = (tex, nome) => carregador.load(DIR_TEX + nome, (alta) => {
-      tex.dispose();             // a GPU guardou o tamanho antigo: descartar antes de subir a imagem maior
-      tex.image = alta.image;
-      tex.needsUpdate = true;
-    }, undefined, () => {});   // se falhar, fica a textura leve
-    trocar(this.tex.dia, 'earth_day_8k.webp');
-    trocar(this.tex.noite, 'earth_night_8k.webp');
-    trocar(this.tex.nuvens, 'earth_clouds_4k.webp');
+  /** Carregador de imagem: ImageBitmap (decodifica fora da thread principal) ou, sem ele, o <img> de antes. */
+  _novosCarregadores(gerente) {
+    return BITMAP
+      ? { bitmap: new THREE.ImageBitmapLoader(gerente).setOptions(OPCOES_BITMAP) }
+      : { img: new THREE.TextureLoader(gerente) };
+  }
+
+  /** Textura de texturas/<arquivo>. srgb: cor; canal: o shader so le .r; repetir: da a volta em x (nuvens). */
+  _carregar(arquivo, op = {}, carregadores = this._carregadores) {
+    const t = new THREE.Texture();
+    t.userData = { ...op, arquivo };   // para baixar de novo se a GPU perder o contexto
+    if (op.srgb) t.colorSpace = THREE.SRGBColorSpace;
+    if (op.canal && this.renderer.capabilities.isWebGL2) t.format = THREE.RedFormat;
+    if (op.repetir) t.wrapS = THREE.RepeatWrapping;
+    t.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    const pronta = (img) => { t.image = img; t.needsUpdate = true; };
+    if (carregadores.bitmap) {
+      t.flipY = false;   // a imagem ja vem virada (imageOrientation: 'flipY')
+      carregadores.bitmap.load(DIR_TEX + arquivo, pronta, undefined, () => {});
+    } else {
+      carregadores.img.load(DIR_TEX + arquivo, (tx) => pronta(tx.image), undefined, () => {});
+    }
+    return t;
+  }
+
+  /** Sobe as texturas para a GPU e solta a copia decodificada (ImageBitmap) da memoria: a GPU ja tem a sua. */
+  _subirTexturas() {
+    for (const t of Object.values(this.tex)) {
+      if (!t.image) continue;
+      this.renderer.initTexture(t);
+      if (typeof ImageBitmap !== 'undefined' && t.image instanceof ImageBitmap) t.image.close();
+    }
+  }
+
+  /** Poe `nova` no lugar de this.tex[nome] em todos os materiais da cena e libera a velha da GPU. */
+  _trocarTextura(nome, nova, liberar = true) {
+    const velha = this.tex[nome];
+    this.cena.traverse((o) => {
+      const u = o.material && o.material.uniforms;
+      if (u) for (const k in u) if (u[k].value === velha) u[k].value = nova;
+    });
+    this.tex[nome] = nova;
+    if (liberar) velha.dispose();
+  }
+
+  /**
+   * No computador (GPU com folga), troca dia, noite e nuvens pelas versoes 4K com a cena ja calma (depois da
+   * revelacao do Nordeste). A imagem e decodificada fora da thread principal e sobe para a GPU em pedacos de FAIXA
+   * linhas, um por quadro, numa textura nova; so quando ela esta inteira (com mipmaps) entra no lugar da leve.
+   * Antes a troca parava a cena no meio da revelacao. Resolve this.altas no fim (ou logo, sem a troca).
+   */
+  async _melhorarTexturas() {
+    try {
+      if (!this.k8) return;
+      const arquivos = await this._arquivosAltos;
+      for (let i = 0; i < ALTAS.length; i++) {
+        try {
+          const blob = await arquivos[i];
+          if (blob) await this._subirAlta(ALTAS[i][0], ALTAS[i][1], blob);
+        } catch {
+          // fica a textura leve
+        }
+      }
+    } finally {
+      this._altasOk();
+    }
+  }
+
+  async _subirAlta(nome, arquivo, blob) {
+    const leve = this.tex[nome];
+    if (!BITMAP) {   // sem ImageBitmap: sobe de uma vez, como antes
+      const tx = await new THREE.TextureLoader().loadAsync(DIR_TEX + arquivo);
+      leve.dispose();
+      leve.image = tx.image;
+      leve.userData.arquivo = arquivo;
+      leve.needsUpdate = true;
+      return;
+    }
+    const inteira = await createImageBitmap(blob, OPCOES_BITMAP);
+    const W = inteira.width, H = inteira.height;
+    const alta = new THREE.FramebufferTexture(W, H);   // so reserva a memoria na GPU, sem enviar pixels
+    Object.assign(alta, {
+      userData: { ...leve.userData, arquivo }, format: leve.format, colorSpace: leve.colorSpace, wrapS: leve.wrapS,
+      wrapT: leve.wrapT, anisotropy: leve.anisotropy, flipY: false, magFilter: THREE.LinearFilter,
+      minFilter: THREE.LinearMipmapLinearFilter,
+    });
+    this.renderer.initTexture(alta);   // todos os niveis de mipmap reservados
+    // a imagem ja esta virada (linha 0 = a de baixo), entao o pedaco y..y+h vai para as linhas y..y+h da textura
+    for (let y = 0; y < H; y += FAIXA) {
+      const h = Math.min(FAIXA, H - y);
+      const faixa = await createImageBitmap(inteira, 0, y, W, h);
+      await quadro();
+      alta.generateMipmaps = y + h >= H;   // os mipmaps saem uma vez, com o ultimo pedaco
+      this.renderer.copyTextureToTexture(new THREE.Vector2(0, y), new THREE.Texture(faixa), alta);
+      faixa.close();
+    }
+    inteira.close();
+    this._trocarTextura(nome, alta);
+  }
+
+  /** O contexto da GPU voltou: baixa as texturas de novo (as copias decodificadas foram soltas) e troca todas. */
+  _recarregarTexturas() {
+    this._recarregando = true;
+    let novas = {};
+    const gerente = new THREE.LoadingManager(() => {
+      for (const [nome, t] of Object.entries(novas)) this._trocarTextura(nome, t, false);   // as velhas morreram com o contexto
+      this._subirTexturas();
+      this._recarregando = false;
+    });
+    const cs = this._novosCarregadores(gerente);
+    novas = Object.fromEntries(Object.entries(this.tex).map(([nome, t]) => [nome, this._carregar(t.userData.arquivo, t.userData, cs)]));
   }
 
   // ------------------------------------------------------------ construcao
@@ -1151,12 +1264,12 @@ export class Espaco {
       this.desloc.y = this.layout.y;
       this.dist = this.layout.dist;
       this.sol.copy(this.solInicio);
-      this.revelarNordeste();
+      this.revelarNordeste().then(() => this._melhorarTexturas());
       return Promise.resolve();
     }
     this.modo = 'viagem';
     this.parallax = 0;
-    setTimeout(() => this.revelarNordeste(), 4300);
+    setTimeout(() => this.revelarNordeste().then(() => this._melhorarTexturas()), 4300);
     return this._animar(5600, (p) => {
       const e = suave(p);
       const sai = saida(p);
@@ -1316,7 +1429,7 @@ export class Espaco {
     this._atualizarSol();
     this._atualizarMira();
     this.aoQuadro?.(dt, t);   // gancho para quem desenha extras na cena (ovos.js)
-    this.renderer.render(this.cena, this.camera);
+    if (!this._recarregando) this.renderer.render(this.cena, this.camera);   // (contexto da GPU voltando)
   }
 
   /** Modo livre: giro automatico/inercia e, se houver, o mergulho com zoom. */

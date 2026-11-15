@@ -21,7 +21,7 @@ import * as C from "../passos/dinheiro/calculo.js";
 import { montar as montarDesenho, grade, ehGram } from "../passos/plantio/desenho.js";
 import { CULT } from "./culturas.js";
 import { lerHoje, areasHoje, itensCen, mesesS0, quebra, seriesDe } from "./hoje_ideal.js";
-import { calcular as calcCenarios, manchete, troca, NOME as NOME_JEITO, DA_PRIORIDADE } from "./cenarios.js";
+import { calcular as calcCenarios, manchete, troca, NOME as NOME_JEITO, DA_PRIORIDADE, linhasDe, semMono } from "./cenarios.js";
 
 // ------------------------------------------------------------------ coeficientes de agronomia (web/dados/agronomia.json, do A1)
 let AGRO = null;
@@ -93,9 +93,9 @@ const FALA_TEXTO = [
   [/sem leguminosa no cardápio: sem revezamento/g, "sem feijão com data segura aqui: fica sozinho"],
   [/sem leguminosa no cardápio/g, "sem feijão com data segura aqui"],
   [/depois da leguminosa/g, "depois do feijão"], [/da leguminosa/g, "do feijão"], [/a leguminosa/g, "o feijão"], [/leguminosas?/g, "feijão"],
-  [/\+ feijão-caupi em revezamento/g, "+ caupi no meio do milho"], [/\+ feijão em revezamento/g, "+ feijão no meio do milho"],
+  [/\+ feijão-caupi em revezamento/g, "+ feijão no meio do milho"], [/\+ feijão em revezamento/g, "+ feijão no meio do milho"],
   [/\bcereal solteiro\b/g, "milho sozinho"], [/\bsolteiro\b/g, "sozinho"], [/o cereal seguinte/g, "o milho seguinte"], [/\bcereal\b/g, "milho"],
-  [/caupi precoce/g, "caupi de ciclo curto"], [/\bprecoce\b/g, "de ciclo curto"],
+  [/caupi precoce/g, "feijão de ciclo curto"], [/\bprecoce\b/g, "de ciclo curto"],
   [/o tampão/g, "a reserva"], [/tampão/g, "reserva"],
   [/só cabe salvar/g, "salve o que der"], [/fenação do excedente/g, "feno do que sobrar"],
   [/metade guardada até/g, "metade da semente guardada até"], [/\s*→\s*/g, " depois "], [/kg de N\b/g, "kg de adubo (nitrogênio)"],
@@ -290,8 +290,11 @@ function ajustarAntes(p, A, r) {
   const faixas = p.faixas.map((f) => {
     const n = nova.get(f.parte);
     if (!n) return f;
+    // no ano passado, outra da mesma família (sorgo ou milheto antes do milho, amendoim antes do feijão): diz cada ano com o seu nome
+    const x2 = A.y2.includes(n.x) ? n.x : A.y2.find((m) => (ehGram(n.x) ? ehGram(m) : LEG.has(n.x) && LEG.has(m)));
+    const teve = x2 && x2 !== n.x ? `${fala(x2)} em ${A.a2} e ${fala(n.x)} em ${A.a1}` : `${fala(n.x)} em ${quando}`;
     return { ...f, anos: n.anos, antes: n.x,
-      por_que: `Começa com ${com(n.anos[0].cultura)}: ali teve ${fala(n.x)} em ${quando}. ${porQueLinha(n.anos)}` };
+      por_que: `Começa com ${com(n.anos[0].cultura)}: ali teve ${teve}. ${porQueLinha(n.anos)}` };
   });
   const out = { ...p, faixas, antes_ajuste: [...nova.entries()].map(([parte, n]) => ({ parte, repetiu: n.x, comeca: n.anos[0].cultura })) };
   if (p.por_que_de) out.por_que_de = { ...p.por_que_de, ...Object.fromEntries(faixas.filter((f) => nova.has(f.parte)).map((f) => [f.parte, f.por_que])) };
@@ -383,6 +386,16 @@ function fazerMelhor(r, resp, ef) {
     if (!c || c.situacao === "fora") avisos.push({ id: "fora", cultura: n, txt: `${cap(com(n))} não tem data segura aqui: mais risco de perder.` });
   }
   const fora = new Set(avisos.filter((a) => a.id === "fora").map((a) => a.cultura));
+  // nunca uma cultura sozinha (pedido do José, 15/11): com uma anual só (ou só perene), entra a do lugar que gira com ela: a
+  // leguminosa (r.plano.leguminosa ou a 1ª que serve no cardápio) e, se a dele já é feijão (ou só perene), o cereal
+  const serve = (x) => { const c = card.get(x); return !!c && c.situacao !== "fora"; };
+  const legLugar = [base.leguminosa, "Feijão-caupi", "Feijão comum", "Amendoim"].find((x) => x && x !== "Mucuna-preta" && LEG.has(x) && serve(x)) || null;
+  const cerLugar = ["Milho", "Sorgo granífero", "Milheto"].find(serve) || null;
+  const entrou = [], anuais0 = nomes.filter((x) => papel(x) !== "P");
+  if (anuais0.length <= 1) {
+    const temL = anuais0.some((x) => LEG.has(x));
+    for (const x of [temL ? null : legLugar, temL || !anuais0.length ? cerLugar : null]) if (x && !nomes.includes(x)) { entrou.push(x); nomes.push(x); peso.set(x, 1); }
+  }
   const L = nomes.filter((n) => papel(n) === "L"), P = nomes.filter((n) => papel(n) === "P");
   let X = nomes.filter((n) => papel(n) === "X").sort((a, b) => rank(a) - rank(b) || peso.get(b) - peso.get(a));
   const M = nomes.includes("Mandioca");
@@ -394,8 +407,16 @@ function fazerMelhor(r, resp, ef) {
   // (só quando a terra alta continua girando sem ele: feijão e mandioca, ou outro cereal; senão o milho fica, com o aviso)
   const milhoSoBaixio = milhoSolo && bxCult === "Milho" && (L.length ? 1 : 0) + (M ? 2 : 0) + (X.length > 1 ? 1 : 0) >= 2;
   if (milhoSoBaixio) X = X.filter((x) => x !== "Milho");
+  // milho só no baixio e só a mandioca na terra alta (ex.: milho + mandioca na areia): entra a leguminosa do lugar no giro das
+  // partes, para a terra alta não ficar os 3 anos só de mandioca (auditoria a8, 15/11)
+  let girarCom = anuais0[0];
+  if (milhoSoBaixio && M && !L.length && !X.length && legLugar && !nomes.includes(legLugar)) {
+    entrou.push(legLugar); nomes.push(legLugar); peso.set(legLugar, 1); L.push(legLugar); girarCom = "Mandioca";
+  }
   const legMain = L.find((n) => n !== "Mucuna-preta") || null;
-  const relay = !!(bxCult && legMain && CEREAL.has(bxCult));
+  // o cereal do baixio sem feijão dele para revezar: entra o feijão do lugar no milho em pé (o baixio não fica 3 anos só no cereal)
+  const legBx = legMain || (bxCult && CEREAL.has(bxCult) ? legLugar : null);
+  const relay = !!(bxCult && legBx && CEREAL.has(bxCult));
   const anuais = nomes.filter((n) => papel(n) !== "P");
   const naoGira = anuais.length <= 1;
 
@@ -406,7 +427,9 @@ function fazerMelhor(r, resp, ef) {
   // só mandioca (M1 M2): as partes desencontram (A e C plantam em 2027, B colhe em 2027 a que já está no chão), para todo ano ter
   // colheita, como o "metade colhe, metade planta" do jeito de hoje; nos outros giros, nenhuma parte começa no 2º ano da mandioca
   const soM = n === 2 && cyc[0] === "M1";
-  const offs = soM ? [0, 1, 0] : ({ 4: [0, 2, 3], 3: [0, 2, 2], 2: [0, 1, 0], 1: [0, 0, 0] }[n]).map((o) => (cyc[o] === "M2" ? 0 : o));
+  // mandioca + uma planta, sem cereal no baixio: a C começa colhendo a mandioca do chão, para nenhum ano ser só mandioca
+  const tresM = n === 3 && cyc[0] === "M1" && !bxCult;
+  const offs = soM ? [0, 1, 0] : tresM ? [0, 2, 1] : ({ 4: [0, 2, 3], 3: [0, 2, 2], 2: [0, 1, 0], 1: [0, 0, 0] }[n]).map((o) => (cyc[o] === "M2" ? 0 : o));
   const conta = { L: 0, X: 0 };
   const escolher = (papelC, lst, nomeAnt, depoisDeL) => {
     const i0 = conta[papelC]++ % lst.length;
@@ -457,29 +480,67 @@ function fazerMelhor(r, resp, ef) {
 
   const faixas = linhas.map((anos, i) => ({ parte: `Parte ${"ABC"[i]}`, por_que: porQueLinha(anos), anos }));
   if (bxCult) {
-    const texto = relay ? `+ ${fala(legMain)} em revezamento (50–85 dias depois); as linhas trocam de lugar`
+    const texto = relay ? `+ ${fala(legBx)} em revezamento (50–85 dias depois); as linhas trocam de lugar`
       : CEREAL.has(bxCult) ? `${txtPlantio(r, bxCult)}; sem feijão para revezar` : "forragem; palhada sem fogo";
     const anos = [0, 1, 2].map(() => ({ cultura: bxCult, tipo: TIPO[bxCult], texto }));
-    faixas.push({ parte: "Baixio", por_que: porQueBaixio(anos, relay ? legMain : null), anos });
+    // sem revezamento (forragem, ou sem feijão aqui): um ano de outra planta do giro no meio, para o baixio não repetir 3 anos
+    const meio = relay ? null : [legMain, ...nomes.filter((x) => !ehGram(x)), ...nomes].find((x) => x && x !== bxCult && x !== "Mandioca" && papel(x) !== "P");
+    if (meio) anos[1] = { cultura: meio, tipo: TIPO[meio] || "pousio", texto: txtPlantio(r, meio) };
+    faixas.push({ parte: "Baixio", por_que: porQueBaixio(anos, relay ? legBx : null), anos });
   }
   // as perenes que ele já tem ficam no pedaço delas (fora_do_giro, desenhado em escala por desenho.montar), não na cerca; só sem
   // nenhuma anual (o roçado todo é perene) a 1ª vai nas partes e as outras nas bordas
-  const perBordas = cyc[0] === "P" ? P.slice(1) : [];
+  const perBordas = cyc[0] === "P" ? P.slice(1) : !anuais0.length ? P : []; // só perene: ela fica nas bordas, a anual que entrou gira
   if (perBordas.length) {
     const nome = perBordas.join(" + ");
     faixas.push({ parte: "Bordas", anos: [0, 1, 2].map((k) => ({ cultura: nome, tipo: "perene", texto: k ? "permanece" : "já plantado: fica onde está", ja_plantado: true })),
       por_que: `Perene: fica no lugar, nas bordas${perBordas.some((x) => x === "Banana" || x === "Cana-de-açúcar") && temBx ? "; banana e cana pedem a beira do baixio" : ""}.` });
   }
-  let plano = { anos: anosP, faixas, notas, avisos, principios: base.principios, leguminosa: legMain, modelo_ne: base.modelo_ne,
+  const bxEntrou = relay && !legMain ? legBx : null;
+  let plano = { anos: anosP, faixas, notas, avisos, principios: base.principios, leguminosa: legBx, modelo_ne: base.modelo_ne,
     interruptor: parteMetade ? `Alerta para 2027: na ${parteMetade}, metade ${de_(legMain)} fica guardada até ~10/mar.`
       : alertaDe(r) ? "Alerta para 2027: plante escalonado, não tudo no mesmo dia." : null,
-    tipo: "melhor", nome: "Seu jeito, melhorado", culturas: nomes, nao_gira: naoGira, mand_no_chao: noChao, ...foraDoGiro(r, resp, ef) };
+    tipo: "melhor", nome: "Seu jeito, melhorado", culturas: nomes, entrou: [...entrou, ...(bxEntrou ? [bxEntrou] : [])], nao_gira: naoGira,
+    mand_no_chao: noChao, ...foraDoGiro(r, resp, ef) };
   plano = ajustarAntes(plano, lerAntes(r, resp), r);
+  // o ano passado pode pôr todas as partes no mesmo giro (milho dois anos em todo o chão, só milho e feijão, sem baixio): a parte
+  // trocada ganha a mandioca (sem rama, outra leguminosa), para nenhum ano ficar com uma planta só no roçado
+  const umaSo = (fx) => [0, 1, 2].some((k) => new Set(fx.filter((f) => /^Parte |^Baixio/.test(f.parte)).map((f) => f.anos[k]).filter((c) => c.tipo !== "pousio")
+    .flatMap((c) => [c.cultura, ...(/revezamento/.test(c.texto || "") ? ["+"] : [])])).size < 2);
+  let antesEntrou = null;
+  if (plano.antes_ajuste && umaSo(plano.faixas)) {
+    // a mandioca primeiro; se ela não resolve (milho + mandioca sem baixio: a mandioca já é a única planta de 2027), a leguminosa
+    // (a do lugar quando o plano não tem nenhuma; senão outra), a 1ª que tira o ano de uma planta só (auditoria a8, 15/11)
+    const legs = ["Amendoim", "Feijão comum", "Feijão-caupi"], temLeg = nomes.some((y) => LEG.has(y));
+    const xs = [ef.maniva !== "nao" && serve("Mandioca") ? "Mandioca" : null,
+      ...[...new Set([...(temLeg ? [] : [legLugar]), ...legs])].filter((y) => y && serve(y) && !nomes.includes(y))].filter(Boolean);
+    const i = plano.faixas.findIndex((f) => f.parte === plano.antes_ajuste[plano.antes_ajuste.length - 1].parte);
+    const outro = plano.faixas.find((f, j) => j !== i && /^Parte /.test(f.parte));
+    let achou = null;
+    for (const x of i >= 0 && outro ? xs : []) {
+      const anos = x === "Mandioca" ? [{ cultura: x, tipo: TIPO[x], texto: txtManiva(r) }, { cultura: x, tipo: TIPO[x], texto: "reserva: colhe conforme a necessidade" }]
+        : [{ cultura: x, tipo: TIPO[x], texto: txtPlantio(r, x) }];
+      for (let k = anos.length; k < 3; k++) {
+        const ant = anos[k - 1].cultura;
+        const y = [...nomes, x].find((n) => papel(n) !== "P" && n !== "Mandioca" && n !== ant && n !== outro.anos[k].cultura && !(ehGram(n) && ehGram(ant)));
+        if (y) anos.push({ cultura: y, tipo: TIPO[y] || "pousio", texto: txtPlantio(r, y) });
+      }
+      if (anos.length < 3) continue;
+      const faixas = plano.faixas.map((f, j) => (j === i
+        ? { ...f, anos, por_que: `Começa com ${com(x)}: ali teve ${fala(f.antes || "milho")} dois anos. ${porQueLinha(anos)}` } : f));
+      if (!achou) achou = { x, faixas }; // nenhuma resolve: fica a 1ª que deu um giro inteiro (como antes)
+      if (!umaSo(faixas)) { achou = { x, faixas }; break; }
+    }
+    if (achou) {
+      antesEntrou = nomes.includes(achou.x) ? null : achou.x;
+      plano = { ...plano, entrou: [...plano.entrou, ...(antesEntrou ? [achou.x] : [])], faixas: achou.faixas };
+    }
+  }
 
   // o que o ideal acrescenta (na prioridade que vale) e as notas
   const ideal = planoIdeal(r, resp, ef, prioridadePadrao(r, resp, ef));
   const noIdeal = [...new Set((ideal?.faixas || []).flatMap((f) => f.anos.flatMap((c) => nomesDoTexto(c.cultura))))]
-    .filter((x) => x !== "Pousio pastejado" && !nomes.includes(x));
+    .filter((x) => x !== "Pousio pastejado" && !nomes.includes(x) && !plano.entrou.includes(x));
   plano.acrescenta = noIdeal;
   const tres3 = noIdeal.slice(0, 3).map(fala), resto = noIdeal.length - tres3.length;
   const mais = noIdeal.length ? ` O ideal acrescenta ${resto > 0 ? `${tres3.join(", ")} e mais ${resto}` : lista(tres3)}.` : "";
@@ -491,6 +552,11 @@ function fazerMelhor(r, resp, ef) {
   } else if (!L.length && !M && X.every(ehGram)) {
     notas.unshift(`${cap(lista(X.map(fala)))} são parentes: um depois do outro não quebra a lagarta.${mais}`);
   } else if (mais) notas.push(mais.trim());
+  // o que entrou para não ficar uma cultura só vem primeiro (plantio.js e hoje_ideal.js mostram a nota que começa com "Entr")
+  if (entrou.length) notas.unshift(anuais0.length ? `Entrou ${lista(entrou.map(com))} para girar com ${com(girarCom)}: a terra não cansa.`
+    : `${entrou.length > 1 ? "Entraram" : "Entrou"} ${lista(entrou.map(com))}, girando ao lado ${de_(P[0])}.`);
+  if (bxEntrou) notas.unshift(`Entrou ${com(bxEntrou)} no baixio, no meio ${de_(bxCult)}: a terra não cansa.`);
+  if (antesEntrou) notas.unshift(`Entrou ${com(antesEntrou)} numa parte: o roçado não fica todo com uma planta só.`);
   if (X.includes("Milho") && milhoRisco) notas.push("Na terra alta, o milho tem mais risco aqui: em ano seco, plante o milho só no baixio.");
   if (milhoSolo) {
     const terra = { arenosa: "areia", mista: "terra misturada", barro: "barro" }[ef.terra];
@@ -539,7 +605,35 @@ function fazerIdeal(r, resp, ef, pri) {
       if (p.por_que_de) p.por_que_de = { ...p.por_que_de, [alvo.parte]: porQueLinha(anos) };
     }
   }
-  return ajustarAntes(p, lerAntes(r, resp), r);
+  const A = lerAntes(r, resp);
+  p = ajustarAntes(p, A, r);
+  return Cn ? semMonoPlano(r, p, Cn, A) : p;
+}
+
+/** Sem monocultura (pedido do José, 15/11), no plano final (o do núcleo, as rotações, a mandioca velha e o ano passado já aplicados):
+ *  as células que semMono (cenarios.js) troca entram no lugar; o resto fica igual (ex.: baixio só de sorgo nos 3 anos em Caicó vira
+ *  sorgo → feijão → sorgo; só feijão e pousio no roçado ganha milho). No 1º ano, nada que repita o chão do ano passado.
+ *  sem_mono = as partes que mudaram. */
+function semMonoPlano(r, p, Cn, A) {
+  const leg = p.leguminosa || Cn.R.leg;
+  const fx = p.faixas.filter((f) => /^Parte |^Baixio/.test(f.parte));
+  const linhas = linhasDe(fx, leg).map((l) => ({ ...l, area: l.parte === "Baixio" ? Cn.b : Cn.a }));
+  const novas = semMono(linhas, Cn.R, (a) => !!repeteAntes({ cultura: a.nome, tipo: TIPO[a.nome] || "cereal" }, A));
+  const troca = new Map(novas.filter((l) => l.cels.some((c) => c.mudou)).map((l) => [l.parte, l.cels]));
+  if (!troca.size) return p;
+  const porQue = (parte, anos) => (parte === "Baixio" ? porQueBaixio(anos, leg) : porQueLinha(anos));
+  // com feijão no plano, o "sem leguminosa no cardápio" do núcleo nas outras células também sai (refeita pelo código dela)
+  const cod = new Map(novas.map((l) => [l.parte, l.cels]));
+  const faixas = p.faixas.map((f) => {
+    const cels = cod.get(f.parte);
+    const refaz = (c, k) => cels && (cels[k].mudou || /sem leguminosa/.test(c.texto || ""));
+    if (!cels || !f.anos.some(refaz)) return f;
+    const anos = f.anos.map((c, k) => (refaz(c, k) ? celCenario(r, cels[k], cels[k - 1] || null, f.parte, leg) : c));
+    return { ...f, anos, por_que: porQue(f.parte, anos) };
+  });
+  const out = { ...p, faixas, leguminosa: leg, sem_mono: [...troca.keys()] };
+  if (p.por_que_de) out.por_que_de = { ...p.por_que_de, ...Object.fromEntries(faixas.filter((f, i) => f !== p.faixas[i]).map((f) => [f.parte, f.por_que])) };
+  return out;
 }
 
 function deCenario(r, ef, Cn, id, meta) {
@@ -1145,20 +1239,29 @@ export function agendaDe(r, plano, ef = {}, opcoes = {}) {
   return opcoes.refazer ? fazer() : memoP(plano, "agenda", fazer);
 }
 
+/** O calendário do plano até dezembro do último ano dele (2029), para o mês a mês do Plano: as estações de 2028 e 2029 repetem as
+ *  datas do ZARC 2026/27 na rotação do plano (PROJEÇÃO). Sai das regras de data daqui, sem copiar de r.agenda (que para em dez/2027). */
+export function agendaLonga(r, plano) {
+  if (!r?.agenda || !plano?.faixas?.length) return [];
+  return memoP(plano, "agenda-longa", () => fazerAgenda(r, plano, { longa: true }));
+}
+
 function fazerAgenda(r, plano, opcoes) {
-  const ag = r.agenda, V = { ini: deISO(ag.inicio), fim: deISO(ag.fim), hoje: deISO(ag.hoje) };
-  const E0 = (plano.anos || [2027])[0], leg = plano.leguminosa || null;
+  const ag = r.agenda, anos = plano.anos || [2027], E0 = anos[0], leg = plano.leguminosa || null;
+  // opcoes.longa: todas as estações do plano, até 31/dez do último ano, sem cópia do núcleo (as linhas dele são cortadas em ag.fim)
+  const longa = !!opcoes.longa, semCopia = opcoes.semCopia || longa;
+  const V = { ini: deISO(ag.inicio), fim: longa ? Math.max(deISO(ag.fim), Date.UTC(anos[anos.length - 1], 11, 31)) : deISO(ag.fim), hoje: deISO(ag.hoje) };
   const card = new Map((r.cardapio || []).map((c) => [c.cultura, c]));
   const marcoMetade = (ag.linhas || []).flatMap((l) => l.marcos || []).find((m) => /metade/.test(m.rotulo || ""));
-  const copiar = (parte, nome, est) => (opcoes.semCopia ? null : copiaDaAgenda(ag, parte, nome, est));
+  const copiar = (parte, nome, est) => (semCopia ? null : copiaDaAgenda(ag, parte, nome, est));
   let metadePosta = false;
   const out = [];
   for (const f of plano.faixas) {
-    for (const [k, est] of [[0, E0], [1, E0 + 1]]) {
-      const c = f.anos?.[k];
+    for (let k = 0; k < (longa ? anos.length : 2); k++) {
+      const est = E0 + k, c = f.anos?.[k];
       if (!c) continue;
       const nome = baseNome(c.cultura);
-      if (k && c.cultura === f.anos[0].cultura && (c.tipo === "tampão" || c.tipo === "perene")) continue; // a mesma mandioca ou perene
+      if (k && c.cultura === f.anos[k - 1].cultura && (c.tipo === "tampão" || c.tipo === "perene")) continue; // a mesma mandioca ou perene
       if (nome === "Perene local") continue;
       if (c.ja_plantado) {
         if (!k) out.push({ parte: f.parte, cultura: c.cultura, tipo: c.tipo || "perene", estacao: est, barras: [], marcos: [],
@@ -1166,12 +1269,12 @@ function fazerAgenda(r, plano, opcoes) {
         continue;
       }
       if (c.ja_no_chao) {
-        const l = !opcoes.semCopia && (ag.linhas || []).find((x) => x.cultura === nome && x.estacao === est && /já está no chão/.test(x.plantar || ""));
+        const l = !semCopia && (ag.linhas || []).find((x) => x.cultura === nome && x.estacao === est && /já está no chão/.test(x.plantar || ""));
         out.push(l ? { ...JSON.parse(JSON.stringify(l)), parte: f.parte } : linhaJaNoChao(V, r, f.parte, nome, est));
         continue;
       }
       if (nome === "Pousio pastejado") {
-        const l = !opcoes.semCopia && (ag.linhas || []).find((x) => x.tipo === "pousio" && x.estacao === est);
+        const l = !semCopia && (ag.linhas || []).find((x) => x.tipo === "pousio" && x.estacao === est);
         const lin = l ? { ...JSON.parse(JSON.stringify(l)), parte: f.parte } : linhaPousio(V, r, f.parte, est);
         if (lin) out.push(lin);
         continue;
@@ -1203,7 +1306,7 @@ function fazerAgenda(r, plano, opcoes) {
         // a célula manda: "solteiro" ou "sem revezamento" no texto (ex.: sorgo granífero solteiro no baixio) não ganha a linha
         else if (jm && leg && !c.solteiro && !/solteiro|sem revezamento/.test(c.texto || "") && jm.ini + 50 * DIA <= V.fim - 14 * DIA) {
           const nomeR = `${leg} no milho em pé`;
-          const l = !opcoes.semCopia && (ag.linhas || []).find((x) => x.cultura === nomeR && x.estacao === est);
+          const l = !semCopia && (ag.linhas || []).find((x) => x.cultura === nomeR && x.estacao === est);
           out.push(l ? JSON.parse(JSON.stringify(l)) : linhaRevez(V, r, jm, leg, est));
         }
       }

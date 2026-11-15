@@ -24,8 +24,8 @@ const VISTAS = [
   { id: "geada", icone: "termo", rot: "Geada e calor" },
 ];
 const DIAS_FLOR = { "Milho": [50, 65], "Feijão-caupi": [35, 50], "Sorgo granífero": [55, 70], "Feijão comum": [30, 45] };
-const NOME = { "Milho": "milho", "Feijão-caupi": "caupi", "Sorgo granífero": "sorgo de grão", "Sorgo forrageiro": "sorgo forrageiro",
-  "Feijão comum": "feijão", "Mandioca": "mandioca", "Milheto": "milheto", "Amendoim": "amendoim" };
+const NOME = { "Milho": "milho", "Feijão-caupi": "feijão", "Sorgo granífero": "sorgo de grão", "Sorgo forrageiro": "sorgo forrageiro",
+  "Feijão comum": "feijão comum", "Mandioca": "mandioca", "Milheto": "milheto", "Amendoim": "amendoim" };
 const nome = (c) => NOME[c] || String(c || "").toLowerCase();
 
 function dados() {

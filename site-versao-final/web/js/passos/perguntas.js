@@ -4,30 +4,57 @@
 // Ordem de serviço: analise/fluxo/00_FLUXO_FINAL.md (seções 3.1 e 7) e, na rodada 2 (15/11), analise/fluxo2/BRIEFING.md (D2):
 // a lista completa das culturas ("Ver todas as culturas"), o tamanho em metros à vista (grava ha, area_un, larg e comp), o baixio
 // explicado com um desenho, e a maniva e o ano passado, que saíram do Plano.
-// A lista das culturas mora em extras/culturas.js; "em tarefas ou passos" abre extras/area.js; o ano passado usa o formato de `antes`
+// A lista das culturas mora em extras/culturas.js; o tamanho é só em ha ou em metros (o "em tarefas ou passos" saiu a pedido do José,
+// 15/11; uma resposta antiga em tarefas ainda é lida por extras/area.js); o ano passado usa o formato de `antes`
 // de extras/historico.js; a terra usa as palavras do Vicente (interface-inicial-vicente). Os modos "pergunta" de hoje_ideal.js e
 // historico.js ficam no código (páginas de teste), fora da jornada.
 import { olho, OLHOS } from "../extras/voce_decide.js";
 import { lerHoje, CULT, igual, mexer, opcoesCultura } from "../extras/hoje_ideal.js";
 import { GRUPOS, TODAS, foraDaqui, noCardapio } from "../extras/culturas.js";
-import AREA, { tarefaPadrao, haDe, metrosDe, escreverArea } from "../extras/area.js";
+import { tarefaPadrao, haDe, metrosDe, escreverArea } from "../extras/area.js";
 import { CULT_H, lerAntes, escreverAntes, ANO_HOJE, icHist } from "../extras/historico.js";
 
-const TERRAS = [["arenosa", "areia", "Seca rápido"], ["mista", "gota", "Segura a umidade"], ["barro", "barro", "Encharca"],
-  ["", "interrog", "Não sei"]];
+// a terra: o nome (areia / misturada / barro) com o desenho da textura e, embaixo, as palavras do Vicente (o que ela faz na chuva forte)
+const TERRAS = [["arenosa", "Areia", "seca rápido"], ["mista", "Misturada", "segura água"], ["barro", "Barro", "encharca"], ["", "Não sei", ""]];
 const BAIXIOS = [["nao", 0, "Não tenho"], ["pouco", 0.2, "Pequeno"], ["metade", 0.5, "Grande"], ["", null, "Não sei"]];
 const TERCO = ["terco", 1 / 3, "Um terço"]; // só para quem chega por um link antigo (…?baixio=terco)
-const MANIVAS = [["tem", "Tenho"], ["plantada", "Já está plantada"], ["nao", "Não tenho"], ["", "Não sei"]];
+const MANIVAS = [["tem", "Tenho", "rama"], ["plantada", "Já plantada", "broto"], ["nao", "Não tenho", "semRama"], ["", "Não sei", "interrog"]];
 const HAS = [0.5, 1, 2, 3, 5];
 const MAX_M = 5000; // o lado mais comprido que a tela aceita (5 km)
 const FONTE_TIPICO = "típico do município no Censo Agropecuário 2017 (IBGE), aplicado ao seu roçado";
 const FONTE_ZON = "ZARC/MAPA 2026/27 e FAO GAEZ v4, no cardápio do QUADRA para o município";
 
-// mini-desenho do roçado visto de cima, com o baixio embaixo (fração f; null = tracejado "não sei")
-const miniRocado = (f) => `<svg class="mini-rocado" viewBox="0 0 60 60" aria-hidden="true">
-  <rect x="2" y="2" width="56" height="56" rx="4" class="mr-terra"/>
-  ${f === null ? `<rect x="2" y="38" width="56" height="20" rx="4" class="mr-baixio incerto"/>`
-    : f > 0 ? `<rect x="2" y="${58 - 56 * f}" width="56" height="${56 * f}" rx="4" class="mr-baixio"/>` : ""}</svg>`;
+// ícones que faltavam em comum.js (mesmo traço, 24×24): o terreno com as duas medidas, o baixio de lado e a rama da mandioca
+const RAMA = '<path d="M4 19 16 5M8.5 20.5 20 7.5M3 14.5 12.5 3.5"/><path d="M8.6 13.4l1.8 1.6M12.8 15.6l1.8 1.6M6.4 8.4l1.8 1.6M14.2 9.6l1.8 1.6"/>';
+const ICL = {
+  terreno: '<rect x="7" y="8" width="14" height="13" rx="1.5"/><path d="M7 4h14M7 2.6v2.8M21 2.6v2.8M3 8v13M1.6 21h2.8M1.6 8h2.8"/>',
+  baixio: '<path d="M2 7c5 0 7 1.8 9 5.8S15 18 17 18h5"/><path d="M14.5 21h7.5M5 2.5l-.8 2M9 2l-.8 2"/>',
+  rama: RAMA,
+  semRama: `${RAMA}<path d="M3 3l18 18"/>`,
+};
+const icl = (U, nome) => (ICL[nome] ? `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${ICL[nome]}</svg>` : U.ic(nome));
+
+// a textura de cada terra (48×28): grãos soltos (areia), grãos e torrões (misturada), barro liso com rachas e água em cima (encharca)
+const GRAOS = [[6, 6], [13, 10], [20, 5], [27, 9], [34, 5], [41, 10], [9, 15], [16, 19], [23, 14], [30, 18], [37, 14], [44, 19], [5, 23],
+  [12, 24], [19, 22], [26, 24], [33, 22], [40, 24]];
+const grao = ([x, y]) => `<circle class="tx-grao" cx="${x}" cy="${y}" r="1.5"/>`;
+const TEXTURA = {
+  arenosa: `<rect class="tx-fundo areia" x="1" y="1" width="46" height="26" rx="6"/>${GRAOS.map(grao).join("")}`,
+  mista: `<rect class="tx-fundo mista" x="1" y="1" width="46" height="26" rx="6"/>${GRAOS.filter((_, i) => i % 2).map(grao).join("")}
+    <ellipse class="tx-torrao" cx="13" cy="9" rx="5" ry="3.4"/><ellipse class="tx-torrao" cx="33" cy="12" rx="5.5" ry="3.6"/>
+    <ellipse class="tx-torrao" cx="21" cy="21" rx="5" ry="3.2"/>`,
+  barro: `<rect class="tx-fundo barro" x="1" y="1" width="46" height="26" rx="6"/><path class="tx-racha" d="M9 27l4-8 7-3 3-6M23 10l8 4 6-5M31 14l2 7 8 3M13 19l-8-3"/>
+    <path class="tx-agua" d="M7 5h13M28 5h13"/>`,
+};
+const textura = (v) => `<svg class="sr-tx" viewBox="0 0 48 28" aria-hidden="true">${TEXTURA[v]}</svg>`;
+
+// o baixio de cada resposta: o roçado de lado (o mesmo desenho do "o que é?"), com a parte baixa e úmida do tamanho da resposta
+const perfilMini = (f) => {
+  const x = f > 0 ? Math.round(60 - 54 * f) : 60; // onde começa o chão plano do baixio
+  const chao = f > 0 ? `M0 7C${x * 0.45} 7 ${x * 0.55} 21 ${x} 21L60 21L60 30L0 30Z` : "M0 7C24 7 34 25 60 25L60 30L0 30Z";
+  return `<svg class="sr-pf" viewBox="0 0 60 30" aria-hidden="true"><path class="sp-terra" d="${chao}"/>${f > 0
+    ? `<rect class="sp-umida" x="${x - 2}" y="21" width="${62 - x}" height="9"/><path class="sp-poca" d="M${x + 1} 21H58"/>` : ""}</svg>`;
+};
 
 // o roçado de lado: a chuva cai no alto, a água escorre e para no baixio, que fica úmido
 const PERFIL = `<svg class="sr-perfil" viewBox="0 0 320 64" role="img" aria-label="O roçado visto de lado: a água da chuva desce do alto e para no baixio">
@@ -40,8 +67,7 @@ const PERFIL = `<svg class="sr-perfil" viewBox="0 0 320 64" role="img" aria-labe
 
 let rasc = null; // o rascunho da tela: { cult, ha, area_un, larg, comp, ml, mc, terra, baixio, maniva, antes }
 let tocado = new Set(); // linhas que a pessoa tocou: só elas vão para a URL
-let abertos = new Set(); // "quanto de cada", "ver todas" e "em tarefas ou passos" abertos (sobrevivem ao redesenho)
-let areaNova = true; // a 1ª montagem de area.js depois de chegar zera o estado dele
+let abertos = new Set(); // "quanto de cada" e "ver todas" abertos (sobrevivem ao redesenho)
 
 const tipicoHa = (pad) => (pad?.rocado_ha > 0 ? pad.rocado_ha : pad?.rocado_ha_padrao > 0 ? pad.rocado_ha_padrao : null);
 const lerHa = (s) => { const v = parseFloat(String(s ?? "").replace(",", ".")); return v > 0 ? v : null; };
@@ -55,6 +81,10 @@ const tarefasTxt = (U, n) => (n < 0.1 ? "menos de 0,1 tarefa" : `≈ ${n >= 2 ? 
 // as setinhas dos lados do roçado: a largura vai de lado; o comprimento vai do alto até embaixo, para onde a água desce (o desenho do Plano)
 const SETA_LADO = `<svg class="sr-m-seta" viewBox="0 0 24 12" aria-hidden="true"><path d="M2 6h20M6 2 2 6l4 4M18 2l4 4-4 4"/></svg>`;
 const SETA_DESCE = `<svg class="sr-m-seta desce" viewBox="0 0 12 24" aria-hidden="true"><path d="M6 2v20M2 18l4 4 4-4"/></svg>`;
+// o desenho do terreno ao lado dos metros: o roçado visto de cima, a largura (âmbar) em cima e o comprimento (azul) do alto até a água
+const TERRENO = `<svg class="sr-terreno" viewBox="0 0 48 62" aria-hidden="true"><rect class="td-rocado" x="11" y="11" width="35" height="49" rx="4"/>
+  <path class="td-agua" d="M11 50h35v6a4 4 0 0 1-4 4H15a4 4 0 0 1-4-4z"/>
+  <path class="td-l" d="M13 4h31M16 1.5 13 4l3 2.5M41 1.5 44 4l-3 2.5"/><path class="td-c" d="M4 13v44M1.5 54 4 57l2.5-3"/></svg>`;
 const mesmaDivisao = (a, b) => Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => a[k] === b[k]);
 const listaNomes = (ks) => { const n = ks.map((k) => CULT[k].nome); return n.length > 1 ? `${n.slice(0, -1).join(", ")} e ${n.at(-1)}` : n[0]; };
 /** O ano que "o ano passado" pergunta: o do jeito de hoje (2026, a safra antes do plano de 2027) menos 1. */
@@ -119,23 +149,35 @@ function faixa(r, U) {
 
 const botao = (attr, marcado, corpo, cls = "") =>
   `<button type="button" class="sr-op ${cls} ${marcado ? "marcada" : ""}" ${attr} aria-pressed="${marcado}">${corpo}</button>`;
+const estadoFeito = (U) => `<span class="sr-estado sr-feito" title="Respondido" role="img" aria-label="respondido">${U.ic("ok")}</span>`;
 
 function desenhar(el, ctx) {
   const U = ctx.util, r = ctx.r, pad = r.padroes || {}, uf = r.local?.uf;
   const ks = Object.keys(rasc.cult);
   const tip = tipicoHa(pad), haResp = lerHa(rasc.ha), haV = haResp || tip || 1;
-  const tarefas = tarefasTxt(U, (haV * 10000) / tarefaPadrao(uf));
   const deOnde = pad.rocado_ha > 0 ? "típico daqui" : tip ? "típico da região" : "exemplo";
   const baixios = [...BAIXIOS];
   if (rasc.baixio === "terco" || ctx.resp.baixio === "terco") baixios.splice(2, 0, TERCO);
   const det = (k, titulo, corpo, cls = "") => `<details class="ver-mais sr-mais ${cls}" data-k="${k}"${abertos.has(k) ? " open" : ""}><summary>${titulo}</summary>${corpo}</details>`;
+  // cada pergunta é um cartão: o número, o ícone e a pergunta curta numa linha (a ajuda curta embaixo dela) e, na borda de cima,
+  // ✓ (respondida) ou "comum daqui" (o padrão)
+  const resp = ctx.resp, feita = (linha, k = linha) => tocado.has(linha) || !!resp[k];
+  const cab = (n, icone, titulo, feito, eco = "", padrao = "comum daqui") => `<div class="sr-cab">
+      <span class="sr-n" aria-hidden="true">${n}</span><span class="sr-num" aria-hidden="true">${icl(U, icone)}</span>
+      <h2 class="sr-rot">${titulo}${eco ? `<span class="eco">${eco}</span>` : ""}</h2>
+      ${feito ? estadoFeito(U) : `<span class="sr-estado sr-padrao">${padrao}</span>`}</div>`;
+  const conv = (h, tip) => `<span class="sr-m-conv" aria-live="polite"><b>= ${areaTxt(U, h)}</b><span>${tarefasTxt(U, (h * 10000) / tarefaPadrao(uf))}</span>${tip
+    ? U.selo("suposicao", FONTE_TIPICO) : ""}</span>`;
+  // a ajuda fecha num "?" no canto do cartão (o desenho e o "seu olho" ficam lá dentro)
+  const ajuda = (k, rotulo, corpo) => `<details class="sr-ajuda" data-k="${k}"${abertos.has(k) ? " open" : ""}><summary aria-label="${rotulo}"
+      title="${rotulo}"><span aria-hidden="true">?</span></summary><div class="sr-ajuda-corpo">${corpo}</div></details>`;
 
   // ---- o que planta hoje: as mais comuns à vista + a lista completa; a barra colorida da divisão abre o "quanto de cada"
   const barra = `<span class="hi-divisao sr-divisao" role="img" aria-label="divisão do roçado: ${ks.map((k) => `${CULT[k].nome} ${rasc.cult[k]}%`).join(", ")}">${ks.map((k) =>
     `<i class="t-${CULT[k].t}" style="flex:${rasc.cult[k]}"><span>${ks.length <= 4 ? U.ic(CULT[k].icone) : ""}${ks.length <= 2 && rasc.cult[k] >= 25
       ? `${CULT[k].nome} ` : ""}${rasc.cult[k]}%</span></i>`).join("")}</span>`;
   const opLista = (k) => botao(`data-c="${k}"`, ks.includes(k), `${U.ic(CULT[k].icone)}<span class="sr-l-nome"><b>${CULT[k].nome}</b>${CULT[k].sub
-    ? `<small>${CULT[k].sub}</small>` : ""}</span>${foraDaqui(r, k) ? `<em class="sr-fora">fora daqui</em>` : ""}`, "sr-op-lista");
+    ? `<small>${CULT[k].sub}</small>` : ""}</span>`, "sr-op-lista");
   const todas = `<div class="sr-todas">${GRUPOS.map((g) => `<div class="sr-grupo"><p class="sr-g-rot">${g.nome}</p>
       <div class="sr-g-ops">${g.ks.map(opLista).join("")}</div></div>`).join("")}
     <div class="sr-grupo"><p class="sr-g-rot">Não achou?</p><div class="sr-g-ops">${opLista("outra")}</div></div></div>`;
@@ -144,7 +186,7 @@ function desenhar(el, ctx) {
   const aviso = fora.length ? `<p class="sr-aviso">${U.ic("alerta")}<span>Fora do indicado aqui: ${U.esc(listaNomes(fora).toLowerCase())}.</span>${U.selo("medido",
     `${fora.map((k) => `${CULT[k].motor}: ${noCardapio(r, k)?.base || "fora"}`).join("; ")}. ${FONTE_ZON}`)}</p>` : "";
   const linhaHoje = `<section class="sr-linha" id="linha-hoje">
-      <h2 class="sr-rot">O que planta hoje?</h2>
+      ${cab(1, "broto", "O que você planta?", feita("hoje"))}
       <div class="sr-ops n3">${opcoesCultura(r, ks).map((k) => botao(`data-c="${k}"`, ks.includes(k), `${U.ic(CULT[k].icone)}<b>${CULT[k].nome}</b>`)).join("")}</div>
       ${det("todas", `Ver todas as culturas (${TODAS.length})`, todas, "sr-todas-det")}
       ${aviso}
@@ -165,32 +207,29 @@ function desenhar(el, ctx) {
       max="${MAX_M}" step="1" data-lado="${k}" value="${U.esc(k === "larg" ? rasc.ml : rasc.mc)}" placeholder="ex.: ${ladoTip}"
       aria-label="${dica}, em metros"></span><small>${seta}<span>${rot}</span></small></label>`;
   const linhaHa = `<section class="sr-linha" id="linha-ha">
-      <h2 class="sr-rot"><span>Tamanho: <b class="sr-ha-val">${areaTxt(U, haV)}</b>${haResp ? "" : `<span class="sr-ha-tip">, ${deOnde}</span>`}</span>${haResp ? ""
-        : `<span class="sr-ha-tip">${U.selo("suposicao", FONTE_TIPICO)}</span>`}</h2>
+      ${cab(2, "terreno", "Qual o tamanho?", haResp !== null, conv(haV, haResp === null), deOnde)}
       <div class="sr-ops n5">${HAS.map((v) => botao(`data-ha="${v}"`, haResp !== null && !rasc.larg && Math.abs(haResp - v) < 0.005,
         `<b>${v === 0.5 ? "½" : v}${v === 5 ? " ha" : ""}</b>`, `sr-ha${v === sug && Math.abs(v - haV) < 0.26 ? " sugerida" : ""}`)).join("")}</div>
       <div class="sr-metros">
-        <p class="sr-m-rot">Ou em metros:</p>
-        <div class="sr-m-linha">${campo("larg", "largura", SETA_LADO, "Largura do roçado: de um lado ao outro")}<span class="sr-vezes" aria-hidden="true">×</span>${campo("comp",
-          "comprimento, morro abaixo", SETA_DESCE, "Comprimento do roçado: do alto até embaixo, para onde a água da chuva desce")}
-          <p class="sr-m-conv" aria-live="polite"><b>= ${areaTxt(U, haV)}</b><span>${tarefas}</span></p></div>
+        <p class="sr-m-rot">ou em metros</p>
+        <div class="sr-m-linha">${TERRENO}${campo("larg", "largura", SETA_LADO, "Largura do roçado: de um lado ao outro")}<span class="sr-vezes" aria-hidden="true">×</span>${campo("comp",
+          "comprimento, morro abaixo", SETA_DESCE, "Comprimento do roçado: do alto até embaixo, para onde a água da chuva desce")}</div>
       </div>
-      ${det("medida", "em tarefas ou passos", `<div class="sr-area"></div>`)}
     </section>`;
 
-  const linhaTerra = `<section class="sr-linha" id="linha-terra">
-      <h2 class="sr-rot">Na chuva forte, a sua terra…</h2>
-      <div class="sr-ops n4">${TERRAS.map(([v, i, t]) => botao(`data-terra="${v}"`, (rasc.terra || "") === v, `${U.ic(i)}<b>${t}</b>`, "alto")).join("")}</div>
-      ${olho(OLHOS.terra)}
+  const naoSei = `<span class="sr-img">${U.ic("interrog")}</span>`;
+  const linhaTerra = `<section class="sr-linha tem-ajuda" id="linha-terra">
+      ${cab(3, "solo", "Como é a terra?", feita("terra"))}
+      ${ajuda("ajuda-terra", "Como saber a sua terra?", olho(OLHOS.terra))}
+      <div class="sr-ops n4">${TERRAS.map(([v, t, s]) => botao(`data-terra="${v}"`, (rasc.terra || "") === v,
+        `${v ? `<span class="sr-img">${textura(v)}</span>` : naoSei}<b>${t}</b>${s ? `<small>${s}</small>` : ""}`, "alto sr-terra")).join("")}</div>
     </section>`;
 
-  const linhaBaixio = `<section class="sr-linha" id="linha-baixio">
-      <h2 class="sr-rot">Tem baixio?</h2>
-      <div class="sr-explica">${PERFIL}<p>É a parte mais baixa do roçado: a chuva escorre para lá e a terra fica úmida mais tempo.
-        Beira de riacho, grota, açude.</p></div>
+  const linhaBaixio = `<section class="sr-linha tem-ajuda" id="linha-baixio">
+      ${cab(4, "baixio", "Tem baixio?", feita("baixio"), "A parte mais baixa do roçado, onde a água para.")}
+      ${ajuda("ajuda-baixio", "O que é baixio?", `${PERFIL}<p>A chuva escorre para lá e a terra fica úmida mais tempo. Beira de riacho, grota, açude.</p>${olho(OLHOS.baixio)}`)}
       <div class="sr-ops n${baixios.length}">${baixios.map(([v, f, t]) => botao(`data-baixio="${v}"`, (rasc.baixio || "") === v,
-        `${miniRocado(f)}<b>${t}</b>`, "alto")).join("")}</div>
-      ${olho(OLHOS.baixio)}
+        `${f === null ? naoSei : `<span class="sr-img">${perfilMini(f)}</span>`}<b>${t}</b>`, "alto")).join("")}</div>
     </section>`;
 
   // ---- maniva: só quando a mandioca está no jeito dele ou no plano daqui (sem maniva, ela sai do plano). Quem já planta mandioca
@@ -199,19 +238,30 @@ function desenhar(el, ctx) {
   const mandNoPlano = (r.plano?.faixas || []).some((f) => (f.anos || []).some((a) => /^Mandioca/.test(a.cultura || "")));
   const manivas = MANIVAS.filter(([v]) => v !== "plantada" || planta || mv === "plantada");
   const linhaManiva = planta || mandNoPlano || ctx.resp.maniva ? `<section class="sr-linha" id="linha-maniva">
-      <h2 class="sr-rot">${planta ? "Tem maniva para plantar mais?" : "Se for plantar mandioca, tem maniva?"} <span class="eco">${planta || !mandNoPlano
-        ? "A rama da mandioca." : "O plano daqui usa mandioca."}</span></h2>
-      <div class="sr-ops n${manivas.length}">${manivas.map(([v, t]) => botao(`data-maniva="${v}"`, mv === v, `<b>${t}</b>`, "sr-maniva")).join("")}</div>
+      ${cab(5, "mandioca", "Tem maniva?", feita("maniva"), planta ? "A rama, para plantar mais." : mandNoPlano ? "O plano daqui usa mandioca." : "A rama da mandioca.")}
+      <div class="sr-ops n${manivas.length}">${manivas.map(([v, t, i]) => botao(`data-maniva="${v}"`, mv === v,
+        `<span class="sr-img">${icl(U, i)}</span><b>${t}</b>`, "alto sr-maniva")).join("")}</div>
     </section>` : "";
 
-  // ---- o ano passado nesse chão (`antes` = "2025:milho,feijao" ou "2025:pousio"): as culturas de hoje + outra + descansou + não sei
-  const ap = anoPassado(r), noAno = lerAntes(rasc.antes)[ap] || [];
-  const chipsAntes = [...Object.keys(CULT_H).filter((k) => k !== "pousio" && (ks.includes(k) || noAno.includes(k) || k === "outra")), "pousio"];
+  // ---- o ano passado nesse chão (`antes` = "2025:milho,feijao" ou "2025:pousio"): as culturas de hoje e as já marcadas + outra +
+  // descansou + não sei. "Outra" abre o leque com a lista completa (os grupos de "Ver todas"); o que marcar lá vira chip aqui
+  const ap = anoPassado(r), noAno = lerAntes(rasc.antes)[ap] || [], leque = abertos.has("antes");
+  const chipsAntes = [...Object.keys(CULT_H).filter((k) => k !== "pousio" && k !== "outra" && (ks.includes(k) || noAno.includes(k))), "pousio"];
+  const chipAntes = (k) => botao(`data-antes="${k}"`, noAno.includes(k),
+    `${k === "pousio" ? icHist(U, "pousio") : U.ic(CULT[k]?.icone || "broto")}<b>${k === "pousio" ? "Descansou" : CULT_H[k].nome}</b>`, "sr-chip");
+  const opAntes = (k) => botao(`data-antes="${k}"`, noAno.includes(k), `${U.ic(CULT[k].icone)}<span class="sr-l-nome"><b>${CULT_H[k].nome}</b>${CULT[k].sub
+    ? `<small>${CULT[k].sub}</small>` : ""}</span>`, "sr-op-lista");
+  const lequeAntes = leque ? `<div class="sr-todas sr-leque-antes">${GRUPOS.map((g) => `<div class="sr-grupo"><p class="sr-g-rot">${g.nome}</p>
+      <div class="sr-g-ops">${g.ks.map(opAntes).join("")}</div></div>`).join("")}
+    <div class="sr-grupo"><p class="sr-g-rot">Não achou?</p><div class="sr-g-ops">${opAntes("outra")}</div></div></div>` : "";
   const linhaAntes = `<section class="sr-linha" id="linha-antes">
-      <h2 class="sr-rot">No ano passado, o que plantou nesse chão? <span class="eco">${ap}</span></h2>
-      <div class="sr-chips">${chipsAntes.map((k) => botao(`data-antes="${k}"`, noAno.includes(k),
-        `${k === "pousio" ? icHist(U, "pousio") : U.ic(CULT[k]?.icone || "broto")}<b>${k === "pousio" ? "Descansou" : CULT_H[k].nome}</b>`, "sr-chip")).join("")}
+      ${cab(6, "relogio", "E no ano passado?", feita("antes"), `Em ${ap}, nesse chão.`)}
+      <div class="sr-ops n3 sr-chips">${chipsAntes.slice(0, -1).map(chipAntes).join("")}
+        <button type="button" class="sr-op sr-chip ${noAno.includes("outra") ? "marcada" : ""} ${leque ? "aberta" : ""}" data-leque="antes"
+          aria-expanded="${leque}">${U.ic("broto")}<b>Outra</b><span class="sr-seta" aria-hidden="true">${leque ? "▴" : "▾"}</span></button>
+        ${chipAntes("pousio")}
         ${botao(`data-antes=""`, !noAno.length, `${U.ic("interrog")}<b>Não sei</b>`, "sr-chip")}</div>
+      ${lequeAntes}
     </section>`;
 
   el.innerHTML = `<div class="sua-roca">
@@ -239,6 +289,12 @@ function desenhar(el, ctx) {
     if (novo.length) anos[ap] = novo; else delete anos[ap];
     rasc.antes = escreverAntes(anos);
   })));
+  // "Outra" no ano passado: abre (ou fecha) o leque com todas as culturas; abrir não grava nada
+  raiz.querySelector("[data-leque]")?.addEventListener("click", () => {
+    if (leque) abertos.delete("antes"); else abertos.add("antes");
+    desenhar(el, ctx);
+    if (!leque) el.querySelector(".sr-leque-antes")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
   // metros: digitando, o "= X ha", as tarefas, o tamanho e os chips acompanham ali mesmo, sem redesenhar (o campo não perde o
   // foco e o toque no outro campo não se perde). Só os dois lados juntos viram resposta.
   raiz.querySelectorAll("[data-lado]").forEach((inp) => inp.addEventListener("input", () => {
@@ -249,32 +305,13 @@ function desenhar(el, ctx) {
     const h = (L * C) / 10000;
     Object.assign(rasc, { ha: txtHa(h), area_un: escreverArea({ un: "medida", c: C, l: L, em: "m" }, uf), larg: String(L), comp: String(C) });
     raiz.querySelector(".sr-m-conv").innerHTML = `<b>= ${areaTxt(U, h)}</b><span>${tarefasTxt(U, (h * 10000) / tarefaPadrao(uf))}</span>`;
-    raiz.querySelector(".sr-ha-val").textContent = areaTxt(U, h);
-    raiz.querySelectorAll(".sr-ha-tip").forEach((s) => s.remove());
+    const tipico = raiz.querySelector("#linha-ha .sr-padrao"); // "típico daqui" vira ✓: a medida dele é resposta
+    if (tipico) tipico.outerHTML = estadoFeito(U);
     raiz.querySelectorAll("[data-ha]").forEach((b) => { b.classList.remove("marcada", "sugerida"); b.setAttribute("aria-pressed", "false"); });
   }));
-  raiz.querySelectorAll("details.sr-mais").forEach((d) => d.addEventListener("toggle", () => {
+  raiz.querySelectorAll("details.sr-mais, details.sr-ajuda").forEach((d) => d.addEventListener("toggle", () => {
     if (d.open) abertos.add(d.dataset.k); else abertos.delete(d.dataset.k);
-    if (d.open && d.dataset.k === "medida") montarArea(raiz, el, ctx, haV);
   }));
-  if (abertos.has("medida")) montarArea(raiz, el, ctx, haV);
-}
-
-/** "em tarefas ou passos": a tela de area.js (só tarefas e passos: os metros já estão à vista) num ctx de rascunho, que só muda
- *  esta tela. Uma medida em passos também vira largura × comprimento em metros. */
-function montarArea(raiz, el, ctx, haV) {
-  const slot = raiz.querySelector(".sr-area");
-  if (!slot) return;
-  const cx = { ...ctx, resp: { ...ctx.resp, ha: rasc.ha, area_un: rasc.area_un }, ef: { ...ctx.ef, ha: haV }, entrou: areaNova,
-    set: (p) => {
-      const m = metrosDe(p.area_un); // em passos, o ha sai dos metros (o mesmo que o Plano desenha)
-      Object.assign(rasc, p, { larg: m ? String(m.larg) : "", comp: m ? String(m.comp) : "", ml: m ? String(m.larg) : "", mc: m ? String(m.comp) : "" },
-        m ? { ha: txtHa((m.larg * m.comp) / 10000) } : {});
-      tocado.add("ha");
-      desenhar(el, ctx);
-    } };
-  areaNova = false;
-  AREA.render(slot, cx, { semTitulo: true, abas: ["tarefa", "passos"] });
 }
 
 export default {
@@ -287,9 +324,7 @@ export default {
         baixio: resp.baixio || "", maniva: resp.maniva || "", antes: resp.antes || "",
         larg: med ? String(med.larg) : "", comp: med ? String(med.comp) : "", ml: med ? String(med.larg) : "", mc: med ? String(med.comp) : "" };
       tocado = new Set();
-      const a = String(resp.area_un || "");
-      abertos = new Set(ctx.foco === "ha" && (a.startsWith("tarefa") || a.endsWith(":passos")) ? ["medida"] : []);
-      areaNova = true;
+      abertos = new Set();
     }
     desenhar(el, ctx);
     // o que foi tocado e ainda não foi gravado: o verde grava; a casca (roca.js) também leva junto ao sair por uma pílula ou pelo rodapé

@@ -66,6 +66,8 @@ try:
 
     for m in ("Runtime.enable", "Log.enable", "Page.enable"):
         cmd(m)
+    # o site abre em inglês por padrão (js/i18n.js): o teste roda em português; ?lang=en na URL abre em inglês
+    cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
     cmd("Emulation.setDeviceMetricsOverride", width=larg, height=900, deviceScaleFactor=1, mobile=larg < 600)
     cmd("Page.navigate", url=url)
     esperar(5)

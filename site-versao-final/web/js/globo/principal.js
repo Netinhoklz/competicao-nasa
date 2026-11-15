@@ -7,11 +7,11 @@
 // de camadas.js, com selo); tocar num número liga a camada no mapa.
 // principal.js - liga a interface: busca de lugar, viagem do globo 3D ate o mapa e volta.
 import { Espaco, DIST_TROCA } from './espaco.js';
-import { Mapa, zoomEquivalente, distEquivalente } from './mapa.js';
+import { Mapa, zoomEquivalente, distEquivalente, NORDESTE } from './mapa.js';
 import { Painel } from './painel.js';
 import { Ovos } from './ovos.js';
 import { dentroDoNordeste, passoKonami, KONAMI } from './util.js';
-import { procurar, municipioNoPonto, UF_NOME } from './busca.js';
+import { procurar, municipioNoPonto, UF_NOME, carregar as carregarMunicipios } from './busca.js';
 import { numerosChave, SELO_NOME } from './camadas.js';
 import { esc } from '../comum.js';
 
@@ -58,6 +58,7 @@ const fmtCoord = (lat, lon) => `${fmtLat(lat)} · ${fmtLon(lon)}`;
 // ------------------------------------------------------------------ cena
 
 let estado = 'inicio';   // inicio | viajando | mapa | voltando
+let miraPos = '', miraTexto = '';   // aoPairar vem a cada quadro: o DOM só muda quando a posição ou o texto mudam
 
 const espaco = new Espaco($('espaco'), {
   aoProgresso: (f) => ui.carga.style.setProperty('--p', f),
@@ -67,8 +68,9 @@ const espaco = new Espaco($('espaco'), {
       return;
     }
     ui.mira.classList.add('visivel');
-    ui.mira.style.transform = `translate(${x + 20}px, ${y + 18}px)`;
-    ui.miraTexto.textContent = fmtCoord(p.lat, p.lon);
+    const pos = `translate(${x + 20}px, ${y + 18}px)`, texto = fmtCoord(p.lat, p.lon);
+    if (pos !== miraPos) ui.mira.style.transform = miraPos = pos;
+    if (texto !== miraTexto) ui.miraTexto.textContent = miraTexto = texto;
   },
   aoClicar: (lat, lon) => {
     if (estado !== 'inicio') return;
@@ -78,6 +80,7 @@ const espaco = new Espaco($('espaco'), {
   // mergulho com a rodinha/pinca: o cartao some aos poucos e a barra mostra quanto falta
   aoAproximar: (a) => {
     if (estado !== 'inicio') return;
+    if (a > 0.01) precarregarMapa();   // o mergulho vai acabar no mapa: ele nasce já
     corpo.classList.toggle('mergulhando', a > 0.01);
     if (a <= 0.01) {
       ui.hero.removeAttribute('style');
@@ -148,7 +151,7 @@ window.addEventListener('keydown', (e) => {
 // O QUADRA so desce no Nordeste: busca, coordenada, clique no globo, atalho e mergulho com a rodinha.
 // Contorno do IBGE (dados/nordeste.json); se ele nao carregar, a pagina nao trava ninguem.
 let contornoNE = null;
-fetch(new URL('../../dados/nordeste.json', import.meta.url)).then((r) => r.json()).then((d) => { contornoNE = d.contorno; }).catch(() => {});
+NORDESTE.then((d) => { contornoNE = d?.contorno || null; });   // o mesmo pedido de mapa.js
 const noNordeste = (lat, lon) => !contornoNE || dentroDoNordeste(lat, lon, contornoNE);
 let avisoForaEm = 0;
 function foraDoNordeste() {
@@ -190,14 +193,21 @@ window.quadra = { espaco, mapa, ovos };
 // ponto sob a camera, altitude e hora UTC, como num painel de orbita
 const fmtKm = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });
 let ultimaTel = 0;
+let telLigada = false;
 function telemetria(agora) {
+  if (estado === 'mapa') { telLigada = false; return; }   // no mapa o laço para (voltar() religa)
   requestAnimationFrame(telemetria);
-  if (agora - ultimaTel < 100 || estado === 'mapa') return;
+  if (agora - ultimaTel < 100) return;
   ultimaTel = agora;
   const n = espaco.nadir();
   ui.telLat.textContent = fmtLat(n.lat);
   ui.telLon.textContent = fmtLon(n.lon);
   ui.telAlt.textContent = `${fmtKm.format(espaco.altitudeKm())} km`;
+}
+function ligarTelemetria() {
+  if (telLigada) return;
+  telLigada = true;
+  requestAnimationFrame(telemetria);
 }
 function relogio() {
   ui.telUtc.textContent = new Date().toISOString().slice(11, 19);
@@ -240,15 +250,44 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
+/**
+ * Ainda na tela de carga: sobe as texturas para a GPU e compila os shaders (em paralelo, quando o navegador deixa).
+ * Sem isso o primeiro quadro fazia esse trabalho todo (0,6 s no computador, 1,6 s num celular médio) e a abertura
+ * começava pela metade, porque o relógio dela já estava correndo.
+ */
+async function aquecer() {
+  try {
+    for (const t of Object.values(espaco.tex)) espaco.renderer.initTexture(t);
+    await espaco.renderer.compileAsync(espaco.cena, espaco.camera);
+  } catch {
+    // se falhar, o primeiro quadro faz o mesmo trabalho, como antes
+  }
+}
+
+// O mapa (MapLibre: 1 MB, uma segunda cena WebGL e os ladrilhos) nasce escondido para a viagem não esperar. Nascer
+// custa de 0,2 s (computador) a 0,4 s (celular) de cena parada, e mais umas travadinhas quando os ladrilhos chegam:
+// nascia 1,2 s depois da carga, no meio da abertura. Agora nasce só quando a pessoa mostra que vai descer (passa o
+// ponteiro na busca ou nos atalhos, toca ou digita na busca, começa a mergulhar); quem só olha o planeta não vê
+// travada nenhuma. Sem esse aviso (clique direto no globo), nasce na viagem, como antes de existir a pré-carga.
+const precarregarMapa = () => mapa.precarregar();
+// quem toca na busca leva junto a lista dos municípios (busca.js), para a primeira resposta sair sem esperar a rede
+const comecouABuscar = () => { precarregarMapa(); carregarMunicipios(); };
+for (const ev of ['pointerdown', 'keydown']) ui.form.addEventListener(ev, comecouABuscar, { once: true, passive: true });
+// o ponteiro sobre a busca ou os atalhos só conta depois da abertura, da revelação e da troca das texturas (espaco.altas)
+espaco.altas.then(() => {
+  for (const el of [ui.form, document.querySelector('.atalhos')]) el?.addEventListener('pointermove', precarregarMapa, { once: true, passive: true });
+});
+
 espaco.pronto.then(async () => {
+  await aquecer();
   corpo.classList.remove('carregando');
   espaco.iniciar();
-  requestAnimationFrame(telemetria);
-  setTimeout(() => mapa.precarregar(), 1200);
+  ligarTelemetria();
   // o campo so ganha foco depois que o titulo aparece (sem atrapalhar a abertura)
   if (matchMedia('(hover: hover)').matches) setTimeout(() => ui.campo.focus({ preventScroll: true }), 3600);
   const pedido = new URLSearchParams(location.search).get('lugar');
   if (pedido) {
+    setTimeout(precarregarMapa, 1200);   // a viagem sai sozinha daqui a pouco: o mapa nasce como antes
     await esperar(4500);   // deixa a abertura terminar antes de viajar
     ui.campo.value = pedido;
     buscar(pedido, { primeiro: true });
@@ -446,6 +485,7 @@ async function viajar(lugar, { continuar = false } = {}) {
 async function voltar() {
   if (estado !== 'mapa') return;
   estado = 'voltando';
+  ligarTelemetria();
   dicaMapa(false);
   etapa('Subindo para a órbita');
   ui.destino.textContent = '';

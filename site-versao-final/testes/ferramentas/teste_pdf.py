@@ -54,10 +54,12 @@ def por_cdp(modo):
             return cmd("Runtime.evaluate", expression=e, returnByValue=True, awaitPromise=True).get("result", {}).get("value")
 
         cmd("Page.enable")
+        # o site abre em inglês por padrão (js/i18n.js): o PDF sai em português; ?lang=en na URL sai em inglês
+        cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
         cmd("Emulation.setDeviceMetricsOverride", width=800, height=1100, deviceScaleFactor=1, mobile=False)
         cmd("Page.navigate", url=URL)
         fim = time.time() + 40
-        while time.time() < fim and not js("!!document.querySelector('#leve-ao-tecnico') && !document.querySelector('#avancar')?.disabled"):
+        while time.time() < fim and not js("!!document.querySelector('#jornada .passo-relatorio') && !document.querySelector('#avancar')?.disabled"):
             time.sleep(0.4)
         time.sleep(1.5)
         js("document.querySelectorAll('#jornada details').forEach((d) => { d.open = true; }); true")
@@ -84,7 +86,7 @@ for modo in ("--headless=old", "--headless"):
 if dados is None:
     perfil = f"{SAIDA}/perfis/pdfcli-{os.getpid()}"
     subprocess.run([EDGE, "--headless", "--disable-gpu", f"--user-data-dir={perfil}", "--no-pdf-header-footer", "--virtual-time-budget=20000",
-                    f"--print-to-pdf={arq}", URL], timeout=120, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    f"--print-to-pdf={arq}", URL if "lang=" in URL else URL + ("&" if "?" in URL else "?") + "lang=pt"], timeout=120, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     shutil.rmtree(perfil, ignore_errors=True)
     dados = open(arq, "rb").read() if os.path.exists(arq) else None
     print("linha de comando:", "ok" if dados else "falhou")

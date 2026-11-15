@@ -46,6 +46,8 @@ try:
     if tema:
         cmd("Emulation.setEmulatedMedia", features=[{"name": "prefers-color-scheme", "value": tema}])
     cmd("Page.enable")
+    # o site abre em inglês por padrão (js/i18n.js): o print sai em português; ?lang=en na URL sai em inglês
+    cmd("Page.addScriptToEvaluateOnNewDocument", source="try { if (!/[?&]lang=/.test(location.search + location.hash)) localStorage.setItem('quadra-lingua', 'pt'); } catch (_) {}")
     cmd("Page.navigate", url=f"http://127.0.0.1:8090/roca.html{hash_}")
     time.sleep(espera)
     print(cmd("Runtime.evaluate", expression="location.href + ' | ' + (document.getElementById('jornada')||{}).innerText?.slice(0,300)", returnByValue=True)["result"].get("value"))

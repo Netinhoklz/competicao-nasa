@@ -158,8 +158,7 @@ function culturasTxt(hi, resp, r) {
 function primarioPadrao(passo) {
   const rotulo = passo === 2 && volta ? PASSOS[volta].volta : PASSOS[passo].primario;
   const fn = passo === 2 ? () => { location.hash = escreverHash({ ...estado, passo: volta || 3 }); }
-    : passo === 5 ? () => import("./extras/leve_ao_tecnico.js")
-      .then((m) => (m.compartilhar ? m.compartilhar(ctxAtual) : rolarAoTecnico()))
+    : passo === 5 ? () => import("./extras/leve_ao_tecnico.js").then((m) => m.compartilhar(ctxAtual))
     : () => { location.hash = escreverHash({ ...estado, passo: passo + 1 }); };
   return { rotulo, fn };
 }
@@ -189,10 +188,10 @@ function desenharCasca(r, ef, hi) {
   // no celular a fileira de pílulas pode rolar: a atual fica no meio
   const nav = document.getElementById("passos-nav"), pil = nav.querySelector(".passo-pilula.atual");
   if (pil && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = pil.offsetLeft - (nav.clientWidth - pil.offsetWidth) / 2;
-  // a frase do ponto 16 (barra no computador, rodapé no celular) leva às perguntas para o técnico, no passo 5
-  const tecnico = escreverHash({ ...estado, passo: 5 });
-  document.getElementById("moldura").href = tecnico;
-  document.getElementById("decide-fim").href = tecnico;
+  // a frase do ponto 16 (barra no computador, rodapé no celular) leva ao topo do Relatório, no passo 5
+  const relatorio = escreverHash({ ...estado, passo: 5 });
+  document.getElementById("moldura").href = relatorio;
+  document.getElementById("decide-fim").href = relatorio;
   // em Sua roça, "← Mapa"; quem veio de um "mudar" volta ao passo de onde saiu (sem gravar o rascunho)
   const v = document.getElementById("voltar"), mapa = estado.passo === 2 && !volta;
   v.innerHTML = mapa ? "← Mapa" : `← <span class="longo">Voltar</span>`;
@@ -263,7 +262,6 @@ async function desenhar() {
   aplicarPrimario();
   if (entrou) window.scrollTo({ top: 0, behavior: "instant" });
   explicarOlho(caixa);
-  if (rolarTecnico) { rolarTecnico = false; rolarAoTecnico(); }
 }
 
 /** O 1º "seu olho" à vista de cada passo vira "o que é?" (no toque não há title): abre o balão do glossário. */
@@ -275,12 +273,6 @@ function explicarOlho(caixa) {
     .forEach(([k, v]) => rot.setAttribute(k, v));
 }
 
-// a frase do ponto 16 leva ao "Leve para o técnico" do Relatório (U.extra("leve_ao_tecnico") ou o #leve-ao-tecnico que ele desenha)
-let rolarTecnico = false;
-function rolarAoTecnico() {
-  const alvo = document.querySelector('[data-extra="leve_ao_tecnico"], #leve-ao-tecnico');
-  if (alvo) alvo.scrollIntoView({ behavior: "smooth", block: "start" });
-}
 
 async function escolherLugar(el) {
   document.body.classList.add("sem-lugar");
@@ -381,8 +373,8 @@ if (NAVEGADOR) {
     const m = ev.target.closest("#moldura, #decide-fim");
     if (m) {
       ev.preventDefault();
-      if (estado.passo === 5) return rolarAoTecnico();
-      rolarTecnico = true;
+      // leva ao topo do Relatório (de outro passo, a chegada já põe a tela no topo)
+      if (estado.passo === 5) return window.scrollTo({ top: 0, behavior: "smooth" });
       irCom(5);
     }
   });

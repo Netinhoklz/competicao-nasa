@@ -6,6 +6,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <!-- inglês (padrão) ou português: antes de tudo, para não piscar o português (js/i18n.js) -->
+  <script src="js/i18n.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>QUADRA · Dá órbita pro campo</title>
   <meta name="description" content="QUADRA: dados de satélite da NASA para decidir a rotação de culturas. NASA Space Apps Challenge 2026, desafio Field Shift.">
@@ -13,14 +15,24 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23fff'/%3E%3C/svg%3E">
 
   <link rel="stylesheet" href="vendor/fontes/globo.css">
-  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <!-- o MapLibre (vendor/maplibre-gl.js e .css, 1,1 MB) só chega quando o mapa nasce, depois da abertura (js/globo/mapa.js) -->
   <link rel="stylesheet" href="css/globo/style.css">
   <link rel="stylesheet" href="css/globo/painel.css">
+  <link rel="stylesheet" href="css/lingua.css">
 
   <script type="importmap">
     { "imports": { "three": "./vendor/three.module.min.js" } }
   </script>
-  <script src="vendor/maplibre-gl.js" defer></script>
+  <!-- os módulos do globo descem todos juntos, sem esperar um descobrir o outro -->
+  <link rel="modulepreload" href="vendor/three.module.min.js">
+  <link rel="modulepreload" href="js/globo/espaco.js">
+  <link rel="modulepreload" href="js/globo/ovos.js">
+  <link rel="modulepreload" href="js/globo/mapa.js">
+  <link rel="modulepreload" href="js/globo/camadas.js">
+  <link rel="modulepreload" href="js/globo/busca.js">
+  <link rel="modulepreload" href="js/globo/painel.js">
+  <link rel="modulepreload" href="js/globo/util.js">
+  <link rel="modulepreload" href="js/comum.js">
   <script type="module" src="js/globo/principal.js"></script>
 </head>
 <body class="carregando">
@@ -35,6 +47,13 @@
       <span class="marca-nome">QUADRA</span>
     </a>
     <p class="selo">NASA Space Apps Challenge 2026 <span aria-hidden="true">/</span> Field Shift</p>
+    <!-- a língua do site (js/i18n.js; css/lingua.css) -->
+    <div class="lingua" role="group" aria-label="Language / Idioma" translate="no">
+      <svg class="lingua-icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.9 5.2 3.9 8.5s-1.3 6.1-3.9 8.5c-2.6-2.4-3.9-5.2-3.9-8.5s1.3-6.1 3.9-8.5z"/></svg>
+      <button type="button" data-lingua="en" lang="en"><span>English</span></button>
+      <span class="lingua-sep" aria-hidden="true"></span>
+      <button type="button" data-lingua="pt" lang="pt-BR"><span>Português</span></button>
+    </div>
   </header>
 
   <main class="hero" id="hero">
@@ -52,16 +71,16 @@
           <span>Ir</span>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
         </button>
-        <ul class="sugestoes" id="sugestoes" role="listbox" aria-label="Lugares encontrados" hidden></ul>
+        <ul class="sugestoes" id="sugestoes" role="listbox" aria-label="Lugares encontrados" hidden translate="no"></ul>
       </form>
       <p class="busca-msg" id="buscaMsg" role="status" aria-live="polite"></p>
 
       <div class="atalhos" aria-label="Sugestões de lugares">
         <span>Experimente</span>
-        <button type="button" data-lugar="Quixadá, Ceará">Quixadá, CE</button>
-        <button type="button" data-lugar="Barreirinhas, Maranhão" title="Lençóis Maranhenses">Barreirinhas, MA</button>
-        <button type="button" data-lugar="Lençóis, Bahia" title="Chapada Diamantina">Lençóis, BA</button>
-        <button type="button" data-lugar="Petrolina, Pernambuco">Petrolina, PE</button>
+        <button type="button" data-lugar="Quixadá, Ceará" translate="no">Quixadá, CE</button>
+        <button type="button" data-lugar="Barreirinhas, Maranhão" title="Lençóis Maranhenses" translate="no">Barreirinhas, MA</button>
+        <button type="button" data-lugar="Lençóis, Bahia" title="Chapada Diamantina" translate="no">Lençóis, BA</button>
+        <button type="button" data-lugar="Petrolina, Pernambuco" translate="no">Petrolina, PE</button>
       </div>
     </div>
     <p class="dica">
@@ -101,7 +120,7 @@
     </button>
     <div class="cartao-local">
       <p class="cartao-rotulo">Você está em</p>
-      <h2 id="localNome"></h2>
+      <h2 id="localNome" translate="no"></h2>
       <p class="cartao-detalhe" id="localDetalhe"></p>
       <p class="cartao-coords" id="localCoords"></p>
       <p class="cartao-alt" id="localAlt" hidden></p>

@@ -619,13 +619,16 @@ body.em-viagem .viagem { opacity: 1; transform: translate(-50%, 0); }
   position: absolute;
   top: 0;
   bottom: 0;
+  left: 0;
   width: 35%;
   background: var(--ink);
   animation: percorrer 1.6s var(--ease) infinite;
 }
+/* o mesmo caminho de antes (left de -35% a 100%), em transform: a animação roda o tempo todo, mesmo escondida, e
+   com left ela refazia o layout da página a cada quadro; com transform fica só no compositor */
 @keyframes percorrer {
-  from { left: -35%; }
-  to { left: 100%; }
+  from { transform: translateX(-100%); }      /* left: -35%, a própria largura */
+  to { transform: translateX(285.7143%); }    /* left: 100% = 100/35 da própria largura */
 }
 
 /* ------------------------------------------------------------ hud do mapa */

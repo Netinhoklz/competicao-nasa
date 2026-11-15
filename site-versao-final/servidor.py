@@ -7,8 +7,11 @@ Rotas:
                           maniva=tem|nao|plantada, baixio=0|1, hoje=AAAA-MM-DD
   /api/municipios         malha dos 1.794 municípios do Nordeste (GeoJSON, a mesma do núcleo)
 """
+import gzip
+import io
 import json
 import math
+import os
 import sys
 from datetime import date
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -27,6 +30,9 @@ TIPOS = {".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; char
          ".html": "text/html; charset=utf-8", ".json": "application/json; charset=utf-8", ".geojson": "application/geo+json",
          ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2",
          ".woff": "font/woff", ".md": "text/markdown; charset=utf-8", ".pdf": "application/pdf", ".wasm": "application/wasm"}
+# texto vai com gzip (o JS, o CSS e os JSON caem para ~1/4); .webp, .png e .woff2 já vêm comprimidos
+COMPRIMIR = {".js", ".mjs", ".css", ".html", ".json", ".geojson", ".svg", ".md"}
+_GZ = {}  # caminho -> (mtime_ns, tamanho, corpo em gzip): cada arquivo é comprimido uma vez por versão
 
 
 def _limpa(o):
@@ -63,13 +69,51 @@ def _opcoes(q):
 
 class Rotas(SimpleHTTPRequestHandler):
     extensions_map = {**SimpleHTTPRequestHandler.extensions_map, **TIPOS}
+    protocol_version = "HTTP/1.1"  # a conexão fica aberta entre os pedidos (todas as respostas têm Content-Length)
 
     def __init__(self, *a, **k):
         super().__init__(*a, directory=str(WEB), **k)
 
     def end_headers(self):
-        self.send_header("Cache-Control", "no-cache")
+        # vendor/ (three.js, MapLibre, fontes) não muda entre versões do site: o navegador guarda por 7 dias;
+        # o resto continua revalidando a cada visita (304 quando nada mudou)
+        fixo = urlparse(self.path).path.startswith("/vendor/")
+        self.send_header("Cache-Control", "public, max-age=604800" if fixo else "no-cache")
         super().end_headers()
+
+    def send_head(self):
+        """Arquivo de texto em gzip, com ETag (304 na revisita); o resto segue o SimpleHTTPRequestHandler."""
+        caminho = self.translate_path(self.path)
+        if os.path.isdir(caminho) and urlparse(self.path).path.endswith("/"):
+            caminho = os.path.join(caminho, "index.html")
+        if (os.path.splitext(caminho)[1].lower() not in COMPRIMIR or "gzip" not in self.headers.get("Accept-Encoding", "")
+                or not os.path.isfile(caminho)):
+            return super().send_head()
+        try:
+            st = os.stat(caminho)
+            etag = f'"{st.st_mtime_ns:x}-{st.st_size:x}-gz"'
+            if etag in self.headers.get("If-None-Match", ""):
+                self.send_response(304)
+                self.send_header("ETag", etag)
+                self.send_header("Vary", "Accept-Encoding")
+                self.end_headers()
+                return None
+            guardado = _GZ.get(caminho)
+            if not guardado or guardado[:2] != (st.st_mtime_ns, st.st_size):
+                with open(caminho, "rb") as f:
+                    guardado = _GZ[caminho] = (st.st_mtime_ns, st.st_size, gzip.compress(f.read(), 6))
+        except OSError:
+            return super().send_head()
+        corpo = guardado[2]
+        self.send_response(200)
+        self.send_header("Content-Type", self.guess_type(caminho))
+        self.send_header("Content-Encoding", "gzip")
+        self.send_header("Content-Length", str(len(corpo)))
+        self.send_header("Last-Modified", self.date_time_string(int(st.st_mtime)))
+        self.send_header("ETag", etag)
+        self.send_header("Vary", "Accept-Encoding")
+        self.end_headers()
+        return io.BytesIO(corpo)
 
     def _responder(self, corpo, tipo="application/json; charset=utf-8", status=200):
         self.send_response(status)
@@ -115,7 +159,11 @@ class Rotas(SimpleHTTPRequestHandler):
             sys.stderr.write("%s\n" % (fmt % args))
 
 
+class Servidor(ThreadingHTTPServer):
+    request_queue_size = 64  # fila de conexões: com 5 (o padrão) o Windows recusava pedidos com vários Edge abertos
+
+
 if __name__ == "__main__":
     porta = int(sys.argv[1]) if len(sys.argv) > 1 else 8090
     print(f"QUADRA (site final) em http://localhost:{porta}", flush=True)
-    ThreadingHTTPServer(("127.0.0.1", porta), Rotas).serve_forever()
+    Servidor(("127.0.0.1", porta), Rotas).serve_forever()

@@ -55,6 +55,7 @@ const MATRIZ = [
   ["antes=milho", { ...ANTONIO, antes: "2025:milho" }],
   ["antes=feijão", { hoje: "feijao:60,mandioca:40", antes: "2025:feijao" }],
   ["antes=descansou", { ...ANTONIO, antes: "2025:pousio" }],
+  ["sem baixio, antes=milho", { hoje: "milho:50,feijao:50", baixio: "nao", antes: "2025:milho" }],
   ["só feijão", { hoje: "feijao:100" }],
   ["milho+sorgo", { hoje: "milho:50,sorgo:50" }],
   ["muitas", { hoje: "milho:20,feijao:20,mandioca:20,algodao:10,amendoim:10,palma:10,banana:10" }],
@@ -138,6 +139,34 @@ function confAgenda(tag, r, linhas) {
   }
 }
 
+/** O calendário longo do mês a mês (agendaLonga, até dez do último ano do plano): barras dentro de hoje–dez/2029, todas as estações
+ *  do plano e, na emenda (até r.agenda.fim), as mesmas barras do calendário curto que o Plano mostra até dez/2027. */
+function confLonga(tag, r, plano, curtas) {
+  const longas = I.agendaLonga(r, plano);
+  const ini = r.agenda.inicio, fimCurto = r.agenda.fim, fim = `${plano.anos[plano.anos.length - 1]}-12-31`;
+  ok(Array.isArray(longas) && longas.length >= curtas.length, `${tag}: calendário longo com menos linhas (${longas.length}) que o curto (${curtas.length})`);
+  for (const l of longas) for (const b of l.barras) {
+    ok(DATA.test(b.de) && DATA.test(b.ate) && b.de <= b.ate && b.de >= ini && b.ate <= fim, `${tag}: barra fora do calendário longo ${l.parte}/${l.cultura} ${b.de}>${b.ate}`);
+  }
+  const chave = (l) => `${l.parte}|${l.cultura}|${l.estacao}`, mapa = new Map(longas.map((l) => [chave(l), l]));
+  const ate = (l) => l.barras.filter((b) => b.de <= fimCurto).map((b) => `${b.tipo}:${b.de}>${b.ate < fimCurto ? b.ate : fimCurto}`).join(" ");
+  for (const l of curtas) {
+    const m = mapa.get(chave(l));
+    if (!m) { ok(false, `${tag}: o calendário longo não tem ${chave(l)}`); continue; }
+    ok(ate(m) === ate(l), `${tag}: emenda diferente em ${chave(l)}\n      curto: ${ate(l)}\n      longo: ${ate(m)}`);
+  }
+  // depois da emenda, toda parte que gira tem o que fazer em cada ano seguinte; a cultura sem data de plantio aqui (nenhuma barra de
+  // plantar dela no calendário) fica de fora, como no núcleo
+  const base = (c) => c.replace(/^Palma.*/, "Palma forrageira");
+  const comData = new Set(longas.filter((l) => l.barras.some((b) => b.tipo === "plantio" || b.tipo === "estimado")).map((l) => base(l.cultura)));
+  for (const f of plano.faixas) for (let k = 1; k < plano.anos.length; k++) {
+    const c = f.anos[k], antes = f.anos[k - 1];
+    if (!c || c.ja_plantado || c.cultura === "Perene local" || (c.cultura === antes.cultura && (c.tipo === "tampão" || c.tipo === "perene"))) continue;
+    if (!comData.has(base(c.cultura)) && c.cultura !== "Pousio pastejado") continue;
+    ok(longas.some((l) => l.parte === f.parte && l.estacao === plano.anos[k]), `${tag}: ${f.parte} sem linha de ${c.cultura} em ${plano.anos[k]} no calendário longo`);
+  }
+}
+
 /** As regras de data do motor (sem copiar nada de r.agenda.linhas) refazem as linhas que o núcleo escreveu para r.plano. */
 function confRegrasData(tag, r, ef) {
   const meu = I.agendaDe(r, r.plano, ef, { refazer: true, semCopia: true });
@@ -171,6 +200,45 @@ function confBeneficios(tag, b) {
   }
 }
 
+// ---------------------------------------------------------------- melhorado sem monocultura (pedido do José, 15/11)
+/** Partes A, B, C e Baixio (as bordas ficam fora): (a) todo ano ≥ 2 culturas plantadas (o feijão em revezamento no milho conta);
+ *  (b) nenhuma parte com a mesma anual sozinha nos 3 anos (perene e descanso não contam); (c) nunca uma cultura só no plano. */
+function confSemMono(tag, p) {
+  const fx = p.faixas.filter((f) => ehParte(f) || f.parte === "Baixio");
+  const nomesCel = (c) => [c.cultura, ...(/revezamento/.test(c.texto || "") || c.mucuna ? ["+leg"] : [])];
+  for (let k = 0; k < 3; k++) {
+    const cs = new Set(fx.map((f) => f.anos[k]).filter((c) => c.tipo !== "pousio").flatMap(nomesCel));
+    ok(cs.size >= 2, `${tag}: monocultura em ${p.anos[k]} (só ${[...cs]})`);
+  }
+  for (const f of fx) {
+    const c0 = f.anos[0];
+    if (c0.tipo === "perene" || c0.tipo === "pousio") continue;
+    ok(!f.anos.every((c) => c.cultura === c0.cultura && nomesCel(c).length < 2), `${tag}: ${f.parte} com ${c0.cultura} sozinho nos 3 anos`);
+  }
+  ok(new Set(fx.flatMap((f) => f.anos.filter((c) => c.tipo !== "pousio").map((c) => c.cultura))).size >= 2, `${tag}: uma cultura só no plano`);
+}
+
+// ---------------------------------------------------------------- ideal sem monocultura (pedido do José, 15/11)
+/** Os 4 ideais, nas partes A, B, C e no baixio com área (as bordas ficam fora): (a) todo ano ≥ 2 plantas entre as partes plantadas
+ *  (pousio não conta; sorgo de grão e sorgo do gado são a mesma planta; o feijão ou a mucuna no milho contam), o que já tira
+ *  (c) uma planta só no plano; (b) nenhuma parte com a mesma anual sozinha nos 3 anos (perene não conta). */
+function confIdealSemMono(tag, p, ef) {
+  const grupo = (n) => (/^Sorgo/.test(n) ? "Sorgo" : n);
+  const plantas = (c) => [grupo(c.cultura), ...(c.mucuna || /mucuna/i.test(c.texto || "") ? ["Mucuna-preta"]
+    : !c.solteiro && /^\+ .*(feij|caupi|amendoim)/i.test(c.texto || "") ? [p.leguminosa || "Feijão-caupi"] : [])];
+  const viva = (c) => c.tipo !== "pousio" && !/pousio/i.test(c.cultura);
+  const fx = p.faixas.filter((f) => ehParte(f) || (f.parte === "Baixio" && ef.baixio_ha > 0));
+  for (let k = 0; k < 3; k++) {
+    const cs = new Set(fx.map((f) => f.anos[k]).filter(viva).flatMap(plantas));
+    ok(cs.size >= 2, `${tag}: monocultura em ${p.anos[k]} (só ${[...cs]})`);
+  }
+  for (const f of fx) {
+    const a = f.anos;
+    if (a[0].tipo === "perene" || !viva(a[0])) continue;
+    ok(!a.every((c) => c.cultura === a[0].cultura && (c.cultura === "Mandioca" || plantas(c).length < 2)), `${tag}: ${f.parte} com ${a[0].cultura} sozinho nos 3 anos`);
+  }
+}
+
 // ---------------------------------------------------------------- roda
 const tabela = [];
 let regras = { iguais: 0, total: 0 };
@@ -179,13 +247,14 @@ for (const arq of arquivos) {
   const r = JSON.parse(fs.readFileSync(DIR + arq, "utf8"));
   const cod = arq.slice(0, 7), mun = r.local?.municipio || cod;
   const ef0 = efetivas({}, r);
-  // identidade: equilibrar = r.plano; agendaDe(r.plano) = r.agenda.linhas
+  // identidade: equilibrar = r.plano (salvo monocultura no núcleo: sem_mono troca só as células dela); agendaDe(r.plano) = r.agenda.linhas
   const eq = I.planoIdeal(r, {}, ef0, "equilibrar");
-  ok(eq.faixas === r.plano.faixas, `${mun}: ideal equilibrar sem resposta deveria ter as faixas de r.plano`);
+  ok(!!eq.sem_mono || eq.faixas === r.plano.faixas, `${mun}: ideal equilibrar sem resposta deveria ter as faixas de r.plano`);
   ok(I.agendaDe(r, r.plano, ef0) === r.agenda.linhas, `${mun}: agendaDe(r.plano) deveria devolver r.agenda.linhas`);
-  ok(I.agendaDe(r, eq, ef0) === r.agenda.linhas, `${mun}: agendaDe(ideal equilibrar) deveria devolver r.agenda.linhas`);
+  ok(!!eq.sem_mono || I.agendaDe(r, eq, ef0) === r.agenda.linhas, `${mun}: agendaDe(ideal equilibrar) deveria devolver r.agenda.linhas`);
   const rg = confRegrasData(mun, r, ef0);
   regras.iguais += rg.iguais; regras.total += rg.total;
+  confLonga(`${mun} · r.plano`, r, r.plano, r.agenda.linhas);
 
   for (const [nome, resp] of MATRIZ) {
     const tag = `${mun} · ${nome}`;
@@ -194,6 +263,7 @@ for (const arq of arquivos) {
     try {
       pm = I.planoMelhor(r, resp, ef);
       confPlano(`${tag} · melhor`, pm, r, ef);
+      confSemMono(`${tag} · melhor`, pm);
       const h = HI.lerHoje(resp.hoje || "", r.padroes);
       const dele = new Set(Object.keys(h.cult).map((k) => CULT[k]?.motor).filter(Boolean));
       const mandHoje = h.informado && (h.cult.mandioca || 0) > 0;
@@ -203,7 +273,9 @@ for (const arq of arquivos) {
       if (![...dele].some((n) => !PERENES.includes(n)) && ef.maniva === "nao" && mandHoje) { dele.add("Milho"); dele.add("Feijão-caupi"); }
       // só as culturas dele (a mandioca que já está no chão, sem rama, colhe em 2027 e não replanta)
       const novas = (p) => new Set(p.faixas.filter((f) => ehParte(f) || f.parte === "Baixio").flatMap((f) => f.anos.filter((c) => !c.ja_no_chao).map((c) => c.cultura)));
-      for (const n of novas(pm)) ok(dele.has(n), `${tag}: melhor tem ${n}, que ele não planta`);
+      // (a leguminosa ou o cereal do lugar entram quando ele planta uma cultura só: pm.entrou, dito na nota "Entrou …")
+      for (const n of novas(pm)) ok(dele.has(n) || pm.entrou?.includes(n), `${tag}: melhor tem ${n}, que ele não planta`);
+      ok(!pm.entrou?.length || pm.notas.some((x) => /^Entr(ou|aram) /.test(x)), `${tag}: entrou ${pm.entrou} sem a nota`);
       if (ef.maniva === "nao") ok(!novas(pm).has("Mandioca"), `${tag}: maniva não, mas a mandioca nova ficou`);
       // a mandioca que ele marcou está no chão: o melhorado colhe em 2027 (como o hoje), qualquer que seja a resposta da maniva
       if (mandHoje && r.financeiro) ok(I.itensPlano(r, ef, pm).itens[0].some((i) => i.serie === "Mandioca"), `${tag}: a mandioca do chão não colhe em 2027 no melhorado`);
@@ -213,10 +285,11 @@ for (const arq of arquivos) {
         const colheHoje = [...dele].some((n) => ["Milho", "Feijão-caupi", "Feijão comum", "Mandioca"].includes(n));
         for (let k = 0; k < 3; k++) ok(its[k].some((i) => i.serie) || !h.informado || !colheHoje, `${tag}: melhorado sem colheita em ${2027 + k}`);
       }
-      const anuais = [...dele].filter((n) => !["Palma forrageira", "Gliricídia", "Caju", "Banana", "Cana-de-açúcar", "Guandu"].includes(n));
+      const anuais0 = [...dele].filter((n) => !["Palma forrageira", "Gliricídia", "Caju", "Banana", "Cana-de-açúcar", "Guandu"].includes(n));
+      const anuais = [...new Set([...anuais0, ...(pm.entrou || []).filter((n) => pm.faixas.some((f) => ehParte(f) && f.anos.some((c) => c.cultura === n)))])];
       const temNaoGram = anuais.some((n) => !D.ehGram(n));
       confGiro(`${tag} · melhor`, pm, anuais.length >= 2 && temNaoGram);
-      if (anuais.length <= 1) ok(pm.nao_gira && pm.notas.some((x) => /não dá para girar/.test(x)), `${tag}: 1 cultura sem a nota de por que não gira`);
+      if (anuais0.length <= 1) ok(!pm.nao_gira && pm.entrou?.length > 0, `${tag}: 1 cultura só e nada entrou para girar com ela`);
       // cereal no baixio quando há baixio e ele planta cereal
       const bx = pm.faixas.find((f) => f.parte === "Baixio");
       // (o JSON buscado com baixio=0 não tem baixio no r.plano: aí o melhor também não tem, mesmo se a matriz responder "pouco")
@@ -253,9 +326,12 @@ for (const arq of arquivos) {
         const foraCard = new Set((r.cardapio || []).filter((c) => c.situacao === "fora").map((c) => c.cultura));
         for (const n of novas(pi)) ok(!foraCard.has(n), `${tag} · ideal ${pri}: ${n} está fora do cardápio daqui`);
         if (pri !== "equilibrar") confGiro(`${tag} · ideal ${pri}`, pi, false);
+        confIdealSemMono(`${tag} · ideal ${pri}`, pi, ef);
         confAgenda(`${tag} · ideal ${pri}`, r, I.agendaDe(r, pi, ef));
+        confLonga(`${tag} · ideal ${pri}`, r, pi, I.agendaDe(r, pi, ef));
       }
       confAgenda(`${tag} · melhor`, r, I.agendaDe(r, pm, ef));
+      confLonga(`${tag} · melhor`, r, pm, I.agendaDe(r, pm, ef));
       // a revezamento do baixio aparece quando há milho no baixio e leguminosa
       if (bx && bx.anos[0].cultura === "Milho" && pm.leguminosa) {
         const ls = I.agendaDe(r, pm, ef);

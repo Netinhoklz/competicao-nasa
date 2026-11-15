@@ -82,7 +82,6 @@
 .passo-plantio .mes-b small { display: block; font-size: 9.5px; color: var(--muted); }
 .passo-plantio .mes-b:hover { border-color: var(--green); }
 .passo-plantio .mes-b.atual { border-color: var(--green); background: var(--green-soft); color: var(--ink); font-weight: 600; }
-.passo-plantio .mes-b.fora { opacity: .45; }
 
 /* redesenho por um toque no lado ou na prioridade (plantio.js põe a classe quando ctx.entrou é falso): sem a animação de entrada */
 .passo-conteudo.passo-plantio.sem-entrada { animation: none; }
@@ -101,6 +100,16 @@
 .passo-plantio .lado[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); box-shadow: inset 0 0 0 1px var(--green); }
 .passo-plantio .lado[aria-pressed="true"] small { color: var(--ink-2); }
 .passo-plantio .lado:not([aria-pressed="true"]):hover { border-color: var(--green); }
+/* o chamariz do "O ideal" quando ele não está à vista: borda dourada (o verde cheio é o lado escolhido), o ganho em verde, a etiqueta
+   no canto ("Recomendado" só quando o ideal dá mais dinheiro; senão "Toque e veja") e 2 pulsos ao chegar no passo */
+.passo-plantio .lado.chama { position: relative; border-color: rgba(242, 182, 48, .75); background: rgba(242, 182, 48, .07); }
+.passo-plantio .lado.chama:hover { border-color: #f2b630; }
+.passo-plantio .lado.chama small { color: var(--green-forte); font-weight: 600; }
+.passo-plantio .lado-selo { position: absolute; top: -9px; right: 10px; padding: 2px 8px; border-radius: 999px; background: #f2b630;
+  color: #1c1203; font-size: 11.5px; font-weight: 700; line-height: 1.3; white-space: nowrap; pointer-events: none; }
+@keyframes lado-chama { 0%, 100% { box-shadow: 0 0 0 0 rgba(242, 182, 48, 0); } 50% { box-shadow: 0 0 0 6px rgba(242, 182, 48, .3); } }
+.passo-plantio:not(.sem-entrada) .lado.chama { animation: lado-chama 1.1s var(--ease) .6s 2; }
+@media (prefers-reduced-motion: reduce) { .passo-plantio .lado.chama { animation: none; } }
 .passo-plantio .lado-frase { margin: 6px 0; font-size: 15px; color: var(--ink-2); }
 .passo-plantio .lado-frase .pequeno { color: var(--muted); }
 .passo-plantio .lado-aviso { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0; font-size: 14px; color: var(--amber); }
@@ -168,8 +177,11 @@
 .passo-plantio details.ver-mais > summary { margin: 2px 0; }
 .passo-plantio #plantio-tempo > h3 { margin-top: 0; }
 
-/* ---------- por que este plano: 3 "ver mais" com a manchete no título */
+/* ---------- por que este plano: um trecho curto e os 3 detalhes num "ver mais" só (15/11) */
 .passo-plantio .plantio-porque h3 { margin-top: 0; }
+.passo-plantio .plantio-porque .porque-curto { margin: 4px 0 6px; font-size: 16px; line-height: 1.45; color: var(--ink); text-wrap: pretty; }
+.passo-plantio .plantio-porque .porque-sub { margin: 18px 0 6px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.passo-plantio .plantio-porque .porque-sub:first-of-type { margin-top: 8px; }
 .passo-plantio .plantio-porque > details.ver-mais { margin-top: 0; padding-top: 2px; }
 .passo-plantio .plantio-porque > details.ver-mais:first-of-type { border-top: 0; }
 .passo-plantio .plantio-porque > details.ver-mais > summary { min-height: 44px; font-size: 15.5px; font-weight: 600; color: var(--ink); }
