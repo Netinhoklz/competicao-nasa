@@ -6,6 +6,10 @@
 </p>
 
 <p align="center">
+  <a href="https://competicao-nasa-deploy.onrender.com/"><b>Live demo: competicao-nasa-deploy.onrender.com</b></a>
+</p>
+
+<p align="center">
   <img src="docs/img/globe.jpg" width="100%" alt="QUADRA home page: the Earth seen from orbit and the search for the farmer's municipality">
 </p>
 
@@ -42,6 +46,12 @@ the rain, the soil moisture and the El Niño history:
 <p align="center">
   <img src="docs/img/panel.png" width="100%" alt="Municipality panel: El Niño, rainy season and soil, measured by NASA satellites">
 </p>
+
+## Try it online
+
+The site is running at **https://competicao-nasa-deploy.onrender.com/**. Type a municipality of the Northeast (for example
+Quixadá) or go straight to the journey: https://competicao-nasa-deploy.onrender.com/roca.html#/2311306/2. If the page takes
+a while to open, the hosting was asleep: wait about a minute and it comes back.
 
 ## Run it
 
@@ -162,6 +172,9 @@ next to a comment that points to this section.
 
 O QUADRA é um parceiro do pequeno agricultor do semiárido nordestino: parte do que ele planta hoje, melhora isso e recomenda o
 que seria o ideal para aquela terra, com base nos dados da NASA e no que a ciência mostrou que funciona.
+
+**No ar.** O site está em https://competicao-nasa-deploy.onrender.com/ (se demorar a abrir, a hospedagem estava dormindo:
+em cerca de um minuto ela volta).
 
 **Como rodar.** Com o Python 3.13, rode os comandos de "Run it" (clonar, criar o ambiente, `pip install -r requirements.txt` e
 `python app.py`) e abra http://localhost:8090. O repositório já traz em `dados/` os cerca de 75 MB que o motor lê. O site abre
