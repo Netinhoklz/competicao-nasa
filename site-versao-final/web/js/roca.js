@@ -390,7 +390,10 @@ if (NAVEGADOR) {
     ultimoToque = agora;
     a.disabled = true;
     const antes = location.hash, liga = () => setTimeout(() => { if (location.hash === antes) a.disabled = false; }, 800);
-    Promise.resolve().then(primario.fn).catch((err) => console.error(err)).finally(liga);
+    // o que o botão faz roda já, dentro do toque (não num "then"): abrir o WhatsApp depois de uma espera é bloqueado pelo navegador
+    let feito;
+    try { feito = primario.fn(); } catch (err) { feito = Promise.reject(err); }
+    Promise.resolve(feito).catch((err) => console.error(err)).finally(liga);
   });
   window.addEventListener("hashchange", desenhar);
   desenhar();

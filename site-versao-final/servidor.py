@@ -25,7 +25,9 @@ sys.path.insert(0, str(AQUI / "nucleo"))
 import motor  # noqa: E402
 
 WEB = AQUI / "web"
-MUN_JSON = motor.municipios_geojson().encode("utf-8")
+MUN_GZ = gzip.compress(motor.municipios_geojson().encode("utf-8"), 6)  # a malha vai sempre comprimida (2,6 MB -> ~1/4)
+_RESP = {}  # respostas de /api/local já calculadas hoje: chave -> corpo em gzip (~10 KB cada)
+_RESP_MAX = 1500  # ~15 MB no máximo; passando disso sai a mais antiga
 TIPOS = {".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".html": "text/html; charset=utf-8", ".json": "application/json; charset=utf-8", ".geojson": "application/geo+json",
          ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2",
@@ -122,6 +124,18 @@ class Rotas(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(corpo)
 
+    def _responder_gz(self, gz, tipo="application/json; charset=utf-8"):
+        """Corpo já em gzip (a API cai para ~1/4): vai comprimido a quem aceita; senão, descomprime na hora."""
+        if "gzip" not in self.headers.get("Accept-Encoding", ""):
+            return self._responder(gzip.decompress(gz), tipo)
+        self.send_response(200)
+        self.send_header("Content-Type", tipo)
+        self.send_header("Content-Encoding", "gzip")
+        self.send_header("Vary", "Accept-Encoding")
+        self.send_header("Content-Length", str(len(gz)))
+        self.end_headers()
+        self.wfile.write(gz)
+
     def _erro(self, status, msg):
         self._responder(json.dumps({"erro": msg}, ensure_ascii=False).encode("utf-8"), status=status)
 
@@ -144,13 +158,23 @@ class Rotas(SimpleHTTPRequestHandler):
                 return self._erro(400, f"Entrada inválida: {e}.")
             if not (math.isfinite(lat) and math.isfinite(lon) and -90 <= lat <= 90):
                 return self._erro(400, "Latitude entre −90 e 90 e longitude finita.")
-            try:
-                corpo = json.dumps(_limpa(motor.consultar(lat, lon, **op)), ensure_ascii=False, allow_nan=False)
-                self._responder(corpo.encode("utf-8"))
-            except Exception as e:  # o site mostra o erro na tela em vez de cair
-                self._erro(500, f"{type(e).__name__}: {e}")
+            # a resposta de um município com as mesmas respostas não muda no dia: a 2ª visita sai da memória
+            chave = ((q["cod"][0], op["textura"], op["ad"], op["ad_baixio"], op["maniva"], op["baixio"], op["hoje"] or date.today())
+                     if q.get("cod") else None)
+            gz = _RESP.get(chave) if chave else None
+            if gz is None:
+                try:
+                    corpo = json.dumps(_limpa(motor.consultar(lat, lon, **op)), ensure_ascii=False, allow_nan=False)
+                except Exception as e:  # o site mostra o erro na tela em vez de cair
+                    return self._erro(500, f"{type(e).__name__}: {e}")
+                gz = gzip.compress(corpo.encode("utf-8"), 6)
+                if chave and "ds" in motor._SMAP:  # só guarda com o SMAP já carregado (antes disso a resposta diz "carregando")
+                    if len(_RESP) >= _RESP_MAX:
+                        _RESP.pop(next(iter(_RESP)), None)
+                    _RESP[chave] = gz
+            self._responder_gz(gz)
         elif u.path == "/api/municipios":
-            self._responder(MUN_JSON, "application/geo+json; charset=utf-8")
+            self._responder_gz(MUN_GZ, "application/geo+json; charset=utf-8")
         else:
             super().do_GET()
 

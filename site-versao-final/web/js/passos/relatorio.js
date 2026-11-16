@@ -9,7 +9,7 @@
 // colunas (ícone + rótulo | valor | "Mudar") e, no PDF, os mesmos cartões na folha clara, com a faixa do QUADRA no alto.
 // Regras: datas SÓ de escolhido().linhas (ideal.agendaDe, as barras de/ate e o rótulo sem corte) e de r.agenda.marcos; o "como"
 // SÓ de dados/agronomia.json (A1), por cultura e por operação; nada inventado (sem dado, "com o técnico").
-// Verde: "Mandar no WhatsApp" (compartilhar de leve_ao_tecnico.js, com as próximas 5 tarefas); secundário: "Imprimir / salvar PDF"
+// Verde: "Mandar no WhatsApp" (textoWhatsApp + abrirWhatsApp de leve_ao_tecnico.js, com as próximas 5 tarefas); secundário: "Imprimir / salvar PDF"
 // (window.print(), folha clara A4 do quadra.css + css/passos/relatorio.css). As funções puras (dados, tarefas, proximas, texto)
 // rodam no node: testes/ferramentas/teste_relatorio.mjs confere que toda data do relatório existe na agenda.
 import * as U from "../comum.js";
@@ -554,7 +554,7 @@ function html(ctx, d, agro) {
     <section class="painel verde rl-fim" aria-label="Guardar o relatório">
       <p class="rl-fim-tit">${U.ic("ok")}<b>Pronto: este é o seu plano.</b></p>
       <p class="rl-fim-sub">Imprima, salve em PDF ou mande no WhatsApp.</p>
-      <div class="rl-acoes">${pdf}<span class="rl-aviso" role="status" aria-live="polite"></span></div></section>
+      <div class="rl-acoes">${pdf}</div></section>
     <p class="rl-frase">${U.esc(FRASE)}</p>`;
 }
 
@@ -594,16 +594,15 @@ export default {
     el.innerHTML = html(ctx, d, agro);
     ligarImpressao();
     el.querySelectorAll('[data-rl="imprimir"]').forEach((b) => b.addEventListener("click", () => { abrirTudo(); window.print(); }));
-    // sem o bloco do técnico, o aviso do "copiou" (quando o WhatsApp não abre) fica no fim do relatório
-    const avisar = (res) => {
-      const a = el.querySelector(".rl-aviso");
-      if (!a || (res !== "copiou" && res !== "falhou")) return;
-      a.textContent = res === "copiou" ? "Copiado. Cole no WhatsApp." : "Não deu para copiar aqui.";
-      a.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    };
-    ctx.primario("Mandar no WhatsApp", () => import("../extras/leve_ao_tecnico.js")
-      .then((m) => m.compartilhar(ctx, { plano: d.plano ? d.esc.nome : "", partes: d.plano ? resumoPartes(d) : "",
-        material: d.plano ? materialCurto(d) : "", tarefas: d.plano ? proximas(d, 5) : [] })).then(avisar));
+    // "Mandar no WhatsApp": o texto fica pronto aqui, ao desenhar a tela, e o toque só abre o WhatsApp. Abrir depois de
+    // esperar o texto (import + JSON) fazia o navegador bloquear a janela: o botão parecia não mandar.
+    const opcoes = { plano: d.plano ? d.esc.nome : "", partes: d.plano ? resumoPartes(d) : "",
+      material: d.plano ? materialCurto(d) : "", tarefas: d.plano ? proximas(d, 5) : [] };
+    const modulo = import("../extras/leve_ao_tecnico.js");
+    let pronto = null; // { m, t } quando o módulo e o texto já chegaram
+    modulo.then((m) => m.textoWhatsApp(ctx, opcoes).then((t) => { pronto = { m, t }; })).catch((err) => console.error(err));
+    ctx.primario("Mandar no WhatsApp", () => (pronto ? pronto.m.abrirWhatsApp(pronto.t)
+      : modulo.then((m) => m.compartilhar(ctx, opcoes)))); // tocou antes de o texto ficar pronto (raro): monta e abre
     await U.montarExtras(el, ctx);
   },
   // para o teste no node (testes/ferramentas/teste_relatorio.mjs): o HTML sem a página

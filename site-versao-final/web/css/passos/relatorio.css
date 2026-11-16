@@ -173,8 +173,6 @@ details.rl-guia[open] .rl-abre::before { content: "–"; }
 .rl-fim-tit .ic { flex: none; width: 26px; height: 26px; color: var(--green-forte); }
 .rl-fim-tit b { font-weight: 600; }
 .rl-fim-sub { margin: 6px 0 0; font-size: 15px; color: var(--ink-2); }
-.rl-aviso { font-size: 14px; font-weight: 600; color: var(--green-forte); }
-.rl-aviso:empty { display: none; }
 
 /* a frase do ponto 16: na tela ela já está na barra (computador) e no rodapé do passo (celular); na folha impressa, aqui */
 .rl-frase { display: none; }

@@ -523,18 +523,18 @@ def parte_toques(ed):
     # (saiu do Relatório) e com o "Imprimir / salvar PDF"
     ed.abrir(f"#/{q}/5{hs}")
     d10 = ed.js(DATAS_RELATORIO) or {}
-    ed.js("navigator.share = async (d) => { window.__share = d; }; window.open = (u) => { window.__aberto = u; return {}; }")
+    # o WhatsApp abre direto (wa.me), sem o "compartilhar" do sistema, e DENTRO do toque: o endereço já está em __aberto quando o
+    # click() volta (abrir depois de uma espera é bloqueado pelo navegador; era o defeito do botão em 15/11)
+    ed.js("navigator.share = async () => { window.__share = 1; }; window.open = (u) => { window.__aberto = u; return {}; }")
     verde = ed.js("document.querySelectorAll('#jornada [data-extra=leve_ao_tecnico], #leve-ao-tecnico').length + (document.querySelector('#jornada [data-rl=imprimir]') ? 0 : 100)")
     rot = ed.js("document.getElementById('avancar').innerText")
-    ed.depois_de(clicar("#avancar"), 1.5)
-    share = ed.js("window.__share?.text || ''") or ""
-    ed.js("delete navigator.share; Object.defineProperty(navigator, 'share', { value: undefined, configurable: true })")
-    ed.dormir(1)  # o botão religa 0,8 s depois quando a tela não muda
-    ed.depois_de(clicar("#avancar"), 1.5)
-    wa = ed.js("window.__aberto || ''") or ""
+    ed.dormir(1.5)  # o texto fica pronto logo depois de a tela desenhar
+    wa = ed.js("(() => { window.__aberto = ''; document.getElementById('avancar').click(); return window.__aberto || ''; })()") or ""
+    share = urllib.parse.unquote(wa.split("text=", 1)[1]) if "text=" in wa else ""
+    usou_share = ed.js("window.__share || 0")
     res["C10"] = (d10.get("datas", 0) >= 10 and not d10.get("fora") and rot == "Mandar no WhatsApp" and len(share) > 100 and "Próximas tarefas" in share
-                  and re.search(r"\d{2}/\d{2}/\d{4}", share) and wa.startswith("https://wa.me/?text=") and verde == 0,
-                  f"{d10.get('nome')}: {d10.get('datas')} datas ({d10.get('unicas')} diferentes), fora da agenda {d10.get('fora')} | '{rot}' share {len(share)} letras | wa.me {wa[:22]} | técnico/sem PDF {verde} (deve ser 0)")
+                  and re.search(r"\d{2}/\d{2}/\d{4}", share) and wa.startswith("https://wa.me/?text=") and not usou_share and verde == 0,
+                  f"{d10.get('nome')}: {d10.get('datas')} datas ({d10.get('unicas')} diferentes), fora da agenda {d10.get('fora')} | '{rot}' abre o wa.me dentro do toque: {bool(wa)}, texto {len(share)} letras, endereço {len(wa)} | técnico/sem PDF {verde} (deve ser 0)")
 
     # C11: selo "MEDIDO · NASA …" à vista em Sua roça e o toque mostra a fonte
     ed.abrir(f"#/{q}/2")

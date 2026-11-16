@@ -226,6 +226,12 @@ def _menor_risco(g):
     return int(v.min()) if len(v) else None
 
 
+def _decs_em(g, vals):
+    """Decêndios (1–36) em que alguma linha de g tem o risco em vals. Uma conta só no numpy: o isin do pandas, coluna por
+    coluna (36 por chamada, ~19 mil por consulta), era mais da metade do tempo de cada município."""
+    return [int(i) + 1 for i in np.flatnonzero(np.isin(g[GZ.D].to_numpy(), vals).any(axis=0))]
+
+
 def zarc_plurianual(cod, nome):
     """Janela e situação pela portaria plurianual (mesma regra do ZARC): mandioca, milheto ou palma no CE; caju, banana ou
     cana no NE. Caju e banana: o município é classificado pelo ciclo de produção (o menor risco em algum decêndio, nota
@@ -233,7 +239,7 @@ def zarc_plurianual(cod, nome):
     q, prod = _linhas_plur(cod, nome)
     if not len(q):
         return None
-    d = lambda vals, g=q: [i + 1 for i, c in enumerate(GZ.D) if g[c].isin(vals).any()]  # noqa: E731
+    d = lambda vals, g=q: _decs_em(g, vals)  # noqa: E731
     n20 = d([20])
     por_solo = [{"cod_solo": int(s), "solo": SOLOS.get(int(s), str(s)), "risco20": janelas_circ(d([20], g)),
                  "risco30": janelas_circ(d([20, 30], g)), "risco40": janelas_circ(d([20, 30, 40], g))} for s, g in q.groupby("Cod_Solo")]
@@ -258,7 +264,7 @@ def janelas_por_solo(cod, cultura_zarc):
     q = q[q.Nome_cultura == cultura_zarc]
     out = []
     for solo, g in q.groupby("Cod_Solo"):
-        r = lambda vals: [i + 1 for i, c in enumerate(GZ.D) if g[c].isin(vals).any()]  # noqa: E731
+        r = lambda vals: _decs_em(g, vals)  # noqa: E731
         out.append({"cod_solo": int(solo), "solo": SOLOS.get(int(solo), str(solo)), "risco20": GZ.janelas(r([20])),
                     "risco30": GZ.janelas(r([20, 30])), "risco40": GZ.janelas(r([20, 30, 40]))})
     return out
@@ -674,7 +680,7 @@ def _decs(cod, item, textura=None, ad=None):
         if escolha:
             q = q[q.Cod_Solo == int(escolha)]
             solo = SOLOS.get(int(escolha))
-    r = lambda g, vals: {i + 1 for i, c in enumerate(GZ.D) if g[c].isin(vals).any()}  # noqa: E731
+    r = lambda g, vals: set(_decs_em(g, vals))  # noqa: E731
     niveis = ((20, [20]), (30, [20, 30]), (40, [20, 30, 40]))
     melhor = {n: sorted(r(q, v)) for n, v in niveis}
     if escolha or q.Cod_Solo.nunique() <= 1:

@@ -1,8 +1,9 @@
 // QUADRA, ponto 16: "Leve para o técnico". 5 a 7 perguntas e confirmações tiradas das respostas e do plano (solo, baixio,
 // faixas, datas, metade guardada e portões, preço da raiz, água, maniva) e dos motivos de confiança do município; a água além da
 // chuva (2 chips, gravam `agua`); a linha do Garantia-Safra; dois botões: imprimir (só a lista, numa folha clara; CSS em
-// css/extras/voce_decide.css) e copiar o texto. compartilhar(ctx, { plano, tarefas }) é o botão verde "Mandar no WhatsApp" do
-// Relatório (passo 5): leva o plano escolhido e as próximas tarefas com as datas (relatorio.js) antes das perguntas.
+// css/extras/voce_decide.css) e copiar o texto. textoWhatsApp(ctx, { plano, tarefas }) + abrirWhatsApp(texto) são o botão verde
+// "Mandar no WhatsApp" do Relatório (passo 5): leva o plano escolhido e as próximas tarefas com as datas (relatorio.js) antes
+// das perguntas; o texto é montado ao desenhar a tela e o toque só abre o WhatsApp (wa.me).
 // As perguntas seguem o plano que o Plano, o Dinheiro e o Relatório mostram (ideal.escolhido; sem o motor, o plano do núcleo).
 import * as U from "../comum.js";
 import { carregar, confiancaDe } from "./confianca.js";
@@ -149,30 +150,31 @@ async function copiar(t) {
   return ok;
 }
 
-/** O aviso do bloco (se ele está na tela) e o rolar até ele, para quem tocou o botão de baixo. */
-function avisar(msg) {
-  const aviso = document.querySelector("#leve-ao-tecnico .lt-aviso");
-  if (!aviso) return;
-  aviso.textContent = msg;
-  aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-/** "Mandar no WhatsApp" (o botão verde do passo 5): o texto do "Copiar o texto" com, à frente, o plano e as próximas tarefas que o
- *  Relatório passa em opcoes ({ plano, tarefas }). Tenta o compartilhar do celular; se não houver, abre o WhatsApp (wa.me); se a
- *  janela for bloqueada, copia. Devolve "share", "cancelou", "wa.me", "copiou" ou "falhou". */
-export async function compartilhar(ctx, opcoes = {}) {
+/** O texto do "Mandar no WhatsApp": o do "Copiar o texto" com, à frente, o plano e as próximas tarefas que o Relatório passa em
+ *  opcoes ({ plano, partes, material, tarefas }). Em inglês, sai traduzido (js/i18n.js; não passa pelo DOM). O Relatório pede o
+ *  texto ao desenhar a tela, para ele já estar pronto na hora do toque. */
+export async function textoWhatsApp(ctx, opcoes = {}) {
   const [dados, base] = await Promise.all([carregar(), escolhidoDe(ctx)]);
   const conf = confiancaDe(dados, ctx.cod || ctx.r.local?.cod, ctx.r);
   const pt = texto(ctx, perguntas(ctx, conf, base), conf, opcoes);
-  const t = globalThis.QUADRA_I18N?.t?.(pt) ?? pt; // em inglês, o texto sai traduzido (js/i18n.js; não passa pelo DOM)
-  if (navigator.share) {
-    try { await navigator.share({ text: t }); return "share"; } catch (e) { if (e?.name === "AbortError") return "cancelou"; } // fechou: não abre outra
-  }
-  const w = window.open(`https://wa.me/?text=${encodeURIComponent(t)}`, "_blank");
-  if (w) { w.opener = null; return "wa.me"; }
-  const ok = await copiar(t);
-  avisar(ok ? "Copiado. Cole no WhatsApp." : "Não deu para copiar aqui.");
-  return ok ? "copiou" : "falhou";
+  return globalThis.QUADRA_I18N?.t?.(pt) ?? pt;
+}
+
+/** Abre o WhatsApp com o texto. Tem de rodar dentro do toque, sem nenhum await antes: depois de uma espera o navegador bloqueia
+ *  a janela (era por isso que o botão "não mandava"). Vai direto ao WhatsApp (wa.me abre o aplicativo no celular e o WhatsApp
+ *  Web no computador), sem passar pelo "compartilhar" do sistema, que no computador nem mostra o WhatsApp. Se o navegador
+ *  bloquear a janela nova, o WhatsApp abre nesta mesma aba (o plano fica no endereço: voltar traz a tela de volta). */
+export function abrirWhatsApp(t) {
+  const url = `https://wa.me/?text=${encodeURIComponent(t)}`;
+  const w = window.open(url, "_blank");
+  if (w) w.opener = null;
+  else location.href = url;
+  return "wa.me";
+}
+
+/** O caminho antigo, em um passo só (monta o texto e abre): só para quem tocar antes de o texto ficar pronto. */
+export async function compartilhar(ctx, opcoes = {}) {
+  return abrirWhatsApp(await textoWhatsApp(ctx, opcoes));
 }
 
 // água além da chuva (a cisterna de beber não molha a roça e saiu); tocar de novo no chip aceso volta para "só a chuva"
