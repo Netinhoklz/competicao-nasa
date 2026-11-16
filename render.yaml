@@ -1,0 +1,10 @@
+# Render: cria o QUADRA como Web Service (o site precisa do servidor em Python; um Static Site não serve).
+# No painel do Render: New + -> Blueprint -> escolher este repositório.
+services:
+  - type: web
+    name: quadra
+    runtime: python
+    plan: free
+    branch: estudo-jose
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
