@@ -165,5 +165,7 @@ class Servidor(ThreadingHTTPServer):
 
 if __name__ == "__main__":
     porta = int(sys.argv[1]) if len(sys.argv) > 1 else 8090
+    # no computador, só a própria máquina alcança o servidor; numa hospedagem (Render), o app.py passa QUADRA_HOST=0.0.0.0
+    host = os.environ.get("QUADRA_HOST", "127.0.0.1")
     print(f"QUADRA (site final) em http://localhost:{porta}", flush=True)
-    Servidor(("127.0.0.1", porta), Rotas).serve_forever()
+    Servidor((host, porta), Rotas).serve_forever()
