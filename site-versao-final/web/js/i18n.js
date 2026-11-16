@@ -194,10 +194,70 @@
     var en = porPedacos(ch, 0);
     return en === null ? null : /^\s*/.exec(v)[0] + en + /\s*$/.exec(v)[0];
   };
+  /** Um pedaço de uma string solta (o texto do WhatsApp). Esse texto junta o que a tela mostra separado ("Plantar milho (Parte B
+   *  e baixio)", "feijão ≈ 19 kg de semente, palma ≈ 40 raquetes", "A e C feijão · baixio milho + feijão (faixas de 23 m)"), com
+   *  combinações demais para o dicionário. Então o pedaço sem tradução é partido mais fino que o do DOM: ", " e " + ", depois o
+   *  parêntese do fim, a quantidade ("≈ ..."), as letras das partes ("A e C feijão"), o lugar ("baixio feijão") e o " e " final.
+   *  Só vale para o texto solto: o DOM segue com o porPedacos. null = fica como está. */
+  var FINOS = [", ", " + "];
+  var ouPt = function (en, pt) { return en === null ? pt : en; };
+  var partir = function (ch, sep, proximo) { // cada lado do separador por sua conta; null se nenhum mudou
+    var mudou = false;
+    var r = ch.split(sep).map(function (p) {
+      var q = proximo(p);
+      if (q !== null && q !== p) mudou = true;
+      return q === null ? p : q;
+    }).join(sep);
+    return mudou ? r : null;
+  };
+  var fino = function (ch, i) {
+    if (!ch) return null;
+    if (!LETRA.test(ch)) return soNumero(ch);
+    if (DIC.has(ch)) return DIC.get(ch);
+    var en = buscar(ch);
+    if (en !== null) return en;
+    var s = i;
+    while (s < SEPS.length && ch.indexOf(SEPS[s]) <= 0) s++;
+    if (s < SEPS.length) return partir(ch, SEPS[s], function (p) { return fino(p, s + 1); });
+    // o parêntese do fim vem antes da vírgula: "Preparar a terra sem fogo (Partes A, B e C e baixio)", "... milho (faixas de 23 m)"
+    var m = /^(.*\S) \(([^()]+)\)$/.exec(ch);
+    if (m) {
+      var a = fino(m[1], 0), b = fino(m[2], 0);
+      return a === null && b === null ? null : ouPt(a, m[1]) + " (" + ouPt(b, m[2]) + ")";
+    }
+    for (var f = 0; f < FINOS.length; f++) {
+      if (ch.indexOf(FINOS[f]) > 0) return partir(ch, FINOS[f], function (p) { return fino(p, SEPS.length); });
+    }
+    m = /^(.*\S) (≈ .+)$/.exec(ch); // "feijão ≈ 19 kg de semente"
+    if (m) {
+      var c = fino(m[1], 0), q2 = fino(m[2], 0);
+      return c === null && q2 === null ? null : ouPt(c, m[1]) + " " + ouPt(q2, m[2]);
+    }
+    m = /^([A-C](?:(?:, | e )[A-C])*) (.+)$/.exec(ch); // "A e C feijão": as letras das partes e a cultura
+    if (m) {
+      var cult = fino(m[2], 0);
+      if (cult !== null) return m[1].replace(/ e /g, " and ") + " " + cult;
+    }
+    m = /^(baixio \(se tiver\)|baixio|bordas) (.+)$/.exec(ch); // "baixio feijão", "bordas palma e gliricídia"
+    if (m) {
+      var resto = fino(m[2], 0);
+      if (resto !== null) return ouPt(fino(m[1], 0), m[1]) + " " + resto;
+    }
+    var k = ch.lastIndexOf(" e "); // "palma e gliricídia"
+    if (k > 0) {
+      var e1 = fino(ch.slice(0, k), 0), e2 = fino(ch.slice(k + 3), 0);
+      if (e1 !== null && e2 !== null) return e1 + " and " + e2;
+    }
+    return null;
+  };
   /** Uma string solta, que não passa pelo DOM (o texto do WhatsApp): linha a linha. */
   var t = function (s) {
     if (typeof s !== "string" || (!DIC && !chaves)) return s;
-    return s.split("\n").map(function (linha) { var r = trocar(linha); return r === null ? linha : r; }).join("\n");
+    return s.split("\n").map(function (linha) {
+      if (chaves || !DIC) { var r0 = trocar(linha); return r0 === null ? linha : r0; }
+      var r = fino(norm(linha), 0);
+      return r === null ? linha : r;
+    }).join("\n");
   };
 
   // ------------------------------------------------------------------ o DOM
